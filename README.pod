@@ -1,6 +1,10 @@
 =head1 berrybrew
 
-The perlbrew for Windows Strawberry Perl - written in C#. This doesn't work right now.
+The perlbrew for Windows Strawberry Perl
+
+=head2 Warning
+
+This is an early beta, has only been tested on Windows 7 64 bit.
 
 =head2 Synopsis
 
@@ -61,6 +65,26 @@ Windows only! (Tested on Windows 7 64 bit)
 
 L<Mono|http://www.mono-project.com/> (only if compiling your own version)
  
+=back
+
+=head2 To Do
+
+=over
+
+=item *
+
+Add new commands: uninstall, exec
+
+=item *
+
+Test on Windows XP and Windows 8
+
+=item *
+
+Add Test Suite
+
+=back
+
 =head2 Version
 
 0.01
