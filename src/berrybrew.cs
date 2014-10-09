@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Collections.Generic;
+using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace Berrybrew
@@ -10,33 +11,23 @@ namespace Berrybrew
     {
         static void Main(string[] args)
         {
-            List<StrawberryPerl> perls = new List<StrawberryPerl> ();
-            perls.Add(new StrawberryPerl (
-                "5.20.1_64",
-                "strawberry-perl-5.20.1.1-64bit-portable.zip",
-                "http://strawberryperl.com/download/5.20.1.1/strawberry-perl-5.20.1.1-64bit-portable.zip",
-                "5.20.1")
-            );
 
-            if (args.Length > 1)
+            switch(args[0])
             {
-                switch(args[0])
-                {
-                    case "install":
-                        StrawberryPerl perl = ResolveVersion(perls, args[1]);
-                        string archive_path = Fetch(perl);
-                        Extract(perl, archive_path);
-                        break;
+                case "install":
+                    List<StrawberryPerl> perls = GatherPerls();
+                    StrawberryPerl perl = ResolveVersion(perls, args[1]);
+                    string archive_path = Fetch(perl);
+                    Extract(perl, archive_path);
+                    break;
+                    
+                case "available":
+                    Available();
+                    break;
 
-                    default:
-                        PrintHelp();
-                        break;
-                }
-
-            }
-            else
-            {
-                PrintHelp();
+                default:
+                    PrintHelp();
+                    break;
             }
         }
 
@@ -65,12 +56,7 @@ namespace Berrybrew
             if (File.Exists(archive_path))
             {
                 Console.WriteLine("Extracting " + archive_path);
-
-                FastZip fastZip = new FastZip();
-                string fileFilter = null;
-
-                // Will always overwrite if target filenames already exist
-                fastZip.ExtractZip(archive_path, perl.InstallPath, fileFilter);
+                ExtractZip(archive_path, perl.InstallPath);
             }
 
         }
@@ -80,9 +66,20 @@ namespace Berrybrew
 
         }
 
-        internal static void Available (List <StrawberryPerl> perls)
+        internal static void Available ()
         {
-
+            List<StrawberryPerl> perls = GatherPerls();
+            foreach (StrawberryPerl perl in perls)
+            {
+                Console.WriteLine("\nThe following Strawberry Perls are available:\n");
+                
+                string name = perl.Name;
+                if (Directory.Exists(perl.InstallPath))
+                    Console.WriteLine("\t" + name + " [installed]");
+                    
+                else
+                    Console.WriteLine(name);
+            }
         }
 
         internal static void PrintHelp()
@@ -106,6 +103,63 @@ berrybrew.exe <command> [option]
             Directory.CreateDirectory(path);
             return path;
         }
+        
+        // From https://github.com/icsharpcode/SharpZipLib
+        internal static void ExtractZip(string archive_path, string outFolder)
+        {
+            ZipFile zf = null;
+            try {
+                FileStream fs = File.OpenRead(archive_path);
+                zf = new ZipFile(fs);
+                foreach (ZipEntry zipEntry in zf) {
+                    if (!zipEntry.IsFile) {
+                        continue;           // Ignore directories
+                    }
+                    String entryFileName = zipEntry.Name;
+                    // to remove the folder from the entry:- entryFileName = Path.GetFileName(entryFileName);
+                    // Optionally match entrynames against a selection list here to skip as desired.
+                    // The unpacked length is available in the zipEntry.Size property.
+
+                    byte[] buffer = new byte[4096];     // 4K is optimum
+                    Stream zipStream = zf.GetInputStream(zipEntry);
+
+                    // Manipulate the output filename here as desired.
+                    String fullZipToPath = Path.Combine(outFolder, entryFileName);
+                    string directoryName = Path.GetDirectoryName(fullZipToPath);
+                    if (directoryName.Length > 0)
+                        Directory.CreateDirectory(directoryName);
+
+                    // Unzip file in buffered chunks. This is just as fast as unpacking to a buffer the full size
+                    // of the file, but does not waste memory.
+                    // The "using" will close the stream even if an exception occurs.
+                    using (FileStream streamWriter = File.Create(fullZipToPath))
+                    {
+                        StreamUtils.Copy(zipStream, streamWriter, buffer);
+                    }
+                }
+            } 
+            finally 
+            {
+                if (zf != null) {
+                    zf.IsStreamOwner = true; // Makes close also shut the underlying stream
+                    zf.Close(); // Ensure we release resources
+                }
+            }
+        }
+        
+        internal static List<StrawberryPerl> GatherPerls ()
+        {
+            List<StrawberryPerl> perls = new List<StrawberryPerl> ();
+
+            perls.Add(new StrawberryPerl (
+                "5.20.1_64",
+                "strawberry-perl-5.20.1.1-64bit-portable.zip",
+                "http://strawberryperl.com/download/5.20.1.1/strawberry-perl-5.20.1.1-64bit-portable.zip",
+                "5.20.1")
+            );
+            
+            return perls;
+        }
     }
 
     public struct StrawberryPerl
@@ -114,7 +168,7 @@ berrybrew.exe <command> [option]
         public string ArchiveName;
         public string Url;
         public string Version;
-        public string RootPath;
+        public string InstallPath;
 
         public StrawberryPerl (string n, string a, string u, string v)
         {
@@ -122,7 +176,7 @@ berrybrew.exe <command> [option]
             this.ArchiveName = a;
             this.Url = u;
             this.Version = v;
-            this.InstallPath = @"/home/sillymoose/projects/strawberry/" + a;
+            this.InstallPath = @"C:/berrybrew/" + n;
         }
     }
 }
