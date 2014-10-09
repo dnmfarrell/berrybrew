@@ -88,7 +88,7 @@ namespace Berrybrew
                 RemovePerlFromPath();
                 ScanPathsForPerl();
                 AddPerlToPath(perl);
-                Console.WriteLine("Switched PATH to " + version_to_switch + "\nStart a new terminal to use");
+                Console.WriteLine("Switched to " + version_to_switch + ", start a new terminal to use it.");
             }
             catch (ArgumentException)
             {
