@@ -4,17 +4,38 @@ The perlbrew for Windows Strawberry Perl - written in C#. This doesn't work righ
 
 =head2 Synopsis
 
+    > berrybrew available
+
+    The following Strawberry Perls are available:
+
+            5.20.1_64 [installed]
+            5.20.1_32 [installed]
+            5.18.4_64
+            5.18.4_32
+            5.16.3_64
+            5.16.3_32
+            5.14.4_64
+            5.14.4_32
+            5.12.3_32
+            5.10.1_32
+    
+    > berrybrew install 5.10.1_32
+    
+    > berrybrew switch 5.10.1_32
+    
+
+=head2 Installation
+
 Use the precompiled binary:
 
     git clone https://github.com/sillymoose/berrybrew
     cd berrybrew/bin
-    berrybrew.exe install 5.20.1
 
 Compile your own version with Mono:
 
     git clone https://github.com/sillymoose/berrybrew
-    mcs src/berrybrew.cs
-    berrybrew.exe install 5.20.1
+    mcs src/berrybrew.cs -lib:lib -r:ICSharpCode.SharpZipLib.dll -out:bin/berrybrew.exe
+    cd bin
 
 =head2 Commands
 
@@ -24,6 +45,22 @@ Compile your own version with Mono:
     install     Download, extract and install a Strawberry Perl
     switch      Switch to use a different Strawberry Perl
 
+=head2 Requirements
+
+=over
+
+=item *
+
+.Net Framework 2.0 or higher
+
+=item *
+
+Windows only! (Tested on Windows 7 64 bit)
+    
+=item *
+
+L<Mono|http://www.mono-project.com/> (only if compiling your own version)
+ 
 =head2 Version
 
 0.01
