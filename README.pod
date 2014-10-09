@@ -1,0 +1,43 @@
+=head1 berrybrew
+
+The perlbrew for Windows Strawberry Perl - written in C#. This doesn't work right now.
+
+=head2 Synopsis
+
+Use the precompiled binary:
+
+    git clone https://github.com/sillymoose/berrybrew
+    cd berrybrew/bin
+    berrybrew.exe install 5.20.1
+
+Compile your own version with Mono:
+
+    git clone https://github.com/sillymoose/berrybrew
+    mcs src/berrybrew.cs
+    berrybrew.exe install 5.20.1
+
+=head2 Commands
+
+    berrybrew.exe <command> [option]
+
+    available   List available Strawberry Perl versions and which are installed
+    install     Download, extract and install a Strawberry Perl
+    switch      Switch to use a different Strawberry Perl
+
+=head2 Version
+
+0.01
+
+=head2 License
+
+2 Clause FreeBSD - see LICENSE
+
+=head2 Author
+
+David Farrell L<http://perltricks.com>
+
+=head2 See Also
+
+L<Perlbrew|http://perlbrew.pl> - the original Perl version manager for Unix based systems
+
+=cut
