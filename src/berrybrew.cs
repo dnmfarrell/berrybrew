@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
-using System.Security.Principal;
 
 namespace Berrybrew
 {
@@ -23,6 +22,11 @@ namespace Berrybrew
             switch(args[0])
             {
                 case "install":
+                    if (args.Length == 1)
+                    {
+                        Console.WriteLine("install command requires a version argument. Use the available command to see what versions of Strawberry Perl are available");
+                        Environment.Exit(0);
+                    }                       
                     StrawberryPerl perl = ResolveVersion(args[1]);
                     string archive_path = Fetch(perl);
                     Extract(perl, archive_path);
@@ -30,6 +34,11 @@ namespace Berrybrew
                     break;
                 
                 case "switch":
+                    if (args.Length == 1)
+                    {
+                        Console.WriteLine("switch command requires a version argument. Use the available command to see what versions of Strawberry Perl are available");
+                        Environment.Exit(0);
+                    }
                     Switch(args[1]);
                     break;
                 
@@ -74,10 +83,17 @@ namespace Berrybrew
 
         internal static void Switch (string version_to_switch)
         {
-            StrawberryPerl perl = ResolveVersion(version_to_switch);
-            RemovePerlFromPath();
-            ScanPathsForPerl();
-            AddPerlToPath(perl);
+            try {
+                StrawberryPerl perl = ResolveVersion(version_to_switch);
+                RemovePerlFromPath();
+                ScanPathsForPerl();
+                AddPerlToPath(perl);
+            }
+            catch (ArgumentException)
+            {
+                Console.WriteLine("Unknown version of Perl. Use the available command to see what versions of Strawberry Perl are available");
+                Environment.Exit(0);
+            }
         }
         
         internal static void ScanPathsForPerl()
