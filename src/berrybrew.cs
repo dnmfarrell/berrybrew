@@ -15,8 +15,10 @@ namespace Berrybrew
         static void Main(string[] args)
         {
             if (args.Length == 0)
+            {
                 PrintHelp();
                 Environment.Exit(0);
+            }
             
             switch(args[0])
             {
