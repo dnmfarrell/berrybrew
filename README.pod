@@ -1,10 +1,10 @@
 =head1 berrybrew
 
-The perlbrew for Windows Strawberry Perl
+The perlbrew for Windows Strawberry Perl! berrybrew can download, install and manage multiple versions of Strawberry Perl for Windows.
 
 =head2 Warning
 
-This is an early beta, has only been tested on Windows 7 64 bit.
+This tool is in beta, has been tested on Windows 7 and 8 64bit machines, with .Net framework 4.5 only.
 
 =head2 Synopsis
 
@@ -43,7 +43,7 @@ Compile your own version with Mono:
 
 =head2 Commands
 
-    berrybrew.exe <command> [option]
+    berrybrew <command> [option]
 
     available   List available Strawberry Perl versions and which are installed
     install     Download, extract and install a Strawberry Perl
@@ -99,6 +99,16 @@ David Farrell L<http://perltricks.com>
 
 =head2 See Also
 
+=over 
+
+=item *
+
+L<StrawberryPerl.com|http://strawberryperl.com> - Strawberry Perl for Windows
+
+=item *
+
 L<Perlbrew|http://perlbrew.pl> - the original Perl version manager for Unix based systems
+
+=back
 
 =cut
