@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using ICSharpCode.SharpZipLib.Core;
@@ -59,6 +60,23 @@ namespace Berrybrew
             string archive_path = tempdir + "/" + perl.ArchiveName;
             Console.WriteLine("Downloading " + perl.Url + " to " + archive_path);
             webClient.DownloadFile(perl.Url, archive_path);
+            
+            Console.WriteLine("Confirming checksum ...");
+            using(var cryptoProvider = new SHA1CryptoServiceProvider())
+            {
+                using (var stream = File.OpenRead(archive_path))
+                {
+                    string hash = BitConverter.ToString(cryptoProvider.ComputeHash(stream)).Replace("-","").ToLower();
+                    
+                    if (perl.Sha1Checksum != hash)
+                    {
+                        Console.WriteLine("Error checksum of downloaded archive does not match expected output\nexpected: " 
+                            + perl.Sha1Checksum
+                            + "\n     got: " + hash);
+                        Environment.Exit(0);
+                    }
+                }
+            }
             return archive_path;
         }
 
@@ -265,14 +283,16 @@ berrybrew <command> [option]
                 "5.20.1_64",
                 "strawberry-perl-5.20.1.1-64bit-portable.zip",
                 "http://strawberryperl.com/download/5.20.1.1/strawberry-perl-5.20.1.1-64bit-portable.zip",
-                "5.20.1")
+                "5.20.1",
+                "844e7c2d741bda915ece0688bf3a00ab12577460")
             );
             
             perls.Add(new StrawberryPerl (
                 "5.20.1_32",
                 "strawberry-perl-5.20.1.1-32bit-portable.zip",
                 "http://strawberryperl.com/download/5.20.1.1/strawberry-perl-5.20.1.1-32bit-portable.zip",
-                "5.20.1")
+                "5.20.1",
+                "6929ca3d0b65e514ed73c829f6f648f92cc47b80")
             );
             
                         
@@ -280,56 +300,64 @@ berrybrew <command> [option]
                 "5.18.4_64",
                 "strawberry-perl-5.18.4.1-64bit-portable.zip",
                 "http://strawberryperl.com/download/5.18.4.1/strawberry-perl-5.18.4.1-64bit-portable.zip",
-                "5.18.4")
+                "5.18.4",
+                "cd0809c5d885043d1f14a47f6192503359914d8a")
             );
             
             perls.Add(new StrawberryPerl (
                 "5.18.4_32",
                 "strawberry-perl-5.18.4.1-32bit-portable.zip",
                 "http://strawberryperl.com/download/5.18.4.1/strawberry-perl-5.18.4.1-32bit-portable.zip",
-                "5.18.4")
+                "5.18.4",
+                "f6118ba24e4430a7ddab1200746725f262117fbf")
             );
             
             perls.Add(new StrawberryPerl (
                 "5.16.3_64",
                 "strawberry-perl-5.16.3.1-64bit-portable.zip",
                 "http://strawberryperl.com/download/5.16.3.1/strawberry-perl-5.16.3.1-64bit-portable.zip",
-                "5.16.3")
+                "5.16.3",
+                "07573b99e40355a4920fc9c07fb594575a53c107")
             );
             
             perls.Add(new StrawberryPerl (
                 "5.16.3_32",
                 "strawberry-perl-5.16.3.1-32bit-portable.zip",
                 "http://strawberryperl.com/download/5.16.3.1/strawberry-perl-5.16.3.1-32bit-portable.zip",
-                "5.16.3")
+                "5.16.3",
+                "3b9c4c32bf29e141329c3be417d9c425a7f6c2ff")
             );
             
             perls.Add(new StrawberryPerl (
                 "5.14.4_64",
                 "strawberry-perl-5.14.4.1-64bit-portable.zip",
                 "http://strawberryperl.com/download/5.14.4.1/strawberry-perl-5.14.4.1-64bit-portable.zip",
-                "5.14.4")
+                "5.14.4",
+                "73ac65962e68f68cf551c3911ab81dcf6f73e018")
             );
             
             perls.Add(new StrawberryPerl (
                 "5.14.4_32",
                 "strawberry-perl-5.14.4.1-32bit-portable.zip",
                 "http://strawberryperl.com/download/5.14.4.1/strawberry-perl-5.14.4.1-32bit-portable.zip",
-                "5.14.4")
+                "5.14.4",
+                "42f092619704763d4c3cd4f3e1183d3e58d9d02c")
             );
             
             perls.Add(new StrawberryPerl (
                 "5.12.3_32",
                 "strawberry-perl-5.12.3.0-portable.zip",
                 "http://strawberryperl.com/download/5.12.3.0/strawberry-perl-5.12.3.0-portable.zip",
-                "5.12.3")
+                "5.12.3",
+                "dc6facf9fb7ce2de2e42ee65e84805a6d0dd5fbc")
             );
             
             perls.Add(new StrawberryPerl (
                 "5.10.1_32",
                 "strawberry-perl-5.10.1.2-portable.zip",
                 "http://strawberryperl.com/download/5.10.1.2/strawberry-perl-5.10.1.2-portable.zip",
-                "5.10.1")
+                "5.10.1",
+                "f86ae4b14daf0b1162d2c4c90a9d22e4c2452a98")
             );
             
             return perls;
@@ -345,8 +373,9 @@ berrybrew <command> [option]
         public string InstallPath;
         public string CPath;
         public string PerlPath;
+        public string Sha1Checksum;
 
-        public StrawberryPerl (string n, string a, string u, string v)
+        public StrawberryPerl (string n, string a, string u, string v, string c)
         {
             this.Name = n;
             this.ArchiveName = a;
@@ -355,6 +384,7 @@ berrybrew <command> [option]
             this.InstallPath = @"C:/berrybrew/" + n;
             this.CPath = "C:/berrybrew/" + n + "/c/bin";
             this.PerlPath = "C:/berrybrew/" + n + "/perl/bin";
+            this.Sha1Checksum = c;
         }
     }
 }
