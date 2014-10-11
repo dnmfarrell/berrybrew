@@ -156,7 +156,9 @@ namespace Berrybrew
                 {
                     for (int i = 0; i < paths.Length; i++)
                     {
-                        if (paths[i] == perl.PerlPath || paths[i] == perl.CPath)
+                        if (paths[i] == perl.PerlPath
+                            || paths[i] == perl.CPath
+                            || paths[i] == perl.PerlSitePath)
                         {
                             paths[i] = "";
                         }
@@ -181,7 +183,7 @@ namespace Berrybrew
 
             if (path == null)
             {
-                new_path = new string[] { perl.CPath, perl.PerlPath };
+                new_path = new string[] { perl.CPath, perl.PerlPath, perl.PerlSitePath };
             }
             
             else 
@@ -189,7 +191,7 @@ namespace Berrybrew
                 if (path[path.Length - 1] == ';')
                     path = path.Substring(0, path.Length - 1);
                 
-                new_path = new string[] { path, perl.CPath, perl.PerlPath };
+                new_path = new string[] { path, perl.CPath, perl.PerlPath, perl.PerlSitePath };
             }
             Environment.SetEnvironmentVariable("PATH", String.Join(";", new_path), EnvironmentVariableTarget.User);           
         }
@@ -373,6 +375,7 @@ berrybrew <command> [option]
         public string InstallPath;
         public string CPath;
         public string PerlPath;
+        public string PerlSitePath;
         public string Sha1Checksum;
 
         public StrawberryPerl (string n, string a, string u, string v, string c)
@@ -384,6 +387,7 @@ berrybrew <command> [option]
             this.InstallPath = @"C:/berrybrew/" + n;
             this.CPath = "C:/berrybrew/" + n + "/c/bin";
             this.PerlPath = "C:/berrybrew/" + n + "/perl/bin";
+            this.PerlSitePath = "C:/berrybrew/" + n + "/perl/site/bin";
             this.Sha1Checksum = c;
         }
     }
