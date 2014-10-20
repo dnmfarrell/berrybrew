@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
@@ -47,12 +48,56 @@ namespace Berrybrew
                     Available();
                     break;
                 
+                case "config":
+                    Config();
+                    break;
+                
                 default:
                     PrintHelp();
                     break;
             }
         }
 
+        internal static void Config ()
+        {
+            Console.WriteLine("\nThis is berrybrew, version " + Version() + "\n");
+
+            if ( ! ScanUserPath(new Regex("berrybrew.bin")) 
+                   && ! ScanSystemPath(new Regex("berrybrew.bin")) ) 
+            {
+                Console.Write("Would you like to add berrybrew to your user PATH? y/n [n] ");
+                
+                if (Console.ReadLine() == "y")
+                {
+                    //get the full path of the assembly
+                    string assembly_path = Assembly.GetExecutingAssembly().Location;
+
+                    //get the parent directory
+                    string assembly_directory = Path.GetDirectoryName( assembly_path );
+                    
+                    AddBinToPath(assembly_directory);
+                    
+                    if (ScanUserPath(new Regex("berrybrew.bin")))
+                    {
+                        Console.WriteLine("berrybrew was successfully added to the user PATH");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error adding berrybrew to the user PATH");
+                    }
+                }
+            }
+            else
+            {
+                Console.Write("berrybrew is already configured on this system.\n");
+            }
+        }
+        
+        internal static string Version ()
+        {
+            return "0.02";
+        }
+        
         internal static string Fetch (StrawberryPerl perl)
         {
             WebClient webClient = new WebClient();
@@ -104,7 +149,19 @@ namespace Berrybrew
             try {
                 StrawberryPerl perl = ResolveVersion(version_to_switch);
                 RemovePerlFromPath();
-                ScanPathsForPerl();
+                
+                if (ScanUserPath(new Regex("perl.bin")))
+                {
+                    Console.WriteLine("Warning! Perl binary found in your user PATH: "
+                        + "\nYou should remove this as it can prevent berrybrew from working.");
+                }
+                
+                if (ScanSystemPath(new Regex("perl.bin")) )
+                {
+                    Console.WriteLine("Warning! Perl binary found in your system PATH: "  
+                        + "\nYou should remove this as it can prevent berrybrew from working.");
+                }
+                
                 AddPerlToPath(perl);
                 Console.WriteLine("Switched to " + version_to_switch + ", start a new terminal to use it.");
             }
@@ -115,35 +172,35 @@ namespace Berrybrew
             }
         }
         
-        internal static void ScanPathsForPerl()
+        internal static bool ScanUserPath(Regex bin_pattern)
         {
-            Regex perl_bin = new Regex("perl[\\/]bin");
             string user_path = Environment.GetEnvironmentVariable("path", EnvironmentVariableTarget.User);
             if (user_path != null)
             {
                 foreach (string user_p in user_path.Split(';'))
                 {
-                    if (perl_bin.Match(user_p).Success)
-                        Console.WriteLine("Warning! Perl binary found in your user PATH: "  
-                            + user_p 
-                            + "\nYou should remove this as it can prevent berrybrew from working.");
+                    if (bin_pattern.Match(user_p).Success)
+                        return true;
                 }
             }
-            
+            return false;
+        }
+        
+        internal static bool ScanSystemPath(Regex bin_pattern)
+        {
             string system_path = Environment.GetEnvironmentVariable("path", EnvironmentVariableTarget.Machine);
             
-            if (system_path != null) 
+            if (system_path != null)
             {
                 foreach (string sys_p in system_path.Split(';'))
                 {
-                    if (perl_bin.Match(sys_p).Success)
-                        Console.WriteLine("Warning! Perl binary found in your system PATH: "  
-                            + sys_p 
-                            + "\nYou should remove this as it can prevent berrybrew from working.");
+                    if (bin_pattern.Match(sys_p).Success)
+                        return true;
                 }
             }
+            return false;
         }
-        
+
         internal static void RemovePerlFromPath() 
         {
             // get user PATH and remove trailing semicolon if exists
@@ -194,6 +251,28 @@ namespace Berrybrew
                 new_path = new string[] { path, perl.CPath, perl.PerlPath, perl.PerlSitePath };
             }
             Environment.SetEnvironmentVariable("PATH", String.Join(";", new_path), EnvironmentVariableTarget.User);           
+        
+        }
+        
+        internal static void AddBinToPath(string bin_path) 
+        {
+            // get user PATH and remove trailing semicolon if exists
+            string path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
+            string[] new_path;
+
+            if (path == null)
+            {
+                new_path = new string[] { bin_path };
+            }
+            
+            else 
+            {
+                if (path[path.Length - 1] == ';')
+                    path = path.Substring(0, path.Length - 1);
+                
+                new_path = new string[] { path, bin_path };
+            }
+            Environment.SetEnvironmentVariable("PATH", String.Join(";", new_path), EnvironmentVariableTarget.User);           
         }
 
         internal static void Available ()
@@ -214,10 +293,12 @@ namespace Berrybrew
 
         internal static void PrintHelp()
         {
+            Console.WriteLine("\nThis is berrybrew, version " + Version() + "\n");
             Console.WriteLine(@"
 berrybrew <command> [option]
 
     available   List available Strawberry Perl versions and which are installed
+    config      Add berrybrew to your PATH
     install     Download, extract and install a Strawberry Perl
     switch      Switch to use a different Strawberry Perl
     ");

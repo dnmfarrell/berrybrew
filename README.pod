@@ -46,6 +46,7 @@ Compile your own version with Mono:
     berrybrew <command> [option]
 
     available   List available Strawberry Perl versions and which are installed
+    config      Add berrybrew to your PATH
     install     Download, extract and install a Strawberry Perl
     switch      Switch to use a different Strawberry Perl
 
@@ -87,7 +88,7 @@ Add Test Suite
 
 =head2 Version
 
-0.01
+0.02
 
 =head2 License
 
