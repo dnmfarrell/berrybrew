@@ -60,7 +60,7 @@ Compile your own version with Mono:
 
 =item *
 
-Windows only! (Tested on Windows 7 64 bit)
+Windows only!
     
 =item *
 
@@ -78,7 +78,7 @@ Add new commands: uninstall, exec
 
 =item *
 
-Test on Windows XP and Windows 8
+Test on Windows XP
 
 =item *
 
