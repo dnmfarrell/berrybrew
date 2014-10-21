@@ -2,9 +2,9 @@
 
 The perlbrew for Windows Strawberry Perl! berrybrew can download, install and manage multiple versions of Strawberry Perl for Windows.
 
-=head2 Warning
 
-This tool is in beta, has been tested on Windows 7 and 8 64bit machines, with .Net framework 4.5 only.
+=for html <img src="http://perltricks.com/Image/68/large"/>
+
 
 =head2 Synopsis
 
