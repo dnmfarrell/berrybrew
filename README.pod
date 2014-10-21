@@ -48,6 +48,7 @@ Compile your own version with Mono:
     available   List available Strawberry Perl versions and which are installed
     config      Add berrybrew to your PATH
     install     Download, extract and install a Strawberry Perl
+    remove      Uninstall a Strawberry Perl
     switch      Switch to use a different Strawberry Perl
 
 =head2 Requirements
@@ -74,7 +75,7 @@ L<Mono|http://www.mono-project.com/> (only if compiling your own version)
 
 =item *
 
-Add new commands: uninstall, exec
+Add new commands: exec
 
 =item *
 
@@ -84,11 +85,15 @@ Test on Windows XP
 
 Add Test Suite
 
+=item *
+
+Add ability to configure install locations including custom installs
+
 =back
 
 =head2 Version
 
-0.02
+0.03
 
 =head2 License
 

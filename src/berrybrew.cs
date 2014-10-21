@@ -52,6 +52,15 @@ namespace Berrybrew
                     Config();
                     break;
                 
+                case "remove":
+                    if (args.Length == 1)
+                    {
+                        Console.WriteLine("remove command requires a version argument. Use the available command to see what versions of Strawberry Perl are available");
+                        Environment.Exit(0);
+                    }
+                    RemovePerl(args[1]);
+                    break;
+                
                 default:
                     PrintHelp();
                     break;
@@ -95,7 +104,7 @@ namespace Berrybrew
         
         internal static string Version ()
         {
-            return "0.02";
+            return "0.03";
         }
         
         internal static string Fetch (StrawberryPerl perl)
@@ -232,6 +241,33 @@ namespace Berrybrew
             }            
         }
         
+        internal static StrawberryPerl CheckWhichPerlInPath() 
+        {
+            // get user PATH and remove trailing semicolon if exists
+            string path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
+            
+            StrawberryPerl current_perl = new StrawberryPerl();
+            
+            if (path != null)
+            {
+                string[] paths = path.Split(';');      
+                foreach (StrawberryPerl perl in GatherPerls())
+                {
+                    for (int i = 0; i < paths.Length; i++)
+                    {
+                        if (paths[i] == perl.PerlPath
+                            || paths[i] == perl.CPath
+                            || paths[i] == perl.PerlSitePath)
+                        {
+                            current_perl = perl;
+                            break;
+                        }
+                    }
+                } 
+            }
+            return current_perl;
+        }
+        
         internal static void AddPerlToPath(StrawberryPerl perl) 
         {
             // get user PATH and remove trailing semicolon if exists
@@ -279,16 +315,22 @@ namespace Berrybrew
         {
             List<StrawberryPerl> perls = GatherPerls();
             Console.WriteLine("\nThe following Strawberry Perls are available:\n");
-                
+            
+            StrawberryPerl current_perl = CheckWhichPerlInPath();
+            
             foreach (StrawberryPerl perl in perls)
             {
-                string name = perl.Name;
+                Console.Write("\t" + perl.Name);
+                
                 if (Directory.Exists(perl.InstallPath))
-                    Console.WriteLine("\t" + name + " [installed]");
+                    Console.Write(" [installed]");
+                
+                if (perl.Name == current_perl.Name)
+                    Console.Write("*");
                     
-                else
-                    Console.WriteLine("\t" + name);
+                Console.Write("\n");
             }
+            Console.WriteLine("\n* Currently using");
         }
 
         internal static void PrintHelp()
@@ -300,6 +342,7 @@ berrybrew <command> [option]
     available   List available Strawberry Perl versions and which are installed
     config      Add berrybrew to your PATH
     install     Download, extract and install a Strawberry Perl
+    remove      Uninstall a Strawberry Perl
     switch      Switch to use a different Strawberry Perl
     ");
 
@@ -444,6 +487,41 @@ berrybrew <command> [option]
             );
             
             return perls;
+        }
+        
+        internal static void RemovePerl(string version_to_remove)
+        {
+            try {
+                StrawberryPerl perl = ResolveVersion(version_to_remove);
+                
+                StrawberryPerl current_perl = CheckWhichPerlInPath();
+                
+                if (perl.Name == current_perl.Name)
+                {
+                    Console.WriteLine("Removing Perl " + version_to_remove + " from PATH");
+                    RemovePerlFromPath();
+                }
+                
+                if (Directory.Exists(perl.InstallPath))
+                {
+                    Directory.Delete(perl.InstallPath, true);
+                    Console.WriteLine("Successfully removed Strawberry Perl " + version_to_remove);
+                }
+                else
+                {
+                    Console.WriteLine("Strawberry Perl " + version_to_remove + " not found (are you sure it's installed?");
+                    Environment.Exit(0);
+                }
+            }
+            catch (ArgumentException)
+            {
+                Console.WriteLine("Unknown version of Perl. Use the available command to see what versions of Strawberry Perl are available");
+                Environment.Exit(0);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Console.WriteLine("Unable to remove Strawberry Perl " + version_to_remove + " permission was denied by System");
+            }
         }
     }
 
