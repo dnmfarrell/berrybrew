@@ -3,7 +3,7 @@
 The perlbrew for Windows Strawberry Perl! berrybrew can download, install and manage multiple versions of Strawberry Perl for Windows.
 
 
-=for html <img src="http://perltricks.com/Image/68/large"/>
+=for html <img style="margin: 0 auto;" src="http://perltricks.com/Image/68/large"/>
 
 
 =head2 Synopsis
@@ -75,7 +75,7 @@ L<Mono|http://www.mono-project.com/> (only if compiling your own version)
 
 =item *
 
-Add new commands: exec
+Add exec command
 
 =item *
 
@@ -114,6 +114,10 @@ L<StrawberryPerl.com|http://strawberryperl.com> - Strawberry Perl for Windows
 =item *
 
 L<Perlbrew|http://perlbrew.pl> - the original Perl version manager for Unix based systems
+
+=item *
+
+PerlTricks L<article|http://perltricks.com/article/119/2014/10/10/Hello-berrybrew--the-Strawberry-Perl-version-manager> on berrybrew
 
 =back
 
