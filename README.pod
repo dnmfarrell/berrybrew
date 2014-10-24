@@ -49,8 +49,6 @@ The perlbrew for Windows Strawberry Perl! berrybrew can download, install, remov
     
     Switched to 5.10.1_32, start a new terminal to use it.
 
-=cut
-
 Start a new cmd.exe ...
 
     > perl -v
