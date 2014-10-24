@@ -1,8 +1,11 @@
+using Microsoft.Win32;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
@@ -13,6 +16,12 @@ namespace Berrybrew
 {
     public class Berrybrew
     {
+        const int HWND_BROADCAST = 0xffff;
+        const uint WM_SETTINGCHANGE = 0x001a;
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        static extern bool SendNotifyMessage(IntPtr hWnd, uint Msg, UIntPtr wParam, string lParam);
+    
         static void Main(string[] args)
         {
             if (args.Length == 0)
@@ -28,11 +37,19 @@ namespace Berrybrew
                     {
                         Console.WriteLine("install command requires a version argument. Use the available command to see what versions of Strawberry Perl are available");
                         Environment.Exit(0);
-                    }                       
-                    StrawberryPerl perl = ResolveVersion(args[1]);
-                    string archive_path = Fetch(perl);
-                    Extract(perl, archive_path);
-                    Available();
+                    }               
+                    try
+                    {
+                        StrawberryPerl perl = ResolveVersion(args[1]);
+                        string archive_path = Fetch(perl);
+                        Extract(perl, archive_path);
+                        Available();
+                    }
+                    catch (ArgumentException)
+                    {
+                        Console.WriteLine("Unknown version of Perl. Use the available command to see what versions of Strawberry Perl are available");
+                        Environment.Exit(0);
+                    }
                     break;
                 
                 case "switch":
@@ -42,6 +59,7 @@ namespace Berrybrew
                         Environment.Exit(0);
                     }
                     Switch(args[1]);
+                    SendNotifyMessage((IntPtr)HWND_BROADCAST, WM_SETTINGCHANGE,(UIntPtr)0, "Environment");
                     break;
                 
                 case "available":
@@ -66,7 +84,18 @@ namespace Berrybrew
                     break;
             }
         }
-
+        
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr SendMessageTimeout(
+            IntPtr hWnd,
+            int Msg,
+            IntPtr wParam,
+            string lParam,
+            int fuFlags,
+            int uTimeout,
+            IntPtr lpdwResult
+        );     
+        
         internal static void Config ()
         {
             Console.WriteLine("\nThis is berrybrew, version " + Version() + "\n");
@@ -88,7 +117,7 @@ namespace Berrybrew
                     
                     if (ScanUserPath(new Regex("berrybrew.bin")))
                     {
-                        Console.WriteLine("berrybrew was successfully added to the user PATH");
+                        Console.WriteLine("berrybrew was successfully added to the user PATH, start a new terminal to use it.");
                     }
                     else
                     {
@@ -104,7 +133,7 @@ namespace Berrybrew
         
         internal static string Version ()
         {
-            return "0.03";
+            return "0.04";
         }
         
         internal static string Fetch (StrawberryPerl perl)

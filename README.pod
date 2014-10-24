@@ -1,7 +1,6 @@
 =head1 berrybrew
 
-The perlbrew for Windows Strawberry Perl! berrybrew can download, install and manage multiple versions of Strawberry Perl for Windows.
-
+The perlbrew for Windows Strawberry Perl! berrybrew can download, install, remove and manage multiple concurrent versions of Strawberry Perl for Windows.
 
 =for html <img style="margin: 0 auto;" src="http://perltricks.com/Image/68/large"/>
 
@@ -9,37 +8,90 @@ The perlbrew for Windows Strawberry Perl! berrybrew can download, install and ma
 =head2 Synopsis
 
     > berrybrew available
+    
+    The following Strawberry Perls are available:
+
+                5.20.1_64 [installed]*
+                5.20.1_32 [installed]
+                5.18.4_64
+                5.18.4_32 [installed]
+                5.16.3_64
+                5.16.3_32 [installed]
+                5.14.4_64
+                5.14.4_32
+                5.12.3_32
+                5.10.1_32
+
+    * Currently using
+ 
+    > berrybrew install 5.10.1_32
+    
+    Downloading http://strawberryperl.com/download/5.10.1.2/strawberry-perl-5.10.1.2-portable.zip to C:\Users\brewer\AppData\Local\Temp\s05wwfzt.nmv/strawberry-perl-5.10.1.2-portable.zip
+    Confirming checksum ...
+    Extracting C:\Users\brewer\AppData\Local\Temp\s05wwfzt.nmv/strawberry-perl-5.10.1.2-portable.zip
 
     The following Strawberry Perls are available:
 
-            5.20.1_64 [installed]
+            5.20.1_64 [installed]*
             5.20.1_32 [installed]
             5.18.4_64
-            5.18.4_32
+            5.18.4_32 [installed]
             5.16.3_64
-            5.16.3_32
+            5.16.3_32 [installed]
             5.14.4_64
             5.14.4_32
             5.12.3_32
-            5.10.1_32
-    
-    > berrybrew install 5.10.1_32
+            5.10.1_32 [installed]
+
+    * Currently using
     
     > berrybrew switch 5.10.1_32
     
+    Switched to 5.10.1_32, start a new terminal to use it.
 
+=cut
+
+Start a new cmd.exe ...
+
+    > perl -v
+    C:\Users\dfarrell>perl -v
+
+    This is perl, v5.10.1 (*) built for MSWin32-x86-multi-thread
+
+    Copyright 1987-2009, Larry Wall
+
+    Perl may be copied only under the terms of either the Artistic License or the
+    GNU General Public License, which may be found in the Perl 5 source kit.
+
+    Complete documentation for Perl, including FAQ lists, should be found on
+    this system using "man perl" or "perldoc perl".  If you have access to the
+    Internet, point your browser at http://www.perl.org/, the Perl Home Page.
+    
+    > berrybrew remove 5.10.1_32
+    
+    Successfully removed Strawberry Perl 5.10.1_32
+    
+    > berrybrew config
+
+    This is berrybrew, version 0.04
+
+    Would you like to add berrybrew to your user PATH? y/n [n] y
+    berrybrew was successfully added to the user PATH, start a new terminal to use it.
+    
 =head2 Installation
 
 Use the precompiled binary:
 
-    git clone https://github.com/sillymoose/berrybrew
-    cd berrybrew/bin
+    > git clone https://github.com/sillymoose/berrybrew
+    > cd berrybrew/bin
+    > berrybrew config
 
 Compile your own version with Mono:
 
-    git clone https://github.com/sillymoose/berrybrew
-    mcs src/berrybrew.cs -lib:lib -r:ICSharpCode.SharpZipLib.dll -out:bin/berrybrew.exe
-    cd bin
+    > git clone https://github.com/sillymoose/berrybrew
+    > mcs src/berrybrew.cs -lib:lib -r:ICSharpCode.SharpZipLib.dll -out:bin/berrybrew.exe
+    > cd bin
+    > berrybew config
 
 =head2 Commands
 
@@ -93,7 +145,7 @@ Add ability to configure install locations including custom installs
 
 =head2 Version
 
-0.03
+0.04
 
 =head2 License
 
