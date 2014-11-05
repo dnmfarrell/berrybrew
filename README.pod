@@ -71,10 +71,43 @@ Start a new cmd.exe ...
     
     > berrybrew config
 
-    This is berrybrew, version 0.04
+    This is berrybrew, version 0.05
 
     Would you like to add berrybrew to your user PATH? y/n [n] y
     berrybrew was successfully added to the user PATH, start a new terminal to use it.
+    
+    > berrybrew exec prove -l
+    
+    Perl-5.20.1_64
+    ==============
+    t\DidYouMean.t .. ok
+    All tests successful.
+    Files=1, Tests=5,  0 wallclock secs ( 0.06 usr +  0.00 sys =  0.06 CPU)
+    Result: PASS
+
+
+    Perl-5.20.1_32
+    ==============
+    t\DidYouMean.t .. ok
+    All tests successful.
+    Files=1, Tests=5,  0 wallclock secs ( 0.03 usr +  0.03 sys =  0.06 CPU)
+    Result: PASS
+
+
+    Perl-5.18.4_64
+    ==============
+    t\DidYouMean.t ..
+    Dubious, test returned 5 (wstat 1280, 0x500)
+    Failed 5/5 subtests
+
+    Test Summary Report
+    -------------------
+    t\DidYouMean.t (Wstat: 1280 Tests: 5 Failed: 5)
+      Failed tests:  1-5
+      Non-zero exit status: 5
+    Files=1, Tests=5,  0 wallclock secs ( 0.02 usr +  0.05 sys =  0.06 CPU)
+    Result: FAIL
+
     
 =head2 Installation
 
@@ -100,6 +133,7 @@ Compile your own version with Mono:
     install     Download, extract and install a Strawberry Perl
     remove      Uninstall a Strawberry Perl
     switch      Switch to use a different Strawberry Perl
+    exec        Run a command for every installed Strawberry Perl
 
 =head2 Requirements
 
@@ -125,10 +159,6 @@ L<Mono|http://www.mono-project.com/> (only if compiling your own version)
 
 =item *
 
-Add exec command
-
-=item *
-
 Test on Windows XP
 
 =item *
@@ -143,7 +173,7 @@ Add ability to configure install locations including custom installs
 
 =head2 Version
 
-0.04
+0.05
 
 =head2 License
 

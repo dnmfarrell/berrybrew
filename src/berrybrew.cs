@@ -179,7 +179,7 @@ namespace Berrybrew
         
         internal static string Version ()
         {
-            return "0.04";
+            return "0.05";
         }
         
         internal static string Fetch (StrawberryPerl perl)
@@ -427,6 +427,7 @@ berrybrew <command> [option]
     install     Download, extract and install a Strawberry Perl
     remove      Uninstall a Strawberry Perl
     switch      Switch to use a different Strawberry Perl
+    exec        Run a command for every installed Strawberry Perl
     ");
 
         }
