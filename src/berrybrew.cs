@@ -216,7 +216,7 @@ namespace Berrybrew
                 // if Perl version not installed, can't switch
                 if (! PerlInstalled(perl))
                 {
-                    Console.WriteLine(perl.Name + " is not installed. Run the command: berrybrew install " + perl.Name);
+                    Console.WriteLine("Perl version " + perl.Name + " is not installed. Run the command:\n\tberrybrew install " + perl.Name);
                     Environment.Exit(0);
                 }
                     
