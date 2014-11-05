@@ -84,7 +84,8 @@ namespace Berrybrew
                         Console.WriteLine("exec command requires a command to run.");
                         Environment.Exit(0);
                     }
-                    Exec(args[1]);
+                    args[0] = "";
+                    Exec(String.Join(" ", args).Trim());
                     break;
                 
                 default:
@@ -95,8 +96,27 @@ namespace Berrybrew
         
         internal static void Exec (string command)
         {
+            List<StrawberryPerl> perls_installed = GetInstalledPerls();
             
+            foreach (StrawberryPerl perl in perls_installed)
+            {
+                Console.WriteLine("Perl-" + perl.Name + "\n==============");
             
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                startInfo.FileName = "cmd.exe";
+                startInfo.Arguments = "/c " + perl.PerlPath + "/" + command;
+                process.StartInfo = startInfo;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.UseShellExecute = false;
+                process.Start();
+                
+                Console.WriteLine(process.StandardOutput.ReadToEnd());
+                Console.WriteLine(process.StandardError.ReadToEnd());
+                process.WaitForExit();
+            }   
         }
         
         internal static bool PerlInstalled (StrawberryPerl perl)
@@ -216,7 +236,7 @@ namespace Berrybrew
                 // if Perl version not installed, can't switch
                 if (! PerlInstalled(perl))
                 {
-                    Console.WriteLine("Perl version " + perl.Name + " is not installed. Run the command:\n\tberrybrew install " + perl.Name);
+                    Console.WriteLine("Perl version " + perl.Name + " is not installed. Run the command:\n\n\tberrybrew install " + perl.Name);
                     Environment.Exit(0);
                 }
                     
