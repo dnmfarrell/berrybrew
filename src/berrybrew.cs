@@ -18,7 +18,6 @@ namespace Berrybrew
     {
         const int HWND_BROADCAST = 0xffff;
         const uint WM_SETTINGCHANGE = 0x001a;
-
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         static extern bool SendNotifyMessage(IntPtr hWnd, uint Msg, UIntPtr wParam, string lParam);
     
@@ -78,6 +77,15 @@ namespace Berrybrew
                     }
                     RemovePerl(args[1]);
                     break;
+
+                case "exec":
+                    if (args.Length == 1)
+                    {
+                        Console.WriteLine("exec command requires a command to run.");
+                        Environment.Exit(0);
+                    }
+                    Exec(args[1]);
+                    break;
                 
                 default:
                     PrintHelp();
@@ -85,16 +93,34 @@ namespace Berrybrew
             }
         }
         
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        public static extern IntPtr SendMessageTimeout(
-            IntPtr hWnd,
-            int Msg,
-            IntPtr wParam,
-            string lParam,
-            int fuFlags,
-            int uTimeout,
-            IntPtr lpdwResult
-        );     
+        internal static void Exec (string command)
+        {
+            
+            
+        }
+        
+        internal static bool PerlInstalled (StrawberryPerl perl)
+        {
+            if (Directory.Exists(perl.InstallPath)
+                && File.Exists(perl.PerlPath + "/perl.exe"))
+            {
+                return true;
+            }
+            return false;
+        }
+        
+        internal static List<StrawberryPerl> GetInstalledPerls ()
+        {
+            List<StrawberryPerl> perls = GatherPerls();
+            List<StrawberryPerl> perls_installed = new List<StrawberryPerl>();
+            
+            foreach (StrawberryPerl perl in perls)
+            {
+                if (PerlInstalled(perl))
+                    perls_installed.Add(perl);
+            }
+            return perls_installed;
+        }
         
         internal static void Config ()
         {
@@ -186,6 +212,14 @@ namespace Berrybrew
         {
             try {
                 StrawberryPerl perl = ResolveVersion(version_to_switch);
+                
+                // if Perl version not installed, can't switch
+                if (! PerlInstalled(perl))
+                {
+                    Console.WriteLine(perl.Name + " is not installed. Run the command: berrybrew install " + perl.Name);
+                    Environment.Exit(0);
+                }
+                    
                 RemovePerlFromPath();
                 
                 if (ScanUserPath(new Regex("perl.bin")))
@@ -351,7 +385,7 @@ namespace Berrybrew
             {
                 Console.Write("\t" + perl.Name);
                 
-                if (Directory.Exists(perl.InstallPath))
+                if (PerlInstalled(perl))
                     Console.Write(" [installed]");
                 
                 if (perl.Name == current_perl.Name)
