@@ -16,11 +16,6 @@ namespace Berrybrew
 {
     public class Berrybrew
     {
-        const int HWND_BROADCAST = 0xffff;
-        const uint WM_SETTINGCHANGE = 0x001a;
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        static extern bool SendNotifyMessage(IntPtr hWnd, uint Msg, UIntPtr wParam, string lParam);
-    
         static void Main(string[] args)
         {
             if (args.Length == 0)
@@ -58,7 +53,6 @@ namespace Berrybrew
                         Environment.Exit(0);
                     }
                     Switch(args[1]);
-                    SendNotifyMessage((IntPtr)HWND_BROADCAST, WM_SETTINGCHANGE,(UIntPtr)0, "Environment");
                     break;
                 
                 case "available":
@@ -106,7 +100,7 @@ namespace Berrybrew
                 System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
                 startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
                 startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/c " + perl.PerlPath + "/" + command;
+                startInfo.Arguments = "/c " + perl.PerlPath + @"\" + command;
                 process.StartInfo = startInfo;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.RedirectStandardError = true;
@@ -122,7 +116,7 @@ namespace Berrybrew
         internal static bool PerlInstalled (StrawberryPerl perl)
         {
             if (Directory.Exists(perl.InstallPath)
-                && File.Exists(perl.PerlPath + "/perl.exe"))
+                && File.Exists(perl.PerlPath + @"\perl.exe"))
             {
                 return true;
             }
@@ -186,7 +180,7 @@ namespace Berrybrew
         {
             WebClient webClient = new WebClient();
             string tempdir = GetTempDirectory();
-            string archive_path = tempdir + "/" + perl.ArchiveName;
+            string archive_path = tempdir + @"\" + perl.ArchiveName;
             Console.WriteLine("Downloading " + perl.Url + " to " + archive_path);
             webClient.DownloadFile(perl.Url, archive_path);
             
@@ -369,8 +363,7 @@ namespace Berrybrew
                 
                 new_path = new string[] { path, perl.CPath, perl.PerlPath, perl.PerlSitePath };
             }
-            Environment.SetEnvironmentVariable("PATH", String.Join(";", new_path), EnvironmentVariableTarget.User);           
-        
+            Environment.SetEnvironmentVariable("PATH", String.Join(";", new_path), EnvironmentVariableTarget.User);
         }
         
         internal static void AddBinToPath(string bin_path) 
@@ -627,10 +620,10 @@ berrybrew <command> [option]
             this.ArchiveName = a;
             this.Url = u;
             this.Version = v;
-            this.InstallPath = @"C:/berrybrew/" + n;
-            this.CPath = "C:/berrybrew/" + n + "/c/bin";
-            this.PerlPath = "C:/berrybrew/" + n + "/perl/bin";
-            this.PerlSitePath = "C:/berrybrew/" + n + "/perl/site/bin";
+            this.InstallPath = @"C:\berrybrew\" + n;
+            this.CPath = @"C:\berrybrew\" + n + @"\c\bin";
+            this.PerlPath = @"C:\berrybrew\" + n + @"\perl\bin";
+            this.PerlSitePath = @"C:\berrybrew\" + n + @"\perl\site\bin";
             this.Sha1Checksum = c;
         }
     }
