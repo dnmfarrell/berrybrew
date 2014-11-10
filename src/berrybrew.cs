@@ -173,7 +173,7 @@ namespace Berrybrew
         
         internal static string Version ()
         {
-            return "0.05";
+            return "0.06";
         }
         
         internal static string Fetch (StrawberryPerl perl)
@@ -393,10 +393,14 @@ namespace Berrybrew
             Console.WriteLine("\nThe following Strawberry Perls are available:\n");
             
             StrawberryPerl current_perl = CheckWhichPerlInPath();
+            string column_spaces = "               ";
             
             foreach (StrawberryPerl perl in perls)
             {
-                Console.Write("\t" + perl.Name);
+                // cheap printf
+                string name_to_print = perl.Name + column_spaces.Substring(0, column_spaces.Length - perl.Name.Length);
+            
+                Console.Write("\t" + name_to_print);
                 
                 if (PerlInstalled(perl))
                     Console.Write(" [installed]");
@@ -491,6 +495,14 @@ berrybrew <command> [option]
             );
             
             perls.Add(new StrawberryPerl (
+                "5.20.1_64_PDL",
+                "strawberry-perl-5.20.1.1-64bit-PDL.zip",
+                "http://strawberryperl.com/download/5.20.1.1/strawberry-perl-5.20.1.1-64bit-PDL.zip",
+                "5.20.1",
+                "f7efc9ecc323b8cae790dcac30dd60c9dc79cca9")
+            );
+            
+            perls.Add(new StrawberryPerl (
                 "5.20.1_32",
                 "strawberry-perl-5.20.1.1-32bit-portable.zip",
                 "http://strawberryperl.com/download/5.20.1.1/strawberry-perl-5.20.1.1-32bit-portable.zip",
@@ -498,6 +510,13 @@ berrybrew <command> [option]
                 "6929ca3d0b65e514ed73c829f6f648f92cc47b80")
             );
             
+            perls.Add(new StrawberryPerl (
+                "5.20.1_32_PDL",
+                "strawberry-perl-5.20.1.1-32bit-PDL.zip",
+                "http://strawberryperl.com/download/5.20.1.1/strawberry-perl-5.20.1.1-32bit-PDL.zip",
+                "5.20.1",
+                "f3431f1676fdefd6844d83c3eacc1f92fa0c9713")
+            );
                         
             perls.Add(new StrawberryPerl (
                 "5.18.4_64",
