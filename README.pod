@@ -173,7 +173,7 @@ Add ability to configure install locations including custom installs
 
 =head2 Version
 
-0.05
+0.06
 
 =head2 License
 
