@@ -173,7 +173,7 @@ namespace Berrybrew
         
         internal static string Version ()
         {
-            return "0.06";
+            return "0.07";
         }
         
         internal static string Fetch (StrawberryPerl perl)
