@@ -179,10 +179,14 @@ namespace Berrybrew
         internal static string Fetch (StrawberryPerl perl)
         {
             WebClient webClient = new WebClient();
-            string tempdir = GetTempDirectory();
-            string archive_path = tempdir + @"\" + perl.ArchiveName;
-            Console.WriteLine("Downloading " + perl.Url + " to " + archive_path);
-            webClient.DownloadFile(perl.Url, archive_path);
+            string archive_path = GetDownloadPath(perl);
+            
+            // Download if archive doesn't already exist
+            if (! File.Exists(archive_path))
+            {
+                Console.WriteLine("Downloading " + perl.Url + " to " + archive_path);
+                webClient.DownloadFile(perl.Url, archive_path);
+            }
             
             Console.WriteLine("Confirming checksum ...");
             using(var cryptoProvider = new SHA1CryptoServiceProvider())
@@ -201,6 +205,32 @@ namespace Berrybrew
                 }
             }
             return archive_path;
+        }
+        
+        internal static string GetDownloadPath (StrawberryPerl perl)
+        {
+            string path;
+            
+            try
+            {
+                if (! Directory.Exists(perl.ArchivePath))
+                    Directory.CreateDirectory(perl.ArchivePath);
+                  
+                return perl.ArchivePath + @"\" + perl.ArchiveName;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Console.WriteLine("Error, do not have permissions to create directory: " + perl.ArchivePath);
+            }
+            
+            Console.WriteLine("Creating temporary directory instead");
+            do {
+                path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            } while (Directory.Exists(path));
+            Directory.CreateDirectory(path);
+            
+            return path + @"\" + perl.ArchiveName;
+           
         }
 
         internal static StrawberryPerl ResolveVersion (string version_to_resolve)
@@ -428,16 +458,6 @@ berrybrew <command> [option]
     ");
 
         }
-
-        internal static string GetTempDirectory()
-        {
-            string path;
-            do {
-                path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-            } while (Directory.Exists(path));
-            Directory.CreateDirectory(path);
-            return path;
-        }
         
         // From https://github.com/icsharpcode/SharpZipLib
         internal static void ExtractZip(string archive_path, string outFolder)
@@ -627,6 +647,7 @@ berrybrew <command> [option]
         public string ArchiveName;
         public string Url;
         public string Version;
+        public string ArchivePath;
         public string InstallPath;
         public string CPath;
         public string PerlPath;
@@ -639,6 +660,7 @@ berrybrew <command> [option]
             this.ArchiveName = a;
             this.Url = u;
             this.Version = v;
+            this.ArchivePath = @"C:\berrybrew\temp";
             this.InstallPath = @"C:\berrybrew\" + n;
             this.CPath = @"C:\berrybrew\" + n + @"\c\bin";
             this.PerlPath = @"C:\berrybrew\" + n + @"\perl\bin";
