@@ -620,8 +620,15 @@ berrybrew <command> [option]
                 
                 if (Directory.Exists(perl.InstallPath))
                 {
-                    Directory.Delete(perl.InstallPath, true);
-                    Console.WriteLine("Successfully removed Strawberry Perl " + version_to_remove);
+                    try
+                    {
+                        Directory.Delete(perl.InstallPath, true);
+                        Console.WriteLine("Successfully removed Strawberry Perl " + version_to_remove);
+                    }
+                    catch (System.IO.IOException)
+                    {
+                        Console.WriteLine("Unable to completely remove Strawberry Perl " + version_to_remove + " some files may remain");
+                    }
                 }
                 else
                 {
