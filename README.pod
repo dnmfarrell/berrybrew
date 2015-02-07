@@ -8,7 +8,7 @@ The perlbrew for Windows Strawberry Perl! berrybrew can download, install, remov
 =head2 Synopsis
 
     > berrybrew available
-    
+
     The following Strawberry Perls are available:
 
                 5.20.1_64 [installed]*
@@ -23,9 +23,9 @@ The perlbrew for Windows Strawberry Perl! berrybrew can download, install, remov
                 5.10.1_32
 
     * Currently using
- 
+
     > berrybrew install 5.10.1_32
-    
+
     Downloading http://strawberryperl.com/download/5.10.1.2/strawberry-perl-5.10.1.2-portable.zip to C:\Users\brewer\AppData\Local\Temp\s05wwfzt.nmv/strawberry-perl-5.10.1.2-portable.zip
     Confirming checksum ...
     Extracting C:\Users\brewer\AppData\Local\Temp\s05wwfzt.nmv/strawberry-perl-5.10.1.2-portable.zip
@@ -44,9 +44,9 @@ The perlbrew for Windows Strawberry Perl! berrybrew can download, install, remov
             5.10.1_32 [installed]
 
     * Currently using
-    
+
     > berrybrew switch 5.10.1_32
-    
+
     Switched to 5.10.1_32, start a new terminal to use it.
 
 Start a new cmd.exe ...
@@ -64,20 +64,20 @@ Start a new cmd.exe ...
     Complete documentation for Perl, including FAQ lists, should be found on
     this system using "man perl" or "perldoc perl".  If you have access to the
     Internet, point your browser at http://www.perl.org/, the Perl Home Page.
-    
+
     > berrybrew remove 5.10.1_32
-    
+
     Successfully removed Strawberry Perl 5.10.1_32
-    
+
     > berrybrew config
 
     This is berrybrew, version 0.05
 
     Would you like to add berrybrew to your user PATH? y/n [n] y
     berrybrew was successfully added to the user PATH, start a new terminal to use it.
-    
+
     > berrybrew exec prove -l
-    
+
     Perl-5.20.1_64
     ==============
     t\DidYouMean.t .. ok
@@ -108,7 +108,7 @@ Start a new cmd.exe ...
     Files=1, Tests=5,  0 wallclock secs ( 0.02 usr +  0.05 sys =  0.06 CPU)
     Result: FAIL
 
-    
+
 =head2 Installation
 
 Use the precompiled binary:
@@ -146,11 +146,11 @@ Compile your own version with Mono:
 =item *
 
 Windows only!
-    
+
 =item *
 
 L<Mono|http://www.mono-project.com/> (only if compiling your own version)
- 
+
 =back
 
 =head2 To Do
@@ -173,7 +173,7 @@ Add ability to configure install locations including custom installs
 
 =head2 Version
 
-0.06
+0.08
 
 =head2 License
 
@@ -185,7 +185,7 @@ David Farrell L<http://perltricks.com>
 
 =head2 See Also
 
-=over 
+=over
 
 =item *
 
