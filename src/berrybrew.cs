@@ -517,9 +517,9 @@ berrybrew <command> [option]
             perls.Add(new StrawberryPerl (
                 "5.22.0_64_PDL",
                 "strawberry-perl-5.22.0.1-64bit-PDL.zip",
-                "9024ce63c2fe404e7488db827171a9262c5a4830",
+                "http://strawberryperl.com/download/5.22.0.1/strawberry-perl-5.22.0.1-64bit-PDL.zip",
                 "5.22.0",
-                "http://strawberryperl.com/download/5.22.0.1/strawberry-perl-5.22.0.1-64bit-PDL.zip")
+                "9024ce63c2fe404e7488db827171a9262c5a4830")
             );
 
             perls.Add(new StrawberryPerl (
