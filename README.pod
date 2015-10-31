@@ -120,6 +120,7 @@ Use the precompiled binary:
 Compile your own version with Mono:
 
     > git clone https://github.com/sillymoose/berrybrew
+    > cd berrybrew
     > mcs src/berrybrew.cs -lib:lib -r:ICSharpCode.SharpZipLib.dll -out:bin/berrybrew.exe
     > cd bin
     > berrybew config
