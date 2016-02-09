@@ -2,6 +2,8 @@
 
 The perlbrew for Windows Strawberry Perl! berrybrew can download, install, remove and manage multiple concurrent versions of Strawberry Perl for Windows.
 
+B<berrybrew is up for adoption>. I no longer have a Windows machine, and am looking for someone to co-maintain or own the project. It requires minimal upkeep, just keeping up with new releases from L<http://strawberryperl.com>. There are also a bunch of interesting features that could be added if you have the appetite. Get in touch with me to discuss.
+
 =for html <img style="margin: 0 auto;" src="http://perltricks.com/Image/68/large"/>
 
 
@@ -154,27 +156,15 @@ L<Mono|http://www.mono-project.com/> (only if compiling your own version)
 
 =back
 
-=head2 To Do
 
-=over
+=head2 Troubleshooting
 
-=item *
+If you run into trouble installing a Perl, try clearing the berrybrew cached downloads in C<C:/berrybrew/temp/>.
 
-Test on Windows XP
-
-=item *
-
-Add Test Suite
-
-=item *
-
-Add ability to configure install locations including custom installs
-
-=back
 
 =head2 Version
 
-0.11
+0.12
 
 =head2 License
 
