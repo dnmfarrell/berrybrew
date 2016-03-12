@@ -173,7 +173,7 @@ namespace Berrybrew
 
         internal static string Version ()
         {
-            return "0.12";
+            return "0.12.20160300";
         }
 
         internal static string Fetch (StrawberryPerl perl)
@@ -508,75 +508,83 @@ berrybrew <command> [option]
 
             perls.Add(new StrawberryPerl(
                 "5.22.1_64",
-                "strawberry-perl-5.22.1.1-64bit-portable.zip",
-                "http://strawberryperl.com/download/5.22.1.2/strawberry-perl-5.22.1.2-64bit-portable.zip",
+                "strawberry-perl-5.22.1.3-64bit-portable.zip",
+				"http://strawberryperl.com/download/5.22.1.3/strawberry-perl-5.22.1.3-64bit-portable.zip",
                 "5.22.1",
-                "5dee8b8c1ffb001882a164a576c6d30044c7419a")
+				"ddac06b9f96577e9ae30c6a05554e440d2461a42")
             );
 
             perls.Add(new StrawberryPerl (
                 "5.22.1_64_PDL",
-                "strawberry-perl-5.22.1.1-64bit-PDL.zip",
-                "http://strawberryperl.com/download/5.22.1.2/strawberry-perl-5.22.1.2-64bit-PDL.zip",
+                "strawberry-perl-5.22.1.3-64bit-PDL.zip",
+				"http://strawberryperl.com/download/5.22.1.3/strawberry-perl-5.22.1.3-64bit-PDL.zip",
                 "5.22.1",
-                "a8836b220708b70e0949cc627de072edf5bdcf87")
+				"0c0f4a97307156192ecabb786645dbbcb4541c8d")
             );
 
             perls.Add(new StrawberryPerl(
                 "5.22.1_32",
-                "strawberry-perl-5.22.1.1-32bit-portable.zip",
-                "http://strawberryperl.com/download/5.22.1.2/strawberry-perl-5.22.1.2-32bit-portable.zip",
+                "strawberry-perl-5.22.1.3-32bit-portable.zip",
+				"http://strawberryperl.com/download/5.22.1.3/strawberry-perl-5.22.1.3-32bit-portable.zip",
                 "5.22.1",
-                "3db2b4964d56f6e23cc48ced40a6cee05419a0af")
+				"8bd94190db08444f80c436fdf805991e5833f905")
             );
 
             perls.Add(new StrawberryPerl(
                 "5.22.1_32_PDL",
-                "strawberry-perl-5.22.1.1-32bit-PDL.zip",
-                "http://strawberryperl.com/download/5.22.1.2/strawberry-perl-5.22.1.2-32bit-PDL.zip",
+                "strawberry-perl-5.22.1.3-32bit-PDL.zip",
+				"http://strawberryperl.com/download/5.22.1.3/strawberry-perl-5.22.1.3-32bit-PDL.zip",
                 "5.22.1",
-                "f0f51935a25c4f9c0fe5a0763f0c567cc60e3600")
+				"5f81f9e3ec41b776e75e055547c76cb0c0304a4a")
             );
 
             perls.Add(new StrawberryPerl(
                 "5.22.1_32_NO64",
-                "strawberry-perl-5.22.1.1-32bit-PDL.zip",
-                "http://strawberryperl.com/download/5.22.1.2/strawberry-perl-no64-5.22.1.2-32bit-portable.zip",
+				"strawberry-perl-no64-5.22.1.3-32bit-portable.zip",
+				"http://strawberryperl.com/download/5.22.1.3/strawberry-perl-no64-5.22.1.3-32bit-portable.zip",
                 "5.22.1",
-                "3697ee7fa6fd28828e0ac0401669a6a7aa4de141")
+				"22bc152dbd864c81af3fcd845b177c7a0c895171")
             );
 
             perls.Add(new StrawberryPerl (
                 "5.20.3_64",
                 "strawberry-perl-5.20.2.1-64bit-portable.zip",
-                "http://strawberryperl.com/download/5.20.3.2/strawberry-perl-5.20.3.2-64bit-portable.zip",
+				"http://strawberryperl.com/download/5.20.3.3/strawberry-perl-5.20.3.3-64bit-portable.zip",
                 "5.20.3",
-                "d4960a394e38e0e7595e64089cfc7bb925cf3111")
+				"b13a0e3000b3ea4ed6137a6279274c4aa09d1f46")
             );
 
             perls.Add(new StrawberryPerl (
                 "5.20.3_64_PDL",
                 "strawberry-perl-5.20.3.1-64bit-PDL.zip",
-                "http://strawberryperl.com/download/5.20.3.2/strawberry-perl-5.20.3.2-64bit-PDL.zip",
+				"http://strawberryperl.com/download/5.20.3.3/strawberry-perl-5.20.3.3-64bit-PDL.zip",
                 "5.20.3",
-                "b8dde356efe0b861b66ee5522c46ccf3303d8b3d")
+				"9319e70d1d9bf02d8216737934cf28fb8384c7ed")
             );
 
             perls.Add(new StrawberryPerl (
                 "5.20.3_32",
-                "strawberry-perl-5.20.3.1-32bit-portable.zip",
-                "",
+                "strawberry-perl-5.20.3.3-32bit-portable.zip",
+				"http://strawberryperl.com/download/5.20.3.3/strawberry-perl-5.20.3.3-32bit-portable.zip",
                 "5.20.3",
-                "3dcbcb0a4983ed6119ec4e9340416b653fdb0eae")
+				"9a3220a21260339ac6054a8fee4592a00b41e265")
             );
 
             perls.Add(new StrawberryPerl (
                 "5.20.3_32_PDL",
-                "strawberry-perl-5.20.3.1-32bit-PDL.zip",
-                "http://strawberryperl.com/download/5.20.3.2/strawberry-perl-5.20.3.2-32bit-PDL.zip",
+                "strawberry-perl-5.20.3.3-32bit-PDL.zip",
+				"http://strawberryperl.com/download/5.20.3.3/strawberry-perl-5.20.3.3-32bit-PDL.zip",
                 "5.20.3",
-                "be8e47b084b72ea11c0ddd7ced93b2ed39198a05")
+				"de0141d2a36dcee0da7c56961ae4254780e512b9")
             );
+
+			perls.Add(new StrawberryPerl(
+				"5.20.3_32_NO64",
+				"strawberry-perl-no64-5.20.3.3-32bit-portable.zip",
+				"http://strawberryperl.com/download/5.20.3.3/strawberry-perl-no64-5.20.3.3-32bit-portable.zip",
+				"5.20.3",
+				"525db38f8bee6b9940b35b9d8fd76dd1518e3b49")
+			);
 
             perls.Add(new StrawberryPerl (
                 "5.18.4_64",
