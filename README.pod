@@ -4,7 +4,7 @@ The perlbrew for Windows Strawberry Perl! berrybrew can download, install, remov
 
 B<berrybrew is up for adoption>. I no longer have a Windows machine, and am looking for someone to co-maintain or own the project. It requires minimal upkeep, just keeping up with new releases from L<http://strawberryperl.com>. There are also a bunch of interesting features that could be added if you have the appetite. Get in touch with me to discuss.
 
-=for html <img style="margin: 0 auto;" src="http://perltricks.com/Image/68/large"/>
+=for html <img style="margin: 0 auto;" src="https://raw.githubusercontent.com/dnmfarrell/berrybrew/master/berrybrew.png"/>
 
 
 =head2 Synopsis
