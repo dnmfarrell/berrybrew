@@ -24,7 +24,7 @@ namespace Berrybrew
                 Environment.Exit(0);
             }
 
-            switch(args[0])
+            switch (args[0])
             {
                 case "install":
                     if (args.Length == 1)
@@ -96,7 +96,7 @@ namespace Berrybrew
             }
         }
 
-        internal static void Exec (string command)
+        internal static void Exec(string command)
         {
             List<StrawberryPerl> perls_installed = GetInstalledPerls();
 
@@ -121,7 +121,7 @@ namespace Berrybrew
             }
         }
 
-        internal static bool PerlInstalled (StrawberryPerl perl)
+        internal static bool PerlInstalled(StrawberryPerl perl)
         {
             if (Directory.Exists(perl.InstallPath)
                 && File.Exists(perl.PerlPath + @"\perl.exe"))
@@ -131,7 +131,7 @@ namespace Berrybrew
             return false;
         }
 
-        internal static List<StrawberryPerl> GetInstalledPerls ()
+        internal static List<StrawberryPerl> GetInstalledPerls()
         {
             List<StrawberryPerl> perls = GatherPerls();
             List<StrawberryPerl> perls_installed = new List<StrawberryPerl>();
@@ -144,12 +144,12 @@ namespace Berrybrew
             return perls_installed;
         }
 
-        internal static void Config ()
+        internal static void Config()
         {
             Console.WriteLine("\nThis is berrybrew, version " + Version() + "\n");
 
-            if ( ! ScanUserPath(new Regex("berrybrew.bin"))
-                   && ! ScanSystemPath(new Regex("berrybrew.bin")) )
+            if (!ScanUserPath(new Regex("berrybrew.bin"))
+                   && !ScanSystemPath(new Regex("berrybrew.bin")))
             {
                 Console.Write("Would you like to add berrybrew to your user PATH? y/n [n] ");
 
@@ -159,7 +159,7 @@ namespace Berrybrew
                     string assembly_path = Assembly.GetExecutingAssembly().Location;
 
                     //get the parent directory
-                    string assembly_directory = Path.GetDirectoryName( assembly_path );
+                    string assembly_directory = Path.GetDirectoryName(assembly_path);
 
                     AddBinToPath(assembly_directory);
 
@@ -179,35 +179,64 @@ namespace Berrybrew
             }
         }
 
-        internal static string Version ()
+        internal static string Version()
         {
-            return "0.12.20160301";
+            return "0.12.1.20160302";
         }
 
-        internal static string Fetch (StrawberryPerl perl)
+        internal static string RemoveFile(string filename)
+        {
+            try
+            {
+                File.Delete(filename);
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return true.ToString();
+        }
+
+        internal static string Fetch(StrawberryPerl perl)
         {
             WebClient webClient = new WebClient();
             string archive_path = GetDownloadPath(perl);
 
             // Download if archive doesn't already exist
-            if (! File.Exists(archive_path))
+            if (!File.Exists(archive_path))
             {
                 Console.WriteLine("Downloading " + perl.Url + " to " + archive_path);
                 webClient.DownloadFile(perl.Url, archive_path);
             }
 
             Console.WriteLine("Confirming checksum ...");
-            using(var cryptoProvider = new SHA1CryptoServiceProvider())
+            using (var cryptoProvider = new SHA1CryptoServiceProvider())
             {
                 using (var stream = File.OpenRead(archive_path))
                 {
-                    string hash = BitConverter.ToString(cryptoProvider.ComputeHash(stream)).Replace("-","").ToLower();
+                    string hash = BitConverter.ToString(cryptoProvider.ComputeHash(stream)).Replace("-", "").ToLower();
 
                     if (perl.Sha1Checksum != hash)
                     {
-                        Console.WriteLine("Error checksum of downloaded archive does not match expected output\nexpected: "
+                        Console.WriteLine("Error checksum of downloaded archive \n"
+                            + archive_path
+                            + "\ndoes not match expected output\nexpected: "
                             + perl.Sha1Checksum
                             + "\n     got: " + hash);
+                        stream.Dispose();
+                        Console.Write("Whould you like berrybrew to delete the corrupted download file? y/n [n]");
+                        if (Console.ReadLine() == "y")
+                        {
+                            string retval = RemoveFile(archive_path);
+                            if (retval == "True")
+                            {
+                                Console.WriteLine("Deleted! Try to install it again!");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Unable to delete " + archive_path);
+                            }
+                        }
                         Environment.Exit(0);
                     }
                 }
@@ -215,13 +244,13 @@ namespace Berrybrew
             return archive_path;
         }
 
-        internal static string GetDownloadPath (StrawberryPerl perl)
+        internal static string GetDownloadPath(StrawberryPerl perl)
         {
             string path;
 
             try
             {
-                if (! Directory.Exists(perl.ArchivePath))
+                if (!Directory.Exists(perl.ArchivePath))
                     Directory.CreateDirectory(perl.ArchivePath);
 
                 return perl.ArchivePath + @"\" + perl.ArchiveName;
@@ -232,7 +261,8 @@ namespace Berrybrew
             }
 
             Console.WriteLine("Creating temporary directory instead");
-            do {
+            do
+            {
                 path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             } while (Directory.Exists(path));
             Directory.CreateDirectory(path);
@@ -241,7 +271,7 @@ namespace Berrybrew
 
         }
 
-        internal static StrawberryPerl ResolveVersion (string version_to_resolve)
+        internal static StrawberryPerl ResolveVersion(string version_to_resolve)
         {
             foreach (StrawberryPerl perl in GatherPerls())
             {
@@ -251,7 +281,7 @@ namespace Berrybrew
             throw new ArgumentException("Unknown version: " + version_to_resolve);
         }
 
-        internal static void Extract (StrawberryPerl perl, string archive_path)
+        internal static void Extract(StrawberryPerl perl, string archive_path)
         {
             if (File.Exists(archive_path))
             {
@@ -260,13 +290,14 @@ namespace Berrybrew
             }
         }
 
-        internal static void Switch (string version_to_switch)
+        internal static void Switch(string version_to_switch)
         {
-            try {
+            try
+        {
                 StrawberryPerl perl = ResolveVersion(version_to_switch);
 
                 // if Perl version not installed, can't switch
-                if (! PerlInstalled(perl))
+                if (!PerlInstalled(perl))
                 {
                     Console.WriteLine("Perl version " + perl.Name + " is not installed. Run the command:\n\n\tberrybrew install " + perl.Name);
                     Environment.Exit(0);
@@ -280,7 +311,7 @@ namespace Berrybrew
                         + "\nYou should remove this as it can prevent berrybrew from working.");
                 }
 
-                if (ScanSystemPath(new Regex("perl.bin")) )
+                if (ScanSystemPath(new Regex("perl.bin")))
                 {
                     Console.WriteLine("Warning! Perl binary found in your system PATH: "
                         + "\nYou should remove this as it can prevent berrybrew from working.");
@@ -393,7 +424,6 @@ namespace Berrybrew
             {
                 new_path = new string[] { perl.CPath, perl.PerlPath, perl.PerlSitePath };
             }
-
             else
             {
                 if (path[path.Length - 1] == ';')
@@ -425,7 +455,7 @@ namespace Berrybrew
             Environment.SetEnvironmentVariable("PATH", String.Join(";", new_path), EnvironmentVariableTarget.User);
         }
 
-        internal static void Available ()
+        internal static void Available()
         {
             List<StrawberryPerl> perls = GatherPerls();
             Console.WriteLine("\nThe following Strawberry Perls are available:\n");
@@ -511,11 +541,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         internal static void ExtractZip(string archive_path, string outFolder)
         {
             ZipFile zf = null;
-            try {
+            try
+            {
                 FileStream fs = File.OpenRead(archive_path);
                 zf = new ZipFile(fs);
-                foreach (ZipEntry zipEntry in zf) {
-                    if (!zipEntry.IsFile) {
+                foreach (ZipEntry zipEntry in zf)
+                {
+                    if (!zipEntry.IsFile)
+                    {
                         continue;           // Ignore directories
                     }
                     String entryFileName = zipEntry.Name;
@@ -543,16 +576,17 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             }
             finally
             {
-                if (zf != null) {
+                if (zf != null)
+                {
                     zf.IsStreamOwner = true; // Makes close also shut the underlying stream
                     zf.Close(); // Ensure we release resources
                 }
             }
         }
 
-        internal static List<StrawberryPerl> GatherPerls ()
+        internal static List<StrawberryPerl> GatherPerls()
         {
-            List<StrawberryPerl> perls = new List<StrawberryPerl> ();
+            List<StrawberryPerl> perls = new List<StrawberryPerl>();
 
             perls.Add(new StrawberryPerl(
                 "5.22.1_64",
@@ -562,7 +596,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 "ddac06b9f96577e9ae30c6a05554e440d2461a42")
             );
 
-            perls.Add(new StrawberryPerl (
+            perls.Add(new StrawberryPerl(
                 "5.22.1_64_PDL",
                 "strawberry-perl-5.22.1.3-64bit-PDL.zip",
                 "http://strawberryperl.com/download/5.22.1.3/strawberry-perl-5.22.1.3-64bit-PDL.zip",
@@ -594,7 +628,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 "22bc152dbd864c81af3fcd845b177c7a0c895171")
             );
 
-            perls.Add(new StrawberryPerl (
+            perls.Add(new StrawberryPerl(
                 "5.20.3_64",
                 "strawberry-perl-5.20.2.1-64bit-portable.zip",
                 "http://strawberryperl.com/download/5.20.3.3/strawberry-perl-5.20.3.3-64bit-portable.zip",
@@ -602,7 +636,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 "b13a0e3000b3ea4ed6137a6279274c4aa09d1f46")
             );
 
-            perls.Add(new StrawberryPerl (
+            perls.Add(new StrawberryPerl(
                 "5.20.3_64_PDL",
                 "strawberry-perl-5.20.3.1-64bit-PDL.zip",
                 "http://strawberryperl.com/download/5.20.3.3/strawberry-perl-5.20.3.3-64bit-PDL.zip",
@@ -610,7 +644,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 "9319e70d1d9bf02d8216737934cf28fb8384c7ed")
             );
 
-            perls.Add(new StrawberryPerl (
+            perls.Add(new StrawberryPerl(
                 "5.20.3_32",
                 "strawberry-perl-5.20.3.3-32bit-portable.zip",
                 "http://strawberryperl.com/download/5.20.3.3/strawberry-perl-5.20.3.3-32bit-portable.zip",
@@ -618,7 +652,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 "9a3220a21260339ac6054a8fee4592a00b41e265")
             );
 
-            perls.Add(new StrawberryPerl (
+            perls.Add(new StrawberryPerl(
                 "5.20.3_32_PDL",
                 "strawberry-perl-5.20.3.3-32bit-PDL.zip",
                 "http://strawberryperl.com/download/5.20.3.3/strawberry-perl-5.20.3.3-32bit-PDL.zip",
@@ -634,7 +668,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 "525db38f8bee6b9940b35b9d8fd76dd1518e3b49")
             );
 
-            perls.Add(new StrawberryPerl (
+            perls.Add(new StrawberryPerl(
                 "5.18.4_64",
                 "strawberry-perl-5.18.4.1-64bit-portable.zip",
                 "http://strawberryperl.com/download/5.18.4.1/strawberry-perl-5.18.4.1-64bit-portable.zip",
@@ -642,7 +676,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 "cd0809c5d885043d1f14a47f6192503359914d8a")
             );
 
-            perls.Add(new StrawberryPerl (
+            perls.Add(new StrawberryPerl(
                 "5.18.4_32",
                 "strawberry-perl-5.18.4.1-32bit-portable.zip",
                 "http://strawberryperl.com/download/5.18.4.1/strawberry-perl-5.18.4.1-32bit-portable.zip",
@@ -650,7 +684,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 "f6118ba24e4430a7ddab1200746725f262117fbf")
             );
 
-            perls.Add(new StrawberryPerl (
+            perls.Add(new StrawberryPerl(
                 "5.16.3_64",
                 "strawberry-perl-5.16.3.1-64bit-portable.zip",
                 "http://strawberryperl.com/download/5.16.3.1/strawberry-perl-5.16.3.1-64bit-portable.zip",
@@ -658,7 +692,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 "07573b99e40355a4920fc9c07fb594575a53c107")
             );
 
-            perls.Add(new StrawberryPerl (
+            perls.Add(new StrawberryPerl(
                 "5.16.3_32",
                 "strawberry-perl-5.16.3.1-32bit-portable.zip",
                 "http://strawberryperl.com/download/5.16.3.1/strawberry-perl-5.16.3.1-32bit-portable.zip",
@@ -666,7 +700,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 "3b9c4c32bf29e141329c3be417d9c425a7f6c2ff")
             );
 
-            perls.Add(new StrawberryPerl (
+            perls.Add(new StrawberryPerl(
                 "5.14.4_64",
                 "strawberry-perl-5.14.4.1-64bit-portable.zip",
                 "http://strawberryperl.com/download/5.14.4.1/strawberry-perl-5.14.4.1-64bit-portable.zip",
@@ -674,7 +708,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 "73ac65962e68f68cf551c3911ab81dcf6f73e018")
             );
 
-            perls.Add(new StrawberryPerl (
+            perls.Add(new StrawberryPerl(
                 "5.14.4_32",
                 "strawberry-perl-5.14.4.1-32bit-portable.zip",
                 "http://strawberryperl.com/download/5.14.4.1/strawberry-perl-5.14.4.1-32bit-portable.zip",
@@ -682,7 +716,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 "42f092619704763d4c3cd4f3e1183d3e58d9d02c")
             );
 
-            perls.Add(new StrawberryPerl (
+            perls.Add(new StrawberryPerl(
                 "5.12.3_32",
                 "strawberry-perl-5.12.3.0-portable.zip",
                 "http://strawberryperl.com/download/5.12.3.0/strawberry-perl-5.12.3.0-portable.zip",
@@ -690,7 +724,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 "dc6facf9fb7ce2de2e42ee65e84805a6d0dd5fbc")
             );
 
-            perls.Add(new StrawberryPerl (
+            perls.Add(new StrawberryPerl(
                 "5.10.1_32",
                 "strawberry-perl-5.10.1.2-portable.zip",
                 "http://strawberryperl.com/download/5.10.1.2/strawberry-perl-5.10.1.2-portable.zip",
@@ -703,7 +737,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         internal static void RemovePerl(string version_to_remove)
         {
-            try {
+            try
+            {
                 StrawberryPerl perl = ResolveVersion(version_to_remove);
 
                 StrawberryPerl current_perl = CheckWhichPerlInPath();
@@ -757,7 +792,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         public string PerlSitePath;
         public string Sha1Checksum;
 
-        public StrawberryPerl (string n, string a, string u, string v, string c)
+        public StrawberryPerl(string n, string a, string u, string v, string c)
         {
             this.Name = n;
             this.ArchiveName = a;
