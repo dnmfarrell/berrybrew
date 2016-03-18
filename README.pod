@@ -116,16 +116,16 @@ Start a new cmd.exe ...
 Use the precompiled binary:
 
     > git clone https://github.com/sillymoose/berrybrew
-    > cd berrybrew/bin
-    > berrybrew config
+    > cd berrybrew\bin
+    > berrybrew.exe config
 
 Compile your own version with Mono:
 
     > git clone https://github.com/sillymoose/berrybrew
     > cd berrybrew
-    > mcs src/berrybrew.cs -lib:lib -r:ICSharpCode.SharpZipLib.dll -out:bin/berrybrew.exe
+    > mcs -lib:lib -r:ICSharpCode.SharpZipLib.dll -out:bin\berrybrew.exe -win32icon:berrybrew.ico src\berrybrew.cs
     > cd bin
-    > berrybew config
+    > berrybrew.exe config
 
 =head2 Commands
 

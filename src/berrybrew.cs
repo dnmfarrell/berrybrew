@@ -181,7 +181,7 @@ namespace Berrybrew
 
         internal static string Version ()
         {
-            return "0.12.20160300";
+            return "0.12.20160301";
         }
 
         internal static string Fetch (StrawberryPerl perl)
