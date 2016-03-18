@@ -173,21 +173,20 @@ namespace Berrybrew
 
         internal static string Version()
         {
-            return "0.12.20160301";
+            return "0.12.1.20160302";
         }
 
-        internal static bool RemoveFile(string filename)
+        internal static string RemoveFile(string filename)
         {
             try
             {
                 File.Delete(filename);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
-                throw;
+                return ex.ToString();
             }
-            return true;
+            return true.ToString();
         }
 
         internal static string Fetch(StrawberryPerl perl)
@@ -220,7 +219,15 @@ namespace Berrybrew
                         Console.Write("Whould you like berrybrew to delete the corrupted download file? y/n [n]");
                         if (Console.ReadLine() == "y")
                         {
-                            RemoveFile(archive_path);
+                            string retval = RemoveFile(archive_path);
+                            if (retval == "True")
+                            {
+                                Console.WriteLine("Deleted! Try to install it again!");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Unable to delete " + archive_path);
+                            }
                         }
                         Environment.Exit(0);
                     }
@@ -409,7 +416,6 @@ namespace Berrybrew
             {
                 new_path = new string[] { perl.CPath, perl.PerlPath, perl.PerlSitePath };
             }
-
             else
             {
                 if (path[path.Length - 1] == ';')
