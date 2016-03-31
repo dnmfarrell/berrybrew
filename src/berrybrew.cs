@@ -83,7 +83,7 @@ namespace Berrybrew
                     break;
 
                 case "license":
-                    if (args.Length == 1 )
+                    if (args.Length == 1)
                     {
                         PrintLicense();
                         Environment.Exit(0);
@@ -98,43 +98,61 @@ namespace Berrybrew
 
         internal static void Exec(String args)
         {
+            List<StrawberryPerl> perls_installed = GetInstalledPerls();
+            List<StrawberryPerl> perls_to_exec = new List<StrawberryPerl>();
+            string command;
+
             if (args.StartsWith("--with"))
             {
                 var remove = @"--with ";
                 var re = new Regex(remove);
-                var command = re.Replace(args, "");
+                command = re.Replace(args, "");
 
                 var inputs = command.Split(new[] { ' ' }, 2);
 
-                var perls = inputs[0];
+                String perl_str = inputs[0];
                 command = inputs[1];
+                string[] perls = perl_str.Split(',');
 
-                Console.WriteLine(perls);
-
+                foreach (StrawberryPerl perl in perls_installed)
+                {
+                    foreach (string perl_name in perls)
+                    {
+                        if (perl_name.Equals(perl.Name))
+                        perls_to_exec.Add(perl);
+                    }
+                }
             }
-            List<StrawberryPerl> perls_installed = GetInstalledPerls();
-
-            foreach (StrawberryPerl perl in perls_installed)
+            else
             {
-                Console.WriteLine("Perl-" + perl.Name + "\n==============");
+                command = args;
+                perls_to_exec = perls_installed;
+            }
 
-                System.Diagnostics.Process process = new System.Diagnostics.Process();
-                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/c " + perl.PerlPath + @"\" + command;
-                process.StartInfo = startInfo;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardError = true;
-                process.StartInfo.UseShellExecute = false;
-                process.Start();
-
-                Console.WriteLine(process.StandardOutput.ReadToEnd());
-                Console.WriteLine(process.StandardError.ReadToEnd());
-                process.WaitForExit();
+            foreach (StrawberryPerl perl in perls_to_exec)
+            {
+                DoExec(perl, command);
             }
         }
+        internal static void DoExec(StrawberryPerl perl, string command)
+        {
+            Console.WriteLine("Perl-" + perl.Name + "\n==============");
 
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/c " + perl.PerlPath + @"\" + command;
+            process.StartInfo = startInfo;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.Start();
+
+            Console.WriteLine(process.StandardOutput.ReadToEnd());
+            Console.WriteLine(process.StandardError.ReadToEnd());
+            process.WaitForExit();
+        }
         internal static bool PerlInstalled(StrawberryPerl perl)
         {
             if (Directory.Exists(perl.InstallPath)
