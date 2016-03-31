@@ -96,8 +96,22 @@ namespace Berrybrew
             }
         }
 
-        internal static void Exec(string command)
+        internal static void Exec(String args)
         {
+            if (args.StartsWith("--with"))
+            {
+                var remove = @"--with ";
+                var re = new Regex(remove);
+                var command = re.Replace(args, "");
+
+                var inputs = command.Split(new[] { ' ' }, 2);
+
+                var perls = inputs[0];
+                command = inputs[1];
+
+                Console.WriteLine(perls);
+
+            }
             List<StrawberryPerl> perls_installed = GetInstalledPerls();
 
             foreach (StrawberryPerl perl in perls_installed)
