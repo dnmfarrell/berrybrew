@@ -127,13 +127,13 @@ Start a new cmd.exe ...
 
 Use the precompiled binary:
 
-    > git clone https://github.com/sillymoose/berrybrew
+    > git clone https://github.com/dnmfarrell/berrybrew
     > cd berrybrew\bin
     > berrybrew.exe config
 
 Compile your own version with Mono:
 
-    > git clone https://github.com/sillymoose/berrybrew
+    > git clone https://github.com/dnmfarrell/berrybrew
     > cd berrybrew
     > mcs -lib:lib -r:ICSharpCode.SharpZipLib.dll -out:bin\berrybrew.exe -win32icon:berrybrew.ico src\berrybrew.cs
     > cd bin

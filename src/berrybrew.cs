@@ -96,22 +96,19 @@ namespace Berrybrew
             }
         }
 
-        internal static void Exec(String args)
+        internal static void Exec(string parameters)
         {
             List<StrawberryPerl> perls_installed = GetInstalledPerls();
             List<StrawberryPerl> perls_to_exec = new List<StrawberryPerl>();
             string command;
 
-            if (args.StartsWith("--with"))
+            if (parameters.StartsWith("--with"))
             {
-                var remove = @"--with ";
-                var re = new Regex(remove);
-                command = re.Replace(args, "");
+                string param_list = Regex.Replace(parameters, @"--with\s+", "");
 
-                var inputs = command.Split(new[] { ' ' }, 2);
+                string perl_str = param_list.Split(new[] { ' ' }, 2)[0];
+                command  = param_list.Split(new[] { ' ' }, 2)[1];
 
-                String perl_str = inputs[0];
-                command = inputs[1];
                 string[] perls = perl_str.Split(',');
 
                 foreach (StrawberryPerl perl in perls_installed)
@@ -125,7 +122,7 @@ namespace Berrybrew
             }
             else
             {
-                command = args;
+                command = parameters;
                 perls_to_exec = perls_installed;
             }
 
