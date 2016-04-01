@@ -126,18 +126,23 @@ namespace Berrybrew
                 perls_to_exec = perls_installed;
             }
 
+            string path_env = System.Environment.GetEnvironmentVariable("PATH");
+
             foreach (StrawberryPerl perl in perls_to_exec)
             {
-                DoExec(perl, command);
+                DoExec(perl, command, path_env);
             }
         }
-        internal static void DoExec(StrawberryPerl perl, string command)
+        internal static void DoExec(StrawberryPerl perl, string command, string path_env)
         {
             Console.WriteLine("Perl-" + perl.Name + "\n==============");
 
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+
+            System.Environment.SetEnvironmentVariable("PATH", perl.PerlPath + ";" + path_env);
+
             startInfo.FileName = "cmd.exe";
             startInfo.Arguments = "/c " + perl.PerlPath + @"\" + command;
             process.StartInfo = startInfo;
