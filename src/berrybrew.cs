@@ -126,8 +126,13 @@ namespace Berrybrew
                 perls_to_exec = perls_installed;
             }
 
-            string path_env = System.Environment.GetEnvironmentVariable("PATH");
+            // get the current PATH, as we'll need it in DoExec() to update
+            // sub shells
 
+            string path_env_user = System.Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
+            string path_env_sys = System.Environment.GetEnvironmentVariable("PATH");
+            string path_env = Regex.Replace(path_env_sys, Regex.Escape(path_env_user), " ");
+       
             foreach (StrawberryPerl perl in perls_to_exec)
             {
                 DoExec(perl, command, path_env);
@@ -141,7 +146,7 @@ namespace Berrybrew
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 
-            System.Environment.SetEnvironmentVariable("PATH", perl.PerlPath + ";" + path_env);
+            System.Environment.SetEnvironmentVariable("PATH", String.Join(";", perl.PerlPath, path_env));
 
             startInfo.FileName = "cmd.exe";
             startInfo.Arguments = "/c " + perl.PerlPath + @"\" + command;
@@ -154,6 +159,7 @@ namespace Berrybrew
             Console.WriteLine(process.StandardOutput.ReadToEnd());
             Console.WriteLine(process.StandardError.ReadToEnd());
             process.WaitForExit();
+
         }
         internal static bool PerlInstalled(StrawberryPerl perl)
         {
@@ -215,7 +221,7 @@ namespace Berrybrew
 
         internal static string Version()
         {
-            return "0.12.1.20160302";
+            return "0.12.1.2016040101";
         }
 
         internal static string RemoveFile(string filename)
