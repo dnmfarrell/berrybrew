@@ -83,7 +83,7 @@ namespace Berrybrew
                     break;
 
                 case "license":
-                    if (args.Length == 1 )
+                    if (args.Length == 1)
                     {
                         PrintLicense();
                         Environment.Exit(0);
@@ -96,31 +96,71 @@ namespace Berrybrew
             }
         }
 
-        internal static void Exec(string command)
+        internal static void Exec(string parameters)
         {
             List<StrawberryPerl> perls_installed = GetInstalledPerls();
+            List<StrawberryPerl> perls_to_exec = new List<StrawberryPerl>();
+            string command;
 
-            foreach (StrawberryPerl perl in perls_installed)
+            if (parameters.StartsWith("--with"))
             {
-                Console.WriteLine("Perl-" + perl.Name + "\n==============");
+                string param_list = Regex.Replace(parameters, @"--with\s+", "");
 
-                System.Diagnostics.Process process = new System.Diagnostics.Process();
-                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-                startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-                startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/c " + perl.PerlPath + @"\" + command;
-                process.StartInfo = startInfo;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardError = true;
-                process.StartInfo.UseShellExecute = false;
-                process.Start();
+                string perl_str = param_list.Split(new[] { ' ' }, 2)[0];
+                command  = param_list.Split(new[] { ' ' }, 2)[1];
 
-                Console.WriteLine(process.StandardOutput.ReadToEnd());
-                Console.WriteLine(process.StandardError.ReadToEnd());
-                process.WaitForExit();
+                string[] perls = perl_str.Split(',');
+
+                foreach (StrawberryPerl perl in perls_installed)
+                {
+                    foreach (string perl_name in perls)
+                    {
+                        if (perl_name.Equals(perl.Name))
+                        perls_to_exec.Add(perl);
+                    }
+                }
+            }
+            else
+            {
+                command = parameters;
+                perls_to_exec = perls_installed;
+            }
+
+            // get the current PATH, as we'll need it in DoExec() to update
+            // sub shells
+
+            string path_env_user = System.Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
+            string path_env_sys = System.Environment.GetEnvironmentVariable("PATH");
+            string path_env = Regex.Replace(path_env_sys, Regex.Escape(path_env_user), " ");
+       
+            foreach (StrawberryPerl perl in perls_to_exec)
+            {
+                DoExec(perl, command, path_env);
             }
         }
+        internal static void DoExec(StrawberryPerl perl, string command, string path_env)
+        {
+            Console.WriteLine("Perl-" + perl.Name + "\n==============");
 
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+
+            System.Environment.SetEnvironmentVariable("PATH", String.Join(";", perl.PerlPath, path_env));
+
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/c " + perl.PerlPath + @"\" + command;
+            process.StartInfo = startInfo;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.Start();
+
+            Console.WriteLine(process.StandardOutput.ReadToEnd());
+            Console.WriteLine(process.StandardError.ReadToEnd());
+            process.WaitForExit();
+
+        }
         internal static bool PerlInstalled(StrawberryPerl perl)
         {
             if (Directory.Exists(perl.InstallPath)
@@ -181,7 +221,7 @@ namespace Berrybrew
 
         internal static string Version()
         {
-            return "0.12.1.20160302";
+            return "0.12.1.2016040101";
         }
 
         internal static string RemoveFile(string filename)
