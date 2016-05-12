@@ -212,7 +212,7 @@ namespace Berrybrew
 
         internal static string Version()
         {
-            return "0.12.1.20160302";
+            return "0.12.1.20160401";
         }
 
         internal static string RemoveFile(string filename)
