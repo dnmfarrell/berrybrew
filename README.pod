@@ -4,10 +4,12 @@ The perlbrew for Windows Strawberry Perl! berrybrew can download, install, remov
 
 Adding and removing perls available is as simple as editing a JSON file, and works at runtime. No more need to recompile the binary!
 
-=for html <img style="margin: 0 auto;" src="https://raw.githubusercontent.com/dnmfarrell/berrybrew/master/berrybrew.png"/>
+=for html <img style="margin: 0 auto;" src="https://raw.githubusercontent.com/stevieb9/berrybrew/master/berrybrew.png"/>
 
 
 =head2 Synopsis
+
+List all available versions of perl:
 
     > berrybrew available
 
@@ -25,6 +27,8 @@ Adding and removing perls available is as simple as editing a JSON file, and wor
                 5.10.1_32
 
     * Currently using
+
+Install a specific version:
 
     > berrybrew install 5.10.1_32
 
@@ -47,36 +51,27 @@ Adding and removing perls available is as simple as editing a JSON file, and wor
 
     * Currently using
 
+Switch to a different version (permanently):
+
     > berrybrew switch 5.10.1_32
 
     Switched to 5.10.1_32, start a new terminal to use it.
 
-Start a new cmd.exe ...
+Start a new cmd.exe to use the new version:
 
     > perl -v
-    C:\Users\dfarrell>perl -v
 
     This is perl, v5.10.1 (*) built for MSWin32-x86-multi-thread
 
-    Copyright 1987-2009, Larry Wall
+    ...       
 
-    Perl may be copied only under the terms of either the Artistic License or the
-    GNU General Public License, which may be found in the Perl 5 source kit.
-
-    Complete documentation for Perl, including FAQ lists, should be found on
-    this system using "man perl" or "perldoc perl".  If you have access to the
-    Internet, point your browser at http://www.perl.org/, the Perl Home Page.
+Uninstall a version of perl:
 
     > berrybrew remove 5.10.1_32
 
     Successfully removed Strawberry Perl 5.10.1_32
 
-    > berrybrew config
-
-    This is berrybrew, version 0.05
-
-    Would you like to add berrybrew to your user PATH? y/n [n] y
-    berrybrew was successfully added to the user PATH, start a new terminal to use it.
+Execute something across all perls:
 
     > berrybrew exec prove -l
 
@@ -87,14 +82,12 @@ Start a new cmd.exe ...
     Files=1, Tests=5,  0 wallclock secs ( 0.06 usr +  0.00 sys =  0.06 CPU)
     Result: PASS
 
-
     Perl-5.20.1_32
     ==============
     t\DidYouMean.t .. ok
     All tests successful.
     Files=1, Tests=5,  0 wallclock secs ( 0.03 usr +  0.03 sys =  0.06 CPU)
     Result: PASS
-
 
     Perl-5.18.4_64
     ==============
@@ -110,7 +103,7 @@ Start a new cmd.exe ...
     Files=1, Tests=5,  0 wallclock secs ( 0.02 usr +  0.05 sys =  0.06 CPU)
     Result: FAIL
 
-    # run on only a selection of installed versions
+Execute on only a selection of installed versions:
 
     > berrybrew exec --with 5.22.1_64,5.10.1_32 perl "die()"
 
@@ -127,17 +120,16 @@ Start a new cmd.exe ...
 
 Use the precompiled binary:
 
-    > git clone https://github.com/dnmfarrell/berrybrew
-    > cd berrybrew\bin
-    > berrybrew.exe config
+    > git clone https://github.com/stevieb9/berrybrew
+    > cd berrybrew
+    > bin\berrybrew.exe config
 
 Compile your own version with Mono:
 
-    > git clone https://github.com/dnmfarrell/berrybrew
+    > git clone https://github.com/stevieb9/berrybrew
     > cd berrybrew
-	> mcs -lib:lib -r:ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll -out:bin/berrybrew.exe -win32icon:berrybrew.ico src/berrybrew.cs
-    > cd bin
-    > berrybrew.exe config
+    > mcs -lib:lib -r:ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll -out:bin/berrybrew.exe -win32icon:berrybrew.ico src/berrybrew.cs
+    > bin\berrybrew.exe config
 
 =head2 Commands
 
@@ -152,7 +144,7 @@ Compile your own version with Mono:
     switch      Switch to use a different Strawberry Perl
     exec        Run a command for every installed Strawberry Perl
 
-=head2 Add/Remove Perls
+=head2 Add/Remove Perls Available
 
 Simply edit the C<perls.json> file in the repository's root directory.
 
