@@ -152,6 +152,10 @@ Compile your own version with Mono:
     switch      Switch to use a different Strawberry Perl
     exec        Run a command for every installed Strawberry Perl
 
+=head2 Add/Remove Perls
+
+Simply edit the C<perls.json> file in the repository's root directory.
+
 =head2 Requirements
 
 =over
