@@ -639,8 +639,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             //get the parent directory
             string assembly_directory = Path.GetDirectoryName(assembly_path);
             
-            string json_file = String.Format("{0}/perls.json", assembly_directory);
-            json_file = Regex.Replace(json_file, @"\bin", "");
+            string json_path = String.Format("{0}/perls.json", assembly_directory);
+            string json_file = Regex.Replace(json_path, @"bin", "");
             
             using (StreamReader r = new StreamReader(json_file))
             {
