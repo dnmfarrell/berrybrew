@@ -225,7 +225,7 @@ namespace Berrybrew
 
         internal static string Version()
         {
-            return "0.12.1.20160403";
+            return "20160501";
 
         }
 
