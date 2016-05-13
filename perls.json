@@ -7,13 +7,6 @@
         "csum" : "40094b93fdab1057598e9474767d34e810a1c383"
     },
     {
-        "name" : "5.24.0_64",
-        "file" : "strawberry-perl-5.24.0.1-64bit-portable.zip",
-        "url"  : "http://strawberryperl.com/download/5.24.0.1/strawberry-perl-5.24.0.1-64bit-portable.zip",
-        "ver"  : "5.24.0",
-        "csum" : "40094b93fdab1057598e9474767d34e810a1c383"
-    },
-    {
         "name" : "5.24.0_64_PDL",
         "file" : "strawberry-perl-5.24.0.1-64bit-PDL-portable.zip",
         "url"  : "http://strawberryperl.com/download/5.24.0.1/strawberry-perl-5.24.0.1-64bit-PDL.zip",

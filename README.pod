@@ -135,7 +135,7 @@ Compile your own version with Mono:
 
     > git clone https://github.com/dnmfarrell/berrybrew
     > cd berrybrew
-    > mcs -lib:lib -r:ICSharpCode.SharpZipLib.dll -r:Newtonsoft.Json.dll -out:bin/berrybrew.exe -win32icon:berrybrew.ico src/berrybrew.cs
+	> mcs -lib:lib -r:ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll -out:bin/berrybrew.exe -win32icon:berrybrew.ico src/berrybrew.cs
     > cd bin
     > berrybrew.exe config
 
