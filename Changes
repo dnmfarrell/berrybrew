@@ -1,0 +1,9 @@
+Revision history for berrybrew
+
+20160501 2016-05-13
+         - separated fork from dnmfarrell's original
+         - added --with flag for exec, like perlbrew
+         - added better ENV handling on spawned sub-shells in exec
+         - added ability to load perls available through an external perls.json
+           file, located in the repo root directory
+         - tidied up README
