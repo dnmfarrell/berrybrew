@@ -27,6 +27,10 @@ namespace Berrybrew
 
             switch (args[0])
             {
+                case "version":
+                    DisplayVersion();
+                    break;
+
                 case "install":
                     if (args.Length == 1)
                     {
@@ -225,10 +229,14 @@ namespace Berrybrew
 
         internal static string Version()
         {
-            return "sb-20160601";
+            return "sb-20160601\n";
 
         }
-
+        internal static void DisplayVersion()
+        {
+            string version = Version();
+            Console.Write(version);
+        }
         internal static string RemoveFile(string filename)
         {
             try

@@ -120,16 +120,16 @@ Execute on only a selection of installed versions:
 
 Use the precompiled binary:
 
-    > git clone https://github.com/stevieb9/berrybrew
-    > cd berrybrew
-    > bin\berrybrew.exe config
+    git clone https://github.com/stevieb9/berrybrew
+    cd berrybrew
+    bin\berrybrew.exe config
 
 Compile your own version with Mono:
 
-    > git clone https://github.com/stevieb9/berrybrew
-    > cd berrybrew
-    > mcs -lib:lib -r:ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll -out:bin/berrybrew.exe -win32icon:berrybrew.ico src/berrybrew.cs
-    > bin\berrybrew.exe config
+    git clone https://github.com/stevieb9/berrybrew
+    cd berrybrew
+    mcs -lib:lib -r:ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll -out:bin/berrybrew.exe -win32icon:berrybrew.ico src/berrybrew.cs
+    bin\berrybrew.exe config
 
 =head2 Commands
 
