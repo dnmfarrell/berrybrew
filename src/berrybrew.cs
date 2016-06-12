@@ -553,6 +553,7 @@ berrybrew <command> [option]
     remove      Uninstall a Strawberry Perl
     switch      Switch to use a different Strawberry Perl
     exec        Run a command for every installed Strawberry Perl
+    version     Displays the version 
     ");
 
         }
