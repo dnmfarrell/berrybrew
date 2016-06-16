@@ -16,7 +16,7 @@ Use the precompiled binary with Git (recommended, easier to update):
     git clone https://github.com/stevieb9/berrybrew
 
 If you don't have Git, you can download the zip archive here: 
-<a href="https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true">berrybrew.zip</a>
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive")
 
 Configure C<berrybrew> for system-wide use:
 
