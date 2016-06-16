@@ -6,9 +6,16 @@ Adding and removing perls available is as simple as editing a JSON file, and wor
 
 =head2 Installation
 
-Use the precompiled binary:
+Use the precompiled binary with Git (recommended, easier to update):
 
     git clone https://github.com/stevieb9/berrybrew
+
+Download and extract the zip archive:
+
+    L<berrybrew.zip|https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true>
+
+Configure C<berrybrew> for system-wide use:
+
     cd berrybrew
     bin\berrybrew.exe config
 
@@ -36,7 +43,7 @@ Compile your own version with Mono:
 
 =head2 Synopsis
 
-List all available versions of perl:
+List all available versions of Perl:
     
     > berrybrew available
 
