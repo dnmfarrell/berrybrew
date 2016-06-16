@@ -1,8 +1,13 @@
 =head1 berrybrew
 
-The perlbrew for Windows Strawberry Perl! berrybrew can download, install, remove and manage multiple concurrent versions of Strawberry Perl for Windows.
+The perlbrew for Windows Strawberry Perl! 
 
-Adding and removing perls available is as simple as editing a JSON file, and works at runtime. No more need to recompile the binary!
+C<berrybrew> can download, install, remove and manage multiple concurrent 
+versions of Strawberry Perl for Windows. There is no requirement to have
+Strawberry Perl installed before using C<berrybrew>.
+
+Adding and removing perls available is as simple as editing a JSON file, and 
+works at runtime. No more need to recompile the binary!
 
 =head2 Installation
 
@@ -163,7 +168,8 @@ L<Mono|http://www.mono-project.com/> (only if compiling your own version)
 
 =head2 Troubleshooting
 
-If you run into trouble installing a Perl, try clearing the berrybrew cached downloads in C<C:/berrybrew/temp/>.
+If you run into trouble installing a Perl, try clearing the berrybrew cached
+downloads in C<C:/berrybrew/temp/>.
 
 
 =head2 Version
@@ -192,7 +198,8 @@ L<StrawberryPerl.com|http://strawberryperl.com> - Strawberry Perl for Windows
 
 =item *
 
-L<Perlbrew|http://perlbrew.pl> - the original Perl version manager for Unix based systems
+L<Perlbrew|http://perlbrew.pl> - the original Perl version manager for Unix
+based systems.
 
 =back
 
