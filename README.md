@@ -11,7 +11,7 @@ works at runtime. No more need to recompile the binary!
 
 ##Installation
 
-#####Git clone:
+#####Git clone
 
     git clone https://github.com/stevieb9/berrybrew
 
