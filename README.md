@@ -17,6 +17,7 @@ Use the precompiled binary with Git (recommended, easier to update):
 
 If you don't have Git, you can download the zip archive here: 
 [berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive")
+`SHA-1: e2c1e7407ffa518d841b2354cec2ad01e4310c9f`
 
 Configure `berrybrew` for system-wide use:
 
