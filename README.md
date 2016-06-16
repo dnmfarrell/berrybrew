@@ -11,22 +11,20 @@ works at runtime. No more need to recompile the binary!
 
 ##Installation
 
-######Git clone:
+#####Git clone:
 
     git clone https://github.com/stevieb9/berrybrew
 
-######Pre-built zip archive
+#####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive")
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA-1: e2c1e7407ffa518d841b2354cec2ad01e4310c9f`
 
-`SHA-1: e2c1e7407ffa518d841b2354cec2ad01e4310c9f`
-
-######Configuration
+#####Configuration
 
     cd berrybrew
     bin\berrybrew.exe config
 
-######Compile your own
+#####Compile your own
 
     git clone https://github.com/stevieb9/berrybrew
     cd berrybrew
