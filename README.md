@@ -1,15 +1,15 @@
-=head1 berrybrew
+#berrybrew
 
 The perlbrew for Windows Strawberry Perl! 
 
-C<berrybrew> can download, install, remove and manage multiple concurrent 
+`berrybrew` can download, install, remove and manage multiple concurrent 
 versions of Strawberry Perl for Windows. There is no requirement to have
-Strawberry Perl installed before using C<berrybrew>.
+Strawberry Perl installed before using `berrybrew`.
 
 Adding and removing perls available is as simple as editing a JSON file, and 
 works at runtime. No more need to recompile the binary!
 
-=head2 Installation
+##Installation
 
 Use the precompiled binary with Git (recommended, easier to update):
 
@@ -18,7 +18,7 @@ Use the precompiled binary with Git (recommended, easier to update):
 If you don't have Git, you can download the zip archive here: 
 [berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive")
 
-Configure C<berrybrew> for system-wide use:
+Configure `berrybrew` for system-wide use:
 
     cd berrybrew
     bin\berrybrew.exe config
@@ -30,7 +30,7 @@ Compile your own version with Mono:
     mcs -lib:lib -r:ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll -out:bin/berrybrew.exe -win32icon:berrybrew.ico src/berrybrew.cs
     bin\berrybrew.exe config
 
-=head2 Commands
+##Commands
 
     berrybrew <command> [option]
 
@@ -45,7 +45,7 @@ Compile your own version with Mono:
     license     Show berrybrew license
 
 
-=head2 Synopsis
+##Synopsis
 
 List all available versions of Perl:
     
@@ -141,65 +141,45 @@ Execute on only a selection of installed versions:
     ==============
     Died at -e line 1.
 
-=head2 Add/Remove Perls Available
+##Add/Remove Perls Available
 
-Simply edit the C<perls.json> file in the repository's root directory.
-
-
-=head2 Requirements
-
-=over
-
-=item *
-
-.Net Framework 2.0 or higher
-
-=item *
-
-Windows only!
-
-=item *
-
-L<Mono|http://www.mono-project.com/> (only if compiling your own version)
-
-=back
+Simply edit the `perls.json` file in the repository's root directory.
 
 
-=head2 Troubleshooting
+##Requirements
+
+- .Net Framework 2.0 or higher
+
+- Windows only!
+
+- [Mono](http://www.mono-project.com) (only if compiling your own version)
+
+
+##Troubleshooting
 
 If you run into trouble installing a Perl, try clearing the berrybrew cached
-downloads in C<C:/berrybrew/temp/>.
+downloads in `C:/berrybrew/temp/`.
 
 
-=head2 Version
+##Version
 
-sb-20160601
+    sb-20160601
 
-=head2 License
+##License
 
 2 Clause FreeBSD - see LICENSE
 
-=head2 Original Author
+##Original Author
 
-David Farrell L<http://perltricks.com>
+David Farrell [http://perltricks.com]
 
-=head2 This Fork Maintained By
+##This Fork Maintained By
 
-Steve Bertrand C<steveb@cpan.org>
+Steve Bertrand `steveb<>cpan.org`
 
-=head2 See Also
+##See Also
 
-=over
+- [StrawberryPerl](http://strawberryperl.com) - Strawberry Perl for Windows
 
-=item *
-
-L<StrawberryPerl.com|http://strawberryperl.com> - Strawberry Perl for Windows
-
-=item *
-
-L<Perlbrew|http://perlbrew.pl> - the original Perl version manager for Unix
+- [Perlbrew](http://perlbrew.pl) - the original Perl version manager for Unix
 based systems.
-
-=back
-
-=cut
