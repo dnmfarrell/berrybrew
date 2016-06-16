@@ -4,52 +4,67 @@ The perlbrew for Windows Strawberry Perl! berrybrew can download, install, remov
 
 Adding and removing perls available is as simple as editing a JSON file, and works at runtime. No more need to recompile the binary!
 
-=for html <img style="margin: 0 auto;" src="https://raw.githubusercontent.com/stevieb9/berrybrew/master/berrybrew.png"/>
+=head2 Installation
+
+Use the precompiled binary:
+
+    git clone https://github.com/stevieb9/berrybrew
+    cd berrybrew
+    bin\berrybrew.exe config
+
+Compile your own version with Mono:
+
+    git clone https://github.com/stevieb9/berrybrew
+    cd berrybrew
+    mcs -lib:lib -r:ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll -out:bin/berrybrew.exe -win32icon:berrybrew.ico src/berrybrew.cs
+    bin\berrybrew.exe config
+
+=head2 Commands
+
+    berrybrew <command> [option]
+
+    available   List available Strawberry Perl versions and which are installed
+    config      Add berrybrew to your PATH
+    install     Download, extract and install a Strawberry Perl
+    remove      Uninstall a Strawberry Perl
+    switch      Switch to use a different Strawberry Perl
+    exec        Run a command for every installed Strawberry Perl
+
+    version     Show the version number only
+    license     Show berrybrew license
 
 
 =head2 Synopsis
 
 List all available versions of perl:
-
+    
     > berrybrew available
 
     The following Strawberry Perls are available:
 
-                5.20.2_64 [installed]*
-                5.20.2_32 [installed]
-                5.18.4_64
-                5.18.4_32 [installed]
-                5.16.3_64
-                5.16.3_32 [installed]
-                5.14.4_64
-                5.14.4_32
-                5.12.3_32
-                5.10.1_32
+            5.24.0_64       [installed]*
+            5.24.0_64_PDL
+            5.24.0_32
+            5.22.2_64
+            5.22.2_32
+            5.22.1_64       [installed]
+            5.22.1_32       [installed]
+            5.20.3_64
+            5.20.3_32
+            5.18.4_64
+            5.18.4_32       [installed]
+            5.16.3_64
+            5.16.3_32
+            5.14.4_64       [installed]
+            5.14.4_32       [installed]
+            5.12.3_32
+            5.10.1_32
 
     * Currently using
 
 Install a specific version:
 
     > berrybrew install 5.10.1_32
-
-    Downloading http://strawberryperl.com/download/5.10.1.2/strawberry-perl-5.10.1.2-portable.zip to C:\Users\brewer\AppData\Local\Temp\s05wwfzt.nmv/strawberry-perl-5.10.1.2-portable.zip
-    Confirming checksum ...
-    Extracting C:\Users\brewer\AppData\Local\Temp\s05wwfzt.nmv/strawberry-perl-5.10.1.2-portable.zip
-
-    The following Strawberry Perls are available:
-
-            5.20.1_64 [installed]*
-            5.20.1_32 [installed]
-            5.18.4_64
-            5.18.4_32 [installed]
-            5.16.3_64
-            5.16.3_32 [installed]
-            5.14.4_64
-            5.14.4_32
-            5.12.3_32
-            5.10.1_32 [installed]
-
-    * Currently using
 
 Switch to a different version (permanently):
 
@@ -115,38 +130,10 @@ Execute on only a selection of installed versions:
     ==============
     Died at -e line 1.
 
-
-=head2 Installation
-
-Use the precompiled binary:
-
-    git clone https://github.com/stevieb9/berrybrew
-    cd berrybrew
-    bin\berrybrew.exe config
-
-Compile your own version with Mono:
-
-    git clone https://github.com/stevieb9/berrybrew
-    cd berrybrew
-    mcs -lib:lib -r:ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll -out:bin/berrybrew.exe -win32icon:berrybrew.ico src/berrybrew.cs
-    bin\berrybrew.exe config
-
-=head2 Commands
-
-    berrybrew <command> [option]
-
-    license     Show berrybrew license
-
-    available   List available Strawberry Perl versions and which are installed
-    config      Add berrybrew to your PATH
-    install     Download, extract and install a Strawberry Perl
-    remove      Uninstall a Strawberry Perl
-    switch      Switch to use a different Strawberry Perl
-    exec        Run a command for every installed Strawberry Perl
-
 =head2 Add/Remove Perls Available
 
 Simply edit the C<perls.json> file in the repository's root directory.
+
 
 =head2 Requirements
 
@@ -180,9 +167,13 @@ sb-20160601
 
 2 Clause FreeBSD - see LICENSE
 
-=head2 Author
+=head2 Original Author
 
 David Farrell L<http://perltricks.com>
+
+=head2 This Fork Maintained By
+
+Steve Bertrand C<steveb@cpan.org>
 
 =head2 See Also
 
@@ -195,10 +186,6 @@ L<StrawberryPerl.com|http://strawberryperl.com> - Strawberry Perl for Windows
 =item *
 
 L<Perlbrew|http://perlbrew.pl> - the original Perl version manager for Unix based systems
-
-=item *
-
-PerlTricks L<article|http://perltricks.com/article/119/2014/10/10/Hello-berrybrew--the-Strawberry-Perl-version-manager> on berrybrew
 
 =back
 
