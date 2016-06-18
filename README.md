@@ -99,7 +99,7 @@ Uninstall a version of perl:
 
     Successfully removed Strawberry Perl 5.10.1_32
 
-Disable berrybrew entirely, and return to system Perl, if available (re-enable with 'switch'):
+Disable berrybrew entirely, and return to system Perl (Strawberry or ActiveState), if available (re-enable with 'switch'):
 
     > berrybrew off
 
