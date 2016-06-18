@@ -51,6 +51,10 @@ namespace Berrybrew
                     }
                     break;
 
+                case "off":
+                    Off();
+                    break;
+
                 case "switch":
                     if (args.Length == 1)
                     {
@@ -229,7 +233,7 @@ namespace Berrybrew
 
         internal static string Version()
         {
-            return "sb-20160601\n";
+            return "sb-20160602\n";
 
         }
         internal static void DisplayVersion()
@@ -358,18 +362,6 @@ namespace Berrybrew
 
                 RemovePerlFromPath();
 
-                if (ScanUserPath(new Regex("perl.bin")))
-                {
-                    Console.WriteLine("Warning! Perl binary found in your user PATH: "
-                        + "\nYou should remove this as it can prevent berrybrew from working.");
-                }
-
-                if (ScanSystemPath(new Regex("perl.bin")))
-                {
-                    Console.WriteLine("Warning! Perl binary found in your system PATH: "
-                        + "\nYou should remove this as it can prevent berrybrew from working.");
-                }
-
                 AddPerlToPath(perl);
                 Console.WriteLine("Switched to " + version_to_switch + ", start a new terminal to use it.");
                 string cmd = "cmd.exe";
@@ -413,11 +405,16 @@ namespace Berrybrew
             }
             return false;
         }
+        internal static void Off()
+        {
+            RemovePerlFromPath();
+            Console.Write("berrybrew has been disabled\n");
 
+        }
         internal static void RemovePerlFromPath()
         {
             // get user PATH and remove trailing semicolon if exists
-            string path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
+            string path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
 
             if (path != null)
             {
@@ -441,7 +438,7 @@ namespace Berrybrew
                 new_path = multi_semicolon.Replace(new_path, ";");
                 Regex lead_semicolon = new Regex("^;");
                 new_path = lead_semicolon.Replace(new_path, "");
-                Environment.SetEnvironmentVariable("Path", new_path, EnvironmentVariableTarget.User);
+                Environment.SetEnvironmentVariable("Path", new_path, EnvironmentVariableTarget.Machine);
             }
         }
 
@@ -475,7 +472,7 @@ namespace Berrybrew
         internal static void AddPerlToPath(StrawberryPerl perl)
         {
             // get user PATH and remove trailing semicolon if exists
-            string path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
+            string path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
             string[] new_path;
 
             if (path == null)
@@ -487,9 +484,9 @@ namespace Berrybrew
                 if (path[path.Length - 1] == ';')
                     path = path.Substring(0, path.Length - 1);
 
-                new_path = new string[] { path, perl.CPath, perl.PerlPath, perl.PerlSitePath };
+                new_path = new string[] { perl.CPath, perl.PerlPath, perl.PerlSitePath, path };
             }
-            Environment.SetEnvironmentVariable("PATH", String.Join(";", new_path), EnvironmentVariableTarget.User);
+            Environment.SetEnvironmentVariable("PATH", String.Join(";", new_path), EnvironmentVariableTarget.Machine);
         }
 
         internal static void AddBinToPath(string bin_path)
@@ -552,6 +549,7 @@ berrybrew <command> [option]
     install     Download, extract and install a Strawberry Perl
     remove      Uninstall a Strawberry Perl
     switch      Switch to use a different Strawberry Perl
+    off         Disable berrybrew entirely
     exec        Run a command for every installed Strawberry Perl
     version     Displays the version 
     ");

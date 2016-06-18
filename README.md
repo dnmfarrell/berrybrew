@@ -17,7 +17,7 @@ works at runtime. No more need to recompile the binary!
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: e2c1e7407ffa518d841b2354cec2ad01e4310c9f`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: e443116b4b10406408ddd17ed3a5faee117ecbea`
 
 #####Configuration
 
@@ -40,6 +40,7 @@ works at runtime. No more need to recompile the binary!
     install     Download, extract and install a Strawberry Perl
     remove      Uninstall a Strawberry Perl
     switch      Switch to use a different Strawberry Perl
+    off         Disable berrybrew entirely
     exec        Run a command for every installed Strawberry Perl
 
     version     Show the version number only
@@ -83,6 +84,10 @@ Switch to a different version (permanently):
     > berrybrew switch 5.10.1_32
 
     Switched to 5.10.1_32, start a new terminal to use it.
+
+Disable berrybrew entirely, and return to system Perl, if available:
+
+    > berrybrew off
 
 Start a new cmd.exe to use the new version:
 
