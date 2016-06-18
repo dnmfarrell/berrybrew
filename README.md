@@ -4,8 +4,8 @@ The perlbrew for Windows Strawberry Perl!
 
 `berrybrew` can download, install, remove and manage multiple concurrent 
 versions of Strawberry Perl for Windows. There is no 
-(https://github.com/stevieb9/berrybrew#requirements "requirement") to have
-Strawberry Perl installed before using `berrybrew`.
+[requirement](https://github.com/stevieb9/berrybrew#requirements "berrybrew requirements")
+to have Strawberry Perl installed before using `berrybrew`.
 
 Adding and removing perls available is as simple as editing a JSON file, and 
 works at runtime. No more need to recompile the binary!
