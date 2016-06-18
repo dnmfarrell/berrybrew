@@ -169,7 +169,7 @@ downloads in `C:/berrybrew/temp/`.
 
 ##Version
 
-    sb-20160601
+    sb-20160602
 
 ##License
 
