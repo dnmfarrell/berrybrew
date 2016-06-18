@@ -51,6 +51,10 @@ namespace Berrybrew
                     }
                     break;
 
+                case "off":
+                    Off();
+                    break;
+
                 case "switch":
                     if (args.Length == 1)
                     {
@@ -413,7 +417,12 @@ namespace Berrybrew
             }
             return false;
         }
+        internal static void Off()
+        {
+            RemovePerlFromPath();
+            Console.Write("berrybrew has been disabled\n");
 
+        }
         internal static void RemovePerlFromPath()
         {
             // get user PATH and remove trailing semicolon if exists
@@ -487,7 +496,7 @@ namespace Berrybrew
                 if (path[path.Length - 1] == ';')
                     path = path.Substring(0, path.Length - 1);
 
-                new_path = new string[] { path, perl.CPath, perl.PerlPath, perl.PerlSitePath };
+                new_path = new string[] { perl.CPath, perl.PerlPath, perl.PerlSitePath, path };
             }
             Environment.SetEnvironmentVariable("PATH", String.Join(";", new_path), EnvironmentVariableTarget.User);
         }
@@ -552,6 +561,7 @@ berrybrew <command> [option]
     install     Download, extract and install a Strawberry Perl
     remove      Uninstall a Strawberry Perl
     switch      Switch to use a different Strawberry Perl
+    off         Disable berrybrew entirely
     exec        Run a command for every installed Strawberry Perl
     version     Displays the version 
     ");
