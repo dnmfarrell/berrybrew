@@ -159,7 +159,7 @@ Simply edit the `perls.json` file in the repository's root directory.
 
 - Windows only!
 
-- [Mono](http://www.mono-project.com) (only if compiling your own version)
+- [Mono](http://www.mono-project.com) or Visual Studio (only if compiling your own version)
 
 
 ##Troubleshooting
