@@ -40,7 +40,7 @@ works at runtime. No more need to recompile the binary!
     install     Download, extract and install a Strawberry Perl
     remove      Uninstall a Strawberry Perl
     switch      Switch to use a different Strawberry Perl
-    off         Disable berrybrew entirely
+    off         Disable all berrybrew perls (re-enable with 'switch')
     exec        Run a command for every installed Strawberry Perl
 
     version     Show the version number only
@@ -85,7 +85,7 @@ Switch to a different version (permanently):
 
     Switched to 5.10.1_32, start a new terminal to use it.
 
-Disable berrybrew entirely, and return to system Perl, if available:
+Disable berrybrew entirely, and return to system Perl, if available (re-enable with 'switch'):
 
     > berrybrew off
 
