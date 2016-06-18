@@ -144,7 +144,7 @@ Execute on only a selection of installed versions:
     ==============
     Died at -e line 1.
 
-    Perl-5.10.1_64
+    Perl-5.10.1_32
     ==============
     Died at -e line 1.
 
