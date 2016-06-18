@@ -85,10 +85,6 @@ Switch to a different version (permanently):
 
     Switched to 5.10.1_32, start a new terminal to use it.
 
-Disable berrybrew entirely, and return to system Perl, if available (re-enable with 'switch'):
-
-    > berrybrew off
-
 Start a new cmd.exe to use the new version:
 
     > perl -v
@@ -102,6 +98,10 @@ Uninstall a version of perl:
     > berrybrew remove 5.10.1_32
 
     Successfully removed Strawberry Perl 5.10.1_32
+
+Disable berrybrew entirely, and return to system Perl, if available (re-enable with 'switch'):
+
+    > berrybrew off
 
 Execute something across all perls:
 
