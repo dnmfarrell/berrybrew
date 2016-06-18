@@ -1,5 +1,11 @@
 Revision history for berrybrew
 
+sb-20160602
+        - added 'off' feature, we now play nice with ActiveState and Strawberry
+          Perl installations
+        - moved from using the User PATH env var to Machine(System) PATH, so
+          that 'off' works correctly
+
 20160501 2016-05-13
          - separated fork from dnmfarrell's original
          - added --with flag for exec, like perlbrew
