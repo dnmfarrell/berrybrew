@@ -364,10 +364,13 @@ namespace Berrybrew
 
                 AddPerlToPath(perl);
                 Console.WriteLine("Switched to " + version_to_switch + ", start a new terminal to use it.");
-                string cmd = "cmd.exe";
-                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo(cmd);
-                startInfo.UseShellExecute = true;
-                Process processChild = Process.Start(startInfo); 
+                
+                // new terminal not inhereting PATH
+
+                // string cmd = "cmd.exe";
+                // System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo(cmd);
+                // startInfo.UseShellExecute = true;
+                // Process processChild = Process.Start(startInfo); 
 
             }
             catch (ArgumentException)
