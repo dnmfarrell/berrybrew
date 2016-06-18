@@ -365,7 +365,7 @@ namespace Berrybrew
                 AddPerlToPath(perl);
                 Console.WriteLine("Switched to " + version_to_switch + ", start a new terminal to use it.");
                 
-                // new terminal not inhereting PATH
+                // new terminal not inhereting PATH, so disable opening a new shell
 
                 // string cmd = "cmd.exe";
                 // System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo(cmd);
@@ -411,7 +411,7 @@ namespace Berrybrew
         internal static void Off()
         {
             RemovePerlFromPath();
-            Console.Write("berrybrew has been disabled\n");
+            Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
 
         }
         internal static void RemovePerlFromPath()
@@ -552,7 +552,7 @@ berrybrew <command> [option]
     install     Download, extract and install a Strawberry Perl
     remove      Uninstall a Strawberry Perl
     switch      Switch to use a different Strawberry Perl
-    off         Disable berrybrew entirely
+    off         Disable berrybrew perls (use 'switch' to re-enable)
     exec        Run a command for every installed Strawberry Perl
     version     Displays the version 
     ");

@@ -17,7 +17,7 @@ works at runtime. No more need to recompile the binary!
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 983c819e1f3404d4a6ede1c8ea404343edf8ff40`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: ff39d9e959001089290397a29ca9da015b4fa8ce`
 
 #####Configuration
 
