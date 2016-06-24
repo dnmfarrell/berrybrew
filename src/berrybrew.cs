@@ -138,26 +138,26 @@ namespace Berrybrew
             // get the current PATH, as we'll need it in Exec() to update
             // sub shells
 
-            string path_env_user = System.Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
-            string path_env_sys = System.Environment.GetEnvironmentVariable("PATH");
-            string path_env = Regex.Replace(path_env_sys, Regex.Escape(path_env_user), " ");
+            string SysPath = System.Environment.GetEnvironmentVariable("PATH");
        
             foreach (StrawberryPerl perl in exec_with)
             {
-                Exec(perl, command, path_env);
+                Exec(perl, command, SysPath);
             }
         }
 
-        internal static void Exec(StrawberryPerl perl, string command, string path_env)
+        internal static void Exec(StrawberryPerl perl, string command, string SysPath)
 
         {
+            string [] NewPath;
             Console.WriteLine("Perl-" + perl.Name + "\n==============");
 
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 
-            System.Environment.SetEnvironmentVariable("PATH", String.Join(";", perl.PerlPath, path_env));
+            NewPath = new string[] { perl.CPath, perl.PerlPath, perl.PerlSitePath, SysPath };
+            System.Environment.SetEnvironmentVariable("PATH", String.Join(";", NewPath));
 
             startInfo.FileName = "cmd.exe";
             startInfo.Arguments = "/c " + perl.PerlPath + @"\" + command;
