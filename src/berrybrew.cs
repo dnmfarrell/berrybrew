@@ -138,26 +138,29 @@ namespace Berrybrew
             // get the current PATH, as we'll need it in Exec() to update
             // sub shells
 
-            string path_env_user = System.Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
-            string path_env_sys = System.Environment.GetEnvironmentVariable("PATH");
-            string path_env = Regex.Replace(path_env_sys, Regex.Escape(path_env_user), " ");
+            string SysPath = System.Environment.GetEnvironmentVariable("PATH");
        
             foreach (StrawberryPerl perl in exec_with)
             {
-                Exec(perl, command, path_env);
+                Exec(perl, command, SysPath);
             }
         }
 
-        internal static void Exec(StrawberryPerl perl, string command, string path_env)
+        internal static void Exec(StrawberryPerl perl, string command, string SysPath)
 
         {
+
             Console.WriteLine("Perl-" + perl.Name + "\n==============");
 
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 
-            System.Environment.SetEnvironmentVariable("PATH", String.Join(";", perl.PerlPath, path_env));
+            List<String> NewPath;
+            NewPath = perl.Paths;
+            NewPath.Add(SysPath);
+
+            System.Environment.SetEnvironmentVariable("PATH", String.Join(";", NewPath));
 
             startInfo.FileName = "cmd.exe";
             startInfo.Arguments = "/c " + perl.PerlPath + @"\" + command;
@@ -233,7 +236,7 @@ namespace Berrybrew
 
         internal static string Version()
         {
-            return "sb-20160602\n";
+            return "sb-20160603\n";
 
         }
         internal static void DisplayVersion()
@@ -475,21 +478,24 @@ namespace Berrybrew
         internal static void AddPerlToPath(StrawberryPerl perl)
         {
             // get user PATH and remove trailing semicolon if exists
+
             string path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
-            string[] new_path;
+
+            List<String> NewPath;
 
             if (path == null)
             {
-                new_path = new string[] { perl.CPath, perl.PerlPath, perl.PerlSitePath };
+                NewPath = perl.Paths;
             }
             else
             {
                 if (path[path.Length - 1] == ';')
                     path = path.Substring(0, path.Length - 1);
 
-                new_path = new string[] { perl.CPath, perl.PerlPath, perl.PerlSitePath, path };
+                NewPath = perl.Paths;
+                NewPath.Add(path);
             }
-            Environment.SetEnvironmentVariable("PATH", String.Join(";", new_path), EnvironmentVariableTarget.Machine);
+            Environment.SetEnvironmentVariable("PATH", String.Join(";", NewPath, EnvironmentVariableTarget.Machine));
         }
 
         internal static void AddBinToPath(string bin_path)
@@ -563,6 +569,8 @@ berrybrew <command> [option]
         {
             Console.WriteLine(@"
 This software is Copyright (c) 2014 by David Farrell.
+
+Versions prefixed with 'sb' are Copyright (c) 2016 by Steve Bertrand.
 
 This is free software, licensed under:
 
@@ -734,6 +742,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         public string CPath;
         public string PerlPath;
         public string PerlSitePath;
+        public List<String> Paths;
         public string Sha1Checksum;
 
         public StrawberryPerl(object n, object a, object u, object v, object c)
@@ -747,6 +756,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             this.CPath = @"C:\berrybrew\" + n + @"\c\bin";
             this.PerlPath = @"C:\berrybrew\" + n + @"\perl\bin";
             this.PerlSitePath = @"C:\berrybrew\" + n + @"\perl\site\bin";
+            this.Paths = new List <String>{
+                this.CPath, this.PerlPath, this.PerlSitePath
+            };
             this.Sha1Checksum = c.ToString();
         }
     }

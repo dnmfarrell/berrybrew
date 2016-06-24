@@ -1,6 +1,10 @@
 Revision history for berrybrew
 
-sb-20160602
+20160603 2016-06-24
+        - added perl.Paths to the struct, holds all three paths in a list
+        - re-worked the setting of PATH in exec subshells
+
+20160602
         - added 'off' feature, we now play nice with ActiveState and Strawberry
           Perl installations
         - moved from using the User PATH env var to Machine(System) PATH, so
