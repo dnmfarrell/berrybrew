@@ -236,7 +236,7 @@ namespace Berrybrew
 
         internal static string Version()
         {
-            return "sb-20160602\n";
+            return "sb-20160603\n";
 
         }
         internal static void DisplayVersion()
@@ -569,6 +569,8 @@ berrybrew <command> [option]
         {
             Console.WriteLine(@"
 This software is Copyright (c) 2014 by David Farrell.
+
+Versions prefixed with 'sb' are Copyright (c) 2016 by Steve Bertrand.
 
 This is free software, licensed under:
 
