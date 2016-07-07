@@ -138,11 +138,11 @@ namespace Berrybrew
             // get the current PATH, as we'll need it in Exec() to update
             // sub shells
 
-            string SysPath = System.Environment.GetEnvironmentVariable("PATH");
+            string sys_path = System.Environment.GetEnvironmentVariable("PATH");
        
             foreach (StrawberryPerl perl in exec_with)
             {
-                Exec(perl, command, SysPath);
+                Exec(perl, command, sys_path);
             }
         }
 
@@ -236,7 +236,7 @@ namespace Berrybrew
 
         internal static string Version()
         {
-            return "sb-20160603\n";
+            return "sb-20160701\n";
 
         }
         internal static void DisplayVersion()
@@ -477,25 +477,12 @@ namespace Berrybrew
 
         internal static void AddPerlToPath(StrawberryPerl perl)
         {
-            // get user PATH and remove trailing semicolon if exists
-
             string path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
+            
+            List<string> new_path = perl.Paths;
+            new_path.Add(path);
 
-            List<String> NewPath;
-
-            if (path == null)
-            {
-                NewPath = perl.Paths;
-            }
-            else
-            {
-                if (path[path.Length - 1] == ';')
-                    path = path.Substring(0, path.Length - 1);
-
-                NewPath = perl.Paths;
-                NewPath.Add(path);
-            }
-            Environment.SetEnvironmentVariable("PATH", String.Join(";", NewPath, EnvironmentVariableTarget.Machine));
+            Environment.SetEnvironmentVariable("PATH", String.Join(";", new_path), EnvironmentVariableTarget.Machine);
         }
 
         internal static void AddBinToPath(string bin_path)
