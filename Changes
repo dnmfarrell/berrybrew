@@ -1,5 +1,9 @@
 Revision history for berrybrew
 
+20160701 2016-07-07
+        - fixed bug where PATH wasn't being set correctly when switching perls
+        - added release.sh script, performs all tasks related to a release
+
 20160603 2016-06-24
         - added perl.Paths to the struct, holds all three paths in a list
         - re-worked the setting of PATH in exec subshells

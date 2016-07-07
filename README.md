@@ -18,7 +18,7 @@ works at runtime. No more need to recompile the binary!
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 3b19b9e6ecfeeec6bb0a820b4bca9b6f8d11bad4`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 2e2751b029e1e682efb95381ce135786e0d5177e`
 
 #####Configuration
 
@@ -167,6 +167,17 @@ Simply edit the `perls.json` file in the repository's root directory.
 If you run into trouble installing a Perl, try clearing the berrybrew cached
 downloads in `C:/berrybrew/temp/`.
 
+##Create a Release
+
+Use the included `release.sh` script, which:
+
+- compiles the `berrybrew.exe` binary
+
+- builds the bundled zip archive
+
+- performs SHA1 tasks
+
+- updates the `README.md` file with the zip archives new SHA1 sum
 
 ##Version
 
