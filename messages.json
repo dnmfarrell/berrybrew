@@ -1,0 +1,10 @@
+[
+    {
+        "label":    "license",
+        "content":      "this is my license"
+    },
+    {
+        "label":    "help",
+        "content":      "help!"
+    }
+]

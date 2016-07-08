@@ -314,6 +314,42 @@ namespace Berrybrew
             return archive_path;
         }
 
+        internal static string Messages(string name)
+        {
+            List<Message> messages = new List<Message>();
+
+            string assembly_path = Assembly.GetExecutingAssembly().Location;
+            string assembly_directory = Path.GetDirectoryName(assembly_path);
+
+            string json_path = String.Format("{0}/messages.json", assembly_directory);
+            string json_file = Regex.Replace(json_path, @"bin", "");
+
+            using (StreamReader r = new StreamReader(json_file))
+            {
+                string json = r.ReadToEnd();
+                dynamic msgs = JsonConvert.DeserializeObject(json);
+
+                foreach (var msg in msgs)
+                {
+                    messages.Add(
+                        new Message(
+                            msg.label,
+                            msg.content
+                        )
+                    );
+                }
+            }
+
+            foreach (Message msg in messages)
+            {
+                if (msg.label == name)
+                {
+                    return msg.content;
+                }
+            }
+            return "";
+        }
+
         internal static List<StrawberryPerl> GatherPerls()
         {
             List<StrawberryPerl> perls = new List<StrawberryPerl>();
@@ -391,6 +427,7 @@ namespace Berrybrew
 
         static void Main(string[] args)
         {
+            Console.WriteLine("{0}", Messages("license"));
             if (args.Length == 0)
             {
                 PrintHelp();
@@ -719,6 +756,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         }
 
+    }
+
+    public struct Message
+    {
+        public string label;
+        public string content;
+
+        public Message(object label, object content)
+        {
+            this.label = label.ToString();
+            this.content = content.ToString();
+        }
     }
 
     public struct StrawberryPerl
