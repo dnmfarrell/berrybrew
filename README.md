@@ -38,6 +38,7 @@ works at runtime. No more need to recompile the binary!
 
     available   List available Strawberry Perl versions and which are installed
     config      Add berrybrew to your PATH
+    clean       Remove all cached temporary Perl installation files
     install     Download, extract and install a Strawberry Perl
     remove      Uninstall a Strawberry Perl
     switch      Switch to use a different Strawberry Perl
@@ -150,7 +151,7 @@ Execute on only a selection of installed versions:
 
 ##Add/Remove Perls Available
 
-Simply edit the `perls.json` file in the repository's root directory.
+Simply edit the `data/perls.json` file in the repository's root directory.
 
 
 ##Requirements
@@ -165,7 +166,7 @@ Simply edit the `perls.json` file in the repository's root directory.
 ##Troubleshooting
 
 If you run into trouble installing a Perl, try clearing the berrybrew cached
-downloads in `C:/berrybrew/temp/`.
+downloads by running `berrybrew clean`. 
 
 ##Create a Release
 
@@ -181,7 +182,7 @@ Use the included `release.sh` script, which:
 
 ##Version
 
-    sb-20160603
+    sb-20160702
 
 ##License
 

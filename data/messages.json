@@ -116,6 +116,7 @@
         "",    
         "    available   List available Strawberry Perl versions and which are installed",
         "    config      Add berrybrew to your PATH",
+        "    clean       Remove all temporary berrybrew files",
         "    install     Download, extract and install a Strawberry Perl",
         "    remove      Uninstall a Strawberry Perl",
         "    switch      Switch to use a different Strawberry Perl",

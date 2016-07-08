@@ -103,6 +103,17 @@ namespace Berrybrew
             return current_perl;
         }
 
+        internal static void Clean()
+        {
+            string archive_path = @"C:\berrybrew\temp";
+            System.IO.DirectoryInfo archive_dir = new DirectoryInfo(archive_path);
+
+            foreach (FileInfo file in archive_dir.GetFiles())
+            {
+                file.Delete();
+            }
+        }
+
         internal static void CompileExec(string parameters)
         {
             List<StrawberryPerl> perls_installed = GetInstalledPerls();
@@ -439,6 +450,10 @@ namespace Berrybrew
                         Console.WriteLine(install_ver_unknown);
                         Environment.Exit(0);
                     }
+                    break;
+
+                case "clean":
+                    Clean();
                     break;
 
                 case "off":
