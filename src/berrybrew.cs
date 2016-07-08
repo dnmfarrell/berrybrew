@@ -186,7 +186,6 @@ namespace Berrybrew
        
         internal static void Exec(StrawberryPerl perl, string command, string SysPath)
         {
-
             Console.WriteLine("Perl-" + perl.Name + "\n==============");
 
             System.Diagnostics.Process process = new System.Diagnostics.Process();
@@ -210,7 +209,6 @@ namespace Berrybrew
             Console.WriteLine(process.StandardOutput.ReadToEnd());
             Console.WriteLine(process.StandardError.ReadToEnd());
             process.WaitForExit();
-
         }
 
         internal static void Extract(StrawberryPerl perl, string archive_path)
@@ -273,7 +271,6 @@ namespace Berrybrew
             WebClient webClient = new WebClient();
             string archive_path = GetDownloadPath(perl);
 
-            // Download if archive doesn't already exist
             if (!File.Exists(archive_path))
             {
                 Console.WriteLine("Downloading " + perl.Url + " to " + archive_path);
@@ -365,7 +362,6 @@ namespace Berrybrew
                     )
                 );
             }
-
             return perls;
         }
 
@@ -390,10 +386,10 @@ namespace Berrybrew
             {
                 path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             } while (Directory.Exists(path));
+ 
             Directory.CreateDirectory(path);
 
             return path + @"\" + perl.ArchiveName;
-
         }
 
         internal static List<StrawberryPerl> GetInstalledPerls()
@@ -410,9 +406,7 @@ namespace Berrybrew
         }
 
         static void Main(string[] args)
-        {
-            //Console.Write("{0}", Messages("help"));
-            
+        {   
             if (args.Length == 0)
             {
                 PrintHelp();
@@ -508,7 +502,6 @@ namespace Berrybrew
         {
             RemovePerlFromPath();
             Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
-
         }
         
         private static dynamic ParseJson(string type)
@@ -700,21 +693,14 @@ namespace Berrybrew
                 }
 
                 RemovePerlFromPath();
-
                 AddPerlToPath(perl);
+
                 Console.WriteLine("Switched to " + version_to_switch + ", start a new terminal to use it.");
-
-                // new terminal not inhereting PATH, so disable opening a new shell
-
-                // string cmd = "cmd.exe";
-                // System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo(cmd);
-                // startInfo.UseShellExecute = true;
-                // Process processChild = Process.Start(startInfo); 
-
             }
             catch (ArgumentException)
             {
-                Console.WriteLine("Unknown version of Perl. Use the available command to see what versions of Strawberry Perl are available");
+                string perl_unknown_version = Messages("perl_unknown_version");
+                Console.WriteLine(perl_unknown_version);
                 Environment.Exit(0);
             }
         }
