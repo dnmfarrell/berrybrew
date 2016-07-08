@@ -51,7 +51,8 @@ namespace Berrybrew
         internal static void Available()
         {
             List<StrawberryPerl> perls = GatherPerls();
-            Console.WriteLine("\nThe following Strawberry Perls are available:\n");
+            string available_header = Messages("available_header");
+            Console.WriteLine(available_header);
 
             StrawberryPerl current_perl = CheckWhichPerlInPath();
             string column_spaces = "               ";
@@ -71,13 +72,14 @@ namespace Berrybrew
 
                 Console.Write("\n");
             }
-            Console.WriteLine("\n* Currently using");
+            string available_footer = Messages("available_footer");
+            Console.WriteLine(available_footer);
         }
 
         internal static StrawberryPerl CheckWhichPerlInPath()
         {
             // get user PATH and remove trailing semicolon if exists
-            string path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
+            string path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
 
             StrawberryPerl current_perl = new StrawberryPerl();
 
@@ -144,12 +146,14 @@ namespace Berrybrew
 
         internal static void Config()
         {
-            Console.WriteLine("\nThis is berrybrew, version " + Version() + "\n");
+            string config_intro = Messages("config_intro");
+            Console.WriteLine(config_intro + Version() + "\n");
 
             if (!ScanUserPath(new Regex("berrybrew.bin"))
                    && !ScanSystemPath(new Regex("berrybrew.bin")))
             {
-                Console.Write("Would you like to add berrybrew to your user PATH? y/n [n] ");
+                string add_bb_to_path = Messages("add_bb_to_path");
+                Console.Write(add_bb_to_path);
 
                 if (Console.ReadLine() == "y")
                 {
@@ -163,26 +167,23 @@ namespace Berrybrew
 
                     if (ScanUserPath(new Regex("berrybrew.bin")))
                     {
-                        Console.WriteLine("berrybrew was successfully added to the user PATH, start a new terminal to use it.");
+                        string config_success = Messages("config_success");
+                        Console.WriteLine(config_success);
                     }
                     else
                     {
-                        Console.WriteLine("Error adding berrybrew to the user PATH");
+                        string config_failure = Messages("config_failure");
+                        Console.WriteLine(config_failure);
                     }
                 }
             }
             else
             {
-                Console.Write("berrybrew is already configured on this system.\n");
+                string config_complete = Messages("config_complete");
+                Console.Write(config_complete);
             }
         }
-        
-        internal static void DisplayVersion()
-        {
-            string version = Version();
-            Console.Write(version);
-        }
-
+       
         internal static void Exec(StrawberryPerl perl, string command, string SysPath)
         {
 
@@ -321,7 +322,7 @@ namespace Berrybrew
             string assembly_path = Assembly.GetExecutingAssembly().Location;
             string assembly_directory = Path.GetDirectoryName(assembly_path);
 
-            string json_path = String.Format("{0}/messages.json", assembly_directory);
+            string json_path = String.Format("{0}/data/messages.json", assembly_directory);
             string json_file = Regex.Replace(json_path, @"bin", "");
 
             using (StreamReader r = new StreamReader(json_file))
@@ -331,10 +332,17 @@ namespace Berrybrew
 
                 foreach (var msg in msgs)
                 {
+                    string content = null;
+
+                    foreach (string content_line in msg.content)
+                    {
+                        content += String.Format("{0}\n", content_line);
+                    }
+
                     messages.Add(
                         new Message(
                             msg.label,
-                            msg.content
+                            content
                         )
                     );
                 }
@@ -342,9 +350,9 @@ namespace Berrybrew
 
             foreach (Message msg in messages)
             {
-                if (msg.label == name)
+                if (msg.Label == name)
                 {
-                    return msg.content;
+                    return msg.Content;
                 }
             }
             return "";
@@ -360,7 +368,7 @@ namespace Berrybrew
             //get the parent directory
             string assembly_directory = Path.GetDirectoryName(assembly_path);
 
-            string json_path = String.Format("{0}/perls.json", assembly_directory);
+            string json_path = String.Format("{0}/data/perls.json", assembly_directory);
             string json_file = Regex.Replace(json_path, @"bin", "");
 
             using (StreamReader r = new StreamReader(json_file))
@@ -427,7 +435,8 @@ namespace Berrybrew
 
         static void Main(string[] args)
         {
-            Console.WriteLine("{0}", Messages("license"));
+            //Console.Write("{0}", Messages("help"));
+            
             if (args.Length == 0)
             {
                 PrintHelp();
@@ -437,13 +446,14 @@ namespace Berrybrew
             switch (args[0])
             {
                 case "version":
-                    DisplayVersion();
+                    PrintVersion();
                     break;
 
                 case "install":
                     if (args.Length == 1)
                     {
-                        Console.WriteLine("install command requires a version argument. Use the available command to see what versions of Strawberry Perl are available");
+                        string install_ver_required = Messages("install_ver_required");
+                        Console.WriteLine(install_ver_required);
                         Environment.Exit(0);
                     }
                     try
@@ -455,7 +465,8 @@ namespace Berrybrew
                     }
                     catch (ArgumentException)
                     {
-                        Console.WriteLine("Unknown version of Perl. Use the available command to see what versions of Strawberry Perl are available");
+                        string install_ver_unknown = Messages("install_ver_unknown");
+                        Console.WriteLine(install_ver_unknown);
                         Environment.Exit(0);
                     }
                     break;
@@ -467,7 +478,8 @@ namespace Berrybrew
                 case "switch":
                     if (args.Length == 1)
                     {
-                        Console.WriteLine("switch command requires a version argument. Use the available command to see what versions of Strawberry Perl are available");
+                        string switch_ver_required = Messages("switch_ver_required");
+                        Console.WriteLine(switch_ver_required);
                         Environment.Exit(0);
                     }
                     Switch(args[1]);
@@ -484,7 +496,8 @@ namespace Berrybrew
                 case "remove":
                     if (args.Length == 1)
                     {
-                        Console.WriteLine("remove command requires a version argument. Use the available command to see what versions of Strawberry Perl are available");
+                        string remove_ver_required = Messages("remove_ver_required");
+                        Console.WriteLine(remove_ver_required);
                         Environment.Exit(0);
                     }
                     RemovePerl(args[1]);
@@ -493,7 +506,8 @@ namespace Berrybrew
                 case "exec":
                     if (args.Length == 1)
                     {
-                        Console.WriteLine("exec command requires a command to run.");
+                        string exec_command_required = Messages("exec_command_required");
+                        Console.WriteLine(exec_command_required);
                         Environment.Exit(0);
                     }
                     args[0] = "";
@@ -533,62 +547,20 @@ namespace Berrybrew
 
         internal static void PrintHelp()
         {
-            Console.WriteLine("\nThis is berrybrew, version " + Version() + "\n");
-            Console.WriteLine(@"
-berrybrew <command> [option]
-
-    license     Show berrybrew license
-
-    available   List available Strawberry Perl versions and which are installed
-    config      Add berrybrew to your PATH
-    install     Download, extract and install a Strawberry Perl
-    remove      Uninstall a Strawberry Perl
-    switch      Switch to use a different Strawberry Perl
-    off         Disable berrybrew perls (use 'switch' to re-enable)
-    exec        Run a command for every installed Strawberry Perl
-    version     Displays the version 
-    ");
-
+            string help = Messages("help");
+            Console.WriteLine(help);
         }
 
         internal static void PrintLicense()
         {
-            Console.WriteLine(@"
-This software is Copyright (c) 2014 by David Farrell.
+            string license = Messages("license");
+            Console.WriteLine(license);
+        }
 
-Versions prefixed with 'sb' are Copyright (c) 2016 by Steve Bertrand.
-
-This is free software, licensed under:
-
-  The (two-clause) FreeBSD License
-
-The FreeBSD License
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
-  1. Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
-
-  2. Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the
-     distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-""AS IS"" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.IN NO EVENT SHALL THE COPYRIGHT
-HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES(INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-    ");
-
+        internal static void PrintVersion()
+        {
+            string version = Version();
+            Console.Write("\n{0}", version);
         }
 
         internal static string RemoveFile(string filename)
@@ -638,7 +610,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             }
             catch (ArgumentException)
             {
-                Console.WriteLine("Unknown version of Perl. Use the available command to see what versions of Strawberry Perl are available");
+                string perl_unknown_version = Messages("perl_unknown_version");
+                Console.WriteLine(perl_unknown_version);
                 Environment.Exit(0);
             }
             catch (UnauthorizedAccessException)
@@ -752,21 +725,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         internal static string Version()
         {
-            return "sb-20160701\n";
-
+            string version = Messages("version");
+            return version;
         }
 
     }
 
     public struct Message
     {
-        public string label;
-        public string content;
+        public string Label;
+        public string Content;
 
         public Message(object label, object content)
         {
-            this.label = label.ToString();
-            this.content = content.ToString();
+            this.Label = label.ToString();
+            this.Content = content.ToString();
         }
     }
 
