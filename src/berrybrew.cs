@@ -409,14 +409,14 @@ namespace Berrybrew
         {   
             if (args.Length == 0)
             {
-                PrintHelp();
+                Print("help");
                 Environment.Exit(0);
             }
 
             switch (args[0])
             {
                 case "version":
-                    PrintVersion();
+                    Print("version");
                     break;
 
                 case "install":
@@ -487,13 +487,13 @@ namespace Berrybrew
                 case "license":
                     if (args.Length == 1)
                     {
-                        PrintLicense();
+                        Print("license");
                         Environment.Exit(0);
                     }
                     break;
 
                 default:
-                    PrintHelp();
+                    Print("help");
                     break;
             }
         }
@@ -534,22 +534,10 @@ namespace Berrybrew
             return false;
         }
 
-        internal static void PrintHelp()
+        internal static void Print(string msg_name)
         {
-            string help = Messages("help");
-            Console.WriteLine(help);
-        }
-
-        internal static void PrintLicense()
-        {
-            string license = Messages("license");
-            Console.WriteLine(license);
-        }
-
-        internal static void PrintVersion()
-        {
-            string version = Version();
-            Console.Write("\n{0}", version);
+            string msg = Messages(msg_name);
+            Console.WriteLine(msg);
         }
 
         internal static string RemoveFile(string filename)
