@@ -105,7 +105,9 @@ namespace Berrybrew
 
         internal static void Clean()
         {
-            string archive_path = @"C:\berrybrew\temp";
+            var Dirs = new Dirs();
+            string archive_path = Dirs.ArchiveDir;
+
             System.IO.DirectoryInfo archive_dir = new DirectoryInfo(archive_path);
 
             foreach (FileInfo file in archive_dir.GetFiles())
@@ -161,20 +163,16 @@ namespace Berrybrew
             Console.WriteLine(config_intro + Version() + "\n");
 
             if (!ScanUserPath(new Regex("berrybrew.bin"))
-                   && !ScanSystemPath(new Regex("berrybrew.bin")))
+                && !ScanSystemPath(new Regex("berrybrew.bin")))
             {
                 string add_bb_to_path = Messages("add_bb_to_path");
                 Console.Write(add_bb_to_path);
 
                 if (Console.ReadLine() == "y")
                 {
-                    //get the full path of the assembly
-                    string assembly_path = Assembly.GetExecutingAssembly().Location;
+                    var Dirs = new Dirs();
 
-                    //get the parent directory
-                    string assembly_directory = Path.GetDirectoryName(assembly_path);
-
-                    AddBinToPath(assembly_directory);
+                    AddBinToPath(Dirs.InstallDir);
 
                     if (ScanUserPath(new Regex("berrybrew.bin")))
                     {
@@ -416,29 +414,6 @@ namespace Berrybrew
             return PerlsInstalled;
         }
 
-        internal static string Location(string type)
-        {
-            if (type == "root")
-            {
-                Regex bin_pattern = new Regex("berrybrew.bin");
-                string user_path = Environment.GetEnvironmentVariable("path", EnvironmentVariableTarget.User);
-
-                if (user_path != null)
-                {
-                    foreach (string path in user_path.Split(';'))
-                    {
-                        if (bin_pattern.Match(path).Success)
-                            return path;
-                    }
-                }
-            }
-            if (type == "archive")
-            {
-                return @"C:\berrybrew\temp";
-            }
-            return "";
-        }
-
         static void Main(string[] args)
         {   
             if (args.Length == 0)
@@ -544,14 +519,11 @@ namespace Berrybrew
         
         private static dynamic ParseJson(string type)
         {
-            //get the full path of the assembly
-            string assembly_path = Assembly.GetExecutingAssembly().Location;
-
-            //get the parent directory
-            string assembly_directory = Path.GetDirectoryName(assembly_path);
-
+            var Dirs = new Dirs();
+            string install_dir = Dirs.InstallDir;
+            
             string filename = String.Format("{0}.json", type);
-            string json_path = String.Format("{0}/data/{1}", assembly_directory, filename);
+            string json_path = String.Format("{0}/data/{1}", install_dir, filename);
             string json_file = Regex.Replace(json_path, @"bin", "");
 
             try
@@ -576,9 +548,9 @@ namespace Berrybrew
                     }
                 }
             }
-            catch (System.IO.FileNotFoundException error)
+            catch (System.IO.FileNotFoundException)
             {
-                Console.WriteLine("\n{0} file can not be found in {1}", filename, Location("root"));
+                Console.WriteLine("\n{0} file can not be found in {1}", filename, install_dir);
                 Environment.Exit(0);
             }
             return "";
@@ -772,6 +744,23 @@ namespace Berrybrew
         }
     }
 
+    public struct Dirs
+    {
+        public string InstallDir;
+        public string RootDir;
+        public string ArchiveDir;
+
+        public Dirs()
+        {
+            string assembly_path = Assembly.GetExecutingAssembly().Location;
+            string assembly_directory = Path.GetDirectoryName(assembly_path);
+
+            this.InstallDir = assembly_directory;
+            this.RootDir = @"C:\berrybrew\";
+            this.ArchiveDir = this.RootDir + "temp";
+        }
+    }
+
     public struct StrawberryPerl
     {
         public string Name;
@@ -788,15 +777,17 @@ namespace Berrybrew
 
         public StrawberryPerl(object n, object a, object u, object v, object c)
         {
+            var Dirs = new Dirs();
+
             this.Name = n.ToString();
             this.ArchiveName = a.ToString();
             this.Url = u.ToString();
             this.Version = v.ToString();
-            this.ArchivePath = Berrybrew.Location("archive");
-            this.InstallPath = @"C:\berrybrew\" + n;
-            this.CPath = @"C:\berrybrew\" + n + @"\c\bin";
-            this.PerlPath = @"C:\berrybrew\" + n + @"\perl\bin";
-            this.PerlSitePath = @"C:\berrybrew\" + n + @"\perl\site\bin";
+            this.ArchivePath = Dirs.ArchiveDir;
+            this.InstallPath =  Dirs.RootDir + n;
+            this.CPath = Dirs.RootDir + n + @"\c\bin";
+            this.PerlPath = Dirs.RootDir + n + @"\perl\bin";
+            this.PerlSitePath = Dirs.RootDir + n + @"\perl\site\bin";
             this.Paths = new List <String>{
                 this.CPath, this.PerlPath, this.PerlSitePath
             };
