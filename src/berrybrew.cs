@@ -319,33 +319,23 @@ namespace Berrybrew
         {
             List<Message> messages = new List<Message>();
 
-            string assembly_path = Assembly.GetExecutingAssembly().Location;
-            string assembly_directory = Path.GetDirectoryName(assembly_path);
+            var json_list = ParseJson("messages");
 
-            string json_path = String.Format("{0}/data/messages.json", assembly_directory);
-            string json_file = Regex.Replace(json_path, @"bin", "");
-
-            using (StreamReader r = new StreamReader(json_file))
+            foreach (var msg in json_list)
             {
-                string json = r.ReadToEnd();
-                dynamic msgs = JsonConvert.DeserializeObject(json);
+                string content = null;
 
-                foreach (var msg in msgs)
+                foreach (string content_line in msg.content)
                 {
-                    string content = null;
-
-                    foreach (string content_line in msg.content)
-                    {
-                        content += String.Format("{0}\n", content_line);
-                    }
-
-                    messages.Add(
-                        new Message(
-                            msg.label,
-                            content
-                        )
-                    );
+                    content += String.Format("{0}\n", content_line);
                 }
+
+                messages.Add(
+                    new Message(
+                        msg.label,
+                        content
+                    )
+                );
             }
 
             foreach (Message msg in messages)
@@ -361,33 +351,19 @@ namespace Berrybrew
         internal static List<StrawberryPerl> GatherPerls()
         {
             List<StrawberryPerl> perls = new List<StrawberryPerl>();
+            var json_list = ParseJson("perls");
 
-            //get the full path of the assembly
-            string assembly_path = Assembly.GetExecutingAssembly().Location;
-
-            //get the parent directory
-            string assembly_directory = Path.GetDirectoryName(assembly_path);
-
-            string json_path = String.Format("{0}/data/perls.json", assembly_directory);
-            string json_file = Regex.Replace(json_path, @"bin", "");
-
-            using (StreamReader r = new StreamReader(json_file))
+            foreach (var version in json_list)
             {
-                string json = r.ReadToEnd();
-                dynamic list = JsonConvert.DeserializeObject(json);
-                foreach (var version in list)
-                {
-                    //Console.WriteLine("{0} {1}", version.file, version.ver);
-                    perls.Add(
-                        new StrawberryPerl(
-                            version.name,
-                            version.file,
-                            version.url,
-                            version.ver,
-                            version.csum
-                        )
-                    );
-                }
+                perls.Add(
+                    new StrawberryPerl(
+                        version.name,
+                        version.file,
+                        version.url,
+                        version.ver,
+                        version.csum
+                    )
+                );
             }
 
             return perls;
@@ -533,6 +509,26 @@ namespace Berrybrew
             RemovePerlFromPath();
             Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
 
+        }
+        
+        private static dynamic ParseJson(string type)
+        {
+            //get the full path of the assembly
+            string assembly_path = Assembly.GetExecutingAssembly().Location;
+
+            //get the parent directory
+            string assembly_directory = Path.GetDirectoryName(assembly_path);
+
+            string filename = String.Format("{0}.json", type);
+            string json_path = String.Format("{0}/data/{1}", assembly_directory, filename);
+            string json_file = Regex.Replace(json_path, @"bin", "");
+
+            using (StreamReader r = new StreamReader(json_file))
+            {
+                string json = r.ReadToEnd();
+                dynamic json_list = JsonConvert.DeserializeObject(json);
+                return json_list;
+            }
         }
 
         internal static bool PerlInstalled(StrawberryPerl perl)
