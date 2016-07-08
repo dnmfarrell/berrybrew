@@ -416,6 +416,29 @@ namespace Berrybrew
             return PerlsInstalled;
         }
 
+        internal static string Location(string type)
+        {
+            if (type == "root")
+            {
+                Regex bin_pattern = new Regex("berrybrew.bin");
+                string user_path = Environment.GetEnvironmentVariable("path", EnvironmentVariableTarget.User);
+
+                if (user_path != null)
+                {
+                    foreach (string path in user_path.Split(';'))
+                    {
+                        if (bin_pattern.Match(path).Success)
+                            return path;
+                    }
+                }
+            }
+            if (type == "archive")
+            {
+                return @"C:\berrybrew\temp";
+            }
+            return "";
+        }
+
         static void Main(string[] args)
         {   
             if (args.Length == 0)
@@ -531,14 +554,35 @@ namespace Berrybrew
             string json_path = String.Format("{0}/data/{1}", assembly_directory, filename);
             string json_file = Regex.Replace(json_path, @"bin", "");
 
-            using (StreamReader r = new StreamReader(json_file))
+            try
             {
-                string json = r.ReadToEnd();
-                dynamic json_list = JsonConvert.DeserializeObject(json);
-                return json_list;
-            }
-        }
+                using (StreamReader r = new StreamReader(json_file))
+                {
+                    string json = r.ReadToEnd();
 
+                    try
+                    {
+                        dynamic json_list = JsonConvert.DeserializeObject(json);
+                        return json_list;
+                    }
+                    catch (JsonReaderException error)
+                    {
+                        Console.WriteLine("\n{0} file is malformed. See berrybrew_error.txt in this directory for details.", json_file);
+                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"berrybrew_error.txt", true))
+                        {
+                            file.WriteLine(error);
+                        }
+                        Environment.Exit(0);
+                    }
+                }
+            }
+            catch (System.IO.FileNotFoundException error)
+            {
+                Console.WriteLine("\n{0} file can not be found in {1}", filename, Location("root"));
+                Environment.Exit(0);
+            }
+            return "";
+        }
         internal static bool PerlInstalled(StrawberryPerl perl)
         {
             if (Directory.Exists(perl.InstallPath)
@@ -748,7 +792,7 @@ namespace Berrybrew
             this.ArchiveName = a.ToString();
             this.Url = u.ToString();
             this.Version = v.ToString();
-            this.ArchivePath = @"C:\berrybrew\temp";
+            this.ArchivePath = Berrybrew.Location("archive");
             this.InstallPath = @"C:\berrybrew\" + n;
             this.CPath = @"C:\berrybrew\" + n + @"\c\bin";
             this.PerlPath = @"C:\berrybrew\" + n + @"\perl\bin";
