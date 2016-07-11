@@ -19,8 +19,13 @@ namespace Berrybrew
     {
         internal static void AddBinToPath(string bin_path)
         {
-            // get user PATH and remove trailing semicolon if exists
-            string path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.User);
+            string keyName = @"Environment\";
+            string path = (string)Registry.CurrentUser.OpenSubKey(keyName).GetValue(
+                "PATH",
+                "",
+                RegistryValueOptions.DoNotExpandEnvironmentNames
+            );
+
             string[] new_path;
 
             if (path == null)
@@ -40,12 +45,16 @@ namespace Berrybrew
 
         internal static void AddPerlToPath(StrawberryPerl perl)
         {
-            string path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
+            string path = GetMachinePath();
 
             List<string> new_path = perl.Paths;
             new_path.Add(path);
 
-            Environment.SetEnvironmentVariable("PATH", String.Join(";", new_path), EnvironmentVariableTarget.Machine);
+            Environment.SetEnvironmentVariable(
+                "PATH", 
+                String.Join(";", new_path), 
+                EnvironmentVariableTarget.Machine
+            );
         }
 
         internal static void Available()
@@ -414,8 +423,20 @@ namespace Berrybrew
             return PerlsInstalled;
         }
 
+        internal static string GetMachinePath()
+        {
+            string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment\";
+            string path = (string)Registry.LocalMachine.OpenSubKey(keyName).GetValue(
+                "PATH",
+                "",
+                RegistryValueOptions.DoNotExpandEnvironmentNames
+            );
+
+            return path;
+        }
         static void Main(string[] args)
         {   
+
             if (args.Length == 0)
             {
                 Print("help");
@@ -630,8 +651,7 @@ namespace Berrybrew
 
         internal static void RemovePerlFromPath()
         {
-            // get user PATH and remove trailing semicolon if exists
-            string path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
+            string path = GetMachinePath();
 
             if (path != null)
             {
@@ -746,9 +766,9 @@ namespace Berrybrew
 
     public class DirPath
     {
-        public string InstallDir;
-        public string RootDir;
-        public string ArchiveDir;
+        public string InstallDir; // berrybrew location
+        public string RootDir;    // strawberry base location
+        public string ArchiveDir; // zip location
 
         public DirPath()
         {
@@ -756,7 +776,7 @@ namespace Berrybrew
             string assembly_directory = Path.GetDirectoryName(assembly_path);
 
             this.InstallDir = assembly_directory;
-            this.RootDir = @"C:\berrybrew";
+            this.RootDir = @"C:\berrybrew\";
             this.ArchiveDir = this.RootDir + "temp";
         }
     }

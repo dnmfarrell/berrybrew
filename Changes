@@ -1,5 +1,14 @@
 Revision history for berrybrew
 
+20160702 2016-07-11
+        - added 'clean' option, removes all archive zips of perl (closes #5)
+        - consolodated directory locations into a class
+        - moved almost all console messages to data/messages.json
+        - moved perls.json to data/
+        - added exception handling for missing and/or malformed json files
+        - variable based PATH env vars no longer get expanded and clobbered (fixes #10)
+          (reported by PeterCJ (pryrt)
+
 20160701 2016-07-07
         - fixed bug where PATH wasn't being set correctly when switching perls
         - added release.sh script, performs all tasks related to a release

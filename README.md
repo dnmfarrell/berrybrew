@@ -8,7 +8,7 @@ versions of Strawberry Perl for Windows. There is no
 to have Strawberry Perl installed before using `berrybrew`.
 
 Adding and removing perls available is as simple as editing a JSON file, and 
-works at runtime. No more need to recompile the binary!
+works at runtime.
 
 ##Installation
 
