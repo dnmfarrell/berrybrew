@@ -18,7 +18,7 @@ works at runtime.
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 2e2751b029e1e682efb95381ce135786e0d5177e`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 7e094a928574cb1da7132ba7e365b27c43054623`
 
 #####Configuration
 
