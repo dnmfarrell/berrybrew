@@ -22,7 +22,7 @@ works at runtime.
 
 #####Configuration
 
-See [Configure Root Directory](https://github.com/stevieb9/berrybrew#Configure Root Directory) to change
+See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) to change
 the location that your Perl installations will reside.
 
     cd berrybrew
