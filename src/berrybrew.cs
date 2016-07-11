@@ -13,51 +13,40 @@ using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using Newtonsoft.Json;
 
-namespace Berrybrew
+namespace BerryBrew
 {
     public class Berrybrew
     {
         internal static void AddBinToPath(string bin_path)
         {
-            string keyName = @"Environment\";
-            string path = (string)Registry.CurrentUser.OpenSubKey(keyName).GetValue(
-                "PATH",
-                "",
-                RegistryValueOptions.DoNotExpandEnvironmentNames
-            );
-
-            string[] new_path;
+            string path = PathGet();
+            List<string> new_path = null;
 
             if (path == null)
             {
-                new_path = new string[] { bin_path };
+                new_path.Add(bin_path);
             }
-
             else
             {
                 if (path[path.Length - 1] == ';')
                     path = path.Substring(0, path.Length - 1);
 
-                new_path = new string[] { path, bin_path };
+                new_path.Add(path);
+                new_path.Add(bin_path);
             }
-            Environment.SetEnvironmentVariable("PATH", String.Join(";", new_path), EnvironmentVariableTarget.User);
+
+            PathSet(new_path);
         }
 
         internal static void AddPerlToPath(StrawberryPerl perl)
         {
-            string path = GetMachinePath();
-
+            string path = PathGet();
             List<string> new_path = perl.Paths;
             new_path.Add(path);
-
-            Environment.SetEnvironmentVariable(
-                "PATH", 
-                String.Join(";", new_path), 
-                EnvironmentVariableTarget.Machine
-            );
+            PathSet(new_path);
         }
 
-        internal static void Available()
+        public static void Available()
         {
             List<StrawberryPerl> perls = GatherPerls();
             string available_header = Messages("available_header");
@@ -423,17 +412,6 @@ namespace Berrybrew
             return PerlsInstalled;
         }
 
-        internal static string GetMachinePath()
-        {
-            string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment\";
-            string path = (string)Registry.LocalMachine.OpenSubKey(keyName).GetValue(
-                "PATH",
-                "",
-                RegistryValueOptions.DoNotExpandEnvironmentNames
-            );
-
-            return path;
-        }
         static void Main(string[] args)
         {   
 
@@ -537,7 +515,43 @@ namespace Berrybrew
             RemovePerlFromPath();
             Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
         }
-        
+ 
+        internal static dynamic ParseConfig(string install_dir)
+        {
+            string filename = "config.json";
+            string json_path = String.Format("{0}/data/{1}", install_dir, filename);
+            string json_file = Regex.Replace(json_path, @"bin", "");
+
+            try
+            {
+                using (StreamReader r = new StreamReader(json_file))
+                {
+                    string json = r.ReadToEnd();
+
+                    try
+                    {
+                        dynamic json_list = JsonConvert.DeserializeObject(json);
+                        return json_list;
+                    }
+                    catch (JsonReaderException error)
+                    {
+                        Console.WriteLine("\n{0} file is malformed. See berrybrew_error.txt in this directory for details.", json_file);
+                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"berrybrew_error.txt", true))
+                        {
+                            file.WriteLine(error);
+                        }
+                        Environment.Exit(0);
+                    }
+                }
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                Console.WriteLine("\n{0} file can not be found in {1}", filename, install_dir);
+                Environment.Exit(0);
+            }
+            return "";
+        }       
+
         internal static dynamic ParseJson(string type)
         {
             var DirPath = new DirPath();
@@ -577,42 +591,24 @@ namespace Berrybrew
             return "";
         }
 
-        internal static dynamic ParseConfig(string install_dir)
+        internal static string PathGet()
         {
-            string filename = "config.json";
-            string json_path = String.Format("{0}/data/{1}", install_dir, filename);
-            string json_file = Regex.Replace(json_path, @"bin", "");
-
-            try
-            {
-                using (StreamReader r = new StreamReader(json_file))
-                {
-                    string json = r.ReadToEnd();
-
-                    try
-                    {
-                        dynamic json_list = JsonConvert.DeserializeObject(json);
-                        return json_list;
-                    }
-                    catch (JsonReaderException error)
-                    {
-                        Console.WriteLine("\n{0} file is malformed. See berrybrew_error.txt in this directory for details.", json_file);
-                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"berrybrew_error.txt", true))
-                        {
-                            file.WriteLine(error);
-                        }
-                        Environment.Exit(0);
-                    }
-                }
-            }
-            catch (System.IO.FileNotFoundException)
-            {
-                Console.WriteLine("\n{0} file can not be found in {1}", filename, install_dir);
-                Environment.Exit(0);
-            }
-            return "";
+            string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment\";
+            string path = (string)Registry.LocalMachine.OpenSubKey(keyName).GetValue(
+                "PATH",
+                "",
+                RegistryValueOptions.DoNotExpandEnvironmentNames
+            );
+            return path;
         }
-
+        internal static void PathSet(List<string> path)
+        {
+            Environment.SetEnvironmentVariable(
+                "PATH", 
+                String.Join(";", path), 
+                EnvironmentVariableTarget.Machine
+            );
+        }
         internal static bool PerlInstalled(StrawberryPerl perl)
         {
             if (Directory.Exists(perl.InstallPath)
@@ -688,7 +684,7 @@ namespace Berrybrew
 
         internal static void RemovePerlFromPath()
         {
-            string path = GetMachinePath();
+            string path = PathGet();
 
             if (path != null)
             {
@@ -786,7 +782,6 @@ namespace Berrybrew
             string version = Messages("version");
             return version;
         }
-
     }
 
     public struct Message
