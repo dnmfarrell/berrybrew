@@ -105,8 +105,8 @@ namespace Berrybrew
 
         internal static void Clean()
         {
-            var Dirs = new Dirs();
-            string archive_path = Dirs.ArchiveDir;
+            var DirPath = new DirPath();
+            string archive_path = DirPath.ArchiveDir;
 
             System.IO.DirectoryInfo archive_dir = new DirectoryInfo(archive_path);
 
@@ -170,9 +170,9 @@ namespace Berrybrew
 
                 if (Console.ReadLine() == "y")
                 {
-                    var Dirs = new Dirs();
+                    var DirPath = new DirPath();
 
-                    AddBinToPath(Dirs.InstallDir);
+                    AddBinToPath(DirPath.InstallDir);
 
                     if (ScanUserPath(new Regex("berrybrew.bin")))
                     {
@@ -519,8 +519,8 @@ namespace Berrybrew
         
         private static dynamic ParseJson(string type)
         {
-            var Dirs = new Dirs();
-            string install_dir = Dirs.InstallDir;
+            var DirPath = new DirPath();
+            string install_dir = DirPath.InstallDir;
             
             string filename = String.Format("{0}.json", type);
             string json_path = String.Format("{0}/data/{1}", install_dir, filename);
@@ -744,19 +744,19 @@ namespace Berrybrew
         }
     }
 
-    public struct Dirs
+    public class DirPath
     {
         public string InstallDir;
         public string RootDir;
         public string ArchiveDir;
 
-        public Dirs()
+        public DirPath()
         {
             string assembly_path = Assembly.GetExecutingAssembly().Location;
             string assembly_directory = Path.GetDirectoryName(assembly_path);
 
             this.InstallDir = assembly_directory;
-            this.RootDir = @"C:\berrybrew\";
+            this.RootDir = @"C:\berrybrew";
             this.ArchiveDir = this.RootDir + "temp";
         }
     }
@@ -777,17 +777,17 @@ namespace Berrybrew
 
         public StrawberryPerl(object n, object a, object u, object v, object c)
         {
-            var Dirs = new Dirs();
+            var DirPath = new DirPath();
 
             this.Name = n.ToString();
             this.ArchiveName = a.ToString();
             this.Url = u.ToString();
             this.Version = v.ToString();
-            this.ArchivePath = Dirs.ArchiveDir;
-            this.InstallPath =  Dirs.RootDir + n;
-            this.CPath = Dirs.RootDir + n + @"\c\bin";
-            this.PerlPath = Dirs.RootDir + n + @"\perl\bin";
-            this.PerlSitePath = Dirs.RootDir + n + @"\perl\site\bin";
+            this.ArchivePath = DirPath.ArchiveDir;
+            this.InstallPath =  DirPath.RootDir + n;
+            this.CPath = DirPath.RootDir + n + @"\c\bin";
+            this.PerlPath = DirPath.RootDir + n + @"\perl\bin";
+            this.PerlSitePath = DirPath.RootDir + n + @"\perl\site\bin";
             this.Paths = new List <String>{
                 this.CPath, this.PerlPath, this.PerlSitePath
             };
