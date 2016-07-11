@@ -22,6 +22,9 @@ works at runtime.
 
 #####Configuration
 
+See [Configure Root Directory](https://github.com/stevieb9/berrybrew#Configure Root Directory) to change
+the location that your Perl installations will reside.
+
     cd berrybrew
     bin\berrybrew.exe config
 
@@ -153,6 +156,25 @@ Execute on only a selection of installed versions:
 
 Simply edit the `data/perls.json` file in the repository's root directory.
 
+##Configure Root Directory
+
+By default, we manage Perls out of the `C:\berrybrew` directory. To change this, modify
+the `root_dir` value in the `data\config.json` file. Use double-backslashes (`\\`) as the
+path separators. 
+
+WARNING: At this time, it is highly advised not to change this after you've already installed
+any instances of Perl. This feature is incomplete, and `PATH` and other things don't
+get properly reset yet. If you choose to ignore this, follow this procedure:
+
+- run `berrybrew off`, to flush the `PATH` environment variables
+
+- edit the configuration file to reflect the new directory
+
+- move all Perl installations from the old path to the new one
+
+- remove the old directory
+
+- run `berrybrew switch $version` to set things back up
 
 ##Requirements
 

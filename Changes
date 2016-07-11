@@ -8,6 +8,7 @@ Revision history for berrybrew
         - added exception handling for missing and/or malformed json files
         - variable based PATH env vars no longer get expanded and clobbered (fixes #10)
           (reported by PeterCJ (pryrt)
+        - add preliminary ability to change Perl installation directory (closes #11)
 
 20160701 2016-07-07
         - fixed bug where PATH wasn't being set correctly when switching perls

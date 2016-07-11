@@ -538,7 +538,7 @@ namespace Berrybrew
             Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
         }
         
-        private static dynamic ParseJson(string type)
+        internal static dynamic ParseJson(string type)
         {
             var DirPath = new DirPath();
             string install_dir = DirPath.InstallDir;
@@ -576,6 +576,43 @@ namespace Berrybrew
             }
             return "";
         }
+
+        internal static dynamic ParseConfig(string install_dir)
+        {
+            string filename = "config.json";
+            string json_path = String.Format("{0}/data/{1}", install_dir, filename);
+            string json_file = Regex.Replace(json_path, @"bin", "");
+
+            try
+            {
+                using (StreamReader r = new StreamReader(json_file))
+                {
+                    string json = r.ReadToEnd();
+
+                    try
+                    {
+                        dynamic json_list = JsonConvert.DeserializeObject(json);
+                        return json_list;
+                    }
+                    catch (JsonReaderException error)
+                    {
+                        Console.WriteLine("\n{0} file is malformed. See berrybrew_error.txt in this directory for details.", json_file);
+                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"berrybrew_error.txt", true))
+                        {
+                            file.WriteLine(error);
+                        }
+                        Environment.Exit(0);
+                    }
+                }
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                Console.WriteLine("\n{0} file can not be found in {1}", filename, install_dir);
+                Environment.Exit(0);
+            }
+            return "";
+        }
+
         internal static bool PerlInstalled(StrawberryPerl perl)
         {
             if (Directory.Exists(perl.InstallPath)
@@ -774,10 +811,15 @@ namespace Berrybrew
         {
             string assembly_path = Assembly.GetExecutingAssembly().Location;
             string assembly_directory = Path.GetDirectoryName(assembly_path);
-
             this.InstallDir = assembly_directory;
-            this.RootDir = @"C:\berrybrew\";
-            this.ArchiveDir = this.RootDir + "temp";
+
+            var json_list = Berrybrew.ParseConfig(this.InstallDir);
+
+            foreach(var entry in json_list)
+            {
+                this.RootDir = entry.root_dir + "\\"; 
+                this.ArchiveDir = this.RootDir + entry.temp_dir;
+            }
         }
     }
 
