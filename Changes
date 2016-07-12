@@ -4,6 +4,7 @@ Revision history for berrybrew
         - fixed issues where %VARIABLE% based PATH entries weren't being
           expanded properly. We now set the registry value to REG_EXPAND_SZ
           type instead of REG_SZ
+        - added initial set of basic Perl unit tests
 
 20160702 2016-07-11
         - added 'clean' option, removes all archive zips of perl (closes #5)
