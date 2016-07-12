@@ -94,8 +94,7 @@ namespace BerryBrew
 
         internal static StrawberryPerl CheckWhichPerlInPath()
         {
-            // get user PATH and remove trailing semicolon if exists
-            string path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
+            string path = PathGet();
 
             StrawberryPerl current_perl = new StrawberryPerl();
 
@@ -161,9 +160,6 @@ namespace BerryBrew
                 command = parameters;
                 exec_with = perls_installed;
             }
-
-            // get the current PATH, as we'll need it in Exec() to update
-            // sub shells
 
             string sys_path = System.Environment.GetEnvironmentVariable("PATH");
 
@@ -735,16 +731,8 @@ namespace BerryBrew
                         }
                     }
                 }
+
                 PathSet(paths);
-                // Update user path and parse out unnecessary semicolons
-                /*
-                 * string new_path = String.Join(";", paths);
-                Regex multi_semicolon = new Regex(";{2,}");
-                new_path = multi_semicolon.Replace(new_path, ";");
-                Regex lead_semicolon = new Regex("^;");
-                new_path = lead_semicolon.Replace(new_path, "");
-                Environment.SetEnvironmentVariable("Path", new_path, EnvironmentVariableTarget.Machine);
-                */
             }
         }
 
