@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -17,10 +18,27 @@ namespace BerryBrew
 {
     public class Berrybrew
     {
+        // sends a setting change message to reconfigure PATH
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr SendMessageTimeout(
+            IntPtr hWnd, 
+            int Msg, 
+            IntPtr wParam, 
+            string lParam, 
+            uint fuFlags, 
+            uint uTimeout, 
+            IntPtr 
+            lpdwResult
+        );
+        private static readonly IntPtr HWND_BROADCAST = new IntPtr(0xffff);
+        private const int WM_SETTINGCHANGE = 0x001a;
+        private const int SMTO_ABORTIFHUNG = 0x2;
+
         internal static void AddBinToPath(string bin_path)
         {
             string path = PathGet();
-            List<string> new_path = null;
+            List<string> new_path = new List<string>();
 
             if (path == null)
             {
@@ -172,7 +190,7 @@ namespace BerryBrew
 
                     AddBinToPath(DirPath.InstallDir);
 
-                    if (ScanUserPath(new Regex("berrybrew.bin")))
+                    if (ScanSystemPath(new Regex("berrybrew.bin")))
                     {
                         string config_success = Messages("config_success");
                         Console.WriteLine(config_success);
@@ -601,14 +619,29 @@ namespace BerryBrew
             );
             return path;
         }
+        
         internal static void PathSet(List<string> path)
         {
-            Environment.SetEnvironmentVariable(
-                "PATH", 
+            path.RemoveAll(str => String.IsNullOrEmpty(str));
+
+            string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
+            Registry.LocalMachine.CreateSubKey(keyName).SetValue(
+                "Path", 
                 String.Join(";", path), 
-                EnvironmentVariableTarget.Machine
+                RegistryValueKind.ExpandString
+            );
+            
+            SendMessageTimeout(
+                HWND_BROADCAST, 
+                WM_SETTINGCHANGE, 
+                IntPtr.Zero, 
+                "Environment", 
+                SMTO_ABORTIFHUNG, 
+                100, 
+                IntPtr.Zero
             );
         }
+
         internal static bool PerlInstalled(StrawberryPerl perl)
         {
             if (Directory.Exists(perl.InstallPath)
@@ -685,13 +718,14 @@ namespace BerryBrew
         internal static void RemovePerlFromPath()
         {
             string path = PathGet();
+            List<String> paths = new List<String>();
 
             if (path != null)
             {
-                string[] paths = path.Split(';');
+                paths = path.Split(';').ToList();
                 foreach (StrawberryPerl perl in GatherPerls())
                 {
-                    for (int i = 0; i < paths.Length; i++)
+                    for (var i = 0; i < paths.Count; i++)
                     {
                         if (paths[i] == perl.PerlPath
                             || paths[i] == perl.CPath
@@ -701,14 +735,16 @@ namespace BerryBrew
                         }
                     }
                 }
-
+                PathSet(paths);
                 // Update user path and parse out unnecessary semicolons
-                string new_path = String.Join(";", paths);
+                /*
+                 * string new_path = String.Join(";", paths);
                 Regex multi_semicolon = new Regex(";{2,}");
                 new_path = multi_semicolon.Replace(new_path, ";");
                 Regex lead_semicolon = new Regex("^;");
                 new_path = lead_semicolon.Replace(new_path, "");
                 Environment.SetEnvironmentVariable("Path", new_path, EnvironmentVariableTarget.Machine);
+                */
             }
         }
 
