@@ -13,15 +13,22 @@ my $list = `$c available`;
 $list =~ s/\[installed\]\*?//g;
 
 open my $fh, '<', 't/data/available.txt' or die $!;
+my @base = <$fh>;
+pop @base;
 
-my $base;
+my @list = split /\n/, $list;
 
-{
-    local $/;
-    $base = <$fh>;
+for (@list){
+    s/\s+//g;
 }
-close $fh;
 
-is $list, $base, "berrybrew available ok";
+my $i = 0;
+
+for (@base){
+    chomp;
+    s/\s+//g;
+    is $list[$i], $_, ">$list[$i]< :: >$_< ok";
+    $i++;
+}
 
 done_testing();
