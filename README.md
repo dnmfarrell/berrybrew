@@ -18,7 +18,7 @@ works at runtime.
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 1022755a9fae6beb4ade0eb017415aacd585a9e5`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 6d54e479d3121588c080421e20ceefe46f218443`
 
 #####Configuration
 
@@ -204,7 +204,7 @@ Use the included `release.sh` script, which:
 
 ##Version
 
-    sb-20160702
+    sb-20160703
 
 ##License
 
