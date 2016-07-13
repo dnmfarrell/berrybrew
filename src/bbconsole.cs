@@ -22,6 +22,11 @@ namespace BBConsole
                 BB.Debug = entry.debug;
             }
 
+            if (BB.Debug)
+            {
+                Console.WriteLine("\nberrybrew debugging enabled...\n");
+            }
+
             if (args.Length == 0)
             {
                 BB.Print("help");

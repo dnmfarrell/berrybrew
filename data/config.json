@@ -1,6 +1,7 @@
 [
     {
         "root_dir" : "C:\\berrybrew",
-        "temp_dir" : "temp"
+        "temp_dir" : "temp",
+        "debug"    : "false"
     }
 ]

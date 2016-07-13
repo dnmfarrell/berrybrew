@@ -18,6 +18,7 @@ namespace BerryBrew
 {
     public class Berrybrew
     {
+
         // sends a setting change message to reconfigure PATH
 
         [DllImport("user32.dll", SetLastError = true)]
