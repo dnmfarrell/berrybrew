@@ -161,7 +161,7 @@ namespace BerryBrew
                 exec_with = perls_installed;
             }
 
-            string sys_path = System.Environment.GetEnvironmentVariable("PATH");
+            string sys_path = PathGet();
 
             foreach (StrawberryPerl perl in exec_with)
             {
@@ -667,12 +667,24 @@ namespace BerryBrew
             return true.ToString();
         }
 
+        private static void RemoveFilesystemAttributes(string currentDir)
+        {
+           if (Directory.Exists(currentDir))
+           {
+               string[] subDirs = Directory.GetDirectories(currentDir);
+               foreach(string dir in subDirs)
+               RemoveFilesystemAttributes(dir);
+               string[] files = files = Directory.GetFiles(currentDir);
+               foreach (string file in files)
+               File.SetAttributes(file, FileAttributes.Normal);
+           }
+        }
+
         internal static void RemovePerl(string version_to_remove)
         {
             try
             {
                 StrawberryPerl perl = ResolveVersion(version_to_remove);
-
                 StrawberryPerl current_perl = CheckWhichPerlInPath();
 
                 if (perl.Name == current_perl.Name)
@@ -685,6 +697,7 @@ namespace BerryBrew
                 {
                     try
                     {
+                        RemoveFilesystemAttributes(perl.InstallPath);
                         Directory.Delete(perl.InstallPath, true);
                         Console.WriteLine("Successfully removed Strawberry Perl " + version_to_remove);
                     }
