@@ -2,13 +2,22 @@
 
 # compile
 
-echo "compiling...\n"
+echo "compiling the API library...\n"
 
 mcs \
     -lib:bin \
-    -r:bbapi.dll,ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll \
-    -out:bin/berrybrew.exe \
-    -win32icon:berrybrew.ico src/bbconsole.cs
+    -t:library \
+    -r:ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll \
+    -out:bin/bbapi.dll \
+    src/berrybrew.cs
+
+echo "compiling the berrybrew binary...\n"
+
+mcs \
+    -lib:bin \
+    -r:bbapi.dll \
+    -out:bin/berrybrew.exe -win32icon:berrybrew.ico \
+    src/bbconsole.cs
 
 # zip
 
