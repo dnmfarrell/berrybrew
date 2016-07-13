@@ -6,9 +6,9 @@ echo "compiling...\n"
 
 mcs \
     -lib:lib \
-    -r:ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll \
+    -r:berrybrew.dll,ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll \
     -out:bin/berrybrew.exe \
-    -win32icon:berrybrew.ico src/berrybrew.cs
+    -win32icon:berrybrew.ico src/bbconsole.cs
 
 # zip
 
