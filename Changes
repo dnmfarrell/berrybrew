@@ -1,5 +1,9 @@
 Revision history for berrybrew
 
+1.02    xxxx
+        - added debug support. Set within the data\config.json file. For the 
+          API, call ``obj.Debug = bool;''
+
 1.01    2016-07-13
         - added RemoveFilesystemAttributes(), removes RO flag on all files
           in perl install dirs before deleting. C# can't delete them otherwise
