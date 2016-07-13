@@ -773,14 +773,14 @@ namespace BerryBrew
         public List<String> Paths;
         public string Sha1Checksum;
 
-        public StrawberryPerl(object n, object a, object u, object v, object c)
+        public StrawberryPerl(object name, object archive, object url, object version, object csum)
         {
             var DirPath = new DirPath();
 
-            this.Name = n.ToString();
-            this.ArchiveName = a.ToString();
-            this.Url = u.ToString();
-            this.Version = v.ToString();
+            this.Name = name.ToString();
+            this.ArchiveName = archive.ToString();
+            this.Url = url.ToString();
+            this.Version = version.ToString();
             this.ArchivePath = DirPath.ArchiveDir;
             this.InstallPath =  DirPath.RootDir + n;
             this.CPath = DirPath.RootDir + n + @"\c\bin";
@@ -789,7 +789,7 @@ namespace BerryBrew
             this.Paths = new List <String>{
                 this.CPath, this.PerlPath, this.PerlSitePath
             };
-            this.Sha1Checksum = c.ToString();
+            this.Sha1Checksum = csum.ToString();
         }
     }
 }
