@@ -35,6 +35,8 @@ namespace BerryBrew
         private const int WM_SETTINGCHANGE = 0x001a;
         private const int SMTO_ABORTIFHUNG = 0x2;
 
+        public bool Debug { set; get; }
+
         internal static void AddBinToPath(string bin_path)
         {
             string path = PathGet();
@@ -434,7 +436,7 @@ namespace BerryBrew
             Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
         }
  
-        internal static dynamic ParseConfig(string install_dir)
+        public static dynamic ParseConfig(string install_dir)
         {
             string filename = "config.json";
             string json_path = String.Format("{0}/data/{1}", install_dir, filename);
@@ -782,10 +784,10 @@ namespace BerryBrew
             this.Url = url.ToString();
             this.Version = version.ToString();
             this.ArchivePath = DirPath.ArchiveDir;
-            this.InstallPath =  DirPath.RootDir + n;
-            this.CPath = DirPath.RootDir + n + @"\c\bin";
-            this.PerlPath = DirPath.RootDir + n + @"\perl\bin";
-            this.PerlSitePath = DirPath.RootDir + n + @"\perl\site\bin";
+            this.InstallPath =  DirPath.RootDir + name;
+            this.CPath = DirPath.RootDir + name + @"\c\bin";
+            this.PerlPath = DirPath.RootDir + name + @"\perl\bin";
+            this.PerlSitePath = DirPath.RootDir + name + @"\perl\site\bin";
             this.Paths = new List <String>{
                 this.CPath, this.PerlPath, this.PerlSitePath
             };
