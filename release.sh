@@ -5,8 +5,8 @@
 echo "compiling...\n"
 
 mcs \
-    -lib:lib \
-    -r:berrybrew.dll,ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll \
+    -lib:bin \
+    -r:bbapi.dll,ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll \
     -out:bin/berrybrew.exe \
     -win32icon:berrybrew.ico src/bbconsole.cs
 
