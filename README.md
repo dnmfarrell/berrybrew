@@ -18,7 +18,7 @@ works at runtime.
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 7aedfceaadab7c7dd22b06970b02c65811cf86f7`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: c36f1d44db227bc141c7d4b1a8bffc1ec47c619e`
 
 #####Configuration
 
@@ -28,12 +28,8 @@ the location that your Perl installations will reside.
     cd berrybrew
     bin\berrybrew.exe config
 
-#####Compile your own
-
-    git clone https://github.com/stevieb9/berrybrew
-    cd berrybrew
-    mcs -lib:lib -r:ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll -out:bin/berrybrew.exe -win32icon:berrybrew.ico src/berrybrew.cs
-    bin\berrybrew.exe config
+You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
+installation.
 
 ##Commands
 
@@ -190,6 +186,30 @@ get properly reset yet. If you choose to ignore this, follow this procedure:
 If you run into trouble installing a Perl, try clearing the berrybrew cached
 downloads by running `berrybrew clean`. 
 
+##Compile Your Own 
+
+    git clone https://github.com/stevieb9/berrybrew
+    cd berrybrew
+    
+    # compile the API library
+
+    mcs \
+        -lib:bin \
+        -t:library \
+        -r:ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll 
+        -out:bin/bbapi.dll \
+        src/berrybrew.cs
+
+    # compile the berrybrew.exe binary
+
+    mcs \
+        -lib:bin -r:bbapi.dll \
+        -out:bin/berrybrew.exe \
+        -win32icon:berrybrew.ico \
+        src/bbconsole.cs
+
+    bin\berrybrew.exe config
+
 ##Create a Release
 
 Use the included `release.sh` script, which:
@@ -204,7 +224,7 @@ Use the included `release.sh` script, which:
 
 ##Version
 
-    sb-20160703
+    1.01
 
 ##License
 
