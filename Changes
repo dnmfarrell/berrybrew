@@ -6,6 +6,7 @@ Revision history for berrybrew
         - the API has been separated out into a DLL for re-use and easier
           testing. Source file for the library is berrybrew.cs. The console app
           resides in bbconsole.cs
+        - changed to a more Perlish version numbering system
 
 20160703 2016-07-12
         - fixed issues where %VARIABLE% based PATH entries weren't being
