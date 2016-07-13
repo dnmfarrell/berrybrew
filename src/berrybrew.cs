@@ -64,7 +64,7 @@ namespace BerryBrew
             PathSet(new_path);
         }
 
-        public static void Available()
+        public void Available()
         {
             List<StrawberryPerl> perls = GatherPerls();
             string available_header = Messages("available_header");
@@ -118,7 +118,7 @@ namespace BerryBrew
             return current_perl;
         }
 
-        internal static void Clean()
+        public void Clean()
         {
             var DirPath = new DirPath();
             string archive_path = DirPath.ArchiveDir;
@@ -131,7 +131,7 @@ namespace BerryBrew
             }
         }
 
-        internal static void CompileExec(string parameters)
+        public void CompileExec(string parameters)
         {
             List<StrawberryPerl> perls_installed = GetInstalledPerls();
             List<StrawberryPerl> exec_with = new List<StrawberryPerl>();
@@ -169,7 +169,7 @@ namespace BerryBrew
             }
         }
 
-        internal static void Config()
+        public void Config()
         {
             string config_intro = Messages("config_intro");
             Console.WriteLine(config_intro + Version() + "\n");
@@ -232,7 +232,7 @@ namespace BerryBrew
             process.WaitForExit();
         }
 
-        internal static void Extract(StrawberryPerl perl, string archive_path)
+        public void Extract(StrawberryPerl perl, string archive_path)
         {
             if (File.Exists(archive_path))
             {
@@ -287,7 +287,7 @@ namespace BerryBrew
             }
         }
 
-        internal static string Fetch(StrawberryPerl perl)
+        public string Fetch(StrawberryPerl perl)
         {
             WebClient webClient = new WebClient();
             string archive_path = GetDownloadPath(perl);
@@ -333,7 +333,7 @@ namespace BerryBrew
             return archive_path;
         }
 
-        internal static string Messages(string name)
+        public string Messages(string name)
         {
             List<Message> messages = new List<Message>();
 
@@ -426,105 +426,9 @@ namespace BerryBrew
             return PerlsInstalled;
         }
 
-        static void Main(string[] args)
-        {   
 
-            if (args.Length == 0)
-            {
-                Print("help");
-                Environment.Exit(0);
-            }
 
-            switch (args[0])
-            {
-                case "version":
-                    Print("version");
-                    break;
-
-                case "install":
-                    if (args.Length == 1)
-                    {
-                        string install_ver_required = Messages("install_ver_required");
-                        Console.WriteLine(install_ver_required);
-                        Environment.Exit(0);
-                    }
-                    try
-                    {
-                        StrawberryPerl perl = ResolveVersion(args[1]);
-                        string archive_path = Fetch(perl);
-                        Extract(perl, archive_path);
-                        Available();
-                    }
-                    catch (ArgumentException)
-                    {
-                        string install_ver_unknown = Messages("install_ver_unknown");
-                        Console.WriteLine(install_ver_unknown);
-                        Environment.Exit(0);
-                    }
-                    break;
-
-                case "clean":
-                    Clean();
-                    break;
-
-                case "off":
-                    Off();
-                    break;
-
-                case "switch":
-                    if (args.Length == 1)
-                    {
-                        string switch_ver_required = Messages("switch_ver_required");
-                        Console.WriteLine(switch_ver_required);
-                        Environment.Exit(0);
-                    }
-                    Switch(args[1]);
-                    break;
-
-                case "available":
-                    Available();
-                    break;
-
-                case "config":
-                    Config();
-                    break;
-
-                case "remove":
-                    if (args.Length == 1)
-                    {
-                        string remove_ver_required = Messages("remove_ver_required");
-                        Console.WriteLine(remove_ver_required);
-                        Environment.Exit(0);
-                    }
-                    RemovePerl(args[1]);
-                    break;
-
-                case "exec":
-                    if (args.Length == 1)
-                    {
-                        string exec_command_required = Messages("exec_command_required");
-                        Console.WriteLine(exec_command_required);
-                        Environment.Exit(0);
-                    }
-                    args[0] = "";
-                    CompileExec(String.Join(" ", args).Trim());
-                    break;
-
-                case "license":
-                    if (args.Length == 1)
-                    {
-                        Print("license");
-                        Environment.Exit(0);
-                    }
-                    break;
-
-                default:
-                    Print("help");
-                    break;
-            }
-        }
-
-        internal static void Off()
+        public void Off()
         {
             RemovePerlFromPath();
             Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
@@ -648,7 +552,7 @@ namespace BerryBrew
             return false;
         }
 
-        internal static void Print(string msg_name)
+        public void Print(string msg_name)
         {
             string msg = Messages(msg_name);
             Console.WriteLine(msg);
@@ -680,7 +584,7 @@ namespace BerryBrew
            }
         }
 
-        internal static void RemovePerl(string version_to_remove)
+        public void RemovePerl(string version_to_remove)
         {
             try
             {
@@ -749,7 +653,7 @@ namespace BerryBrew
             }
         }
 
-        internal static StrawberryPerl ResolveVersion(string version_to_resolve)
+        public StrawberryPerl ResolveVersion(string version_to_resolve)
         {
             foreach (StrawberryPerl perl in GatherPerls())
             {
@@ -788,7 +692,7 @@ namespace BerryBrew
             return false;
         }
 
-        internal static void Switch(string version_to_switch)
+        public void Switch(string version_to_switch)
         {
             try
             {
@@ -814,7 +718,7 @@ namespace BerryBrew
             }
         }
 
-        internal static string Version()
+        public string Version()
         {
             string version = Messages("version");
             return version;
