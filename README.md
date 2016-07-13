@@ -172,20 +172,6 @@ get properly reset yet. If you choose to ignore this, follow this procedure:
 
 - run `berrybrew switch $version` to set things back up
 
-##Requirements
-
-- .Net Framework 2.0 or higher
-
-- Windows only!
-
-- [Mono](http://www.mono-project.com) or Visual Studio (only if compiling your own version)
-
-
-##Troubleshooting
-
-If you run into trouble installing a Perl, try clearing the berrybrew cached
-downloads by running `berrybrew clean`. 
-
 ##Compile Your Own 
 
     git clone https://github.com/stevieb9/berrybrew
@@ -222,13 +208,27 @@ Use the included `release.sh` script, which:
 
 - updates the `README.md` file with the zip archives new SHA1 sum
 
-##Version
+##Requirements
 
-    1.01
+- .Net Framework 2.0 or higher
+
+- Windows only!
+
+- [Mono](http://www.mono-project.com) or Visual Studio (only if compiling your own version)
+
+
+##Troubleshooting
+
+If you run into trouble installing a Perl, try clearing the berrybrew cached
+downloads by running `berrybrew clean`. 
 
 ##License
 
 2 Clause FreeBSD - see LICENSE
+
+##Version
+
+    1.01
 
 ##Original Author
 
