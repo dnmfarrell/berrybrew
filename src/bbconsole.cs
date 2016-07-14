@@ -20,21 +20,20 @@ namespace BBConsole
 
             if (args.Length == 0)
             {
-                BB.Print("help");
+                BB.Message.Print("help");
                 Environment.Exit(0);
             }
 
             switch (args[0])
             {
                 case "version":
-                    BB.Print("version");
+                    BB.Message.Print("version");
                     break;
 
                 case "install":
                     if (args.Length == 1)
                     {
-                        string install_ver_required = BB.Messages("install_ver_required");
-                        Console.WriteLine(install_ver_required);
+                        BB.Message.Print("install_ver_required");
                         Environment.Exit(0);
                     }
                     try
@@ -46,8 +45,7 @@ namespace BBConsole
                     }
                     catch (ArgumentException)
                     {
-                        string install_ver_unknown = BB.Messages("install_ver_unknown");
-                        Console.WriteLine(install_ver_unknown);
+                        BB.Message.Print("install_ver_unknown");
                         Environment.Exit(0);
                     }
                     break;
@@ -63,8 +61,7 @@ namespace BBConsole
                 case "switch":
                     if (args.Length == 1)
                     {
-                        string switch_ver_required = BB.Messages("switch_ver_required");
-                        Console.WriteLine(switch_ver_required);
+                        BB.Message.Print("switch_ver_required");
                         Environment.Exit(0);
                     }
                     BB.Switch(args[1]);
@@ -81,8 +78,7 @@ namespace BBConsole
                 case "remove":
                     if (args.Length == 1)
                     {
-                        string remove_ver_required = BB.Messages("remove_ver_required");
-                        Console.WriteLine(remove_ver_required);
+                        BB.Message.Print("remove_ver_required");
                         Environment.Exit(0);
                     }
                     BB.RemovePerl(args[1]);
@@ -91,8 +87,7 @@ namespace BBConsole
                 case "exec":
                     if (args.Length == 1)
                     {
-                        string exec_command_required = BB.Messages("exec_command_required");
-                        Console.WriteLine(exec_command_required);
+                        BB.Message.Print("exec_command_required");
                         Environment.Exit(0);
                     }
                     args[0] = "";
@@ -102,13 +97,13 @@ namespace BBConsole
                 case "license":
                     if (args.Length == 1)
                     {
-                        BB.Print("license");
+                        BB.Message.Print("license");
                         Environment.Exit(0);
                     }
                     break;
 
                 default:
-                    BB.Print("help");
+                    BB.Message.Print("help");
                     break;
             }
         } 

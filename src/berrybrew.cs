@@ -38,16 +38,29 @@ namespace BerryBrew
         private const int SMTO_ABORTIFHUNG = 0x2;
 
         public bool Debug { set; get; }
+
         static string assembly_path = Assembly.GetExecutingAssembly().Location;
         static string assembly_directory = Path.GetDirectoryName(assembly_path);       
-        
-        Dirs Dir = new Dirs(assembly_directory);
+        public Dirs Dir = new Dirs(assembly_directory);
+
+        public Message Message = new Message();
 
         public Berrybrew()
         {
+            // config
+
             dynamic json_conf = ParseConfig(Dir.Install);
-            Dir.Add("root", json_conf.root_dir);
-            Dir.Add("archive", json_conf.archive_dir);
+            this.Dir.Add("root", json_conf.root_dir);
+            this.Dir.Add("archive", json_conf.archive_dir);
+            this.Debug = json_conf.debug;
+
+            // messages
+
+            dynamic json_messages = this.ParseJson("messages");
+            foreach (dynamic entry in json_messages)
+            {
+                this.Message.Add(entry);
+            }
         }
 
         internal static void AddBinToPath(string bin_path)
@@ -82,8 +95,8 @@ namespace BerryBrew
         public void Available()
         {
             List<StrawberryPerl> perls = GatherPerls();
-            string available_header = Messages("available_header");
-            Console.WriteLine(available_header);
+            
+            this.Message.Print("available_header");
 
             StrawberryPerl current_perl = CheckWhichPerlInPath();
             string column_spaces = "               ";
@@ -103,8 +116,7 @@ namespace BerryBrew
 
                 Console.Write("\n");
             }
-            string available_footer = Messages("available_footer");
-            Console.WriteLine(available_footer);
+            this.Message.Print("available_footer");
         }
 
         internal StrawberryPerl CheckWhichPerlInPath()
@@ -185,14 +197,13 @@ namespace BerryBrew
 
         public void Config()
         {
-            string config_intro = Messages("config_intro");
+            string config_intro = this.Message.Get("config_intro");
             Console.WriteLine(config_intro + Version() + "\n");
 
             if (!ScanUserPath(new Regex("berrybrew.bin"))
                 && !ScanSystemPath(new Regex("berrybrew.bin")))
             {
-                string add_bb_to_path = Messages("add_bb_to_path");
-                Console.Write(add_bb_to_path);
+                this.Message.Print("add_bb_to_path");
 
                 if (Console.ReadLine() == "y")
                 {
@@ -200,20 +211,17 @@ namespace BerryBrew
 
                     if (ScanSystemPath(new Regex("berrybrew.bin")))
                     {
-                        string config_success = Messages("config_success");
-                        Console.WriteLine(config_success);
+                        this.Message.Print("config_success");
                     }
                     else
                     {
-                        string config_failure = Messages("config_failure");
-                        Console.WriteLine(config_failure);
+                        this.Message.Print("config_failure");
                     }
                 }
             }
             else
             {
-                string config_complete = Messages("config_complete");
-                Console.Write(config_complete);
+                this.Message.Print("config_complete");
             }
         }
        
@@ -343,39 +351,6 @@ namespace BerryBrew
                 }
             }
             return archive_path;
-        }
-
-        public string Messages(string name)
-        {
-            List<Message> messages = new List<Message>();
-
-            var json_list = ParseJson("messages");
-
-            foreach (var msg in json_list)
-            {
-                string content = null;
-
-                foreach (string content_line in msg.content)
-                {
-                    content += String.Format("{0}\n", content_line);
-                }
-
-                messages.Add(
-                    new Message(
-                        msg.label,
-                        content
-                    )
-                );
-            }
-
-            foreach (Message msg in messages)
-            {
-                if (msg.Label == name)
-                {
-                    return msg.Content;
-                }
-            }
-            return "";
         }
 
         internal List<StrawberryPerl> GatherPerls()
@@ -563,12 +538,6 @@ namespace BerryBrew
             return false;
         }
 
-        public void Print(string msg_name)
-        {
-            string msg = Messages(msg_name);
-            Console.WriteLine(msg);
-        }
-
         internal static string RemoveFile(string filename)
         {
             try
@@ -629,8 +598,7 @@ namespace BerryBrew
             }
             catch (ArgumentException)
             {
-                string perl_unknown_version = Messages("perl_unknown_version");
-                Console.WriteLine(perl_unknown_version);
+                this.Message.Print("perl_unknown_version");
                 Environment.Exit(0);
             }
             catch (UnauthorizedAccessException)
@@ -723,33 +691,41 @@ namespace BerryBrew
             }
             catch (ArgumentException)
             {
-                string perl_unknown_version = Messages("perl_unknown_version");
-                Console.WriteLine(perl_unknown_version);
+                this.Message.Print("perl_unknown_version");
                 Environment.Exit(0);
             }
         }
 
         public string Version()
         {
-            string version = Messages("version");
-            return version;
+            return this.Message.Get("version");
         }
     }
 
     public class Message
     {
-        public string Label;
-        public string Content;
         public Hashtable msgMap = new Hashtable();
 
-        public string Message(string label)
+        public string Get(string label)
         {
             return this.msgMap[label].ToString();
         }
 
-        public void Add(dynamic label, dynamic content)
+        public void Print(string label)
         {
-            this.msgMap.Add(label.ToString(), content.ToString());
+            string msg = this.Get(label);
+            Console.WriteLine(msg);
+        }
+
+        public void Add(dynamic json)
+        {
+            string content = null;
+
+            foreach (string line in json.content)
+            {
+                content += String.Format("{0}\n", line);
+            }
+            this.msgMap.Add(json.label.ToString(), content);
         }
     }
 

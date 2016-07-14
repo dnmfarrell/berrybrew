@@ -79,13 +79,6 @@
     ]
 },
 {
-    "label": "switch_ver_required",
-    "content": [
-        "\nswitch command requires a version argument.",
-        "Use the available command to see what versions of Strawberry Perl are available"
-    ]
-},
-{
     "label": "remove_ver_required",
     "content": [
         "\nremove command requires a version argument.",
