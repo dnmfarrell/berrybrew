@@ -12,6 +12,8 @@ namespace BBConsole
         static void Main(string[] args)
         {
             Berrybrew BB = new Berrybrew();
+            
+            //BB.Debug = true;
 
             if (BB.Debug)
             {
@@ -38,13 +40,13 @@ namespace BBConsole
                     }
                     try
                     {
-                        StrawberryPerl perl = BB.ResolveVersion(args[1]);
-                        string archive_path = BB.Fetch(perl);
-                        BB.Extract(perl, archive_path);
-                        BB.Available();
+                        BB.PerlInstall(args[1]);
                     }
-                    catch (ArgumentException)
+                    catch (ArgumentException error)
                     {
+                        if (BB.Debug)
+                            Console.WriteLine(error);
+
                         BB.Message.Print("install_ver_unknown");
                         Environment.Exit(0);
                     }
