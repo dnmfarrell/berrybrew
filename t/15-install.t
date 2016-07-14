@@ -3,7 +3,7 @@ use strict;
 
 use Test::More;
 
-my $c = 'c:/repos/berrybrew/bin/berrybrew';
+my $c = 'c:/repos/berrybrew/build/berrybrew';
 
 my @avail = get_avail();
 my $pre_installed = get_installed();

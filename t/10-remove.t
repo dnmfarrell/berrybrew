@@ -4,7 +4,7 @@ use strict;
 use Test::More;
 use Win32::TieRegistry;
 
-my $c = 'c:/repos/berrybrew/bin/berrybrew';
+my $c = 'c:/repos/berrybrew/build/berrybrew';
 
 my @installed = get_installed();
 

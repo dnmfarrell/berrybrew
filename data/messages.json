@@ -97,7 +97,12 @@
         "\nUnknown version of Perl. Use the available command to see what versions of Strawberry Perl are available"
     ]
 },
-
+{
+    "label": "perl_orphans",
+    "content": [
+        "\norphaned perl installations: "
+    ]
+},
 {
     "label": "help",
     

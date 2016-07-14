@@ -66,6 +66,21 @@ namespace BerryBrew
             }
         }
 
+        ~Berrybrew()
+        {
+            List<string> orphans = PerlFindOrphans();
+
+            if (orphans.Count > 0)
+            {
+                string orphaned_perls = Message.Get("perl_orphans");
+                Console.WriteLine("\nWARNING! {0}\n\n", orphaned_perls.Trim());
+                foreach (string orphan in orphans)
+                {
+                    Console.WriteLine("  {0}\n", orphan);
+                }
+            }
+        }
+
         public void Available()
         {
             List<StrawberryPerl> perls = PerlGenerateObjects();
@@ -560,6 +575,35 @@ namespace BerryBrew
             Directory.CreateDirectory(path);
 
             return path + @"\" + perl.ArchiveName;
+        }
+
+        public List<string> PerlFindOrphans()
+        {
+            List<StrawberryPerl> perls = PerlsInstalled();
+
+            string[] dirs = Directory.GetDirectories(this.rootPath);
+
+            List<string> perlInstallations = new List<string>();
+
+            foreach (StrawberryPerl perl in perls)
+            {
+                perlInstallations.Add(perl.InstallPath);
+            }
+
+            List<string> orphans = new List<string>();
+
+            foreach (string dir in dirs)
+            {
+                if (dir == this.archivePath)
+                    continue;
+
+                if (!perlInstallations.Contains(dir))
+                {
+                    orphans.Add(dir);
+                }
+            }
+
+            return orphans;
         }
 
         internal List<StrawberryPerl> PerlGenerateObjects()

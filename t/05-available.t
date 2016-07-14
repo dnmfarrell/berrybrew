@@ -4,7 +4,7 @@ use strict;
 use Test::More;
 
 my $p = 'c:/repos/berrybrew/perl/perl/bin';
-my $c = 'c:/repos/berrybrew/bin/berrybrew';
+my $c = 'c:/repos/berrybrew/build/berrybrew';
 
 my $list = `$c available`;
 
