@@ -48,56 +48,27 @@ namespace BerryBrew
         {
             // config
 
-            dynamic json_conf = ParseConfig(Dir.Install);
-            this.Dir.Add("root", json_conf.root_dir);
-            this.Dir.Add("archive", json_conf.temp_dir);
-            this.Debug = json_conf.debug;
+            dynamic jsonConf = ParseConfig(Dir.Install);
+            this.Dir.Add("root", jsonConf.root_dir);
+            this.Dir.Add("archive", jsonConf.temp_dir);
+            this.Debug = jsonConf.debug;
 
             // messages
 
-            dynamic json_messages = this.ParseJson("messages");
-            foreach (dynamic entry in json_messages)
+            dynamic jsonMessages = this.ParseJson("messages");
+            foreach (dynamic entry in jsonMessages)
             {
                 this.Message.Add(entry);
             }
         }
 
-        internal static void AddBinToPath(string bin_path)
-        {
-            string path = PathGet();
-            List<string> newPath = new List<string>();
-
-            if (path == null)
-            {
-                newPath.Add(bin_path);
-            }
-            else
-            {
-                if (path[path.Length - 1] == ';')
-                    path = path.Substring(0, path.Length - 1);
-
-                newPath.Add(path);
-                newPath.Add(bin_path);
-            }
-
-            PathSet(newPath);
-        }
-
-        internal static void AddPerlToPath(StrawberryPerl perl)
-        {
-            string path = PathGet();
-            List<string> newPath = perl.Paths;
-            newPath.Add(path);
-            PathSet(newPath);
-        }
-
         public void Available()
         {
-            List<StrawberryPerl> perls = GatherPerls();
+            List<StrawberryPerl> perls = PerlGenerateObjects();
             
             this.Message.Print("available_header");
 
-            StrawberryPerl current_perl = CheckWhichPerlInPath();
+            StrawberryPerl current_perl = PerlInUse();
             string column_spaces = "               ";
 
             foreach (StrawberryPerl perl in perls)
@@ -107,7 +78,7 @@ namespace BerryBrew
 
                 Console.Write("\t" + perlNameToPrint);
 
-                if (PerlInstalled(perl))
+                if (PerlIsInstalled(perl))
                     Console.Write(" [installed]");
 
                 if (perl.Name == current_perl.Name)
@@ -118,80 +89,16 @@ namespace BerryBrew
             this.Message.Print("available_footer");
         }
 
-        internal StrawberryPerl CheckWhichPerlInPath()
-        {
-            string path = PathGet();
-
-            StrawberryPerl currentPerl = new StrawberryPerl();
-
-            if (path != null)
-            {
-                string[] paths = path.Split(';');
-                foreach (StrawberryPerl perl in GatherPerls())
-                {
-                    for (int i = 0; i < paths.Length; i++)
-                    {
-                        if (paths[i] == perl.PerlPath
-                            || paths[i] == perl.CPath
-                            || paths[i] == perl.PerlSitePath)
-                        {
-                            currentPerl = perl;
-                            break;
-                        }
-                    }
-                }
-            }
-            return currentPerl;
-        }
-
         public void Clean()
         {
             string archivePath = Dir.Archive;
 
             System.IO.DirectoryInfo archiveDir = new DirectoryInfo(archivePath);
-            this.RemoveFilesystemAttributes(archiveDir.FullName);
+            FilesystemResetAttributes(archiveDir.FullName);
 
             foreach (FileInfo file in archiveDir.GetFiles())
             {
                 file.Delete();
-            }
-        }
-
-        public void CompileExec(string parameters)
-        {
-            List<StrawberryPerl> perlsInstalled = GetInstalledPerls();
-            List<StrawberryPerl> execWith = new List<StrawberryPerl>();
-            string command;
-
-            if (parameters.StartsWith("--with"))
-            {
-                string paramList = Regex.Replace(parameters, @"--with\s+", "");
-
-                string perlStr = paramList.Split(new[] { ' ' }, 2)[0];
-                command = paramList.Split(new[] { ' ' }, 2)[1];
-
-                string[] perls = perlStr.Split(',');
-
-                foreach (StrawberryPerl perl in perlsInstalled)
-                {
-                    foreach (string perlName in perls)
-                    {
-                        if (perlName.Equals(perl.Name))
-                            execWith.Add(perl);
-                    }
-                }
-            }
-            else
-            {
-                command = parameters;
-                execWith = perlsInstalled;
-            }
-
-            string sysPath = PathGet();
-
-            foreach (StrawberryPerl perl in execWith)
-            {
-                Exec(perl, command, sysPath);
             }
         }
 
@@ -200,15 +107,15 @@ namespace BerryBrew
             string configIntro = this.Message.Get("config_intro");
             Console.WriteLine(configIntro + Version() + "\n");
 
-            if (!ScanSystemPath(new Regex("berrybrew.bin")))
+            if (!PathScan(new Regex("berrybrew.bin"), "machine"))
             {
                 this.Message.Print("add_bb_to_path");
 
                 if (Console.ReadLine() == "y")
                 {
-                    AddBinToPath(Dir.Install);
+                    PathAddBerryBrew(Dir.Install);
 
-                    if (ScanSystemPath(new Regex("berrybrew.bin")))
+                    if (PathScan(new Regex("berrybrew.bin"), "machine"))
                     {
                         this.Message.Print("config_success");
                     }
@@ -249,6 +156,44 @@ namespace BerryBrew
             Console.WriteLine(process.StandardOutput.ReadToEnd());
             Console.WriteLine(process.StandardError.ReadToEnd());
             process.WaitForExit();
+        }
+
+        public void ExecCompile(string parameters)
+        {
+            List<StrawberryPerl> perlsInstalled = PerlsInstalled();
+            List<StrawberryPerl> execWith = new List<StrawberryPerl>();
+            string command;
+
+            if (parameters.StartsWith("--with"))
+            {
+                string paramList = Regex.Replace(parameters, @"--with\s+", "");
+
+                string perlStr = paramList.Split(new[] { ' ' }, 2)[0];
+                command = paramList.Split(new[] { ' ' }, 2)[1];
+
+                string[] perls = perlStr.Split(',');
+
+                foreach (StrawberryPerl perl in perlsInstalled)
+                {
+                    foreach (string perlName in perls)
+                    {
+                        if (perlName.Equals(perl.Name))
+                            execWith.Add(perl);
+                    }
+                }
+            }
+            else
+            {
+                command = parameters;
+                execWith = perlsInstalled;
+            }
+
+            string sysPath = PathGet();
+
+            foreach (StrawberryPerl perl in execWith)
+            {
+                Exec(perl, command, sysPath);
+            }
         }
 
         public static void Extract(StrawberryPerl perl, string archivePath)
@@ -309,7 +254,7 @@ namespace BerryBrew
         public string Fetch(StrawberryPerl perl)
         {
             WebClient webClient = new WebClient();
-            string archivePath = GetDownloadPath(perl);
+            string archivePath = PerlArchivePath(perl);
 
             if (!File.Exists(archivePath))
             {
@@ -335,7 +280,7 @@ namespace BerryBrew
                         Console.Write("Whould you like berrybrew to delete the corrupted download file? y/n [n]");
                         if (Console.ReadLine() == "y")
                         {
-                            string retval = RemoveFile(archivePath);
+                            string retval = FileRemove(archivePath);
                             if (retval == "True")
                             {
                                 Console.WriteLine("Deleted! Try to install it again!");
@@ -352,84 +297,56 @@ namespace BerryBrew
             return archivePath;
         }
 
-        internal List<StrawberryPerl> GatherPerls()
+        internal static string FileRemove(string filename)
         {
-            List<StrawberryPerl> perls = new List<StrawberryPerl>();
-            var json_list = ParseJson("perls");
-            
-            foreach (var version in json_list)
-            {
-                perls.Add(
-                    new StrawberryPerl(
-                        Dir,
-                        version.name,
-                        version.file,
-                        version.url,
-                        version.ver,
-                        version.csum
-                    )
-                );
-            }
-            return perls;
-        }
-
-        internal static string GetDownloadPath(StrawberryPerl perl)
-        {
-            string path;
-
             try
             {
-                if (!Directory.Exists(perl.ArchivePath))
-                    Directory.CreateDirectory(perl.ArchivePath);
-
-                return perl.ArchivePath + @"\" + perl.ArchiveName;
+                File.Delete(filename);
             }
-            catch (UnauthorizedAccessException)
+            catch (Exception ex)
             {
-                Console.WriteLine("Error, do not have permissions to create directory: " + perl.ArchivePath);
+                return ex.ToString();
             }
-
-            Console.WriteLine("Creating temporary directory instead");
-            do
-            {
-                path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-            } while (Directory.Exists(path));
- 
-            Directory.CreateDirectory(path);
-
-            return path + @"\" + perl.ArchiveName;
+            return true.ToString();
         }
 
-        internal List<StrawberryPerl> GetInstalledPerls()
+        internal void FilesystemResetAttributes(string currentDir)
         {
-            List<StrawberryPerl> perls = GatherPerls();
-            List<StrawberryPerl> PerlsInstalled = new List<StrawberryPerl>();
-
-            foreach (StrawberryPerl perl in perls)
-            {
-                if (PerlInstalled(perl))
-                    PerlsInstalled.Add(perl);
-            }
-            return PerlsInstalled;
+           if (Directory.Exists(currentDir))
+           {
+               string[] subDirs = Directory.GetDirectories(currentDir);
+               foreach(string dir in subDirs)
+               FilesystemResetAttributes(dir);
+               string[] files = Directory.GetFiles(currentDir);
+               foreach (string file in files)
+               File.SetAttributes(file, FileAttributes.Normal);
+           }
         }
 
-
+        public string Install(string version)
+        {
+            StrawberryPerl perl = PerlResolveVersion(version);
+            string archive_path = Fetch(perl);
+            Extract(perl, archive_path);
+            Available();
+            return perl.Name;
+        }
 
         public void Off()
         {
-            RemovePerlFromPath();
+            PathRemovePerl();
             Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
         }
  
-        public static dynamic ParseConfig(string install_dir)
+        public static dynamic ParseConfig(string installDir)
         {
             string filename = "config.json";
-            string json_path = String.Format("{0}/data/{1}", install_dir, filename);
-            string json_file = Regex.Replace(json_path, @"bin", "");
+            string jsonPath = String.Format("{0}/data/{1}", installDir, filename);
+            string jsonFile = Regex.Replace(jsonPath, @"bin", "");
 
             try
             {
-                using (StreamReader r = new StreamReader(json_file))
+                using (StreamReader r = new StreamReader(jsonFile))
                 {
                     string json = r.ReadToEnd();
 
@@ -440,7 +357,7 @@ namespace BerryBrew
                     }
                     catch (JsonReaderException error)
                     {
-                        Console.WriteLine("\n{0} file is malformed. See berrybrew_error.txt in this directory for details.", json_file);
+                        Console.WriteLine("\n{0} file is malformed. See berrybrew_error.txt in this directory for details.", jsonFile);
                         using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"berrybrew_error.txt", true))
                         {
                             file.WriteLine(error);
@@ -451,7 +368,7 @@ namespace BerryBrew
             }
             catch (System.IO.FileNotFoundException)
             {
-                Console.WriteLine("\n{0} file can not be found in {1}", filename, install_dir);
+                Console.WriteLine("\n{0} file can not be found in {1}", filename, installDir);
                 Environment.Exit(0);
             }
             return "";
@@ -494,6 +411,35 @@ namespace BerryBrew
             return "";
         }
 
+        internal static void PathAddBerryBrew(string binPath)
+        {
+            string path = PathGet();
+            List<string> newPath = new List<string>();
+
+            if (path == null)
+            {
+                newPath.Add(binPath);
+            }
+            else
+            {
+                if (path[path.Length - 1] == ';')
+                    path = path.Substring(0, path.Length - 1);
+
+                newPath.Add(path);
+                newPath.Add(binPath);
+            }
+
+            PathSet(newPath);
+        }
+
+        internal static void PathAddPerl(StrawberryPerl perl)
+        {
+            string path = PathGet();
+            List<string> newPath = perl.Paths;
+            newPath.Add(path);
+            PathSet(newPath);
+        }
+
         internal static string PathGet()
         {
             string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment\";
@@ -504,7 +450,56 @@ namespace BerryBrew
             );
             return path;
         }
-        
+ 
+        internal void PathRemovePerl()
+        {
+            string path = PathGet();
+            List<String> paths = new List<String>();
+
+            if (path != null)
+            {
+                paths = path.Split(';').ToList();
+                foreach (StrawberryPerl perl in PerlGenerateObjects())
+                {
+                    for (var i = 0; i < paths.Count; i++)
+                    {
+                        if (paths[i] == perl.PerlPath
+                            || paths[i] == perl.CPath
+                            || paths[i] == perl.PerlSitePath)
+                        {
+                            paths[i] = "";
+                        }
+                    }
+                }
+
+                PathSet(paths);
+            }
+        }
+
+        internal static bool PathScan(Regex binPattern, string target)
+        {
+            EnvironmentVariableTarget envTarget = new EnvironmentVariableTarget();
+
+            if (target == "machine"){
+                envTarget = EnvironmentVariableTarget.Machine;
+            }
+            else {
+                envTarget = EnvironmentVariableTarget.User;
+            }
+
+            string paths = Environment.GetEnvironmentVariable("path", envTarget);
+
+            if (paths != null)
+            {
+                foreach (string path in paths.Split(';'))
+                {
+                    if (binPattern.Match(path).Success)
+                        return true;
+                }
+            }
+            return false;
+        }
+
         internal static void PathSet(List<string> path)
         {
             path.RemoveAll(str => String.IsNullOrEmpty(str));
@@ -527,16 +522,81 @@ namespace BerryBrew
             );
         }
 
-        public string PerlInstall(string version)
+        internal static string PerlArchivePath(StrawberryPerl perl)
         {
-            StrawberryPerl perl = ResolveVersion(version);
-            string archive_path = Fetch(perl);
-            Extract(perl, archive_path);
-            Available();
-            return perl.Name;
+            string path;
+
+            try
+            {
+                if (!Directory.Exists(perl.ArchivePath))
+                    Directory.CreateDirectory(perl.ArchivePath);
+
+                return perl.ArchivePath + @"\" + perl.ArchiveName;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Console.WriteLine("Error, do not have permissions to create directory: " + perl.ArchivePath);
+            }
+
+            Console.WriteLine("Creating temporary directory instead");
+            do
+            {
+                path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            } while (Directory.Exists(path));
+ 
+            Directory.CreateDirectory(path);
+
+            return path + @"\" + perl.ArchiveName;
         }
 
-        internal static bool PerlInstalled(StrawberryPerl perl)
+        internal List<StrawberryPerl> PerlGenerateObjects()
+        {
+            List<StrawberryPerl> perls = new List<StrawberryPerl>();
+            var json_list = ParseJson("perls");
+            
+            foreach (var version in json_list)
+            {
+                perls.Add(
+                    new StrawberryPerl(
+                        Dir,
+                        version.name,
+                        version.file,
+                        version.url,
+                        version.ver,
+                        version.csum
+                    )
+                );
+            }
+            return perls;
+        }
+
+        internal StrawberryPerl PerlInUse()
+        {
+            string path = PathGet();
+
+            StrawberryPerl currentPerl = new StrawberryPerl();
+
+            if (path != null)
+            {
+                string[] paths = path.Split(';');
+                foreach (StrawberryPerl perl in PerlGenerateObjects())
+                {
+                    for (int i = 0; i < paths.Length; i++)
+                    {
+                        if (paths[i] == perl.PerlPath
+                            || paths[i] == perl.CPath
+                            || paths[i] == perl.PerlSitePath)
+                        {
+                            currentPerl = perl;
+                            break;
+                        }
+                    }
+                }
+            }
+            return currentPerl;
+        }
+
+        internal static bool PerlIsInstalled(StrawberryPerl perl)
         {
             if (Directory.Exists(perl.InstallPath)
                 && File.Exists(perl.PerlPath + @"\perl.exe"))
@@ -545,51 +605,38 @@ namespace BerryBrew
             }
             return false;
         }
+        
+        internal List<StrawberryPerl> PerlsInstalled()
+        {
+            List<StrawberryPerl> perls = PerlGenerateObjects();
+            List<StrawberryPerl> PerlsInstalled = new List<StrawberryPerl>();
 
-        internal static string RemoveFile(string filename)
+            foreach (StrawberryPerl perl in perls)
+            {
+                if (PerlIsInstalled(perl))
+                    PerlsInstalled.Add(perl);
+            }
+            return PerlsInstalled;
+        }
+
+        public void PerlRemove(string perlVersionToRemove)
         {
             try
             {
-                File.Delete(filename);
-            }
-            catch (Exception ex)
-            {
-                return ex.ToString();
-            }
-            return true.ToString();
-        }
-
-        internal void RemoveFilesystemAttributes(string currentDir)
-        {
-           if (Directory.Exists(currentDir))
-           {
-               string[] subDirs = Directory.GetDirectories(currentDir);
-               foreach(string dir in subDirs)
-               RemoveFilesystemAttributes(dir);
-               string[] files = Directory.GetFiles(currentDir);
-               foreach (string file in files)
-               File.SetAttributes(file, FileAttributes.Normal);
-           }
-        }
-
-        public void RemovePerl(string perlVersionToRemove)
-        {
-            try
-            {
-                StrawberryPerl perl = ResolveVersion(perlVersionToRemove);
-                StrawberryPerl currentPerl = CheckWhichPerlInPath();
+                StrawberryPerl perl = PerlResolveVersion(perlVersionToRemove);
+                StrawberryPerl currentPerl = PerlInUse();
 
                 if (perl.Name == currentPerl.Name)
                 {
                     Console.WriteLine("Removing Perl " + perlVersionToRemove + " from PATH");
-                    RemovePerlFromPath();
+                    PathRemovePerl();
                 }
 
                 if (Directory.Exists(perl.InstallPath))
                 {
                     try
                     {
-                        this.RemoveFilesystemAttributes(perl.InstallPath);
+                        FilesystemResetAttributes(perl.InstallPath);
                         Directory.Delete(perl.InstallPath, true);
                         Console.WriteLine("Successfully removed Strawberry Perl " + perlVersionToRemove);
                     }
@@ -615,34 +662,9 @@ namespace BerryBrew
             }
         }
 
-        internal void RemovePerlFromPath()
+        internal StrawberryPerl PerlResolveVersion(string version)
         {
-            string path = PathGet();
-            List<String> paths = new List<String>();
-
-            if (path != null)
-            {
-                paths = path.Split(';').ToList();
-                foreach (StrawberryPerl perl in this.GatherPerls())
-                {
-                    for (var i = 0; i < paths.Count; i++)
-                    {
-                        if (paths[i] == perl.PerlPath
-                            || paths[i] == perl.CPath
-                            || paths[i] == perl.PerlSitePath)
-                        {
-                            paths[i] = "";
-                        }
-                    }
-                }
-
-                PathSet(paths);
-            }
-        }
-
-        internal StrawberryPerl ResolveVersion(string version)
-        {
-            foreach (StrawberryPerl perl in GatherPerls())
+            foreach (StrawberryPerl perl in PerlGenerateObjects())
             {
                 if (perl.Name == version)
                     return perl;
@@ -650,49 +672,20 @@ namespace BerryBrew
             throw new ArgumentException("Unknown version: " + version);
         }
 
-        internal static bool ScanSystemPath(Regex binPattern)
-        {
-            string sysPaths = Environment.GetEnvironmentVariable("path", EnvironmentVariableTarget.Machine);
-
-            if (sysPaths != null)
-            {
-                foreach (string sysPath in sysPaths.Split(';'))
-                {
-                    if (binPattern.Match(sysPath).Success)
-                        return true;
-                }
-            }
-            return false;
-        }
-
-        internal static bool ScanUserPath(Regex binPattern)
-        {
-            string userPaths = Environment.GetEnvironmentVariable("path", EnvironmentVariableTarget.User);
-            if (userPaths != null)
-            {
-                foreach (string userPath in userPaths.Split(';'))
-                {
-                    if (binPattern.Match(userPath).Success)
-                        return true;
-                }
-            }
-            return false;
-        }
-
         public void Switch(string switchToVersion)
         {
             try
             {
-                StrawberryPerl perl = ResolveVersion(switchToVersion);
+                StrawberryPerl perl = PerlResolveVersion(switchToVersion);
 
-                if (!PerlInstalled(perl))
+                if (!PerlIsInstalled(perl))
                 {
                     Console.WriteLine("Perl version " + perl.Name + " is not installed. Run the command:\n\n\tberrybrew install " + perl.Name);
                     Environment.Exit(0);
                 }
 
-                RemovePerlFromPath();
-                AddPerlToPath(perl);
+                PathRemovePerl();
+                PathAddPerl(perl);
 
                 Console.WriteLine("Switched to " + switchToVersion + ", start a new terminal to use it.");
             }

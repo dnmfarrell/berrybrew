@@ -13,8 +13,6 @@ namespace BBConsole
         {
             Berrybrew BB = new Berrybrew();
             
-            //BB.Debug = true;
-
             if (BB.Debug)
             {
                 Console.WriteLine("\nberrybrew debugging enabled...\n");
@@ -40,7 +38,7 @@ namespace BBConsole
                     }
                     try
                     {
-                        BB.PerlInstall(args[1]);
+                        BB.Install(args[1]);
                     }
                     catch (ArgumentException error)
                     {
@@ -83,7 +81,7 @@ namespace BBConsole
                         BB.Message.Print("remove_ver_required");
                         Environment.Exit(0);
                     }
-                    BB.RemovePerl(args[1]);
+                    BB.PerlRemove(args[1]);
                     break;
 
                 case "exec":
@@ -93,7 +91,7 @@ namespace BBConsole
                         Environment.Exit(0);
                     }
                     args[0] = "";
-                    BB.CompileExec(String.Join(" ", args).Trim());
+                    BB.ExecCompile(String.Join(" ", args).Trim());
                     break;
 
                 case "license":
