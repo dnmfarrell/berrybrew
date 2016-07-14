@@ -13,7 +13,7 @@ namespace BBConsole
         {
             Berrybrew BB = new Berrybrew();
 
-            if (args[0] == "debug")
+            if (args.Length > 0 && args[0] == "debug")
             {
                 BB.Debug = true;
                 args = args.Skip(1).ToArray();

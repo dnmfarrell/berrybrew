@@ -6,6 +6,9 @@ Revision history for berrybrew
           ``berrybrew debug ...''
         - major code restructuring
         - cleaned up Exec() PATH configuration (closes #10, #12 and #23)
+        - removed Dir class, path info now stored in member variables
+        - added doc/
+        - added unit test doc
  
 1.01    2016-07-13
         - added RemoveFilesystemAttributes(), removes RO flag on all files
