@@ -16,7 +16,8 @@ echo "compiling the berrybrew binary...\n"
 mcs \
     -lib:bin \
     -r:bbapi.dll \
-    -out:bin/berrybrew.exe -win32icon:berrybrew.ico \
+    -out:bin/berrybrew.exe \
+    -win32icon:berrybrew.ico \
     src/bbconsole.cs
 
 # zip
