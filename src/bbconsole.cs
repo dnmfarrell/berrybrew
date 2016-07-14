@@ -12,7 +12,13 @@ namespace BBConsole
         static void Main(string[] args)
         {
             Berrybrew BB = new Berrybrew();
-            
+
+            if (args[0] == "debug")
+            {
+                BB.Debug = true;
+                args = args.Skip(1).ToArray();
+            }
+
             if (BB.Debug)
             {
                 Console.WriteLine("\nberrybrew debugging enabled...\n");

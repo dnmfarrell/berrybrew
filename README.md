@@ -222,13 +222,17 @@ Use the included `release.sh` script, which:
 If you run into trouble installing a Perl, try clearing the berrybrew cached
 downloads by running `berrybrew clean`. 
 
+You can also enable debugging to get more verbose output on the command line:
+
+    berrybrew debug <command> [options] 
+
 ##License
 
 2 Clause FreeBSD - see LICENSE
 
 ##Version
 
-    1.01
+    1.03
 
 ##Original Author
 

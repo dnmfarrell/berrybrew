@@ -131,7 +131,7 @@ namespace BerryBrew
             }
         }
        
-        internal static void Exec(StrawberryPerl perl, string command, string SysPath)
+        internal void Exec(StrawberryPerl perl, string command, string sysPath)
         {
             Console.WriteLine("Perl-" + perl.Name + "\n==============");
 
@@ -141,8 +141,8 @@ namespace BerryBrew
 
             List<String> newPath;
             newPath = perl.Paths;
-            newPath.Add(SysPath);
-
+            newPath.Add(sysPath);
+            
             System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
 
             startInfo.FileName = "cmd.exe";
@@ -188,7 +188,7 @@ namespace BerryBrew
                 execWith = perlsInstalled;
             }
 
-            string sysPath = PathGet();
+            string sysPath = PathRemovePerl(false);
 
             foreach (StrawberryPerl perl in execWith)
             {
@@ -451,7 +451,7 @@ namespace BerryBrew
             return path;
         }
  
-        internal void PathRemovePerl()
+        internal string PathRemovePerl(bool process=true)
         {
             string path = PathGet();
             List<String> paths = new List<String>();
@@ -459,6 +459,7 @@ namespace BerryBrew
             if (path != null)
             {
                 paths = path.Split(';').ToList();
+
                 foreach (StrawberryPerl perl in PerlGenerateObjects())
                 {
                     for (var i = 0; i < paths.Count; i++)
@@ -472,8 +473,13 @@ namespace BerryBrew
                     }
                 }
 
-                PathSet(paths);
+                paths.RemoveAll(str => String.IsNullOrEmpty(str));
+                
+                if (process)
+                    PathSet(paths);
             }
+
+            return String.Join(";", paths);
         }
 
         internal static bool PathScan(Regex binPattern, string target)
