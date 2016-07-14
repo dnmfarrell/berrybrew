@@ -1,7 +1,5 @@
-[
-    {
-        "root_dir" : "C:\\berrybrew",
-        "temp_dir" : "temp",
-        "debug"    : "false"
-    }
-]
+{
+    "root_dir" : "C:\\berrybrew",
+    "temp_dir" : "C:\\berrybrew\\temp",
+    "debug"    : "false"
+}

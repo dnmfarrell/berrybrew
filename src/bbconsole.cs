@@ -11,15 +11,12 @@ namespace BBConsole
     {
         static void Main(string[] args)
         {
-
             Berrybrew BB = new Berrybrew();
 
-            var DirPath = new DirPath();
-            var conf_json = Berrybrew.ParseConfig(DirPath.InstallDir);
-
-            foreach (var entry in conf_json)
+            if (args[0] == "debug")
             {
-                BB.Debug = entry.debug;
+                BB.Debug = true;
+                args = args.Skip(1).ToArray();
             }
 
             if (BB.Debug)
@@ -29,34 +26,32 @@ namespace BBConsole
 
             if (args.Length == 0)
             {
-                BB.Print("help");
+                BB.Message.Print("help");
                 Environment.Exit(0);
             }
 
             switch (args[0])
             {
                 case "version":
-                    BB.Print("version");
+                    BB.Message.Print("version");
                     break;
 
                 case "install":
                     if (args.Length == 1)
                     {
-                        string install_ver_required = BB.Messages("install_ver_required");
-                        Console.WriteLine(install_ver_required);
+                        BB.Message.Print("install_ver_required");
                         Environment.Exit(0);
                     }
                     try
                     {
-                        StrawberryPerl perl = BB.ResolveVersion(args[1]);
-                        string archive_path = BB.Fetch(perl);
-                        BB.Extract(perl, archive_path);
-                        BB.Available();
+                        BB.Install(args[1]);
                     }
-                    catch (ArgumentException)
+                    catch (ArgumentException error)
                     {
-                        string install_ver_unknown = BB.Messages("install_ver_unknown");
-                        Console.WriteLine(install_ver_unknown);
+                        if (BB.Debug)
+                            Console.WriteLine(error);
+
+                        BB.Message.Print("install_ver_unknown");
                         Environment.Exit(0);
                     }
                     break;
@@ -72,8 +67,7 @@ namespace BBConsole
                 case "switch":
                     if (args.Length == 1)
                     {
-                        string switch_ver_required = BB.Messages("switch_ver_required");
-                        Console.WriteLine(switch_ver_required);
+                        BB.Message.Print("switch_ver_required");
                         Environment.Exit(0);
                     }
                     BB.Switch(args[1]);
@@ -90,34 +84,32 @@ namespace BBConsole
                 case "remove":
                     if (args.Length == 1)
                     {
-                        string remove_ver_required = BB.Messages("remove_ver_required");
-                        Console.WriteLine(remove_ver_required);
+                        BB.Message.Print("remove_ver_required");
                         Environment.Exit(0);
                     }
-                    BB.RemovePerl(args[1]);
+                    BB.PerlRemove(args[1]);
                     break;
 
                 case "exec":
                     if (args.Length == 1)
                     {
-                        string exec_command_required = BB.Messages("exec_command_required");
-                        Console.WriteLine(exec_command_required);
+                        BB.Message.Print("exec_command_required");
                         Environment.Exit(0);
                     }
                     args[0] = "";
-                    BB.CompileExec(String.Join(" ", args).Trim());
+                    BB.ExecCompile(String.Join(" ", args).Trim());
                     break;
 
                 case "license":
                     if (args.Length == 1)
                     {
-                        BB.Print("license");
+                        BB.Message.Print("license");
                         Environment.Exit(0);
                     }
                     break;
 
                 default:
-                    BB.Print("help");
+                    BB.Message.Print("help");
                     break;
             }
         } 

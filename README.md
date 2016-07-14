@@ -18,7 +18,7 @@ works at runtime.
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: c36f1d44db227bc141c7d4b1a8bffc1ec47c619e`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 6293e7fcfb83871905f10b9e9ca4759d608331b7`
 
 #####Configuration
 
@@ -222,13 +222,17 @@ Use the included `release.sh` script, which:
 If you run into trouble installing a Perl, try clearing the berrybrew cached
 downloads by running `berrybrew clean`. 
 
+You can also enable debugging to get more verbose output on the command line:
+
+    berrybrew debug <command> [options] 
+
 ##License
 
 2 Clause FreeBSD - see LICENSE
 
 ##Version
 
-    1.01
+    1.03
 
 ##Original Author
 

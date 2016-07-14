@@ -1,6 +1,8 @@
 mkdir build
 mkdir build\data
 
+echo "compiling dll..."
+
 call mcs^
     -lib:bin^
     -t:library^
@@ -8,12 +10,14 @@ call mcs^
     -out:build\bbapi.dll^
     src\berrybrew.cs
 
+echo "compiling binary..."
+
 call mcs^
     src\bbconsole.cs^
     -lib:build^
     -r:bbapi.dll^
     -win32icon:berrybrew.ico^
-    -out:build\berrybrew.exe 
+    -out:build\berrybrew.exe
 
 copy bin\ICSharpCode.SharpZipLib.dll build\
 copy bin\Newtonsoft.Json.dll build\
