@@ -114,14 +114,17 @@
         "",    
         "    available   List available Strawberry Perl versions and which are installed",
         "    config      Add berrybrew to your PATH",
-        "    clean       Remove all temporary berrybrew files",
+        "    clean*      Remove all temporary berrybrew files",
         "    install     Download, extract and install a Strawberry Perl",
         "    remove      Uninstall a Strawberry Perl",
         "    switch      Switch to use a different Strawberry Perl",
         "    off         Disable berrybrew perls (use 'switch' to re-enable)",
-        "    exec        Run a command for every installed Strawberry Perl",
+        "    exec*       Run a command for every installed Strawberry Perl",
         "    license     Show berrybrew license",
         "    version     Displays the version",
+        "",
+        "",
+        "    * - view subcommand details with 'berrybrew <command> help'"
     ]
 },
 {
@@ -164,5 +167,29 @@
         "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE",
         "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
     ]
+},
+{
+    "label": "subcmd.clean",
+
+    "content": [
+        "",
+        "   berrybrew 'clean' subcommands:",
+        "",
+        "   temp   Removes all downloaded Perl installation files",
+        "   orphan Deletes all orphaned Perl installations",
+        "   all    Clean everything",
+    ]  
+},
+{
+    "label": "subcmd.exec",
+
+    "content": [
+        "",
+        "   berrybrew 'exec' subcommands:",
+        "",
+        "   --with perlver,perlver <command>",
+        "",
+        "   Execute a command across only select versions of Perl"
+    ]  
 }
 ]
