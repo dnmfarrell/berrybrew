@@ -9,7 +9,9 @@ Revision history for berrybrew
         - removed Dir class, path info now stored in member variables
         - added doc/
         - added unit test doc
- 
+        - on destruction, we now check for orphaned perl installs, and warn the user
+          (closes #16)
+
 1.01    2016-07-13
         - added RemoveFilesystemAttributes(), removes RO flag on all files
           in perl install dirs before deleting. C# can't delete them otherwise

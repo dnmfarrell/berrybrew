@@ -5,7 +5,7 @@ use Test::More;
 use Win32::TieRegistry;
 
 my $p = 'c:/repos/berrybrew/perl/perl/bin';
-my $c = 'c:/repos/berrybrew/bin/berrybrew';
+my $c = 'c:/repos/berrybrew/build/berrybrew';
 
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
 
