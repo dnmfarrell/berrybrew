@@ -1,5 +1,6 @@
 using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
@@ -37,26 +38,37 @@ namespace BerryBrew
         private const int SMTO_ABORTIFHUNG = 0x2;
 
         public bool Debug { set; get; }
+        static string assembly_path = Assembly.GetExecutingAssembly().Location;
+        static string assembly_directory = Path.GetDirectoryName(assembly_path);       
+        
+        Dirs Dir = new Dirs(assembly_directory);
+
+        public Berrybrew()
+        {
+            dynamic json_conf = ParseConfig(Dir.Install);
+            Dir.Add("root", json_conf.root_dir);
+            Dir.Add("archive", json_conf.archive_dir);
+        }
 
         internal static void AddBinToPath(string bin_path)
         {
             string path = PathGet();
-            List<string> new_path = new List<string>();
+            List<string> newPath = new List<string>();
 
             if (path == null)
             {
-                new_path.Add(bin_path);
+                newPath.Add(bin_path);
             }
             else
             {
                 if (path[path.Length - 1] == ';')
                     path = path.Substring(0, path.Length - 1);
 
-                new_path.Add(path);
-                new_path.Add(bin_path);
+                newPath.Add(path);
+                newPath.Add(bin_path);
             }
 
-            PathSet(new_path);
+            PathSet(newPath);
         }
 
         internal static void AddPerlToPath(StrawberryPerl perl)
@@ -95,7 +107,7 @@ namespace BerryBrew
             Console.WriteLine(available_footer);
         }
 
-        internal static StrawberryPerl CheckWhichPerlInPath()
+        internal StrawberryPerl CheckWhichPerlInPath()
         {
             string path = PathGet();
 
@@ -123,8 +135,7 @@ namespace BerryBrew
 
         public void Clean()
         {
-            var DirPath = new DirPath();
-            string archive_path = DirPath.ArchiveDir;
+            string archive_path = Dir.Archive;
 
             System.IO.DirectoryInfo archive_dir = new DirectoryInfo(archive_path);
 
@@ -185,9 +196,7 @@ namespace BerryBrew
 
                 if (Console.ReadLine() == "y")
                 {
-                    var DirPath = new DirPath();
-
-                    AddBinToPath(DirPath.InstallDir);
+                    AddBinToPath(Dir.Install);
 
                     if (ScanSystemPath(new Regex("berrybrew.bin")))
                     {
@@ -369,7 +378,7 @@ namespace BerryBrew
             return "";
         }
 
-        internal static List<StrawberryPerl> GatherPerls()
+        internal List<StrawberryPerl> GatherPerls()
         {
             List<StrawberryPerl> perls = new List<StrawberryPerl>();
             var json_list = ParseJson("perls");
@@ -378,6 +387,7 @@ namespace BerryBrew
             {
                 perls.Add(
                     new StrawberryPerl(
+                        Dir,
                         version.name,
                         version.file,
                         version.url,
@@ -416,7 +426,7 @@ namespace BerryBrew
             return path + @"\" + perl.ArchiveName;
         }
 
-        internal static List<StrawberryPerl> GetInstalledPerls()
+        internal List<StrawberryPerl> GetInstalledPerls()
         {
             List<StrawberryPerl> perls = GatherPerls();
             List<StrawberryPerl> PerlsInstalled = new List<StrawberryPerl>();
@@ -473,11 +483,9 @@ namespace BerryBrew
             return "";
         }       
 
-        internal static dynamic ParseJson(string type)
+        internal dynamic ParseJson(string type)
         {
-            var DirPath = new DirPath();
-            string install_dir = DirPath.InstallDir;
-            
+            string install_dir = Dir.Install;
             string filename = String.Format("{0}.json", type);
             string json_path = String.Format("{0}/data/{1}", install_dir, filename);
             string json_file = Regex.Replace(json_path, @"bin", "");
@@ -631,7 +639,7 @@ namespace BerryBrew
             }
         }
 
-        internal static void RemovePerlFromPath()
+        internal void RemovePerlFromPath()
         {
             string path = PathGet();
             List<String> paths = new List<String>();
@@ -728,37 +736,44 @@ namespace BerryBrew
         }
     }
 
-    public struct Message
+    public class Message
     {
         public string Label;
         public string Content;
+        public Hashtable msgMap = new Hashtable();
 
-        public Message(object label, object content)
+        public string Message(string label)
         {
-            this.Label = label.ToString();
-            this.Content = content.ToString();
+            return this.msgMap[label].ToString();
+        }
+
+        public void Add(dynamic label, dynamic content)
+        {
+            this.msgMap.Add(label.ToString(), content.ToString());
         }
     }
 
-    public class DirPath
+    public class Dirs 
     {
-        public string InstallDir; // berrybrew location
-        public string RootDir;    // strawberry base location
-        public string ArchiveDir; // zip location
-
-        public DirPath()
+        public string Install; // berrybrew location
+        public string Root;    // strawberry base location
+        public string Archive; // zip location
+        
+        public void Add(string name, dynamic dir)
         {
-            string assembly_path = Assembly.GetExecutingAssembly().Location;
-            string assembly_directory = Path.GetDirectoryName(assembly_path);
-            this.InstallDir = assembly_directory;
-
-            var json_list = Berrybrew.ParseConfig(this.InstallDir);
-
-            foreach(var entry in json_list)
+            if (name == "root")
             {
-                this.RootDir = entry.root_dir + "\\"; 
-                this.ArchiveDir = this.RootDir + entry.temp_dir;
+                this.Root = dir + "\\"; 
             }
+            if (name == "archive")
+            {
+                this.Archive = dir;
+            }
+        }
+        
+        public Dirs(string install_dir)
+        {
+            this.Install = install_dir;
         }
     }
 
@@ -776,19 +791,17 @@ namespace BerryBrew
         public List<String> Paths;
         public string Sha1Checksum;
 
-        public StrawberryPerl(object name, object archive, object url, object version, object csum)
+        public StrawberryPerl(Dirs Dir, object name, object archive, object url, object version, object csum)
         {
-            var DirPath = new DirPath();
-
             this.Name = name.ToString();
             this.ArchiveName = archive.ToString();
             this.Url = url.ToString();
             this.Version = version.ToString();
-            this.ArchivePath = DirPath.ArchiveDir;
-            this.InstallPath =  DirPath.RootDir + name;
-            this.CPath = DirPath.RootDir + name + @"\c\bin";
-            this.PerlPath = DirPath.RootDir + name + @"\perl\bin";
-            this.PerlSitePath = DirPath.RootDir + name + @"\perl\site\bin";
+            this.ArchivePath = Dir.Archive;
+            this.InstallPath =  Dir.Root+ name;
+            this.CPath = Dir.Root+ name + @"\c\bin";
+            this.PerlPath = Dir.Root+ name + @"\perl\bin";
+            this.PerlSitePath = Dir.Root+ name + @"\perl\site\bin";
             this.Paths = new List <String>{
                 this.CPath, this.PerlPath, this.PerlSitePath
             };
