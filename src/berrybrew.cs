@@ -40,7 +40,10 @@ namespace BerryBrew
 
         static string assembly_path = Assembly.GetExecutingAssembly().Location;
         static string assembly_directory = Path.GetDirectoryName(assembly_path);       
-        public Dirs Dir = new Dirs(assembly_directory);
+
+        public string installPath = assembly_directory;
+        public string rootPath = null;
+        public string archivePath = null;
 
         public Message Message = new Message();
 
@@ -48,9 +51,10 @@ namespace BerryBrew
         {
             // config
 
-            dynamic jsonConf = ParseConfig(Dir.Install);
-            this.Dir.Add("root", jsonConf.root_dir);
-            this.Dir.Add("archive", jsonConf.temp_dir);
+            dynamic jsonConf = ParseConfig(this.installPath);
+            this.rootPath = jsonConf.root_dir + "\\";
+            this.archivePath = jsonConf.temp_dir;
+
             this.Debug = jsonConf.debug;
 
             // messages
@@ -91,7 +95,7 @@ namespace BerryBrew
 
         public void Clean()
         {
-            string archivePath = Dir.Archive;
+            string archivePath = this.archivePath;
 
             System.IO.DirectoryInfo archiveDir = new DirectoryInfo(archivePath);
             FilesystemResetAttributes(archiveDir.FullName);
@@ -113,7 +117,7 @@ namespace BerryBrew
 
                 if (Console.ReadLine() == "y")
                 {
-                    PathAddBerryBrew(Dir.Install);
+                    PathAddBerryBrew(this.installPath);
 
                     if (PathScan(new Regex("berrybrew.bin"), "machine"))
                     {
@@ -376,9 +380,8 @@ namespace BerryBrew
 
         internal dynamic ParseJson(string type)
         {
-            string installDir = Dir.Install;
             string filename = String.Format("{0}.json", type);
-            string jsonPath = String.Format("{0}/data/{1}", installDir, filename);
+            string jsonPath = String.Format("{0}/data/{1}", this.installPath, filename);
             string jsonFile = Regex.Replace(jsonPath, @"bin", "");
 
             try
@@ -403,9 +406,13 @@ namespace BerryBrew
                     }
                 }
             }
-            catch (System.IO.FileNotFoundException)
+            catch (System.IO.FileNotFoundException err)
             {
-                Console.WriteLine("\n{0} file can not be found in {1}", filename, installDir);
+                Console.WriteLine("\n{0} file can not be found in {1}", filename, this.installPath);
+
+                if (Debug)
+                    Console.WriteLine(err);
+
                 Environment.Exit(0);
             }
             return "";
@@ -564,7 +571,7 @@ namespace BerryBrew
             {
                 perls.Add(
                     new StrawberryPerl(
-                        Dir,
+                        this,
                         version.name,
                         version.file,
                         version.url,
@@ -646,9 +653,12 @@ namespace BerryBrew
                         Directory.Delete(perl.InstallPath, true);
                         Console.WriteLine("Successfully removed Strawberry Perl " + perlVersionToRemove);
                     }
-                    catch (System.IO.IOException)
+                    catch (System.IO.IOException err)
                     {
                         Console.WriteLine("Unable to completely remove Strawberry Perl " + perlVersionToRemove + " some files may remain");
+
+                        if (Debug)
+                            Console.WriteLine(err);
                     }
                 }
                 else
@@ -657,14 +667,21 @@ namespace BerryBrew
                     Environment.Exit(0);
                 }
             }
-            catch (ArgumentException)
+            catch (ArgumentException err)
             {
-                this.Message.Print("perl_unknown_version");
+                Message.Print("perl_unknown_version");
+                
+                if (Debug)
+                    Console.WriteLine(err);
+
                 Environment.Exit(0);
             }
-            catch (UnauthorizedAccessException)
+            catch (UnauthorizedAccessException err)
             {
                 Console.WriteLine("Unable to remove Strawberry Perl " + perlVersionToRemove + " permission was denied by System");
+
+                if (Debug)
+                    Console.WriteLine(err);
             }
         }
 
@@ -735,30 +752,6 @@ namespace BerryBrew
         }
     }
 
-    public class Dirs 
-    {
-        public string Install; // berrybrew location
-        public string Root;    // strawberry base location
-        public string Archive; // zip location
-        
-        public void Add(string name, dynamic dir)
-        {
-            if (name == "root")
-            {
-                this.Root = dir + "\\"; 
-            }
-            if (name == "archive")
-            {
-                this.Archive = dir;
-            }
-        }
-        
-        public Dirs(string install_dir)
-        {
-            this.Install = install_dir;
-        }
-    }
-
     public struct StrawberryPerl
     {
         public string Name;
@@ -773,17 +766,17 @@ namespace BerryBrew
         public List<String> Paths;
         public string Sha1Checksum;
 
-        public StrawberryPerl(Dirs Dir, object name, object archive, object url, object version, object csum)
+        public StrawberryPerl(Berrybrew BB, object name, object archive, object url, object version, object csum)
         {
             this.Name = name.ToString();
             this.ArchiveName = archive.ToString();
             this.Url = url.ToString();
             this.Version = version.ToString();
-            this.ArchivePath = Dir.Archive;
-            this.InstallPath =  Dir.Root+ name;
-            this.CPath = Dir.Root+ name + @"\c\bin";
-            this.PerlPath = Dir.Root+ name + @"\perl\bin";
-            this.PerlSitePath = Dir.Root+ name + @"\perl\site\bin";
+            this.ArchivePath = BB.archivePath;
+            this.InstallPath =  BB.rootPath + name;
+            this.CPath = BB.rootPath + name + @"\c\bin";
+            this.PerlPath = BB.rootPath + name + @"\perl\bin";
+            this.PerlSitePath = BB.rootPath + name + @"\perl\site\bin";
             this.Paths = new List <String>{
                 this.CPath, this.PerlPath, this.PerlSitePath
             };
