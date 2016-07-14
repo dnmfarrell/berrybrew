@@ -14,6 +14,19 @@ namespace BBConsole
 
             Berrybrew BB = new Berrybrew();
 
+            var DirPath = new DirPath();
+            var conf_json = Berrybrew.ParseConfig(DirPath.InstallDir);
+
+            foreach (var entry in conf_json)
+            {
+                BB.Debug = entry.debug;
+            }
+
+            if (BB.Debug)
+            {
+                Console.WriteLine("\nberrybrew debugging enabled...\n");
+            }
+
             if (args.Length == 0)
             {
                 BB.Print("help");
