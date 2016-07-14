@@ -22,6 +22,10 @@ namespace BBConsole
             if (BB.Debug)
             {
                 Console.WriteLine("\nberrybrew debugging enabled...\n");
+                Console.WriteLine(
+                    "install dir: {0}\nperl root dir: {1}\ntemp dir: {2}",
+                    BB.installPath, BB.rootPath, BB.archivePath
+                );
             }
 
             if (args.Length == 0)
