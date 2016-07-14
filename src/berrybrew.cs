@@ -403,9 +403,13 @@ namespace BerryBrew
                     }
                 }
             }
-            catch (System.IO.FileNotFoundException)
+            catch (System.IO.FileNotFoundException err)
             {
                 Console.WriteLine("\n{0} file can not be found in {1}", filename, installDir);
+
+                if (Debug)
+                    Console.WriteLine(err);
+
                 Environment.Exit(0);
             }
             return "";
@@ -646,9 +650,12 @@ namespace BerryBrew
                         Directory.Delete(perl.InstallPath, true);
                         Console.WriteLine("Successfully removed Strawberry Perl " + perlVersionToRemove);
                     }
-                    catch (System.IO.IOException)
+                    catch (System.IO.IOException err)
                     {
                         Console.WriteLine("Unable to completely remove Strawberry Perl " + perlVersionToRemove + " some files may remain");
+
+                        if (Debug)
+                            Console.WriteLine(err);
                     }
                 }
                 else
@@ -657,14 +664,21 @@ namespace BerryBrew
                     Environment.Exit(0);
                 }
             }
-            catch (ArgumentException)
+            catch (ArgumentException err)
             {
-                this.Message.Print("perl_unknown_version");
+                Message.Print("perl_unknown_version");
+                
+                if (Debug)
+                    Console.WriteLine(err);
+
                 Environment.Exit(0);
             }
-            catch (UnauthorizedAccessException)
+            catch (UnauthorizedAccessException err)
             {
                 Console.WriteLine("Unable to remove Strawberry Perl " + perlVersionToRemove + " permission was denied by System");
+
+                if (Debug)
+                    Console.WriteLine(err);
             }
         }
 
