@@ -36,8 +36,26 @@ namespace BBConsole
 
             switch (args[0])
             {
-                case "version":
-                    BB.Message.Print("version");
+                case "available":
+                    BB.Available();
+                    break;
+
+                case "clean":
+                    BB.Clean();
+                    break;
+
+                case "config":
+                    BB.Config();
+                    break;
+
+                case "exec":
+                    if (args.Length == 1)
+                    {
+                        BB.Message.Print("exec_command_required");
+                        Environment.Exit(0);
+                    }
+                    args[0] = "";
+                    BB.ExecCompile(String.Join(" ", args).Trim());
                     break;
 
                 case "install":
@@ -60,29 +78,16 @@ namespace BBConsole
                     }
                     break;
 
-                case "clean":
-                    BB.Clean();
+                case "license":
+                    if (args.Length == 1)
+                    {
+                        BB.Message.Print("license");
+                        Environment.Exit(0);
+                    }
                     break;
 
                 case "off":
                     BB.Off();
-                    break;
-
-                case "switch":
-                    if (args.Length == 1)
-                    {
-                        BB.Message.Print("switch_ver_required");
-                        Environment.Exit(0);
-                    }
-                    BB.Switch(args[1]);
-                    break;
-
-                case "available":
-                    BB.Available();
-                    break;
-
-                case "config":
-                    BB.Config();
                     break;
 
                 case "remove":
@@ -94,22 +99,17 @@ namespace BBConsole
                     BB.PerlRemove(args[1]);
                     break;
 
-                case "exec":
+                case "switch":
                     if (args.Length == 1)
                     {
-                        BB.Message.Print("exec_command_required");
+                        BB.Message.Print("switch_ver_required");
                         Environment.Exit(0);
                     }
-                    args[0] = "";
-                    BB.ExecCompile(String.Join(" ", args).Trim());
+                    BB.Switch(args[1]);
                     break;
 
-                case "license":
-                    if (args.Length == 1)
-                    {
-                        BB.Message.Print("license");
-                        Environment.Exit(0);
-                    }
+                case "version":
+                    BB.Message.Print("version");
                     break;
 
                 default:
