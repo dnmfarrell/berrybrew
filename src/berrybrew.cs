@@ -129,9 +129,7 @@ namespace BerryBrew
                 
                 case "orphan":
                     cleansed = CleanOrphan();
-                    if (cleansed)
-                        Console.WriteLine("\nremoved orphaned Perl installs");
-                    else
+                    if (!cleansed)
                         Console.WriteLine("\nno orphaned perls to remove");
                     break;
             }
@@ -144,8 +142,7 @@ namespace BerryBrew
             foreach (string orphan in orphans)
             {
                 FilesystemResetAttributes(orphan);
-                PerlRemove(orphan);
-                Console.WriteLine("\n");
+                Directory.Delete(this.rootPath + orphan);
                 Console.WriteLine("removed orphan {0} perl instance", orphan);
             }
 
@@ -613,7 +610,8 @@ namespace BerryBrew
 
                 if (!perlInstallations.Contains(dir))
                 {
-                    orphans.Add(dir);
+                    string dirBaseName= dir.Remove(0, this.rootPath.Length);
+                    orphans.Add(dirBaseName);
                 }
             }
 
