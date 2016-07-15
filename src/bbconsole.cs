@@ -47,7 +47,7 @@ namespace BBConsole
                         Environment.Exit(0);
                     }
 
-                    BB.Clean();
+                    BB.Clean(args[1]);
                     break;
 
                 case "config":
