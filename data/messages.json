@@ -28,6 +28,14 @@
     ]
 },
 {
+    "label": "clone_command_usage",
+
+    "content": [
+        "",
+        "    Usage: berrybrew clone <orig_perl_name> <new_perl_name>"
+    ]
+}, 
+{
     "label": "add_bb_to_path",
 
     "content": [
@@ -113,13 +121,14 @@
         "",
         "",    
         "    available   List available Strawberry Perl versions and which are installed",
-        "    config      Add berrybrew to your PATH",
         "    clean *     Remove all temporary berrybrew files",
+        "    clone       Make a complete copy of a Perl installation",
+        "    config      Add berrybrew to your PATH",
+        "    exec *      Run a command for every installed Strawberry Perl",
         "    install     Download, extract and install a Strawberry Perl",
+        "    off         Disable berrybrew perls (use 'switch' to re-enable)",
         "    remove      Uninstall a Strawberry Perl",
         "    switch      Switch to use a different Strawberry Perl",
-        "    off         Disable berrybrew perls (use 'switch' to re-enable)",
-        "    exec *      Run a command for every installed Strawberry Perl",
         "    help        Display this help screen",
         "    license     Show berrybrew license",
         "    version     Displays the version",
@@ -193,4 +202,5 @@
         "   Execute a command across only select versions of Perl"
     ]  
 }
+
 ]

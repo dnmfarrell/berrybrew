@@ -850,12 +850,6 @@ namespace BerryBrew
             return this.msgMap[label].ToString();
         }
 
-        public void Print(string label)
-        {
-            string msg = this.Get(label);
-            Console.WriteLine(msg);
-        }
-
         public void Add(dynamic json)
         {
             string content = null;
@@ -865,6 +859,19 @@ namespace BerryBrew
                 content += String.Format("{0}\n", line);
             }
             this.msgMap.Add(json.label.ToString(), content);
+        }
+        
+        public void Print(string label)
+        {
+            string msg = this.Get(label);
+            Console.WriteLine(msg);
+        }
+
+        public void Say(string label)
+        {
+            string msg = this.Get(label);
+            Console.WriteLine(msg);
+            Environment.Exit(0);
         }
     }
 

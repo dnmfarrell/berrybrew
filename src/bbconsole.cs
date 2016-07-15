@@ -42,8 +42,7 @@ namespace BBConsole
                     {
                         if (args[1].StartsWith("h"))
                         {
-                            BB.Message.Print("subcmd.clean");
-                            Environment.Exit(0);
+                            BB.Message.Say("subcmd.clean");
                         }
                         else
                             BB.Clean(args[1]);
@@ -53,6 +52,14 @@ namespace BBConsole
 
                     break;
 
+                case "clone":
+                    if (args.Length != 3)
+                    {
+                        BB.Message.Say("clone_command_usage");
+                    }
+                    BB.Clone(args[1], args[2]);
+                    break;
+
                 case "config":
                     BB.Config();
                     break;
@@ -60,15 +67,13 @@ namespace BBConsole
                 case "exec":
                     if (args.Length == 1)
                     {
-                        BB.Message.Print("exec_command_required");
-                        Environment.Exit(0);
+                        BB.Message.Say("exec_command_required");
                     }
                     args[0] = "";
                     
                     if (args[1] == "-h" || args[1] == "help")
                         {
-                            BB.Message.Print("subcmd.exec");
-                            Environment.Exit(0);
+                            BB.Message.Say("subcmd.exec");
                         }
                     BB.ExecCompile(String.Join(" ", args).Trim());
                     break;
@@ -76,8 +81,7 @@ namespace BBConsole
                 case "install":
                     if (args.Length == 1)
                     {
-                        BB.Message.Print("install_ver_required");
-                        Environment.Exit(0);
+                        BB.Message.Say("install_ver_required");
                     }
                     try
                     {
@@ -88,16 +92,14 @@ namespace BBConsole
                         if (BB.Debug)
                             Console.WriteLine(error);
 
-                        BB.Message.Print("install_ver_unknown");
-                        Environment.Exit(0);
+                        BB.Message.Say("install_ver_unknown");
                     }
                     break;
 
                 case "license":
                     if (args.Length == 1)
                     {
-                        BB.Message.Print("license");
-                        Environment.Exit(0);
+                        BB.Message.Say("license");
                     }
                     break;
 
@@ -108,8 +110,7 @@ namespace BBConsole
                 case "remove":
                     if (args.Length == 1)
                     {
-                        BB.Message.Print("remove_ver_required");
-                        Environment.Exit(0);
+                        BB.Message.Say("remove_ver_required");
                     }
                     BB.PerlRemove(args[1]);
                     break;
@@ -117,18 +118,17 @@ namespace BBConsole
                 case "switch":
                     if (args.Length == 1)
                     {
-                        BB.Message.Print("switch_ver_required");
-                        Environment.Exit(0);
+                        BB.Message.Say("switch_ver_required");
                     }
                     BB.Switch(args[1]);
                     break;
 
                 case "version":
-                    BB.Message.Print("version");
+                    BB.Message.Say("version");
                     break;
 
                 default:
-                    BB.Message.Print("help");
+                    BB.Message.Say("help");
                     break;
             }
         } 
