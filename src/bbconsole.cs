@@ -41,7 +41,19 @@ namespace BBConsole
                     break;
 
                 case "clean":
-                    BB.Clean();
+                    if (args.Length > 1)
+                    {
+                        if (args[1].StartsWith("h"))
+                        {
+                            BB.Message.Print("subcmd.clean");
+                            Environment.Exit(0);
+                        }
+                        else
+                            BB.Clean(args[1]);
+                    }
+                    else
+                        BB.Clean();
+
                     break;
 
                 case "config":
@@ -55,6 +67,12 @@ namespace BBConsole
                         Environment.Exit(0);
                     }
                     args[0] = "";
+                    
+                    if (args[1] == "-h" || args[1] == "help")
+                        {
+                            BB.Message.Print("subcmd.exec");
+                            Environment.Exit(0);
+                        }
                     BB.ExecCompile(String.Join(" ", args).Trim());
                     break;
 

@@ -108,17 +108,64 @@ namespace BerryBrew
             this.Message.Print("available_footer");
         }
 
-        public void Clean()
+        public void Clean(string subcmd="temp")
         {
+            bool cleansed = false;
+
             string archivePath = this.archivePath;
 
-            System.IO.DirectoryInfo archiveDir = new DirectoryInfo(archivePath);
+            switch (subcmd)
+            {
+                case "temp":
+                    cleansed = CleanTemp();
+                    if (cleansed)
+                        Console.WriteLine("\nremoved all files from {0} temp dir", this.rootPath);
+                    else
+                        Console.WriteLine("\nno archived perl installation files to remove");
+                    break;
+                
+                case "orphan":
+                    cleansed = CleanOrphan();
+                    if (cleansed)
+                        Console.WriteLine("\nremoved orphaned Perl installs");
+                    else
+                        Console.WriteLine("\nno orphaned perls to remove");
+                    break;
+            }
+        }
+
+        internal bool CleanOrphan()
+        {
+            List<string> orphans = PerlFindOrphans();
+
+            foreach (string orphan in orphans)
+            {
+                FilesystemResetAttributes(orphan);
+                PerlRemove(orphan);
+                Console.WriteLine("\n");
+                Console.WriteLine("removed orphan {0} perl instance", orphan);
+            }
+
+            if (orphans.Count > 0)
+                return true;
+            return false;
+        }
+
+        internal bool CleanTemp()
+        {
+            System.IO.DirectoryInfo archiveDir = new DirectoryInfo(archivePath); 
             FilesystemResetAttributes(archiveDir.FullName);
 
-            foreach (FileInfo file in archiveDir.GetFiles())
+            List<FileInfo> zipFiles = archiveDir.GetFiles().ToList();
+
+            foreach (FileInfo file in zipFiles) 
             {
                 file.Delete();
             }
+
+            if (zipFiles.Count > 0)
+                return true;
+            return false;
         }
 
         public void Config()
