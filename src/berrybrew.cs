@@ -51,7 +51,7 @@ namespace BerryBrew
         {
             // config
 
-            dynamic jsonConf = ParseConfig(this.installPath);
+            dynamic jsonConf = ParseJson("config");
             this.rootPath = jsonConf.root_dir + "\\";
             this.archivePath = jsonConf.temp_dir;
 
@@ -111,8 +111,6 @@ namespace BerryBrew
         public void Clean(string subcmd="temp")
         {
             bool cleansed = false;
-
-            string archivePath = this.archivePath;
 
             switch (subcmd)
             {
@@ -404,42 +402,6 @@ namespace BerryBrew
             Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
         }
  
-        public static dynamic ParseConfig(string installDir)
-        {
-            string filename = "config.json";
-            string jsonPath = String.Format("{0}/data/{1}", installDir, filename);
-            string jsonFile = Regex.Replace(jsonPath, @"bin", "");
-
-            try
-            {
-                using (StreamReader r = new StreamReader(jsonFile))
-                {
-                    string json = r.ReadToEnd();
-
-                    try
-                    {
-                        dynamic json_list = JsonConvert.DeserializeObject(json);
-                        return json_list;
-                    }
-                    catch (JsonReaderException error)
-                    {
-                        Console.WriteLine("\n{0} file is malformed. See berrybrew_error.txt in this directory for details.", jsonFile);
-                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"berrybrew_error.txt", true))
-                        {
-                            file.WriteLine(error);
-                        }
-                        Environment.Exit(0);
-                    }
-                }
-            }
-            catch (System.IO.FileNotFoundException)
-            {
-                Console.WriteLine("\n{0} file can not be found in {1}", filename, installDir);
-                Environment.Exit(0);
-            }
-            return "";
-        }       
-
         internal dynamic ParseJson(string type)
         {
             string filename = String.Format("{0}.json", type);

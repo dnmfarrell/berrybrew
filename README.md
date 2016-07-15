@@ -33,20 +33,21 @@ installation.
 
 ##Commands
 
-    berrybrew <command> [option]
+    berrybrew <command> [subcommand] [option]
 
-    available   List available Strawberry Perl versions and which are installed
-    config      Add berrybrew to your PATH
-    clean       Remove all cached temporary Perl installation files
-    install     Download, extract and install a Strawberry Perl
-    remove      Uninstall a Strawberry Perl
-    switch      Switch to use a different Strawberry Perl
-    off         Disable all berrybrew perls (re-enable with 'switch')
-    exec        Run a command for every installed Strawberry Perl
+        available   List available Strawberry Perl versions and which are installed
+        config      Add berrybrew to your PATH
+        clean *     Remove all temporary berrybrew files
+        install     Download, extract and install a Strawberry Perl
+        remove      Uninstall a Strawberry Perl
+        switch      Switch to use a different Strawberry Perl
+        off         Disable berrybrew perls (use 'switch' to re-enable)
+        exec *      Run a command for every installed Strawberry Perl
+        help        Display this help screen
+        license     Show berrybrew license
+        version     Displays the version
 
-    version     Show the version number only
-    license     Show berrybrew license
-
+        * - view subcommand details with 'berrybrew <command> help'
 
 ##Synopsis
 
