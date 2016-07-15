@@ -11,6 +11,13 @@ Revision history for berrybrew
         - added unit test doc
         - on destruction, we now check for orphaned perl installs, and warn the user
           (closes #16)
+        - StrawberryPerl objects are now only generated once, and stored within the BerryBrew
+          object
+        - removed several unused imports
+        - sub command help for the commands that have sub commands
+        - 'clean' removes temp files by default, but can also clean orphaned perls with
+          the 'orphan' subcommand
+        - consolodated ParseJson() and ParseConfig() into the former
 
 1.01    2016-07-13
         - added RemoveFilesystemAttributes(), removes RO flag on all files

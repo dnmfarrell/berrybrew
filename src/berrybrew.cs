@@ -42,6 +42,8 @@ namespace BerryBrew
         public string installPath = assembly_directory;
         public string rootPath = null;
         public string archivePath = null;
+        public string downloadURL = null;
+        public string strawberryURL = null;
 
         public Message Message = new Message();
         public OrderedDictionary Perls = new OrderedDictionary();
@@ -53,7 +55,8 @@ namespace BerryBrew
             dynamic jsonConf = ParseJson("config");
             this.rootPath = jsonConf.root_dir + "\\";
             this.archivePath = jsonConf.temp_dir;
-
+            this.strawberryURL = jsonConf.strawberry_url;
+            this.downloadURL = jsonConf.download_url;
             Debug = jsonConf.debug;
 
             // messages
@@ -755,6 +758,59 @@ namespace BerryBrew
                     return perl;
             }
             throw new ArgumentException("Unknown version: " + version);
+        }
+
+        public void PerlUpdateAvailableList()
+        {
+            //FIXME: incomplete for now. do not use
+
+            using (WebClient client = new WebClient())
+            {
+                string page = client.DownloadString(this.downloadURL);
+                string[] content = page.Split('\n');
+
+                OrderedDictionary strawberryPerls = new OrderedDictionary();
+
+                int i = 0;
+
+                foreach (string line in content)
+                {
+                    if (line.Contains("no64") || line.Contains("-ld-") || line.Contains("PDL"))
+                    {
+                        i++;
+                        continue;
+                    }
+
+                    Match lMatch = Regex.Match(line, @"a href=""(.*?(portable|PDL).zip)""");
+                    if (lMatch.Success)
+                    {
+                        string link = this.strawberryURL + lMatch.Groups[1].Value;
+
+                        Match cMatch = Regex.Match(content[i + 1], @">(\w{40})<");
+                        if (cMatch.Success)
+                        {
+                            strawberryPerls.Add(link, cMatch.Groups[1].Value);
+                        }
+                    }
+                    i++;
+                }
+
+                OrderedDictionary perlDetails = new OrderedDictionary();
+
+                foreach (string link in strawberryPerls.Keys)
+                {
+                    // http://strawberryperl.com/download/5.10.0/strawberry-perl-5.10.0.4-1-portable.zip
+                    Match match = Regex.Match(link, @".*/download/.*?/.*(5.*)-portable.zip");
+                    if (match.Success)
+                    {
+                        string verLabel = match.Groups[2].Value;
+                        Match extract = Regex.Match(verLabel, @"(5.\d+.\d+).*-(\d{2}bit)");
+                        string ver = extract.Groups[1].Value;
+
+                        Console.WriteLine(verLabel);
+                    }
+                }
+            }
         }
 
         public void Switch(string switchToVersion)
