@@ -102,12 +102,13 @@ namespace BerryBrew
 
                 Console.Write("\t" + perlNameToPrint);
 
+                if (perl.Custom)
+                    Console.Write(" [custom]");
                 if (PerlIsInstalled(perl))
                     Console.Write(" [installed]");
-
                 if (perl.Name == currentPerl.Name)
-                    Console.Write("*");
-
+                    Console.Write(" *");
+              
                 Console.Write("\n");
             }
             Message.Print("available_footer");
