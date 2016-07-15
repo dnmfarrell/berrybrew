@@ -1,8 +1,7 @@
 using Microsoft.Win32;
 using System;
-using System.Collections;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,7 +9,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using Newtonsoft.Json;
@@ -46,6 +44,7 @@ namespace BerryBrew
         public string archivePath = null;
 
         public Message Message = new Message();
+        public OrderedDictionary Perls = new OrderedDictionary();
 
         public Berrybrew()
         {
@@ -55,15 +54,20 @@ namespace BerryBrew
             this.rootPath = jsonConf.root_dir + "\\";
             this.archivePath = jsonConf.temp_dir;
 
-            this.Debug = jsonConf.debug;
+            Debug = jsonConf.debug;
 
             // messages
 
-            dynamic jsonMessages = this.ParseJson("messages");
+            dynamic jsonMessages = ParseJson("messages");
             foreach (dynamic entry in jsonMessages)
             {
-                this.Message.Add(entry);
+                Message.Add(entry);
             }
+
+            // perls
+            
+            bool installPerlsIntoSelf = true;
+            PerlGenerateObjects(installPerlsIntoSelf);
         }
 
         ~Berrybrew()
@@ -72,8 +76,8 @@ namespace BerryBrew
 
             if (orphans.Count > 0)
             {
-                string orphaned_perls = Message.Get("perl_orphans");
-                Console.WriteLine("\nWARNING! {0}\n\n", orphaned_perls.Trim());
+                string orphanedPerls = Message.Get("perl_orphans");
+                Console.WriteLine("\nWARNING! {0}\n\n", orphanedPerls.Trim());
                 foreach (string orphan in orphans)
                 {
                     Console.WriteLine("  {0}\n", orphan);
@@ -83,29 +87,27 @@ namespace BerryBrew
 
         public void Available()
         {
-            List<StrawberryPerl> perls = PerlGenerateObjects();
-            
-            this.Message.Print("available_header");
+            Message.Print("available_header");
 
-            StrawberryPerl current_perl = PerlInUse();
-            string column_spaces = "               ";
+            StrawberryPerl currentPerl = PerlInUse();
+            string columnSpaces = "               ";
 
-            foreach (StrawberryPerl perl in perls)
+            foreach (StrawberryPerl perl in Perls.Values)
             {
                 // cheap printf
-                string perlNameToPrint = perl.Name + column_spaces.Substring(0, column_spaces.Length - perl.Name.Length);
+                string perlNameToPrint = perl.Name + columnSpaces.Substring(0, columnSpaces.Length - perl.Name.Length);
 
                 Console.Write("\t" + perlNameToPrint);
 
                 if (PerlIsInstalled(perl))
                     Console.Write(" [installed]");
 
-                if (perl.Name == current_perl.Name)
+                if (perl.Name == currentPerl.Name)
                     Console.Write("*");
 
                 Console.Write("\n");
             }
-            this.Message.Print("available_footer");
+            Message.Print("available_footer");
         }
 
         public void Clean(string subcmd="temp")
@@ -168,12 +170,12 @@ namespace BerryBrew
 
         public void Config()
         {
-            string configIntro = this.Message.Get("config_intro");
+            string configIntro = Message.Get("config_intro");
             Console.WriteLine(configIntro + Version() + "\n");
 
             if (!PathScan(new Regex("berrybrew.bin"), "machine"))
             {
-                this.Message.Print("add_bb_to_path");
+                Message.Print("add_bb_to_path");
 
                 if (Console.ReadLine() == "y")
                 {
@@ -181,17 +183,17 @@ namespace BerryBrew
 
                     if (PathScan(new Regex("berrybrew.bin"), "machine"))
                     {
-                        this.Message.Print("config_success");
+                        Message.Print("config_success");
                     }
                     else
                     {
-                        this.Message.Print("config_failure");
+                        Message.Print("config_failure");
                     }
                 }
             }
             else
             {
-                this.Message.Print("config_complete");
+                Message.Print("config_complete");
             }
         }
        
@@ -491,7 +493,7 @@ namespace BerryBrew
             {
                 paths = path.Split(';').ToList();
 
-                foreach (StrawberryPerl perl in PerlGenerateObjects())
+                foreach (StrawberryPerl perl in Perls.Values)
                 {
                     for (var i = 0; i < paths.Count; i++)
                     {
@@ -615,23 +617,31 @@ namespace BerryBrew
             return orphans;
         }
 
-        internal List<StrawberryPerl> PerlGenerateObjects()
+        internal List<StrawberryPerl> PerlGenerateObjects(bool importIntoObject=false)
         {
             List<StrawberryPerl> perls = new List<StrawberryPerl>();
-            var json_list = ParseJson("perls");
+            var jsonPerls = ParseJson("perls");
             
-            foreach (var version in json_list)
+            foreach (var perl in jsonPerls)
             {
                 perls.Add(
                     new StrawberryPerl(
                         this,
-                        version.name,
-                        version.file,
-                        version.url,
-                        version.ver,
-                        version.csum
+                        perl.name,
+                        perl.file,
+                        perl.url,
+                        perl.ver,
+                        perl.csum
                     )
                 );
+            }
+
+            if (importIntoObject)
+            {
+                foreach (StrawberryPerl perl in perls)
+                {
+                    this.Perls.Add(perl.Name, perl);
+                }
             }
             return perls;
         }
@@ -645,7 +655,7 @@ namespace BerryBrew
             if (path != null)
             {
                 string[] paths = path.Split(';');
-                foreach (StrawberryPerl perl in PerlGenerateObjects())
+                foreach (StrawberryPerl perl in Perls.Values)
                 {
                     for (int i = 0; i < paths.Length; i++)
                     {
@@ -674,10 +684,9 @@ namespace BerryBrew
         
         internal List<StrawberryPerl> PerlsInstalled()
         {
-            List<StrawberryPerl> perls = PerlGenerateObjects();
             List<StrawberryPerl> PerlsInstalled = new List<StrawberryPerl>();
 
-            foreach (StrawberryPerl perl in perls)
+            foreach (StrawberryPerl perl in Perls.Values)
             {
                 if (PerlIsInstalled(perl))
                     PerlsInstalled.Add(perl);
@@ -740,7 +749,7 @@ namespace BerryBrew
 
         internal StrawberryPerl PerlResolveVersion(string version)
         {
-            foreach (StrawberryPerl perl in PerlGenerateObjects())
+            foreach (StrawberryPerl perl in Perls.Values)
             {
                 if (perl.Name == version)
                     return perl;
@@ -767,20 +776,20 @@ namespace BerryBrew
             }
             catch (ArgumentException)
             {
-                this.Message.Print("perl_unknown_version");
+                Message.Print("perl_unknown_version");
                 Environment.Exit(0);
             }
         }
 
         public string Version()
         {
-            return this.Message.Get("version");
+            return Message.Get("version");
         }
     }
 
     public class Message
     {
-        public Hashtable msgMap = new Hashtable();
+        public OrderedDictionary msgMap = new OrderedDictionary();
 
         public string Get(string label)
         {

@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BerryBrew;
 
 namespace BBConsole
@@ -18,7 +15,7 @@ namespace BBConsole
                 BB.Debug = true;
                 args = args.Skip(1).ToArray();
             }
-
+            
             if (BB.Debug)
             {
                 Console.WriteLine("\nberrybrew debugging enabled...\n");
