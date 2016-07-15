@@ -52,7 +52,7 @@ namespace BerryBrew
         {
             // config
 
-            dynamic jsonConf = ParseJson("config");
+            dynamic jsonConf = JsonParse("config");
             this.rootPath = jsonConf.root_dir + "\\";
             this.archivePath = jsonConf.temp_dir;
             this.strawberryURL = jsonConf.strawberry_url;
@@ -61,7 +61,7 @@ namespace BerryBrew
 
             // messages
 
-            dynamic jsonMessages = ParseJson("messages");
+            dynamic jsonMessages = JsonParse("messages");
             foreach (dynamic entry in jsonMessages)
             {
                 Message.Add(entry);
@@ -166,6 +166,42 @@ namespace BerryBrew
             if (zipFiles.Count > 0)
                 return true;
             return false;
+        }
+
+        public void Clone(string sourcePerlName, string destPerlName)
+        {
+            StrawberryPerl sourcePerl = PerlResolveVersion(sourcePerlName);
+
+            string sourcePerlDir = sourcePerl.InstallPath;
+            string destPerlDir = this.rootPath + destPerlName;
+
+            DirectoryInfo src = new DirectoryInfo(sourcePerlDir);
+
+            if (!src.Exists)
+            {
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: " 
+                    + sourcePerlDir
+                );
+            }
+            if (!Directory.Exists(destPerlDir))
+                Directory.CreateDirectory(destPerlDir);
+
+            foreach (string dirPath in Directory.GetDirectories(sourcePerlDir, "*",
+                SearchOption.AllDirectories))
+                Directory.CreateDirectory(dirPath.Replace(sourcePerlDir, destPerlDir));
+
+            foreach (string newPath in Directory.GetFiles(sourcePerlDir, "*.*",
+                SearchOption.AllDirectories))
+                File.Copy(newPath, newPath.Replace(sourcePerlDir, destPerlDir), true);
+
+            if (!Directory.Exists(destPerlDir))
+            {
+                Console.WriteLine("\nfailed to clone {0} to {1}", sourcePerlDir, destPerlDir);
+                Environment.Exit(0);
+            }
+
+            PerlRegisterCustomInstall(destPerlName, sourcePerl);
         }
 
         public void Config()
@@ -398,13 +434,7 @@ namespace BerryBrew
             return perl.Name;
         }
 
-        public void Off()
-        {
-            PathRemovePerl();
-            Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
-        }
- 
-        internal dynamic ParseJson(string type)
+        internal dynamic JsonParse(string type, bool raw=false)
         {
             string filename = String.Format("{0}.json", type);
             string jsonPath = String.Format("{0}/data/{1}", this.installPath, filename);
@@ -414,12 +444,14 @@ namespace BerryBrew
             {
                 using (StreamReader r = new StreamReader(jsonFile))
                 {
-                    string json = r.ReadToEnd();
+                    string jsonData = r.ReadToEnd();
+                    if (raw)
+                        return jsonData;
 
                     try
                     {
-                        dynamic json_list = JsonConvert.DeserializeObject(json);
-                        return json_list;
+                        dynamic json= JsonConvert.DeserializeObject(jsonData);
+                        return json;
                     }
                     catch (JsonReaderException error)
                     {
@@ -442,6 +474,30 @@ namespace BerryBrew
                 Environment.Exit(0);
             }
             return "";
+        }
+
+        internal void JsonWrite(string type, dynamic data)
+        {
+            string jsonString = JsonParse("perls_custom", true);
+
+            List<OrderedDictionary> dataList
+                = JsonConvert.DeserializeObject<List<OrderedDictionary>>(jsonString);
+
+            dataList.Add(data);
+
+            jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(dataList);
+
+            string writeFile = this.installPath + @"data\" + type;
+            writeFile = Regex.Replace(writeFile, @"bin", "");
+            writeFile = writeFile + @".json";
+
+            System.IO.File.WriteAllText(writeFile, jsonString);
+        }
+
+        public void Off()
+        {
+            PathRemovePerl();
+            Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
         }
 
         internal static void PathAddBerryBrew(string binPath)
@@ -570,7 +626,7 @@ namespace BerryBrew
                 if (!Directory.Exists(perl.ArchivePath))
                     Directory.CreateDirectory(perl.ArchivePath);
 
-                return perl.ArchivePath + @"\" + perl.ArchiveName;
+                return perl.ArchivePath + @"\" + perl.File;
             }
             catch (UnauthorizedAccessException)
             {
@@ -585,7 +641,7 @@ namespace BerryBrew
  
             Directory.CreateDirectory(path);
 
-            return path + @"\" + perl.ArchiveName;
+            return path + @"\" + perl.File;
         }
 
         public List<string> PerlFindOrphans()
@@ -621,9 +677,10 @@ namespace BerryBrew
         internal List<StrawberryPerl> PerlGenerateObjects(bool importIntoObject=false)
         {
             List<StrawberryPerl> perls = new List<StrawberryPerl>();
-            var jsonPerls = ParseJson("perls");
-            
-            foreach (var perl in jsonPerls)
+            var Perls = JsonParse("perls");
+            var customPerls = JsonParse("perls_custom");
+
+            foreach (var perl in Perls)
             {
                 perls.Add(
                     new StrawberryPerl(
@@ -632,11 +689,26 @@ namespace BerryBrew
                         perl.file,
                         perl.url,
                         perl.ver,
-                        perl.csum
+                        perl.csum,
+                        false // custom
                     )
                 );
             }
 
+            foreach (var perl in customPerls)
+            {
+                perls.Add(
+                    new StrawberryPerl(
+                        this,
+                        perl.name,
+                        perl.file,
+                        perl.url,
+                        perl.ver,
+                        perl.csum,
+                        true // custom
+                    )
+                );
+            }
             if (importIntoObject)
             {
                 foreach (StrawberryPerl perl in perls)
@@ -748,6 +820,20 @@ namespace BerryBrew
             }
         }
 
+        public void PerlRegisterCustomInstall(string perlName, StrawberryPerl perlBase=new StrawberryPerl())
+        {
+            OrderedDictionary data = new OrderedDictionary();
+
+            data["name"] = perlName;
+            data["custom"] = perlBase.Custom;
+            data["file"] = perlBase.File;
+            data["url"] = perlBase.Url;
+            data["ver"] = perlBase.Version;
+            data["csum"] = perlBase.Sha1Checksum;
+
+            JsonWrite("perls_custom", data);
+        }
+
         internal StrawberryPerl PerlResolveVersion(string version)
         {
             foreach (StrawberryPerl perl in Perls.Values)
@@ -793,7 +879,7 @@ namespace BerryBrew
                     i++;
                 }
 
-                OrderedDictionary perlDetails = new OrderedDictionary();
+                //OrderedDictionary perlDetails = new OrderedDictionary();
 
                 foreach (string link in strawberryPerls.Keys)
                 {
@@ -878,7 +964,8 @@ namespace BerryBrew
     public struct StrawberryPerl
     {
         public string Name;
-        public string ArchiveName;
+        public string File;
+        public bool Custom;
         public string Url;
         public string Version;
         public string ArchivePath;
@@ -889,10 +976,11 @@ namespace BerryBrew
         public List<String> Paths;
         public string Sha1Checksum;
 
-        public StrawberryPerl(Berrybrew BB, object name, object archive, object url, object version, object csum)
+        public StrawberryPerl(Berrybrew BB, object name, object file, object url, object version, object csum, bool custom)
         {
             this.Name = name.ToString();
-            this.ArchiveName = archive.ToString();
+            this.Custom = custom;
+            this.File = file.ToString();
             this.Url = url.ToString();
             this.Version = version.ToString();
             this.ArchivePath = BB.archivePath;
