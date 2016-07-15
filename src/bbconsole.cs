@@ -41,13 +41,19 @@ namespace BBConsole
                     break;
 
                 case "clean":
-                    if (args.Length == 1 || args[1] == "-h" || args[1] == "help")
+                    if (args.Length > 1)
                     {
-                        BB.Message.Print("subcmd.clean");
-                        Environment.Exit(0);
+                        if (args[1].StartsWith("h"))
+                        {
+                            BB.Message.Print("subcmd.clean");
+                            Environment.Exit(0);
+                        }
+                        else
+                            BB.Clean(args[1]);
                     }
+                    else
+                        BB.Clean();
 
-                    BB.Clean(args[1]);
                     break;
 
                 case "config":

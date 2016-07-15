@@ -108,7 +108,7 @@ namespace BerryBrew
             this.Message.Print("available_footer");
         }
 
-        public void Clean(string subcmd)
+        public void Clean(string subcmd="temp")
         {
             bool cleansed = false;
 
