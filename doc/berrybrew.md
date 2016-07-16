@@ -1,20 +1,21 @@
 #berrybrew Usage
 
-1. Command List
-..* [available](#available)
-..* [clean](#clean)
-..* [clone](#clone)
-..* [config](#config)
-..* [exec](#exec)
-..* [install](#install)
-..* [off](#off)
-..* [remove](#remove)
-..* [switch](#switch)
-..* [help](#help)
-..* [license](#license)
-..* [version](#version)
+##Command List:
 
-##Commands
+- [available](#available)
+- [clean](#clean)
+- [clone](#clone)
+- [config](#config)
+- [exec](#exec)
+- [install](#install)
+- [off](#off)
+- [remove](#remove)
+- [switch](#switch)
+- [help](#help)
+- [license](#license)
+- [version](#version)
+
+##Command Usage
 
 ####available
 
