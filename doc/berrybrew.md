@@ -94,7 +94,7 @@ Usage:  `berrybrew exec [options] <command>`
 Executes the command and its arguments found in `<command>`, and
 executes it across all installed Perl instances.
 
-#####exec options:
+######exec options:
 
     --with version,version,...  Run only on the listed versions
 
@@ -115,7 +115,7 @@ back to a `berrybrew` controlled Perl.
 
 #####remove
 
-Usage:  `berrybrew remove <version>
+Usage:  `berrybrew remove <version>`
 
 Removes a single version of Perl, as seen in `berrybrew available`.
 
@@ -143,3 +143,5 @@ Usage:  `berrybrew version`
 
 Displays the current version of the `berrybrew.exe` binary and `bbapi.dll`
 library.
+
+&copy; 2016 by Steve Bertrand
