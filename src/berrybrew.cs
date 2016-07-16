@@ -46,6 +46,7 @@ namespace BerryBrew
         public string downloadURL = null;
         public string strawberryURL = null;
 
+        internal bool bypassOrphanCheck = false;
         public Message Message = new Message();
         public OrderedDictionary Perls = new OrderedDictionary();
 
@@ -78,7 +79,7 @@ namespace BerryBrew
         {
             List<string> orphans = PerlFindOrphans();
 
-            if (orphans.Count > 0)
+            if (orphans.Count > 0 && !this.bypassOrphanCheck)
             {
                 string orphanedPerls = Message.Get("perl_orphans");
                 Console.WriteLine("\nWARNING! {0}\n\n", orphanedPerls.Trim());
@@ -204,6 +205,8 @@ namespace BerryBrew
             }
 
             PerlRegisterCustomInstall(destPerlName, sourcePerl);
+
+            Console.WriteLine("\nSuccessfully installed custom perl '{0}'", destPerlName);
         }
 
         public void Config()
@@ -478,12 +481,22 @@ namespace BerryBrew
             return "";
         }
 
-        internal void JsonWrite(string type, Dictionary<string, object> data)
+        internal void JsonWrite(string type, List<Dictionary<string, object>> data, bool fullList=false)
         {
-            dynamic customPerlList = JsonParse("perls_custom", true);
-            var perlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);
-            perlList.Add(data);
-            string jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(perlList);
+            string jsonString = null;
+
+            if (!fullList)
+            {
+                dynamic customPerlList = JsonParse("perls_custom", true);
+                var perlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);
+
+                foreach (Dictionary<string, object> perl in data)
+                    perlList.Add(perl);
+
+                jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(perlList);
+            }
+            else
+                jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(data);
 
             string writeFile = this.installPath + @"\data\" + type;
             writeFile = Regex.Replace(writeFile, @"bin", "");
@@ -805,14 +818,16 @@ namespace BerryBrew
                     dynamic customPerlList = JsonParse("perls_custom", true);
                     customPerlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);
 
+                    List<Dictionary<string, object>> updatedPerls = new List<Dictionary<string, object>>();
+
                     foreach (Dictionary<string, object> perlStruct in customPerlList)
                     {
-                        if (perlStruct["name"] != perlVersionToRemove)
+                        if (!perlVersionToRemove.Equals(perlStruct["name"].ToString()))
                         {
-                            JsonWrite("perls_custom", perlStruct);
+                            updatedPerls.Add(perlStruct);
                         }
                     }
-
+                    JsonWrite("perls_custom", updatedPerls, true);
                 }
             }
             catch (ArgumentException err)
@@ -844,7 +859,11 @@ namespace BerryBrew
             data["ver"] = perlBase.Version;
             data["csum"] = perlBase.Sha1Checksum;
 
-            JsonWrite("perls_custom", data);
+            List<Dictionary<string, object>> perlList = new List<Dictionary<string, object>>();
+            perlList.Add(data);
+            JsonWrite("perls_custom", perlList);
+
+            this.bypassOrphanCheck = true;
         }
 
         internal StrawberryPerl PerlResolveVersion(string version)
