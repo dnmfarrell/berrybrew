@@ -1,6 +1,6 @@
 #berrybrew Usage
 
-*Command List
+1. Command List
 ..* [available](#available)
 ..* [clean](#clean)
 ..* [clone](#clone)
