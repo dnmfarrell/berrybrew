@@ -38,6 +38,7 @@ installation.
         available   List available Strawberry Perl versions and which are installed
         config      Add berrybrew to your PATH
         clean *     Remove all temporary berrybrew files
+        clone       Clones an installed version to a custom-named one
         install     Download, extract and install a Strawberry Perl
         remove      Uninstall a Strawberry Perl
         switch      Switch to use a different Strawberry Perl
@@ -94,6 +95,11 @@ Start a new cmd.exe to use the new version:
     This is perl, v5.10.1 (*) built for MSWin32-x86-multi-thread
 
     ...       
+
+Clone an installed instance (very useful for setting up a main instance,
+and cloning it into an instance named "template")
+
+    > berrybrew clone 5.24.0_64 template
 
 Uninstall a version of perl:
 

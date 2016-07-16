@@ -143,7 +143,7 @@ namespace BerryBrew
             foreach (string orphan in orphans)
             {
                 FilesystemResetAttributes(orphan);
-                Directory.Delete(this.rootPath + orphan);
+                Directory.Delete(this.rootPath + orphan, true);
                 Console.WriteLine("removed orphan {0} perl instance", orphan);
             }
 
@@ -488,7 +488,7 @@ namespace BerryBrew
 
             jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(dataList);
 
-            string writeFile = this.installPath + @"data\" + type;
+            string writeFile = this.installPath + @"\data\" + type;
             writeFile = Regex.Replace(writeFile, @"bin", "");
             writeFile = writeFile + @".json";
 
@@ -698,6 +698,8 @@ namespace BerryBrew
 
             foreach (var perl in customPerls)
             {
+                Console.Write(perl.ToString());
+
                 perls.Add(
                     new StrawberryPerl(
                         this,
@@ -801,6 +803,23 @@ namespace BerryBrew
                 {
                     Console.WriteLine("Strawberry Perl " + perlVersionToRemove + " not found (are you sure it's installed?");
                     Environment.Exit(0);
+                }
+
+                if (perl.Custom)
+                {
+                    dynamic customPerlList = JsonParse("perls_custom");
+                    dynamic updatedList = new List<dynamic>();
+
+                    foreach (var perlStruct in customPerlList)
+                    {
+                        if (perlStruct.name != perlVersionToRemove)
+                        {
+                            Console.WriteLine("match");
+                            updatedList.Add(perlStruct);
+                        }
+                    }
+
+                    JsonWrite("perls_custom", updatedList);
                 }
             }
             catch (ArgumentException err)

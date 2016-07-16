@@ -10,12 +10,6 @@ namespace BBConsole
         {
             Berrybrew BB = new Berrybrew();
 
-            foreach (StrawberryPerl perl in BB.Perls.Values)
-            {
-                Console.WriteLine(perl.Name);
-                Console.WriteLine(perl.Version);
-                Console.WriteLine(perl.Custom);
-            }
             if (args.Length != 0 && args[0] == "debug")
             {
                 BB.Debug = true;
