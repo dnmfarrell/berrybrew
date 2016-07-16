@@ -1,5 +1,6 @@
 using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -477,16 +478,12 @@ namespace BerryBrew
             return "";
         }
 
-        internal void JsonWrite(string type, dynamic data)
+        internal void JsonWrite(string type, Dictionary<string, object> data)
         {
-            string jsonString = JsonParse("perls_custom", true);
-
-            List<OrderedDictionary> dataList
-                = JsonConvert.DeserializeObject<List<OrderedDictionary>>(jsonString);
-
-            dataList.Add(data);
-
-            jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(dataList);
+            dynamic customPerlList = JsonParse("perls_custom", true);
+            var perlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);
+            perlList.Add(data);
+            string jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(perlList);
 
             string writeFile = this.installPath + @"\data\" + type;
             writeFile = Regex.Replace(writeFile, @"bin", "");
@@ -698,8 +695,6 @@ namespace BerryBrew
 
             foreach (var perl in customPerls)
             {
-                Console.Write(perl.ToString());
-
                 perls.Add(
                     new StrawberryPerl(
                         this,
@@ -807,19 +802,17 @@ namespace BerryBrew
 
                 if (perl.Custom)
                 {
-                    dynamic customPerlList = JsonParse("perls_custom");
-                    dynamic updatedList = new List<dynamic>();
+                    dynamic customPerlList = JsonParse("perls_custom", true);
+                    customPerlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);
 
-                    foreach (var perlStruct in customPerlList)
+                    foreach (Dictionary<string, object> perlStruct in customPerlList)
                     {
-                        if (perlStruct.name != perlVersionToRemove)
+                        if (perlStruct["name"] != perlVersionToRemove)
                         {
-                            Console.WriteLine("match");
-                            updatedList.Add(perlStruct);
+                            JsonWrite("perls_custom", perlStruct);
                         }
                     }
 
-                    JsonWrite("perls_custom", updatedList);
                 }
             }
             catch (ArgumentException err)
@@ -842,8 +835,8 @@ namespace BerryBrew
 
         public void PerlRegisterCustomInstall(string perlName, StrawberryPerl perlBase=new StrawberryPerl())
         {
-            OrderedDictionary data = new OrderedDictionary();
-
+            Dictionary<string, object> data = new Dictionary<string, object>();
+           
             data["name"] = perlName;
             data["custom"] = perlBase.Custom;
             data["file"] = perlBase.File;
