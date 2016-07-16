@@ -17,6 +17,14 @@
 
 ####Command Usage
 
+#####debug
+
+Usage:  `berrybrew debug <command> [options]`
+
+This command preceeds all others, and can be used in conjunction with
+all other commands. Depending on the scenario, it will print out verbose
+debugging information.
+
 #####available
 
     berrybrew available
@@ -32,19 +40,19 @@ includes installed and custom versions. A shortened example:
             5.12.3_32
             5.10.1_32       [installed]
             template-5.24   [custom] [installed]
-            unit_test-5.18  [custom] [installed]
+            unit_test-5.18  [custom] [installed] *
 
     * Currently using
 
 #####clean
 
-Usage:  `berrybrew clean [option]
+Usage:  `berrybrew clean [option]`
 
 By default, if either `help` or a subcommand are not specified, we'll
 simply delete the downloaded Perl installation zip files from the temporary
 directory.
 
-#######clean options
+######clean options
 
     help        Displays the subcommand help screen
     temp        Deletes all Perl installation zip files
@@ -54,9 +62,9 @@ directory.
 
 #####clone
 
-Usage: `berrybrew clone <version> <name>
+Usage: `berrybrew clone <version> <name>`
 
-Makes a copy of an installed `version` (as seen in `berrybrew available), 
+Makes a copy of an installed `version` (as seen in `berrybrew available`), 
 and copies it as an exact duplicate named `name`. The new named Perl will 
 appear in `berrybrew available`.
 
