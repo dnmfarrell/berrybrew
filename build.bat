@@ -22,6 +22,3 @@ call mcs^
 copy bin\ICSharpCode.SharpZipLib.dll build\
 copy bin\Newtonsoft.Json.dll build\
 copy data\* build\data\
-
-build\berrybrew.exe clone 5.10.1_32 temp
-build\berrybrew.exe remove temp

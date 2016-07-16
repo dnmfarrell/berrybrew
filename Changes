@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.03    2016-07-15
+1.03    2016-07-16
         - added debug support within API. Set within the data\config.json file. 
           For the API, call ``obj.Debug = bool;'', for the CLI, 
           ``berrybrew debug ...''
@@ -20,7 +20,8 @@ Revision history for berrybrew
         - consolodated ParseJson() and ParseConfig() into the former
         - completed most of the work on the auto updating of the Perls list
         - renamed ParseJson() to JsonParse(), and added JsonWrite()
-        - added 'clone', allows cloning of instances with custom names 
+        - added 'clone', allows cloning of instances with custom names (useful for
+          creating perl installation templates, and snapshots)
         - more tests
 
 1.01    2016-07-13

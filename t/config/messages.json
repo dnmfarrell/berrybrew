@@ -1,0 +1,206 @@
+[
+{
+    "label": "version",
+
+    "content": [
+        "1.03"
+    ]
+},
+{
+    "label": "available_header",
+
+    "content": [
+        "\nThe following Strawberry Perls are available:"
+    ]
+},
+{
+    "label": "available_footer",
+
+    "content": [
+        "\n* Currently using"
+    ]
+},
+{
+    "label": "config_intro",
+
+    "content": [
+        "\nThis is berrybrew, version "
+    ]
+},
+{
+    "label": "clone_command_usage",
+
+    "content": [
+        "",
+        "    Usage: berrybrew clone <orig_perl_name> <new_perl_name>"
+    ]
+}, 
+{
+    "label": "add_bb_to_path",
+
+    "content": [
+        "Would you like to add berrybrew to your user PATH? y/n [n] "
+    ]
+},
+{
+    "label": "config_success",
+
+    "content": [
+        "\nberrybrew was successfully added to the user PATH, start a new terminal to use it."
+    ]
+},
+{
+    "label": "config_failure",
+
+    "content": [
+        "\nError adding berrybrew to the user PATH"
+    ]
+},
+{
+    "label": "config_complete",
+
+    "content": [
+        "\nberrybrew is already configured on this system."
+    ]
+},
+{
+    "label": "install_ver_required",
+
+    "content": [
+        "\ninstall command requires a version argument\n",
+        "Use the available command to see what versions of Strawberry Perl are available"
+    ]
+},
+{
+    "label": "install_ver_unknown",
+
+    "content": [
+        "\nUnknown version of Perl\n",
+        "Use the available command to see what versions of Strawberry Perl are available"
+    ]
+},
+{
+    "label": "switch_ver_required",
+    "content": [
+        "\nswitch command requires a version argument.",
+        "Use the available command to see what versions of Strawberry Perl are available"
+    ]
+},
+{
+    "label": "remove_ver_required",
+    "content": [
+        "\nremove command requires a version argument.",
+        "Use the available command to see what versions of Strawberry Perl are available"
+    ]
+},
+{
+    "label": "exec_command_required",
+    "content": [
+        "\nexec command requires a command to run."
+    ]
+},
+{
+    "label": "perl_unknown_version",
+    "content": [
+        "\nUnknown version of Perl. Use the available command to see what versions of Strawberry Perl are available"
+    ]
+},
+{
+    "label": "perl_orphans",
+    "content": [
+        "\norphaned perl installations: "
+    ]
+},
+{
+    "label": "help",
+    
+    "content": [
+
+        "",
+        "berrybrew <command> [subcommand] [option]",
+        "",
+        "",    
+        "    available   List available Strawberry Perl versions and which are installed",
+        "    clean *     Remove all temporary berrybrew files",
+        "    clone       Make a complete copy of a Perl installation",
+        "    config      Add berrybrew to your PATH",
+        "    exec *      Run a command for every installed Strawberry Perl",
+        "    install     Download, extract and install a Strawberry Perl",
+        "    off         Disable berrybrew perls (use 'switch' to re-enable)",
+        "    remove      Uninstall a Strawberry Perl",
+        "    switch      Switch to use a different Strawberry Perl",
+        "    help        Display this help screen",
+        "    license     Show berrybrew license",
+        "    version     Displays the version",
+        "",
+        "",
+        "    * - view subcommand details with 'berrybrew <command> help'"
+    ]
+},
+{
+    "label": "license",
+
+    "content": [
+
+        "",
+        "This software is Copyright (c) 2014 by David Farrell.",
+        "",
+        "Versions prefixed with 'sb' are Copyright (c) 2016 by Steve Bertrand.",
+        "",
+        "This is free software, licensed under:",
+        "",
+        "  The (two-clause) FreeBSD License",
+        "",
+        "The FreeBSD License",
+        "",
+        "Redistribution and use in source and binary forms, with or without",
+        "modification, are permitted provided that the following conditions are",
+        "met:",
+        "",
+        "  1. Redistributions of source code must retain the above copyright",
+        "     notice, this list of conditions and the following disclaimer.",
+        "",
+        "  2. Redistributions in binary form must reproduce the above copyright",
+        "     notice, this list of conditions and the following disclaimer in the",
+        "     documentation and/or other materials provided with the",
+        "     distribution.",
+        "",
+        "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS",
+        "``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT",
+        "LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR",
+        "A PARTICULAR PURPOSE ARE DISCLAIMED.IN NO EVENT SHALL THE COPYRIGHT",
+        "HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,",
+        "SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES(INCLUDING, BUT NOT",
+        "LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,",
+        "DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY",
+        "THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT",
+        "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE",
+        "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+    ]
+},
+{
+    "label": "subcmd.clean",
+
+    "content": [
+        "",
+        "   berrybrew 'clean' subcommands:",
+        "",
+        "   temp   Removes all downloaded Perl installation files",
+        "   orphan Deletes all orphaned Perl installations",
+        "   all    Clean everything",
+    ]  
+},
+{
+    "label": "subcmd.exec",
+
+    "content": [
+        "",
+        "   berrybrew 'exec' subcommands:",
+        "",
+        "   --with perlver,perlver <command>",
+        "",
+        "   Execute a command across only select versions of Perl"
+    ]  
+}
+
+]
