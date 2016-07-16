@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.03    xxx
+1.03    2016-07-16
         - added debug support within API. Set within the data\config.json file. 
           For the API, call ``obj.Debug = bool;'', for the CLI, 
           ``berrybrew debug ...''
@@ -11,6 +11,18 @@ Revision history for berrybrew
         - added unit test doc
         - on destruction, we now check for orphaned perl installs, and warn the user
           (closes #16)
+        - StrawberryPerl objects are now only generated once, and stored within the BerryBrew
+          object
+        - removed several unused imports
+        - sub command help for the commands that have sub commands
+        - 'clean' removes temp files by default, but can also clean orphaned perls with
+          the 'orphan' subcommand
+        - consolodated ParseJson() and ParseConfig() into the former
+        - completed most of the work on the auto updating of the Perls list
+        - renamed ParseJson() to JsonParse(), and added JsonWrite()
+        - added 'clone', allows cloning of instances with custom names (useful for
+          creating perl installation templates, and snapshots)
+        - more tests
 
 1.01    2016-07-13
         - added RemoveFilesystemAttributes(), removes RO flag on all files

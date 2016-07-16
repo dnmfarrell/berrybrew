@@ -18,7 +18,7 @@ works at runtime.
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 6293e7fcfb83871905f10b9e9ca4759d608331b7`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 56b13bef200dca45f41ee7912635fa00040c4aac`
 
 #####Configuration
 
@@ -33,20 +33,22 @@ installation.
 
 ##Commands
 
-    berrybrew <command> [option]
+    berrybrew <command> [subcommand] [option]
 
-    available   List available Strawberry Perl versions and which are installed
-    config      Add berrybrew to your PATH
-    clean       Remove all cached temporary Perl installation files
-    install     Download, extract and install a Strawberry Perl
-    remove      Uninstall a Strawberry Perl
-    switch      Switch to use a different Strawberry Perl
-    off         Disable all berrybrew perls (re-enable with 'switch')
-    exec        Run a command for every installed Strawberry Perl
+        available   List available Strawberry Perl versions and which are installed
+        config      Add berrybrew to your PATH
+        clean *     Remove all temporary berrybrew files
+        clone       Clones an installed version to a custom-named one
+        install     Download, extract and install a Strawberry Perl
+        remove      Uninstall a Strawberry Perl
+        switch      Switch to use a different Strawberry Perl
+        off         Disable berrybrew perls (use 'switch' to re-enable)
+        exec *      Run a command for every installed Strawberry Perl
+        help        Display this help screen
+        license     Show berrybrew license
+        version     Displays the version
 
-    version     Show the version number only
-    license     Show berrybrew license
-
+        * - view subcommand details with 'berrybrew <command> help'
 
 ##Synopsis
 
@@ -93,6 +95,11 @@ Start a new cmd.exe to use the new version:
     This is perl, v5.10.1 (*) built for MSWin32-x86-multi-thread
 
     ...       
+
+Clone an installed instance (very useful for setting up a main instance,
+and cloning it into an instance named "template")
+
+    > berrybrew clone 5.24.0_64 template
 
 Uninstall a version of perl:
 
