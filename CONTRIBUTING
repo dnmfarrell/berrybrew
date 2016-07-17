@@ -5,7 +5,7 @@ What we do:
 - create a new branch appropriately named for the changes we're making
 - PR (Pull Request) the branch when our work is complete
 - send individual patches via any means desired if a PR isn't desired
-- build the new `dll` and `exe` using the `build.bat` script
+- build the new `dll` and `exe` using the `dev\build.bat` script
 - ensure the changes work by calling `berrybrew` in the `build` directory: `build\berrybrew <cmd> [opts]`
 - ensure that the appropriate documentation has been updated *
 - ensure that all existing unit tests pass, per `doc/Unit Tests.md` *

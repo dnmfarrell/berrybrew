@@ -16,8 +16,8 @@ call mcs^
     src\bbconsole.cs^
     -lib:build^
     -r:bbapi.dll^
-    -win32icon:berrybrew.ico^
-    -out:build\berrybrew.exe
+    -win32icon:inc/berrybrew.ico^
+    -out:build/berrybrew.exe
 
 copy bin\ICSharpCode.SharpZipLib.dll build\
 copy bin\Newtonsoft.Json.dll build\

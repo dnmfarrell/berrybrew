@@ -17,7 +17,7 @@ mcs \
     -lib:bin \
     -r:bbapi.dll \
     -out:bin/berrybrew.exe \
-    -win32icon:berrybrew.ico \
+    -win32icon:dev/berrybrew.ico \
     src/bbconsole.cs
 
 # zip
@@ -26,14 +26,14 @@ echo "packaging pre-built zipfile...\n"
 
 cd ..
 zip berrybrew.zip berrybrew/bin/* berrybrew/data/*
-mv berrybrew.zip berrybrew/
+mv berrybrew.zip berrybrew/download
 cd berrybrew
 
 # sha1
 
 echo "\ncalculating SHA1 for zipfile...\n"
 
-sha_string=$(sha1sum berrybrew.zip)
+sha_string=$(sha1sum download/berrybrew.zip)
 export BB_SHA1="$sha_string"
 
 # update README with SHA1
