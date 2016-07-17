@@ -258,7 +258,7 @@ is set to `false` (default), we send the data back de-serialized. If `raw` is
     internal void JsonWrite(
         string type, 
         List<Dictionary<string, object> data,
-        bool fulllist=false
+        bool fullList=false
     )
 
         argument:   type
@@ -269,13 +269,13 @@ is set to `false` (default), we send the data back de-serialized. If `raw` is
                     available Perl as the key, and a StrawberryPerl instance as the
                     value
 
-        argument:   fulllist
+        argument:   fullList
         value:      bool
         default:    false
 
 Writes out a JSON file containing information regarding installed Perls. If
-`fulllist` is set to `false` (default), we'll read in the existing list in the
-file, and append the new objects to it. If `fulllist` is set to `true`, we'll
+`fullList` is set to `false` (default), we'll read in the existing list in the
+file, and append the new objects to it. If `fullList` is set to `true`, we'll
 assume you've compiled the list yourself, and we overwrite the file with the
 new `data`.
 
