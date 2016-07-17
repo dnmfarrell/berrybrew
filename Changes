@@ -1,5 +1,10 @@
 Revision history for berrybrew
 
+1.04    xxx
+        - added documentation in doc/ for berrybrew, the API and configuration
+        - fixed issue with name length, max is now 25 chars for custom perls
+        - added CheckName(), validates the name of a custom perl
+
 1.03    2016-07-16
         - added debug support within API. Set within the data\config.json file. 
           For the API, call ``obj.Debug = bool;'', for the CLI, 
