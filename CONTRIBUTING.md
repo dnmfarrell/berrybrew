@@ -8,7 +8,7 @@ What we do:
 - build the new `dll` and `exe` using the `dev\build.bat` script
 - ensure the changes work by calling `berrybrew` in the `build` directory: `build\berrybrew <cmd> [opts]`
 - ensure that the appropriate documentation has been updated *
-- ensure that all existing unit tests pass, per `doc/Unit Tests.md` *
+- ensure that all existing unit tests pass, per [Unit testing](https://github.com/stevieb9/berrybrew/blob/master/doc/Unit%20Testing.md) *
 - ensure that any functionality/API/runtime changes have explicit unit tests written *
 
 \* Unlikely to accept changes that don't confirm to these
