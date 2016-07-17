@@ -232,13 +232,13 @@ get properly reset yet. If you choose to ignore this, follow this procedure:
 
 Use the included `dev/release.sh` script, which:
 
-- compiles the `berrybrew.exe` binary
+- compiles the `berrybrew.exe` binary and the `bbapi.dll` API library
 
-- builds the bundled zip archive
+- builds the bundled zip archive, and puts it into `download/`
 
-- performs SHA1 tasks
+- performs SHA1 checksum tasks
 
-- updates the `README.md` file with the zip archives new SHA1 sum
+- updates the `README.md` file with the zip archive's new SHA1 sum
 
 ##Requirements
 
