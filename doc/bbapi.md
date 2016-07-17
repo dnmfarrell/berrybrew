@@ -98,12 +98,12 @@ Returns `true` if any files were found/deleted, `false` if not.
 
     public void Clone(string src, string dest)
 
-    argument:   src
-    values:     Name of an installed berrybrew Perl instance
+        argument:   src
+        values:     Name of an installed berrybrew Perl instance
 
-    argument:   dest
-    values:     Any string name by which you want the clone to appear
-                in 'berrybrew available'
+        argument:   dest
+        values:     Any string name by which you want the clone to appear
+                    in 'berrybrew available'
 
 Makes an exact copy of an existing installed Perl instance with a name of your
 choosing, and makes it available just like all others. `berrybrew available`
@@ -120,14 +120,14 @@ variable.
     
     internal void Exec(StrawberryPerl perl, string command, string sysPath)
 
-    argument:   perl
-    value:      A single StrawberryPerl object
-    
-    argument:   command
-    value:      The full command string you want all installed Perls to execute
+        argument:   perl
+        value:      A single StrawberryPerl object
+        
+        argument:   command
+        value:      The full command string you want all installed Perls to execute
 
-    argument:   sysPath
-    value:      String containing the full Machine PATH environment variable
+        argument:   sysPath
+        value:      String containing the full Machine PATH environment variable
 
 Hands off the command string to each installed Perl instance, after configuring
 the child process environment.
@@ -136,9 +136,9 @@ the child process environment.
 
     public void ExecCompile(string parameters)
 
-    argument:   parameters
-    value:      Full command string that Exec() hands off, including
-                any Exec() specific instructions
+        argument:   parameters
+        value:      Full command string that Exec() hands off, including
+                    any Exec() specific instructions
 
 Sets things up before handing each command off to `Exec()` for final
 processing. If the `--with` flag is included, we'll strip it off and only
@@ -148,12 +148,12 @@ send the commands to be executed to those specific Perls.
 
     private static void Extract(StrawberryPerl perl, string tempDir)
 
-    argument:   perl
-    value:      A single instance of the StrawberryPerl class
+        argument:   perl
+        value:      A single instance of the StrawberryPerl class
 
-    argument:   tempDir
-    value:      The full path to the temporary Perl installation staging directory
-    typical:    this.archivePath
+        argument:   tempDir
+        value:      The full path to the temporary Perl installation staging directory
+        typical:    this.archivePath
 
 Helper method that sets up and calls `ExtractZip()`.
 
@@ -161,13 +161,13 @@ Helper method that sets up and calls `ExtractZip()`.
 
     internal static void ExtractZip(string archivePath, string destFolder)
 
-    argument:   archivePath
-    value:      Name of the temp directory where we store the zip files
-    typical:    this.ArchivePath
+        argument:   archivePath
+        value:      Name of the temp directory where we store the zip files
+        typical:    this.ArchivePath
 
-    argument:   destFolder
-    value:      Folder where we will extract this Perl archive into
-    typical:    this.rootPath
+        argument:   destFolder
+        value:      Folder where we will extract this Perl archive into
+        typical:    this.rootPath
 
 This method extracts the Perl installation directory structure out of its zip
 archive. The default archive path can be found in `this.ArchivePath`.
@@ -176,9 +176,9 @@ archive. The default archive path can be found in `this.ArchivePath`.
 
     public string Fetch(StrawberryPerl perl)
 
-    argument:   perl
-    value:      Single instance of the StrawberryPerl class
-    return:     The name of the folder the zip file was downloaded to
+        argument:   perl
+        value:      Single instance of the StrawberryPerl class
+        return:     The name of the folder the zip file was downloaded to
 
 Downloads the zip file for the version of Perl found in the StrawberryPerl
 object, and returns the directory of where it was put.
@@ -187,9 +187,9 @@ object, and returns the directory of where it was put.
 
     internal static string FileRemove(string filename)
 
-    argument:   filename
-    value:      Name of an existing file on the system
-    return:     Stringified Exception or "true"
+        argument:   filename
+        value:      Name of an existing file on the system
+        return:     Stringified Exception or "true"
 
 Deletes a file from the file system. Returns stringified "true" on success,
 and a stringified `IO` exception on failure.
@@ -198,8 +198,8 @@ and a stringified `IO` exception on failure.
 
     internal void FileSystemResetAttributes(string dir)
 
-    argument:   dir
-    value:      Name of a directory that exists in the filesystem
+        argument:   dir
+        value:      Name of a directory that exists in the filesystem
     
 Recursively resets all files and directories within the directory being
 operated on back to default. This method was written specifically to ensure
@@ -210,9 +210,9 @@ installations.
 
     public string Install(string version)
 
-    argument:   version
-    value:      Name of an available Perl, as seen with 'berrybrew available'
-    return:     The name of the Perl we've installed
+        argument:   version
+        value:      Name of an available Perl, as seen with 'berrybrew available'
+        return:     The name of the Perl we've installed
 
 Installs and registers a new instance of Perl.
 
@@ -220,14 +220,14 @@ Installs and registers a new instance of Perl.
 
     internal dynamic JsonParse(string type, bool raw=false)
 
-    argument:   type
-    value:      The name of the JSON file, with the '.json' extension removed
+        argument:   type
+        value:      The name of the JSON file, with the '.json' extension removed
 
-    argument:   raw
-    value:      bool
-    default:    false
+        argument:   raw
+        value:      bool
+        default:    false
 
-    return:     dynamic // object or JSON string
+        return:     dynamic // object or JSON string
 
 Extracts the JSON string from the various JSON files, and returns it. If `raw`
 is set to `false` (default), we send the data back de-serialized. If `raw` is
@@ -241,17 +241,17 @@ is set to `false` (default), we send the data back de-serialized. If `raw` is
         bool fulllist=false
     )
 
-    argument:   type
-    value:      The name of the JSON file, with the '.json' extension removed
+        argument:   type
+        value:      The name of the JSON file, with the '.json' extension removed
 
-    argument:   data
-    value:      List of Dictionary objects. Each dict contains the name of an
-                available Perl as the key, and a StrawberryPerl instance as the
-                value
+        argument:   data
+        value:      List of Dictionary objects. Each dict contains the name of an
+                    available Perl as the key, and a StrawberryPerl instance as the
+                    value
 
-    argument:   fulllist
-    value:      bool
-    default:    false
+        argument:   fulllist
+        value:      bool
+        default:    false
 
 Writes out a JSON file containing information regarding installed Perls. If
 `fulllist` is set to `false` (default), we'll read in the existing list in the
@@ -271,8 +271,8 @@ ActiveState system installed Perl.
 
     internal static void PathAddBerryBrew(string binPath)
 
-    argument:   binPath
-    value:      Full path to the directory the berrybrew.exe binary resides in
+        argument:   binPath
+        value:      Full path to the directory the berrybrew.exe binary resides in
 
 Called by `Config()`, this enables `berrybrew` to be called from the command
 line without having to specify the full path to the executable.
@@ -281,8 +281,8 @@ line without having to specify the full path to the executable.
 
     internal static void PathAddPerl(StrawberryPerl perl)
 
-    argument:   perl
-    value:      Single instance of the StrawberryPerl class
+        argument:   perl
+        value:      Single instance of the StrawberryPerl class
 
 Sets the `PATH` environment variables up to ensure the version of Perl
 housed in the `perl` object will be used on the system.
@@ -303,12 +303,12 @@ Does not expand any variable-based `PATH` entries on extraction.
 
     internal string PathRemovePerl(bool process=true)
 
-    argument:   process
-    value:      bool
-    default:    false
-    purpose:    Action a PathSet()
+        argument:   process
+        value:      bool
+        default:    false
+        purpose:    Action a PathSet()
 
-    return:     String containing the full PATH data, after removal
+        return:     String containing the full PATH data, after removal
 
 Removes any and all Perl instances from the `PATH` environment variable.
 If `process` is set to `true` (default), we'll execute the removal via
@@ -319,13 +319,13 @@ but we won't modify the environment.
 
     internal static bool PathScan(Regex binPattern, string target)
 
-    argument:   binPattern
-    value:      Regex object containing an executable's filename
+        argument:   binPattern
+        value:      Regex object containing an executable's filename
 
-    argument:   target
-    value:      "machine" or "user"
+        argument:   target
+        value:      "machine" or "user"
 
-    return:     true if found, false if not
+        return:     true if found, false if not
 
 Looks through either the Machine or User `PATH` environment variables,
 searching for the binary name. Returns `true` on success, `false` otherwise.
@@ -334,9 +334,9 @@ searching for the binary name. Returns `true` on success, `false` otherwise.
 
     internal static void PathSet(List<string> paths)
 
-    argument:   paths
-    value:      List of strings, each string contains a PATH entry 
-                (less the semi-colon)
+        argument:   paths
+        value:      List of strings, each string contains a PATH entry 
+                    (less the semi-colon)
 
 Builds the semi-colon separated `PATH` string from the list, and inserts it
 into the Machine's `PATH` section in the registry. We then send a broadcast
@@ -350,10 +350,10 @@ preserve and insert variable-based `PATH` entries.
 
     internal static string PerlArchivePath(StrawberryPerl perl)
 
-    argument:   perl
-    value:      Instance of the StrawberryPerl class
+        argument:   perl
+        value:      Instance of the StrawberryPerl class
 
-    return:     The full path plus filename of the Perl install
+        return:     The full path plus filename of the Perl install
 
 Creates the directory that will house a new Perl installation.
 
@@ -372,11 +372,11 @@ don't have any association or registration with `berrybrew`.
         bool importIntoObject=false
     )
 
-    argument:   importIntoObject
-    default:    false
-    purpose:    Insert the Perl objects into the Berrybrew object
+        argument:   importIntoObject
+        default:    false
+        purpose:    Insert the Perl objects into the Berrybrew object
 
-    return:     List of all Perls available, as StrawberryPerl objects
+        return:     List of all Perls available, as StrawberryPerl objects
 
 Collects up both the default and custom available Perls from the available
 JSON configuration files, and turns the information into `StrawberryPerl`
@@ -398,8 +398,8 @@ Locates which instance of Perl is currently in use, and returns the
 
     internal static bool PerlIsInstalled(StrawberryPerl perl)
 
-    argument:   perl
-    value:      Instance of the StrawberryPerl class
+        argument:   perl
+        value:      Instance of the StrawberryPerl class
 
     return:     true if the passed in perl is installed, false if not
 
@@ -410,8 +410,8 @@ if it is, and `false` if not.
 
     public void PerlRemove(string versionToRemove)
 
-    argument:   versionToRemove
-    value:      Name of an installed Perl to uninstall
+        argument:   versionToRemove
+        value:      Name of an installed Perl to uninstall
 
 Removes the Perl instance corresponding to the name sent in.
 
@@ -422,13 +422,13 @@ Removes the Perl instance corresponding to the name sent in.
         StrawberryPerl perlBase = new StrawberryPerl()
     )
 
-    argument:   perlName
-    value:      The name you want to use for this new install, which will
-                appear in "berrybrew available"
+        argument:   perlName
+        value:      The name you want to use for this new install, which will
+                    appear in "berrybrew available"
 
-    argument:   perlBase
-    value:      Instance of the StrawberryPerl class
-    default:    A non-populated instance
+        argument:   perlBase
+        value:      Instance of the StrawberryPerl class
+        default:    A non-populated instance
 
 Registers custom Perl instances with `berrybrew`, so they appear in
 `berrybrew available` and aren't considered orphans.
@@ -442,8 +442,8 @@ version.
 
     public void Switch(string perlVersion)
 
-    argument:   perlVersion
-    value:      Name of an available and installed Perl instance
+        argument:   perlVersion
+        value:      Name of an available and installed Perl instance
 
 Updates `PATH` with the relevant path details in order to make this Perl
 instance the default used across the board. This is persistent until changed.
@@ -464,7 +464,7 @@ Manages the importing, collection and printing of various `berrybrew` output.
 
     public void Add(dynamic json)
     
-    argument:   Deserialized JSON string
+        argument:   Deserialized JSON string
 
     value:      {"label":"msgname","content":["msgline 1", "msgline 2"]}
                 converted to:
@@ -476,10 +476,10 @@ Adds a message to the structure.
 
     public string Get(string label)
 
-    argument:   label
-    value:      Name of a label that coincides with the message content
+        argument:   label
+        value:      Name of a label that coincides with the message content
 
-    return:     String of the message content
+        return:     String of the message content
     
 Returns the message content that corresponds with a specific message label.
 
@@ -487,8 +487,8 @@ Returns the message content that corresponds with a specific message label.
 
     public void Print(string label)
     
-    argument:   label
-    value:      Name of a message label
+        argument:   label
+        value:      Name of a message label
     
 `Console.WriteLine()` the message content corresponding with the labelto
 `STDOUT`
@@ -497,9 +497,9 @@ Returns the message content that corresponds with a specific message label.
 
     public void Say(string label)
     
-    argument:   label
-    value:      Name of a message label
-    
+        argument:   label
+        value:      Name of a message label
+        
 Same thing as `Message.Print`, but after printing, calls `Environment.Exit(0)`
 and terminates the application.
 
