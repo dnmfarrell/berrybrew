@@ -42,8 +42,8 @@ The `Berrybrew` class is the base of the system.
 [PerlRegisterCustomInstall](#perlregistercustominstall)| internal | Make `berrybrew` aware of custom instances
 [PerlResolveVersion](#PerlResolveVersion)| internal | Resolves the name of a Perl to its StrawberryPerl object
 [PerlUpdateAvailableList](#PerlUpdateAvailableList)| public | **incomplete** Automatically fetches new Strawberry Perls available
-[Switch](#switch)| Change to a specific version of Perl (persistent)
-[Version](#version)| Return the version of the current `berrybrew`
+[Switch](#switch)| public | Change to a specific version of Perl (persistent)
+[Version](#version)| public | Return the version of the current `berrybrew`
 
 ##Message Class Methods
 
