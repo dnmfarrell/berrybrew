@@ -208,13 +208,13 @@ get properly reset yet. If you choose to ignore this, follow this procedure:
         src/bbconsole.cs
         -lib:bin -r:bbapi.dll \
         -out:bin/berrybrew.exe \
-        -win32icon:berrybrew.ico \
+        -win32icon:inc/berrybrew.ico \
 
     bin\berrybrew.exe config
 
 ##Create a Release
 
-Use the included `release.sh` script, which:
+Use the included `dev/release.sh` script, which:
 
 - compiles the `berrybrew.exe` binary
 
