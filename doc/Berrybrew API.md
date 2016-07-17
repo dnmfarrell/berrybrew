@@ -263,7 +263,7 @@ is set to `false` (default), we send the data back de-serialized. If `raw` is
 
     internal void JsonWrite(
         string type, 
-        List<Dictionary<string, object> data,
+        List<Dictionary<string, object>> data,
         bool fullList=false
     )
 
