@@ -303,7 +303,7 @@ namespace BerryBrew
             }
         }
 
-        public static void Extract(StrawberryPerl perl, string archivePath)
+        private static void Extract(StrawberryPerl perl, string archivePath)
         {
             if (File.Exists(archivePath))
             {
