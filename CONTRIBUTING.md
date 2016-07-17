@@ -11,7 +11,7 @@ What we do:
 - ensure that all existing unit tests pass, per `doc/Unit Tests.md` *
 - ensure that any functionality/API/runtime changes have explicit unit tests written *
 
- * - Unlikely to accept changes that don't confirm to these
+\* Unlikely to accept changes that don't confirm to these
 
 What we don't do:
 
