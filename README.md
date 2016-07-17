@@ -17,6 +17,22 @@ application, as well as the
 See [SEE ALSO](https://github.com/stevieb9/berrybrew#see-also) for the full list of
 documentation.
 
+Table of Contents
+
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Commands](#commands)
+- [Synopsis](#synopsis)
+- [Add/Remove Perls Available](#addremove-perls-available)
+- [Configure Perl Instance Directory](#configure-root-directory)
+- [Compile Your Own](#compile-your-own)
+- [Create a Release](#create-a-release)
+- [Requirements](#requirements)
+- [Troubleshooting](#troubleshooting)
+- [Documentation](#see-also)
+- [License](#license)
+- [Version](#version)
+
 ##Installation
 
 #####Git clone
