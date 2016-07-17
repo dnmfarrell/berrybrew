@@ -1,4 +1,10 @@
-##berrybrew API (bbapi.dll)
+##berrybrew API (bin/bbapi.dll)
+
+API source code is located in the `src/berrybrew.cs` file. It is
+standalone namespace/class code, and contains no entry points.
+
+The code for the `berrybrew.exe` binary itself resides in `src/bbconsole.exe`.
+This source file contains the `Main()` entry point. 
 
 - [Berrybrew Class](#class-berrybrew)
 - [Message Class](#class-message)
