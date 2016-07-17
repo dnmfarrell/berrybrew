@@ -2,10 +2,55 @@
 
 ##Berrybrew Class Methods
 
+The `Berrybrew` class is the base of the system.
+
 |Method name|Description|
 |---|---|
 [Available](#Available) | Displays all available Perls
-[Clean](#Clean) | Removes temp files and orphan Perls
+[Clean](#Clean) | Stages removal of temp files and orphaned Perls
+[CleanOrphan(#CleanOrphan)| Removes all orphaned Perls
+[CleanTemp(#CleanTemp)| Removes temporary files
+[Clone](#Clone)| Copies an installed Perl to a new name
+[Config](#Config)| Puts `berrybrew.exe` in `PATH`
+[Exec](#Exec)| Runs commands on all installed Perls
+[ExecCompile](#ExecCompile)| Staging for `Exec()`
+[Extract](#Extract)| Helper method for `ExtractZip`
+[ExtractZip](#ExtractZip)| Extracts the Perl installation zip file
+[Fetch](#Fetch)| Downloads the Perl installation files
+[FileRemove](#FileRemove)| Deletes a file
+[FileSystemResetAttributes](#FileSystemResetAttributes)| Defaults filesystem attrs
+[Install](#Install)| Installs new instances of Perl
+[JsonParse](#JsonParse)| Reads JSON config files
+[JsonWrite](#JsonWrite)| Writes out JSON configuration
+[Off](#Off) | Completely disables `berrybrew`
+[PathAddBerryBrew](#PathAddBerryBrew)| Adds `berrybrew` to `PATH`
+[PathAddPerl](#PathAddPerl)| Adds a Perl to `PATH`
+[PathGet](#PathGet)| Retrieves the Machine `PATH`
+[PathRemovePerl](#PathRemovePerl)| Removes specified Perl from `PATH`
+[PathScan](#PathScan)| Checks `PATH` for a specific binary file
+[PathSet](#PathSet)| Writes all `PATH` changes to the registry
+[PerlArchivePath](#PerlArchivePath)| Returns the path and filename of the zip file
+[PerlFindOrphans](#PerlFindOrphans)| Locates non-registered directories in Perl root
+[PerlGenerateObjects](#PerlGenerateObjects)| Generates the `StrawberryPerl` class objects
+[PerlInUse](#PerlInUse)| Returns the name of the Perl currently in use
+[PerlIsInstalled](#PerlIsInstalled)| Checks if a specific Perl is installed
+[PerlRemove](#PerlRemove)| Uninstalls a specific instance of Perl
+[PerlRegisterCustomInstall](#PerlRegisterCustomInstall)| Make `berrybrew` aware of custom instances
+[Switch](#Switch)| Change to a specific version of Perl (persistent)
+[Version](#Version)| Return the version of the current `berrybrew`
+
+##Message Class Methods
+
+The `Message` class is a helper that manages the various output
+that is displayed to the user.
+
+|Method name|Description|
+|---|---|
+[Message.Add](#Message.Add)| Adds a new message to the collection
+[Message.Get](#Message.Get)| Fetches the content of a specific message
+[Message.Print](#Message.Print)| Prints the content of a specific message
+[Message.Say](#Message.Say)| Same as `Print()`, but terminates
+
 
 ##Class Berrybrew
 
