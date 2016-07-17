@@ -9,24 +9,24 @@ The `Berrybrew` class is the base of the system.
 
 |Method name|Available|Description|
 |---|---|---|
-[Available](#available)| public | Displays all available Perls
+[Available](#available)| *public* | Displays all available Perls
 [CheckName](#checkname)| internal | Validates the name of a custom Perl install
-[Clean](#clean) | public | Stages removal of temp files and orphaned Perls
+[Clean](#clean) | *public* | Stages removal of temp files and orphaned Perls
 [CleanOrphan](#cleanorphan)| internal | Removes all orphaned Perls
 [CleanTemp](#cleantemp)| internal | Removes temporary files
-[Clone](#clone)| public | Copies an installed Perl to a new name
-[Config](#config)| public | Puts `berrybrew.exe` in `PATH`
+[Clone](#clone)| *public* | Copies an installed Perl to a new name
+[Config](#config)| *public* | Puts `berrybrew.exe` in `PATH`
 [Exec](#exec)| internal | Runs commands on all installed Perls
-[ExecCompile](#execcompile)| public | Staging for `Exec()`
+[ExecCompile](#execcompile)| *public* | Staging for `Exec()`
 [Extract](#extract)| private | Helper method for `ExtractZip`
 [ExtractZip](#extractzip)| internal | Extracts the Perl installation zip file
 [Fetch](#fetch)| private | Downloads the Perl installation files
 [FileRemove](#fileremove)| internal | Deletes a file
 [FileSystemResetAttributes](#filesystemresetattributes)| internal | Defaults filesystem attrs
-[Install](#install)| public | Installs new instances of Perl
+[Install](#install)| *public* | Installs new instances of Perl
 [JsonParse](#jsonparse)| internal | Reads JSON config files
 [JsonWrite](#jsonwrite)| internal | Writes out JSON configuration
-[Off](#off) | public | Completely disables `berrybrew`
+[Off](#off) | *public* | Completely disables `berrybrew`
 [PathAddBerryBrew](#pathaddberrybrew)| internal | Adds `berrybrew` to `PATH`
 [PathAddPerl](#pathaddperl)| internal | Adds a Perl to `PATH`
 [PathGet](#pathget)| internal | Retrieves the Machine `PATH`
@@ -34,16 +34,16 @@ The `Berrybrew` class is the base of the system.
 [PathScan](#pathscan)| internal | Checks `PATH` for a specific binary file
 [PathSet](#pathset)| internal | Writes all `PATH` changes to the registry
 [PerlArchivePath](#perlarchivepath)| internal | Returns the path and filename of the zip file
-[PerlFindOrphans](#perlfindorphans)| public | Locates non-registered directories in Perl root
+[PerlFindOrphans](#perlfindorphans)| *public* | Locates non-registered directories in Perl root
 [PerlGenerateObjects](#perlgenerateobjects)| internal | Generates the `StrawberryPerl` class objects
 [PerlInUse](#perlinuse)| internal | Returns the name of the Perl currently in use
 [PerlIsInstalled](#perlisinstalled)| internal | Checks if a specific Perl is installed
-[PerlRemove](#perlremove)| public | Uninstalls a specific instance of Perl
+[PerlRemove](#perlremove)| *public* | Uninstalls a specific instance of Perl
 [PerlRegisterCustomInstall](#perlregistercustominstall)| internal | Make `berrybrew` aware of custom instances
 [PerlResolveVersion](#PerlResolveVersion)| internal | Resolves the name of a Perl to its StrawberryPerl object
-[PerlUpdateAvailableList](#PerlUpdateAvailableList)| public | **incomplete** Automatically fetches new Strawberry Perls available
-[Switch](#switch)| public | Change to a specific version of Perl (persistent)
-[Version](#version)| public | Return the version of the current `berrybrew`
+[PerlUpdateAvailableList](#PerlUpdateAvailableList)| *public* | **incomplete** Automatically fetches new Strawberry Perls available
+[Switch](#switch)| *public* | Change to a specific version of Perl (persistent)
+[Version](#version)| *public* | Return the version of the current `berrybrew`
 
 ##Message Class Methods
 
@@ -52,10 +52,10 @@ that is displayed to the user.
 
 |Method name|Available|Description|
 |---|---|---|
-[Message.Add](#Message.Add)| public | Adds a new message to the collection
-[Message.Get](#Message.Get)| public | Fetches the content of a specific message
-[Message.Print](#Message.Print)| public | Prints the content of a specific message
-[Message.Say](#Message.Say)| public | Same as `Print()`, but terminates
+[Message.Add](#Message.Add)| *public* | Adds a new message to the collection
+[Message.Get](#Message.Get)| *public* | Fetches the content of a specific message
+[Message.Print](#Message.Print)| *public* | Prints the content of a specific message
+[Message.Say](#Message.Say)| *public* | Same as `Print()`, but terminates
 
 
 ##Class Berrybrew
