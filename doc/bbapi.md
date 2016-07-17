@@ -8,8 +8,8 @@ The `Berrybrew` class is the base of the system.
 |---|---|
 [Available](#Available) | Displays all available Perls
 [Clean](#Clean) | Stages removal of temp files and orphaned Perls
-[CleanOrphan(#CleanOrphan)| Removes all orphaned Perls
-[CleanTemp(#CleanTemp)| Removes temporary files
+[CleanOrphan](#CleanOrphan)| Removes all orphaned Perls
+[CleanTemp](#CleanTemp)| Removes temporary files
 [Clone](#Clone)| Copies an installed Perl to a new name
 [Config](#Config)| Puts `berrybrew.exe` in `PATH`
 [Exec](#Exec)| Runs commands on all installed Perls
