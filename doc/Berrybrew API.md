@@ -3,7 +3,7 @@
 API source code is located in the `src/berrybrew.cs` file. It is
 standalone namespace/class code, and contains no entry points.
 
-The code for the `berrybrew.cs` binary itself resides in `src/bbconsole.exe`.
+The code for the `berrybrew.exe` binary itself resides in `src/bbconsole.cs`.
 This source file contains the `Main()` entry point. 
 
 - [Berrybrew Class](#class-berrybrew)
