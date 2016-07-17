@@ -6,38 +6,38 @@ The `Berrybrew` class is the base of the system.
 
 |Method name|Description|
 |---|---|
-[Available](#Available) | Displays all available Perls
-[Clean](#Clean) | Stages removal of temp files and orphaned Perls
-[CleanOrphan](#CleanOrphan)| Removes all orphaned Perls
-[CleanTemp](#CleanTemp)| Removes temporary files
-[Clone](#Clone)| Copies an installed Perl to a new name
-[Config](#Config)| Puts `berrybrew.exe` in `PATH`
-[Exec](#Exec)| Runs commands on all installed Perls
-[ExecCompile](#ExecCompile)| Staging for `Exec()`
-[Extract](#Extract)| Helper method for `ExtractZip`
-[ExtractZip](#ExtractZip)| Extracts the Perl installation zip file
-[Fetch](#Fetch)| Downloads the Perl installation files
-[FileRemove](#FileRemove)| Deletes a file
-[FileSystemResetAttributes](#FileSystemResetAttributes)| Defaults filesystem attrs
-[Install](#Install)| Installs new instances of Perl
-[JsonParse](#JsonParse)| Reads JSON config files
-[JsonWrite](#JsonWrite)| Writes out JSON configuration
-[Off](#Off) | Completely disables `berrybrew`
-[PathAddBerryBrew](#PathAddBerryBrew)| Adds `berrybrew` to `PATH`
-[PathAddPerl](#PathAddPerl)| Adds a Perl to `PATH`
-[PathGet](#PathGet)| Retrieves the Machine `PATH`
-[PathRemovePerl](#PathRemovePerl)| Removes specified Perl from `PATH`
-[PathScan](#PathScan)| Checks `PATH` for a specific binary file
-[PathSet](#PathSet)| Writes all `PATH` changes to the registry
-[PerlArchivePath](#PerlArchivePath)| Returns the path and filename of the zip file
-[PerlFindOrphans](#PerlFindOrphans)| Locates non-registered directories in Perl root
-[PerlGenerateObjects](#PerlGenerateObjects)| Generates the `StrawberryPerl` class objects
-[PerlInUse](#PerlInUse)| Returns the name of the Perl currently in use
-[PerlIsInstalled](#PerlIsInstalled)| Checks if a specific Perl is installed
-[PerlRemove](#PerlRemove)| Uninstalls a specific instance of Perl
-[PerlRegisterCustomInstall](#PerlRegisterCustomInstall)| Make `berrybrew` aware of custom instances
-[Switch](#Switch)| Change to a specific version of Perl (persistent)
-[Version](#Version)| Return the version of the current `berrybrew`
+[Available](#available) | Displays all available Perls
+[Clean](#clean) | Stages removal of temp files and orphaned Perls
+[CleanOrphan](#cleanorphan)| Removes all orphaned Perls
+[CleanTemp](#cleantemp)| Removes temporary files
+[Clone](#clone)| Copies an installed Perl to a new name
+[Config](#config)| Puts `berrybrew.exe` in `PATH`
+[Exec](#exec)| Runs commands on all installed Perls
+[ExecCompile](#execcompile)| Staging for `Exec()`
+[Extract](#extract)| Helper method for `ExtractZip`
+[ExtractZip](#extractzip)| Extracts the Perl installation zip file
+[Fetch](#fetch)| Downloads the Perl installation files
+[FileRemove](#fileremove)| Deletes a file
+[FileSystemResetAttributes](#filesystemresetattributes)| Defaults filesystem attrs
+[Install](#install)| Installs new instances of Perl
+[JsonParse](#jsonparse)| Reads JSON config files
+[JsonWrite](#jsonwrite)| Writes out JSON configuration
+[Off](#off) | Completely disables `berrybrew`
+[PathAddBerryBrew](#pathaddberrybrew)| Adds `berrybrew` to `PATH`
+[PathAddPerl](#pathaddperl)| Adds a Perl to `PATH`
+[PathGet](#pathget)| Retrieves the Machine `PATH`
+[PathRemovePerl](#pathremoveperl)| Removes specified Perl from `PATH`
+[PathScan](#pathscan)| Checks `PATH` for a specific binary file
+[PathSet](#pathset)| Writes all `PATH` changes to the registry
+[PerlArchivePath](#perlarchivepath)| Returns the path and filename of the zip file
+[PerlFindOrphans](#perlfindorphans)| Locates non-registered directories in Perl root
+[PerlGenerateObjects](#perlgenerateobjects)| Generates the `StrawberryPerl` class objects
+[PerlInUse](#perlinuse)| Returns the name of the Perl currently in use
+[PerlIsInstalled](#perlisinstalled)| Checks if a specific Perl is installed
+[PerlRemove](#perlremove)| Uninstalls a specific instance of Perl
+[PerlRegisterCustomInstall](#perlregistercustominstall)| Make `berrybrew` aware of custom instances
+[Switch](#switch)| Change to a specific version of Perl (persistent)
+[Version](#version)| Return the version of the current `berrybrew`
 
 ##Message Class Methods
 
