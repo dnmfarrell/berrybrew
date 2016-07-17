@@ -14,7 +14,7 @@ There is extensive documentation available for the
 [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
 application, as well as the 
 [Berrybrew API](https://github.com/stevieb9/berrybrew/blob/master/doc/Berrybrew%20API.md).
-See [SEE ALSO](https://github.com/stevieb9/berrybrew#see-more) for the full list of
+See [SEE ALSO](https://github.com/stevieb9/berrybrew#see-also) for the full list of
 documentation.
 
 ##Installation
