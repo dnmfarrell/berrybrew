@@ -498,7 +498,7 @@ Returns the version of the current `berrybrew` binary/library.
 
 Manages the importing, collection and printing of various `berrybrew` output.
 
-##Message.Add
+####Message.Add
 
     public void Add(dynamic json)
     
@@ -510,7 +510,7 @@ Manages the importing, collection and printing of various `berrybrew` output.
 
 Adds a message to the structure. 
 
-##Message.Get
+####Message.Get
 
     public string Get(string label)
 
@@ -521,7 +521,7 @@ Adds a message to the structure.
     
 Returns the message content that corresponds with a specific message label.
 
-##Message.Print
+####Message.Print
 
     public void Print(string label)
     
@@ -531,7 +531,7 @@ Returns the message content that corresponds with a specific message label.
 `Console.WriteLine()` the message content corresponding with the labelto
 `STDOUT`
 
-##Message.Say
+####Message.Say
 
     public void Say(string label)
     
