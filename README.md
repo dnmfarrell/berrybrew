@@ -17,7 +17,7 @@ application, as well as the
 See [SEE ALSO](https://github.com/stevieb9/berrybrew#see-also) for the full list of
 documentation.
 
-Table of Contents
+##Table of Contents
 
 - [Installation](#installation)
 - [Configuration](#configuration)
