@@ -25,7 +25,7 @@ documentation.
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 56b13bef200dca45f41ee7912635fa00040c4aac`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 31a13336060878bf1618ea17513ca305581847eb`
 
 #####Configuration
 
@@ -263,7 +263,7 @@ You can also enable debugging to get more verbose output on the command line:
 
 ##Version
 
-    1.03
+    1.04
 
 ##Original Author
 
