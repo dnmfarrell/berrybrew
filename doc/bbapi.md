@@ -1,6 +1,9 @@
 ##berrybrew API (bbapi.dll)
 
-|[Class Berrybrew](#Class-Berrybrew)|
+##Berrybrew Class Methods
+
+|Method name|Description|
+|---|---|
 [Available](#Available) | Displays all available Perls
 [Clean](#Clean) | Removes temp files and orphan Perls
 
