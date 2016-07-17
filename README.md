@@ -10,6 +10,13 @@ to have Strawberry Perl installed before using `berrybrew`.
 Adding and removing perls available is as simple as editing a JSON file, and 
 works at runtime.
 
+There is extensive documentation available for the
+[berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+application, as well as the 
+[Berrybrew API](https://github.com/stevieb9/berrybrew/blob/master/doc/Berrybrew%20API.md).
+See [SEE ALSO](https://github.com/stevieb9/berrybrew#see-more) for the full list of
+documentation.
+
 ##Installation
 
 #####Git clone
@@ -58,7 +65,7 @@ List all available versions of Perl:
 
     The following Strawberry Perls are available:
 
-            5.24.0_64       [installed]*
+            5.24.0_64       [installed]
             5.24.0_64_PDL
             5.24.0_32
             5.22.2_64
@@ -75,6 +82,8 @@ List all available versions of Perl:
             5.14.4_32       [installed]
             5.12.3_32
             5.10.1_32
+            unit_test-5.18  [custom] [installed] *
+            projectX        [custom] [installed]
 
     * Currently using
 
@@ -196,10 +205,10 @@ get properly reset yet. If you choose to ignore this, follow this procedure:
     # compile the berrybrew.exe binary
 
     mcs \
+        src/bbconsole.cs
         -lib:bin -r:bbapi.dll \
         -out:bin/berrybrew.exe \
         -win32icon:berrybrew.ico \
-        src/bbconsole.cs
 
     bin\berrybrew.exe config
 
@@ -232,6 +241,21 @@ downloads by running `berrybrew clean`.
 You can also enable debugging to get more verbose output on the command line:
 
     berrybrew debug <command> [options] 
+
+##SEE ALSO
+
+- [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+ Full documentation for the application
+
+- [Berrybrew API](https://github.com/stevieb9/berrybrew/blob/master/doc/Berrybrew%20API.md)
+ API documentation
+
+- [Unit Testing](https://github.com/stevieb9/berrybrew/blob/master/doc/Unit%20Testing.md)
+ Documentation for unit testing `berrybrew`
+
+- [Configuration](https://github.com/stevieb9/berrybrew/blob/master/doc/Configuration.md)
+ Guide to various configuration files and options
+
 
 ##License
 

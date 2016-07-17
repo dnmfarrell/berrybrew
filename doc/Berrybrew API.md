@@ -7,38 +7,41 @@
 
 The `Berrybrew` class is the base of the system.
 
-|Method name|Description|
-|---|---|
-[Available](#available) | Displays all available Perls
-[Clean](#clean) | Stages removal of temp files and orphaned Perls
-[CleanOrphan](#cleanorphan)| Removes all orphaned Perls
-[CleanTemp](#cleantemp)| Removes temporary files
-[Clone](#clone)| Copies an installed Perl to a new name
-[Config](#config)| Puts `berrybrew.exe` in `PATH`
-[Exec](#exec)| Runs commands on all installed Perls
-[ExecCompile](#execcompile)| Staging for `Exec()`
-[Extract](#extract)| Helper method for `ExtractZip`
-[ExtractZip](#extractzip)| Extracts the Perl installation zip file
-[Fetch](#fetch)| Downloads the Perl installation files
-[FileRemove](#fileremove)| Deletes a file
-[FileSystemResetAttributes](#filesystemresetattributes)| Defaults filesystem attrs
-[Install](#install)| Installs new instances of Perl
-[JsonParse](#jsonparse)| Reads JSON config files
-[JsonWrite](#jsonwrite)| Writes out JSON configuration
-[Off](#off) | Completely disables `berrybrew`
-[PathAddBerryBrew](#pathaddberrybrew)| Adds `berrybrew` to `PATH`
-[PathAddPerl](#pathaddperl)| Adds a Perl to `PATH`
-[PathGet](#pathget)| Retrieves the Machine `PATH`
-[PathRemovePerl](#pathremoveperl)| Removes specified Perl from `PATH`
-[PathScan](#pathscan)| Checks `PATH` for a specific binary file
-[PathSet](#pathset)| Writes all `PATH` changes to the registry
-[PerlArchivePath](#perlarchivepath)| Returns the path and filename of the zip file
-[PerlFindOrphans](#perlfindorphans)| Locates non-registered directories in Perl root
-[PerlGenerateObjects](#perlgenerateobjects)| Generates the `StrawberryPerl` class objects
-[PerlInUse](#perlinuse)| Returns the name of the Perl currently in use
-[PerlIsInstalled](#perlisinstalled)| Checks if a specific Perl is installed
-[PerlRemove](#perlremove)| Uninstalls a specific instance of Perl
-[PerlRegisterCustomInstall](#perlregistercustominstall)| Make `berrybrew` aware of custom instances
+|Method name|Available|Description|
+|---|---|---|
+[Available](#available)| public | Displays all available Perls
+[CheckName](#checkname)| internal | Validates the name of a custom Perl install
+[Clean](#clean) | public | Stages removal of temp files and orphaned Perls
+[CleanOrphan](#cleanorphan)| internal | Removes all orphaned Perls
+[CleanTemp](#cleantemp)| internal | Removes temporary files
+[Clone](#clone)| public | Copies an installed Perl to a new name
+[Config](#config)| public | Puts `berrybrew.exe` in `PATH`
+[Exec](#exec)| internal | Runs commands on all installed Perls
+[ExecCompile](#execcompile)| public | Staging for `Exec()`
+[Extract](#extract)| private | Helper method for `ExtractZip`
+[ExtractZip](#extractzip)| internal | Extracts the Perl installation zip file
+[Fetch](#fetch)| private | Downloads the Perl installation files
+[FileRemove](#fileremove)| internal | Deletes a file
+[FileSystemResetAttributes](#filesystemresetattributes)| internal | Defaults filesystem attrs
+[Install](#install)| public | Installs new instances of Perl
+[JsonParse](#jsonparse)| internal | Reads JSON config files
+[JsonWrite](#jsonwrite)| internal | Writes out JSON configuration
+[Off](#off) | public | Completely disables `berrybrew`
+[PathAddBerryBrew](#pathaddberrybrew)| internal | Adds `berrybrew` to `PATH`
+[PathAddPerl](#pathaddperl)| internal | Adds a Perl to `PATH`
+[PathGet](#pathget)| internal | Retrieves the Machine `PATH`
+[PathRemovePerl](#pathremoveperl)| internal | Removes specified Perl from `PATH`
+[PathScan](#pathscan)| internal | Checks `PATH` for a specific binary file
+[PathSet](#pathset)| internal | Writes all `PATH` changes to the registry
+[PerlArchivePath](#perlarchivepath)| internal | Returns the path and filename of the zip file
+[PerlFindOrphans](#perlfindorphans)| public | Locates non-registered directories in Perl root
+[PerlGenerateObjects](#perlgenerateobjects)| internal | Generates the `StrawberryPerl` class objects
+[PerlInUse](#perlinuse)| internal | Returns the name of the Perl currently in use
+[PerlIsInstalled](#perlisinstalled)| internal | Checks if a specific Perl is installed
+[PerlRemove](#perlremove)| public | Uninstalls a specific instance of Perl
+[PerlRegisterCustomInstall](#perlregistercustominstall)| internal | Make `berrybrew` aware of custom instances
+[PerlResolveVersion](#PerlResolveVersion)| internal | Resolves the name of a Perl to its StrawberryPerl object
+[PerlUpdateAvailableList](#PerlUpdateAvailableList)| public | **incomplete** Automatically fetches new Strawberry Perls available
 [Switch](#switch)| Change to a specific version of Perl (persistent)
 [Version](#version)| Return the version of the current `berrybrew`
 
@@ -47,12 +50,12 @@ The `Berrybrew` class is the base of the system.
 The `Message` class is a helper that manages the various output
 that is displayed to the user.
 
-|Method name|Description|
-|---|---|
-[Message.Add](#Message.Add)| Adds a new message to the collection
-[Message.Get](#Message.Get)| Fetches the content of a specific message
-[Message.Print](#Message.Print)| Prints the content of a specific message
-[Message.Say](#Message.Say)| Same as `Print()`, but terminates
+|Method name|Available|Description|
+|---|---|---|
+[Message.Add](#Message.Add)| public | Adds a new message to the collection
+[Message.Get](#Message.Get)| public | Fetches the content of a specific message
+[Message.Print](#Message.Print)| public | Prints the content of a specific message
+[Message.Say](#Message.Say)| public | Same as `Print()`, but terminates
 
 
 ##Class Berrybrew
@@ -64,6 +67,17 @@ that is displayed to the user.
 Displays the names of the versions of Perl that are available to `berrybrew`,
 as found in `this.Perls`, where `this.Perls` is a 
 `OrderedDictionary<string name, Berrybrew.StrawberryPerl>`.
+
+####CheckName
+
+    private static bool CheckName(string perlName)
+
+        argument:   perlName
+        value:      Name of an available Perl
+
+        return:     true on success, false on fail
+
+Checks the name of a custom Perl to ensure it fits within the guidelines.
 
 ####Clean
 
@@ -96,7 +110,7 @@ Returns `true` if any files were found/deleted, `false` if not.
 
 ####Clone
 
-    public void Clone(string src, string dest)
+    public bool Clone(string src, string dest)
 
         argument:   src
         values:     Name of an installed berrybrew Perl instance
@@ -105,9 +119,12 @@ Returns `true` if any files were found/deleted, `false` if not.
         values:     Any string name by which you want the clone to appear
                     in 'berrybrew available'
 
+        return:     bool
+
 Makes an exact copy of an existing installed Perl instance with a name of your
 choosing, and makes it available just like all others. `berrybrew available`
-will label these custom installs appropriately.
+will label these custom installs appropriately. Returns `true` on success,
+`false` otherwise.
 
 ####Config
 
@@ -178,6 +195,7 @@ archive. The default archive path can be found in `this.ArchivePath`.
 
         argument:   perl
         value:      Single instance of the StrawberryPerl class
+        
         return:     The name of the folder the zip file was downloaded to
 
 Downloads the zip file for the version of Perl found in the StrawberryPerl
@@ -189,6 +207,7 @@ object, and returns the directory of where it was put.
 
         argument:   filename
         value:      Name of an existing file on the system
+        
         return:     Stringified Exception or "true"
 
 Deletes a file from the file system. Returns stringified "true" on success,
@@ -212,6 +231,7 @@ installations.
 
         argument:   version
         value:      Name of an available Perl, as seen with 'berrybrew available'
+        
         return:     The name of the Perl we've installed
 
 Installs and registers a new instance of Perl.
@@ -291,7 +311,7 @@ housed in the `perl` object will be used on the system.
 
     internal static string PathGet()
 
-    return:     String containing the machine's PATH data
+        return:     String containing the machine's PATH data
 
 Using the registry, retrieves the current Machine (System) `PATH` environment
 variable. Using the registry ensures we have the most current data, even if
@@ -361,7 +381,7 @@ Creates the directory that will house a new Perl installation.
 
     public List<string> PerlFindOrphans()
 
-    returns:    List of the names of orphaned Perl installs found
+        returns:    List of the names of orphaned Perl installs found
 
 Gathers a list of directory names in the Perl installation directory, that
 don't have any association or registration with `berrybrew`.
@@ -389,7 +409,7 @@ Set `importIntoObject` to `true` to have the list of objects imported into the
 
     internal StrawberryPerl PerlInUse()
 
-    return:     Instance of the StrawberryPerl class
+        return:     Instance of the StrawberryPerl class
 
 Locates which instance of Perl is currently in use, and returns the 
 `StrawberryPerl` object that represents it.
@@ -401,7 +421,7 @@ Locates which instance of Perl is currently in use, and returns the
         argument:   perl
         value:      Instance of the StrawberryPerl class
 
-    return:     true if the passed in perl is installed, false if not
+        return:     true if the passed in perl is installed, false if not
 
 Checks to see whether a specific Perl instance is installed. Returns `true`
 if it is, and `false` if not.
@@ -438,6 +458,24 @@ information (version, path info, download info etc) in the new custom one. Be
 sure if you do this that the base and the new custom instances are the same 
 version.
 
+####PerlResolveVersion
+
+    internal StrawberryPerl PerlResolveVersion(string name)
+
+        argument:   name
+        value:      Name of a Perl as seen in 'berrybrew available'
+
+        return:     The corresponding StrawberryPerl instance object
+
+Resolves the name of a Perl that's available (per `berrybrew available`), and returns 
+the corresponding object.
+
+####PerlUpdateAvailableList
+
+    public void PerlUpdateAvailableList()
+
+INCOMPLETE - DO NOT USE. Fetches the list of available Strawberry Perls on [Strawberry's download site](https://strawberryperl.com/releases.html), and updates the internal `perls.json` available list.
+
 ####Switch
 
     public void Switch(string perlVersion)
@@ -452,7 +490,7 @@ instance the default used across the board. This is persistent until changed.
 
     public string Version()
 
-    return:     berrybrew version string
+        return:     berrybrew version string
 
 Returns the version of the current `berrybrew` binary/library.
 

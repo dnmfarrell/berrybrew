@@ -57,7 +57,11 @@ namespace BBConsole
                     {
                         BB.Message.Say("clone_command_usage");
                     }
-                    BB.Clone(args[1], args[2]);
+                    bool ok = BB.Clone(args[1], args[2]);
+
+                    if (!ok)
+                        Environment.Exit(0);
+
                     break;
 
                 case "config":

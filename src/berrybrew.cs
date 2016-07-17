@@ -95,13 +95,19 @@ namespace BerryBrew
             Message.Print("available_header");
 
             StrawberryPerl currentPerl = PerlInUse();
-            string columnSpaces = "               ";
+            
+            List<int> nameLengths = new List<int>();
+
+            foreach (string perlName in Perls.Keys)
+            {
+                nameLengths.Add(perlName.Length);
+            }
+
+            int maxNameLength = nameLengths.Max();
 
             foreach (StrawberryPerl perl in Perls.Values)
             {
-                // cheap printf
-                string perlNameToPrint = perl.Name + columnSpaces.Substring(0, columnSpaces.Length - perl.Name.Length);
-
+                string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
                 Console.Write("\t" + perlNameToPrint);
 
                 if (perl.Custom)
@@ -114,6 +120,20 @@ namespace BerryBrew
                 Console.Write("\n");
             }
             Message.Print("available_footer");
+        }
+
+        private static bool CheckName (string perlName)
+        {
+            if (perlName.Length > 25)
+            {
+                Console.WriteLine(
+                    "name for a Perl must be 25 chars or less. You supplied {0}, length {1}",
+                    perlName,
+                    perlName.Length
+                );
+                return false;
+            }
+            return true;
         }
 
         public void Clean(string subcmd="temp")
@@ -171,8 +191,11 @@ namespace BerryBrew
             return false;
         }
 
-        public void Clone(string sourcePerlName, string destPerlName)
+        public bool Clone(string sourcePerlName, string destPerlName)
         {
+            if (!CheckName(destPerlName))
+                return false;
+
             StrawberryPerl sourcePerl = PerlResolveVersion(sourcePerlName);
 
             string sourcePerlDir = sourcePerl.InstallPath;
@@ -186,6 +209,7 @@ namespace BerryBrew
                     "Source directory does not exist or could not be found: " 
                     + sourcePerlDir
                 );
+                return false;
             }
             if (!Directory.Exists(destPerlDir))
                 Directory.CreateDirectory(destPerlDir);
@@ -207,6 +231,7 @@ namespace BerryBrew
             PerlRegisterCustomInstall(destPerlName, sourcePerl);
 
             Console.WriteLine("\nSuccessfully installed custom perl '{0}'", destPerlName);
+            return true;
         }
 
         public void Config()
@@ -303,7 +328,7 @@ namespace BerryBrew
             }
         }
 
-        public static void Extract(StrawberryPerl perl, string archivePath)
+        private static void Extract(StrawberryPerl perl, string archivePath)
         {
             if (File.Exists(archivePath))
             {
@@ -358,7 +383,7 @@ namespace BerryBrew
             }
         }
 
-        public string Fetch(StrawberryPerl perl)
+        private string Fetch(StrawberryPerl perl)
         {
             WebClient webClient = new WebClient();
             string archivePath = PerlArchivePath(perl);
@@ -848,7 +873,7 @@ namespace BerryBrew
             }
         }
 
-        public void PerlRegisterCustomInstall(string perlName, StrawberryPerl perlBase=new StrawberryPerl())
+        internal void PerlRegisterCustomInstall(string perlName, StrawberryPerl perlBase=new StrawberryPerl())
         {
             Dictionary<string, object> data = new Dictionary<string, object>();
            
