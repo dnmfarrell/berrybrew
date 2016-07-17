@@ -1,6 +1,9 @@
 ##berrybrew API (bbapi.dll)
 
-##Berrybrew Class Methods
+- [Berrybrew Class](#class-berrybrew)
+- [Message Class](#class-message)
+
+##Berrybrew Class
 
 The `Berrybrew` class is the base of the system.
 
