@@ -2,6 +2,13 @@
 
 The perlbrew for Windows Strawberry Perl! 
 
+NOTICE: At this time, `berrybrew` requires Administrative privileges to
+operate correctly. This is due to the way Windows forces the System `PATH` to
+take precedence over User `PATH`. I'm working on a solution, but if one already
+has a system Strawberry Perl or ActiveState installed, there's really nothing
+that can be done, as removing that from the `PATH` will require admin access
+anyhow.
+
 `berrybrew` can download, install, remove and manage multiple concurrent 
 versions of Strawberry Perl for Windows. There is no 
 [requirement](https://github.com/stevieb9/berrybrew#requirements "berrybrew requirements")
