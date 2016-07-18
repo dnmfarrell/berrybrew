@@ -41,7 +41,7 @@ documentation.
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: daa7ae9ca07dbc470eb4fd4dcab277d4e1b26d9c`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 1e0714a9e7c42b0884bc246e3633779a658314eb`
 
 ##Configuration
 

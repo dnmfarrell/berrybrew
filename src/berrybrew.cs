@@ -535,7 +535,7 @@ namespace BerryBrew
             Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
         }
 
-        internal static void PathAddBerryBrew(string binPath)
+        internal void PathAddBerryBrew(string binPath)
         {
             string path = PathGet();
             List<string> newPath = new List<string>();
@@ -556,7 +556,7 @@ namespace BerryBrew
             PathSet(newPath);
         }
 
-        internal static void PathAddPerl(StrawberryPerl perl)
+        internal void PathAddPerl(StrawberryPerl perl)
         {
             string path = PathGet();
             List<string> newPath = perl.Paths;
@@ -630,26 +630,37 @@ namespace BerryBrew
             return false;
         }
 
-        internal static void PathSet(List<string> path)
+        internal void PathSet(List<string> path)
         {
             path.RemoveAll(str => String.IsNullOrEmpty(str));
 
-            string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
-            Registry.LocalMachine.CreateSubKey(keyName).SetValue(
-                "Path", 
-                String.Join(";", path), 
-                RegistryValueKind.ExpandString
-            );
-            
-            SendMessageTimeout(
-                HWND_BROADCAST, 
-                WM_SETTINGCHANGE, 
-                IntPtr.Zero, 
-                "Environment", 
-                SMTO_ABORTIFHUNG, 
-                100, 
-                IntPtr.Zero
-            );
+            try
+            {
+                string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
+                Registry.LocalMachine.CreateSubKey(keyName).SetValue(
+                    "Path", 
+                    String.Join(";", path), 
+                    RegistryValueKind.ExpandString
+                );
+                
+                SendMessageTimeout(
+                    HWND_BROADCAST, 
+                    WM_SETTINGCHANGE, 
+                    IntPtr.Zero, 
+                    "Environment", 
+                    SMTO_ABORTIFHUNG, 
+                    100, 
+                    IntPtr.Zero
+                );
+            }
+            catch(System.UnauthorizedAccessException err)
+            {
+                Console.WriteLine("\nAdding berrybrew to the PATH requires Administrator privilege");
+                if (Debug)
+                {
+                    Console.WriteLine(err);
+                }
+            }
         }
 
         internal static string PerlArchivePath(StrawberryPerl perl)

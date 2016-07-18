@@ -295,7 +295,7 @@ ActiveState system installed Perl.
 
 ####PathAddBerryBrew
 
-    internal static void PathAddBerryBrew(string binPath)
+    internal void PathAddBerryBrew(string binPath)
 
         argument:   binPath
         value:      Full path to the directory the berrybrew.exe binary resides in
@@ -305,7 +305,7 @@ line without having to specify the full path to the executable.
 
 ####PathAddPerl
 
-    internal static void PathAddPerl(StrawberryPerl perl)
+    internal void PathAddPerl(StrawberryPerl perl)
 
         argument:   perl
         value:      Single instance of the StrawberryPerl class
@@ -358,7 +358,7 @@ searching for the binary name. Returns `true` on success, `false` otherwise.
 
 ####PathSet
 
-    internal static void PathSet(List<string> paths)
+    internal void PathSet(List<string> paths)
 
         argument:   paths
         value:      List of strings, each string contains a PATH entry 

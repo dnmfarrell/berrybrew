@@ -39,21 +39,21 @@
     "label": "add_bb_to_path",
 
     "content": [
-        "Would you like to add berrybrew to your user PATH? y/n [n] "
+        "Would you like to add berrybrew to PATH? y/n [n] "
     ]
 },
 {
     "label": "config_success",
 
     "content": [
-        "\nberrybrew was successfully added to the user PATH, start a new terminal to use it."
+        "\nberrybrew was successfully added to PATH, start a new terminal to use it."
     ]
 },
 {
     "label": "config_failure",
 
     "content": [
-        "\nError adding berrybrew to the user PATH"
+        "\nError adding berrybrew to PATH"
     ]
 },
 {
