@@ -209,7 +209,6 @@ namespace BerryBrew
                     "Source directory does not exist or could not be found: " 
                     + sourcePerlDir
                 );
-                return false;
             }
             if (!Directory.Exists(destPerlDir))
                 Directory.CreateDirectory(destPerlDir);

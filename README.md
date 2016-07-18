@@ -41,9 +41,9 @@ documentation.
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 93db4436c6bdb9b4a505091772bef5487b43971b`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: daa7ae9ca07dbc470eb4fd4dcab277d4e1b26d9c`
 
-#####Configuration
+##Configuration
 
 See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) to change
 the location that your Perl installations will reside.
@@ -230,7 +230,7 @@ get properly reset yet. If you choose to ignore this, follow this procedure:
 
 ##Create a Release
 
-Use the included `dev/release.sh` script, which:
+Use the included `dev/release.pl` script, which:
 
 - compiles the `berrybrew.exe` binary and the `bbapi.dll` API library
 

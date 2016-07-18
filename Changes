@@ -4,6 +4,7 @@ Revision history for berrybrew
         - added documentation in doc/ for berrybrew, the API and configuration
         - fixed issue with name length, max is now 25 chars for custom perls
         - added CheckName(), validates the name of a custom perl
+        - added release.pl and removed release.sh
 
 1.03    2016-07-16
         - added debug support within API. Set within the data\config.json file. 

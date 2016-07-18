@@ -1,5 +1,7 @@
 ##Contributing to berrybrew
 
+Bug/issue reporting via Github are very welcomed!
+
 What we do:
 
 - create a new branch appropriately named for the changes we're making
