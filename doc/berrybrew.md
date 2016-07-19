@@ -92,7 +92,11 @@ Takes no arguments. Simply sets up your `PATH` environment variables so that
 Usage:  `berrybrew exec [options] <command>`
 
 Executes the command and its arguments found in `<command>`, and
-executes it across all installed Perl instances.
+executes it across all installed Perl instances, less ones that have
+either `tmpl` or `template` in the name.
+
+Also, by default, we don't execute on custom (cloned) instances. Set
+`custom_exec` to `true` in the config file to `exec` on those as well.
 
 ######exec options:
 

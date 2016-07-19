@@ -152,8 +152,7 @@ variable.
         argument:   sysPath
         value:      String containing the full Machine PATH environment variable
 
-Hands off the command string to each installed Perl instance, after configuring
-the child process environment.
+Called by `ExecCompile()`, sends a single Perl instance a command to execute.
 
 ####ExecCompile
 
@@ -166,6 +165,12 @@ the child process environment.
 Sets things up before handing each command off to `Exec()` for final
 processing. If the `--with` flag is included, we'll strip it off and only
 send the commands to be executed to those specific Perls.
+
+This method sends a single Perl at a time to `Exec()`, and will always skip
+any Perls that have either `tmpl` or `template` in the name.
+
+By default, we also skip over all custom (cloned) instances. To have them
+included, set `custom_exec` to `true` in the configuration file.
 
 ####Extract()
 

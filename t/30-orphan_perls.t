@@ -5,7 +5,7 @@ use Test::More;
 
 my $c = 'c:/repos/berrybrew/build/berrybrew';
 
-my $dir = 'c:/berrybrew';
+my $dir = 'c:/berrybrew/test';
 my @perls = qw(5.99.0 5.005_32);
 
 for (@perls){

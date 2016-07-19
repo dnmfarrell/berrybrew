@@ -50,6 +50,14 @@ Link to the download page of Strawberry Perl's website.
 
 Default: `http://strawberryperl.com/releases.html`
 
+######custom_exec
+
+Include custom (cloned) instances when using `berrybrew exec`.
+
+Default: `false`
+
+Values:  "true", "false"
+
 ####Messages Config
 
 Maps `STDOUT` message labels to their corresponding content. This configuration file is used by the `Message` class.

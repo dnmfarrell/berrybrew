@@ -33,7 +33,7 @@ if (@installed == 1){
     like $o, qr/Switched to $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
-    like $path, qr/C:\\berrybrew\\$ver/, "PATH set ok for $ver";
+    like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";
 }
 
 {
@@ -51,7 +51,7 @@ if (@installed == 1){
     like $o, qr/Switched to $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
-    like $path, qr/C:\\berrybrew\\$ver/, "PATH set ok for $ver";
+    like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";
 }
 
 {
