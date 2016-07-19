@@ -56,6 +56,8 @@ my $bin_build = "" .
     "-out:bin/berrybrew.exe " .
     "-win32icon:inc/berrybrew.ico";
 
+system $bin_build;
+
 # zip
 
 print "packaging pre-built zipfile...\n";
