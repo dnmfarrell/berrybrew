@@ -38,11 +38,11 @@ print "compiling the API library...\n\n";
 
 my $api_build = "" . 
     "mcs " .
+    "src/berrybrew.cs " .
     "-lib:bin " .
     "-t:library " .
     "-r:ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll " .
-    "-out:bin/bbapi.dll " .
-    "src/berrybrew.cs";
+    "-out:bin/bbapi.dll";
 
 system $api_build;
 
@@ -50,11 +50,11 @@ print "\ncompiling the berrybrew binary...\n";
 
 my $bin_build = "" .
     "mcs " .
+    "src/bbconsole.cs" .
     "-lib:bin  " .
     "-r:bbapi.dll  " .
     "-out:bin/berrybrew.exe " .
-    "-win32icon:inc/berrybrew.ico " .
-    "src/bbconsole.cs";
+    "-win32icon:inc/berrybrew.ico";
 
 # zip
 
@@ -64,8 +64,11 @@ my $zip = Archive::Zip->new;
 
 chdir ".." or die $!;
 
-$zip->addDirectory('berrybrew/bin', 'berrybrew/data');
-$zip->writeToFileNamed('berrybrew/download/berrybrew.zip');
+#$zip->addDirectory('berrybrew/bin/*', 'berrybrew/data/*');
+#$zip->writeToFileNamed('berrybrew/download/berrybrew.zip');
+
+system "zip berrybrew.zip berrybrew/data/* berrybrew/bin/*";
+system "mv berrybrew.zip berrybrew/download";
 
 chdir "berrybrew" or die $!;
 
