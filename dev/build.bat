@@ -21,4 +21,4 @@ call mcs^
 
 copy bin\ICSharpCode.SharpZipLib.dll build\
 copy bin\Newtonsoft.Json.dll build\
-copy data\* build\data\
+copy dev\data\* build\data\

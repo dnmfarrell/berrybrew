@@ -1,5 +1,18 @@
 Revision history for berrybrew
 
+1.05    2016-07-18
+        - updated dev/release.pl to put default config files in place before 
+          commit/zip
+        - added dev/post_release.pl to restore the backups
+        - 'exec' no longer will process perls with either 'tmpl' or 'template'
+          in their name
+        - new config option, 'custom_exec' (default is false) will skip over
+          Custom (cloned) Perls on 'exec'. Set to true in the config file to
+          exec on them
+        - added exception handling for when a clone fails
+        - tests now perform their work in a test subdir of berrybrew, as to not
+          accidentally remove custom installs as orphans
+
 1.04    2016-07-17
         - added documentation in doc/ for berrybrew, the API and configuration
         - fixed issue with name length, max is now 25 chars for custom perls

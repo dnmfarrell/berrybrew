@@ -21,7 +21,7 @@ if (! @installed){
 }
 
 $o = `$c clone 5.10.1_32 custom`;
-ok -s $customfile > 2, "custom perls file size ok after add";
+ok -s $customfile > 5, "custom perls file size ok after add";
 
 $o = `$c available`;
 open my $fh, '<', 't\data\custom_available.txt' or die $!;
@@ -42,7 +42,7 @@ is $o, $base, "available shows ok after custom add";
     like $o, qr/Switched to $ver/, "switch to custom install ok";
 
     $path = $Registry->{$path_key};
-    like $path, qr/C:\\berrybrew\\$ver/, "PATH set ok for $ver";
+    like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";
 }
 
 {

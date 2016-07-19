@@ -45,8 +45,10 @@ namespace BerryBrew
         public string archivePath = null;
         public string downloadURL = null;
         public string strawberryURL = null;
+        public bool customExec = false;
 
         internal bool bypassOrphanCheck = false;
+
         public Message Message = new Message();
         public OrderedDictionary Perls = new OrderedDictionary();
 
@@ -59,6 +61,9 @@ namespace BerryBrew
             this.archivePath = jsonConf.temp_dir;
             this.strawberryURL = jsonConf.strawberry_url;
             this.downloadURL = jsonConf.download_url;
+            if (jsonConf.custom_exec == "true")
+                this.customExec = true;
+
             Debug = jsonConf.debug;
 
             // messages
@@ -210,27 +215,37 @@ namespace BerryBrew
                     + sourcePerlDir
                 );
             }
-            if (!Directory.Exists(destPerlDir))
-                Directory.CreateDirectory(destPerlDir);
-
-            foreach (string dirPath in Directory.GetDirectories(sourcePerlDir, "*",
-                SearchOption.AllDirectories))
-                Directory.CreateDirectory(dirPath.Replace(sourcePerlDir, destPerlDir));
-
-            foreach (string newPath in Directory.GetFiles(sourcePerlDir, "*.*",
-                SearchOption.AllDirectories))
-                File.Copy(newPath, newPath.Replace(sourcePerlDir, destPerlDir), true);
-
-            if (!Directory.Exists(destPerlDir))
+            try
             {
-                Console.WriteLine("\nfailed to clone {0} to {1}", sourcePerlDir, destPerlDir);
-                Environment.Exit(0);
+                if (!Directory.Exists(destPerlDir))
+                    Directory.CreateDirectory(destPerlDir);
+
+                foreach (string dirPath in Directory.GetDirectories(sourcePerlDir, "*",
+                    SearchOption.AllDirectories))
+                    Directory.CreateDirectory(dirPath.Replace(sourcePerlDir, destPerlDir));
+
+                foreach (string newPath in Directory.GetFiles(sourcePerlDir, "*.*",
+                    SearchOption.AllDirectories))
+                    File.Copy(newPath, newPath.Replace(sourcePerlDir, destPerlDir), true);
+
+                if (!Directory.Exists(destPerlDir))
+                {
+                    Console.WriteLine("\nfailed to clone {0} to {1}", sourcePerlDir, destPerlDir);
+                    Environment.Exit(0);
+                }
+
+                PerlRegisterCustomInstall(destPerlName, sourcePerl);
+
+                Console.WriteLine("\nSuccessfully installed custom perl '{0}'", destPerlName);
+                return true;
             }
-
-            PerlRegisterCustomInstall(destPerlName, sourcePerl);
-
-            Console.WriteLine("\nSuccessfully installed custom perl '{0}'", destPerlName);
-            return true;
+            catch (System.IO.IOException err)
+            {
+                Console.WriteLine("\nClone failed due to disk I/O error... ensure the disk isn't full\n");
+                if (Debug)
+                    Console.WriteLine(err);
+                return false;
+            }
         }
 
         public void Config()
@@ -323,6 +338,10 @@ namespace BerryBrew
 
             foreach (StrawberryPerl perl in execWith)
             {
+                if (perl.Custom && !this.customExec)
+                    continue;
+                if (perl.Name.Contains("tmpl") || perl.Name.Contains("template"))
+                    continue;
                 Exec(perl, command, sysPath);
             }
         }

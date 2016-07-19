@@ -48,7 +48,7 @@ documentation.
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 1e0714a9e7c42b0884bc246e3633779a658314eb`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: ce6e90eea38541cb00a5cf9df21bb9353db1666a`
 
 ##Configuration
 
@@ -143,7 +143,7 @@ Disable berrybrew entirely, and return to system Perl (Strawberry or ActiveState
 
     > berrybrew off
 
-Execute something across all perls:
+Execute something across all perls (we do not execute on Perls that has 'tmpl' or 'template' in the name):
 
     > berrybrew exec prove -l
 
@@ -241,11 +241,16 @@ Use the included `dev/release.pl` script, which:
 
 - compiles the `berrybrew.exe` binary and the `bbapi.dll` API library
 
+- collects default configuration files
+
 - builds the bundled zip archive, and puts it into `download/`
 
 - performs SHA1 checksum tasks
 
 - updates the `README.md` file with the zip archive's new SHA1 sum
+
+If you had any custom configuration files in place, run `dev\post_release.pl`
+to restore them.
 
 ##Requirements
 
@@ -286,7 +291,7 @@ You can also enable debugging to get more verbose output on the command line:
 
 ##Version
 
-    1.04
+    1.05
 
 ##Original Author
 

@@ -1,5 +1,6 @@
 src/berrybrew.exe
 Release/
+bak/
 *.csproj
 *.csproj.user
 *.suo

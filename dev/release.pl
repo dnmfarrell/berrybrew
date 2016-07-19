@@ -3,6 +3,34 @@ use strict;
 
 use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
 use Digest::SHA qw(sha1);
+use File::Copy;
+
+# backup configs
+
+my $data_dir = 'data/';
+my $bak_dir = 'bak/';
+my $defaults_dir = 'dev/data/';
+
+if (! -d $bak_dir){
+    mkdir $bak_dir or die $!;
+    print "created backup dir, $bak_dir\n";
+}
+
+my @files = glob "$data_dir/*";
+
+for (@files){
+    copy $_, $bak_dir or die $!;
+    print "copied $_ to $bak_dir\n";
+}
+
+# copy in defaults
+
+my @files = glob "$defaults_dir/*";
+
+for (@files){
+    copy $_, $data_dir or die $!;
+    print "copied $_ to $data_dir\n";
+}
 
 # compile
 
@@ -71,4 +99,6 @@ open my $wfh, '>', 'README.md' or die $!;
 for (@contents){
     print $wfh $_;
 };
+
+
 
