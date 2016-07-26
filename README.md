@@ -2,12 +2,7 @@
 
 The perlbrew for Windows Strawberry Perl! 
 
-NOTICE: At this time, `berrybrew` requires Administrative privileges to
-operate correctly. This is due to the way Windows forces the System `PATH` to
-take precedence over User `PATH`. I'm working on a solution, but if one already
-has a system Strawberry Perl or ActiveState installed, there's really nothing
-that can be done, as removing that from the `PATH` will require admin access
-anyhow.
+Please read the [CAVEATS](https://github.com/stevieb9/berrybrew#caveats) before installing or using `git pull` to upgrade.
 
 `berrybrew` can download, install, remove and manage multiple concurrent 
 versions of Strawberry Perl for Windows. There is no 
@@ -48,7 +43,7 @@ documentation.
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 6531b8ef72e7970b4357056acb88dce534e8dc3a`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 8d590cb23ff71c567521e08c6cfa09234ce29a56`
 
 ##Configuration
 
@@ -284,6 +279,16 @@ You can also enable debugging to get more verbose output on the command line:
 - [Configuration](https://github.com/stevieb9/berrybrew/blob/master/doc/Configuration.md)
  Guide to various configuration files and options
 
+##CAVEATS
+
+- When using `git pull` to do an upgrade, your configuration files will be
+overwritten with the defaults. This is particularly problematic for custom
+installed perls. Make a backup of the `data` directory prior to upgrading. A
+solution to this problem is being worked on.
+
+- At this time, `berrybrew` requires Administrative privileges to
+operate correctly. This is due to the way Windows forces the System `PATH` to
+take precedence over User `PATH`.
 
 ##License
 
@@ -291,7 +296,7 @@ You can also enable debugging to get more verbose output on the command line:
 
 ##Version
 
-    1.05
+    1.06
 
 ##Original Author
 

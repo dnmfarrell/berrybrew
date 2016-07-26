@@ -146,7 +146,6 @@ namespace BerryBrew
 
         internal void CheckRootDir()
         {
-            Console.WriteLine(this.rootPath);
             if (!Directory.Exists(this.rootPath))
             {
                 try
