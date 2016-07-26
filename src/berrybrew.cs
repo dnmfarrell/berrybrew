@@ -4,13 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using System.IO.Compression;
+//using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using Ionic.Zip;
 //using ICSharpCode.SharpZipLib.Core;
 //using ICSharpCode.SharpZipLib.Zip;
 using Newtonsoft.Json;
@@ -400,7 +401,14 @@ namespace BerryBrew
                 {
                     Console.WriteLine("\nExtracting {0} to {1}", archivePath, extractPath);
                 }
-                ZipFile.ExtractToDirectory(archivePath, extractPath);
+                
+                using (ZipFile zip = ZipFile.Read(archivePath))
+                {
+                    foreach (ZipEntry e in zip)
+                    {
+                        e.Extract(extractPath);
+                    }
+                }
             }
             catch (Exception)
             {

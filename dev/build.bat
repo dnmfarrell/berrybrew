@@ -6,7 +6,7 @@ echo "compiling dll..."
 call mcs^
     -lib:bin^
     -t:library^
-    -r:Newtonsoft.Json.dll,System.IO.Compression.FileSystem.dll^
+    -r:Newtonsoft.Json.dll,Ionic.Zip.dll^
     -out:build\bbapi.dll^
     src\berrybrew.cs
 
@@ -19,6 +19,6 @@ call mcs^
     -win32icon:inc/berrybrew.ico^
     -out:build/berrybrew.exe
 
-copy bin\ICSharpCode.SharpZipLib.dll build\
+copy bin\Ionic.Zip.dll build\
 copy bin\Newtonsoft.Json.dll build\
 copy dev\data\* build\data\
