@@ -1,6 +1,8 @@
 use warnings;
 use strict;
 
+use lib 't/';
+use BB;
 use Test::More;
 use Win32::TieRegistry;
 
@@ -13,8 +15,8 @@ my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Mana
 my $o;
 my $path;
 
-my @avail = get_avail();
-my @installed = get_installed();
+my @avail = BB::get_avail();
+my @installed = BB::get_installed();
 
 if (! @installed){
     `$c install $avail[-1]`;    
@@ -33,7 +35,7 @@ my $base;
 close $fh;
 is $o, $base, "available shows ok after custom add";
     
-@installed = get_installed();
+@installed = BB::get_installed();
 
 {
     my $ver = 'custom';
@@ -56,39 +58,12 @@ is $o, $base, "available shows ok after custom add";
 $o = `$c remove custom`;
 like $o, qr/Successfully/, "remove custom install ok";
 
-@avail = get_avail();
+@avail = BB::get_avail();
 ok ! grep {'custom' eq $_} @avail;
 
-@installed = get_installed();
+@installed = BB::get_installed();
 ok ! grep {'custom' eq $_} @installed;
 
 is -s $customfile, 2, "custom perls file size ok after remove";
-
-sub get_avail {
-    my $list = `$c available`;
-    my @avail = split /\n/, $list;
-
-    @avail = grep {s/\s+//g; $_ =~ /^5/} @avail;
-
-    @avail = grep {$_ !~ /installed/} @avail;
-
-    return @avail;
-}
-sub get_installed {
-    my $list = `$c available`;
-    my @avail = split /\n/, $list;
-
-    @avail = grep {s/\s+//g; $_ =~ /^5/} @avail;
-
-    my @installed;
-
-    for (@avail){
-        if (/(.*)\[installed\]/){
-            push @installed, $1;
-        }
-    }   
-
-    return @installed;
-}
 
 done_testing();

@@ -1,6 +1,8 @@
 use warnings;
 use strict;
 
+use lib 't/';
+use BB;
 use Test::More;
 use Win32::TieRegistry;
 
@@ -15,8 +17,8 @@ my $path = $Registry->{$path_key};
 my $o = `$c switch xx`;
 like $o, qr/Unknown version of Perl/, "switch to bad ver ok";
 
-my @installed = get_installed();
-my @avail = get_avail();
+my @installed = BB::get_installed();
+my @avail = BB::get_avail();
 
 if (! @installed){
     `$c install $avail[-1]`;    
@@ -25,7 +27,7 @@ if (@installed == 1){
     `$c install $avail[-2]`;
 }
 
-@installed = get_installed();
+@installed = BB::get_installed();
 {
     my $ver = $installed[-1];
 
@@ -44,33 +46,6 @@ if (@installed == 1){
 
     $path = $Registry->{$path_key};
     like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";
-}
-
-sub get_avail {
-    my $list = `$c available`;
-    my @avail = split /\n/, $list;
-
-    @avail = grep {s/\s+//g; $_ =~ /^5/} @avail;
-
-    @avail = grep {$_ !~ /installed/} @avail;
-
-    return @avail;
-}
-sub get_installed {
-    my $list = `$c available`;
-    my @avail = split /\n/, $list;
-
-    @avail = grep {s/\s+//g; $_ =~ /^5/} @avail;
-
-    my @installed;
-
-    for (@avail){
-        if (/(.*)\[installed\]/){
-            push @installed, $1;
-        }
-    }   
-
-    return @installed;
 }
 
 done_testing();
