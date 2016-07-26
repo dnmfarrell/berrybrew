@@ -50,7 +50,7 @@ print "\ncompiling the berrybrew binary...\n";
 
 my $bin_build = "" .
     "mcs " .
-    "src/bbconsole.cs" .
+    "src/bbconsole.cs " .
     "-lib:bin  " .
     "-r:bbapi.dll  " .
     "-out:bin/berrybrew.exe " .

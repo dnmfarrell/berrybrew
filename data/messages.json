@@ -10,10 +10,9 @@
     "label": "unconfig",
 
     "content": [
-        "\nRemoved berrybrew from PATH"
+        "\nRemoved Berrybrew from PATH"
     ]
 },
-
 {
     "label": "available_header",
 
