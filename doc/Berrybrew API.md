@@ -183,7 +183,7 @@ included, set `custom_exec` to `true` in the configuration file.
 
 ####Extract()
 
-    private static void Extract(StrawberryPerl perl, string tempDir)
+    private void Extract(StrawberryPerl perl, string tempDir)
 
         argument:   perl
         value:      A single instance of the StrawberryPerl class
@@ -196,13 +196,13 @@ Helper method that sets up and calls `ExtractZip()`.
 
 ####ExtractZip
 
-    internal static void ExtractZip(string archivePath, string destFolder)
+    internal void ExtractZip(string archivePath, string extractPath)
 
         argument:   archivePath
         value:      Name of the temp directory where we store the zip files
         typical:    this.ArchivePath
 
-        argument:   destFolder
+        argument:   extractPath
         value:      Folder where we will extract this Perl archive into
         typical:    this.rootPath
 
