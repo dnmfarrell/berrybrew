@@ -43,7 +43,7 @@ documentation.
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 2e23c942abdc4adf3a6c706fb2adb9b18e2dc77c`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 6ae2ed101ca88d8240bf5bbfcf2f656ef66e5765`
 
 ##Configuration
 
@@ -282,9 +282,12 @@ You can also enable debugging to get more verbose output on the command line:
 ##CAVEATS
 
 - When using `git pull` to do an upgrade, your configuration files will be
-overwritten with the defaults. This is particularly problematic for custom
-installed perls. Make a backup of the `data` directory prior to upgrading. A
-solution to this problem is being worked on.
+overwritten with the defaults. If you have any customizations, make a backup
+of the `data` directory before upgrade, then copy the files back to their
+original location. Note that you may have to manually add any new config
+directives into the original config files. The `perls_custom.json` file used
+for custom Perl installations (clones) will never be overwritten, and this
+warning does not apply for it.
 
 - At this time, `berrybrew` requires Administrative privileges to
 operate correctly. This is due to the way Windows forces the System `PATH` to

@@ -67,7 +67,21 @@ namespace BerryBrew
 
             Debug = jsonConf.debug;
 
+            // ensure the Perl install dir exists
+
             CheckRootDir();
+
+            // create the custom perls config file
+
+            string installDir = this.installPath;
+            installDir = Regex.Replace(installDir, @"bin", "");
+            string customPerlsFile = installDir + @"/data/perls_custom.json";
+            Console.WriteLine(customPerlsFile);
+            if (!File.Exists(customPerlsFile))
+            {
+                //File.Create(customPerlsFile);
+                File.WriteAllText(customPerlsFile, @"[]");
+            }
             
             // messages
 
@@ -537,7 +551,7 @@ namespace BerryBrew
             }
             catch (System.IO.FileNotFoundException err)
             {
-                Console.WriteLine("\n{0} file can not be found in {1}", filename, this.installPath);
+                Console.WriteLine("\n{0} file can not be found in {1}", filename, jsonFile);
 
                 if (Debug)
                     Console.WriteLine(err);

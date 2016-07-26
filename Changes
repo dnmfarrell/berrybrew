@@ -8,6 +8,9 @@ Revision history for berrybrew
         - removed release.sh, modified release.pl to be cross-platform
         - cleaned up zip file creation
         - better handling of config files for git push
+        - perls_custom.json file is no longer included in an install, it is
+          created on the fly if it doesn't exist. This prevents it from being
+          overwritten during an upgrade
 
 1.05    2016-07-18
         - updated dev/release.pl to put default config files in place before 
