@@ -40,7 +40,7 @@ my $api_build = "" .
     "src/berrybrew.cs " .
     "-lib:bin " .
     "-t:library " .
-    "-r:Newtonsoft.Json.dll,System.IO.Compression.FileSystem " .
+    "-r:Newtonsoft.Json.dll,Ionic.Zip.dll " .
     "-out:bin/bbapi.dll";
 
 system $api_build;

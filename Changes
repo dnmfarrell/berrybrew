@@ -11,6 +11,8 @@ Revision history for berrybrew
         - perls_custom.json file is no longer included in an install, it is
           created on the fly if it doesn't exist. This prevents it from being
           overwritten during an upgrade
+        - changed zip libraries to Ionic.Zip, for easier usage when we
+          implement backup/restore functionality
 
 1.05    2016-07-18
         - updated dev/release.pl to put default config files in place before 

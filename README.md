@@ -43,7 +43,7 @@ documentation.
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 6fe8b903b66eba1100276c478ca1f84306bf131c`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: a4227a5abb6c855a14656628e64673af6a2e4224`
 
 ##Configuration
 
@@ -216,7 +216,7 @@ get properly reset yet. If you choose to ignore this, follow this procedure:
     mcs \
         -lib:bin \
         -t:library \
-        -r:ICSharpCode.SharpZipLib.dll,Newtonsoft.Json.dll 
+        -r:Ionic.Zip.dll,Newtonsoft.Json.dll 
         -out:bin/bbapi.dll \
         src/berrybrew.cs
 

@@ -389,30 +389,25 @@ namespace BerryBrew
             if (File.Exists(archivePath))
             {
                 Console.WriteLine("Extracting " + archivePath);
-                ExtractZip(archivePath, perl.InstallPath);
-            }
-        }
-
-        internal void ExtractZip(string archivePath, string extractPath)
-        {
-            try
-            {
-                if (Debug)
+                try
                 {
-                    Console.WriteLine("\nExtracting {0} to {1}", archivePath, extractPath);
-                }
-                
-                using (ZipFile zip = ZipFile.Read(archivePath))
-                {
-                    foreach (ZipEntry e in zip)
+                    if (Debug)
                     {
-                        e.Extract(extractPath);
+                        Console.WriteLine("\nExtracting {0} to {1}", archivePath, perl.InstallPath);
+                    }
+
+                    using (ZipFile zip = ZipFile.Read(archivePath))
+                    {
+                        foreach (ZipEntry e in zip)
+                        {
+                            e.Extract(perl.InstallPath);
+                        }
                     }
                 }
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("\nFailed to extract {0} to {1}", archivePath, extractPath);
+                catch (Exception)
+                {
+                    Console.WriteLine("\nFailed to extract {0} to {1}", archivePath, perl.InstallPath);
+                }
             }
         }
 

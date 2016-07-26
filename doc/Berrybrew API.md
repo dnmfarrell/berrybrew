@@ -26,7 +26,6 @@ The `Berrybrew` class is the base of the system.
 [Exec](#exec)| internal | Runs commands on all installed Perls
 [ExecCompile](#execcompile)| **public** | Staging for `Exec()`
 [Extract](#extract)| private | Helper method for `ExtractZip`
-[ExtractZip](#extractzip)| internal | Extracts the Perl installation zip file
 [Fetch](#fetch)| private | Downloads the Perl installation files
 [FileRemove](#fileremove)| internal | Deletes a file
 [FileSystemResetAttributes](#filesystemresetattributes)| internal | Defaults filesystem attrs
@@ -192,22 +191,7 @@ included, set `custom_exec` to `true` in the configuration file.
         value:      The full path to the temporary Perl installation staging directory
         typical:    this.archivePath
 
-Helper method that sets up and calls `ExtractZip()`.
-
-####ExtractZip
-
-    internal void ExtractZip(string archivePath, string extractPath)
-
-        argument:   archivePath
-        value:      Name of the temp directory where we store the zip files
-        typical:    this.ArchivePath
-
-        argument:   extractPath
-        value:      Folder where we will extract this Perl archive into
-        typical:    this.rootPath
-
-This method extracts the Perl installation directory structure out of its zip
-archive. The default archive path can be found in `this.ArchivePath`.
+Extracts a Perl instance zip archive into the Perl installation directory.
 
 ####Fetch
 
