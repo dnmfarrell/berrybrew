@@ -76,10 +76,9 @@ namespace BerryBrew
             string installDir = this.installPath;
             installDir = Regex.Replace(installDir, @"bin", "");
             string customPerlsFile = installDir + @"/data/perls_custom.json";
-            Console.WriteLine(customPerlsFile);
+
             if (!File.Exists(customPerlsFile))
             {
-                //File.Create(customPerlsFile);
                 File.WriteAllText(customPerlsFile, @"[]");
             }
             

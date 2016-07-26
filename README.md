@@ -43,7 +43,7 @@ documentation.
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 6ae2ed101ca88d8240bf5bbfcf2f656ef66e5765`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 6fe8b903b66eba1100276c478ca1f84306bf131c`
 
 ##Configuration
 
