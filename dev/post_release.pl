@@ -3,10 +3,8 @@ use strict;
 
 use File::Copy;
 
-# copy bak to data
-
-my $bak_dir = 'bak/';
-my $data_dir = 'data/';
+my $data_dir = 'data';
+my $bak_dir = 'bak';
 
 my @files = glob "$bak_dir/*";
 

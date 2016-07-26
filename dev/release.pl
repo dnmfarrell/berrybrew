@@ -3,6 +3,7 @@ use strict;
 
 use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
 use Digest::SHA qw(sha1);
+use File::Find::Rule;
 use File::Copy;
 
 # backup configs
@@ -23,9 +24,7 @@ for (@files){
     print "copied $_ to $bak_dir\n";
 }
 
-# copy in defaults
-
-my @files = glob "$defaults_dir/*";
+@files = glob "$defaults_dir/*";
 
 for (@files){
     copy $_, $data_dir or die $!;
@@ -66,11 +65,9 @@ my $zip = Archive::Zip->new;
 
 chdir ".." or die $!;
 
-#$zip->addDirectory('berrybrew/bin/*', 'berrybrew/data/*');
-#$zip->writeToFileNamed('berrybrew/download/berrybrew.zip');
-
-system "zip berrybrew.zip berrybrew/data/* berrybrew/bin/*";
-system "mv berrybrew.zip berrybrew/download";
+$zip->addTree('berrybrew/bin', 'bin', sub {! /Debug/});
+$zip->addTree("berrybrew/$defaults_dir", 'data');
+$zip->writeToFileNamed('berrybrew/download/berrybrew.zip');
 
 chdir "berrybrew" or die $!;
 

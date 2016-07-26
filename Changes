@@ -5,6 +5,9 @@ Revision history for berrybrew
           exist (fixes #46)
         - added "unconfig" command to remove berrybrew from PATH
         - updated API and berrybrew docs (closes #48)
+        - removed release.sh, modified release.pl to be cross-platform
+        - cleaned up zip file creation
+        - better handling of config files for git push
 
 1.05    2016-07-18
         - updated dev/release.pl to put default config files in place before 

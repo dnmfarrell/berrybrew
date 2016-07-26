@@ -25,12 +25,13 @@ sub get_installed {
     my $list = `$c available`;
     my @avail = split /\n/, $list;
 
-    @avail = grep {s/\s+//g; $_ =~ /^5/} @avail;
+    @avail = grep {$_ =~ /^\s+.*/} @avail;
 
     my @installed;
 
     for (@avail){
-        if (/(.*)\[installed\]\*?/){
+        s/^\s+//;
+        if (/(.*)\s+\.*?\[installed\]\*?/){
             push @installed, $1;
         }
     }    
