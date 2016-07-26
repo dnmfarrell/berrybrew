@@ -4,14 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
+//using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
+using Ionic.Zip;
+//using ICSharpCode.SharpZipLib.Core;
+//using ICSharpCode.SharpZipLib.Zip;
 using Newtonsoft.Json;
 
 namespace BerryBrew
@@ -382,57 +384,29 @@ namespace BerryBrew
             }
         }
 
-        private static void Extract(StrawberryPerl perl, string archivePath)
+        private void Extract(StrawberryPerl perl, string archivePath)
         {
             if (File.Exists(archivePath))
             {
                 Console.WriteLine("Extracting " + archivePath);
-                ExtractZip(archivePath, perl.InstallPath);
-            }
-        }
-
-        internal static void ExtractZip(string archivePath, string outFolder)
-        {
-            ZipFile zf = null;
-            try
-            {
-                FileStream fs = File.OpenRead(archivePath);
-                zf = new ZipFile(fs);
-                foreach (ZipEntry zipEntry in zf)
+                try
                 {
-                    if (!zipEntry.IsFile)
+                    if (Debug)
                     {
-                        continue;           // Ignore directories
+                        Console.WriteLine("\nExtracting {0} to {1}", archivePath, perl.InstallPath);
                     }
-                    String entryFileName = zipEntry.Name;
-                    // to remove the folder from the entry:- entryFileName = Path.GetFileName(entryFileName);
-                    // Optionally match entrynames against a selection list here to skip as desired.
-                    // The unpacked length is available in the zipEntry.Size property.
 
-                    byte[] buffer = new byte[4096];     // 4K is optimum
-                    Stream zipStream = zf.GetInputStream(zipEntry);
-
-                    // Manipulate the output filename here as desired.
-                    String fullZipToPath = Path.Combine(outFolder, entryFileName);
-                    string directoryName = Path.GetDirectoryName(fullZipToPath);
-                    if (directoryName.Length > 0)
-                        Directory.CreateDirectory(directoryName);
-
-                    // Unzip file in buffered chunks. This is just as fast as unpacking to a buffer the full size
-                    // of the file, but does not waste memory.
-                    // The "using" will close the stream even if an exception occurs.
-                    using (FileStream streamWriter = File.Create(fullZipToPath))
+                    using (ZipFile zip = ZipFile.Read(archivePath))
                     {
-                        StreamUtils.Copy(zipStream, streamWriter, buffer);
+                        foreach (ZipEntry e in zip)
+                        {
+                            e.Extract(perl.InstallPath);
+                        }
                     }
                 }
-            }
-            finally
-            {
-                if (zf != null)
+                catch (Exception)
                 {
-                    zf.IsStreamOwner = true; // Makes close also shut the underlying stream
-                    zf.Close(); // Ensure we release resources
+                    Console.WriteLine("\nFailed to extract {0} to {1}", archivePath, perl.InstallPath);
                 }
             }
         }
