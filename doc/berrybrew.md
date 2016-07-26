@@ -11,6 +11,7 @@
 - [off](#off)
 - [remove](#remove)
 - [switch](#switch)
+- [unconfig](#unconfig)
 - [help](#help)
 - [license](#license)
 - [version](#version)
@@ -130,6 +131,12 @@ Usage:  `berrybrew switch <version>`
 Sets the verion of Perl as seen in `berrybrew available` to the default
 system Perl. This change is persistent. Use `berrybrew off` to disable the
 switched-to Perl, or use `switch` to change to a different one.
+
+#####unconfig
+
+Usage:  `berrybrew unconfig`
+
+Removes berrybrew's binary directory from the `PATH` environment variable.
 
 #####help
 

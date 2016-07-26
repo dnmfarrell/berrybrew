@@ -52,6 +52,7 @@ namespace BerryBrew
         public Message Message = new Message();
         public OrderedDictionary Perls = new OrderedDictionary();
 
+
         public Berrybrew()
         {
             // config
@@ -66,6 +67,8 @@ namespace BerryBrew
 
             Debug = jsonConf.debug;
 
+            CheckRootDir();
+            
             // messages
 
             dynamic jsonMessages = JsonParse("messages");
@@ -141,6 +144,25 @@ namespace BerryBrew
             return true;
         }
 
+        internal void CheckRootDir()
+        {
+            Console.WriteLine(this.rootPath);
+            if (!Directory.Exists(this.rootPath))
+            {
+                try
+                {
+                    Directory.CreateDirectory(this.rootPath);
+                }
+                catch (Exception err)
+                {
+                    Console.WriteLine("\nCouldn't create install dir {0}. Please create it manually and run config again", this.rootPath);
+                    if (Debug)
+                    {
+                        Console.WriteLine(err);
+                    }
+                }
+            }
+        }
         public void Clean(string subcmd="temp")
         {
             bool cleansed = false;
@@ -250,6 +272,8 @@ namespace BerryBrew
 
         public void Config()
         {
+
+
             string configIntro = Message.Get("config_intro");
             Console.WriteLine(configIntro + Version() + "\n");
 
@@ -593,7 +617,24 @@ namespace BerryBrew
             );
             return path;
         }
- 
+
+        internal void PathRemoveBerrybrew()
+        {
+            string path = PathGet();
+            Regex binPath = new Regex("berrybrew.bin");
+            List<string> paths = path.Split(';').ToList();
+            List<string> updatedPaths = new List<string>();
+
+            foreach (string pathEntry in paths)
+            {
+                if (!binPath.Match(pathEntry).Success)
+                {
+                    updatedPaths.Add(pathEntry);
+                }
+            }
+            PathSet(updatedPaths);
+        }
+
         internal string PathRemovePerl(bool process=true)
         {
             string path = PathGet();
@@ -1007,6 +1048,11 @@ namespace BerryBrew
             }
         }
 
+        public void Unconfig()
+        {
+            PathRemoveBerrybrew();
+            Message.Print("unconfig");
+        }
         public string Version()
         {
             return Message.Get("version");

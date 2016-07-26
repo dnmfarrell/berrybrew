@@ -3,7 +3,14 @@
     "label": "version",
 
     "content": [
-        "1.04"
+        "1.06"
+    ]
+},
+{
+    "label": "unconfig",
+
+    "content": [
+        "\nRemoved Berrybrew from PATH"
     ]
 },
 {

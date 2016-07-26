@@ -17,6 +17,7 @@ The `Berrybrew` class is the base of the system.
 |---|---|---|
 [Available](#available)| **public** | Displays all available Perls
 [CheckName](#checkname)| internal | Validates the name of a custom Perl install
+[CheckRootDir](#checkrootdir)| internal | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
 [CleanOrphan](#cleanorphan)| internal | Removes all orphaned Perls
 [CleanTemp](#cleantemp)| internal | Removes temporary files
@@ -36,6 +37,7 @@ The `Berrybrew` class is the base of the system.
 [PathAddBerryBrew](#pathaddberrybrew)| internal | Adds `berrybrew` to `PATH`
 [PathAddPerl](#pathaddperl)| internal | Adds a Perl to `PATH`
 [PathGet](#pathget)| internal | Retrieves the Machine `PATH`
+[PathRemoveBerrybrew](#pathremoveberrybrew)| internal | Removes berrybrew from `PATH`
 [PathRemovePerl](#pathremoveperl)| internal | Removes specified Perl from `PATH`
 [PathScan](#pathscan)| internal | Checks `PATH` for a specific binary file
 [PathSet](#pathset)| internal | Writes all `PATH` changes to the registry
@@ -49,6 +51,7 @@ The `Berrybrew` class is the base of the system.
 [PerlResolveVersion](#PerlResolveVersion)| internal | Resolves the name of a Perl to its StrawberryPerl object
 [PerlUpdateAvailableList](#PerlUpdateAvailableList)| **public** | **incomplete** Automatically fetches new Strawberry Perls available
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
+[Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
 [Version](#version)| **public** | Return the version of the current `berrybrew`
 
 ##Message Class Methods
@@ -84,6 +87,12 @@ as found in `this.Perls`, where `this.Perls` is a
         return:     true on success, false on fail
 
 Checks the name of a custom Perl to ensure it fits within the guidelines.
+
+####CheckRootDir
+
+    internal void CheckRootDir()
+
+Checks whether the Perl root installation directory exists, and creates it if not.
 
 ####Clean
 
@@ -330,6 +339,12 @@ the current shell has not yet been updated.
 
 Does not expand any variable-based `PATH` entries on extraction.
 
+####PathRemoveBerrybrew
+
+    internal void PathRemoveBerrybrew()
+
+Removes berrybrew binary directory from `PATH`.
+
 ####PathRemovePerl
 
     internal string PathRemovePerl(bool process=true)
@@ -496,6 +511,12 @@ INCOMPLETE - DO NOT USE. Fetches the list of available Strawberry Perls on [Stra
 
 Updates `PATH` with the relevant path details in order to make this Perl
 instance the default used across the board. This is persistent until changed.
+
+####Unconfig
+
+    public void Unconfig()
+
+Removes Berrybrew from PATH.
 
 ####Version
 

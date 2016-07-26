@@ -1,5 +1,11 @@
 Revision history for berrybrew
 
+1.06    2016-07-26
+        - fixed issue whereberrybrew config fails if the perl Root dir doesn't
+          exist (fixes #46)
+        - added "unconfig" command to remove berrybrew from PATH
+        - updated API and berrybrew docs (closes #48)
+
 1.05    2016-07-18
         - updated dev/release.pl to put default config files in place before 
           commit/zip
