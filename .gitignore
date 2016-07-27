@@ -2,6 +2,7 @@ data/perls_custom.json
 src/berrybrew.exe
 Release/
 bak/
+backup_*
 *.csproj
 *.csproj.user
 *.suo

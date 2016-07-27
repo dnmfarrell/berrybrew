@@ -14,6 +14,8 @@ Revision history for berrybrew
         - changed zip libraries to Ionic.Zip, for easier usage when we
           implement backup/restore functionality
         - added 'upgrade', safely performs a berrybrew upgrade
+        - added new attributes 'confPath' and 'binPath'. 'installPath' is now
+          the actual root dir of the repo
 
 1.05    2016-07-18
         - updated dev/release.pl to put default config files in place before 

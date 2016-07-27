@@ -40,8 +40,10 @@ namespace BerryBrew
         static string assembly_path = Assembly.GetExecutingAssembly().Location;
         static string assembly_directory = Path.GetDirectoryName(assembly_path);       
 
-        public string installPath = assembly_directory;
+        public string binPath = assembly_directory;
+        public string installPath = null;
         public string rootPath = null;
+        public string confPath = null;
         public string archivePath = null;
         public string downloadURL = null;
         public string strawberryURL = null;
@@ -54,6 +56,9 @@ namespace BerryBrew
 
         public Berrybrew()
         {
+            this.installPath = Regex.Replace(this.binPath, @"bin", "");
+            this.confPath = installPath + @"/data/";
+
             // config
 
             dynamic jsonConf = JsonParse("config");
@@ -72,9 +77,7 @@ namespace BerryBrew
 
             // create the custom perls config file
 
-            string installDir = this.installPath;
-            installDir = Regex.Replace(installDir, @"bin", "");
-            string customPerlsFile = installDir + @"/data/perls_custom.json";
+            string customPerlsFile = this.confPath + @"perls_custom.json";
 
             if (!File.Exists(customPerlsFile))
             {
@@ -294,7 +297,7 @@ namespace BerryBrew
 
                 if (Console.ReadLine() == "y")
                 {
-                    PathAddBerryBrew(this.installPath);
+                    PathAddBerryBrew(this.binPath);
 
                     if (PathScan(new Regex("berrybrew.bin"), "machine"))
                     {
@@ -492,8 +495,7 @@ namespace BerryBrew
         internal dynamic JsonParse(string type, bool raw=false)
         {
             string filename = String.Format("{0}.json", type);
-            string jsonPath = String.Format("{0}/data/{1}", this.installPath, filename);
-            string jsonFile = Regex.Replace(jsonPath, @"bin", "");
+            string jsonFile = this.confPath + filename; 
 
             try
             {
@@ -548,8 +550,7 @@ namespace BerryBrew
             else
                 jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(data);
 
-            string writeFile = this.installPath + @"\data\" + type;
-            writeFile = Regex.Replace(writeFile, @"bin", "");
+            string writeFile = this.confPath + type;
             writeFile = writeFile + @".json";
 
             System.IO.File.WriteAllText(writeFile, jsonString);
@@ -1061,18 +1062,13 @@ namespace BerryBrew
 
         public void Upgrade()
         {
-            string instDir = this.installPath;
-            Regex.Replace(instDir, @"bin", "");
-   
             TimeSpan span = DateTime.Now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0));
-            string backupDir = instDir + @"/backup_" + span.TotalSeconds;
+            string backupDir = this.installPath + @"/backup_" + span.TotalSeconds;
             Directory.CreateDirectory(backupDir);
 
-            string dataDir = instDir + @"/data";
-
-            if (System.IO.Directory.Exists(dataDir))
+            if (System.IO.Directory.Exists(this.confPath))
             {
-                string[] files = System.IO.Directory.GetFiles(dataDir);
+                string[] files = System.IO.Directory.GetFiles(this.confPath);
                 foreach (string s in files)
                 {
                     string fileName = System.IO.Path.GetFileName(s);
@@ -1081,7 +1077,7 @@ namespace BerryBrew
                 }
             }
 
-            string cmd = "git pull";
+            string cmd = "cd " + this.installPath + " && git pull";
             Process proc = ProcessCreate(cmd);
             proc.Start();
 
@@ -1119,7 +1115,7 @@ namespace BerryBrew
             foreach (string s in bakFiles)
             {
                 string fileName = System.IO.Path.GetFileName(s);
-                string destFile = System.IO.Path.Combine(dataDir, fileName);
+                string destFile = System.IO.Path.Combine(this.confPath, fileName);
                 System.IO.File.Copy(s, destFile, true);
             }
 
