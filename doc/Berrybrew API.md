@@ -49,6 +49,7 @@ The `Berrybrew` class is the base of the system.
 [PerlRegisterCustomInstall](#perlregistercustominstall)| internal | Make `berrybrew` aware of custom instances
 [PerlResolveVersion](#PerlResolveVersion)| internal | Resolves the name of a Perl to its StrawberryPerl object
 [PerlUpdateAvailableList](#PerlUpdateAvailableList)| **public** | **incomplete** Automatically fetches new Strawberry Perls available
+[ProcessCreate](#processcreate)| internal | Creates and returns a Windows cmd process
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
 [Upgrade](#upgrade)| **public** | Performs a safe `berrybrew` upgrade
@@ -486,6 +487,30 @@ the corresponding object.
     public void PerlUpdateAvailableList()
 
 INCOMPLETE - DO NOT USE. Fetches the list of available Strawberry Perls on [Strawberry's download site](https://strawberryperl.com/releases.html), and updates the internal `perls.json` available list.
+
+####ProcessCreate
+
+    internal System.Diagnostics.Process ProcessCreate(string cmd, bool hidden=true)
+
+        argument:   cmd
+        value:      String containing the command and arguments to execute
+
+        argument:   hidden
+        value:      true/false whether the new cmd window should be hidden
+        default:    true
+
+        variable:   StartInfo.RedirectStandardOutput
+        value:      true
+
+        variable:   StartInfo.RedirectStandardError
+        value:      true
+
+        variable:   StartInfo.UseShellExecute
+        value:      false
+
+        return:     A System.Diagnostics.Process object
+
+Builds and returns a process ready to be modified or have `Start()` called on it.
 
 ####Switch
 
