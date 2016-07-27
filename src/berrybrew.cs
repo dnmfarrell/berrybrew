@@ -118,7 +118,6 @@ namespace BerryBrew
             Message.Print("available_header");
 
             StrawberryPerl currentPerl = PerlInUse();
-            
             List<int> nameLengths = new List<int>();
 
             foreach (string perlName in Perls.Keys)
@@ -177,6 +176,7 @@ namespace BerryBrew
                 }
             }
         }
+
         public void Clean(string subcmd="temp")
         {
             bool cleansed = false;
@@ -238,10 +238,8 @@ namespace BerryBrew
                 return false;
 
             StrawberryPerl sourcePerl = PerlResolveVersion(sourcePerlName);
-
             string sourcePerlDir = sourcePerl.InstallPath;
             string destPerlDir = this.rootPath + destPerlName;
-
             DirectoryInfo src = new DirectoryInfo(sourcePerlDir);
 
             if (!src.Exists)
@@ -286,8 +284,6 @@ namespace BerryBrew
 
         public void Config()
         {
-
-
             string configIntro = Message.Get("config_intro");
             Console.WriteLine(configIntro + Version() + "\n");
 
@@ -300,19 +296,13 @@ namespace BerryBrew
                     PathAddBerryBrew(this.binPath);
 
                     if (PathScan(new Regex("berrybrew.bin"), "machine"))
-                    {
                         Message.Print("config_success");
-                    }
                     else
-                    {
                         Message.Print("config_failure");
-                    }
                 }
             }
             else
-            {
                 Message.Print("config_complete");
-            }
         }
        
         internal void Exec(StrawberryPerl perl, string command, string sysPath)
@@ -392,9 +382,7 @@ namespace BerryBrew
                 try
                 {
                     if (Debug)
-                    {
                         Console.WriteLine("\nExtracting {0} to {1}", archivePath, perl.InstallPath);
-                    }
 
                     using (ZipFile zip = ZipFile.Read(archivePath))
                     {
@@ -502,6 +490,7 @@ namespace BerryBrew
                 using (StreamReader r = new StreamReader(jsonFile))
                 {
                     string jsonData = r.ReadToEnd();
+                    
                     if (raw)
                         return jsonData;
 
@@ -568,9 +557,7 @@ namespace BerryBrew
             List<string> newPath = new List<string>();
 
             if (path == null)
-            {
                 newPath.Add(binPath);
-            }
             else
             {
                 if (path[path.Length - 1] == ';')
@@ -579,7 +566,6 @@ namespace BerryBrew
                 newPath.Add(path);
                 newPath.Add(binPath);
             }
-
             PathSet(newPath);
         }
 
@@ -612,9 +598,7 @@ namespace BerryBrew
             foreach (string pathEntry in paths)
             {
                 if (!binPath.Match(pathEntry).Success)
-                {
                     updatedPaths.Add(pathEntry);
-                }
             }
             PathSet(updatedPaths);
         }
@@ -654,12 +638,10 @@ namespace BerryBrew
         {
             EnvironmentVariableTarget envTarget = new EnvironmentVariableTarget();
 
-            if (target == "machine"){
+            if (target == "machine")
                 envTarget = EnvironmentVariableTarget.Machine;
-            }
-            else {
+            else 
                 envTarget = EnvironmentVariableTarget.User;
-            }
 
             string paths = Environment.GetEnvironmentVariable("path", envTarget);
 
@@ -701,9 +683,7 @@ namespace BerryBrew
             {
                 Console.WriteLine("\nAdding berrybrew to the PATH requires Administrator privilege");
                 if (Debug)
-                {
                     Console.WriteLine(err);
-                }
             }
         }
 
@@ -760,7 +740,6 @@ namespace BerryBrew
                     orphans.Add(dirBaseName);
                 }
             }
-
             return orphans;
         }
 
@@ -812,7 +791,6 @@ namespace BerryBrew
         internal StrawberryPerl PerlInUse()
         {
             string path = PathGet();
-
             StrawberryPerl currentPerl = new StrawberryPerl();
 
             if (path != null)
@@ -902,9 +880,7 @@ namespace BerryBrew
                     foreach (Dictionary<string, object> perlStruct in customPerlList)
                     {
                         if (!perlVersionToRemove.Equals(perlStruct["name"].ToString()))
-                        {
                             updatedPerls.Add(perlStruct);
-                        }
                     }
                     JsonWrite("perls_custom", updatedPerls, true);
                 }
@@ -977,6 +953,7 @@ namespace BerryBrew
                     }
 
                     Match lMatch = Regex.Match(line, @"a href=""(.*?(portable|PDL).zip)""");
+
                     if (lMatch.Success)
                     {
                         string link = this.strawberryURL + lMatch.Groups[1].Value;
@@ -994,7 +971,6 @@ namespace BerryBrew
 
                 foreach (string link in strawberryPerls.Keys)
                 {
-                    // http://strawberryperl.com/download/5.10.0/strawberry-perl-5.10.0.4-1-portable.zip
                     Match match = Regex.Match(link, @".*/download/.*?/.*(5.*)-portable.zip");
                     if (match.Success)
                     {
