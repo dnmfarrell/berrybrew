@@ -136,6 +136,7 @@
         "    off         Disable berrybrew perls (use 'switch' to re-enable)",
         "    remove      Uninstall a Strawberry Perl",
         "    switch      Switch to use a different Strawberry Perl",
+        "    upgrade     Performs a safe upgrade. Requires Git installed",
         "    help        Display this help screen",
         "    license     Show berrybrew license",
         "    version     Displays the version",

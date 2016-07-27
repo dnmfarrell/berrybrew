@@ -22,6 +22,7 @@ documentation.
 ##Table of Contents
 
 - [Installation](#installation)
+- [Upgrading](#upgrading)
 - [Configuration](#configuration)
 - [Commands](#commands)
 - [Synopsis](#synopsis)
@@ -41,9 +42,20 @@ documentation.
 
     git clone https://github.com/stevieb9/berrybrew
 
+##Upgrading
+
+Easiest way is to use `berrybrew upgrade`. This requires Git to be installed and in
+your `PATH`. It will create a `backup_timestamp` directory and copy your configuration
+files into it.
+
+After completion, it'll copy your config files back to the proper `data` directory.
+
+Doing a straight `git pull` will overwrite your configuration files, so back them
+up first.
+
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: a4227a5abb6c855a14656628e64673af6a2e4224`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 7a6a64fd4bb7fd0720f275cc02536a93b4bb77fb`
 
 ##Configuration
 
@@ -69,6 +81,7 @@ installation.
         switch      Switch to use a different Strawberry Perl
         off         Disable berrybrew perls (use 'switch' to re-enable)
         exec *      Run a command for every installed Strawberry Perl
+        upgrade     Backs up config, does a `git pull`, and restores config
         help        Display this help screen
         license     Show berrybrew license
         version     Displays the version
@@ -181,6 +194,10 @@ Execute on only a selection of installed versions:
     Perl-5.10.1_32
     ==============
     Died at -e line 1.
+
+Upgrade:
+
+    > berrybrew upgrade
 
 ##Add/Remove Perls Available
 

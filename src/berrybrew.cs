@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -315,9 +316,9 @@ namespace BerryBrew
         {
             Console.WriteLine("Perl-" + perl.Name + "\n==============");
 
-            System.Diagnostics.Process process = new System.Diagnostics.Process();
-            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
             List<String> newPath;
             newPath = perl.Paths;
@@ -1035,9 +1036,94 @@ namespace BerryBrew
             PathRemoveBerrybrew();
             Message.Print("unconfig");
         }
+
         public string Version()
         {
             return Message.Get("version");
+        }
+
+        internal Process ProcessCreate(string cmd, bool hidden=true)
+        {
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+
+            if (hidden)
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/c " + cmd;
+            process.StartInfo = startInfo;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            return process;
+        }
+
+        public void Upgrade()
+        {
+            string instDir = this.installPath;
+            Regex.Replace(instDir, @"bin", "");
+   
+            TimeSpan span = DateTime.Now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0));
+            string backupDir = instDir + @"/backup_" + span.TotalSeconds;
+            Directory.CreateDirectory(backupDir);
+
+            string dataDir = instDir + @"/data";
+
+            if (System.IO.Directory.Exists(dataDir))
+            {
+                string[] files = System.IO.Directory.GetFiles(dataDir);
+                foreach (string s in files)
+                {
+                    string fileName = System.IO.Path.GetFileName(s);
+                    string destFile = System.IO.Path.Combine(backupDir, fileName);
+                    System.IO.File.Copy(s, destFile, true);
+                }
+            }
+
+            string cmd = "git pull";
+            Process proc = ProcessCreate(cmd);
+            proc.Start();
+
+            while (!proc.StandardOutput.EndOfStream)
+            {
+                string line = proc.StandardOutput.ReadLine();
+                if (Regex.Match(line, @"up-to-date").Success)
+                {
+                    Console.WriteLine("\nberrybrew is already up to date\n");
+                    Environment.Exit(0);
+                }
+            }
+
+            bool error = false;
+            List<string> errorReport = new List<string>();
+
+            while (!proc.StandardError.EndOfStream)
+            {
+                error = true;
+                string line = proc.StandardError.ReadLine();
+                errorReport.Add(line);
+            }
+
+            if (error)
+            {
+                Console.WriteLine("\n\nError upgrading berrybrew:\n");
+                foreach (string line in errorReport)
+                {
+                    Console.WriteLine(line);
+                }
+                Environment.Exit(0);
+            }
+
+            string[] bakFiles = System.IO.Directory.GetFiles(backupDir);
+            foreach (string s in bakFiles)
+            {
+                string fileName = System.IO.Path.GetFileName(s);
+                string destFile = System.IO.Path.Combine(dataDir, fileName);
+                System.IO.File.Copy(s, destFile, true);
+            }
+
+            Console.WriteLine("\nSuccessfully upgraded berrybrew\n");
         }
     }
 

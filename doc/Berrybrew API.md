@@ -51,6 +51,7 @@ The `Berrybrew` class is the base of the system.
 [PerlUpdateAvailableList](#PerlUpdateAvailableList)| **public** | **incomplete** Automatically fetches new Strawberry Perls available
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
+[Upgrade](#upgrade)| **public** | Performs a safe `berrybrew` upgrade
 [Version](#version)| **public** | Return the version of the current `berrybrew`
 
 ##Message Class Methods
@@ -501,6 +502,14 @@ instance the default used across the board. This is persistent until changed.
     public void Unconfig()
 
 Removes Berrybrew from PATH.
+
+####Upgrade
+
+    public void Upgrade()
+
+Creates a `backup_timestamp` backup directory in the repository root directory,
+copies the live configuration files from `data` directory, performs a
+`git pull`, then copies the backup files back to the `data` dir.
 
 ####Version
 

@@ -12,6 +12,7 @@
 - [remove](#remove)
 - [switch](#switch)
 - [unconfig](#unconfig)
+- [upgrade](#upgrade)
 - [help](#help)
 - [license](#license)
 - [version](#version)
@@ -137,6 +138,14 @@ switched-to Perl, or use `switch` to change to a different one.
 Usage:  `berrybrew unconfig`
 
 Removes berrybrew's binary directory from the `PATH` environment variable.
+
+#####upgrade
+
+Usage:  `berrybrew upgrade`
+
+Makes a backup directory named `backup.timestamp`, copies your existing
+configuration files into it, performs a `git pull`, and then restores
+the configuration files back into the proper `data` directory.
 
 #####help
 

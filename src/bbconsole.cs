@@ -131,6 +131,10 @@ namespace BBConsole
                     BB.Unconfig();
                     break;
 
+                case "upgrade":
+                    BB.Upgrade();
+                    break;
+
                 case "version":
                     BB.Message.Say("version");
                     break;
