@@ -25,7 +25,7 @@ The `Berrybrew` class is the base of the system.
 [Config](#config)| **public** | Puts `berrybrew.exe` in `PATH`
 [Exec](#exec)| internal | Runs commands on all installed Perls
 [ExecCompile](#execcompile)| **public** | Staging for `Exec()`
-[Extract](#extract)| private | Helper method for `ExtractZip`
+[Extract](#extract)| private | Extracts Perl installation zip archives  
 [Fetch](#fetch)| private | Downloads the Perl installation files
 [FileRemove](#fileremove)| internal | Deletes a file
 [FileSystemResetAttributes](#filesystemresetattributes)| internal | Defaults filesystem attrs
