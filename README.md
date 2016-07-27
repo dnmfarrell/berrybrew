@@ -42,6 +42,10 @@ documentation.
 
     git clone https://github.com/stevieb9/berrybrew
 
+#####Pre-built zip archive
+
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 7a6a64fd4bb7fd0720f275cc02536a93b4bb77fb`
+
 ##Upgrading
 
 Easiest way is to use `berrybrew upgrade`. This requires Git to be installed and in
@@ -52,10 +56,6 @@ After completion, it'll copy your config files back to the proper `data` directo
 
 Doing a straight `git pull` will overwrite your configuration files, so back them
 up first.
-
-#####Pre-built zip archive
-
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 7a6a64fd4bb7fd0720f275cc02536a93b4bb77fb`
 
 ##Configuration
 
