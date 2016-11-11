@@ -26,14 +26,17 @@ $o = `$c clone 5.10.1_32 custom`;
 ok -s $customfile > 5, "custom perls file size ok after add";
 
 $o = `$c available`;
+
 open my $fh, '<', 't\data\custom_available.txt' or die $!;
-my $base;
-{
-    local $/;
-    $base = <$fh>;
+
+my @o_lines = split /\n/, $o;
+
+my $count = 0;
+for my $base (<$fh>){
+    chomp $base;
+    is $o_lines[$count], $base, "line $count ok after custom add";
+    $count++;
 }
-close $fh;
-is $o, $base, "available shows ok after custom add";
     
 @installed = BB::get_installed();
 

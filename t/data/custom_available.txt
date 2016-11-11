@@ -24,4 +24,3 @@ The following Strawberry Perls are available:
 	custom          [custom] [installed]
 
 * Currently using
-
