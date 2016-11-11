@@ -5,6 +5,7 @@ Revision history for berrybrew
           thereby the checksum didn't match (reported by 'atcroft') (fixes
           #53)
         - test updates/fixes
+        - doc updates/cleanup (closes #51 & #54)
 
 
 1.06    2016-07-26

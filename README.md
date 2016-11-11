@@ -2,30 +2,31 @@
 
 The perlbrew for Windows Strawberry Perl! 
 
-Please read the [CAVEATS](https://github.com/stevieb9/berrybrew#caveats) before installing or using `git pull` to upgrade.
+For a quick-start, jump to the [Installation](#installation) and
+[Configuration](#configuration) sections.
 
-`berrybrew` can download, install, remove and manage multiple concurrent 
+`berrybrew` can download, install, remove and manage multiple concurrent
 versions of Strawberry Perl for Windows. There is no 
 [requirement](https://github.com/stevieb9/berrybrew#requirements "berrybrew requirements")
 to have Strawberry Perl installed before using `berrybrew`.
 
-Adding and removing perls available is as simple as editing a JSON file, and 
-works at runtime.
+Adding and removing perls available is as simple as editing a JSON file,
+and works at runtime.
 
 There is extensive documentation available for the
 [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
 application, as well as the 
 [Berrybrew API](https://github.com/stevieb9/berrybrew/blob/master/doc/Berrybrew%20API.md).
-See [SEE ALSO](https://github.com/stevieb9/berrybrew#see-also) for the full list of
-documentation.
+See [SEE ALSO](https://github.com/stevieb9/berrybrew#see-also) for the
+full list of documentation.
 
 ##Table of Contents
 
 - [Installation](#installation)
-- [Upgrading](#upgrading)
 - [Configuration](#configuration)
 - [Commands](#commands)
 - [Synopsis](#synopsis)
+- [Upgrading](#upgrading)
 - [Add/Remove Perls Available](#addremove-perls-available)
 - [Configure Perl Instance Directory](#configure-root-directory)
 - [Compile Your Own](#compile-your-own)
@@ -33,6 +34,7 @@ documentation.
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
 - [Documentation](#see-also)
+- [Caveats](#caveats)
 - [License](#license)
 - [Version](#version)
 
@@ -46,21 +48,10 @@ documentation.
 
 [berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: ca590ad2b25ba8c14edfdd2b4b1887ca43eaf59c`
 
-##Upgrading
-
-Easiest way is to use `berrybrew upgrade`. This requires Git to be installed and in
-your `PATH`. It will create a `backup_timestamp` directory and copy your configuration
-files into it.
-
-After completion, it'll copy your config files back to the proper `data` directory.
-
-Doing a straight `git pull` will overwrite your configuration files, so back them
-up first.
-
 ##Configuration
 
-See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) to change
-the location that your Perl installations will reside.
+See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) 
+to change the location that your Perl installations will reside.
 
     cd berrybrew
     bin\berrybrew.exe config
@@ -147,11 +138,13 @@ Uninstall a version of perl:
 
     Successfully removed Strawberry Perl 5.10.1_32
 
-Disable berrybrew entirely, and return to system Perl (Strawberry or ActiveState), if available (re-enable with 'switch'):
+Disable berrybrew entirely, and return to system Perl (Strawberry or 
+ActiveState), if available (re-enable with 'switch'):
 
     > berrybrew off
 
-Execute something across all perls (we do not execute on Perls that has 'tmpl' or 'template' in the name):
+Execute something across all perls (we do not execute on Perls that has
+'tmpl' or 'template' in the name):
 
     > berrybrew exec prove -l
 
@@ -199,19 +192,33 @@ Upgrade:
 
     > berrybrew upgrade
 
+##Upgrading
+
+Easiest way is to use `berrybrew upgrade`. This requires Git to be
+installed and in your `PATH`. It will create a `backup_timestamp`
+directory and copy your configuration files into it.
+
+After completion, it'll copy your config files back to the proper `data`
+directory.
+
+Doing a straight `git pull` will overwrite your configuration files, so
+back them up first (see [Caveats](#caveats)
+
 ##Add/Remove Perls Available
 
-Simply edit the `data/perls.json` file in the repository's root directory.
+Simply edit the `data/perls.json` file in the repository's root 
+directory.
 
 ##Configure Root Directory
 
-By default, we manage Perls out of the `C:\berrybrew` directory. To change this, modify
-the `root_dir` value in the `data\config.json` file. Use double-backslashes (`\\`) as the
-path separators. 
+By default, we manage Perls out of the `C:\berrybrew` directory. To 
+change this, modify the `root_dir` value in the `data\config.json` file.
+Use double-backslashes (`\\`) as the path separators. 
 
-WARNING: At this time, it is highly advised not to change this after you've already installed
-any instances of Perl. This feature is incomplete, and `PATH` and other things don't
-get properly reset yet. If you choose to ignore this, follow this procedure:
+WARNING: At this time, it is highly advised not to change this after 
+you've already installed any instances of Perl. This feature is 
+incomplete, and `PATH` and other things don't get properly reset yet.
+If you choose to ignore this, follow this procedure:
 
 - run `berrybrew off`, to flush the `PATH` environment variables
 
@@ -261,8 +268,8 @@ Use the included `dev/release.pl` script, which:
 
 - updates the `README.md` file with the zip archive's new SHA1 sum
 
-If you had any custom configuration files in place, run `dev\post_release.pl`
-to restore them.
+If you had any custom configuration files in place, run 
+`dev\post_release.pl` to restore them.
 
 ##Requirements
 
@@ -270,15 +277,17 @@ to restore them.
 
 - Windows only!
 
-- [Mono](http://www.mono-project.com) or Visual Studio (only if compiling your own version)
+- [Mono](http://www.mono-project.com) or Visual Studio (only if 
+compiling your own version)
 
 
 ##Troubleshooting
 
-If you run into trouble installing a Perl, try clearing the berrybrew cached
-downloads by running `berrybrew clean`. 
+If you run into trouble installing a Perl, try clearing the berrybrew
+cached downloads by running `berrybrew clean`. 
 
-You can also enable debugging to get more verbose output on the command line:
+You can also enable debugging to get more verbose output on the command
+line:
 
     berrybrew debug <command> [options] 
 
@@ -298,17 +307,17 @@ You can also enable debugging to get more verbose output on the command line:
 
 ##CAVEATS
 
-- When using `git pull` to do an upgrade, your configuration files will be
-overwritten with the defaults. If you have any customizations, make a backup
-of the `data` directory before upgrade, then copy the files back to their
-original location. Note that you may have to manually add any new config
-directives into the original config files. The `perls_custom.json` file used
-for custom Perl installations (clones) will never be overwritten, and this
-warning does not apply for it.
+- When using `git pull` to do an upgrade, your configuration files will
+be overwritten with the defaults. If you have any customizations, make a
+backup of the `data` directory before upgrade, then copy the files back
+to their original location. Note that you may have to manually add any
+new config directives into the original config files. The 
+`perls_custom.json` file used for custom Perl installations (clones) 
+will never be overwritten, and this warning does not apply for it.
 
 - At this time, `berrybrew` requires Administrative privileges to
-operate correctly. This is due to the way Windows forces the System `PATH` to
-take precedence over User `PATH`.
+operate correctly. This is due to the way Windows forces the System 
+`PATH` to take precedence over User `PATH`.
 
 ##License
 
@@ -328,7 +337,8 @@ Steve Bertrand `steveb<>cpan.org`
 
 ##See Also
 
-- [StrawberryPerl](http://strawberryperl.com) - Strawberry Perl for Windows
+- [StrawberryPerl](http://strawberryperl.com) - Strawberry Perl for
+Windows
 
-- [Perlbrew](http://perlbrew.pl) - the original Perl version manager for Unix
-based systems.
+- [Perlbrew](http://perlbrew.pl) - the original Perl version manager for
+Unix based systems.
