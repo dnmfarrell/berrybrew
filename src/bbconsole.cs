@@ -136,7 +136,7 @@ namespace BBConsole
                     break;
 
                 case "version":
-                    BB.Message.Say("version");
+                    Console.WriteLine(BB.Version());
                     break;
 
                 default:

@@ -734,7 +734,7 @@ namespace BerryBrew
                 if (dir == this.archivePath)
                     continue;
 
-                if (!perlInstallations.Contains(dir))
+                if (!perlInstallations.Contains(dir) && ! Regex.Match(dir, @".cpanm").Success)
                 {
                     string dirBaseName= dir.Remove(0, this.rootPath.Length);
                     orphans.Add(dirBaseName);
@@ -1016,7 +1016,8 @@ namespace BerryBrew
 
         public string Version()
         {
-            return Message.Get("version");
+            //return Message.Get("version");
+            return @"1.08";
         }
 
         internal Process ProcessCreate(string cmd, bool hidden=true)

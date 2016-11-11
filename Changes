@@ -1,5 +1,10 @@
 Revision history for berrybrew
 
+1.08    2016-11-11
+        - doc cleanup/tidying
+        - PerlFindOrphans() now ignores the '.cpanm' directory
+        - version now hardcoded in the library
+
 1.07    2016-11-11 
         - fix issue where 5.22.2_32 wasn't downloading the portable zip file
           thereby the checksum didn't match (reported by 'atcroft') (fixes
