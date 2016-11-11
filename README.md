@@ -48,16 +48,17 @@ full list of documentation.
 
 [berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: ca590ad2b25ba8c14edfdd2b4b1887ca43eaf59c`
 
+You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
+installation.
+
 ##Configuration
 
 See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) 
-to change the location that your Perl installations will reside.
+if you wish to change the default location that your Perl installations
+will reside.
 
     cd berrybrew
     bin\berrybrew.exe config
-
-You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
-installation.
 
 ##Commands
 
