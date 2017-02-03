@@ -46,7 +46,7 @@ full list of documentation.
 
 #####Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: c7888da7793a8e75c030eb0087b23cd4dd530174`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: e519102b4ba623f653f12374be0f47e69c438e61`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
@@ -326,7 +326,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ##Version
 
-    1.08
+    1.09
 
 ##Original Author
 

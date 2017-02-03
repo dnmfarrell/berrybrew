@@ -1,5 +1,8 @@
 Revision history for berrybrew
 
+1.09    2017-02-03
+        - updated Perl 5.24.0 to 5.24.1
+
 1.08    2016-11-11
         - doc cleanup/tidying
         - PerlFindOrphans() now ignores the '.cpanm' directory
@@ -7,14 +10,12 @@ Revision history for berrybrew
 
 1.07    2016-11-11 
         - fix issue where 5.22.2_32 wasn't downloading the portable zip file
-          thereby the checksum didn't match (reported by 'atcroft') (fixes
-          #53)
+          thereby the checksum didn't match (reported by 'atcroft') (fixes #53)
         - test updates/fixes
         - doc updates/cleanup (closes #51 & #54)
 
-
 1.06    2016-07-26
-        - fixed issue whereberrybrew config fails if the perl Root dir doesn't
+        - fixed issue where berrybrew config fails if the perl Root dir doesn't
           exist (fixes #46)
         - added "unconfig" command to remove berrybrew from PATH
         - updated API and berrybrew docs (closes #48)
