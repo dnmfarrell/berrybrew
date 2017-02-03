@@ -1,5 +1,19 @@
 [
     {
+        "name" : "5.24.1_64",
+        "file" : "strawberry-perl-5.24.1.1-64bit-portable.zip",
+        "url"  : "http://strawberryperl.com/download/5.24.1.1/strawberry-perl-5.24.1.1-64bit-portable.zip",
+        "ver"  : "5.24.1",
+        "csum" : "13b09410da7ae8b7d7784846df8ca5c3f0b384fc"
+    },
+    {
+        "name" : "5.24.1_32",
+        "file" : "strawberry-perl-5.24.1.1-32bit-portable.zip",
+        "url"  : "http://strawberryperl.com/download/5.24.1.1/strawberry-perl-5.24.1.1-32bit-portable.zip",
+        "ver"  : "5.24.1",
+        "csum" : "f1e64debc3b61010fe1885a668eaf2272e67153e"
+    },
+    {
         "name" : "5.24.0_64",
         "file" : "strawberry-perl-5.24.0.1-64bit-portable.zip",
         "url"  : "http://strawberryperl.com/download/5.24.0.1/strawberry-perl-5.24.0.1-64bit-portable.zip",
@@ -21,6 +35,20 @@
         "csum" : "348ec543e765ac57ba299ed94f3a4205c45c0915"
     },
     {
+        "name" : "5.22.3_64",
+        "file" : "strawberry-perl-5.22.3.1-64bit-portable.zip",
+        "url"  : "http://strawberryperl.com/download/5.22.3.1/strawberry-perl-5.22.3.1-64bit-portable.zip",
+        "ver"  : "5.22.3",
+        "csum" : "6c0a986543fa07696781057bdd16ba2ff052e183"
+    },
+    {
+        "name" : "5.22.3_32",
+        "file" : "strawberry-perl-5.22.2.1-32bit-portable.zip",
+        "url"  : "http://strawberryperl.com/download/5.22.3.1/strawberry-perl-5.22.3.1-32bit-portable.zip",
+        "ver"  : "5.22.3",
+        "csum" : "f20a32a3176b35515b79e0d0f309e3d1badb384e"
+    },
+    {
         "name" : "5.22.2_64",
         "file" : "strawberry-perl-5.22.2.1-64bit-portable.zip",
         "url"  : "http://strawberryperl.com/download/5.22.2.1/strawberry-perl-5.22.2.1-64bit-portable.zip",
@@ -36,7 +64,7 @@
     },
     {
         "name" : "5.22.2_32",
-        "file" : "strawberry-perl-5.22.2.1-32bit.zip",
+        "file" : "strawberry-perl-5.22.2.1-32bit-portable.zip",
         "url"  : "http://strawberryperl.com/download/5.22.2.1/strawberry-perl-5.22.2.1-32bit.zip",
         "ver"  : "5.22.2",
         "csum" : "6c750c56a4eccf3b5f77af56e4cee572c360a1c2"
