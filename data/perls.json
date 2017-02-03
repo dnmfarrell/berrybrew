@@ -4,7 +4,7 @@
         "file" : "strawberry-perl-5.24.1.1-64bit-portable.zip",
         "url"  : "http://strawberryperl.com/download/5.24.1.1/strawberry-perl-5.24.1.1-64bit-portable.zip",
         "ver"  : "5.24.1",
-        "csum" : "13b09410da7ae8b7d7784846df8ca5c3f0b384fc"
+        "csum" : "5e7bd4d9eecef30e9cfef95f45d4f94237a4d7a4"
     },
     {
         "name" : "5.24.1_32",
