@@ -73,6 +73,7 @@ will reside.
         switch      Switch to use a different Strawberry Perl
         off         Disable berrybrew perls (use 'switch' to re-enable)
         exec *      Run a command for every installed Strawberry Perl
+        unconfig    Remove berrybrew from PATH
         upgrade     Backs up config, does a `git pull`, and restores config
         help        Display this help screen
         license     Show berrybrew license
@@ -87,22 +88,29 @@ List all available versions of Perl:
     > berrybrew available
 
     The following Strawberry Perls are available:
-
-            5.24.0_64       [installed]
+    
+            5.24.1_64     [installed]
+            5.24.1_32     [installed]
+            5.24.0_64
             5.24.0_64_PDL
             5.24.0_32
+            5.22.3_64     [installed] 
+            5.22.3_32
             5.22.2_64
+            5.22.2_64_PDL
             5.22.2_32
-            5.22.1_64       [installed]
-            5.22.1_32       [installed]
+            5.22.1_64
+            5.22.1_32
             5.20.3_64
+            5.20.3_64_PDL
             5.20.3_32
+            5.20.3_32_PDL
             5.18.4_64
-            5.18.4_32       [installed]
+            5.18.4_32
             5.16.3_64
             5.16.3_32
-            5.14.4_64       [installed]
-            5.14.4_32       [installed]
+            5.14.4_64
+            5.14.4_32
             5.12.3_32
             5.10.1_32
             unit_test-5.18  [custom] [installed] *
@@ -112,32 +120,32 @@ List all available versions of Perl:
 
 Install a specific version:
 
-    > berrybrew install 5.10.1_32
+    > berrybrew install 5.24.1_64
 
 Switch to a different version (permanently):
 
-    > berrybrew switch 5.10.1_32
+    > berrybrew switch 5.24.1_64
 
-    Switched to 5.10.1_32, start a new terminal to use it.
+    Switched to 5.24.1_64, start a new terminal to use it.
 
 Start a new cmd.exe to use the new version:
 
     > perl -v
 
-    This is perl, v5.10.1 (*) built for MSWin32-x86-multi-thread
+    This is perl 5, version 24, subversion 1 (v5.24.1) built for MSWin32-x64-multi-thread
 
     ...       
 
 Clone an installed instance (very useful for setting up a main instance,
 and cloning it into an instance named "template")
 
-    > berrybrew clone 5.24.0_64 template
+    > berrybrew clone 5.24.1_64 template
 
 Uninstall a version of perl:
 
-    > berrybrew remove 5.10.1_32
+    > berrybrew remove 5.24.1_64
 
-    Successfully removed Strawberry Perl 5.10.1_32
+    Successfully removed Strawberry Perl 5.24.1_64
 
 Disable berrybrew entirely, and return to system Perl (Strawberry or 
 ActiveState), if available (re-enable with 'switch'):
@@ -149,14 +157,14 @@ Execute something across all perls (we do not execute on Perls that has
 
     > berrybrew exec prove -l
 
-    Perl-5.20.1_64
+    Perl-5.24.1_64
     ==============
     t\DidYouMean.t .. ok
     All tests successful.
     Files=1, Tests=5,  0 wallclock secs ( 0.06 usr +  0.00 sys =  0.06 CPU)
     Result: PASS
 
-    Perl-5.20.1_32
+    Perl-5.22.3_32
     ==============
     t\DidYouMean.t .. ok
     All tests successful.
@@ -179,9 +187,9 @@ Execute something across all perls (we do not execute on Perls that has
 
 Execute on only a selection of installed versions:
 
-    > berrybrew exec --with 5.22.1_64,5.10.1_32 perl "die()"
+    > berrybrew exec --with 5.24.1_64,5.10.1_32 perl "die()"
 
-    Perl-5.22.1_64
+    Perl-5.24.1_64
     ==============
     Died at -e line 1.
 
@@ -193,6 +201,11 @@ Upgrade:
 
     > berrybrew upgrade
 
+Remove `berrybrew` from `PATH` (useful for switching between versions of
+`berrybrew`):
+
+    > berrybrew unconfig
+    
 ##Upgrading
 
 Easiest way is to use `berrybrew upgrade`. This requires Git to be
@@ -203,7 +216,7 @@ After completion, it'll copy your config files back to the proper `data`
 directory.
 
 Doing a straight `git pull` will overwrite your configuration files, so
-back them up first (see [Caveats](#caveats)
+back them up first (see [Caveats](#caveats)).
 
 ##Add/Remove Perls Available
 
@@ -251,11 +264,15 @@ If you choose to ignore this, follow this procedure:
         src/bbconsole.cs
         -lib:bin -r:bbapi.dll \
         -out:bin/berrybrew.exe \
-        -win32icon:inc/berrybrew.ico \
+        -win32icon:inc/berrybrew.ico
 
     bin\berrybrew.exe config
 
 ##Create a Release
+
+If you've modified the information of the configuration files for the new
+build, you must copy them to the `dev\data` directory before performing the
+below steps.
 
 Use the included `dev/release.pl` script, which:
 
@@ -326,7 +343,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ##Version
 
-    1.09
+    1.10
 
 ##Original Author
 

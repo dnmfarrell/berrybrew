@@ -1016,7 +1016,6 @@ namespace BerryBrew
 
         public string Version()
         {
-            //return Message.Get("version");
             return @"1.10";
         }
 

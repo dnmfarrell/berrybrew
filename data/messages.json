@@ -3,7 +3,7 @@
     "label": "version",
 
     "content": [
-        "1.06"
+        "1.10"
     ]
 },
 {
@@ -136,6 +136,7 @@
         "    off         Disable berrybrew perls (use 'switch' to re-enable)",
         "    remove      Uninstall a Strawberry Perl",
         "    switch      Switch to use a different Strawberry Perl",
+        "    unconfig    Remove berrybrew from PATH",
         "    upgrade     Performs a safe upgrade. Requires Git installed",
         "    help        Display this help screen",
         "    license     Show berrybrew license",
@@ -195,7 +196,7 @@
         "",
         "   temp   Removes all downloaded Perl installation files",
         "   orphan Deletes all orphaned Perl installations",
-        "   all    Clean everything",
+        "   all    Clean everything"
     ]  
 },
 {
