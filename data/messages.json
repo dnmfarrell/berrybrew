@@ -196,7 +196,7 @@
         "",
         "   temp   Removes all downloaded Perl installation files",
         "   orphan Deletes all orphaned Perl installations",
-        "   all    Clean everything"
+        "   all    Clean everything",
     ]  
 },
 {
