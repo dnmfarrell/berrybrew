@@ -1,10 +1,16 @@
 [
-    {
-        "name" : "5.24.1_64",
+    {   "name" : "5.24.1_64",
         "file" : "strawberry-perl-5.24.1.1-64bit-portable.zip",
         "url"  : "http://strawberryperl.com/download/5.24.1.1/strawberry-perl-5.24.1.1-64bit-portable.zip",
         "ver"  : "5.24.1",
         "csum" : "5e7bd4d9eecef30e9cfef95f45d4f94237a4d7a4"
+    },
+    {
+        "name" : "5.24.1_64_PDL",
+        "file" : "strawberry-perl-5.24.1.1-64bit-PDL-portable.zip",
+        "url"  : "http://strawberryperl.com/download/5.24.1.1/strawberry-perl-5.24.1.1-64bit-PDL.zip",
+        "ver"  : "5.24.1",
+        "csum" : "e2b9ac75dc1379ec91a3e4a905fb9ccdd465f3c5"
     },
     {
         "name" : "5.24.1_32",
