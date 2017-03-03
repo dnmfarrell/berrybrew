@@ -113,6 +113,58 @@ namespace BerryBrew
             }
         }
 
+        public void PerlUpdateAvailableList()
+        {
+            //FIXME: incomplete for now. do not use
+
+            using (WebClient client = new WebClient())
+            {
+                string page = client.DownloadString(this.downloadURL);
+                string[] content = page.Split('\n');
+
+                OrderedDictionary strawberryPerls = new OrderedDictionary();
+
+                int i = 0;
+
+                foreach (string line in content)
+                {
+                    if (line.Contains("no64") || line.Contains("-ld-") || line.Contains("PDL"))
+                    {
+                        i++;
+                        continue;
+                    }
+
+                    Match lMatch = Regex.Match(line, @"a href=""(.*?(portable|PDL).zip)""");
+
+                    if (lMatch.Success)
+                    {
+                        string link = this.strawberryURL + lMatch.Groups[1].Value;
+
+                        Match cMatch = Regex.Match(content[i + 1], @">(\w{40})<");
+                        if (cMatch.Success)
+                        {
+                            strawberryPerls.Add(link, cMatch.Groups[1].Value);
+                        }
+                    }
+                    i++;
+                }
+
+                //OrderedDictionary perlDetails = new OrderedDictionary();
+
+                foreach (string link in strawberryPerls.Keys)
+                {
+                    Match match = Regex.Match(link, @".*/download/.*?/.*(5.*)-portable.zip");
+                    if (match.Success)
+                    {
+                        string verLabel = match.Groups[2].Value;
+                        Match extract = Regex.Match(verLabel, @"(5.\d+.\d+).*-(\d{2}bit)");
+                        string ver = extract.Groups[1].Value;
+
+                        Console.WriteLine(verLabel);
+                    }
+                }
+            }
+        }
         public void Available()
         {
             Message.Print("available_header");
@@ -929,59 +981,6 @@ namespace BerryBrew
                     return perl;
             }
             throw new ArgumentException("Unknown version: " + version);
-        }
-
-        public void PerlUpdateAvailableList()
-        {
-            //FIXME: incomplete for now. do not use
-
-            using (WebClient client = new WebClient())
-            {
-                string page = client.DownloadString(this.downloadURL);
-                string[] content = page.Split('\n');
-
-                OrderedDictionary strawberryPerls = new OrderedDictionary();
-
-                int i = 0;
-
-                foreach (string line in content)
-                {
-                    if (line.Contains("no64") || line.Contains("-ld-") || line.Contains("PDL"))
-                    {
-                        i++;
-                        continue;
-                    }
-
-                    Match lMatch = Regex.Match(line, @"a href=""(.*?(portable|PDL).zip)""");
-
-                    if (lMatch.Success)
-                    {
-                        string link = this.strawberryURL + lMatch.Groups[1].Value;
-
-                        Match cMatch = Regex.Match(content[i + 1], @">(\w{40})<");
-                        if (cMatch.Success)
-                        {
-                            strawberryPerls.Add(link, cMatch.Groups[1].Value);
-                        }
-                    }
-                    i++;
-                }
-
-                //OrderedDictionary perlDetails = new OrderedDictionary();
-
-                foreach (string link in strawberryPerls.Keys)
-                {
-                    Match match = Regex.Match(link, @".*/download/.*?/.*(5.*)-portable.zip");
-                    if (match.Success)
-                    {
-                        string verLabel = match.Groups[2].Value;
-                        Match extract = Regex.Match(verLabel, @"(5.\d+.\d+).*-(\d{2}bit)");
-                        string ver = extract.Groups[1].Value;
-
-                        Console.WriteLine(verLabel);
-                    }
-                }
-            }
         }
 
         public void Switch(string switchToVersion)
