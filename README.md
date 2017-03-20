@@ -1,4 +1,4 @@
-#berrybrew
+# berrybrew
 
 The perlbrew for Windows Strawberry Perl! 
 
@@ -20,7 +20,7 @@ application, as well as the
 See [SEE ALSO](https://github.com/stevieb9/berrybrew#see-also) for the
 full list of documentation.
 
-##Table of Contents
+## Table of Contents
 
 - [Installation](#installation)
 - [Configuration](#configuration)
@@ -38,20 +38,20 @@ full list of documentation.
 - [License](#license)
 - [Version](#version)
 
-##Installation
+## Installation
 
-#####Git clone
+##### Git clone
 
     git clone https://github.com/stevieb9/berrybrew
 
-#####Pre-built zip archive
+##### Pre-built zip archive
 
 [berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 1c062efa25cc09858d040270cc0a12d9c6099ce2`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
 
-##Configuration
+## Configuration
 
 See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) 
 if you wish to change the default location that your Perl installations
@@ -60,7 +60,7 @@ will reside.
     cd berrybrew
     bin\berrybrew.exe config
 
-##Commands
+## Commands
 
     berrybrew <command> [subcommand] [option]
 
@@ -81,7 +81,7 @@ will reside.
 
         * - view subcommand details with 'berrybrew <command> help'
 
-##Synopsis
+## Synopsis
 
 List all available versions of Perl:
     
@@ -206,7 +206,7 @@ Remove `berrybrew` from `PATH` (useful for switching between versions of
 
     > berrybrew unconfig
     
-##Upgrading
+## Upgrading
 
 Easiest way is to use `berrybrew upgrade`. This requires Git to be
 installed and in your `PATH`. It will create a `backup_timestamp`
@@ -218,12 +218,12 @@ directory.
 Doing a straight `git pull` will overwrite your configuration files, so
 back them up first (see [Caveats](#caveats)).
 
-##Add/Remove Perls Available
+## Add/Remove Perls Available
 
 Simply edit the `data/perls.json` file in the repository's root 
 directory.
 
-##Configure Root Directory
+## Configure Root Directory
 
 By default, we manage Perls out of the `C:\berrybrew` directory. To 
 change this, modify the `root_dir` value in the `data\config.json` file.
@@ -244,7 +244,7 @@ If you choose to ignore this, follow this procedure:
 
 - run `berrybrew switch $version` to set things back up
 
-##Compile Your Own 
+## Compile Your Own 
 
     git clone https://github.com/stevieb9/berrybrew
     cd berrybrew
@@ -268,7 +268,7 @@ If you choose to ignore this, follow this procedure:
 
     bin\berrybrew.exe config
 
-##Create a Release
+## Create a Release
 
 If you've modified the information of the configuration files for the new
 build, you must copy them to the `dev\data` directory before performing the
@@ -289,7 +289,7 @@ Use the included `dev/release.pl` script, which:
 If you had any custom configuration files in place, run 
 `dev\post_release.pl` to restore them.
 
-##Requirements
+## Requirements
 
 - .Net Framework 2.0 or higher
 
@@ -299,7 +299,7 @@ If you had any custom configuration files in place, run
 compiling your own version)
 
 
-##Troubleshooting
+## Troubleshooting
 
 If you run into trouble installing a Perl, try clearing the berrybrew
 cached downloads by running `berrybrew clean`. 
@@ -309,7 +309,7 @@ line:
 
     berrybrew debug <command> [options] 
 
-##SEE ALSO
+## SEE ALSO
 
 - [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
  Full documentation for the application
@@ -323,7 +323,7 @@ line:
 - [Configuration](https://github.com/stevieb9/berrybrew/blob/master/doc/Configuration.md)
  Guide to various configuration files and options
 
-##CAVEATS
+## CAVEATS
 
 - When using `git pull` to do an upgrade, your configuration files will
 be overwritten with the defaults. If you have any customizations, make a
@@ -337,23 +337,23 @@ will never be overwritten, and this warning does not apply for it.
 operate correctly. This is due to the way Windows forces the System 
 `PATH` to take precedence over User `PATH`.
 
-##License
+## License
 
 2 Clause FreeBSD - see LICENSE
 
-##Version
+## Version
 
     1.10
 
-##Original Author
+## Original Author
 
 David Farrell [http://perltricks.com]
 
-##This Fork Maintained By
+## This Fork Maintained By
 
 Steve Bertrand `steveb<>cpan.org`
 
-##See Also
+## See Also
 
 - [StrawberryPerl](http://strawberryperl.com) - Strawberry Perl for
 Windows
