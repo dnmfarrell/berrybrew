@@ -6,7 +6,7 @@ echo "compiling dll..."
 call mcs^
     -lib:bin^
     -t:library^
-    -r:Newtonsoft.Json.dll,Ionic.Zip.dll^
+    -r:Newtonsoft.Json.dll,ICSharpCode.SharpZipLib.dll^
     -out:build\bbapi.dll^
     src\berrybrew.cs
 

@@ -1,5 +1,11 @@
 Revision history for berrybrew
 
+1.11    2017-03-29
+        - replaced Ionic.Zip with SharpZipLib as the former failed to
+          consistently extract the zip files completely
+        - updated 5.10.1_32 from 5.10.1.2 to 5.10.1.5
+
+
 1.10    2017-02-12
         - fixed issue where the updated perls weren't being reflected in the
           perls.json file in the zip archive

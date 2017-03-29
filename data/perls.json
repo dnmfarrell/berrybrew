@@ -158,13 +158,13 @@
         "file" : "strawberry-perl-5.12.3.0-portable.zip",
         "url"  : "http://strawberryperl.com/download/5.12.3.0/strawberry-perl-5.12.3.0-portable.zip",
         "ver"  : "5.12.3",
-        "csum" : "dc6facf9fb7ce2de2e42ee65e84805a6d0dd5fbc"
+        "csum" : "0e267fc2cf5a16126da6f9520cc7664db63d2b57"
     },
     {    
         "name" : "5.10.1_32",
-        "file" : "strawberry-perl-5.10.1.2-portable.zip",
-        "url"  : "http://strawberryperl.com/download/5.10.1.2/strawberry-perl-5.10.1.2-portable.zip",
+        "file" : "strawberry-perl-5.10.1.5-portable.zip",
+        "url"  : "http://strawberryperl.com/download/5.10.1.5/strawberry-perl-5.10.1.5.zip",
         "ver"  : "5.10.1",
-        "csum" : "f86ae4b14daf0b1162d2c4c90a9d22e4c2452a98"
+        "csum" : "6bcc8fd448a0f6f5e57b241697bcd6e71602186f"
     }
 ]

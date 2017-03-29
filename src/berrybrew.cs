@@ -1,4 +1,5 @@
-using Ionic.Zip;
+using ICSharpCode.SharpZipLib.Zip;
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
@@ -7,13 +8,13 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
-
 namespace BerryBrew
 {
     public class Berrybrew
@@ -428,25 +429,40 @@ namespace BerryBrew
 
         private void Extract(StrawberryPerl perl, string archivePath)
         {
-            if (File.Exists(archivePath))
+            ZipFile zf = null;
+            try
             {
-                Console.WriteLine("Extracting " + archivePath);
-                try
-                {
-                    if (Debug)
-                        Console.WriteLine("\nExtracting {0} to {1}", archivePath, perl.InstallPath);
+                FileStream fs = File.OpenRead(archivePath);
+                zf = new ZipFile(fs);
 
-                    using (ZipFile zip = ZipFile.Read(archivePath))
+                foreach (ZipEntry zipEntry in zf)
+                {
+                    if (!zipEntry.IsFile)
                     {
-                        foreach (ZipEntry e in zip)
-                        {
-                            e.Extract(perl.InstallPath);
-                        }
+                        continue;
+                    }
+
+                    String entryFileName = zipEntry.Name;
+                    byte[] buffer = new byte[4096];     // 4K is optimum
+                    Stream zipStream = zf.GetInputStream(zipEntry);
+
+                    String fullZipToPath = Path.Combine(perl.InstallPath, entryFileName);
+                    string directoryName = Path.GetDirectoryName(fullZipToPath);
+                    if (directoryName.Length > 0)
+                        Directory.CreateDirectory(directoryName);
+
+                    using (FileStream streamWriter = File.Create(fullZipToPath))
+                    {
+                        ICSharpCode.SharpZipLib.Core.StreamUtils.Copy(zipStream, streamWriter, buffer);
                     }
                 }
-                catch (Exception)
+            }
+            finally
+            {
+                if (zf != null)
                 {
-                    Console.WriteLine("\nFailed to extract {0} to {1}", archivePath, perl.InstallPath);
+                    zf.IsStreamOwner = true;
+                    zf.Close();
                 }
             }
         }
