@@ -161,15 +161,20 @@ namespace BerryBrew
                             if (release.edition.portable != null){
                                 perlInstance.Add("name", bbVersion);
                                 perlInstance.Add("url", release.edition.portable.url);
+                                string file = release.edition.portable.url;
+                                file = file.Split('/').Last();
+                                perlInstance.Add("file", file);
                                 perlInstance.Add("csum", release.edition.portable.sha1);
-                                Console.WriteLine("{0}: {1}", perlInstance["name"], perlInstance["url"]);
+                                Console.WriteLine("{0}: {1}", perlInstance["name"], perlInstance["file"]);
                             }
                             else if (release.edition.zip != null)
                             {
                                 perlInstance.Add("name", bbVersion);
                                 perlInstance.Add("url", release.edition.zip.url);
+                                string file = release.edition.zip.url;
+                                file = file.Split('/').Last();
                                 perlInstance.Add("csum", release.edition.zip.sha1);
-                                Console.WriteLine("{0}: {1}", perlInstance["name"], perlInstance["url"]);
+                                Console.WriteLine("{0}: {1}", perlInstance["name"], perlInstance["file"]);
                             }
                             
                             data.Add(perlInstance);
@@ -181,8 +186,10 @@ namespace BerryBrew
                                 string pdlVersion = bbVersion + "_" + "PDL";
                                 pdlInstance.Add("name", pdlVersion);
                                 pdlInstance.Add("url", release.edition.pdl.url);
+                                string file = release.edition.pdl.url.Split('/').Last();
+                                perlInstance.Add("file", file);
                                 pdlInstance.Add("csum", release.edition.pdl.sha1);
-                                Console.WriteLine("{0}: {1}", pdlInstance["name"], pdlInstance["url"]);
+                                Console.WriteLine("{0}: {1}", pdlInstance["name"], pdlInstance["file"]);
 
                                 data.Add(pdlInstance);
                             }
