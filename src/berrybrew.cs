@@ -116,56 +116,101 @@ namespace BerryBrew
 
         public void PerlUpdateAvailableList()
         {
-            //FIXME: incomplete for now. do not use
-
             using (WebClient client = new WebClient())
             {
-                string page = client.DownloadString(this.downloadURL);
-                string[] content = page.Split('\n');
+                string jsonData = client.DownloadString(this.downloadURL);
 
                 OrderedDictionary strawberryPerls = new OrderedDictionary();
 
-                int i = 0;
+                dynamic json = JsonConvert.DeserializeObject(jsonData);
+                List<String> perls = new List<String>();
 
-                foreach (string line in content)
-                {
-                    if (line.Contains("no64") || line.Contains("-ld-") || line.Contains("PDL"))
+                // output data
+                List<Dictionary<string, object>> data = new List<Dictionary<string, object>>();
+
+                foreach (var release in json){
+                    string nameString = release.name;
+
+                    if (Regex.IsMatch(nameString, @"(with USE_64_BIT_INT|with USE_LONG_DOUBLE)"))
                     {
-                        i++;
                         continue;
                     }
 
-                    Match lMatch = Regex.Match(line, @"a href=""(.*?(portable|PDL).zip)""");
+                    Match versionString = Regex.Match(nameString, @"(\d{1}\.\d{1,2}\.\d{1,2})");
 
-                    if (lMatch.Success)
+                    if (versionString.Success)
                     {
-                        string link = this.strawberryURL + lMatch.Groups[1].Value;
-
-                        Match cMatch = Regex.Match(content[i + 1], @">(\w{40})<");
-                        if (cMatch.Success)
+                        Match bitString = Regex.Match(nameString, @"(\d{2})bit");
+                        if (bitString.Success)
                         {
-                            strawberryPerls.Add(link, cMatch.Groups[1].Value);
+                            string version = versionString.Groups[1].Value;
+                            string bits = bitString.Groups[1].Value;
+                            string bbVersion = version + "_" + bits;
+                              
+                            String[] majorVersionParts = version.Split(new[] { '.' });
+                            string majorVersion = majorVersionParts[0] + "." + majorVersionParts[1];
+                            string bbMajorVersion = majorVersion + "_" + bits;
+
+                            if (perls.Contains(bbMajorVersion))
+                                continue;
+
+                            perls.Add(bbMajorVersion);
+
+                            Dictionary<string, object> perlInstance = new Dictionary<string, object>();
+
+                            if (release.edition.portable != null){
+                                perlInstance.Add("name", bbVersion);
+                                perlInstance.Add("url", release.edition.portable.url);
+                                perlInstance.Add("csum", release.edition.portable.sha1);
+                                Console.WriteLine("{0}: {1}", perlInstance["name"], perlInstance["url"]);
+                            }
+                            else if (release.edition.zip != null)
+                            {
+                                perlInstance.Add("name", bbVersion);
+                                perlInstance.Add("url", release.edition.zip.url);
+                                perlInstance.Add("csum", release.edition.zip.sha1);
+                                Console.WriteLine("{0}: {1}", perlInstance["name"], perlInstance["url"]);
+                            }
+                            
+                            data.Add(perlInstance);
+
+                            Dictionary<string, object> pdlInstance = new Dictionary<string, object>();
+                            
+                            if (release.edition.pdl != null)
+                            {
+                                string pdlVersion = bbVersion + "_" + "PDL";
+                                pdlInstance.Add("name", pdlVersion);
+                                pdlInstance.Add("url", release.edition.pdl.url);
+                                pdlInstance.Add("csum", release.edition.pdl.sha1);
+                                Console.WriteLine("{0}: {1}", pdlInstance["name"], pdlInstance["url"]);
+
+                                data.Add(pdlInstance);
+                            }
+
+
+                            /*
+                                {   "name" : "5.24.1_64",
+        "file" : "strawberry-perl-5.24.1.1-64bit-portable.zip",
+        "url"  : "http://strawberryperl.com/download/5.24.1.1/strawberry-perl-5.24.1.1-64bit-portable.zip",
+        "ver"  : "5.24.1",
+        "csum" : "5e7bd4d9eecef30e9cfef95f45d4f94237a4d7a4"
+},
+                             */
+
+                            // Console.WriteLine("m: {0}, bb: {1}", bbMajorVersion, bbVersion);
+
                         }
                     }
-                    i++;
-                }
-
-                //OrderedDictionary perlDetails = new OrderedDictionary();
-
-                foreach (string link in strawberryPerls.Keys)
-                {
-                    Match match = Regex.Match(link, @".*/download/.*?/.*(5.*)-portable.zip");
-                    if (match.Success)
+                    else
                     {
-                        string verLabel = match.Groups[2].Value;
-                        Match extract = Regex.Match(verLabel, @"(5.\d+.\d+).*-(\d{2}bit)");
-                        string ver = extract.Groups[1].Value;
-
-                        Console.WriteLine(verLabel);
+                        continue;
                     }
+
                 }
+                Console.ReadKey();
             }
         }
+    
         public void Available()
         {
             Message.Print("available_header");

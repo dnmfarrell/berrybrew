@@ -33,6 +33,10 @@ namespace BBConsole
 
             switch (args[0])
             {
+                case "test":
+                    BB.PerlUpdateAvailableList();
+                    break;
+
                 case "available":
                     BB.Available();
                     break;
