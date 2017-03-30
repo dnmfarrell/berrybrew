@@ -1,5 +1,8 @@
 Revision history for berrybrew
 
+1.12 UNREL
+        - fix local links in the markdown in the documentation
+
 1.11    2017-03-30
         - replaced Ionic.Zip with SharpZipLib as the former failed to
           consistently extract the zip files completely
