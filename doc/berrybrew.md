@@ -1,6 +1,6 @@
-##berrybrew Usage
+## berrybrew Usage
 
-####Command List:
+#### Command List:
 
 - [available](#available)
 - [clean](#clean)
@@ -17,9 +17,9 @@
 - [license](#license)
 - [version](#version)
 
-####Command Usage
+#### Command Usage
 
-#####debug
+##### debug
 
 Usage:  `berrybrew debug <command> [options]`
 
@@ -27,7 +27,7 @@ This command preceeds all others, and can be used in conjunction with
 all other commands. Depending on the scenario, it will print out verbose
 debugging information.
 
-#####available
+##### available
 
     berrybrew available
 
@@ -46,7 +46,7 @@ includes installed and custom versions. A shortened example:
 
     * Currently using
 
-#####clean
+##### clean
 
 Usage:  `berrybrew clean [option]`
 
@@ -54,7 +54,7 @@ By default, if either `help` or a subcommand are not specified, we'll
 simply delete the downloaded Perl installation zip files from the temporary
 directory.
 
-######clean options
+###### clean options
 
     help        Displays the subcommand help screen
     temp        Deletes all Perl installation zip files
@@ -62,7 +62,7 @@ directory.
                 berrybrew hasn't registered
     all         Performs both a 'temp' and 'orphan' clean
 
-#####clone
+##### clone
 
 Usage: `berrybrew clone <version> <name>`
 
@@ -84,12 +84,12 @@ snapshot and re-cloned
 
 - creating build instances for your own modules
 
-#####config
+##### config
 
 Takes no arguments. Simply sets up your `PATH` environment variables so that
 `berrybrew` can be found without specifying the full path to the binary.
 
-#####exec
+##### exec
 
 Usage:  `berrybrew exec [options] <command>`
 
@@ -100,18 +100,18 @@ either `tmpl` or `template` in the name.
 Also, by default, we don't execute on custom (cloned) instances. Set
 `custom_exec` to `true` in the config file to `exec` on those as well.
 
-######exec options:
+###### exec options:
 
     --with version,version,...  Run only on the listed versions
 
-#####install
+##### install
 
 Usage:  `berrybrew install <version>`
 
 Installs a single Perl version as seen in `berrybrew available`, and makes it
 available for use.
 
-#####off
+##### off
 
 Usage:  `berrybrew off`
 
@@ -119,13 +119,13 @@ Disables all `berrybrew` Perl installations. If you have a Strawberry or
 ActiveState system Perl installed, it'll be used until you `berrybrew switch`
 back to a `berrybrew` controlled Perl.
 
-#####remove
+##### remove
 
 Usage:  `berrybrew remove <version>`
 
 Removes a single version of Perl, as seen in `berrybrew available`.
 
-#####switch
+##### switch
 
 Usage:  `berrybrew switch <version>`
 
@@ -133,13 +133,13 @@ Sets the verion of Perl as seen in `berrybrew available` to the default
 system Perl. This change is persistent. Use `berrybrew off` to disable the
 switched-to Perl, or use `switch` to change to a different one.
 
-#####unconfig
+##### unconfig
 
 Usage:  `berrybrew unconfig`
 
 Removes berrybrew's binary directory from the `PATH` environment variable.
 
-#####upgrade
+##### upgrade
 
 Usage:  `berrybrew upgrade`
 
@@ -147,17 +147,17 @@ Makes a backup directory named `backup.timestamp`, copies your existing
 configuration files into it, performs a `git pull`, and then restores
 the configuration files back into the proper `data` directory.
 
-#####help
+##### help
 
 Usage:  `berrybrew help`
 
 Displays a summarized view of the available commands.
 
-#####license
+##### license
 
 Prints the `berrybrew` license to `STDOUT`.
 
-#####version
+##### version
 
 Usage:  `berrybrew version`
 
