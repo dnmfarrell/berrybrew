@@ -10,7 +10,7 @@ my $list = `$c available`;
 
 #@avail = grep {s/\s+//g; $_ =~ /^5/} @avail;
 
-$list =~ s/\[installed\]\*?//g;
+$list =~ s/\[installed\]\s+\*?//g;
 
 open my $fh, '<', 't/data/available.txt' or die $!;
 my @base = <$fh>;
