@@ -4,8 +4,8 @@ src/berrybrew.exe
 Release/
 bak/
 backup_*
-#*.sln
-#*.csproj
+*.sln
+*.csproj
 *.csproj.user
 *.suo
 *.runsettings

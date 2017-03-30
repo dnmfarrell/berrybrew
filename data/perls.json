@@ -158,7 +158,7 @@
         "file" : "strawberry-perl-5.12.3.0-portable.zip",
         "url"  : "http://strawberryperl.com/download/5.12.3.0/strawberry-perl-5.12.3.0-portable.zip",
         "ver"  : "5.12.3",
-        "csum" : "0e267fc2cf5a16126da6f9520cc7664db63d2b57"
+        "csum" : "309ad7a9ba74614fcd0c65bff7ea4400c10fa92f"
     },
     {    
         "name" : "5.10.1_32",
