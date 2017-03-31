@@ -1191,7 +1191,7 @@ namespace BerryBrew
                 if (Regex.Match(line, @"up-to-date").Success)
                 {
                     Console.WriteLine("\nberrybrew is already up to date\n");
-                    //Environment.Exit(0);
+                    Environment.Exit(0);
                 }
             }
 
@@ -1220,13 +1220,15 @@ namespace BerryBrew
             {
                 string fileName = System.IO.Path.GetFileName(s);
 
-                if (! fileName.Equals(@"perls_custom.json"))
+                if (!fileName.Equals(@"perls_custom.json"))
+                {
                     if (Debug)
                     {
                         Console.WriteLine("Not restoring the '{0}' config file.", fileName);
                     }
                     continue;
-
+                }
+ 
                 if (Debug)
                 {
                     Console.WriteLine("Restoring the '{0}' config file.", fileName);

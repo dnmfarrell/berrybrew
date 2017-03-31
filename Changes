@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.12 UNREL
+1.12    2017-03-31
         - fix local links in the markdown in the documentation
         - added "berrybrew fetch" (PerlUpdateAvailableList()). This function
           fetches the releases.json file from the Strawberry Perl website, and
@@ -18,6 +18,9 @@ Revision history for berrybrew
         - if there are perl instances orphaned after 'fetch' we now put them
           into the perls_custom.json file so they are still usable. They will
           appear as [custom] installs
+        - upgrade now backs up config files, but only restores the
+          perls_custom.json file. The user will have to manually merge in any
+          custom changes they had from the backup into the updated config files
 
 1.11    2017-03-30
         - replaced Ionic.Zip with SharpZipLib as the former failed to
