@@ -68,6 +68,7 @@ will reside.
         config      Add berrybrew to your PATH
         clean *     Remove all temporary berrybrew files
         clone       Clones an installed version to a custom-named one
+        fetch       Update the list of available Perl instances automatically
         install     Download, extract and install a Strawberry Perl
         remove      Uninstall a Strawberry Perl
         switch      Switch to use a different Strawberry Perl
@@ -83,28 +84,25 @@ will reside.
 
 ## Synopsis
 
-List all available versions of Perl:
+List all available versions of Perl that are available:
     
     > berrybrew available
 
     The following Strawberry Perls are available:
     
-            5.24.1_64     [installed]
-            5.24.1_32     [installed]
-            5.24.0_64
-            5.24.0_64_PDL
-            5.24.0_32
-            5.22.3_64     [installed] 
-            5.22.3_32
-            5.22.2_64
-            5.22.2_64_PDL
-            5.22.2_32
-            5.22.1_64
-            5.22.1_32
+    > berrybrew available
+
+    The following Strawberry Perls are available:
+
+            5.24.1_64          [installed] *
+            5.24.1_64_PDL
+            5.24.1_32
+            5.22.3_64
+            5.22.3_64_PDL
+            5.22.3_32          [installed]
             5.20.3_64
             5.20.3_64_PDL
             5.20.3_32
-            5.20.3_32_PDL
             5.18.4_64
             5.18.4_32
             5.16.3_64
@@ -113,11 +111,12 @@ List all available versions of Perl:
             5.14.4_32
             5.12.3_32
             5.10.1_32
-            unit_test-5.18  [custom] [installed] *
-            projectX        [custom] [installed]
+            5.8.9_32           [installed]
+            5.8.9-unit_tests   [custom] [installed]
+            client_project_X   [custom] [installed]
 
     * Currently using
-
+    
 Install a specific version:
 
     > berrybrew install 5.24.1_64

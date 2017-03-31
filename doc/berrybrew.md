@@ -7,6 +7,7 @@
 - [clone](#clone)
 - [config](#config)
 - [exec](#exec)
+- [fetch](#fetch)
 - [install](#install)
 - [off](#off)
 - [remove](#remove)
@@ -36,9 +37,9 @@ includes installed and custom versions. A shortened example:
 
     The following Strawberry Perls are available:
 
-            5.24.0_64       [installed]
+            5.24.1_64       [installed]
             ...
-            5.22.2_64
+            5.22.3_64
             5.12.3_32
             5.10.1_32       [installed]
             template-5.24   [custom] [installed]
@@ -103,6 +104,14 @@ Also, by default, we don't execute on custom (cloned) instances. Set
 ###### exec options:
 
     --with version,version,...  Run only on the listed versions
+
+##### fetch
+
+Usage:  `berrybrew fetch`
+
+Pulls the JSON list of available Strawberry Perl instances from the Strawberry
+website, and puts them into the `data/perls.json` file. Any updates will be
+available immediately with `berrybrew available`.
 
 ##### install
 

@@ -46,9 +46,9 @@ Default: `http://strawberryperl.com`
 
 ######download_url
 
-Link to the download page of Strawberry Perl's website.
+Link to the Strawberry Perl instance release JSON file.
 
-Default: `http://strawberryperl.com/releases.html`
+Default: `http://strawberryperl.com/releases.json`
 
 ######custom_exec
 

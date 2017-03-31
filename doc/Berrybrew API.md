@@ -48,7 +48,7 @@ The `Berrybrew` class is the base of the system.
 [PerlRemove](#perlremove)| **public** | Uninstalls a specific instance of Perl
 [PerlRegisterCustomInstall](#perlregistercustominstall)| internal | Make `berrybrew` aware of custom instances
 [PerlResolveVersion](#PerlResolveVersion)| internal | Resolves the name of a Perl to its StrawberryPerl object
-[PerlUpdateAvailableList](#PerlUpdateAvailableList)| **public** | **incomplete** Automatically fetches new Strawberry Perls available
+[PerlUpdateAvailableList](#PerlUpdateAvailableList)| **public** | Automatically fetches new Strawberry Perls available
 [ProcessCreate](#processcreate)| internal | Creates and returns a Windows cmd process
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
@@ -486,7 +486,9 @@ the corresponding object.
 
     public void PerlUpdateAvailableList()
 
-INCOMPLETE - DO NOT USE. Fetches the list of available Strawberry Perls on [Strawberry's download site](https://strawberryperl.com/releases.html), and updates the internal `perls.json` available list.
+Fetches the JSON list of Strawberry Perl instances available from
+[Strawberry's releases.json](https://strawberryperl.com/releases.json), and 
+updates the internal `perls.json` available list with the updated data.
 
 #### ProcessCreate
 
