@@ -116,6 +116,14 @@ namespace BerryBrew
 
         public void PerlUpdateAvailableList()
         {
+            List<string> orphans = PerlFindOrphans();
+
+            if (orphans.Count != 0){
+                Console.Write("\nThere are existing orphaned instances. 'fetch' can't continue. ");
+                Console.Write("If they are unneeded, remove them with 'berrybrew clean orphan'\n");
+                Environment.Exit(0);
+            }
+
             using (WebClient client = new WebClient())
             {
 
@@ -125,8 +133,10 @@ namespace BerryBrew
 
                     jsonData = client.DownloadString(this.downloadURL);
                 }
-                catch (System.Net.WebException){
+                catch (System.Net.WebException error){
                     Console.Write("\nCan't open file {0}. Can not continue...\n", this.downloadURL);
+                    if (Debug)
+                        Console.Write(error);
                     Environment.Exit(0);
                 }
 
@@ -135,8 +145,10 @@ namespace BerryBrew
                 try {
                     json = JsonConvert.DeserializeObject(jsonData);
                 }
-                catch (Newtonsoft.Json.JsonReaderException){
+                catch (Newtonsoft.Json.JsonReaderException error){
                     Console.Write("\nCan't read the JSON data. It may be invalid\n");
+                    if (Debug)
+                        Console.WriteLine(error);
                     Environment.Exit(0);
                 }
 
