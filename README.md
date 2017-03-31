@@ -46,7 +46,7 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 6c42e02dd5cdc138749a243d81a1aec8c4690e7b`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 5b92aa38fffdba16c9675229548c39296d40d41c`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
@@ -68,7 +68,7 @@ will reside.
         config      Add berrybrew to your PATH
         clean *     Remove all temporary berrybrew files
         clone       Clones an installed version to a custom-named one
-        fetch       Update the list of available Perl instances automatically
+        fetch       Upgrade the list of Strawberry Perl instances available
         install     Download, extract and install a Strawberry Perl
         remove      Uninstall a Strawberry Perl
         switch      Switch to use a different Strawberry Perl
