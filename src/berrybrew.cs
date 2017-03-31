@@ -120,8 +120,8 @@ namespace BerryBrew
 
             if (orphans.Count != 0)
             {
-                Console.Write("\nThere are existing orphaned instances. 'fetch' can't continue. ");
-                Console.Write("If they are unneeded, remove them with 'berrybrew clean orphan'\n");
+                //Console.Write("\nThere are existing orphaned instances. 'fetch' can't continue. ");
+                //Console.Write("If they are unneeded, remove them with 'berrybrew clean orphan'\n");
                 //Environment.Exit(0);
             }
 
