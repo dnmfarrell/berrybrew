@@ -211,8 +211,10 @@ Easiest way is to use `berrybrew upgrade`. This requires Git to be
 installed and in your `PATH`. It will create a `backup_timestamp`
 directory and copy your configuration files into it.
 
-After completion, it'll copy your config files back to the proper `data`
-directory.
+After completion, it'll copy your `perls_custom.json` file back into the `data/`
+directory. The rest of the configuration JSON files will be replaced. If you had
+any customizations within any of the other configuration files, you'll need to
+manually merge those changes back into the updated config file in `data/`.
 
 Doing a straight `git pull` will overwrite your configuration files, so
 back them up first (see [Caveats](#caveats)).

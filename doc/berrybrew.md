@@ -152,9 +152,12 @@ Removes berrybrew's binary directory from the `PATH` environment variable.
 
 Usage:  `berrybrew upgrade`
 
-Makes a backup directory named `backup.timestamp`, copies your existing
-configuration files into it, performs a `git pull`, and then restores
-the configuration files back into the proper `data` directory.
+Creates a `backup_timestamp` backup directory in the repository root directory,
+copies the live configuration files from `data` directory, performs a
+`git pull`. All configuration files less the `perls_custom.json` file are
+overwritten with any new changes. It is up to the user to manually merge in any
+custom changes to the other configuration files from the backups into the new
+files in `data/`.
 
 ##### help
 
