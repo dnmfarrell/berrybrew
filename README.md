@@ -253,7 +253,7 @@ If you choose to ignore this, follow this procedure:
     mcs \
         -lib:bin \
         -t:library \
-        -r:Ionic.Zip.dll,Newtonsoft.Json.dll 
+        -r:Newtonsoft.Json.dll,ICSharpCode.SharpZipLib.dll \ 
         -out:bin/bbapi.dll \
         src/berrybrew.cs
 
