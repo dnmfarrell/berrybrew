@@ -27,7 +27,7 @@ full list of documentation.
 - [Commands](#commands)
 - [Synopsis](#synopsis)
 - [Upgrading](#upgrading)
-- [Add/Remove Perls Available](#addremove-perls-available)
+- [Update Perls Available](#update-perls-available)
 - [Configure Perl Instance Directory](#configure-root-directory)
 - [Compile Your Own](#compile-your-own)
 - [Create a Release](#create-a-release)
@@ -46,7 +46,7 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 5b92aa38fffdba16c9675229548c39296d40d41c`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 854c26ea4f97d6545b23421c978766e2730d00b7`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
@@ -219,10 +219,11 @@ manually merge those changes back into the updated config file in `data/`.
 Doing a straight `git pull` will overwrite your configuration files, so
 back them up first (see [Caveats](#caveats)).
 
-## Add/Remove Perls Available
+## Update Perls Available
 
-Simply edit the `data/perls.json` file in the repository's root 
-directory.
+Use `berrybrew fetch` to retrieve the most recent availability list from
+Strawberry Perl. If any new or changed versions are found, we'll update the
+local `perls.json` file with them.
 
 ## Configure Root Directory
 
