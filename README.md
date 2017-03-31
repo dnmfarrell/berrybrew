@@ -10,8 +10,8 @@ versions of Strawberry Perl for Windows. There is no
 [requirement](https://github.com/stevieb9/berrybrew#requirements "berrybrew requirements")
 to have Strawberry Perl installed before using `berrybrew`.
 
-Adding and removing perls available is as simple as editing a JSON file,
-and works at runtime.
+Updating the list of Strawberry Perls available is as simple as runing a single
+command: `berrybrew fetch`, and works at runtime.
 
 There is extensive documentation available for the
 [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
