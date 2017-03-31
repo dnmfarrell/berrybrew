@@ -80,7 +80,7 @@ namespace BerryBrew
 
             string customPerlsFile = this.confPath + @"perls_custom.json";
 
-            if (!File.Exists(customPerlsFile))
+            if (! File.Exists(customPerlsFile))
             {
                 File.WriteAllText(customPerlsFile, @"[]");
             }
@@ -118,9 +118,28 @@ namespace BerryBrew
         {
             using (WebClient client = new WebClient())
             {
-                string jsonData = client.DownloadString(this.downloadURL);
 
-                dynamic json = JsonConvert.DeserializeObject(jsonData);
+                string jsonData = null;
+
+                try {
+
+                    jsonData = client.DownloadString(this.downloadURL);
+                }
+                catch (System.Net.WebException){
+                    Console.Write("\nCan't open file {0}. Can not continue...\n", this.downloadURL);
+                    Environment.Exit(0);
+                }
+
+                dynamic json = null;
+
+                try {
+                    json = JsonConvert.DeserializeObject(jsonData);
+                }
+                catch (Newtonsoft.Json.JsonReaderException){
+                    Console.Write("\nCan't read the JSON data. It may be invalid\n");
+                    Environment.Exit(0);
+                }
+
                 List<String> perls = new List<String>();
 
                 // output data
@@ -225,7 +244,7 @@ namespace BerryBrew
                     }
                 } // end build data
 
-                JsonWrite("perls", data);
+                JsonWrite("perls", data, true);
             }
         } 
 
@@ -657,7 +676,7 @@ namespace BerryBrew
         {
             string jsonString = null;
 
-            if (!fullList)
+            if (! fullList)
             {
                 dynamic customPerlList = JsonParse("perls_custom", true);
                 var perlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);

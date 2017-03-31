@@ -8,6 +8,7 @@ Revision history for berrybrew
           of each Perl version for 64bit, 32bit and PDL, where each is
           available (work on #62)
         - updated all documentation with the new 'fetch' feature
+        - added exception and error handling in PerlUpdateAvailableList()
 
 1.11    2017-03-30
         - replaced Ionic.Zip with SharpZipLib as the former failed to
