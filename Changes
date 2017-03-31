@@ -15,6 +15,9 @@ Revision history for berrybrew
           exception if in debug mode
         - implement orphan handling for 'fetch'. If there are any orphans, we
           will not proceed any further
+        - if there are perl instances orphaned after 'fetch' we now put them
+          into the perls_custom.json file so they are still usable. They will
+          appear as [custom] installs
 
 1.11    2017-03-30
         - replaced Ionic.Zip with SharpZipLib as the former failed to

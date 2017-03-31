@@ -103,13 +103,13 @@ namespace BerryBrew
         {
             List<string> orphans = PerlFindOrphans();
 
-            if (orphans.Count > 0 && !this.bypassOrphanCheck)
+            if (orphans.Count > 0 && ! this.bypassOrphanCheck)
             {
                 string orphanedPerls = Message.Get("perl_orphans");
                 Console.WriteLine("\nWARNING! {0}\n\n", orphanedPerls.Trim());
                 foreach (string orphan in orphans)
                 {
-                    Console.WriteLine("  {0}\n", orphan);
+                    Console.WriteLine("  {0}", orphan);
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace BerryBrew
             if (orphans.Count != 0){
                 Console.Write("\nThere are existing orphaned instances. 'fetch' can't continue. ");
                 Console.Write("If they are unneeded, remove them with 'berrybrew clean orphan'\n");
-                Environment.Exit(0);
+                //Environment.Exit(0);
             }
 
             using (WebClient client = new WebClient())
@@ -257,6 +257,15 @@ namespace BerryBrew
                 } // end build data
 
                 JsonWrite("perls", data, true);
+
+                orphans = PerlFindOrphans();
+
+                foreach(var orphan in orphans)
+                {
+                    Console.Write("Registering legacy Perl '{0}' as custom...", orphan);
+                    PerlRegisterCustomInstall(orphan);
+
+                }
             }
         } 
 
@@ -699,7 +708,7 @@ namespace BerryBrew
                 jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(perlList, Formatting.Indented);
             }
             else
-                jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(data);
+                jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(data, Formatting.Indented);
 
             string writeFile = this.confPath + type;
             writeFile = writeFile + @".json";
@@ -896,7 +905,7 @@ namespace BerryBrew
                 if (dir == this.archivePath)
                     continue;
 
-                if (!perlInstallations.Contains(dir) && ! Regex.Match(dir, @".cpanm").Success)
+                if (! perlInstallations.Contains(dir) && ! Regex.Match(dir, @".cpanm").Success)
                 {
                     string dirBaseName= dir.Remove(0, this.rootPath.Length);
                     orphans.Add(dirBaseName);
@@ -940,6 +949,7 @@ namespace BerryBrew
                     )
                 );
             }
+            
             if (importIntoObject)
             {
                 foreach (StrawberryPerl perl in perls)
