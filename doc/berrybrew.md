@@ -173,4 +173,4 @@ Usage:  `berrybrew version`
 Displays the current version of the `berrybrew.exe` binary and `bbapi.dll`
 library.
 
-&copy; 2016 by Steve Bertrand
+&copy; 2017 by Steve Bertrand
