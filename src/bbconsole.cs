@@ -33,10 +33,6 @@ namespace BBConsole
 
             switch (args[0])
             {
-                case "test":
-                    BB.PerlUpdateAvailableList();
-                    break;
-
                 case "available":
                     BB.Available();
                     break;
@@ -84,6 +80,10 @@ namespace BBConsole
                             BB.Message.Say("subcmd.exec");
                         }
                     BB.ExecCompile(String.Join(" ", args).Trim());
+                    break;
+
+                case "fetch":
+                    BB.PerlUpdateAvailableList();
                     break;
 
                 case "install":

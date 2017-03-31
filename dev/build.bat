@@ -21,4 +21,4 @@ call mcs^
 
 copy bin\Ionic.Zip.dll build\
 copy bin\Newtonsoft.Json.dll build\
-copy dev\data\* build\data\
+copy data\* build\data\

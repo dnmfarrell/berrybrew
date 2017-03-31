@@ -120,8 +120,6 @@ namespace BerryBrew
             {
                 string jsonData = client.DownloadString(this.downloadURL);
 
-                OrderedDictionary strawberryPerls = new OrderedDictionary();
-
                 dynamic json = JsonConvert.DeserializeObject(jsonData);
                 List<String> perls = new List<String>();
 
@@ -132,9 +130,7 @@ namespace BerryBrew
                     string nameString = release.name;
 
                     if (Regex.IsMatch(nameString, @"(with USE_64_BIT_INT|with USE_LONG_DOUBLE)"))
-                    {
                         continue;
-                    }
 
                     Match versionString = Regex.Match(nameString, @"(\d{1}\.\d{1,2}\.\d{1,2})");
 
@@ -165,7 +161,17 @@ namespace BerryBrew
                                 file = file.Split('/').Last();
                                 perlInstance.Add("file", file);
                                 perlInstance.Add("csum", release.edition.portable.sha1);
-                                Console.WriteLine("{0}: {1}", perlInstance["name"], perlInstance["file"]);
+                                perlInstance.Add("ver", bbVersion.Split('_').First());
+
+                                if (Debug){
+                                    Console.WriteLine(
+                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n", 
+                                        perlInstance["name"], 
+                                        perlInstance["file"], 
+                                        perlInstance["url"], 
+                                        perlInstance["csum"]
+                                    );
+                                }
                             }
                             else if (release.edition.zip != null)
                             {
@@ -173,8 +179,19 @@ namespace BerryBrew
                                 perlInstance.Add("url", release.edition.zip.url);
                                 string file = release.edition.zip.url;
                                 file = file.Split('/').Last();
+                                perlInstance.Add("file", file);
                                 perlInstance.Add("csum", release.edition.zip.sha1);
-                                Console.WriteLine("{0}: {1}", perlInstance["name"], perlInstance["file"]);
+                                perlInstance.Add("ver", bbVersion.Split('_').First());
+
+                                if (Debug){
+                                    Console.WriteLine(
+                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n", 
+                                        perlInstance["name"], 
+                                        perlInstance["file"], 
+                                        perlInstance["url"], 
+                                        perlInstance["csum"]
+                                    );
+                                }
                             }
                             
                             data.Add(perlInstance);
@@ -186,38 +203,32 @@ namespace BerryBrew
                                 string pdlVersion = bbVersion + "_" + "PDL";
                                 pdlInstance.Add("name", pdlVersion);
                                 pdlInstance.Add("url", release.edition.pdl.url);
-                                string file = release.edition.pdl.url.Split('/').Last();
-                                perlInstance.Add("file", file);
+                                string file = release.edition.pdl.url;
+                                file = file.Split('/').Last();
+                                pdlInstance.Add("file", file);
                                 pdlInstance.Add("csum", release.edition.pdl.sha1);
-                                Console.WriteLine("{0}: {1}", pdlInstance["name"], pdlInstance["file"]);
+                                pdlInstance.Add("ver", bbVersion.Split('_').First());
+
+                                if (Debug){
+                                    Console.WriteLine(
+                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n", 
+                                        perlInstance["name"], 
+                                        perlInstance["file"], 
+                                        perlInstance["url"], 
+                                        perlInstance["csum"]
+                                    );
+                                }
 
                                 data.Add(pdlInstance);
                             }
-
-
-                            /*
-                                {   "name" : "5.24.1_64",
-        "file" : "strawberry-perl-5.24.1.1-64bit-portable.zip",
-        "url"  : "http://strawberryperl.com/download/5.24.1.1/strawberry-perl-5.24.1.1-64bit-portable.zip",
-        "ver"  : "5.24.1",
-        "csum" : "5e7bd4d9eecef30e9cfef95f45d4f94237a4d7a4"
-},
-                             */
-
-                            // Console.WriteLine("m: {0}, bb: {1}", bbMajorVersion, bbVersion);
-
                         }
                     }
-                    else
-                    {
-                        continue;
-                    }
+                } // end build data
 
-                }
-                Console.ReadKey();
+                JsonWrite("perls", data);
             }
-        }
-    
+        } 
+
         public void Available()
         {
             Message.Print("available_header");
@@ -654,7 +665,7 @@ namespace BerryBrew
                 foreach (Dictionary<string, object> perl in data)
                     perlList.Add(perl);
 
-                jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(perlList);
+                jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(perlList, Formatting.Indented);
             }
             else
                 jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(data);

@@ -2,6 +2,11 @@ Revision history for berrybrew
 
 1.12 UNREL
         - fix local links in the markdown in the documentation
+        - added "berrybrew fetch" (PerlUpdateAvailableList()). This function
+          fetches the releases.json file from the Strawberry Perl website, and
+          updates our data/perls.json file with the most recent patch version
+          of each Perl version for 64bit, 32bit and PDL, where each is
+          available (work on #62)
 
 1.11    2017-03-30
         - replaced Ionic.Zip with SharpZipLib as the former failed to
