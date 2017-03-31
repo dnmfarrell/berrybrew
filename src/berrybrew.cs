@@ -118,7 +118,8 @@ namespace BerryBrew
         {
             List<string> orphans = PerlFindOrphans();
 
-            if (orphans.Count != 0){
+            if (orphans.Count != 0)
+            {
                 Console.Write("\nThere are existing orphaned instances. 'fetch' can't continue. ");
                 Console.Write("If they are unneeded, remove them with 'berrybrew clean orphan'\n");
                 //Environment.Exit(0);
@@ -129,11 +130,13 @@ namespace BerryBrew
 
                 string jsonData = null;
 
-                try {
+                try 
+                {
 
                     jsonData = client.DownloadString(this.downloadURL);
                 }
-                catch (System.Net.WebException error){
+                catch (System.Net.WebException error)
+                {
                     Console.Write("\nCan't open file {0}. Can not continue...\n", this.downloadURL);
                     if (Debug)
                         Console.Write(error);
@@ -142,10 +145,12 @@ namespace BerryBrew
 
                 dynamic json = null;
 
-                try {
+                try
+                {
                     json = JsonConvert.DeserializeObject(jsonData);
                 }
-                catch (Newtonsoft.Json.JsonReaderException error){
+                catch (Newtonsoft.Json.JsonReaderException error)
+                {
                     Console.Write("\nCan't read the JSON data. It may be invalid\n");
                     if (Debug)
                         Console.WriteLine(error);
@@ -157,7 +162,8 @@ namespace BerryBrew
                 // output data
                 List<Dictionary<string, object>> data = new List<Dictionary<string, object>>();
 
-                foreach (var release in json){
+                foreach (var release in json)
+                {
                     string nameString = release.name;
 
                     if (Regex.IsMatch(nameString, @"(with USE_64_BIT_INT|with USE_LONG_DOUBLE)"))
@@ -185,7 +191,8 @@ namespace BerryBrew
 
                             Dictionary<string, object> perlInstance = new Dictionary<string, object>();
 
-                            if (release.edition.portable != null){
+                            if (release.edition.portable != null)
+                            {
                                 perlInstance.Add("name", bbVersion);
                                 perlInstance.Add("url", release.edition.portable.url);
                                 string file = release.edition.portable.url;
@@ -194,7 +201,8 @@ namespace BerryBrew
                                 perlInstance.Add("csum", release.edition.portable.sha1);
                                 perlInstance.Add("ver", bbVersion.Split('_').First());
 
-                                if (Debug){
+                                if (Debug)
+                                {
                                     Console.WriteLine(
                                         "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n", 
                                         perlInstance["name"], 
@@ -214,7 +222,8 @@ namespace BerryBrew
                                 perlInstance.Add("csum", release.edition.zip.sha1);
                                 perlInstance.Add("ver", bbVersion.Split('_').First());
 
-                                if (Debug){
+                                if (Debug)
+                                {
                                     Console.WriteLine(
                                         "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n", 
                                         perlInstance["name"], 
@@ -240,7 +249,8 @@ namespace BerryBrew
                                 pdlInstance.Add("csum", release.edition.pdl.sha1);
                                 pdlInstance.Add("ver", bbVersion.Split('_').First());
 
-                                if (Debug){
+                                if (Debug)
+                                {
                                     Console.WriteLine(
                                         "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n", 
                                         perlInstance["name"], 
@@ -264,7 +274,6 @@ namespace BerryBrew
                 {
                     Console.Write("Registering legacy Perl '{0}' as custom...", orphan);
                     PerlRegisterCustomInstall(orphan);
-
                 }
             }
         } 
@@ -316,7 +325,7 @@ namespace BerryBrew
 
         internal void CheckRootDir()
         {
-            if (!Directory.Exists(this.rootPath))
+            if (! Directory.Exists(this.rootPath))
             {
                 try
                 {
@@ -349,7 +358,7 @@ namespace BerryBrew
                 
                 case "orphan":
                     cleansed = CleanOrphan();
-                    if (!cleansed)
+                    if (! cleansed)
                         Console.WriteLine("\nno orphaned perls to remove");
                     break;
             }
@@ -390,7 +399,7 @@ namespace BerryBrew
 
         public bool Clone(string sourcePerlName, string destPerlName)
         {
-            if (!CheckName(destPerlName))
+            if (! CheckName(destPerlName))
                 return false;
 
             StrawberryPerl sourcePerl = PerlResolveVersion(sourcePerlName);
@@ -398,7 +407,7 @@ namespace BerryBrew
             string destPerlDir = this.rootPath + destPerlName;
             DirectoryInfo src = new DirectoryInfo(sourcePerlDir);
 
-            if (!src.Exists)
+            if (! src.Exists)
             {
                 throw new DirectoryNotFoundException(
                     "Source directory does not exist or could not be found: " 
@@ -407,7 +416,7 @@ namespace BerryBrew
             }
             try
             {
-                if (!Directory.Exists(destPerlDir))
+                if (! Directory.Exists(destPerlDir))
                     Directory.CreateDirectory(destPerlDir);
 
                 foreach (string dirPath in Directory.GetDirectories(sourcePerlDir, "*",
@@ -418,7 +427,7 @@ namespace BerryBrew
                     SearchOption.AllDirectories))
                     File.Copy(newPath, newPath.Replace(sourcePerlDir, destPerlDir), true);
 
-                if (!Directory.Exists(destPerlDir))
+                if (! Directory.Exists(destPerlDir))
                 {
                     Console.WriteLine("\nfailed to clone {0} to {1}", sourcePerlDir, destPerlDir);
                     Environment.Exit(0);
@@ -443,7 +452,7 @@ namespace BerryBrew
             string configIntro = Message.Get("config_intro");
             Console.WriteLine(configIntro + Version() + "\n");
 
-            if (!PathScan(new Regex("berrybrew.bin"), "machine"))
+            if (! PathScan(new Regex("berrybrew.bin"), "machine"))
             {
                 Message.Print("add_bb_to_path");
 
@@ -522,7 +531,7 @@ namespace BerryBrew
 
             foreach (StrawberryPerl perl in execWith)
             {
-                if (perl.Custom && !this.customExec)
+                if (perl.Custom && ! this.customExec)
                     continue;
                 if (perl.Name.Contains("tmpl") || perl.Name.Contains("template"))
                     continue;
@@ -540,7 +549,7 @@ namespace BerryBrew
 
                 foreach (ZipEntry zipEntry in zf)
                 {
-                    if (!zipEntry.IsFile)
+                    if (! zipEntry.IsFile)
                     {
                         continue;
                     }
@@ -575,7 +584,7 @@ namespace BerryBrew
             WebClient webClient = new WebClient();
             string archivePath = PerlArchivePath(perl);
 
-            if (!File.Exists(archivePath))
+            if (! File.Exists(archivePath))
             {
                 Console.WriteLine("Downloading " + perl.Url + " to " + archivePath);
                 webClient.DownloadFile(perl.Url, archivePath);
@@ -768,7 +777,7 @@ namespace BerryBrew
 
             foreach (string pathEntry in paths)
             {
-                if (!binPath.Match(pathEntry).Success)
+                if (! binPath.Match(pathEntry).Success)
                     updatedPaths.Add(pathEntry);
             }
             PathSet(updatedPaths);
@@ -864,7 +873,7 @@ namespace BerryBrew
 
             try
             {
-                if (!Directory.Exists(perl.ArchivePath))
+                if (! Directory.Exists(perl.ArchivePath))
                     Directory.CreateDirectory(perl.ArchivePath);
 
                 return perl.ArchivePath + @"\" + perl.File;
@@ -1051,7 +1060,7 @@ namespace BerryBrew
 
                     foreach (Dictionary<string, object> perlStruct in customPerlList)
                     {
-                        if (!perlVersionToRemove.Equals(perlStruct["name"].ToString()))
+                        if (! perlVersionToRemove.Equals(perlStruct["name"].ToString()))
                             updatedPerls.Add(perlStruct);
                     }
                     JsonWrite("perls_custom", updatedPerls, true);
@@ -1109,7 +1118,7 @@ namespace BerryBrew
             {
                 StrawberryPerl perl = PerlResolveVersion(switchToVersion);
 
-                if (!PerlIsInstalled(perl))
+                if (! PerlIsInstalled(perl))
                 {
                     Console.WriteLine("Perl version " + perl.Name + " is not installed. Run the command:\n\n\tberrybrew install " + perl.Name);
                     Environment.Exit(0);
@@ -1176,7 +1185,7 @@ namespace BerryBrew
             Process proc = ProcessCreate(cmd);
             proc.Start();
 
-            while (!proc.StandardOutput.EndOfStream)
+            while (! proc.StandardOutput.EndOfStream)
             {
                 string line = proc.StandardOutput.ReadLine();
                 if (Regex.Match(line, @"up-to-date").Success)
@@ -1189,7 +1198,7 @@ namespace BerryBrew
             bool error = false;
             List<string> errorReport = new List<string>();
 
-            while (!proc.StandardError.EndOfStream)
+            while (! proc.StandardError.EndOfStream)
             {
                 error = true;
                 string line = proc.StandardError.ReadLine();
