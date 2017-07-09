@@ -3,8 +3,7 @@ use strict;
 
 use Test::More;
 
-my $p = 'c:/repos/berrybrew/perl/perl/bin';
-my $c = 'c:/repos/berrybrew/build/berrybrew';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
 
 my $list = `$c available`;
 
@@ -22,13 +21,22 @@ for (@list){
     s/\s+//g;
 }
 
-my $i = 0;
+{ # DELETE THIS BLOCK
+my @b = @base;
+my @l = @list;
+map chomp, @b, @l;
+map s/\s+//g, @b, @l;
+local $" = "\n\tBASE: ";
+diag "@b";
+local $" = "\n\tLIST:";
+diag "@l";
+}
 
-for (@base){
-    chomp;
-    s/\s+//g;
-    is $list[$i], $_, ">$list[$i]< :: >$_< ok";
-    $i++;
+for my $i (0 .. $#base){
+    chomp $base[$i];
+    $base[$i] =~ s/\s+//g;
+    is $list[$i], $base[$i], ">$list[$i]< :: >$base[$i]< ok"
+        or die "!\n";
 }
 
 done_testing();
