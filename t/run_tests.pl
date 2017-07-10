@@ -5,10 +5,6 @@ die "You must set \$ENV{BBTEST_PERLROOT} before running $0\n" unless exists $ENV
 
 my $sff = (@ARGV && (($ARGV[0] eq '--stopfirstfail')||($ARGV[0] eq '--sff')));
 
-#$ENV{PATH}
-#  = 'C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;' . $ENV{PATH};
-
-#print $ENV{PATH}, $/ x 3;
 my @paths = split /;/, $ENV{PATH};
 for (reverse 0 .. $#paths) {
     splice @paths, $_, 1    if $paths[$_] =~ /\b(?:perl|strawberry)\b/i;
@@ -16,11 +12,8 @@ for (reverse 0 .. $#paths) {
 for (qw/perl\\bin perl\\site\\bin c\\bin bin/) {
     my $path = $ENV{BBTEST_PERLROOT} . $_;
     unshift @paths, $path   if -d $path;
-    #printf "Try \"%s\" => %s\n", $path, -d _ ? 'ok' : 'dne';
 }
-#print $/ x 3;
 $ENV{PATH} = join ';', @paths;
-#print $ENV{PATH}, $/ x 3;
 
 if(!$sff) {
     system "prove", "t/*.t";
