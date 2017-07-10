@@ -20,7 +20,7 @@ my @installed = BB::get_installed();
 if (! @installed){
     note "\nInstalling $avail[-1] because none were installed\n";
     `$c install $avail[-1]`;
-    push @installed, $avail[-1];    # [pryrt] needed, otherwise next block would be skipped
+    push @installed, $avail[-1];    # [pryrt] needed, otherwise cloning $installed[-1]
 }
 
 note "\nCloning $installed[-1] to custom\n";
