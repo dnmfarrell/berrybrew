@@ -36,6 +36,7 @@ my @o_lines = split /\n/, $o;
 my $count = 0;
 for my $base (<$fh>){
     chomp $base;
+    s/(?:^\s+|\s+$)//g   for $base, $o_lines[$count];    # make leading/trailing spaces insignificant
     is $o_lines[$count], $base, "line $count ok after custom add";
     $count++;
 }
