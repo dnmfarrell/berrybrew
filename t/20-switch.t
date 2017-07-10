@@ -19,12 +19,12 @@ my @installed = BB::get_installed();
 my @avail = BB::get_avail();
 
 if (! @installed){
-    diag "\nInstalling $avail[-1] because none were installed\n";
+    note "\nInstalling $avail[-1] because none were installed\n";
     `$c install $avail[-1]`;
     push @installed, $avail[-1];    # [pryrt] needed, otherwise next block would be skipped
 }
 if (@installed == 1){
-    diag "\nsInstalling $avail[-2] because only one was installed\n";
+    note "\nsInstalling $avail[-2] because only one was installed\n";
     `$c install $avail[-2]`;
     push @installed, $avail[-2];    # [pryrt] for consistency
 }

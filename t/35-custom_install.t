@@ -18,22 +18,18 @@ my @avail = BB::get_avail();
 my @installed = BB::get_installed();
 
 if (! @installed){
-    diag "\nInstalling $avail[-1] because none were installed\n";
+    note "\nInstalling $avail[-1] because none were installed\n";
     `$c install $avail[-1]`;
     push @installed, $avail[-1];    # [pryrt] needed, otherwise next block would be skipped
 }
 
-diag "\nCloning $installed[-1] to custom\n";
+note "\nCloning $installed[-1] to custom\n";
 $o = `$c clone $installed[-1] custom`;
 ok -s $customfile > 5, "custom perls file size ok after add";
 
 $o = `$c available`;
 
-note "o => $o\n";       ####
-
 open my $fh, '<', 't\data\custom_available.txt' or die $!;
-
-note join "", <$fh>;   ####
 
 my @o_lines = split /\n/, $o;
 
