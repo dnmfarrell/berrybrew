@@ -6,9 +6,8 @@ use BB;
 use Test::More;
 use Win32::TieRegistry;
 
-my $p = 'c:/repos/berrybrew/perl/perl/bin';
-my $c = 'c:/repos/berrybrew/build/berrybrew';
-my $customfile = 'c:/repos/berrybrew/build/data/perls_custom.json';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
+my $customfile = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/data/perls_custom.json" : 'c:/repos/berrybrew/build/data/perls_custom.json';
 
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
 
@@ -19,15 +18,22 @@ my @avail = BB::get_avail();
 my @installed = BB::get_installed();
 
 if (! @installed){
-    `$c install $avail[-1]`;    
+    diag "\nInstalling $avail[-1] because none were installed\n";
+    `$c install $avail[-1]`;
+    push @installed, $avail[-1];    # [pryrt] needed, otherwise next block would be skipped
 }
 
-$o = `$c clone 5.10.1_32 custom`;
+diag "\nCloning $installed[-1] to custom\n";
+$o = `$c clone $installed[-1] custom`;
 ok -s $customfile > 5, "custom perls file size ok after add";
 
 $o = `$c available`;
 
+note "o => $o\n";       ####
+
 open my $fh, '<', 't\data\custom_available.txt' or die $!;
+
+note join "", <$fh>;   ####
 
 my @o_lines = split /\n/, $o;
 
@@ -37,7 +43,7 @@ for my $base (<$fh>){
     is $o_lines[$count], $base, "line $count ok after custom add";
     $count++;
 }
-    
+
 @installed = BB::get_installed();
 
 {
