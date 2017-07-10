@@ -21,17 +21,6 @@ for (@list){
     s/\s+//g;
 }
 
-{ # DELETE THIS BLOCK
-my @b = @base;
-my @l = @list;
-map chomp, @b, @l;
-map s/\s+//g, @b, @l;
-local $" = "\n\tBASE: ";
-diag "@b";
-local $" = "\n\tLIST:";
-diag "@l";
-}
-
 for my $i (0 .. $#base){
     chomp $base[$i];
     $base[$i] =~ s/\s+//g;
