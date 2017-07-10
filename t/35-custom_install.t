@@ -58,7 +58,7 @@ for my $base (<$fh>){
     like $o, qr/berrybrew perl disabled/, "off ok";
 
     my $path = $Registry->{$path_key};
-    unlike $path, qr/^C:\\berrybrew\\/, "PATH set ok for 'off'";
+    unlike $path, qr/^C:\\berrybrew\\test/, "PATH set ok for 'off'";
 }
 
 $o = `$c remove custom`;

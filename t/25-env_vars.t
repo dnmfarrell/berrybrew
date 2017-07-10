@@ -14,7 +14,7 @@ my $o = `$c off`;
 like $o, qr/berrybrew perl disabled/, "off ok";
 
 my $path = $Registry->{$path_key};
-unlike $path, qr/^C:\\berrybrew\\/, "PATH set ok for 'off'";
+unlike $path, qr/^C:\\berrybrew\\test/, "PATH set ok for 'off'";
 
 my @installed = BB::get_installed();
 my @avail = BB::get_avail();
@@ -46,7 +46,7 @@ if (@installed == 1){
     like $o, qr/berrybrew perl disabled/, "off ok";
 
     my $path = $Registry->{$path_key};
-    unlike $path, qr/^C:\\berrybrew\\/, "PATH set ok for 'off'";
+    unlike $path, qr/^C:\\berrybrew\\test/, "PATH set ok for 'off'";
 }
 
 {
@@ -64,7 +64,7 @@ if (@installed == 1){
     like $o, qr/berrybrew perl disabled/, "off ok";
 
     my $path = $Registry->{$path_key};
-    unlike $path, qr/^C:\\berrybrew\\/, "PATH set ok for 'off'";
+    unlike $path, qr/^C:\\berrybrew\\test/, "PATH set ok for 'off'";
 }
 
 done_testing();

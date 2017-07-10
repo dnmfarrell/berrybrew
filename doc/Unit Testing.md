@@ -23,7 +23,14 @@ Execute the following batch file to run all tests
 
 Or, if you would like to run individual tests
 
+    rem required:
     t\setup_test_env.bat
+    mkdir c:\berrybrew\test
+    mkdir c:\berrybrew\test\temp
+    call dev\build.bat
+    perl -i.bak -ne "s/berrybrew/berrybrew\\\\test/; print" build/data/config.json
+
+    rem one or more of:
     perl t\##-name.t        &rem runs without test harness, so note() messages will show
     prove t\##-name.t       &rem runs with test harness, so note() messages will not show
     perl t\run_tests.pl --stopfirstfail     &rem will `prove` each test, in numeric order, until a failing test is reached

@@ -24,4 +24,4 @@ What we don't do:
 - update the `Changes` file
 - commit locally required changes to the `.gitignore` file
 
-&copy; 2016 by Steve Bertrand 
+&copy; 2016 by Steve Bertrand
