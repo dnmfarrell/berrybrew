@@ -17,7 +17,7 @@ sub get_installed {
     my @avail = split /\n/, $list;
 
     @avail = grep {/^\s+.*/} @avail;
-warn __PACKAGE__, "::get_installed(): @avail\n";
+
     my @installed;
 
     for (@avail){

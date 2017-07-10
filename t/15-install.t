@@ -4,19 +4,20 @@ use strict;
 use lib 't/';
 use BB;
 use Test::More;
+use constant DEBUG => 0;
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
 
 my @avail = BB::get_avail();
-    diag @avail;
+    note @avail if DEBUG;
 
 my $pre_installed = BB::get_installed();
-    diag $pre_installed;
+    note $pre_installed if DEBUG;
 
-    diag $avail[-1];
-    diag "$c install $avail[-1]\n";
+    note $avail[-1] if DEBUG;
+    note "$c install $avail[-1]\n" if DEBUG;
 `$c install $avail[-1]`;
-    diag "\$!: $!\n";
+    note "\$!: $!\n" if DEBUG;
 
 my $post_installed = BB::get_installed();
 

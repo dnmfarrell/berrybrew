@@ -6,8 +6,7 @@ use BB;
 use Test::More;
 use Win32::TieRegistry;
 
-my $p = 'c:/repos/berrybrew/perl/perl/bin';
-my $c = 'c:/repos/berrybrew/build/berrybrew';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
 
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
 
@@ -21,10 +20,14 @@ my @installed = BB::get_installed();
 my @avail = BB::get_avail();
 
 if (! @installed){
-    `$c install $avail[-1]`;    
+    diag "\nInstalling $avail[-1] because none were installed\n";
+    `$c install $avail[-1]`;
+    push @installed, $avail[-1];    # [pryrt] needed, otherwise next block would be skipped
 }
 if (@installed == 1){
+    diag "\nsInstalling $avail[-2] because only one was installed\n";
     `$c install $avail[-2]`;
+    push @installed, $avail[-2];    # [pryrt] for consistency
 }
 
 @installed = BB::get_installed();
