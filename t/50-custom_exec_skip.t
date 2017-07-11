@@ -5,9 +5,9 @@ use Test::More;
 use lib 't/';
 use BB;
 
-my $c = 'c:/repos/berrybrew/build/berrybrew';
-my $customfile = 'c:/repos/berrybrew/build/data/perls_custom.json';
-my $conf = 'c:/repos/berrybrew/build/data/config.json';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
+my $customfile = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/data/perls_custom.json" : 'c:/repos/berrybrew/build/data/perls_custom.json';
+my $conf = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/data/config.json" : 'c:/repos/berrybrew/build/data/config.json';
 
 my $o;
 
@@ -15,12 +15,15 @@ my @avail = BB::get_avail();
 my @installed = BB::get_installed();
 
 if (! @installed){
-    `$c install $avail[-1]`;    
+    note "\nInstalling $avail[-1] because none were installed\n";
+    `$c install $avail[-1]`;
+    push @installed, $avail[-1];    # [pryrt] needed, otherwise cloning $installed[-1]
 }
 
 # clone custom
 
-$o = `$c clone 5.10.1_32 custom`;
+note "\nCloning $installed[-1] to custom\n";
+$o = `$c clone $installed[-1] custom`;
 ok -s $customfile > 5, "custom perls file size ok after add";
 
 @installed = BB::get_installed();
@@ -70,10 +73,10 @@ $o = `$c remove custom`;
 like $o, qr/Successfully/, "remove custom install ok";
 
 @avail = BB::get_avail();
-ok ! grep {'custom' eq $_} @avail, "custom not in avail";
+ok !(grep {'custom' eq $_} @avail), "custom not in avail";
 
 @installed = BB::get_installed();
-ok ! grep {'custom' eq $_} @installed, "custom not in installed";
+ok !(grep {'custom' eq $_} @installed), "custom not in installed";
 
 is -s $customfile, 2, "custom perls file size ok after remove";
 

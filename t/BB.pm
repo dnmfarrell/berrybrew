@@ -1,8 +1,9 @@
 package BB;
 
-my $c = 'c:\repos\berrybrew\build\berrybrew';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
 
 sub get_avail {
+    # returns a list of available strawberry perls that are _not_ already installed
     my $list = `$c available`;
     my @avail = split /\n/, $list;
 
@@ -13,6 +14,7 @@ sub get_avail {
     return @avail;
 }
 sub get_installed {
+    # returns a list of installed strawberry perls
     my $list = `$c available`;
     my @avail = split /\n/, $list;
 
@@ -25,7 +27,7 @@ sub get_installed {
         if (/(.*?)\s+.*\[installed\]/){
             push @installed, $1;
         }
-    }   
+    }
 
     return @installed;
 }
