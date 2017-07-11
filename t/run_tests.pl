@@ -19,7 +19,6 @@ if(!$sff) {
     system "prove", "t/*.t";
 } else {
     foreach (glob("t/*.t")) {
-        print "prove $_$/";
         system "prove", $_;
         if($? == -1) {
             die sprintf "`prove %s` failed to execute: %s\n", $_, $!;
