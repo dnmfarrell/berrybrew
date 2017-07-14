@@ -70,6 +70,7 @@ will reside.
         clone       Clones an installed version to a custom-named one
         fetch       Upgrade the list of Strawberry Perl instances available
         install     Download, extract and install a Strawberry Perl
+        register    Manually register a custom installation directory
         remove      Uninstall a Strawberry Perl
         switch      Switch to use a different Strawberry Perl
         off         Disable berrybrew perls (use 'switch' to re-enable)
@@ -141,6 +142,10 @@ Uninstall a version of perl:
     > berrybrew remove 5.24.1_64
 
     Successfully removed Strawberry Perl 5.24.1_64
+
+Manually register a custom directory within the Perl installation directory
+
+    > berrybrew register my_custom_install
 
 Disable berrybrew entirely, and return to system Perl (Strawberry or 
 ActiveState), if available (re-enable with 'switch'):

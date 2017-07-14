@@ -46,7 +46,7 @@ The `Berrybrew` class is the base of the system.
 [PerlInUse](#perlinuse)| internal | Returns the name of the Perl currently in use
 [PerlIsInstalled](#perlisinstalled)| internal | Checks if a specific Perl is installed
 [PerlRemove](#perlremove)| **public** | Uninstalls a specific instance of Perl
-[PerlRegisterCustomInstall](#perlregistercustominstall)| internal | Make `berrybrew` aware of custom instances
+[PerlRegisterCustomInstall](#perlregistercustominstall)| public | Make `berrybrew` aware of custom instances
 [PerlResolveVersion](#PerlResolveVersion)| internal | Resolves the name of a Perl to its StrawberryPerl object
 [PerlUpdateAvailableList](#PerlUpdateAvailableList)| **public** | Automatically fetches new Strawberry Perls available
 [ProcessCreate](#processcreate)| internal | Creates and returns a Windows cmd process

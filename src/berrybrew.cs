@@ -15,6 +15,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+
 namespace BerryBrew
 {
     public class Berrybrew
@@ -1084,8 +1085,21 @@ namespace BerryBrew
             }
         }
 
-        internal void PerlRegisterCustomInstall(string perlName, StrawberryPerl perlBase=new StrawberryPerl())
+        public void PerlRegisterCustomInstall(string perlName, StrawberryPerl perlBase=new StrawberryPerl())
         {
+
+            if (! Directory.Exists(this.rootPath + perlName))
+            {
+                Console.WriteLine("installation directory '" + perlName + "' does not exist");
+                Environment.Exit(0);
+            }
+            Console.WriteLine(this.rootPath + perlName + @"\perl\bin\perl.exe");
+            if (! File.Exists(this.rootPath + perlName + @"\perl\bin\perl.exe"))
+            {
+                Console.WriteLine("{0} is not a valid Perl installation", perlName);
+                Environment.Exit(0);
+            }
+
             Dictionary<string, object> data = new Dictionary<string, object>();
            
             data["name"] = perlName;

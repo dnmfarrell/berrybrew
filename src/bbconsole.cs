@@ -115,6 +115,14 @@ namespace BBConsole
                     BB.Off();
                     break;
 
+                case "register":
+                    if (args.Length == 1)
+                    {
+                        BB.Message.Say("register_ver_required");
+                    }
+                    BB.PerlRegisterCustomInstall(args[1]);
+                    break;
+
                 case "remove":
                     if (args.Length == 1)
                     {

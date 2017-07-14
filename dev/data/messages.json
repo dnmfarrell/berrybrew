@@ -3,7 +3,7 @@
     "label": "version",
 
     "content": [
-        "1.12"
+        "1.13"
     ]
 },
 {
@@ -87,6 +87,13 @@
     ]
 },
 {
+    "label": "register_ver_required",
+    "content": [
+        "\nregister command requires a directory as an argument."
+    ]
+},
+
+{
     "label": "switch_ver_required",
     "content": [
         "\nswitch command requires a version argument.",
@@ -135,6 +142,7 @@
         "    fetch       Update the list of Strawberry Perl instances available",
         "    install     Download, extract and install a Strawberry Perl",
         "    off         Disable berrybrew perls (use 'switch' to re-enable)",
+        "    register    Manually register a custom installation directory",
         "    remove      Uninstall a Strawberry Perl",
         "    switch      Switch to use a different Strawberry Perl",
         "    unconfig    Remove berrybrew from PATH",
@@ -155,7 +163,7 @@
         "",
         "This software is Copyright (c) 2014 by David Farrell.",
         "",
-        "Versions prefixed with 'sb' are Copyright (c) 2016 by Steve Bertrand.",
+        "Versions in the format 'n.nn' Copyright (c) 2017 by Steve Bertrand.",
         "",
         "This is free software, licensed under:",
         "",
