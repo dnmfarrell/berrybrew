@@ -5,6 +5,7 @@ Revision history for berrybrew
         - updated perls_available.json to include 5.26
         - we now remove the "test" directory after all tests complete
           (closes #76)
+        - correct markdown formatting in Configuration doc (closes #73)
 
 1.12    2017-03-31
         - fix local links in the markdown in the documentation
