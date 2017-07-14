@@ -3,6 +3,8 @@ Revision history for berrybrew
 1.13 UNREL
         - updated license information (closes #75)
         - updated perls_available.json to include 5.26
+        - we now remove the "test" directory after all tests complete
+          (closes #76)
 
 1.12    2017-03-31
         - fix local links in the markdown in the documentation
