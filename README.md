@@ -89,10 +89,6 @@ List all available versions of Perl that are available:
     > berrybrew available
 
     The following Strawberry Perls are available:
-    
-    > berrybrew available
-
-    The following Strawberry Perls are available:
 
             5.24.1_64          [installed] *
             5.24.1_64_PDL
