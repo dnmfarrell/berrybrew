@@ -3,7 +3,7 @@ use strict;
 
 use Test::More;
 
-my $c = 'c:/repos/berrybrew/build/berrybrew';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
 
 my $dir = 'c:/berrybrew/test';
 
