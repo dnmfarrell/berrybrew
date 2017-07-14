@@ -473,7 +473,6 @@ namespace BerryBrew
         internal void Exec(StrawberryPerl perl, string command, string sysPath)
         {
             Console.WriteLine("Perl-" + perl.Name + "\n==============");
-
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -1142,7 +1141,7 @@ namespace BerryBrew
             Message.Print("unconfig");
         }
 
-        public void UseVersion(string usePerlStr)
+        public void UseCompile(string usePerlStr)
         {
             Console.Write("DEBUG: UseVersion(\""+usePerlStr+"\")\n");
             // pryrt: derived from ExecCompile(), but only have one argument (the list of perls) rather than many
@@ -1182,8 +1181,49 @@ namespace BerryBrew
                 //Exec(perl, command, sysPath);
                 //  ... but for now, just print out a message
                 Console.Write("==== berrybrew use " + perl.Name + " ====\n");
+                Console.Write("sysPath = " + sysPath + "\n");
+                Exec(perl, "perl -le \"$|++; print 'hello world: same window'; <STDIN>\"", sysPath);
+                UseInNewWindow(perl, "perl -le \"$|++; print 'hello world: new window'; <STDIN>\"", sysPath);
             }
         }
+
+        internal void UseInNewWindow(StrawberryPerl perl, string command, string sysPath)
+        {
+Console.WriteLine("DEBUG: UseInNewWindow()");
+            Console.WriteLine("Perl-" + perl.Name + "\n==============");
+            try {
+                Process process = new Process();
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.WindowStyle = ProcessWindowStyle.Normal;
+
+                List<String> newPath;
+                newPath = perl.Paths;
+                newPath.Add(sysPath);
+// TODO = add in the UserPath as well...
+// TODO = change title of window
+//      https://stackoverflow.com/questions/15988917/how-can-i-set-the-window-text-of-an-application-using-net-process-start
+//      https://stackoverflow.com/questions/1016823/c-sharp-how-can-i-rename-a-process-window-that-i-started
+
+Console.WriteLine("DEBUG: " + String.Join(";", newPath));
+                System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
+
+                startInfo.FileName = "cmd.exe";
+                startInfo.Arguments = "/k";
+Console.WriteLine("DEBUG: " + startInfo.FileName );
+Console.WriteLine("DEBUG: " + startInfo.Arguments );
+                process.StartInfo = startInfo;
+                process.StartInfo.RedirectStandardOutput = false;
+                process.StartInfo.RedirectStandardError = false;
+                //process.StartInfo.UseShellExecute = true;
+                process.StartInfo.CreateNoWindow = false;
+                process.Start();
+            }
+            catch(Exception objException)
+            {
+                Console.WriteLine(objException);
+            }
+        }
+
 
         public string Version()
         {

@@ -144,8 +144,7 @@ namespace BBConsole
                     {
                         BB.Message.Say("switch_ver_required");      // TODO = make a separate message
                     }
-                    Console.Write(args[1] + "\t" + "I will use it soon...\n");  // TODO = transfer to BB.Use(args[1]), referencing new routine from berrybrew.cs, based on BB.ExecCompile() and/or BB.Switch()
-                    BB.UseVersion(args[1]);
+                    BB.UseCompile(args[1]);
                     break;
 
                 case "version":
