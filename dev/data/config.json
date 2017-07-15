@@ -1,6 +1,6 @@
 {
-    "root_dir"      : "C:\\berrybrew",
-    "temp_dir"      : "C:\\berrybrew\\temp",
+    "root_dir"      : "C:\\berrybrew\\test",
+    "temp_dir"      : "C:\\berrybrew\\test\\temp",
     "debug"         : "false",
     "strawberry_url": "http://strawberryperl.com",
     "download_url"  : "http://strawberryperl.com/releases.json",
