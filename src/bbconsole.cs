@@ -3,8 +3,11 @@ using System.Linq;
 using BerryBrew;
 
 namespace BBConsole {
+
     class bbconsole {
+
         static void Main(string[] args){
+
             Berrybrew BB = new Berrybrew();
 
             if (args.Length != 0 && args[0] == "debug"){
@@ -46,9 +49,7 @@ namespace BBConsole {
                     if (args.Length != 3)
                         BB.Message.Say("clone_command_usage");
                     
-                    bool ok = BB.Clone(args[1], args[2]);
-
-                    if (! ok)
+                    if (! BB.Clone(args[1], args[2]))
                         Environment.Exit(0);
 
                     break;

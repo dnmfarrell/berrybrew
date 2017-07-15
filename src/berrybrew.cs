@@ -88,10 +88,9 @@ namespace BerryBrew {
             // messages
 
             dynamic jsonMessages = JsonParse("messages");
+
             foreach (dynamic entry in jsonMessages)
-            {
                 Message.Add(entry);
-            }
 
             // perls
             
@@ -340,6 +339,7 @@ namespace BerryBrew {
 
             if (orphans.Count > 0)
                 return true;
+
             return false;
         }
 
@@ -354,6 +354,7 @@ namespace BerryBrew {
 
             if (zipFiles.Count > 0)
                 return true;
+
             return false;
         }
 
@@ -393,12 +394,16 @@ namespace BerryBrew {
                 PerlRegisterCustomInstall(destPerlName, sourcePerl);
 
                 Console.WriteLine("\nSuccessfully installed custom perl '{0}'", destPerlName);
+
                 return true;
             }
+
             catch (System.IO.IOException err){
                 Console.WriteLine("\nClone failed due to disk I/O error... ensure the disk isn't full\n");
+
                 if (Debug)
                     Console.WriteLine(err);
+
                 return false;
             }
         }
@@ -416,6 +421,7 @@ namespace BerryBrew {
 
                     if (PathScan(new Regex("berrybrew.bin"), "machine"))
                         Message.Print("config_success");
+
                     else
                         Message.Print("config_failure");
                 }
@@ -485,6 +491,7 @@ namespace BerryBrew {
                     continue;
                 if (perl.Name.Contains("tmpl") || perl.Name.Contains("template"))
                     continue;
+
                 Exec(perl, command, sysPath);
             }
         }
@@ -533,7 +540,9 @@ namespace BerryBrew {
             }
 
             Console.WriteLine("Confirming checksum ...");
+
             using (var cryptoProvider = new SHA1CryptoServiceProvider()){
+
                 using (var stream = File.OpenRead(archivePath)){
 
                     string hash = BitConverter.ToString(cryptoProvider.ComputeHash(stream)).Replace("-", "").ToLower();
@@ -554,6 +563,7 @@ namespace BerryBrew {
                             else
                                 Console.WriteLine("Unable to delete " + archivePath);
                         }
+
                         Environment.Exit(0);
                     }
                 }
@@ -622,6 +632,7 @@ namespace BerryBrew {
                     }
                 }
             }
+
             catch (System.IO.FileNotFoundException err){
                 Console.WriteLine("\n{0} file can not be found in {1}", filename, jsonFile);
 
@@ -639,10 +650,13 @@ namespace BerryBrew {
 
             if (! fullList){
                 dynamic customPerlList = JsonParse("perls_custom", true);
+
                 var perlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);
                 
                 foreach (Dictionary<string, object> perl in data){
+
                     bool exists = false;
+
                     foreach (Dictionary<string, object> existingPerl in perlList){
                         exists = perl["name"].Equals(existingPerl["name"]);
                     }
@@ -704,6 +718,7 @@ namespace BerryBrew {
                 "",
                 RegistryValueOptions.DoNotExpandEnvironmentNames
             );
+
             return path;
         }
 
@@ -766,6 +781,7 @@ namespace BerryBrew {
                         return true;
                 }
             }
+
             return false;
         }
 
@@ -791,6 +807,7 @@ namespace BerryBrew {
                     IntPtr.Zero
                 );
             }
+
             catch(System.UnauthorizedAccessException err){
                 Console.WriteLine("\nAdding berrybrew to the PATH requires Administrator privilege");
                 if (Debug)
@@ -846,6 +863,7 @@ namespace BerryBrew {
                     orphans.Add(dirBaseName);
                 }
             }
+
             return orphans;
         }
 
@@ -887,6 +905,7 @@ namespace BerryBrew {
                 foreach (StrawberryPerl perl in perls)
                     this.Perls.Add(perl.Name, perl);
             }
+
             return perls;
         }
 
@@ -919,6 +938,7 @@ namespace BerryBrew {
 
                 return true;
             }
+
             return false;
         }
         
@@ -930,6 +950,7 @@ namespace BerryBrew {
                 if (PerlIsInstalled(perl))
                     PerlsInstalled.Add(perl);
             }
+
             return PerlsInstalled;
         }
 
@@ -1028,6 +1049,7 @@ namespace BerryBrew {
                 if (perl.Name == version)
                     return perl;
             }
+
             throw new ArgumentException("Unknown version: " + version);
         }
 
@@ -1037,14 +1059,21 @@ namespace BerryBrew {
                 StrawberryPerl perl = PerlResolveVersion(switchToVersion);
 
                 if (! PerlIsInstalled(perl)){
-                    Console.WriteLine("Perl version " + perl.Name + " is not installed. Run the command:\n\n\tberrybrew install " + perl.Name);
+                    Console.WriteLine(
+                            "Perl version {0} is not installed. Run the command:\n\n\tberrybrew install",
+                            perl.Name, 
+                            perl.Name
+                    );
                     Environment.Exit(0);
                 }
 
                 PathRemovePerl();
                 PathAddPerl(perl);
 
-                Console.WriteLine("Switched to " + switchToVersion + ", start a new terminal to use it.");
+                Console.WriteLine(
+                        "Switched to {0}, start a new terminal to use it.", 
+                        switchToVersion
+                );
             }
             catch (ArgumentException){
                 Message.Print("perl_unknown_version");
@@ -1060,7 +1089,7 @@ namespace BerryBrew {
 
         public string Version(){
 
-            return @"1.13";
+            return @"1.14";
         }
 
         internal Process ProcessCreate(string cmd, bool hidden=true){
