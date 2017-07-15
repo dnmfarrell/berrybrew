@@ -117,7 +117,7 @@ namespace BerryBrew {
 
                 string jsonData = null;
 
-                try { 
+                try {
                     jsonData = client.DownloadString(this.downloadURL);
                 }
 
@@ -215,6 +215,7 @@ namespace BerryBrew {
                             data.Add(perlInstance);
 
                             Dictionary<string, object> pdlInstance = new Dictionary<string, object>();
+
                             if (release.edition.pdl != null){
                                 string pdlVersion = bbVersion + "_" + "PDL";
                                 pdlInstance.Add("name", pdlVersion);
@@ -343,11 +344,12 @@ namespace BerryBrew {
         }
 
         internal bool CleanTemp(){
+            System.IO.DirectoryInfo archiveDir = new DirectoryInfo(archivePath);
             FilesystemResetAttributes(archiveDir.FullName);
 
             List<FileInfo> zipFiles = archiveDir.GetFiles().ToList();
 
-            foreach (FileInfo file in zipFiles) 
+            foreach (FileInfo file in zipFiles)
                 file.Delete();
 
             if (zipFiles.Count > 0)
@@ -421,8 +423,11 @@ namespace BerryBrew {
             else
                 Message.Print("config_complete");
         }
+
         internal void Exec(StrawberryPerl perl, string command, string sysPath){
+
             Console.WriteLine("Perl-" + perl.Name + "\n==============");
+
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -452,7 +457,7 @@ namespace BerryBrew {
             List<StrawberryPerl> execWith = new List<StrawberryPerl>();
             string command;
 
-            if (parameters.StartsWith("--with")){ 
+            if (parameters.StartsWith("--with")){
 
                 string paramList = Regex.Replace(parameters, @"--with\s+", "");
 
@@ -612,7 +617,7 @@ namespace BerryBrew {
                         Console.WriteLine("\n{0} file is malformed. See berrybrew_error.txt in this directory for details.", jsonFile);
                         using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"berrybrew_error.txt", true))
                             file.WriteLine(error);
-                        
+
                         Environment.Exit(0);
                     }
                 }
@@ -635,7 +640,7 @@ namespace BerryBrew {
             if (! fullList){
                 dynamic customPerlList = JsonParse("perls_custom", true);
                 var perlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);
-                
+
                 foreach (Dictionary<string, object> perl in data){
                     bool exists = false;
                     foreach (Dictionary<string, object> existingPerl in perlList){
@@ -803,7 +808,7 @@ namespace BerryBrew {
 
                 return perl.ArchivePath + @"\" + perl.File;
             }
-            
+
             catch (UnauthorizedAccessException){
                 Console.WriteLine("Error, do not have permissions to create directory: " + perl.ArchivePath);
             }
@@ -877,6 +882,7 @@ namespace BerryBrew {
                     )
                 );
             }
+
             if (importIntoObject){
                 foreach (StrawberryPerl perl in perls)
                     this.Perls.Add(perl.Name, perl);
@@ -915,7 +921,9 @@ namespace BerryBrew {
             }
             return false;
         }
+
         internal List<StrawberryPerl> PerlsInstalled(){
+
             List<StrawberryPerl> PerlsInstalled = new List<StrawberryPerl>();
 
             foreach (StrawberryPerl perl in Perls.Values){
@@ -992,7 +1000,7 @@ namespace BerryBrew {
                 Console.WriteLine("installation directory '" + perlName + "' does not exist");
                 Environment.Exit(0);
             }
-            
+
             if (! File.Exists(this.rootPath + perlName + @"\perl\bin\perl.exe")){
                 Console.WriteLine("{0} is not a valid Perl installation", perlName);
                 Environment.Exit(0);
@@ -1132,11 +1140,9 @@ Console.WriteLine("DEBUG: " + startInfo.Arguments );
             }
         }
 
-
         public string Version(){
 
             return @"1.13";
-
         }
 
         internal Process ProcessCreate(string cmd, bool hidden=true){
@@ -1196,22 +1202,22 @@ Console.WriteLine("DEBUG: " + startInfo.Arguments );
 
             if (error){
                 Console.WriteLine("\n\nError upgrading berrybrew:\n");
-                
+
                 foreach (string line in errorReport)
                     Console.WriteLine(line);
-                
+
                 Environment.Exit(0);
             }
 
             string[] bakFiles = System.IO.Directory.GetFiles(backupDir);
-            
+
             foreach (string s in bakFiles){
                 string fileName = System.IO.Path.GetFileName(s);
 
                 if (!fileName.Equals(@"perls_custom.json")){
                     if (Debug)
                         Console.WriteLine("Not restoring the '{0}' config file.", fileName);
-                    
+
                     continue;
                 }
 
@@ -1241,11 +1247,12 @@ Console.WriteLine("DEBUG: " + startInfo.Arguments );
 
             foreach (string line in json.content)
                 content += String.Format("{0}\n", line);
-            
+
             this.msgMap.Add(json.label.ToString(), content);
         }
-      
+
         public void Print(string label){
+
             string msg = this.Get(label);
             Console.WriteLine(msg);
         }
