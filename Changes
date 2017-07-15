@@ -8,7 +8,7 @@ Revision history for berrybrew
         - correct markdown formatting in Configuration doc (closes #73)
         - small README correction (closes #71)
         - added new "register" command, provides ability to register perl
-          installs that happened outside of berrybrew
+          installs that happened outside of berrybrew (closes #70)
            
 1.12    2017-03-31
         - fix local links in the markdown in the documentation

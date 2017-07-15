@@ -11,7 +11,7 @@ use Win32::TieRegistry;
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
 my $customfile = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/data/perls_custom.json" : 'c:/repos/berrybrew/build/data/perls_custom.json';
 
-my $dir = 'c:\\berrybrew\\';
+my $dir = 'c:\\berrybrew\\test';
 my $o;
 
 mkdir "$dir/empty" or die $!;
@@ -20,11 +20,13 @@ is -d "$dir/empty", 1, "created empty installation dir ok";
 $o = `$c register empty`;
 like $o, qr/empty is not a valid Perl installation/, "no registration if a perl binary not found";
 
+
 rmdir "$dir/empty" or die $!;
 is -d "$dir/empty", undef, "removed empty instance ok";
 
 $o = `$c register not_exist`;
 like $o, qr/installation directory.*does not exist/, "won't register if dir doesn't exist ok";
+
 
 my @avail = BB::get_avail();
 my @installed = BB::get_installed();
