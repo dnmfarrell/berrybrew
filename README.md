@@ -46,7 +46,7 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 11e32321205c5afb0f0c715e30b57562bc90327a`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 8fa34f158e63445bb970f10e1722aaeb1974590f`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
@@ -70,6 +70,7 @@ will reside.
         clone       Clones an installed version to a custom-named one
         fetch       Upgrade the list of Strawberry Perl instances available
         install     Download, extract and install a Strawberry Perl
+        register    Manually register a custom installation directory
         remove      Uninstall a Strawberry Perl
         switch      Switch to use a different Strawberry Perl
         off         Disable berrybrew perls (use 'switch' to re-enable)
@@ -85,10 +86,6 @@ will reside.
 ## Synopsis
 
 List all available versions of Perl that are available:
-    
-    > berrybrew available
-
-    The following Strawberry Perls are available:
     
     > berrybrew available
 
@@ -145,6 +142,10 @@ Uninstall a version of perl:
     > berrybrew remove 5.24.1_64
 
     Successfully removed Strawberry Perl 5.24.1_64
+
+Manually register a custom directory within the Perl installation directory
+
+    > berrybrew register my_custom_install
 
 Disable berrybrew entirely, and return to system Perl (Strawberry or 
 ActiveState), if available (re-enable with 'switch'):
@@ -345,7 +346,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.12
+    1.13
 
 ## Original Author
 

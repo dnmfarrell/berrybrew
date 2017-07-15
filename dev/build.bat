@@ -21,6 +21,5 @@ call mcs^
     -out:build/berrybrew.exe^
     src\bbconsole.cs
 
-rem copy bin\Ionic.Zip.dll build\               & rem [pryrt] Ionic* no longer exists
 copy bin\ICSharpCode.SharpZipLib.dll build\     & rem [pryrt] but ICSharpCode* _is_ needed
 copy bin\Newtonsoft.Json.dll build\

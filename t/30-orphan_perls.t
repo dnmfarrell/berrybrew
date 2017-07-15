@@ -5,7 +5,7 @@ use Test::More;
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
 
-my $dir = 'c:/berrybrew/test';
+my $dir = 'c:/berrybrew/test/';
 
 {
     my @perls = qw(5.99.0 5.005_32);
