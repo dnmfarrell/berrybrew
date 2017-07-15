@@ -11,7 +11,6 @@ namespace BBConsole {
                 BB.Debug = true;
                 args = args.Skip(1).ToArray();
             }
-            
             if (BB.Debug){
                 Console.WriteLine("\nberrybrew debugging enabled...\n");
                 Console.WriteLine(
@@ -62,7 +61,7 @@ namespace BBConsole {
                         BB.Message.Say("exec_command_required");
                     
                     args[0] = "";
-                    
+
                     if (args[1] == "-h" || args[1] == "help")
                         BB.Message.Say("subcmd.exec");
                     
@@ -129,6 +128,14 @@ namespace BBConsole {
                     BB.Upgrade();
                     break;
 
+                case "use":                                         // pryrt added
+                    if (args.Length == 1)
+                    {
+                        BB.Message.Say("switch_ver_required");      // TODO = make a separate message
+                    }
+                    BB.UseCompile(args[1]);
+                    break;
+
                 case "version":
                     Console.WriteLine(BB.Version());
                     break;
@@ -137,6 +144,6 @@ namespace BBConsole {
                     BB.Message.Say("help");
                     break;
             }
-        } 
+        }
     }
 }
