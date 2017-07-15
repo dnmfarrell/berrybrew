@@ -1,4 +1,4 @@
-#Contributing to berrybrew
+# Contributing to berrybrew
 
 Bug/issue reporting via Github are very welcomed!
 
@@ -24,4 +24,4 @@ What we don't do:
 - update the `Changes` file
 - commit locally required changes to the `.gitignore` file
 
-&copy; 2016 by Steve Bertrand
+&copy; 2017 by Steve Bertrand

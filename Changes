@@ -1,5 +1,20 @@
 Revision history for berrybrew
 
+1.13    2017-07-15
+        - updated license information (closes #75)
+        - updated perls_available.json to include 5.26
+        - we now remove the "test" directory after all tests complete
+          (closes #76)
+        - correct markdown formatting in Configuration doc (closes #73)
+        - small README correction (closes #71)
+        - added new "register" command, provides ability to register perl
+          installs that happened outside of berrybrew (closes #70)
+        - add check to ensure we don't duplicate custom registrations
+        - massive unit test framework upgrade (thanks pryrt!). There's still
+          more work to be done here, but it's already much better
+        - changed the bracing syntax. I dislike the opening brace on a separate
+          line
+                      
 1.12    2017-03-31
         - fix local links in the markdown in the documentation
         - added "berrybrew fetch" (PerlUpdateAvailableList()). This function
