@@ -1,10 +1,10 @@
-##berrybrew Configuration
+## berrybrew Configuration
 
 - [Global config](#global-config)
 - [Messages config](#messages-config)
 - [Perls available config](#perl-config)
 
-####Global Config
+#### Global Config
 
 Handles application wide configuration.
 
@@ -14,7 +14,7 @@ File location:
 
 Available options:
 
-######root_dir
+###### root_dir
 
 Directory where we'll house all of your Perl installations. 
 
@@ -22,7 +22,7 @@ Default: `C:\berrybrew`
 
 Values: Any directory accessible on the system.
 
-######temp_dir
+###### temp_dir
 
 Directory where we store the Perl installation zip files.
 
@@ -30,7 +30,7 @@ Default: `C:\berrybrew\temp`
 
 Values: Any directory accessible on the system.
 
-######debug
+###### debug
 
 Enables debugging output.
 
@@ -38,19 +38,19 @@ Default: `false`
 
 Values: "true" or "false"
 
-######strawberry_url
+###### strawberry_url
 
 Link to the Strawberry Perl website.
 
 Default: `http://strawberryperl.com`
 
-######download_url
+###### download_url
 
 Link to the Strawberry Perl instance release JSON file.
 
 Default: `http://strawberryperl.com/releases.json`
 
-######custom_exec
+###### custom_exec
 
 Include custom (cloned) instances when using `berrybrew exec`.
 
@@ -58,7 +58,7 @@ Default: `false`
 
 Values:  "true", "false"
 
-####Messages Config
+#### Messages Config
 
 Maps `STDOUT` message labels to their corresponding content. This configuration file is used by the `Message` class.
 
@@ -84,7 +84,7 @@ The format of the file is as follows:
         }
     }
 
-####Perl Config
+#### Perl Config
 
 Contains information on all Perls we have available.
 
