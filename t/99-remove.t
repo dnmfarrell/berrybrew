@@ -27,7 +27,7 @@ for (@installed){
 
 is @installed, 0, "all perls removed";
 
-rmtree $dir or die $!;
+rmtree $dir;
 is -d $dir, undef, "$dir directory removed ok";
 
 done_testing();

@@ -136,6 +136,10 @@ Usage:  `berrybrew register <directory>`
 Registers a custom installation within the Perl instance directory that was
 placed there outside of `berrybrew`.
 
+This allows you to copy in other portable Strawberry Perl instances from
+elsewhere on your system, or from remote systems and have them operate under
+the `berrybrew` umbrella.
+
 ##### remove
 
 Usage:  `berrybrew remove <version>`

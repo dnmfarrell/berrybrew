@@ -12,6 +12,14 @@ my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berr
 my $customfile = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/data/perls_custom.json" : 'c:/repos/berrybrew/build/data/perls_custom.json';
 
 my $dir = 'c:\\berrybrew\\test';
+
+if (! -d $dir){
+    mkdir $dir or die $!;
+    is -d $dir, 1, "created test dir ok";
+}
+
+unlink $customfile or die $! if -f $customfile;
+
 my $o;
 
 mkdir "$dir/empty" or die $!;
@@ -53,5 +61,20 @@ $o = `$c remove valid`;
 
 is -d "$dir/valid", undef, "test valid instance dir removed ok";
 like $o, qr/Successfully removed/, "successfully unregistered test instance";
+
+make_path "$dir/dup/perl/bin" or die $!;
+is -d "$dir/dup/perl/bin", 1, "created dup test dir ok";
+
+note "\nCopying $dir/$installed[-1] to $dir/dup\n";
+copy "$dir/$installed[-1]/perl/bin/perl.exe", "$dir/dup/perl/bin";
+is -f "$dir/dup/perl/bin/perl.exe", 1, "test 'dup' directory created ok";
+
+`$c register dup`;
+
+$o = `$c available`;
+like $o, qr/dup.*\[custom/, "registered a valid instance ok";
+
+$o = `$c register dup`;
+like $o, qr/dup instance is already registered/, "don't duplicate registration ok";
 
 done_testing();
