@@ -1114,17 +1114,20 @@ Console.WriteLine("DEBUG: UseInNewWindow()");
 
                 List<String> newPath;
                 newPath = perl.Paths;
-                newPath.Add(sysPath);
+Console.WriteLine("newPath      = \n\t" + String.Join("\n\t", newPath) + "\n");
+Console.WriteLine("sysPath      = " + sysPath + "\n");
+Console.WriteLine("expandedPath = " + Environment.ExpandEnvironmentVariables(sysPath) + "\n");
+                newPath.Add(Environment.ExpandEnvironmentVariables(sysPath));
 // TODO = add in the UserPath as well...
 // TODO = change title of window
 //      https://stackoverflow.com/questions/15988917/how-can-i-set-the-window-text-of-an-application-using-net-process-start
 //      https://stackoverflow.com/questions/1016823/c-sharp-how-can-i-rename-a-process-window-that-i-started
 
-Console.WriteLine("DEBUG: " + String.Join(";", newPath));
-                System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
+Console.WriteLine("DEBUG: " + Environment.ExpandEnvironmentVariables(String.Join(";", newPath)) + "\n");
+                System.Environment.SetEnvironmentVariable("PATH", Environment.ExpandEnvironmentVariables(String.Join(";", newPath)));
 
                 startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/k";
+                startInfo.Arguments = "/k TITLE Use Perl-" + perl.Name;
 Console.WriteLine("DEBUG: " + startInfo.FileName );
 Console.WriteLine("DEBUG: " + startInfo.Arguments );
                 process.StartInfo = startInfo;
