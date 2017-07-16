@@ -707,6 +707,17 @@ namespace BerryBrew {
             return path;
         }
 
+        internal static string PathGetUsr(){
+
+            string keyName = @"Environment\";
+            string path = (string)Registry.CurrentUser.OpenSubKey(keyName).GetValue(
+                "PATH",
+                "",
+                RegistryValueOptions.DoNotExpandEnvironmentNames
+            );
+            return path;
+        }
+
         internal void PathRemoveBerrybrew(){
 
             string path = PathGet();
@@ -1079,20 +1090,16 @@ namespace BerryBrew {
             }
 
             string sysPath = PathRemovePerl(false);
+            string usrPath = PathGetUsr();
 
             foreach (StrawberryPerl perl in useWith)
             {
                 Console.Write("DEBUG: Use:\"" + perl.Name + "\"\n");
-
-                if (perl.Name.Contains("tmpl") || perl.Name.Contains("template"))
-                    continue;
-
-                UseInNewWindow(perl, sysPath);
+                UseInNewWindow(perl, sysPath, usrPath);
             }
         }
 
-        internal void UseInNewWindow(StrawberryPerl perl, string sysPath)
-        {
+        internal void UseInNewWindow(StrawberryPerl perl, string sysPath, string usrPath){
 Console.WriteLine("DEBUG: UseInNewWindow()");
             Console.WriteLine("Perl-" + perl.Name + "\n==============");
             try {
@@ -1103,13 +1110,14 @@ Console.WriteLine("DEBUG: UseInNewWindow()");
                 List<String> newPath;
                 newPath = perl.Paths;
                 newPath.AddRange(Environment.ExpandEnvironmentVariables(sysPath).Split(';').ToList());
-// TODO = add in the UserPath as well...
+                newPath.AddRange(Environment.ExpandEnvironmentVariables(usrPath).Split(';').ToList());
 
 Console.WriteLine("DEBUG: newPath = \n\t" + Environment.ExpandEnvironmentVariables(String.Join("\n\t", newPath)) + "\n");
-                System.Environment.SetEnvironmentVariable("PATH", Environment.ExpandEnvironmentVariables(String.Join(";", newPath)));
+
+                System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
 
                 string prompt = Environment.GetEnvironmentVariable("PROMPT");
-                Environment.SetEnvironmentVariable("PROMPT", "Perl-"+perl.Name+"$_"+prompt);
+                Environment.SetEnvironmentVariable("PROMPT", "Use Perl-"+perl.Name+"$_"+prompt);
 
                 startInfo.FileName = "cmd.exe";
                 startInfo.Arguments = "/k TITLE Use Perl-" + perl.Name;
