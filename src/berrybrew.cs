@@ -1083,27 +1083,15 @@ namespace BerryBrew {
             foreach (StrawberryPerl perl in useWith)
             {
                 Console.Write("DEBUG: Use:\"" + perl.Name + "\"\n");
-                //ExecCompile didn't allow Custom perls without a flag, but there's no reason to avoid
-                //  Custom perls during 'berrybrew use'
-                //if (perl.Custom && ! this.customExec)
-                //    continue;
 
-                // ExecCompile didn't allow templates, so I'll leave that exclusing for UseVersion() for now
                 if (perl.Name.Contains("tmpl") || perl.Name.Contains("template"))
                     continue;
 
-                // ExecCompile used Exec() to actually run the command...
-                //  TODO = see whether I can make use of the same function, or if I need a separate SpawnCommandWindowWithPerlVersion()
-                //Exec(perl, command, sysPath);
-                //  ... but for now, just print out a message
-                Console.Write("==== berrybrew use " + perl.Name + " ====\n");
-                Console.Write("sysPath = " + sysPath + "\n");
-                Exec(perl, "perl -le \"$|++; print 'hello world: same window'; <STDIN>\"", sysPath);
-                UseInNewWindow(perl, "perl -le \"$|++; print 'hello world: new window'; <STDIN>\"", sysPath);
+                UseInNewWindow(perl, sysPath);
             }
         }
 
-        internal void UseInNewWindow(StrawberryPerl perl, string command, string sysPath)
+        internal void UseInNewWindow(StrawberryPerl perl, string sysPath)
         {
 Console.WriteLine("DEBUG: UseInNewWindow()");
             Console.WriteLine("Perl-" + perl.Name + "\n==============");
@@ -1114,17 +1102,14 @@ Console.WriteLine("DEBUG: UseInNewWindow()");
 
                 List<String> newPath;
                 newPath = perl.Paths;
-Console.WriteLine("newPath      = \n\t" + String.Join("\n\t", newPath) + "\n");
-Console.WriteLine("sysPath      = " + sysPath + "\n");
-Console.WriteLine("expandedPath = " + Environment.ExpandEnvironmentVariables(sysPath) + "\n");
-                newPath.Add(Environment.ExpandEnvironmentVariables(sysPath));
+                newPath.AddRange(Environment.ExpandEnvironmentVariables(sysPath).Split(';').ToList());
 // TODO = add in the UserPath as well...
-// TODO = change title of window
-//      https://stackoverflow.com/questions/15988917/how-can-i-set-the-window-text-of-an-application-using-net-process-start
-//      https://stackoverflow.com/questions/1016823/c-sharp-how-can-i-rename-a-process-window-that-i-started
 
-Console.WriteLine("DEBUG: " + Environment.ExpandEnvironmentVariables(String.Join(";", newPath)) + "\n");
+Console.WriteLine("DEBUG: newPath = \n\t" + Environment.ExpandEnvironmentVariables(String.Join("\n\t", newPath)) + "\n");
                 System.Environment.SetEnvironmentVariable("PATH", Environment.ExpandEnvironmentVariables(String.Join(";", newPath)));
+
+                string prompt = Environment.GetEnvironmentVariable("PROMPT");
+                Environment.SetEnvironmentVariable("PROMPT", "Perl-"+perl.Name+"$_"+prompt);
 
                 startInfo.FileName = "cmd.exe";
                 startInfo.Arguments = "/k TITLE Use Perl-" + perl.Name;
