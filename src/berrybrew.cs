@@ -1095,6 +1095,7 @@ namespace BerryBrew {
             foreach (StrawberryPerl perl in useWith)
             {
                 Console.Write("DEBUG: Use:\"" + perl.Name + "\"\n");
+                UseInSameWindow(perl, sysPath, usrPath);
                 UseInNewWindow(perl, sysPath, usrPath);
             }
         }
@@ -1129,9 +1130,58 @@ Console.WriteLine("DEBUG: " + startInfo.Arguments );
                 //process.StartInfo.UseShellExecute = true;
                 process.StartInfo.CreateNoWindow = false;
                 process.Start();
+                Environment.SetEnvironmentVariable("PROMPT", prompt);   // reset before moving on
             }
-            catch(Exception objException)
-            {
+            catch(Exception objException) {
+                Console.WriteLine(objException);
+            }
+        }
+
+        internal void UseInSameWindow(StrawberryPerl perl, string sysPath, string usrPath){
+Console.WriteLine("DEBUG: UseInSameWindow()");
+            Console.WriteLine("Perl-" + perl.Name + "\n==============");
+            try {
+                Process process = new Process();
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
+                List<String> newPath;
+                newPath = perl.Paths;
+                newPath.AddRange(Environment.ExpandEnvironmentVariables(sysPath).Split(';').ToList());
+                newPath.AddRange(Environment.ExpandEnvironmentVariables(usrPath).Split(';').ToList());
+
+Console.WriteLine("DEBUG: newPath = \n\t" + Environment.ExpandEnvironmentVariables(String.Join("\n\t", newPath)) + "\n");
+
+                System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
+
+                string prompt = Environment.GetEnvironmentVariable("PROMPT");
+                Environment.SetEnvironmentVariable("PROMPT", "Use Perl-"+perl.Name+" Inline: exit /r to exit$_"+prompt);
+
+                startInfo.FileName = "cmd.exe";
+                startInfo.Arguments = "TITLE Use Perl-" + perl.Name + " cmd.exe /c";
+Console.WriteLine("DEBUG: " + startInfo.FileName );
+Console.WriteLine("DEBUG: " + startInfo.Arguments );
+                process.StartInfo = startInfo;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.UseShellExecute = false;
+                //process.StartInfo.CreateNoWindow = true;
+                process.Start();
+
+                // TODO = investigate https://stackoverflow.com/questions/3308500/run-interactive-command-line-exe-using-c-sharp
+
+/*                 while( !process.StandardOutput.EndOfStream || !process.StandardError.EndOfStream ) {
+                    if(!process.StandardOutput.EndOfStream) Console.WriteLine(process.StandardOutput.ReadLine());
+                    if(!process.StandardError.EndOfStream) Console.WriteLine(process.StandardError.ReadLine());
+                }
+ */
+                Console.WriteLine(process.StandardOutput.ReadToEnd());
+                Console.WriteLine(process.StandardError.ReadToEnd());
+                process.WaitForExit();
+
+                Environment.SetEnvironmentVariable("PROMPT", prompt);   // reset before moving on
+            }
+            catch(Exception objException) {
                 Console.WriteLine(objException);
             }
         }
