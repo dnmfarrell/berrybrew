@@ -1070,20 +1070,17 @@ namespace BerryBrew {
         }
 
         public void UseCompile(string usePerlStr){
-            Console.Write("DEBUG: UseVersion(\""+usePerlStr+"\")\n");
             // pryrt: derived from ExecCompile(), but only have one argument (the list of perls) rather than many
             List<StrawberryPerl> perlsInstalled = PerlsInstalled();
             List<StrawberryPerl> useWith = new List<StrawberryPerl>();
 
             string[] perls = usePerlStr.Split(',');
-            Console.Write("DEBUG: split complete\n");
 
             // if it's in perls[] and in perlsInstalled[], then put it in useWith[]
             foreach (StrawberryPerl perl in perlsInstalled)
             {
                 foreach (string perlName in perls)
                 {
-                    Console.Write("DEBUG: Comparing installed:\"" + perl.Name + "\" to use:\"" + perlName + "\"\n");
                     if (perlName.Equals(perl.Name))
                         useWith.Add(perl);
                 }
@@ -1094,15 +1091,13 @@ namespace BerryBrew {
 
             foreach (StrawberryPerl perl in useWith)
             {
-                Console.Write("DEBUG: Use:\"" + perl.Name + "\"\n");
-                UseInSameWindow(perl, sysPath, usrPath);
+                // TODO = select between SameWindow and NewWindow using command-line option
+                //UseInSameWindow(perl, sysPath, usrPath);
                 UseInNewWindow(perl, sysPath, usrPath);
             }
         }
 
         internal void UseInNewWindow(StrawberryPerl perl, string sysPath, string usrPath){
-Console.WriteLine("DEBUG: UseInNewWindow()");
-            Console.WriteLine("Perl-" + perl.Name + "\n==============");
             try {
                 Process process = new Process();
                 ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -1112,25 +1107,21 @@ Console.WriteLine("DEBUG: UseInNewWindow()");
                 newPath = perl.Paths;
                 newPath.AddRange(Environment.ExpandEnvironmentVariables(sysPath).Split(';').ToList());
                 newPath.AddRange(Environment.ExpandEnvironmentVariables(usrPath).Split(';').ToList());
-
-Console.WriteLine("DEBUG: newPath = \n\t" + Environment.ExpandEnvironmentVariables(String.Join("\n\t", newPath)) + "\n");
-
                 System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
 
                 string prompt = Environment.GetEnvironmentVariable("PROMPT");
-                Environment.SetEnvironmentVariable("PROMPT", "Use Perl-"+perl.Name+"$_"+prompt);
+                Environment.SetEnvironmentVariable("PROMPT", "$Lberrybrew use Perl-" + perl.Name + "$G" + "$_" + prompt);
 
                 startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/k TITLE Use Perl-" + perl.Name;
-Console.WriteLine("DEBUG: " + startInfo.FileName );
-Console.WriteLine("DEBUG: " + startInfo.Arguments );
+                startInfo.Arguments = "/k TITLE berrybrew use Perl-" + perl.Name;
                 process.StartInfo = startInfo;
                 process.StartInfo.RedirectStandardOutput = false;
                 process.StartInfo.RedirectStandardError = false;
-                //process.StartInfo.UseShellExecute = true;
                 process.StartInfo.CreateNoWindow = false;
                 process.Start();
                 Environment.SetEnvironmentVariable("PROMPT", prompt);   // reset before moving on
+                Console.WriteLine("berrybrew use " + perl.Name + ": spawned in new command-window, with PID=" + process.Id);
+                // possible test syntax: (build\berrybrew use 5.12,5.12.3_32) | perl -e "@pid = grep s/^^berrybrew use.*: spawned in new command-window, with PID=(\d+)\s*$/$1/, <STDIN>; sleep(2); print $_,$/ for @pid; sleep(2); kill 9, $_ for @pid"
             }
             catch(Exception objException) {
                 Console.WriteLine(objException);
@@ -1142,8 +1133,7 @@ Console.WriteLine("DEBUG: UseInSameWindow()");
             Console.WriteLine("Perl-" + perl.Name + "\n==============");
             try {
                 Process process = new Process();
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
                 List<String> newPath;
                 newPath = perl.Paths;
@@ -1155,31 +1145,28 @@ Console.WriteLine("DEBUG: newPath = \n\t" + Environment.ExpandEnvironmentVariabl
                 System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
 
                 string prompt = Environment.GetEnvironmentVariable("PROMPT");
-                Environment.SetEnvironmentVariable("PROMPT", "Use Perl-"+perl.Name+" Inline: exit /r to exit$_"+prompt);
+                Environment.SetEnvironmentVariable("PROMPT", "$_" + "$Lberrybrew use " + perl.Name + "$G: run \"exit\" leave this environment$_"+prompt);
 
-                startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "TITLE Use Perl-" + perl.Name + " cmd.exe /c";
-Console.WriteLine("DEBUG: " + startInfo.FileName );
-Console.WriteLine("DEBUG: " + startInfo.Arguments );
-                process.StartInfo = startInfo;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.FileName = "cmd.exe";
+Console.WriteLine("DEBUG: " + process.StartInfo.FileName + " " + process.StartInfo.Arguments );
+                process.StartInfo.RedirectStandardOutput = false;
+                process.StartInfo.RedirectStandardError = false;
                 process.StartInfo.UseShellExecute = false;
                 //process.StartInfo.CreateNoWindow = true;
                 process.Start();
 
-                // TODO = investigate https://stackoverflow.com/questions/3308500/run-interactive-command-line-exe-using-c-sharp
 
 /*                 while( !process.StandardOutput.EndOfStream || !process.StandardError.EndOfStream ) {
                     if(!process.StandardOutput.EndOfStream) Console.WriteLine(process.StandardOutput.ReadLine());
                     if(!process.StandardError.EndOfStream) Console.WriteLine(process.StandardError.ReadLine());
                 }
  */
-                Console.WriteLine(process.StandardOutput.ReadToEnd());
-                Console.WriteLine(process.StandardError.ReadToEnd());
+                //Console.WriteLine(process.StandardOutput.ReadToEnd());
+                //Console.WriteLine(process.StandardError.ReadToEnd());
                 process.WaitForExit();
 
                 Environment.SetEnvironmentVariable("PROMPT", prompt);   // reset before moving on
+                Console.WriteLine("\nExiting <berrybrew use " + perl.Name + ">\n");
             }
             catch(Exception objException) {
                 Console.WriteLine(objException);
