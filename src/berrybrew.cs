@@ -1069,7 +1069,7 @@ namespace BerryBrew {
             Message.Print("unconfig");
         }
 
-        public void UseCompile(string usePerlStr){
+        public void UseCompile(string usePerlStr, bool newWindow = false){
             // pryrt: derived from ExecCompile(), but only have one argument (the list of perls) rather than many
             List<StrawberryPerl> perlsInstalled = PerlsInstalled();
             List<StrawberryPerl> useWith = new List<StrawberryPerl>();
@@ -1091,9 +1091,10 @@ namespace BerryBrew {
 
             foreach (StrawberryPerl perl in useWith)
             {
-                // TODO = select between SameWindow and NewWindow using command-line option
-                //UseInSameWindow(perl, sysPath, usrPath);
-                UseInNewWindow(perl, sysPath, usrPath);
+                if (newWindow)
+                    UseInNewWindow(perl, sysPath, usrPath);
+                else
+                    UseInSameWindow(perl, sysPath, usrPath);
             }
         }
 
@@ -1120,7 +1121,11 @@ namespace BerryBrew {
                 process.StartInfo.CreateNoWindow = false;
                 process.Start();
                 Environment.SetEnvironmentVariable("PROMPT", prompt);   // reset before moving on
-                Console.WriteLine("berrybrew use " + perl.Name + ": spawned in new command-window, with PID=" + process.Id);
+                string spawned = "berrybrew use " + perl.Name + ": spawned in new command window";
+                if( null != Environment.GetEnvironmentVariable("BBTEST_SHOW_PID") ) {
+                    spawned += ", with PID=" + process.Id;
+                }
+                Console.WriteLine(spawned);
                 // possible test syntax: (build\berrybrew use 5.12,5.12.3_32) | perl -e "@pid = grep s/^^berrybrew use.*: spawned in new command-window, with PID=(\d+)\s*$/$1/, <STDIN>; sleep(2); print $_,$/ for @pid; sleep(2); kill 9, $_ for @pid"
             }
             catch(Exception objException) {
