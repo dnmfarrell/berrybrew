@@ -1134,7 +1134,6 @@ namespace BerryBrew {
         }
 
         internal void UseInSameWindow(StrawberryPerl perl, string sysPath, string usrPath){
-Console.WriteLine("DEBUG: UseInSameWindow()");
             Console.WriteLine("Perl-" + perl.Name + "\n==============");
             try {
                 Process process = new Process();
@@ -1145,29 +1144,21 @@ Console.WriteLine("DEBUG: UseInSameWindow()");
                 newPath.AddRange(Environment.ExpandEnvironmentVariables(sysPath).Split(';').ToList());
                 newPath.AddRange(Environment.ExpandEnvironmentVariables(usrPath).Split(';').ToList());
 
-Console.WriteLine("DEBUG: newPath = \n\t" + Environment.ExpandEnvironmentVariables(String.Join("\n\t", newPath)) + "\n");
-
                 System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
 
                 string prompt = Environment.GetEnvironmentVariable("PROMPT");
                 Environment.SetEnvironmentVariable("PROMPT", "$_" + "$Lberrybrew use " + perl.Name + "$G: run \"exit\" leave this environment$_"+prompt);
 
                 process.StartInfo.FileName = "cmd.exe";
-Console.WriteLine("DEBUG: " + process.StartInfo.FileName + " " + process.StartInfo.Arguments );
                 process.StartInfo.RedirectStandardOutput = false;
                 process.StartInfo.RedirectStandardError = false;
                 process.StartInfo.UseShellExecute = false;
-                //process.StartInfo.CreateNoWindow = true;
                 process.Start();
 
-
-/*                 while( !process.StandardOutput.EndOfStream || !process.StandardError.EndOfStream ) {
-                    if(!process.StandardOutput.EndOfStream) Console.WriteLine(process.StandardOutput.ReadLine());
-                    if(!process.StandardError.EndOfStream) Console.WriteLine(process.StandardError.ReadLine());
+                if( null != Environment.GetEnvironmentVariable("BBTEST_SHOW_PID") ) {
+                    Console.WriteLine( "berrybrew use " + perl.Name + ": running in this command window, with PID=" + process.Id );
                 }
- */
-                //Console.WriteLine(process.StandardOutput.ReadToEnd());
-                //Console.WriteLine(process.StandardError.ReadToEnd());
+
                 process.WaitForExit();
 
                 Environment.SetEnvironmentVariable("PROMPT", prompt);   // reset before moving on
