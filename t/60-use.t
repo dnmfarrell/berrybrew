@@ -50,6 +50,9 @@ like join("\0", '', @installed = BB::get_installed(), ''), qr/\0myclone\0/, 'ver
     my $xout = join '', <$pout>;
     my $xerr = join '', <$perr>;
 
+    diag "`$name` resulted in STDERR=\"$xerr\"\n" if $xerr;
+    is $xerr, '', "$name: STDERR should be empty";
+
     my $re = qr/where perl\s*(\S*berrybrew.test.myclone.perl.bin.perl\.exe)\s*$/ims;
     like $xout, $re, $name.': found myclone berrybrew perl';
     foreach ( $xout =~ m/$re/gims ) {
@@ -82,6 +85,9 @@ like join("\0", '', @installed = BB::get_installed(), ''), qr/\0myclone\0/, 'ver
     }
     my $xout = join '', <$pout>;
     my $xerr = join '', <$perr>;
+
+    diag "`$name` resulted in STDERR=\"$xerr\"\n" if $xerr;
+    is $xerr, '', "$name: STDERR should be empty";
 
     my $re = qr/where perl\s*(\S*berrybrew.test.$cloned.perl.bin.perl\.exe)\s*$/ims;
     like $xout, $re, $name.": found berrybrew perl $cloned";
@@ -120,6 +126,9 @@ like join("\0", '', @installed = BB::get_installed(), ''), qr/\0myclone\0/, 'ver
     my $xout = join '', <$pout>;
     my $xerr = join '', <$perr>;
 
+    diag "`$name` resulted in STDERR=\"$xerr\"\n" if $xerr;
+    is $xerr, '', "$name: STDERR should be empty";
+
     my @matches = $xout =~ /: spawned in new command window, with PID=(\d+)/gims;
     is scalar @matches, 1 , "$name: spawn one window";
     my $count = 0;
@@ -149,6 +158,8 @@ like join("\0", '', @installed = BB::get_installed(), ''), qr/\0myclone\0/, 'ver
     my $xout = join '', <$pout>;
     my $xerr = join '', <$perr>;
 
+    diag "`$name` resulted in STDERR=\"$xerr\"\n" if $xerr;
+    is $xerr, '', "$name: STDERR should be empty";
 
     my @matches = $xout =~ /: spawned in new command window, with PID=(\d+)/gims;
     is scalar @matches, 2 , "$name: spawn two windows";
