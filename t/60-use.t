@@ -47,7 +47,7 @@ like join("\0", '', @installed = BB::get_installed(), ''), qr/\0myclone\0/, 'ver
         last unless $kid < 0;
         sleep(1);
     }
-    my $xout = join '', <$pout>;    #note $xout;
+    my $xout = join '', <$pout>;
     my $xerr = join '', <$perr>;
 
     my $re = qr/where perl\s*(\S*berrybrew.test.myclone.perl.bin.perl\.exe)\s*$/ims;
@@ -80,7 +80,7 @@ like join("\0", '', @installed = BB::get_installed(), ''), qr/\0myclone\0/, 'ver
         last unless $kid < 0;
         sleep(1);
     }
-    my $xout = join '', <$pout>;    #note $xout;
+    my $xout = join '', <$pout>;
     my $xerr = join '', <$perr>;
 
     my $re = qr/where perl\s*(\S*berrybrew.test.$cloned.perl.bin.perl\.exe)\s*$/ims;
@@ -100,6 +100,65 @@ like join("\0", '', @installed = BB::get_installed(), ''), qr/\0myclone\0/, 'ver
     foreach ( $xout =~ /$re/gim ) {
         note "$name: perl version: $_\n";
     }
+}
+
+{   # testing single 'berrybrew use' versions in separate window;
+    #   cannot (conveniently) send commands to the spawned window,
+    #   so just check that the parent process gets the PID when
+    #   BBTEST_SHOW_PID is set
+    my $name = "berrybrew use --win myclone";
+    local $ENV{BBTEST_SHOW_PID} = 1;
+    my $pid = open3( my $pinn, my $pout, my $perr = gensym, $c, 'use', '--win', join(',', 'myclone') );
+
+    my $t0 = time;
+    while ( (time() - $t0) < 10 ) { # wait no more than 10s
+        my $kid = waitpid($pid, WNOHANG);
+        note "waitpid($pid)=$kid";
+        last unless $kid < 0;
+        sleep(1);
+    }
+    my $xout = join '', <$pout>;
+    my $xerr = join '', <$perr>;
+
+    my @matches = $xout =~ /: spawned in new command window, with PID=(\d+)/gims;
+    is scalar @matches, 1 , "$name: spawn one window";
+    my $count = 0;
+    for(@matches) {
+        select undef, undef, undef, 0.5;       # wait a half-second before killing each window # was: sleep(1);
+        note "kill PID#$_\n";
+        $count += kill KILL => $_;
+    }
+    is $count, scalar @matches, "$name: kill one window";
+}
+
+{   # testing multiple 'berrybrew use' versions in separate windows;
+    #   cannot (conveniently) send commands to the spawned windows,
+    #   so just check that the parent process gets the PID when
+    #   BBTEST_SHOW_PID is set
+    my $name = "berrybrew use --win $cloned,myclone";
+    local $ENV{BBTEST_SHOW_PID} = 1;
+    my $pid = open3( my $pinn, my $pout, my $perr = gensym, $c, 'use', '--win', join(',', $cloned, 'myclone') );
+
+    my $t0 = time;
+    while ( (time() - $t0) < 10 ) { # wait no more than 10s
+        my $kid = waitpid($pid, WNOHANG);
+        note "waitpid($pid)=$kid";
+        last unless $kid < 0;
+        sleep(1);
+    }
+    my $xout = join '', <$pout>;
+    my $xerr = join '', <$perr>;
+
+
+    my @matches = $xout =~ /: spawned in new command window, with PID=(\d+)/gims;
+    is scalar @matches, 2 , "$name: spawn two windows";
+    my $count = 0;
+    for(@matches) {
+        select undef, undef, undef, 0.5;       # wait a half-second before killing each window # was: sleep(1);
+        note "kill PID#$_\n";
+        $count += kill KILL => $_;
+    }
+    is $count, scalar @matches, "$name: kill two windows";
 }
 
 done_testing();
