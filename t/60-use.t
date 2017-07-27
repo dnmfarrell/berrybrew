@@ -21,14 +21,17 @@ while(@installed < 1) {
     @avail = BB::get_avail();
 }
 
-if( join("\0", '', @installed = BB::get_installed(), '') !~ /\0myclone\0/ ) {
-    note "\nCloning $installed[-1] to myclone\n";
-    `$c clone $installed[-1] myclone`;
-    $cloned = $installed[-1];
-} else {
-    note "\nmyclone already exists\n";
-    $cloned = $installed[-2];   # I hope
+# get rid of 'dup' from 55-register.t, and get rid of 'myclone' from a previous run of this test
+for my $delme (qw/dup myclone/) {
+    `$c remove $delme` if( join("\0", '', BB::get_installed(), '') =~ /\0$delme\0/ );
 }
+
+
+# create a clone
+@installed = BB::get_installed();
+note "\nCloning $installed[-1] to myclone\n";
+`$c clone $installed[-1] myclone`;
+$cloned = $installed[-1];
 
 like join("\0", '', @installed = BB::get_installed(), ''), qr/\0myclone\0/, 'verifying myclone exists';
 

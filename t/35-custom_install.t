@@ -17,7 +17,7 @@ my $path;
 my @avail = BB::get_avail();
 my @installed = BB::get_installed();
 
-while(@installed < 1) {
+while(@installed < 2) {
     note "\nInstalling $avail[-1] because only " .scalar(@installed). " test perl".(@installed==1?' was':'s were')." installed\n";
     `$c install $avail[-1]`;
 
@@ -62,6 +62,7 @@ for my $base (<$fh>){
     my $path = $Registry->{$path_key};
     unlike $path, qr/^C:\\berrybrew\\test/, "PATH set ok for 'off'";
 }
+
 
 $o = `$c remove custom`;
 like $o, qr/Successfully/, "remove custom install ok";
