@@ -13,10 +13,14 @@ my @installed = BB::get_installed();
 my @avail = BB::get_avail();
 my $cloned;
 
-if (! @installed){
-    note "\nInstalling $avail[-1] because none were installed\n";
+while(@installed < 1) {
+    note "\nInstalling $avail[-1] because only " .scalar(@installed). " test perl".(@installed==1?' was':'s were')." installed\n";
     `$c install $avail[-1]`;
+
+    @installed = BB::get_installed();
+    @avail = BB::get_avail();
 }
+
 if( join("\0", '', @installed = BB::get_installed(), '') !~ /\0myclone\0/ ) {
     note "\nCloning $installed[-1] to myclone\n";
     `$c clone $installed[-1] myclone`;

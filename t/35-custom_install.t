@@ -17,10 +17,12 @@ my $path;
 my @avail = BB::get_avail();
 my @installed = BB::get_installed();
 
-if (! @installed){
-    note "\nInstalling $avail[-1] because none were installed\n";
+while(@installed < 1) {
+    note "\nInstalling $avail[-1] because only " .scalar(@installed). " test perl".(@installed==1?' was':'s were')." installed\n";
     `$c install $avail[-1]`;
-    push @installed, $avail[-1];    # [pryrt] needed, otherwise cloning $installed[-1]
+
+    @installed = BB::get_installed();
+    @avail = BB::get_avail();
 }
 
 note "\nCloning $installed[-1] to custom\n";
