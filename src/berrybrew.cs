@@ -23,13 +23,13 @@ namespace BerryBrew {
 
         [DllImport("user32.dll", SetLastError = true)]
         private static extern IntPtr SendMessageTimeout(
-            IntPtr hWnd, 
-            int Msg, 
-            IntPtr wParam, 
-            string lParam, 
-            uint fuFlags, 
-            uint uTimeout, 
-            IntPtr 
+            IntPtr hWnd,
+            int Msg,
+            IntPtr wParam,
+            string lParam,
+            uint fuFlags,
+            uint uTimeout,
+            IntPtr
             lpdwResult
         );
         private static readonly IntPtr HWND_BROADCAST = new IntPtr(0xffff);
@@ -39,7 +39,7 @@ namespace BerryBrew {
         public bool Debug { set; get; }
 
         static string assembly_path = Assembly.GetExecutingAssembly().Location;
-        static string assembly_directory = Path.GetDirectoryName(assembly_path);       
+        static string assembly_directory = Path.GetDirectoryName(assembly_path);
 
         public string binPath = assembly_directory;
         public string installPath = null;
@@ -84,7 +84,7 @@ namespace BerryBrew {
             {
                 File.WriteAllText(customPerlsFile, @"[]");
             }
-            
+
             // messages
 
             dynamic jsonMessages = JsonParse("messages");
@@ -93,7 +93,7 @@ namespace BerryBrew {
                 Message.Add(entry);
 
             // perls
-            
+
             bool installPerlsIntoSelf = true;
             PerlGenerateObjects(installPerlsIntoSelf);
         }
@@ -116,7 +116,7 @@ namespace BerryBrew {
 
                 string jsonData = null;
 
-                try { 
+                try {
                     jsonData = client.DownloadString(this.downloadURL);
                 }
 
@@ -160,7 +160,7 @@ namespace BerryBrew {
                             string version = versionString.Groups[1].Value;
                             string bits = bitString.Groups[1].Value;
                             string bbVersion = version + "_" + bits;
-                              
+
                             String[] majorVersionParts = version.Split(new[] { '.' });
                             string majorVersion = majorVersionParts[0] + "." + majorVersionParts[1];
                             string bbMajorVersion = majorVersion + "_" + bits;
@@ -183,10 +183,10 @@ namespace BerryBrew {
 
                                 if (Debug){
                                     Console.WriteLine(
-                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n", 
-                                        perlInstance["name"], 
-                                        perlInstance["file"], 
-                                        perlInstance["url"], 
+                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
+                                        perlInstance["name"],
+                                        perlInstance["file"],
+                                        perlInstance["url"],
                                         perlInstance["csum"]
                                     );
                                 }
@@ -202,19 +202,19 @@ namespace BerryBrew {
 
                                 if (Debug){
                                     Console.WriteLine(
-                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n", 
-                                        perlInstance["name"], 
-                                        perlInstance["file"], 
-                                        perlInstance["url"], 
+                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
+                                        perlInstance["name"],
+                                        perlInstance["file"],
+                                        perlInstance["url"],
                                         perlInstance["csum"]
                                     );
                                 }
                             }
-                            
+
                             data.Add(perlInstance);
 
                             Dictionary<string, object> pdlInstance = new Dictionary<string, object>();
-                            
+
                             if (release.edition.pdl != null){
                                 string pdlVersion = bbVersion + "_" + "PDL";
                                 pdlInstance.Add("name", pdlVersion);
@@ -227,10 +227,10 @@ namespace BerryBrew {
 
                                 if (Debug){
                                     Console.WriteLine(
-                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n", 
-                                        perlInstance["name"], 
-                                        perlInstance["file"], 
-                                        perlInstance["url"], 
+                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
+                                        perlInstance["name"],
+                                        perlInstance["file"],
+                                        perlInstance["url"],
                                         perlInstance["csum"]
                                     );
                                 }
@@ -250,7 +250,7 @@ namespace BerryBrew {
                     PerlRegisterCustomInstall(orphan);
                 }
             }
-        } 
+        }
 
         public void Available(){
 
@@ -274,7 +274,7 @@ namespace BerryBrew {
                     Console.Write(" [installed]");
                 if (perl.Name == currentPerl.Name)
                     Console.Write(" *");
-              
+
                 Console.Write("\n");
             }
             Message.Print("available_footer");
@@ -319,7 +319,7 @@ namespace BerryBrew {
                     else
                         Console.WriteLine("\nno archived perl installation files to remove");
                     break;
-                
+
                 case "orphan":
                     cleansed = CleanOrphan();
                     if (! cleansed)
@@ -344,12 +344,12 @@ namespace BerryBrew {
         }
 
         internal bool CleanTemp(){
-            System.IO.DirectoryInfo archiveDir = new DirectoryInfo(archivePath); 
+            System.IO.DirectoryInfo archiveDir = new DirectoryInfo(archivePath);
             FilesystemResetAttributes(archiveDir.FullName);
 
             List<FileInfo> zipFiles = archiveDir.GetFiles().ToList();
 
-            foreach (FileInfo file in zipFiles) 
+            foreach (FileInfo file in zipFiles)
                 file.Delete();
 
             if (zipFiles.Count > 0)
@@ -370,7 +370,7 @@ namespace BerryBrew {
 
             if (! src.Exists){
                 throw new DirectoryNotFoundException(
-                    "Source directory does not exist or could not be found: " 
+                    "Source directory does not exist or could not be found: "
                     + sourcePerlDir
                 );
             }
@@ -429,7 +429,7 @@ namespace BerryBrew {
             else
                 Message.Print("config_complete");
         }
-       
+
         internal void Exec(StrawberryPerl perl, string command, string sysPath){
 
             Console.WriteLine("Perl-" + perl.Name + "\n==============");
@@ -441,7 +441,7 @@ namespace BerryBrew {
             List<String> newPath;
             newPath = perl.Paths;
             newPath.Add(sysPath);
-            
+
             System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
 
             startInfo.FileName = "cmd.exe";
@@ -463,7 +463,7 @@ namespace BerryBrew {
             List<StrawberryPerl> execWith = new List<StrawberryPerl>();
             string command;
 
-            if (parameters.StartsWith("--with")){ 
+            if (parameters.StartsWith("--with")){
 
                 string paramList = Regex.Replace(parameters, @"--with\s+", "");
 
@@ -608,13 +608,13 @@ namespace BerryBrew {
         internal dynamic JsonParse(string type, bool raw=false){
 
             string filename = String.Format("{0}.json", type);
-            string jsonFile = this.confPath + filename; 
+            string jsonFile = this.confPath + filename;
 
             try {
                 using (StreamReader r = new StreamReader(jsonFile)){
 
                     string jsonData = r.ReadToEnd();
-                    
+
                     if (raw)
                         return jsonData;
 
@@ -627,7 +627,7 @@ namespace BerryBrew {
                         Console.WriteLine("\n{0} file is malformed. See berrybrew_error.txt in this directory for details.", jsonFile);
                         using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"berrybrew_error.txt", true))
                             file.WriteLine(error);
-                        
+
                         Environment.Exit(0);
                     }
                 }
@@ -652,7 +652,7 @@ namespace BerryBrew {
                 dynamic customPerlList = JsonParse("perls_custom", true);
 
                 var perlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);
-                
+
                 foreach (Dictionary<string, object> perl in data){
 
                     bool exists = false;
@@ -722,6 +722,17 @@ namespace BerryBrew {
             return path;
         }
 
+        internal static string PathGetUsr(){
+
+            string keyName = @"Environment\";
+            string path = (string)Registry.CurrentUser.OpenSubKey(keyName).GetValue(
+                "PATH",
+                "",
+                RegistryValueOptions.DoNotExpandEnvironmentNames
+            );
+            return path;
+        }
+
         internal void PathRemoveBerrybrew(){
 
             string path = PathGet();
@@ -756,7 +767,7 @@ namespace BerryBrew {
                 }
 
                 paths.RemoveAll(str => String.IsNullOrEmpty(str));
-                
+
                 if (process)
                     PathSet(paths);
             }
@@ -770,7 +781,7 @@ namespace BerryBrew {
 
             if (target == "machine")
                 envTarget = EnvironmentVariableTarget.Machine;
-            else 
+            else
                 envTarget = EnvironmentVariableTarget.User;
 
             string paths = Environment.GetEnvironmentVariable("path", envTarget);
@@ -792,18 +803,18 @@ namespace BerryBrew {
             try {
                 string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
                 Registry.LocalMachine.CreateSubKey(keyName).SetValue(
-                    "Path", 
-                    String.Join(";", path), 
+                    "Path",
+                    String.Join(";", path),
                     RegistryValueKind.ExpandString
                 );
-                
+
                 SendMessageTimeout(
-                    HWND_BROADCAST, 
-                    WM_SETTINGCHANGE, 
-                    IntPtr.Zero, 
-                    "Environment", 
-                    SMTO_ABORTIFHUNG, 
-                    100, 
+                    HWND_BROADCAST,
+                    WM_SETTINGCHANGE,
+                    IntPtr.Zero,
+                    "Environment",
+                    SMTO_ABORTIFHUNG,
+                    100,
                     IntPtr.Zero
                 );
             }
@@ -825,7 +836,7 @@ namespace BerryBrew {
 
                 return perl.ArchivePath + @"\" + perl.File;
             }
-            
+
             catch (UnauthorizedAccessException){
                 Console.WriteLine("Error, do not have permissions to create directory: " + perl.ArchivePath);
             }
@@ -835,7 +846,7 @@ namespace BerryBrew {
             do {
                 path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             } while (Directory.Exists(path));
- 
+
             Directory.CreateDirectory(path);
 
             return path + @"\" + perl.File;
@@ -900,7 +911,7 @@ namespace BerryBrew {
                     )
                 );
             }
-            
+
             if (importIntoObject){
                 foreach (StrawberryPerl perl in perls)
                     this.Perls.Add(perl.Name, perl);
@@ -941,7 +952,7 @@ namespace BerryBrew {
 
             return false;
         }
-        
+
         internal List<StrawberryPerl> PerlsInstalled(){
 
             List<StrawberryPerl> PerlsInstalled = new List<StrawberryPerl>();
@@ -1000,7 +1011,7 @@ namespace BerryBrew {
 
             catch (ArgumentException err){
                 Message.Print("perl_unknown_version");
-                
+
                 if (Debug)
                     Console.WriteLine(err);
 
@@ -1021,14 +1032,14 @@ namespace BerryBrew {
                 Console.WriteLine("installation directory '" + perlName + "' does not exist");
                 Environment.Exit(0);
             }
-            
+
             if (! File.Exists(this.rootPath + perlName + @"\perl\bin\perl.exe")){
                 Console.WriteLine("{0} is not a valid Perl installation", perlName);
                 Environment.Exit(0);
             }
 
             Dictionary<string, object> data = new Dictionary<string, object>();
-           
+
             data["name"] = perlName;
             data["custom"] = perlBase.Custom;
             data["file"] = perlBase.File;
@@ -1085,6 +1096,106 @@ namespace BerryBrew {
 
             PathRemoveBerrybrew();
             Message.Print("unconfig");
+        }
+
+        public void UseCompile(string usePerlStr, bool newWindow = false){
+            // pryrt: derived from ExecCompile(), but only have one argument (the list of perls) rather than many
+            List<StrawberryPerl> perlsInstalled = PerlsInstalled();
+            List<StrawberryPerl> useWith = new List<StrawberryPerl>();
+
+            string[] perls = usePerlStr.Split(',');
+
+            // if it's in perls[] and in perlsInstalled[], then put it in useWith[]
+            foreach (StrawberryPerl perl in perlsInstalled)
+            {
+                foreach (string perlName in perls)
+                {
+                    if (perlName.Equals(perl.Name))
+                        useWith.Add(perl);
+                }
+            }
+
+            string sysPath = PathRemovePerl(false);
+            string usrPath = PathGetUsr();
+
+            foreach (StrawberryPerl perl in useWith)
+            {
+                if (newWindow)
+                    UseInNewWindow(perl, sysPath, usrPath);
+                else
+                    UseInSameWindow(perl, sysPath, usrPath);
+            }
+        }
+
+        internal void UseInNewWindow(StrawberryPerl perl, string sysPath, string usrPath){
+            try {
+                Process process = new Process();
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.WindowStyle = ProcessWindowStyle.Normal;
+
+                List<String> newPath;
+                newPath = perl.Paths;
+                newPath.AddRange(Environment.ExpandEnvironmentVariables(sysPath).Split(';').ToList());
+                newPath.AddRange(Environment.ExpandEnvironmentVariables(usrPath).Split(';').ToList());
+                System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
+
+                string prompt = Environment.GetEnvironmentVariable("PROMPT");
+                Environment.SetEnvironmentVariable("PROMPT", "$Lberrybrew use Perl-" + perl.Name + "$G" + "$_" + prompt);
+
+                startInfo.FileName = "cmd.exe";
+                startInfo.Arguments = "/k TITLE berrybrew use Perl-" + perl.Name;
+                process.StartInfo = startInfo;
+                process.StartInfo.RedirectStandardOutput = false;
+                process.StartInfo.RedirectStandardError = false;
+                process.StartInfo.CreateNoWindow = false;
+                process.Start();
+                Environment.SetEnvironmentVariable("PROMPT", prompt);   // reset before moving on
+                string spawned = "berrybrew use " + perl.Name + ": spawned in new command window";
+                if( null != Environment.GetEnvironmentVariable("BBTEST_SHOW_PID") ) {
+                    spawned += ", with PID=" + process.Id;
+                }
+                Console.WriteLine(spawned);
+                // possible test syntax: (build\berrybrew use 5.12,5.12.3_32) | perl -e "@pid = grep s/^^berrybrew use.*: spawned in new command-window, with PID=(\d+)\s*$/$1/, <STDIN>; sleep(2); print $_,$/ for @pid; sleep(2); kill 9, $_ for @pid"
+            }
+            catch(Exception objException) {
+                Console.WriteLine(objException);
+            }
+        }
+
+        internal void UseInSameWindow(StrawberryPerl perl, string sysPath, string usrPath){
+            Console.WriteLine("Perl-" + perl.Name + "\n==============");
+            try {
+                Process process = new Process();
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
+                List<String> newPath;
+                newPath = perl.Paths;
+                newPath.AddRange(Environment.ExpandEnvironmentVariables(sysPath).Split(';').ToList());
+                newPath.AddRange(Environment.ExpandEnvironmentVariables(usrPath).Split(';').ToList());
+
+                System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
+
+                string prompt = Environment.GetEnvironmentVariable("PROMPT");
+                Environment.SetEnvironmentVariable("PROMPT", "$_" + "$Lberrybrew use " + perl.Name + "$G: run \"exit\" leave this environment$_"+prompt);
+
+                process.StartInfo.FileName = "cmd.exe";
+                process.StartInfo.RedirectStandardOutput = false;
+                process.StartInfo.RedirectStandardError = false;
+                process.StartInfo.UseShellExecute = false;
+                process.Start();
+
+                if( null != Environment.GetEnvironmentVariable("BBTEST_SHOW_PID") ) {
+                    Console.WriteLine( "berrybrew use " + perl.Name + ": running in this command window, with PID=" + process.Id );
+                }
+
+                process.WaitForExit();
+
+                Environment.SetEnvironmentVariable("PROMPT", prompt);   // reset before moving on
+                Console.WriteLine("\nExiting <berrybrew use " + perl.Name + ">\n");
+            }
+            catch(Exception objException) {
+                Console.WriteLine(objException);
+            }
         }
 
         public string Version(){
@@ -1149,25 +1260,25 @@ namespace BerryBrew {
 
             if (error){
                 Console.WriteLine("\n\nError upgrading berrybrew:\n");
-                
+
                 foreach (string line in errorReport)
                     Console.WriteLine(line);
-                
+
                 Environment.Exit(0);
             }
 
             string[] bakFiles = System.IO.Directory.GetFiles(backupDir);
-            
+
             foreach (string s in bakFiles){
                 string fileName = System.IO.Path.GetFileName(s);
 
                 if (!fileName.Equals(@"perls_custom.json")){
                     if (Debug)
                         Console.WriteLine("Not restoring the '{0}' config file.", fileName);
-                    
+
                     continue;
                 }
- 
+
                 if (Debug)
                     Console.WriteLine("Restoring the '{0}' config file.", fileName);
 
@@ -1194,10 +1305,10 @@ namespace BerryBrew {
 
             foreach (string line in json.content)
                 content += String.Format("{0}\n", line);
-            
+
             this.msgMap.Add(json.label.ToString(), content);
         }
-        
+
         public void Print(string label){
 
             string msg = this.Get(label);

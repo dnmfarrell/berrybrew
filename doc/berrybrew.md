@@ -15,6 +15,7 @@
 - [switch](#switch)
 - [unconfig](#unconfig)
 - [upgrade](#upgrade)
+- [use](#use)
 - [help](#help)
 - [license](#license)
 - [version](#version)
@@ -68,14 +69,14 @@ directory.
 
 Usage: `berrybrew clone <version> <name>`
 
-Makes a copy of an installed `version` (as seen in `berrybrew available`), 
-and copies it as an exact duplicate named `name`. The new named Perl will 
+Makes a copy of an installed `version` (as seen in `berrybrew available`),
+and copies it as an exact duplicate named `name`. The new named Perl will
 appear in `berrybrew available`.
 
 Use cases:
 
 - configuring an instance of Perl with all of your favourite modules, and
-cloning it for use as a template to easily reproduce your favourite 
+cloning it for use as a template to easily reproduce your favourite
 configurations
 
 - making snapshots of Perl installations before making changes, to provide
@@ -170,6 +171,31 @@ copies the live configuration files from `data` directory, performs a
 overwritten with any new changes. It is up to the user to manually merge in any
 custom changes to the other configuration files from the backups into the new
 files in `data/`.
+
+##### use
+
+Usage:  `berrybrew use [options] version[,version[,...]]`
+
+Runs a command-line environment with the selected version or versions of perl
+at the head of the path, so it will be the active perl.
+
+By default, it will run them inside the same window which ran berrybrew. To
+exit a given version, type `exit`; this will either move you forward to the
+next selected version of perl, or it will return you to the shell that called
+berrybrew.  Inside each subshell, the `PATH` will be changed to point to
+the selected version of perl, but when it returns to the shell that ran
+berrybrew, the `PATH` will return to its previous setting.
+
+###### use options:
+
+    berrybrew use --win version[,version[,...]]
+    berrybrew use --window version[,version[,...]]
+    berrybrew use --windowed version[,version[,...]]
+
+With the `--win` option (or it's variants), berrybrew will spawn a new window
+for each version of perl selected.  Type `exit` to close the spawned
+environment.  After spawning one or more windows, the window from which
+berrybrew was run is still available for use.
 
 ##### help
 

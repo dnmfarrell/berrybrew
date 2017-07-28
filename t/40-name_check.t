@@ -9,6 +9,14 @@ use Win32::TieRegistry;
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
 
 my @installed = BB::get_installed();
+my @avail = BB::get_avail();
+while(@installed < 1) {
+    note "\nInstalling $avail[-1] because only " .scalar(@installed). " test perl".(@installed==1?' was':'s were')." installed\n";
+    `$c install $avail[-1]`;
+
+    @installed = BB::get_installed();
+    @avail = BB::get_avail();
+}
 
 note "\nCloning $installed[-1]...\n";
 my $o = `$c clone $installed[-1] 1234567890123456789012345`;
