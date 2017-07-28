@@ -46,7 +46,7 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 28f1c530b096196fb285da5fdeccd2bc67569a9c`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: e2c76084a56502a80e8a198cfc9bfb93a53f24c2`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
@@ -77,6 +77,7 @@ will reside.
         exec *      Run a command for every installed Strawberry Perl
         unconfig    Remove berrybrew from PATH
         upgrade     Backs up config, does a `git pull`, and restores config
+        use *       Use a specific Strawberry Perl version temporarily
         help        Display this help screen
         license     Show berrybrew license
         version     Displays the version
@@ -151,6 +152,18 @@ Disable berrybrew entirely, and return to system Perl (Strawberry or
 ActiveState), if available (re-enable with 'switch'):
 
     > berrybrew off
+
+Temporarily use selected versions temporarily:
+
+    > berrybrew use 5.10.1_32
+
+Temporarily use a Perl version, but spawn a new command window:
+
+    > berrybrew use --win 5.10.1_32
+
+Temporarily spawn several versions, all in new windows:
+
+    > berrybrew use --win 5.10.1_32,5.24.2_64,5.26.0_64
 
 Execute something across all perls (we do not execute on Perls that has
 'tmpl' or 'template' in the name):
