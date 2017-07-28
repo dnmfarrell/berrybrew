@@ -92,57 +92,59 @@ List all available versions of Perl that are available:
 
     The following Strawberry Perls are available:
 
-            5.24.1_64          [installed] *
-            5.24.1_64_PDL
-            5.24.1_32
-            5.22.3_64
-            5.22.3_64_PDL
-            5.22.3_32          [installed]
-            5.20.3_64
-            5.20.3_64_PDL
-            5.20.3_32
-            5.18.4_64
-            5.18.4_32
-            5.16.3_64
-            5.16.3_32
-            5.14.4_64
-            5.14.4_32
-            5.12.3_32
-            5.10.1_32
-            5.8.9_32           [installed]
-            5.8.9-unit_tests   [custom] [installed]
-            client_project_X   [custom] [installed]
+        5.26.0_64
+        5.26.0_64_PDL
+        5.26.0_32
+        5.24.2_64
+        5.24.2_64_PDL
+        5.24.2_32
+        5.22.3_64
+        5.22.3_64_PDL
+        5.22.3_32
+        5.20.3_64
+        5.20.3_64_PDL
+        5.20.3_32
+        5.18.4_64
+        5.18.4_32
+        5.16.3_64
+        5.16.3_32
+        5.14.4_64
+        5.14.4_32
+        5.12.3_32
+        5.10.1_32       [installed]
+        5.8.9_32
+        5.24.1_64       [custom] [installed] *
 
     * Currently using
     
 Install a specific version:
 
-    > berrybrew install 5.24.1_64
+    > berrybrew install 5.26.0_64
 
 Switch to a different version (permanently):
 
-    > berrybrew switch 5.24.1_64
+    > berrybrew switch 5.26.0_64
 
-    Switched to 5.24.1_64, start a new terminal to use it.
+    Switched to 5.26.0_64, start a new terminal to use it.
 
 Start a new cmd.exe to use the new version:
 
     > perl -v
 
-    This is perl 5, version 24, subversion 1 (v5.24.1) built for MSWin32-x64-multi-thread
+    This is perl 5, version 26, subversion 0 (v5.26.0) built for MSWin32-x64-multi-thread
 
     ...       
 
 Clone an installed instance (very useful for setting up a main instance,
 and cloning it into an instance named "template")
 
-    > berrybrew clone 5.24.1_64 template
+    > berrybrew clone 5.26.0_64 template
 
 Uninstall a version of perl:
 
-    > berrybrew remove 5.24.1_64
+    > berrybrew remove 5.26.0_64
 
-    Successfully removed Strawberry Perl 5.24.1_64
+    Successfully removed Strawberry Perl 5.26.0_64
 
 Manually register a custom directory within the Perl installation directory
 
@@ -153,11 +155,11 @@ ActiveState), if available (re-enable with 'switch'):
 
     > berrybrew off
 
-Temporarily use selected versions temporarily:
+Temporarily use a selected version:
 
     > berrybrew use 5.10.1_32
 
-Temporarily use a Perl version, but spawn a new command window:
+Temporarily use a Perl version, but spawn in a new command window:
 
     > berrybrew use --win 5.10.1_32
 
@@ -170,7 +172,7 @@ Execute something across all perls (we do not execute on Perls that has
 
     > berrybrew exec prove -l
 
-    Perl-5.24.1_64
+    Perl-5.26.0_64
     ==============
     t\DidYouMean.t .. ok
     All tests successful.
@@ -200,9 +202,9 @@ Execute something across all perls (we do not execute on Perls that has
 
 Execute on only a selection of installed versions:
 
-    > berrybrew exec --with 5.24.1_64,5.10.1_32 perl "die()"
+    > berrybrew exec --with 5.26.0_64,5.10.1_32 perl "die()"
 
-    Perl-5.24.1_64
+    Perl-5.26.0_64
     ==============
     Died at -e line 1.
 
