@@ -117,7 +117,7 @@ namespace BerryBrew {
 
                 string jsonData = null;
 
-                try { 
+                try {
                     jsonData = client.DownloadString(this.downloadURL);
                 }
 
@@ -215,6 +215,7 @@ namespace BerryBrew {
                             data.Add(perlInstance);
 
                             Dictionary<string, object> pdlInstance = new Dictionary<string, object>();
+
                             if (release.edition.pdl != null){
                                 string pdlVersion = bbVersion + "_" + "PDL";
                                 pdlInstance.Add("name", pdlVersion);
@@ -343,11 +344,12 @@ namespace BerryBrew {
         }
 
         internal bool CleanTemp(){
+            System.IO.DirectoryInfo archiveDir = new DirectoryInfo(archivePath);
             FilesystemResetAttributes(archiveDir.FullName);
 
             List<FileInfo> zipFiles = archiveDir.GetFiles().ToList();
 
-            foreach (FileInfo file in zipFiles) 
+            foreach (FileInfo file in zipFiles)
                 file.Delete();
 
             if (zipFiles.Count > 0)
@@ -421,8 +423,11 @@ namespace BerryBrew {
             else
                 Message.Print("config_complete");
         }
+
         internal void Exec(StrawberryPerl perl, string command, string sysPath){
+
             Console.WriteLine("Perl-" + perl.Name + "\n==============");
+
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -452,7 +457,7 @@ namespace BerryBrew {
             List<StrawberryPerl> execWith = new List<StrawberryPerl>();
             string command;
 
-            if (parameters.StartsWith("--with")){ 
+            if (parameters.StartsWith("--with")){
 
                 string paramList = Regex.Replace(parameters, @"--with\s+", "");
 
@@ -612,7 +617,7 @@ namespace BerryBrew {
                         Console.WriteLine("\n{0} file is malformed. See berrybrew_error.txt in this directory for details.", jsonFile);
                         using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"berrybrew_error.txt", true))
                             file.WriteLine(error);
-                        
+
                         Environment.Exit(0);
                     }
                 }
@@ -635,7 +640,7 @@ namespace BerryBrew {
             if (! fullList){
                 dynamic customPerlList = JsonParse("perls_custom", true);
                 var perlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);
-                
+
                 foreach (Dictionary<string, object> perl in data){
                     bool exists = false;
                     foreach (Dictionary<string, object> existingPerl in perlList){
@@ -695,6 +700,17 @@ namespace BerryBrew {
 
             string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment\";
             string path = (string)Registry.LocalMachine.OpenSubKey(keyName).GetValue(
+                "PATH",
+                "",
+                RegistryValueOptions.DoNotExpandEnvironmentNames
+            );
+            return path;
+        }
+
+        internal static string PathGetUsr(){
+
+            string keyName = @"Environment\";
+            string path = (string)Registry.CurrentUser.OpenSubKey(keyName).GetValue(
                 "PATH",
                 "",
                 RegistryValueOptions.DoNotExpandEnvironmentNames
@@ -803,7 +819,7 @@ namespace BerryBrew {
 
                 return perl.ArchivePath + @"\" + perl.File;
             }
-            
+
             catch (UnauthorizedAccessException){
                 Console.WriteLine("Error, do not have permissions to create directory: " + perl.ArchivePath);
             }
@@ -877,6 +893,7 @@ namespace BerryBrew {
                     )
                 );
             }
+
             if (importIntoObject){
                 foreach (StrawberryPerl perl in perls)
                     this.Perls.Add(perl.Name, perl);
@@ -915,7 +932,9 @@ namespace BerryBrew {
             }
             return false;
         }
+
         internal List<StrawberryPerl> PerlsInstalled(){
+
             List<StrawberryPerl> PerlsInstalled = new List<StrawberryPerl>();
 
             foreach (StrawberryPerl perl in Perls.Values){
@@ -992,7 +1011,7 @@ namespace BerryBrew {
                 Console.WriteLine("installation directory '" + perlName + "' does not exist");
                 Environment.Exit(0);
             }
-            
+
             if (! File.Exists(this.rootPath + perlName + @"\perl\bin\perl.exe")){
                 Console.WriteLine("{0} is not a valid Perl installation", perlName);
                 Environment.Exit(0);
@@ -1050,55 +1069,36 @@ namespace BerryBrew {
             Message.Print("unconfig");
         }
 
-        public void UseCompile(string usePerlStr){
-            Console.Write("DEBUG: UseVersion(\""+usePerlStr+"\")\n");
+        public void UseCompile(string usePerlStr, bool newWindow = false){
             // pryrt: derived from ExecCompile(), but only have one argument (the list of perls) rather than many
             List<StrawberryPerl> perlsInstalled = PerlsInstalled();
             List<StrawberryPerl> useWith = new List<StrawberryPerl>();
 
             string[] perls = usePerlStr.Split(',');
-            Console.Write("DEBUG: split complete\n");
 
             // if it's in perls[] and in perlsInstalled[], then put it in useWith[]
             foreach (StrawberryPerl perl in perlsInstalled)
             {
                 foreach (string perlName in perls)
                 {
-                    Console.Write("DEBUG: Comparing installed:\"" + perl.Name + "\" to use:\"" + perlName + "\"\n");
                     if (perlName.Equals(perl.Name))
                         useWith.Add(perl);
                 }
             }
 
             string sysPath = PathRemovePerl(false);
+            string usrPath = PathGetUsr();
 
             foreach (StrawberryPerl perl in useWith)
             {
-                Console.Write("DEBUG: Use:\"" + perl.Name + "\"\n");
-                //ExecCompile didn't allow Custom perls without a flag, but there's no reason to avoid
-                //  Custom perls during 'berrybrew use'
-                //if (perl.Custom && ! this.customExec)
-                //    continue;
-
-                // ExecCompile didn't allow templates, so I'll leave that exclusing for UseVersion() for now
-                if (perl.Name.Contains("tmpl") || perl.Name.Contains("template"))
-                    continue;
-
-                // ExecCompile used Exec() to actually run the command...
-                //  TODO = see whether I can make use of the same function, or if I need a separate SpawnCommandWindowWithPerlVersion()
-                //Exec(perl, command, sysPath);
-                //  ... but for now, just print out a message
-                Console.Write("==== berrybrew use " + perl.Name + " ====\n");
-                Console.Write("sysPath = " + sysPath + "\n");
-                Exec(perl, "perl -le \"$|++; print 'hello world: same window'; <STDIN>\"", sysPath);
-                UseInNewWindow(perl, "perl -le \"$|++; print 'hello world: new window'; <STDIN>\"", sysPath);
+                if (newWindow)
+                    UseInNewWindow(perl, sysPath, usrPath);
+                else
+                    UseInSameWindow(perl, sysPath, usrPath);
             }
         }
 
-        internal void UseInNewWindow(StrawberryPerl perl, string command, string sysPath)
-        {
-Console.WriteLine("DEBUG: UseInNewWindow()");
-            Console.WriteLine("Perl-" + perl.Name + "\n==============");
+        internal void UseInNewWindow(StrawberryPerl perl, string sysPath, string usrPath){
             try {
                 Process process = new Process();
                 ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -1106,37 +1106,72 @@ Console.WriteLine("DEBUG: UseInNewWindow()");
 
                 List<String> newPath;
                 newPath = perl.Paths;
-                newPath.Add(sysPath);
-// TODO = add in the UserPath as well...
-// TODO = change title of window
-//      https://stackoverflow.com/questions/15988917/how-can-i-set-the-window-text-of-an-application-using-net-process-start
-//      https://stackoverflow.com/questions/1016823/c-sharp-how-can-i-rename-a-process-window-that-i-started
-
-Console.WriteLine("DEBUG: " + String.Join(";", newPath));
+                newPath.AddRange(Environment.ExpandEnvironmentVariables(sysPath).Split(';').ToList());
+                newPath.AddRange(Environment.ExpandEnvironmentVariables(usrPath).Split(';').ToList());
                 System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
 
+                string prompt = Environment.GetEnvironmentVariable("PROMPT");
+                Environment.SetEnvironmentVariable("PROMPT", "$Lberrybrew use Perl-" + perl.Name + "$G" + "$_" + prompt);
+
                 startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/k";
-Console.WriteLine("DEBUG: " + startInfo.FileName );
-Console.WriteLine("DEBUG: " + startInfo.Arguments );
+                startInfo.Arguments = "/k TITLE berrybrew use Perl-" + perl.Name;
                 process.StartInfo = startInfo;
                 process.StartInfo.RedirectStandardOutput = false;
                 process.StartInfo.RedirectStandardError = false;
-                //process.StartInfo.UseShellExecute = true;
                 process.StartInfo.CreateNoWindow = false;
                 process.Start();
+                Environment.SetEnvironmentVariable("PROMPT", prompt);   // reset before moving on
+                string spawned = "berrybrew use " + perl.Name + ": spawned in new command window";
+                if( null != Environment.GetEnvironmentVariable("BBTEST_SHOW_PID") ) {
+                    spawned += ", with PID=" + process.Id;
+                }
+                Console.WriteLine(spawned);
+                // possible test syntax: (build\berrybrew use 5.12,5.12.3_32) | perl -e "@pid = grep s/^^berrybrew use.*: spawned in new command-window, with PID=(\d+)\s*$/$1/, <STDIN>; sleep(2); print $_,$/ for @pid; sleep(2); kill 9, $_ for @pid"
             }
-            catch(Exception objException)
-            {
+            catch(Exception objException) {
                 Console.WriteLine(objException);
             }
         }
 
+        internal void UseInSameWindow(StrawberryPerl perl, string sysPath, string usrPath){
+            Console.WriteLine("Perl-" + perl.Name + "\n==============");
+            try {
+                Process process = new Process();
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
+                List<String> newPath;
+                newPath = perl.Paths;
+                newPath.AddRange(Environment.ExpandEnvironmentVariables(sysPath).Split(';').ToList());
+                newPath.AddRange(Environment.ExpandEnvironmentVariables(usrPath).Split(';').ToList());
+
+                System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
+
+                string prompt = Environment.GetEnvironmentVariable("PROMPT");
+                Environment.SetEnvironmentVariable("PROMPT", "$_" + "$Lberrybrew use " + perl.Name + "$G: run \"exit\" leave this environment$_"+prompt);
+
+                process.StartInfo.FileName = "cmd.exe";
+                process.StartInfo.RedirectStandardOutput = false;
+                process.StartInfo.RedirectStandardError = false;
+                process.StartInfo.UseShellExecute = false;
+                process.Start();
+
+                if( null != Environment.GetEnvironmentVariable("BBTEST_SHOW_PID") ) {
+                    Console.WriteLine( "berrybrew use " + perl.Name + ": running in this command window, with PID=" + process.Id );
+                }
+
+                process.WaitForExit();
+
+                Environment.SetEnvironmentVariable("PROMPT", prompt);   // reset before moving on
+                Console.WriteLine("\nExiting <berrybrew use " + perl.Name + ">\n");
+            }
+            catch(Exception objException) {
+                Console.WriteLine(objException);
+            }
+        }
 
         public string Version(){
 
             return @"1.13";
-
         }
 
         internal Process ProcessCreate(string cmd, bool hidden=true){
@@ -1196,22 +1231,22 @@ Console.WriteLine("DEBUG: " + startInfo.Arguments );
 
             if (error){
                 Console.WriteLine("\n\nError upgrading berrybrew:\n");
-                
+
                 foreach (string line in errorReport)
                     Console.WriteLine(line);
-                
+
                 Environment.Exit(0);
             }
 
             string[] bakFiles = System.IO.Directory.GetFiles(backupDir);
-            
+
             foreach (string s in bakFiles){
                 string fileName = System.IO.Path.GetFileName(s);
 
                 if (!fileName.Equals(@"perls_custom.json")){
                     if (Debug)
                         Console.WriteLine("Not restoring the '{0}' config file.", fileName);
-                    
+
                     continue;
                 }
 
@@ -1241,11 +1276,12 @@ Console.WriteLine("DEBUG: " + startInfo.Arguments );
 
             foreach (string line in json.content)
                 content += String.Format("{0}\n", line);
-            
+
             this.msgMap.Add(json.label.ToString(), content);
         }
-      
+
         public void Print(string label){
+
             string msg = this.Get(label);
             Console.WriteLine(msg);
         }

@@ -44,7 +44,7 @@ namespace BBConsole {
                 case "clone":
                     if (args.Length != 3)
                         BB.Message.Say("clone_command_usage");
-                    
+
                     bool ok = BB.Clone(args[1], args[2]);
 
                     if (! ok)
@@ -59,12 +59,12 @@ namespace BBConsole {
                 case "exec":
                     if (args.Length == 1)
                         BB.Message.Say("exec_command_required");
-                    
+
                     args[0] = "";
 
                     if (args[1] == "-h" || args[1] == "help")
                         BB.Message.Say("subcmd.exec");
-                    
+
                     BB.ExecCompile(String.Join(" ", args).Trim());
                     break;
 
@@ -72,10 +72,34 @@ namespace BBConsole {
                     BB.PerlUpdateAvailableList();
                     break;
 
+                case "help":  // pryrt added: I often type "help subcmd" instead of "subcmd help"
+                    if (args.Length == 1) {
+                        BB.Message.Say("help");
+                    } else {
+                        switch (args[1].ToLower()) {
+                            case "clean":
+                                BB.Message.Say("subcmd.clean");
+                                break;
+
+                            case "exec":
+                                BB.Message.Say("subcmd.exec");
+                                break;
+
+                            case "use":
+                                BB.Message.Say("subcmd.use");
+                                break;
+
+                            default:
+                                BB.Message.Say("help");
+                                break;
+                        }
+                    }
+                    break;
+
                 case "install":
                     if (args.Length == 1)
                         BB.Message.Say("install_ver_required");
-                    
+
                     try {
                         BB.Install(args[1]);
                     }
@@ -92,7 +116,7 @@ namespace BBConsole {
                 case "license":
                     if (args.Length == 1)
                         BB.Message.Say("license");
-                    
+
                     break;
 
                 case "off":
@@ -102,21 +126,21 @@ namespace BBConsole {
                 case "register":
                     if (args.Length == 1)
                         BB.Message.Say("register_ver_required");
-                    
+
                     BB.PerlRegisterCustomInstall(args[1]);
                     break;
 
                 case "remove":
                     if (args.Length == 1)
                         BB.Message.Say("remove_ver_required");
-                    
+
                     BB.PerlRemove(args[1]);
                     break;
 
                 case "switch":
                     if (args.Length == 1)
                         BB.Message.Say("switch_ver_required");
-                    
+
                     BB.Switch(args[1]);
                     break;
 
@@ -128,12 +152,29 @@ namespace BBConsole {
                     BB.Upgrade();
                     break;
 
-                case "use":                                         // pryrt added
-                    if (args.Length == 1)
-                    {
-                        BB.Message.Say("switch_ver_required");      // TODO = make a separate message
+                case "use": // pryrt's added feature
+                    if (args.Length == 1) {
+                        BB.Message.Say("use_ver_required");
                     }
-                    BB.UseCompile(args[1]);
+                    switch(args[1].ToLower()) {
+                        case "-h":
+                        case "help":
+                        case "-help":
+                        case "--help":
+                            BB.Message.Say("subcmd.use");
+                            break;
+                        case "--win":
+                        case "--window":
+                        case "--windowed":
+                            if(args.Length<3)
+                                BB.Message.Say("use_ver_required");
+                            else
+                                BB.UseCompile(args[2], true);
+                            break;
+                        default:
+                            BB.UseCompile(args[1], false);
+                            break;
+                    }
                     break;
 
                 case "version":

@@ -18,18 +18,14 @@ like $o, qr/Unknown version of Perl/, "switch to bad ver ok";
 my @installed = BB::get_installed();
 my @avail = BB::get_avail();
 
-if (! @installed){
-    note "\nInstalling $avail[-1] because none were installed\n";
+while(@installed < 2) {
+    note "\nInstalling $avail[-1] because only " .scalar(@installed). " test perl".(@installed==1?' was':'s were')." installed\n";
     `$c install $avail[-1]`;
-    push @installed, $avail[-1];    # [pryrt] needed, otherwise next block would be skipped
-}
-if (@installed == 1){
-    note "\nsInstalling $avail[-2] because only one was installed\n";
-    `$c install $avail[-2]`;
-    push @installed, $avail[-2];    # [pryrt] for consistency
+
+    @installed = BB::get_installed();
+    @avail = BB::get_avail();
 }
 
-@installed = BB::get_installed();
 {
     my $ver = $installed[-1];
 

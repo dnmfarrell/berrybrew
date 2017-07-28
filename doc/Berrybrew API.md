@@ -4,7 +4,7 @@ API source code is located in the `src/berrybrew.cs` file. It is
 standalone namespace/class code, and contains no entry points.
 
 The code for the `berrybrew.exe` binary itself resides in `src/bbconsole.cs`.
-This source file contains the `Main()` entry point. 
+This source file contains the `Main()` entry point.
 
 - [Berrybrew Class](#class-berrybrew)
 - [Message Class](#class-message)
@@ -25,7 +25,7 @@ The `Berrybrew` class is the base of the system.
 [Config](#config)| **public** | Puts `berrybrew.exe` in `PATH`
 [Exec](#exec)| internal | Runs commands on all installed Perls
 [ExecCompile](#execcompile)| **public** | Staging for `Exec()`
-[Extract](#extract)| private | Extracts Perl installation zip archives  
+[Extract](#extract)| private | Extracts Perl installation zip archives
 [Fetch](#fetch)| private | Downloads the Perl installation files
 [FileRemove](#fileremove)| internal | Deletes a file
 [FileSystemResetAttributes](#filesystemresetattributes)| internal | Defaults filesystem attrs
@@ -53,6 +53,9 @@ The `Berrybrew` class is the base of the system.
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
 [Upgrade](#upgrade)| **public** | Performs a safe `berrybrew` upgrade
+[UseCompile](#usecompile)| internal | Staging for `UseInNewWindow()` and `UseInSameWindow()`
+[UseInNewWindow](#usenew)| **public** | Spawns new window(s) with the selected version(s) of perl at the head of the PATH
+[UseInSameWindow](#usesame)| **public** | Runs a new command-interpreter with the selected version of perl at the head of the PATH (with multiple versions run serially)
 [Version](#version)| **public** | Return the version of the current `berrybrew`
 
 ## Message Class Methods
@@ -75,7 +78,7 @@ that is displayed to the user.
     public void Available()
 
 Displays the names of the versions of Perl that are available to `berrybrew`,
-as found in `this.Perls`, where `this.Perls` is a 
+as found in `this.Perls`, where `this.Perls` is a
 `OrderedDictionary<string name, Berrybrew.StrawberryPerl>`.
 
 #### CheckName
@@ -100,7 +103,7 @@ Checks whether the Perl root installation directory exists, and creates it if no
     public void Clean(string subcmd="temp")
 
         argument:   subcmd
-        values:     "temp", "orphan", "all" 
+        values:     "temp", "orphan", "all"
 
 By default, `subcmd` is set to "temp", which we delete all downloaded Perl
 installation zip files from the temporary directory. With "orphan", we'll
@@ -119,7 +122,7 @@ Returns `true` if any orphans were found/deleted, `false` if not.
 #### CleanTemp
 
     internal bool CleanTemp()
-    
+
 Removes all Perl installation zip files from the temporary staging directory.
 
 Returns `true` if any files were found/deleted, `false` if not.
@@ -150,12 +153,12 @@ Adds the path to the `berrybrew.exe` executable into the `PATH` environment
 variable.
 
 #### Exec
-    
+
     internal void Exec(StrawberryPerl perl, string command, string sysPath)
 
         argument:   perl
         value:      A single StrawberryPerl object
-        
+
         argument:   command
         value:      The full command string you want all installed Perls to execute
 
@@ -201,7 +204,7 @@ Extracts a Perl instance zip archive into the Perl installation directory.
 
         argument:   perl
         value:      Single instance of the StrawberryPerl class
-        
+
         return:     The name of the folder the zip file was downloaded to
 
 Downloads the zip file for the version of Perl found in the StrawberryPerl
@@ -213,7 +216,7 @@ object, and returns the directory of where it was put.
 
         argument:   filename
         value:      Name of an existing file on the system
-        
+
         return:     Stringified Exception or "true"
 
 Deletes a file from the file system. Returns stringified "true" on success,
@@ -225,7 +228,7 @@ and a stringified `IO` exception on failure.
 
         argument:   dir
         value:      Name of a directory that exists in the filesystem
-    
+
 Recursively resets all files and directories within the directory being
 operated on back to default. This method was written specifically to ensure
 that no files were readonly, which prevented us from removing Perl
@@ -237,7 +240,7 @@ installations.
 
         argument:   version
         value:      Name of an available Perl, as seen with 'berrybrew available'
-        
+
         return:     The name of the Perl we've installed
 
 Installs and registers a new instance of Perl.
@@ -262,7 +265,7 @@ is set to `false` (default), we send the data back de-serialized. If `raw` is
 #### JsonWrite
 
     internal void JsonWrite(
-        string type, 
+        string type,
         List<Dictionary<string, object>> data,
         bool fullList=false
     )
@@ -367,7 +370,7 @@ searching for the binary name. Returns `true` on success, `false` otherwise.
     internal void PathSet(List<string> paths)
 
         argument:   paths
-        value:      List of strings, each string contains a PATH entry 
+        value:      List of strings, each string contains a PATH entry
                     (less the semi-colon)
 
 Builds the semi-colon separated `PATH` string from the list, and inserts it
@@ -414,7 +417,7 @@ Collects up both the default and custom available Perls from the available
 JSON configuration files, and turns the information into `StrawberryPerl`
 objects.
 
-Set `importIntoObject` to `true` to have the list of objects imported into the 
+Set `importIntoObject` to `true` to have the list of objects imported into the
 `Berrybrew` object, at `this.Perls`.
 
 #### PerlInUse
@@ -423,7 +426,7 @@ Set `importIntoObject` to `true` to have the list of objects imported into the
 
         return:     Instance of the StrawberryPerl class
 
-Locates which instance of Perl is currently in use, and returns the 
+Locates which instance of Perl is currently in use, and returns the
 `StrawberryPerl` object that represents it.
 
 #### PerlIsInstalled
@@ -467,7 +470,7 @@ Registers custom Perl instances with `berrybrew`, so they appear in
 
 If a populated instance is sent in as `perlBase`, we'll use its configuration
 information (version, path info, download info etc) in the new custom one. Be
-sure if you do this that the base and the new custom instances are the same 
+sure if you do this that the base and the new custom instances are the same
 version.
 
 #### PerlResolveVersion
@@ -479,7 +482,7 @@ version.
 
         return:     The corresponding StrawberryPerl instance object
 
-Resolves the name of a Perl that's available (per `berrybrew available`), and returns 
+Resolves the name of a Perl that's available (per `berrybrew available`), and returns
 the corresponding object.
 
 #### PerlUpdateAvailableList
@@ -487,7 +490,7 @@ the corresponding object.
     public void PerlUpdateAvailableList()
 
 Fetches the JSON list of Strawberry Perl instances available from
-[Strawberry's releases.json](https://strawberryperl.com/releases.json), and 
+[Strawberry's releases.json](https://strawberryperl.com/releases.json), and
 updates the internal `perls.json` available list with the updated data.
 
 #### ProcessCreate
@@ -541,6 +544,59 @@ overwritten with any new changes. It is up to the user to manually merge in any
 custom changes to the other configuration files from the backups into the new
 files in `data/`.
 
+#### UseCompile
+
+    public void UseCompile(string usePerlStr, bool newWindow = false)
+
+        argument:   usePerlStr
+        value:      Comma-separated list of strawberry perl instances
+
+        argument:   newWindow
+        value:      true/false whether new windows should be spanwed or not
+        default:    false
+
+Sets things up before handing each command off to `UseInNewWindow()` or
+`UseInSameWindow()` for final processing. If the `--win` flag (or
+`--window` or `--windowed`) is included, we'll call `UseInNewWindow()`,
+otherwise call `UseInSameWindow()`.
+
+This method sends a single Perl at a time to the appropriate
+`UseIn*Window()` function, once for each of the specified Perls from
+usePerlStr.
+
+#### UseInNewWindow
+
+    internal void UseInNewWindow(StrawberryPerl perl, string sysPath, string usrPath)
+
+        argument:   perl
+        value:      A single StrawberryPerl object
+
+        argument:   sysPath
+        value:      String containing the full Machine PATH environment variable
+
+        argument:   usrPath
+        value:      String containing the full User PATH environment variable
+
+Called by `UseCompile()`: Creates a new window for a single Perl environment,
+with that Perl listed first in the PATH inherited by the new process.
+
+#### UseInSameWindow
+
+    internal void UseInSameWindow(StrawberryPerl perl, string sysPath, string usrPath)
+
+        argument:   perl
+        value:      A single StrawberryPerl object
+
+        argument:   sysPath
+        value:      String containing the full Machine PATH environment variable
+
+        argument:   usrPath
+        value:      String containing the full User PATH environment variable
+
+Called by `UseCompile()`: Creates a new command processor in the active berrybrew
+window, with the selected Perl listed first in the PATH inherited by the new
+process.
+
 #### Version
 
     public string Version()
@@ -556,14 +612,14 @@ Manages the importing, collection and printing of various `berrybrew` output.
 #### Message.Add
 
     public void Add(dynamic json)
-    
+
         argument:   Deserialized JSON string
 
     value:      {"label":"msgname","content":["msgline 1", "msgline 2"]}
                 converted to:
                 Dictionary<(string)label, (List<string>)content>
 
-Adds a message to the structure. 
+Adds a message to the structure.
 
 #### Message.Get
 
@@ -573,26 +629,26 @@ Adds a message to the structure.
         value:      Name of a label that coincides with the message content
 
         return:     String of the message content
-    
+
 Returns the message content that corresponds with a specific message label.
 
 #### Message.Print
 
     public void Print(string label)
-    
+
         argument:   label
         value:      Name of a message label
-    
+
 `Console.WriteLine()` the message content corresponding with the labelto
 `STDOUT`
 
 #### Message.Say
 
     public void Say(string label)
-    
+
         argument:   label
         value:      Name of a message label
-        
+
 Same thing as `Message.Print`, but after printing, calls `Environment.Exit(0)`
 and terminates the application.
 

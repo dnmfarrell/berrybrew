@@ -3,7 +3,14 @@
     "label": "version",
 
     "content": [
-        "1.03"
+        "1.13"
+    ]
+},
+{
+    "label": "unconfig",
+
+    "content": [
+        "\nRemoved Berrybrew from PATH"
     ]
 },
 {
@@ -34,26 +41,26 @@
         "",
         "    Usage: berrybrew clone <orig_perl_name> <new_perl_name>"
     ]
-}, 
+},
 {
     "label": "add_bb_to_path",
 
     "content": [
-        "Would you like to add berrybrew to your user PATH? y/n [n] "
+        "Would you like to add berrybrew to PATH? y/n [n] "
     ]
 },
 {
     "label": "config_success",
 
     "content": [
-        "\nberrybrew was successfully added to the user PATH, start a new terminal to use it."
+        "\nberrybrew was successfully added to PATH, start a new terminal to use it."
     ]
 },
 {
     "label": "config_failure",
 
     "content": [
-        "\nError adding berrybrew to the user PATH"
+        "\nError adding berrybrew to PATH"
     ]
 },
 {
@@ -80,6 +87,13 @@
     ]
 },
 {
+    "label": "register_ver_required",
+    "content": [
+        "\nregister command requires a directory as an argument."
+    ]
+},
+
+{
     "label": "switch_ver_required",
     "content": [
         "\nswitch command requires a version argument.",
@@ -90,6 +104,13 @@
     "label": "remove_ver_required",
     "content": [
         "\nremove command requires a version argument.",
+        "Use the available command to see what versions of Strawberry Perl are available"
+    ]
+},
+{
+    "label": "use_ver_required",
+    "content": [
+        "\nuse command requires a version argument.",
         "Use the available command to see what versions of Strawberry Perl are available"
     ]
 },
@@ -113,22 +134,27 @@
 },
 {
     "label": "help",
-    
+
     "content": [
 
         "",
         "berrybrew <command> [subcommand] [option]",
         "",
-        "",    
+        "",
         "    available   List available Strawberry Perl versions and which are installed",
         "    clean *     Remove all temporary berrybrew files",
         "    clone       Make a complete copy of a Perl installation",
         "    config      Add berrybrew to your PATH",
         "    exec *      Run a command for every installed Strawberry Perl",
+        "    fetch       Update the list of Strawberry Perl instances available",
         "    install     Download, extract and install a Strawberry Perl",
         "    off         Disable berrybrew perls (use 'switch' to re-enable)",
+        "    register    Manually register a custom installation directory",
         "    remove      Uninstall a Strawberry Perl",
         "    switch      Switch to use a different Strawberry Perl",
+        "    unconfig    Remove berrybrew from PATH",
+        "    upgrade     Performs a safe upgrade. Requires Git installed",
+        "    use *       Use a specific Strawberry Perl version temporarily",
         "    help        Display this help screen",
         "    license     Show berrybrew license",
         "    version     Displays the version",
@@ -145,7 +171,7 @@
         "",
         "This software is Copyright (c) 2014 by David Farrell.",
         "",
-        "Versions prefixed with 'sb' are Copyright (c) 2016 by Steve Bertrand.",
+        "Versions in the format 'n.nn' Copyright (c) 2017 by Steve Bertrand.",
         "",
         "This is free software, licensed under:",
         "",
@@ -188,7 +214,7 @@
         "   temp   Removes all downloaded Perl installation files",
         "   orphan Deletes all orphaned Perl installations",
         "   all    Clean everything",
-    ]  
+    ]
 },
 {
     "label": "subcmd.exec",
@@ -200,7 +226,33 @@
         "   --with perlver,perlver <command>",
         "",
         "   Execute a command across only select versions of Perl"
-    ]  
+    ]
+},
+{
+    "label": "subcmd.use",
+
+    "content": [
+        "",
+        "   berrybrew 'use' subcommands:",
+        "",
+        "   perlver,perlver",
+        "",
+        "      Use the given version (or versions) of Perl temporarily,",
+        "      inside your original command window, by putting the selected",
+        "      Perl version at the start of your path.",
+        "      When done with a given version, type exit to leave that",
+        "      version's environment, and either move on to the next version,",
+        "      or return to your original environment if there are no more",
+        "      selected versions to use",
+        "",
+        "   --win perlver,perlver",
+        "   --window perlver,perlver",
+        "   --windowed perlver,perlver",
+        "",
+        "      Use the given version (or versions) of Perl temporarily,",
+        "      with each new version spawning its own command window.",
+        "      When done with a given version, type exit to close that window.",
+    ]
 }
 
 ]
