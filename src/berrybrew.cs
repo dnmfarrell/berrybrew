@@ -1108,20 +1108,29 @@ namespace BerryBrew {
             string[] perls = usePerlStr.Split(',');
 
             // if it's in perls[] and in perlsInstalled[], then put it in useWith[]
-            foreach (StrawberryPerl perl in perlsInstalled)
-            {
-                foreach (string perlName in perls)
-                {
-                    if (perlName.Equals(perl.Name))
+            foreach (StrawberryPerl perl in perlsInstalled){
+                foreach (string perlName in perls){
+                    if (perlName.Equals(perl.Name)){
                         useWith.Add(perl);
+                    }
+                    else {
+                        Console.WriteLine(
+                            "Can't launch Perl version {0}. It isn't installed.",
+                            perl.Name
+                        );
+                    }
                 }
+            }
+
+            if (! useWith.Any()){
+                Console.WriteLine("\nThe selected Perl versions you specified are not installed.\n");
+                Environment.Exit(0);
             }
 
             string sysPath = PathRemovePerl(false);
             string usrPath = PathGetUsr();
 
-            foreach (StrawberryPerl perl in useWith)
-            {
+            foreach (StrawberryPerl perl in useWith){
                 if (newWindow)
                     UseInNewWindow(perl, sysPath, usrPath);
                 else
