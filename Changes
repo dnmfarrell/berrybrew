@@ -3,6 +3,8 @@ Revision history for berrybrew
 1.15 UNREL
         - fix doc links in API, and resized headings in berrybrew doc
           (closes #84)
+        - 'register' command now outputs a success message to the console upon
+          successful registration (closes #79)
         -
 1.14    2017-07-28
         - code cleanup

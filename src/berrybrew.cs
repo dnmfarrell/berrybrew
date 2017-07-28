@@ -1051,6 +1051,8 @@ namespace BerryBrew {
             perlList.Add(data);
             JsonWrite("perls_custom", perlList);
 
+            Console.WriteLine("Successfully registered {0}", perlName);
+
             this.bypassOrphanCheck = true;
         }
 
