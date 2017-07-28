@@ -53,7 +53,7 @@ The `Berrybrew` class is the base of the system.
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
 [Upgrade](#upgrade)| **public** | Performs a safe `berrybrew` upgrade
-[UseCompile](#usecompile)| internal | Staging for `UseInNewWindow()` and `UseInSameWindow()`
+[UseCompile](#usecompile)| **public** | Staging for `UseInNewWindow()` and `UseInSameWindow()`
 [UseInNewWindow](#useninewwindow)| internal | Spawns new window(s) with the selected version(s) of perl at the head of the PATH
 [UseInSameWindow](#useinsamewindow)| internal | Runs a new command-interpreter with the selected version of perl at the head of the PATH (with multiple versions run serially)
 [Version](#version)| **public** | Return the version of the current `berrybrew`
