@@ -54,8 +54,8 @@ The `Berrybrew` class is the base of the system.
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
 [Upgrade](#upgrade)| **public** | Performs a safe `berrybrew` upgrade
 [UseCompile](#usecompile)| internal | Staging for `UseInNewWindow()` and `UseInSameWindow()`
-[UseInNewWindow](#useninewwindow)| **public** | Spawns new window(s) with the selected version(s) of perl at the head of the PATH
-[UseInSameWindow](#useinsamewindow)| **public** | Runs a new command-interpreter with the selected version of perl at the head of the PATH (with multiple versions run serially)
+[UseInNewWindow](#useninewwindow)| internal | Spawns new window(s) with the selected version(s) of perl at the head of the PATH
+[UseInSameWindow](#useinsamewindow)| internal | Runs a new command-interpreter with the selected version of perl at the head of the PATH (with multiple versions run serially)
 [Version](#version)| **public** | Return the version of the current `berrybrew`
 
 ## Message Class Methods

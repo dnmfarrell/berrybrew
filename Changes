@@ -1,5 +1,9 @@
 Revision history for berrybrew
 
+1.16 UNREL
+        - UseInNewWindow() and UseInSameWindow() API calls were incorrectly
+          listed as "public" in the API doc
+
 1.15    2017-07-28
         - fix doc links in API, and resized headings in berrybrew doc
           (closes #84)
