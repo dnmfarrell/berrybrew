@@ -1,5 +1,16 @@
 Revision history for berrybrew
 
+1.15    2017-07-28
+        - fix doc links in API, and resized headings in berrybrew doc
+          (closes #84)
+        - 'register' command now outputs a success message to the console upon
+          successful registration (closes #79)
+        - use will both output each Perl specified if it's not installed, then
+          warn and exit if none of the specified versions are installed
+          (closes #83)
+        - bumped versions of Perl in doc examples to reflect current 
+          availability
+
 1.14    2017-07-28
         - code cleanup
         - bumped 5.24.1 to 5.24.2 in perls.json (prod and test)

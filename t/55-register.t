@@ -53,7 +53,8 @@ note "\nCopying $dir/$installed[-1] to $dir/valid\n";
 copy "$dir/$installed[-1]/perl/bin/perl.exe", "$dir/valid/perl/bin";
 is -f "$dir/valid/perl/bin/perl.exe", 1, "test 'valid' directory created ok";
 
-`$c register valid`;
+$o = `$c register valid`;
+like $o, qr/Successfully registered/, "register has ok output";
 
 $o = `$c available`;
 like $o, qr/valid.*\[custom/, "registered a valid instance ok";
