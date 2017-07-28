@@ -1,7 +1,13 @@
 Revision history for berrybrew
 
-1.14 UNREL
+1.14    2017-07-28
         - code cleanup
+        - bumped 5.24.1 to 5.24.2 in perls.json (prod and test)
+        - new "use" feature, allows spawning into a different version in the
+          existing cmd window, or a new ones. Multiple perls can be specified
+          in a single run. This feature acts similar to Perlbrew's "use"
+          feature, in that upon exit, you'll automatically be put back to your
+          previously "switch"ed version (@pryrt PR #80)
 
 1.13    2017-07-15
         - updated license information (closes #75)
@@ -17,7 +23,6 @@ Revision history for berrybrew
           more work to be done here, but it's already much better
         - changed the bracing syntax. I dislike the opening brace on a separate
           line
-        - bumped 5.24 and 5.22 versions in perls.json
                               
 1.12    2017-03-31
         - fix local links in the markdown in the documentation
