@@ -1101,24 +1101,27 @@ namespace BerryBrew {
         }
 
         public void UseCompile(string usePerlStr, bool newWindow = false){
-            // pryrt: derived from ExecCompile(), but only have one argument (the list of perls) rather than many
             List<StrawberryPerl> perlsInstalled = PerlsInstalled();
             List<StrawberryPerl> useWith = new List<StrawberryPerl>();
 
             string[] perls = usePerlStr.Split(',');
 
-            // if it's in perls[] and in perlsInstalled[], then put it in useWith[]
-            foreach (StrawberryPerl perl in perlsInstalled){
-                foreach (string perlName in perls){
+            foreach (string perlName in perls){
+
+                bool perlAdded = false;
+                
+                foreach (StrawberryPerl perl in perlsInstalled){
                     if (perlName.Equals(perl.Name)){
                         useWith.Add(perl);
+                        perlAdded = true;
                     }
-                    else {
-                        Console.WriteLine(
-                            "Can't launch Perl version {0}. It isn't installed.",
-                            perlName
-                        );
-                    }
+                }
+                
+                if (! perlAdded){
+                    Console.WriteLine(
+                        "Can't launch Perl version {0}. It isn't installed.",
+                        perlName
+                    );
                 }
             }
 
