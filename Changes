@@ -1,5 +1,9 @@
 Revision history for berrybrew
 
+1.15 UNREL
+        - fix doc links in API, and resized headings in berrybrew doc
+          (closes #84)
+        -
 1.14    2017-07-28
         - code cleanup
         - bumped 5.24.1 to 5.24.2 in perls.json (prod and test)
