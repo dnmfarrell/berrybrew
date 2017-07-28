@@ -1116,7 +1116,7 @@ namespace BerryBrew {
                     else {
                         Console.WriteLine(
                             "Can't launch Perl version {0}. It isn't installed.",
-                            perl.Name
+                            perlName
                         );
                     }
                 }
