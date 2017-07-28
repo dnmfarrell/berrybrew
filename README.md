@@ -46,7 +46,7 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 6128c68f94b059e3cf874f93cacfcb0708eb5bad`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 9baa8d4dbaee61e911aa72eadb4f801cda5c77fb`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
@@ -361,7 +361,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.14
+    1.15
 
 ## Original Author
 
@@ -370,6 +370,14 @@ David Farrell [http://perltricks.com]
 ## This Fork Maintained By
 
 Steve Bertrand `steveb<>cpan.org`
+
+## Updating dnmfarrell berrybrew
+
+    git clone https://stevieb9@github.com/dnmfarrell/berrybrew bb-dnm
+    cd bb-dnm
+    git remote add stevieb9 https://github.com/stevieb9/berrybrew
+    git pull stevieb9 master
+    git push
 
 ## See Also
 
