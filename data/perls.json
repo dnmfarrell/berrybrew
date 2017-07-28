@@ -21,26 +21,27 @@
     "ver": "5.26.0"
   },
   {
-    "name": "5.24.1_64",
-    "url": "http://strawberryperl.com/download/5.24.1.1/strawberry-perl-5.24.1.1-64bit-portable.zip",
-    "file": "strawberry-perl-5.24.1.1-64bit-portable.zip",
-    "csum": "5e7bd4d9eecef30e9cfef95f45d4f94237a4d7a4",
-    "ver": "5.24.1"
+    "name": "5.24.2_64",
+    "url": "http://strawberryperl.com/download/5.24.2.1/strawberry-perl-5.24.2.1-64bit-portable.zip",
+    "file": "strawberry-perl-5.24.2.1-64bit-portable.zip",
+    "csum": "ebe34ca522b5109e89c11774cc26b5d11792c632",
+    "ver": "5.24.2"
   },
   {
-    "name": "5.24.1_64_PDL",
-    "url": "http://strawberryperl.com/download/5.24.1.1/strawberry-perl-5.24.1.1-64bit-PDL.zip",
-    "file": "strawberry-perl-5.24.1.1-64bit-PDL.zip",
-    "csum": "e2b9ac75dc1379ec91a3e4a905fb9ccdd465f3c5",
-    "ver": "5.24.1"
+    "name": "5.24.2_64_PDL",
+    "url": "http://strawberryperl.com/download/5.24.2.1/strawberry-perl-5.24.2.1-64bit-PDL.zip",
+    "file": "strawberry-perl-5.24.2.1-64bit-PDL.zip",
+    "csum": "c8eaed76705ffbd1d13ef371afdabbf24da06aa9",
+    "ver": "5.24.2"
   },
   {
-    "name": "5.24.1_32",
-    "url": "http://strawberryperl.com/download/5.24.1.1/strawberry-perl-no64-5.24.1.1-32bit-portable.zip",
-    "file": "strawberry-perl-no64-5.24.1.1-32bit-portable.zip",
-    "csum": "8a6318f5ada32f3dee38c6467378c5844e5f9852",
-    "ver": "5.24.1"
+    "name": "5.24.2_32",
+    "url": "http://strawberryperl.com/download/5.24.2.1/strawberry-perl-no64-5.24.2.1-32bit-portable.zip",
+    "file": "strawberry-perl-no64-5.24.2.1-32bit-portable.zip",
+    "csum": "a553a8b582573e0f52e0eeee7751c6e37fb72db3",
+    "ver": "5.24.2"
   },
+
   {
     "name": "5.22.3_64",
     "url": "http://strawberryperl.com/download/5.22.3.1/strawberry-perl-5.22.3.1-64bit-portable.zip",
