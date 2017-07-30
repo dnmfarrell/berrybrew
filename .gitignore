@@ -1,4 +1,4 @@
-.idea/
+\.idea/
 data/perls_custom.json
 src/berrybrew.exe
 Release/
