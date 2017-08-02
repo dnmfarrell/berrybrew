@@ -535,8 +535,14 @@ namespace BerryBrew {
             string archivePath = PerlArchivePath(perl);
 
             if (! File.Exists(archivePath)){
+                try {
+                    webClient.DownloadFile(perl.Url, archivePath);
+                }
+                catch (System.Net.WebException){
+                    Console.WriteLine("\nUnable to download file. Check your Internet connection and/or the download site\n");
+                    Environment.Exit(0);
+                }
                 Console.WriteLine("Downloading " + perl.Url + " to " + archivePath);
-                webClient.DownloadFile(perl.Url, archivePath);
             }
 
             Console.WriteLine("Confirming checksum ...");
