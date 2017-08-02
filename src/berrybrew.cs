@@ -432,7 +432,7 @@ namespace BerryBrew {
 
         internal void Exec(StrawberryPerl perl, string command, string sysPath){
 
-            Console.WriteLine("Perl-" + perl.Name + "\n==============");
+            Console.WriteLine("perl-" + perl.Name + "\n==============");
 
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -1154,10 +1154,10 @@ namespace BerryBrew {
                 System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
 
                 string prompt = Environment.GetEnvironmentVariable("PROMPT");
-                Environment.SetEnvironmentVariable("PROMPT", "$Lberrybrew use Perl-" + perl.Name + "$G" + "$_" + prompt);
+                Environment.SetEnvironmentVariable("PROMPT", "$Lberrybrew use perl-" + perl.Name + "$G" + "$_" + prompt);
 
                 startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/k TITLE berrybrew use Perl-" + perl.Name;
+                startInfo.Arguments = "/k TITLE berrybrew use perl-" + perl.Name;
                 process.StartInfo = startInfo;
                 process.StartInfo.RedirectStandardOutput = false;
                 process.StartInfo.RedirectStandardError = false;
@@ -1177,7 +1177,7 @@ namespace BerryBrew {
         }
 
         internal void UseInSameWindow(StrawberryPerl perl, string sysPath, string usrPath){
-            Console.WriteLine("Perl-" + perl.Name + "\n==============");
+            Console.WriteLine("perl-" + perl.Name + "\n==============");
             try {
                 Process process = new Process();
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;

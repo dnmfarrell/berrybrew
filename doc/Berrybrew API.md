@@ -46,16 +46,16 @@ The `Berrybrew` class is the base of the system.
 [PerlInUse](#perlinuse)| internal | Returns the name of the Perl currently in use
 [PerlIsInstalled](#perlisinstalled)| internal | Checks if a specific Perl is installed
 [PerlRemove](#perlremove)| **public** | Uninstalls a specific instance of Perl
-[PerlRegisterCustomInstall](#perlregistercustominstall)| public | Make `berrybrew` aware of custom instances
+[PerlRegisterCustomInstall](#perlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
 [PerlResolveVersion](#PerlResolveVersion)| internal | Resolves the name of a Perl to its StrawberryPerl object
 [PerlUpdateAvailableList](#PerlUpdateAvailableList)| **public** | Automatically fetches new Strawberry Perls available
 [ProcessCreate](#processcreate)| internal | Creates and returns a Windows cmd process
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
 [Upgrade](#upgrade)| **public** | Performs a safe `berrybrew` upgrade
-[UseCompile](#usecompile)| internal | Staging for `UseInNewWindow()` and `UseInSameWindow()`
-[UseInNewWindow](#useninewwindow)| **public** | Spawns new window(s) with the selected version(s) of perl at the head of the PATH
-[UseInSameWindow](#useinsamewindow)| **public** | Runs a new command-interpreter with the selected version of perl at the head of the PATH (with multiple versions run serially)
+[UseCompile](#usecompile)| **public** | Staging for `UseInNewWindow()` and `UseInSameWindow()`
+[UseInNewWindow](#useninewwindow)| internal | Spawns new window(s) with the selected version(s) of perl at the head of the PATH
+[UseInSameWindow](#useinsamewindow)| internal | Runs a new command-interpreter with the selected version of perl at the head of the PATH (with multiple versions run serially)
 [Version](#version)| **public** | Return the version of the current `berrybrew`
 
 ## Message Class Methods
