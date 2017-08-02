@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using BerryBrew;
 
@@ -56,6 +57,13 @@ namespace BBConsole {
                     break;
 
                 case "config":
+                    string cwd = Directory.GetCurrentDirectory();
+
+                    if (String.Equals(cwd, @"c:\berrybrew", StringComparison.OrdinalIgnoreCase)){
+                        Console.WriteLine("\nAt this time, berrybrew can not be installed in C:\\berrybrew. Please move the directory and try again\n");
+                        Environment.Exit(0);
+                    }
+
                     BB.Config();
                     break;
 
@@ -75,7 +83,7 @@ namespace BBConsole {
                     BB.PerlUpdateAvailableList();
                     break;
 
-                case "help":  // pryrt added: I often type "help subcmd" instead of "subcmd help"
+                case "help":
                     if (args.Length == 1) {
                         BB.Message.Say("help");
                     } else {

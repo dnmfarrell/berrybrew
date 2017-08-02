@@ -7,6 +7,8 @@ Revision history for berrybrew
         - gracefully catch a download problem and report to the user
           (closes #63)
         - fix small typo in README (closes #89)
+        - gracefully let user know that berrybrew can't be installed in 
+          c:\berrybrew on "config" (fixes #55)
 
 1.15    2017-07-28
         - fix doc links in API, and resized headings in berrybrew doc
