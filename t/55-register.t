@@ -79,4 +79,8 @@ like $o, qr/dup.*\[custom/, "registered a valid instance ok";
 $o = `$c register dup`;
 like $o, qr/dup instance is already registered/, "don't duplicate registration ok";
 
+for (BB::get_installed()){
+    $o = `$c remove $_`;
+    like $o, qr/Successfully removed/, "removed $_ ok";
+}
 done_testing();
