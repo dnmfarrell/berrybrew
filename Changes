@@ -3,7 +3,7 @@ Revision history for berrybrew
 1.16    2017-08-03
         - UseInNewWindow() and UseInSameWindow() API calls were incorrectly
           listed as "public" in the API doc which are actually "internal", and
-          UseCompile() was "public" and should be "internal"
+          UseCompile() was "internal" and should be "public"
         - gracefully catch a download problem and report to the user
           (closes #63)
         - fix small typo in README (closes #89)
