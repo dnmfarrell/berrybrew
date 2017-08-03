@@ -82,25 +82,53 @@ my $file = 'download/berrybrew.zip';
 my $digest = `shasum $file`;
 $digest = (split /\s+/, $digest)[0];
 
-# update README with SHA1
+# update README with SHA1, and version
 
-print "updating README with new SHA1 sum $digest...\n";
+print "updating README with new SHA1 sum $digest, and version...\n";
+
+open my $fh, '<', 'src/berrybrew.cs' or die $!;
+
+my $c = 0;
+my $ver;
+
+while (<$fh>){
+
+    if (/public string Version\(\)\{/){
+        $c = 1;
+        next;
+    }
+    if ($c == 1){
+        ($ver) = $_ =~ /(\d+\.\d+)/;
+        last;
+    }
+}
 
 open my $fh, '<', 'README.md' or die $!;
 my @contents = <$fh>;
 close $fh or die $!;
 
+$c = 0;
+
 for (@contents){
     if (/.*(`SHA1: \w+`)/){
         s/$1/`SHA1: $digest`/;
     }
-};
+    if (/## Version/){
+        $c++;
+        next;
+    }
+    if ($c == 1){
+        $c++;
+        next;
+    }
+    if ($c == 2){
+        s/\d+\.\d+/$ver/;
+        $c++;
+    }
+}
 
 open my $wfh, '>', 'README.md' or die $!;
 
 for (@contents){
     print $wfh $_;
-};
-
-
-
+}

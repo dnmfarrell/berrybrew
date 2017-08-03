@@ -10,7 +10,7 @@ versions of Strawberry Perl for Windows. There is no
 [requirement](https://github.com/stevieb9/berrybrew#requirements "berrybrew requirements")
 to have Strawberry Perl installed before using `berrybrew`.
 
-Updating the list of Strawberry Perls available is as simple as runing a single
+Updating the list of Strawberry Perls available is as simple as running a single
 command: `berrybrew fetch`, and works at runtime.
 
 There is extensive documentation available for the
@@ -46,7 +46,7 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 62c12e4c9429df1e22405d39ae565dadbac15218`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: ebd9374786d1b36ca9b5a362b633ec14306f7f82`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
@@ -361,7 +361,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.15
+    1.16
 
 ## Original Author
 

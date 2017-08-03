@@ -432,7 +432,7 @@ namespace BerryBrew {
 
         internal void Exec(StrawberryPerl perl, string command, string sysPath){
 
-            Console.WriteLine("Perl-" + perl.Name + "\n==============");
+            Console.WriteLine("perl-" + perl.Name + "\n==============");
 
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -484,7 +484,7 @@ namespace BerryBrew {
                 execWith = perlsInstalled;
             }
 
-            string sysPath = PathRemovePerl(false);
+            string sysPath = PathGet();
 
             foreach (StrawberryPerl perl in execWith){
                 if (perl.Custom && ! this.customExec)
@@ -535,8 +535,14 @@ namespace BerryBrew {
             string archivePath = PerlArchivePath(perl);
 
             if (! File.Exists(archivePath)){
+                try {
+                    webClient.DownloadFile(perl.Url, archivePath);
+                }
+                catch (System.Net.WebException){
+                    Console.WriteLine("\nUnable to download file. Check your Internet connection and/or the download site\n");
+                    Environment.Exit(0);
+                }
                 Console.WriteLine("Downloading " + perl.Url + " to " + archivePath);
-                webClient.DownloadFile(perl.Url, archivePath);
             }
 
             Console.WriteLine("Confirming checksum ...");
@@ -1130,7 +1136,7 @@ namespace BerryBrew {
                 Environment.Exit(0);
             }
 
-            string sysPath = PathRemovePerl(false);
+            string sysPath = PathGet();
             string usrPath = PathGetUsr();
 
             foreach (StrawberryPerl perl in useWith){
@@ -1154,10 +1160,10 @@ namespace BerryBrew {
                 System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
 
                 string prompt = Environment.GetEnvironmentVariable("PROMPT");
-                Environment.SetEnvironmentVariable("PROMPT", "$Lberrybrew use Perl-" + perl.Name + "$G" + "$_" + prompt);
+                Environment.SetEnvironmentVariable("PROMPT", "$Lberrybrew use perl-" + perl.Name + "$G" + "$_" + prompt);
 
                 startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/k TITLE berrybrew use Perl-" + perl.Name;
+                startInfo.Arguments = "/k TITLE berrybrew use perl-" + perl.Name;
                 process.StartInfo = startInfo;
                 process.StartInfo.RedirectStandardOutput = false;
                 process.StartInfo.RedirectStandardError = false;
@@ -1177,7 +1183,7 @@ namespace BerryBrew {
         }
 
         internal void UseInSameWindow(StrawberryPerl perl, string sysPath, string usrPath){
-            Console.WriteLine("Perl-" + perl.Name + "\n==============");
+            Console.WriteLine("perl-" + perl.Name + "\n==============");
             try {
                 Process process = new Process();
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
@@ -1213,8 +1219,7 @@ namespace BerryBrew {
         }
 
         public string Version(){
-
-            return @"1.15";
+            return @"1.16";
         }
 
         internal Process ProcessCreate(string cmd, bool hidden=true){
