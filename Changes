@@ -12,6 +12,8 @@ Revision history for berrybrew
         - consolodated version info. Only hardcoded in the berrybrew.cs file.
           Removed it from messages.json, and updated release.pl script to bump
           the version in the README at release time (closes #86)
+        - replaced calls, where appropriate to PathGet() instead of 
+          PathRemovePerl(process=false) for clarity (closes #91)
 
 1.15    2017-07-28
         - fix doc links in API, and resized headings in berrybrew doc

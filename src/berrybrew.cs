@@ -484,7 +484,7 @@ namespace BerryBrew {
                 execWith = perlsInstalled;
             }
 
-            string sysPath = PathRemovePerl(false);
+            string sysPath = PathGet();
 
             foreach (StrawberryPerl perl in execWith){
                 if (perl.Custom && ! this.customExec)
@@ -1136,7 +1136,7 @@ namespace BerryBrew {
                 Environment.Exit(0);
             }
 
-            string sysPath = PathRemovePerl(false);
+            string sysPath = PathGet();
             string usrPath = PathGetUsr();
 
             foreach (StrawberryPerl perl in useWith){
