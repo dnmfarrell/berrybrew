@@ -18,7 +18,7 @@ What we do:
 What we don't do:
 
 - work on `master` directly, unless correcting doc typos and other trivial changes
-- update the version number in `data\messages.json` or the documentation
+- update any version information
 - change any license information (I inherited this project)
 - change any copyrights (without written authorization)
 - update the `Changes` file
