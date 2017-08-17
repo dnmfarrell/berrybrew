@@ -500,6 +500,7 @@ namespace BerryBrew {
 
             ZipFile zf = null;
             try {
+                Console.WriteLine("Extracting {0}", archivePath);
                 FileStream fs = File.OpenRead(archivePath);
                 zf = new ZipFile(fs);
 
@@ -536,16 +537,16 @@ namespace BerryBrew {
 
             if (! File.Exists(archivePath)){
                 try {
+                    Console.WriteLine("Downloading " + perl.Url + " to " + archivePath);
                     webClient.DownloadFile(perl.Url, archivePath);
                 }
                 catch (System.Net.WebException){
                     Console.WriteLine("\nUnable to download file. Check your Internet connection and/or the download site\n");
                     Environment.Exit(0);
                 }
-                Console.WriteLine("Downloading " + perl.Url + " to " + archivePath);
             }
 
-            Console.WriteLine("Confirming checksum ...");
+            Console.WriteLine("Confirming checksum ... ");
 
             using (var cryptoProvider = new SHA1CryptoServiceProvider()){
 
@@ -571,6 +572,9 @@ namespace BerryBrew {
                         }
 
                         Environment.Exit(0);
+                    }
+                    else {
+                        Console.WriteLine("Checksum OK");
                     }
                 }
             }

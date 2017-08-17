@@ -1,5 +1,9 @@
 Revision history for berrybrew
 
+1.17 UNREL
+        - task information displayed during install operation is now in logical
+          order (fixes #95)
+
 1.16    2017-08-03
         - UseInNewWindow() and UseInSameWindow() API calls were incorrectly
           listed as "public" in the API doc which are actually "internal", and
