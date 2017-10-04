@@ -3,6 +3,11 @@ Revision history for berrybrew
 1.17 UNREL
         - task information displayed during install operation is now in logical
           order (fixes #95)
+        - fix issue where when running the "build" version (ie. unreleased), it
+          was using the same Perl installation directory as the "live" version.
+          In the build.bat script, we now update the config.json file
+          accordingly to ensure we're using two separate install locations.
+          (fixes #97)
 
 1.16    2017-08-03
         - UseInNewWindow() and UseInSameWindow() API calls were incorrectly

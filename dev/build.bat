@@ -1,7 +1,10 @@
 @echo off
 mkdir build
 mkdir build\data
-copy dev\data\*.json build\data                 & rem [pryrt] for Contributing.md::`build\berrybrew <cmd> [opts]` to work, build\data\config.json _must_ exist
+
+copy dev\data\*.json build\data
+
+call perl -i.bak -ne "s/berrybrew(?!\\\\test)/berrybrew\\\\test/; print" build/data/config.json
 
 echo "compiling dll..."
 
@@ -21,5 +24,5 @@ call mcs^
     -out:build/berrybrew.exe^
     src\bbconsole.cs
 
-copy bin\ICSharpCode.SharpZipLib.dll build\     & rem [pryrt] but ICSharpCode* _is_ needed
+copy bin\ICSharpCode.SharpZipLib.dll build\
 copy bin\Newtonsoft.Json.dll build\
