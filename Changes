@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.17 UNREL
+1.17    2017-10-03
         - task information displayed during install operation is now in logical
           order (fixes #95)
         - fix issue where when running the "build" version (ie. unreleased), it

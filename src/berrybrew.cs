@@ -1223,7 +1223,7 @@ namespace BerryBrew {
         }
 
         public string Version(){
-            return @"1.16";
+            return @"1.17";
         }
 
         internal Process ProcessCreate(string cmd, bool hidden=true){
