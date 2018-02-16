@@ -68,7 +68,7 @@ will reside.
         config      Add berrybrew to your PATH
         clean *     Remove all temporary berrybrew files
         clone       Clones an installed version to a custom-named one
-        fetch       Upgrade the list of Strawberry Perl instances available
+        fetch *     Upgrade the list of Strawberry Perl instances available
         install     Download, extract and install a Strawberry Perl
         register    Manually register a custom installation directory
         remove      Uninstall a Strawberry Perl
@@ -240,6 +240,9 @@ back them up first (see [Caveats](#caveats)).
 Use `berrybrew fetch` to retrieve the most recent availability list from
 Strawberry Perl. If any new or changed versions are found, we'll update the
 local `perls.json` file with them.
+
+If you supply the `all` subcommand to `berrybrew fetch`, we will load all
+available Perls that Strawberry has to offer.
 
 ## Configure Root Directory
 

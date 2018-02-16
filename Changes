@@ -7,8 +7,12 @@ Revision history for berrybrew
         - fixed issue where the orphaned Perls that were installed prior to
           using "fetch" weren't being registered as custom correctly (required
           two calls to "fetch"). To fix, added new 
-          PerlUpdateAvailableListOrphans()(closes #102; closes #99)
-        
+          PerlUpdateAvailableListOrphans()(closes #102; closes #99) (Thanks
+          @pryrt for the notice!)
+        - added ability to fetch every single Perl version Strawberry has to
+          offer with the new "all" argument to "berrybrew fetch" (closes #100;
+          closes #103) (thanks @pryrt for the notice!)
+          
 1.17    2017-10-04
         - task information displayed during install operation is now in logical
           order (fixes #95)
