@@ -81,6 +81,7 @@ namespace BBConsole {
 
                 case "fetch":
                     BB.PerlUpdateAvailableList();
+                    BB.PerlUpdateAvailableListOrphans();
                     break;
 
                 case "help":

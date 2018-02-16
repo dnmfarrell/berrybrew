@@ -4,7 +4,10 @@ Revision history for berrybrew
         - Perls listed with "berrybrew available" are now listed in numerical,
           descending order (closes #101) (thanks @shawnlaffan (github) for the
           report!)
-        -
+        - fixed issue where the orphaned Perls that were installed prior to
+          using "fetch" weren't being registered as custom correctly (required
+          two calls to "fetch"). To fix, added new 
+          PerlUpdateAvailableListOrphans()(closes #102; closes #99)
         
 1.17    2017-10-04
         - task information displayed during install operation is now in logical
