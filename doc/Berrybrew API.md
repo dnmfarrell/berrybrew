@@ -49,6 +49,7 @@ The `Berrybrew` class is the base of the system.
 [PerlRegisterCustomInstall](#perlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
 [PerlResolveVersion](#PerlResolveVersion)| internal | Resolves the name of a Perl to its StrawberryPerl object
 [PerlUpdateAvailableList](#PerlUpdateAvailableList)| **public** | Automatically fetches new Strawberry Perls available
+[PerlUpdateAvailableListOrphans](#PerlUpdateAvailableListOrphans)| **public** | Registers any orphaned Perls after using `Fetch()`
 [ProcessCreate](#processcreate)| internal | Creates and returns a Windows cmd process
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
@@ -487,11 +488,22 @@ the corresponding object.
 
 #### PerlUpdateAvailableList
 
-    public void PerlUpdateAvailableList()
+    public void PerlUpdateAvailableList(bool allPerls=false)
 
+        argument:   allPerls
+        value:      Bool
+         
 Fetches the JSON list of Strawberry Perl instances available from
 [Strawberry's releases.json](https://strawberryperl.com/releases.json), and
 updates the internal `perls.json` available list with the updated data.
+
+If the `allPerls` bool is set to true, we will fetch all available Strawberry
+Perl listings.
+
+#### PerlUpdateAvailableListOrphans()
+
+Automatically registered any orphaned Perls after using the `Fetch()` method. This
+should only be called after a call to `PerlUpdateAvailableList()`.
 
 #### ProcessCreate
 

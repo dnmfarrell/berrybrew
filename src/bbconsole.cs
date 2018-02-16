@@ -80,7 +80,16 @@ namespace BBConsole {
                     break;
 
                 case "fetch":
-                    BB.PerlUpdateAvailableList();
+                    bool allPerls = false;
+                    if (args.Length > 1){
+                        if (args[1].StartsWith("h"))
+                            BB.Message.Say("subcmd.fetch");
+                        else
+                            allPerls = args[1].Equals("all");
+                    }
+
+                    BB.PerlUpdateAvailableList(allPerls);
+                    BB.PerlUpdateAvailableListOrphans();
                     break;
 
                 case "help":
@@ -94,6 +103,10 @@ namespace BBConsole {
 
                             case "exec":
                                 BB.Message.Say("subcmd.exec");
+                                break;
+
+                            case "fetch":
+                                BB.Message.Say("subcmd.fetch");
                                 break;
 
                             case "use":

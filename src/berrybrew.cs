@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -14,6 +15,7 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using System.Security.Permissions;
 using System.Text.RegularExpressions;
 
 namespace BerryBrew {
@@ -106,149 +108,6 @@ namespace BerryBrew {
                 Console.WriteLine("\nWARNING! {0}\n\n", orphanedPerls.Trim());
                 foreach (string orphan in orphans)
                     Console.WriteLine("  {0}", orphan);
-            }
-        }
-
-        public void PerlUpdateAvailableList(){
-            List<string> orphans = PerlFindOrphans();
-
-            using (WebClient client = new WebClient()){
-
-                string jsonData = null;
-
-                try {
-                    jsonData = client.DownloadString(this.downloadURL);
-                }
-
-                catch (System.Net.WebException error){
-                    Console.Write("\nCan't open file {0}. Can not continue...\n", this.downloadURL);
-                    if (Debug)
-                        Console.Write(error);
-                    Environment.Exit(0);
-                }
-
-                dynamic json = null;
-
-                try {
-                    json = JsonConvert.DeserializeObject(jsonData);
-                }
-
-                catch (Newtonsoft.Json.JsonReaderException error){
-                    Console.Write("\nCan't read the JSON data. It may be invalid\n");
-                    if (Debug)
-                        Console.WriteLine(error);
-                    Environment.Exit(0);
-                }
-
-                List<String> perls = new List<String>();
-
-                // output data
-                List<Dictionary<string, object>> data = new List<Dictionary<string, object>>();
-
-                foreach (var release in json){
-                    string nameString = release.name;
-
-                    if (Regex.IsMatch(nameString, @"(with USE_64_BIT_INT|with USE_LONG_DOUBLE)"))
-                        continue;
-
-                    Match versionString = Regex.Match(nameString, @"(\d{1}\.\d{1,2}\.\d{1,2})");
-
-                    if (versionString.Success){
-                        Match bitString = Regex.Match(nameString, @"(\d{2})bit");
-
-                        if (bitString.Success){
-                            string version = versionString.Groups[1].Value;
-                            string bits = bitString.Groups[1].Value;
-                            string bbVersion = version + "_" + bits;
-
-                            String[] majorVersionParts = version.Split(new[] { '.' });
-                            string majorVersion = majorVersionParts[0] + "." + majorVersionParts[1];
-                            string bbMajorVersion = majorVersion + "_" + bits;
-
-                            if (perls.Contains(bbMajorVersion))
-                                continue;
-
-                            perls.Add(bbMajorVersion);
-
-                            Dictionary<string, object> perlInstance = new Dictionary<string, object>();
-
-                            if (release.edition.portable != null){
-                                perlInstance.Add("name", bbVersion);
-                                perlInstance.Add("url", release.edition.portable.url);
-                                string file = release.edition.portable.url;
-                                file = file.Split('/').Last();
-                                perlInstance.Add("file", file);
-                                perlInstance.Add("csum", release.edition.portable.sha1);
-                                perlInstance.Add("ver", bbVersion.Split('_').First());
-
-                                if (Debug){
-                                    Console.WriteLine(
-                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
-                                        perlInstance["name"],
-                                        perlInstance["file"],
-                                        perlInstance["url"],
-                                        perlInstance["csum"]
-                                    );
-                                }
-                            }
-                            else if (release.edition.zip != null){
-                                perlInstance.Add("name", bbVersion);
-                                perlInstance.Add("url", release.edition.zip.url);
-                                string file = release.edition.zip.url;
-                                file = file.Split('/').Last();
-                                perlInstance.Add("file", file);
-                                perlInstance.Add("csum", release.edition.zip.sha1);
-                                perlInstance.Add("ver", bbVersion.Split('_').First());
-
-                                if (Debug){
-                                    Console.WriteLine(
-                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
-                                        perlInstance["name"],
-                                        perlInstance["file"],
-                                        perlInstance["url"],
-                                        perlInstance["csum"]
-                                    );
-                                }
-                            }
-
-                            data.Add(perlInstance);
-
-                            Dictionary<string, object> pdlInstance = new Dictionary<string, object>();
-
-                            if (release.edition.pdl != null){
-                                string pdlVersion = bbVersion + "_" + "PDL";
-                                pdlInstance.Add("name", pdlVersion);
-                                pdlInstance.Add("url", release.edition.pdl.url);
-                                string file = release.edition.pdl.url;
-                                file = file.Split('/').Last();
-                                pdlInstance.Add("file", file);
-                                pdlInstance.Add("csum", release.edition.pdl.sha1);
-                                pdlInstance.Add("ver", bbVersion.Split('_').First());
-
-                                if (Debug){
-                                    Console.WriteLine(
-                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
-                                        perlInstance["name"],
-                                        perlInstance["file"],
-                                        perlInstance["url"],
-                                        perlInstance["csum"]
-                                    );
-                                }
-
-                                data.Add(pdlInstance);
-                            }
-                        }
-                    }
-                } // end build data
-
-                JsonWrite("perls", data, true);
-
-                orphans = PerlFindOrphans();
-
-                foreach(var orphan in orphans){
-                    Console.Write("Registering legacy Perl '{0}' as custom...", orphan);
-                    PerlRegisterCustomInstall(orphan);
-                }
             }
         }
 
@@ -658,30 +517,59 @@ namespace BerryBrew {
 
             string jsonString = null;
 
-            if (! fullList){
+            if (!fullList){
                 dynamic customPerlList = JsonParse("perls_custom", true);
-
                 var perlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);
 
                 foreach (Dictionary<string, object> perl in data){
-
-                    bool exists = false;
-
                     foreach (Dictionary<string, object> existingPerl in perlList){
-                        exists = perl["name"].Equals(existingPerl["name"]);
+                        if (perl["name"].Equals(existingPerl["name"])){
+                            Console.Write("\n{0} instance is already registered...", perl["name"]);
+                            Environment.Exit(0);
+                        }
                     }
-                    if (! exists){
-                        perlList.Add(perl);
-                    }
-                    else {
-                        Console.Write("\n{0} instance is already registered", perl["name"]);
-                        Environment.Exit(0);
-                    }
+                    perlList.Add(perl);
                 }
                 jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(perlList, Formatting.Indented);
             }
-            else
-                jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(data, Formatting.Indented);
+            else{
+                List<string> perlVersions = new List<string>();
+
+                foreach (var perl in data){
+                    perlVersions.Add(perl["ver"].ToString());
+                }
+
+                var sortedPerlVersions = perlVersions
+                    .Select(x => x.Split(new char[] {'.'}))
+                    .Select(x => {
+                        return new {
+                            a = Convert.ToInt32(x[0]),
+                            b = Convert.ToInt32(x[1]),
+                            c = Convert.ToInt32(x[2]),
+                        };
+                    })
+                    .OrderBy(x => x.a).ThenBy(x => x.b).ThenBy(x => x.c)
+                    .Select(x => string.Format("{0}.{1}.{2}", x.a, x.b, x.c))
+                    .ToList();
+
+                sortedPerlVersions.Reverse();
+                var sortedData = new List<Dictionary<string, object>>();
+
+                List<string> perlCache = new List<string>();
+
+                foreach (var ver in sortedPerlVersions){
+                    foreach (var perl in data){
+                        if (perl["ver"].Equals(ver)){
+                            if (!perlCache.Contains(perl["name"].ToString())){
+                                perlCache.Add(perl["name"].ToString());
+                                sortedData.Add(perl);
+                            }
+                        }
+                    }
+                }
+
+                jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(sortedData, Formatting.Indented);
+            }
 
             string writeFile = this.confPath + type;
             writeFile = writeFile + @".json";
@@ -689,7 +577,7 @@ namespace BerryBrew {
             System.IO.File.WriteAllText(writeFile, jsonString);
         }
 
-        public void Off(){
+            public void Off(){
 
             PathRemovePerl();
             Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
@@ -1059,13 +947,163 @@ namespace BerryBrew {
 
             List<Dictionary<string, object>> perlList = new List<Dictionary<string, object>>();
             perlList.Add(data);
+
             JsonWrite("perls_custom", perlList);
 
             Console.WriteLine("Successfully registered {0}", perlName);
 
             this.bypassOrphanCheck = true;
         }
+        
+        public void PerlUpdateAvailableList(bool allPerls=false){
 
+            Console.WriteLine("Attempting to fetch the updated Perls list...");
+            
+            using (WebClient client = new WebClient()){
+
+                string jsonData = null;
+
+                try {
+                    jsonData = client.DownloadString(this.downloadURL);
+                }
+
+                catch (System.Net.WebException error){
+                    Console.Write("\nCan't open file {0}. Can not continue...\n", this.downloadURL);
+                    if (Debug)
+                        Console.Write(error);
+                    Environment.Exit(0);
+                }
+
+                dynamic json = null;
+
+                try {
+                    json = JsonConvert.DeserializeObject(jsonData);
+                }
+
+                catch (Newtonsoft.Json.JsonReaderException error){
+                    Console.Write("\nCan't read the JSON data. It may be invalid\n");
+                    if (Debug)
+                        Console.WriteLine(error);
+                    Environment.Exit(0);
+                }
+
+                List<String> perls = new List<String>();
+
+                // output data
+                List<Dictionary<string, object>> data = new List<Dictionary<string, object>>();
+
+                foreach (var release in json){
+                    string nameString = release.name;
+
+                    if (Regex.IsMatch(nameString, @"(with USE_64_BIT_INT|with USE_LONG_DOUBLE)"))
+                        continue;
+
+                    Match versionString = Regex.Match(nameString, @"(\d{1}\.\d{1,2}\.\d{1,2})");
+
+                    if (versionString.Success){
+                        Match bitString = Regex.Match(nameString, @"(\d{2})bit");
+
+                        if (bitString.Success){
+                            string version = versionString.Groups[1].Value;
+                            string bits = bitString.Groups[1].Value;
+                            string bbVersion = version + "_" + bits;
+
+                            String[] majorVersionParts = version.Split(new[] { '.' });
+                            string majorVersion = majorVersionParts[0] + "." + majorVersionParts[1];
+                            string bbMajorVersion = majorVersion + "_" + bits;
+
+                            if (perls.Contains(bbMajorVersion) && ! allPerls)
+                                continue;
+
+                            perls.Add(bbMajorVersion);
+
+                            Dictionary<string, object> perlInstance = new Dictionary<string, object>();
+
+                            if (release.edition.portable != null){
+                                perlInstance.Add("name", bbVersion);
+                                perlInstance.Add("url", release.edition.portable.url);
+                                string file = release.edition.portable.url;
+                                file = file.Split('/').Last();
+                                perlInstance.Add("file", file);
+                                perlInstance.Add("csum", release.edition.portable.sha1);
+                                perlInstance.Add("ver", bbVersion.Split('_').First());
+
+                                if (Debug){
+                                    Console.WriteLine(
+                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
+                                        perlInstance["name"],
+                                        perlInstance["file"],
+                                        perlInstance["url"],
+                                        perlInstance["csum"]
+                                    );
+                                }
+                            }
+                            else if (release.edition.zip != null){
+                                perlInstance.Add("name", bbVersion);
+                                perlInstance.Add("url", release.edition.zip.url);
+                                string file = release.edition.zip.url;
+                                file = file.Split('/').Last();
+                                perlInstance.Add("file", file);
+                                perlInstance.Add("csum", release.edition.zip.sha1);
+                                perlInstance.Add("ver", bbVersion.Split('_').First());
+
+                                if (Debug){
+                                    Console.WriteLine(
+                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
+                                        perlInstance["name"],
+                                        perlInstance["file"],
+                                        perlInstance["url"],
+                                        perlInstance["csum"]
+                                    );
+                                }
+                            }
+
+                            data.Add(perlInstance);
+
+                            Dictionary<string, object> pdlInstance = new Dictionary<string, object>();
+
+                            if (release.edition.pdl != null){
+                                string pdlVersion = bbVersion + "_" + "PDL";
+                                pdlInstance.Add("name", pdlVersion);
+                                pdlInstance.Add("url", release.edition.pdl.url);
+                                string file = release.edition.pdl.url;
+                                file = file.Split('/').Last();
+                                pdlInstance.Add("file", file);
+                                pdlInstance.Add("csum", release.edition.pdl.sha1);
+                                pdlInstance.Add("ver", bbVersion.Split('_').First());
+
+                                if (Debug){
+                                    Console.WriteLine(
+                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
+                                        perlInstance["name"],
+                                        perlInstance["file"],
+                                        perlInstance["url"],
+                                        perlInstance["csum"]
+                                    );
+                                }
+
+                                data.Add(pdlInstance);
+                            }
+                        }
+                    }
+                } // end build data
+
+                JsonWrite("perls", data, true);
+                
+                Console.WriteLine("Successfully updated the available Perls list...");
+            }
+        }
+
+        public void PerlUpdateAvailableListOrphans(){
+
+            List<string> orphans = PerlFindOrphans();
+
+            foreach(var orphan in orphans){
+                Console.WriteLine("Registering legacy Perl '{0}' as custom...", orphan);
+                PerlRegisterCustomInstall(orphan);
+            }
+        }
+        
         internal StrawberryPerl PerlResolveVersion(string version){
 
             foreach (StrawberryPerl perl in Perls.Values){
@@ -1223,7 +1261,7 @@ namespace BerryBrew {
         }
 
         public string Version(){
-            return @"1.17";
+            return @"1.18";
         }
 
         internal Process ProcessCreate(string cmd, bool hidden=true){

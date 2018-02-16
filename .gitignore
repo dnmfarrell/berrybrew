@@ -5,7 +5,7 @@ Release/
 bak/
 backup_*
 *.sln
-*.csproj
+#*.csproj
 *.csproj.user
 *.suo
 *.runsettings
