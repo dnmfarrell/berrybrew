@@ -522,21 +522,14 @@ namespace BerryBrew {
                 var perlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);
 
                 foreach (Dictionary<string, object> perl in data){
-                    bool exists = false;
-
                     foreach (Dictionary<string, object> existingPerl in perlList){
-                        exists = perl["name"].Equals(existingPerl["name"]);
+                        if (perl["name"].Equals(existingPerl["name"])){
+                            Console.Write("\n{0} instance is already registered...", perl["name"]);
+                            Environment.Exit(0);
+                        }
                     }
-
-                    if (!exists){
-                        perlList.Add(perl);
-                    }
-                    else{
-                        Console.Write("\n{0} instance is already registered", perl["name"]);
-                        Environment.Exit(0);
-                    }
+                    perlList.Add(perl);
                 }
-
                 jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(perlList, Formatting.Indented);
             }
             else{

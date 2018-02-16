@@ -12,6 +12,8 @@ Revision history for berrybrew
         - added ability to fetch every single Perl version Strawberry has to
           offer with the new "all" argument to "berrybrew fetch" (closes #100;
           closes #103) (thanks @pryrt for the notice!)
+        - fix issue where we were missing an exception if trying to register
+          the same custom version of Perl more than once (fixes #104)
           
 1.17    2017-10-04
         - task information displayed during install operation is now in logical
