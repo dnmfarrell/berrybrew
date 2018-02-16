@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -14,6 +15,7 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using System.Security.Permissions;
 using System.Text.RegularExpressions;
 
 namespace BerryBrew {
@@ -657,13 +659,50 @@ namespace BerryBrew {
         internal void JsonWrite(string type, List<Dictionary<string, object>> data, bool fullList=false){
 
             string jsonString = null;
+            List<string> perlVersions = new List<string>();
+
+            foreach (var perl in data){
+                perlVersions.Add(perl["ver"].ToString());
+            }
+            
+            var sortedPerlVersions = perlVersions
+                .Select(x => x.Split(new char[] { '.' }))
+                .Select(x =>
+                {
+                    return new {
+                        a = Convert.ToInt32(x[0]), 
+                        b = Convert.ToInt32(x[1]), 
+                        c = Convert.ToInt32(x[2]), 
+                    };
+                })
+                .OrderBy(x => x.a).ThenBy(x => x.b).ThenBy(x => x.c)
+                .Select(x => string.Format("{0}.{1}.{2}", x.a, x.b, x.c))
+                .ToList();
+
+            sortedPerlVersions.Reverse();
+            var sortedData = new List<Dictionary<string, object>>();
+
+            List<string> perlCache = new List<string>();
+
+            foreach (var ver in sortedPerlVersions)
+            {
+                foreach (var perl in data)
+                {
+                     if (perl["ver"].Equals(ver)){
+                        if (! perlCache.Contains(perl["name"].ToString())){
+                            perlCache.Add(perl["name"].ToString()); 
+                            sortedData.Add(perl); 
+                        }
+                    }                   
+                }
+            }
 
             if (! fullList){
                 dynamic customPerlList = JsonParse("perls_custom", true);
 
                 var perlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);
-
-                foreach (Dictionary<string, object> perl in data){
+                
+                foreach (Dictionary<string, object> perl in sortedData){
 
                     bool exists = false;
 
@@ -681,7 +720,7 @@ namespace BerryBrew {
                 jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(perlList, Formatting.Indented);
             }
             else
-                jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(data, Formatting.Indented);
+                jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(sortedData, Formatting.Indented);
 
             string writeFile = this.confPath + type;
             writeFile = writeFile + @".json";

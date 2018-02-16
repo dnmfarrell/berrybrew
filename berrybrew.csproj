@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{4FA35AFF-DD22-413D-94AF-3D8E3999F61F}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <AssemblyName>ConsoleApplication</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>berrybrew</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <HintPath>bin\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include=".git\COMMIT_EDITMSG" />
+    <None Include=".git\config" />
+    <None Include=".git\description" />
+    <None Include=".git\HEAD" />
+    <None Include=".git\hooks\applypatch-msg.sample" />
+    <None Include=".git\hooks\commit-msg.sample" />
+    <None Include=".git\hooks\post-update.sample" />
+    <None Include=".git\hooks\pre-applypatch.sample" />
+    <None Include=".git\hooks\pre-commit.sample" />
+    <None Include=".git\hooks\pre-push.sample" />
+    <None Include=".git\hooks\pre-rebase.sample" />
+    <None Include=".git\hooks\pre-receive.sample" />
+    <None Include=".git\hooks\prepare-commit-msg.sample" />
+    <None Include=".git\hooks\update.sample" />
+    <None Include=".git\index" />
+    <None Include=".git\info\exclude" />
+    <None Include=".git\logs\HEAD" />
+    <None Include=".git\logs\refs\heads\master" />
+    <None Include=".git\logs\refs\heads\v1.18" />
+    <None Include=".git\logs\refs\remotes\origin\HEAD" />
+    <None Include=".git\logs\refs\remotes\origin\master" />
+    <None Include=".git\logs\refs\remotes\origin\v1.18" />
+    <None Include=".git\objects\1a\56a2c2cae91dc78d58574d7295d50c621b8d93" />
+    <None Include=".git\objects\3b\d544a3e2a8519bffefeff262ca1db5aea3983f" />
+    <None Include=".git\objects\52\fdb3fb4eccf7c182e3b5fbf96952bec2583050" />
+    <None Include=".git\objects\57\e30082ba4b405a47eae09976a1206163644952" />
+    <None Include=".git\objects\63\819e430db9eea1ed843f858a55c3dd47f69051" />
+    <None Include=".git\objects\7a\e2854da41002193cf3cf7a998e9cf2f5fa7fbe" />
+    <None Include=".git\objects\99\03b550fe7609aa536bda865402dba884f6ff0f" />
+    <None Include=".git\objects\9b\60d9e4352d60565fb466f7ea0cdb07b031740c" />
+    <None Include=".git\objects\a5\3522ef46f629eef8a366e44d9939c0c70a342f" />
+    <None Include=".git\objects\b8\ab00fcecab755704de87c593cdc68df0af85d3" />
+    <None Include=".git\objects\bf\15c1dd291deb68fe753639cdea89921e78c34c" />
+    <None Include=".git\objects\d4\733b2032790c8557dade8e8b14191aa125a26b" />
+    <None Include=".git\objects\d9\4624abcd33a7e0056e282c92ec571b0e4d0575" />
+    <None Include=".git\objects\pack\pack-4ad7361ffa41bf86fab18e1a88734bf78cc32cb1.idx" />
+    <None Include=".git\objects\pack\pack-4ad7361ffa41bf86fab18e1a88734bf78cc32cb1.pack" />
+    <None Include=".git\packed-refs" />
+    <None Include=".git\refs\heads\master" />
+    <None Include=".git\refs\heads\v1.18" />
+    <None Include=".git\refs\remotes\origin\HEAD" />
+    <None Include=".git\refs\remotes\origin\master" />
+    <None Include=".git\refs\remotes\origin\v1.18" />
+    <None Include=".idea\.idea.berrybrew1\.idea\.name" />
+    <None Include=".idea\.idea.berrybrew1\riderModule.iml" />
+    <None Include=".idea\.idea.berrybrew\riderModule.iml" />
+    <None Include="bak\config.json" />
+    <None Include="bak\messages.json" />
+    <None Include="bak\perls.json" />
+    <None Include="build\data\config.json" />
+    <None Include="build\data\config.json.bak" />
+    <None Include="build\data\messages.json" />
+    <None Include="build\data\perls.json" />
+    <None Include="CONTRIBUTING.md" />
+    <None Include="data\config.json" />
+    <None Include="data\messages.json" />
+    <None Include="data\perls.json" />
+    <None Include="data\perls_custom.json" />
+    <None Include="dev\build.bat" />
+    <None Include="dev\data\config.json" />
+    <None Include="dev\data\messages.json" />
+    <None Include="dev\data\perls.json" />
+    <None Include="dev\post_release.pl" />
+    <None Include="dev\release.pl" />
+    <None Include="doc\Berrybrew API.md" />
+    <None Include="doc\berrybrew.md" />
+    <None Include="doc\Configuration.md" />
+    <None Include="doc\Unit Testing.md" />
+    <None Include="download\berrybrew.zip" />
+    <None Include="README.md" />
+    <None Include="src\berrybrew.cs~" />
+    <None Include="t\05-available.t" />
+    <None Include="t\15-install.t" />
+    <None Include="t\20-switch.t" />
+    <None Include="t\25-env_vars.t" />
+    <None Include="t\30-orphan_perls.t" />
+    <None Include="t\35-custom_install.t" />
+    <None Include="t\40-name_check.t" />
+    <None Include="t\45-template_exec_skip.t" />
+    <None Include="t\50-custom_exec_skip.t" />
+    <None Include="t\55-register.t" />
+    <None Include="t\60-use.t" />
+    <None Include="t\99-remove.t" />
+    <None Include="t\BB.pm" />
+    <None Include="t\config\config.json" />
+    <None Include="t\config\messages.json" />
+    <None Include="t\config\perls.json" />
+    <None Include="t\config\perls_custom.json" />
+    <None Include="t\run_tests.pl" />
+    <None Include="t\setup_test_env.bat" />
+    <None Include="t\test.bat" />
+    <None Include="t\unset_test_env.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".git\ms-persist.xml" />
+    <Content Include=".idea\.idea.berrybrew1\.idea\contentModel.xml" />
+    <Content Include=".idea\.idea.berrybrew1\.idea\indexLayout.xml" />
+    <Content Include=".idea\.idea.berrybrew1\.idea\modules.xml" />
+    <Content Include=".idea\.idea.berrybrew1\.idea\vcs.xml" />
+    <Content Include=".idea\.idea.berrybrew1\.idea\workspace.xml" />
+    <Content Include=".idea\.idea.berrybrew\.idea\contentModel.xml" />
+    <Content Include=".idea\.idea.berrybrew\.idea\indexLayout.xml" />
+    <Content Include=".idea\.idea.berrybrew\.idea\modules.xml" />
+    <Content Include=".idea\.idea.berrybrew\.idea\vcs.xml" />
+    <Content Include=".idea\.idea.berrybrew\.idea\workspace.xml" />
+    <Content Include="build\bbapi.dll" />
+    <Content Include="build\berrybrew.exe" />
+    <Content Include="build\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="build\Newtonsoft.Json.dll" />
+    <Content Include="inc\berrybrew.ico" />
+    <Content Include="t\data\available.txt" />
+    <Content Include="t\data\custom_available.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\bbconsole.cs" />
+    <Compile Include="src\berrybrew.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".git\objects\info\" />
+    <Folder Include=".git\refs\tags\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
+  <ProjectExtensions>
+    <VisualStudio AllowExistingFolder="true" />
+  </ProjectExtensions>
+</Project>

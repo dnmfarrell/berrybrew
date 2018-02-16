@@ -1,8 +1,11 @@
 Revision history for berrybrew
 
 1.18 UNREL
+        - Perls listed with "berrybrew available" are now listed in numerical,
+          descending order (closes #101) (thanks @shawnlaffan (github) for the
+          report!)
         -
-
+        
 1.17    2017-10-04
         - task information displayed during install operation is now in logical
           order (fixes #95)
