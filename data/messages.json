@@ -139,7 +139,7 @@
         "    clone       Make a complete copy of a Perl installation",
         "    config      Add berrybrew to your PATH",
         "    exec *      Run a command for every installed Strawberry Perl",
-        "    fetch *     Update the list of Strawberry Perl instances available",
+        "    fetch       Update the list of Strawberry Perl instances available",
         "    install     Download, extract and install a Strawberry Perl",
         "    off         Disable berrybrew perls (use 'switch' to re-enable)",
         "    register    Manually register a custom installation directory",
@@ -206,7 +206,7 @@
         "",
         "   temp   Removes all downloaded Perl installation files",
         "   orphan Deletes all orphaned Perl installations",
-        "   all    Clean everything"
+        "   all    Clean everything",
     ]
 },
 {
@@ -221,18 +221,6 @@
         "   Execute a command across only select versions of Perl"
     ]
 },
- {
-    "label": "subcmd.fetch",
-
-    "content": [
-        "",
-        "   berrybrew 'fetch' subcommands:",
-        "",
-        "   all",
-        "",
-        "   When fetching the updated Perl list, fetch all available versions."
-    ]
-},   
 {
     "label": "subcmd.use",
 
@@ -256,7 +244,8 @@
         "",
         "      Use the given version (or versions) of Perl temporarily,",
         "      with each new version spawning its own command window.",
-        "      When done with a given version, type exit to close that window."
+        "      When done with a given version, type exit to close that window.",
     ]
 }
+
 ]
