@@ -289,9 +289,11 @@ namespace BerryBrew {
                 Message.Print("config_complete");
         }
 
-        internal void Exec(StrawberryPerl perl, string command, string sysPath){
+        internal void Exec(StrawberryPerl perl, string command, string sysPath, Boolean printHeader){
 
-            Console.WriteLine("perl-" + perl.Name + "\n==============");
+            if(printHeader){
+                Console.WriteLine("perl-" + perl.Name + "\n==============");
+            }
 
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -345,13 +347,17 @@ namespace BerryBrew {
 
             string sysPath = PathGet();
 
-            foreach (StrawberryPerl perl in execWith){
+            List<StrawberryPerl> filteredExecWith = new List<StrawberryPerl>();
+            foreach(StrawberryPerl perl in execWith){
                 if (perl.Custom && ! this.customExec)
                     continue;
                 if (perl.Name.Contains("tmpl") || perl.Name.Contains("template"))
                     continue;
+                filteredExecWith.Add(perl);
+            }
 
-                Exec(perl, command, sysPath);
+            foreach (StrawberryPerl perl in filteredExecWith){
+                Exec(perl, command, sysPath, filteredExecWith.Count > 1);
             }
         }
 
