@@ -33,6 +33,10 @@ namespace BBConsole {
                     BB.Available();
                     break;
 
+                case "list":
+                    BB.List();
+                    break;
+
                 case "clean":
                     if (args.Length > 1){
                         if (args[1].StartsWith("h"))

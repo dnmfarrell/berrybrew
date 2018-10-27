@@ -111,6 +111,30 @@ namespace BerryBrew {
             }
         }
 
+        public void List(){
+            StrawberryPerl currentPerl = PerlInUse();
+
+            List<int> nameLengths = new List<int>();
+            List<StrawberryPerl> installedPerls = PerlsInstalled();
+
+            foreach (StrawberryPerl perl in installedPerls)
+                nameLengths.Add(perl.Name.Length);
+
+            int maxNameLength = nameLengths.Max();
+
+            foreach(StrawberryPerl perl in installedPerls){
+                string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
+                Console.Write("\t" + perlNameToPrint);
+
+                if (perl.Custom)
+                    Console.Write(" [custom]");
+                if (perl.Name == currentPerl.Name)
+                    Console.Write(" *");
+
+                Console.Write("\n");
+            }
+        }
+
         public void Available(){
 
             Message.Print("available_header");
