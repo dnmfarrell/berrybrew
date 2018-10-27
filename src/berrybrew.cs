@@ -348,8 +348,14 @@ namespace BerryBrew {
             process.StartInfo.UseShellExecute = false;
             process.Start();
 
-            Console.Out.Write(process.StandardOutput.ReadToEnd());
-            Console.Error.Write(process.StandardError.ReadToEnd());
+            process.OutputDataReceived += (proc, line)=>{
+                Console.Out.WriteLine(line.Data);
+            };
+            process.ErrorDataReceived += (proc, line)=>{
+                Console.Error.WriteLine(line.Data);
+            };
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
             process.WaitForExit();
         }
 
