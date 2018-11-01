@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Text;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -108,6 +109,30 @@ namespace BerryBrew {
                 Console.WriteLine("\nWARNING! {0}\n\n", orphanedPerls.Trim());
                 foreach (string orphan in orphans)
                     Console.WriteLine("  {0}", orphan);
+            }
+        }
+
+        public void List(){
+            StrawberryPerl currentPerl = PerlInUse();
+
+            List<int> nameLengths = new List<int>();
+            List<StrawberryPerl> installedPerls = PerlsInstalled();
+
+            foreach (StrawberryPerl perl in installedPerls)
+                nameLengths.Add(perl.Name.Length);
+
+            int maxNameLength = nameLengths.Max();
+
+            foreach(StrawberryPerl perl in installedPerls){
+                string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
+                Console.Write("\t" + perlNameToPrint);
+
+                if (perl.Custom)
+                    Console.Write(" [custom]");
+                if (perl.Name == currentPerl.Name)
+                    Console.Write(" *");
+
+                Console.Write("\n");
             }
         }
 
@@ -289,9 +314,11 @@ namespace BerryBrew {
                 Message.Print("config_complete");
         }
 
-        internal void Exec(StrawberryPerl perl, string command, string sysPath){
+        internal void Exec(StrawberryPerl perl, List<string> parameters, string sysPath, Boolean printHeader){
 
-            Console.WriteLine("perl-" + perl.Name + "\n==============");
+            if(printHeader){
+                Console.WriteLine("perl-" + perl.Name + "\n==============");
+            }
 
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -304,32 +331,44 @@ namespace BerryBrew {
             System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
 
             startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = "/c " + perl.PerlPath + @"\" + command;
+            List<String> patchedParams = new List<String>();
+            foreach(String param in parameters){
+                if( param.Contains(" ")){
+                     patchedParams.Add("\"" + param + "\"");
+                }
+                else{
+                     patchedParams.Add(param);
+                }
+            }
+
+            startInfo.Arguments = "/c " + String.Join(" ", patchedParams);
             process.StartInfo = startInfo;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.UseShellExecute = false;
             process.Start();
 
-            Console.WriteLine(process.StandardOutput.ReadToEnd());
-            Console.WriteLine(process.StandardError.ReadToEnd());
+            process.OutputDataReceived += (proc, line)=>{
+                Console.Out.WriteLine(line.Data);
+            };
+            process.ErrorDataReceived += (proc, line)=>{
+                Console.Error.WriteLine(line.Data);
+            };
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
             process.WaitForExit();
         }
 
-        public void ExecCompile(string parameters){
+        public void ExecCompile(List<String> parameters){
 
             List<StrawberryPerl> perlsInstalled = PerlsInstalled();
             List<StrawberryPerl> execWith = new List<StrawberryPerl>();
-            string command;
 
-            if (parameters.StartsWith("--with")){
-
-                string paramList = Regex.Replace(parameters, @"--with\s+", "");
-
-                string perlStr = paramList.Split(new[] { ' ' }, 2)[0];
-                command = paramList.Split(new[] { ' ' }, 2)[1];
-
-                string[] perls = perlStr.Split(',');
+            if (parameters.ElementAt(0).Equals("--with") && parameters.Count > 1){
+                parameters.RemoveAt(0);
+                String perlsToUse = parameters.ElementAt(0);
+                parameters.RemoveAt(0);
+                string[] perls = perlsToUse.Split(',');
 
                 foreach (StrawberryPerl perl in perlsInstalled){
                     foreach (string perlName in perls){
@@ -339,19 +378,22 @@ namespace BerryBrew {
                 }
             }
             else {
-                command = parameters;
                 execWith = perlsInstalled;
             }
 
             string sysPath = PathGet();
 
-            foreach (StrawberryPerl perl in execWith){
+            List<StrawberryPerl> filteredExecWith = new List<StrawberryPerl>();
+            foreach(StrawberryPerl perl in execWith){
                 if (perl.Custom && ! this.customExec)
                     continue;
                 if (perl.Name.Contains("tmpl") || perl.Name.Contains("template"))
                     continue;
+                filteredExecWith.Add(perl);
+            }
 
-                Exec(perl, command, sysPath);
+            foreach (StrawberryPerl perl in filteredExecWith){
+                Exec(perl, parameters, sysPath, filteredExecWith.Count > 1);
             }
         }
 
@@ -1261,7 +1303,7 @@ namespace BerryBrew {
         }
 
         public string Version(){
-            return @"1.18";
+            return @"1.19";
         }
 
         internal Process ProcessCreate(string cmd, bool hidden=true){

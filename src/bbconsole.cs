@@ -2,6 +2,9 @@ using System;
 using System.IO;
 using System.Linq;
 using BerryBrew;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace BBConsole {
 
@@ -31,6 +34,10 @@ namespace BBConsole {
             switch (args[0]){
                 case "available":
                     BB.Available();
+                    break;
+
+                case "list":
+                    BB.List();
                     break;
 
                 case "clean":
@@ -76,7 +83,9 @@ namespace BBConsole {
                     if (args[1] == "-h" || args[1] == "help")
                         BB.Message.Say("subcmd.exec");
 
-                    BB.ExecCompile(String.Join(" ", args).Trim());
+                    List<String> newArgs = args.ToList();
+                    newArgs.RemoveAt(0);
+                    BB.ExecCompile(newArgs);
                     break;
 
                 case "fetch":

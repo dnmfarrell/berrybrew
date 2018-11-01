@@ -5,6 +5,10 @@ use Test::More;
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
 
+my $v = `$c version`;
+
+print "\n\nTEST VERSION: $v\n\n";
+
 my $list = `$c available`;
 
 #@avail = grep {s/\s+//g; $_ =~ /^5/} @avail;

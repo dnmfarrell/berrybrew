@@ -23,6 +23,7 @@ full list of documentation.
 ## Table of Contents
 
 - [Installation](#installation)
+- [Uninstall](#uninstall)
 - [Configuration](#configuration)
 - [Commands](#commands)
 - [Synopsis](#synopsis)
@@ -30,6 +31,7 @@ full list of documentation.
 - [Update Perls Available](#update-perls-available)
 - [Configure Perl Instance Directory](#configure-root-directory)
 - [Compile Your Own](#compile-your-own)
+- [Create a Development Build](#create-a-development-build)
 - [Create a Release](#create-a-release)
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
@@ -46,10 +48,22 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 06e1d045e4141f15d5a048ef7023c1cde13a7aef`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 45b8f88ca39d4e7289867c98188fb157dee906c6`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
+
+## Uninstall
+
+First run the `berrybrew unconfig` command which removes the `PATH` environment
+variables for any in-use Perl installation, and then removes `berrybrew` from
+the `PATH` as well.
+
+If you wish to delete the actual installation:
+
+- remove the `C:\berrybrew` directory which contains the installation, perl
+installations and all configuration and temporary data
+- remove the original download directory
 
 ## Configuration
 
@@ -65,6 +79,7 @@ will reside.
     berrybrew <command> [subcommand] [option]
 
         available   List available Strawberry Perl versions and which are installed
+        list        List the version numbers of all installed Perls
         config      Add berrybrew to your PATH
         clean *     Remove all temporary berrybrew files
         clone       Clones an installed version to a custom-named one
@@ -86,7 +101,7 @@ will reside.
 
 ## Synopsis
 
-List all available versions of Perl that are available:
+List all versions of Perl that are available, installed, and currently used:
     
     > berrybrew available
 
@@ -116,6 +131,13 @@ List all available versions of Perl that are available:
         5.24.1_64       [custom] [installed] *
 
     * Currently using
+    
+List all currently installed versions of Perl:
+
+    > berrybrew list
+
+        5.26.2_64
+        5.10.1_32
     
 Install a specific version:
 
@@ -202,7 +224,7 @@ Execute something across all perls (we do not execute on Perls that has
 
 Execute on only a selection of installed versions:
 
-    > berrybrew exec --with 5.26.0_64,5.10.1_32 perl "die()"
+    > berrybrew exec --with 5.26.0_64,5.10.1_32 perl -e die()
 
     Perl-5.26.0_64
     ==============
@@ -289,11 +311,31 @@ If you choose to ignore this, follow this procedure:
 
     bin\berrybrew.exe config
 
+## Create a Development Build
+
+During development, it's handy to be able to ensure the code builds and works
+correctly without overwriting the currently-installed production installation.
+
+Create the new development build:
+
+- run the `dev\build.bat` script, which compiles the binary and library, and
+places the new build within a newly-created `build` directory within your
+repository directory
+
+Test the new development build:
+
+- simply run `berrybrew` out of the new build directory, eg:
+
+    build\berrybrew.exe version
+    
 ## Create a Release
 
-If you've modified the information of the configuration files for the new
-build, you must copy them to the `dev\data` directory before performing the
+IMPORTANT: If you've modified the information of the configuration files for the
+new build, you must copy them to the `dev\data` directory before performing the
 below steps.
+
+- if necessary, bump the version number within the `src/berrybrew.cs`'s 
+`Version()` method
 
 Use the included `dev/release.pl` script, which:
 
@@ -306,6 +348,9 @@ Use the included `dev/release.pl` script, which:
 - performs SHA1 checksum tasks
 
 - updates the `README.md` file with the zip archive's new SHA1 sum
+
+- updates the `README.md` file with the version number found in the API's 
+`Version()` method
 
 If you had any custom configuration files in place, run 
 `dev\post_release.pl` to restore them.
@@ -364,7 +409,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.18
+    1.19
 
 ## Original Author
 

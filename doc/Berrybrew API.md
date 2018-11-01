@@ -32,6 +32,7 @@ The `Berrybrew` class is the base of the system.
 [Install](#install)| **public** | Installs new instances of Perl
 [JsonParse](#jsonparse)| internal | Reads JSON config files
 [JsonWrite](#jsonwrite)| internal | Writes out JSON configuration
+[List](#list) | **public** | Lists currently installed Perl versions
 [Off](#off) | **public** | Completely disables `berrybrew`
 [PathAddBerryBrew](#pathaddberrybrew)| internal | Adds `berrybrew` to `PATH`
 [PathAddPerl](#pathaddperl)| internal | Adds a Perl to `PATH`
@@ -289,6 +290,12 @@ file, and append the new objects to it. If `fullList` is set to `true`, we'll
 assume you've compiled the list yourself, and we overwrite the file with the
 new `data`.
 
+#### List
+
+    public void List()
+    
+Displays a list of the versions of Perl that are currently installed.
+    
 #### Off
 
     public void Off()

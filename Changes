@@ -1,5 +1,16 @@
 Revision history for berrybrew
 
+1.19    2018-11-01
+        - integrated hurricup's PR#107, which includes changes required in
+          preparation for berrybrew's inclusion within the Camelcade Perl5
+          intelliJ IDEA plugin
+        - added notes regarding version bumping and updating in README
+          (closes #108)
+        - add new "Create a development build" section in README (closes #109)
+        - fix typo in "exec --with" section in SYNOPSIS (fixes #115)
+        - added "list" command to docs (bin/API) and README (closes #111)
+        - add "Uninstall" section in README (closes #106)
+         
 1.18    2018-02-16
         - Perls listed with "berrybrew available" are now listed in numerical,
           descending order (closes #101) (thanks @shawnlaffan for the
