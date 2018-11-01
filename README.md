@@ -23,6 +23,7 @@ full list of documentation.
 ## Table of Contents
 
 - [Installation](#installation)
+- [Uninstall](#uninstall)
 - [Configuration](#configuration)
 - [Commands](#commands)
 - [Synopsis](#synopsis)
@@ -51,6 +52,18 @@ full list of documentation.
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
+
+## Uninstall
+
+First run the `berrybrew unconfig` command which removes the `PATH` environment
+variables for any in-use Perl installation, and then removes `berrybrew` from
+the `PATH` as well.
+
+If you wish to delete the actual installation:
+
+- remove the `C:\berrybrew` directory which contains the installation, perl
+installations and all configuration and temporary data
+- remove the original download directory
 
 ## Configuration
 
