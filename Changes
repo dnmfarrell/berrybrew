@@ -4,6 +4,7 @@ Revision history for berrybrew
         - added notes regarding version bumping and updating in README
           (closes #108)
         - add new "Create a development build" section in README (closes #109)
+        - fix typo in "exec --with" section in SYNOPSIS (fixes #115)
         
 1.18    2018-02-16
         - Perls listed with "berrybrew available" are now listed in numerical,

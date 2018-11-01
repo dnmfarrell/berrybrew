@@ -203,7 +203,7 @@ Execute something across all perls (we do not execute on Perls that has
 
 Execute on only a selection of installed versions:
 
-    > berrybrew exec --with 5.26.0_64,5.10.1_32 perl "die()"
+    > berrybrew exec --with 5.26.0_64,5.10.1_32 perl -e die()
 
     Perl-5.26.0_64
     ==============
