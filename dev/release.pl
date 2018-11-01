@@ -8,9 +8,9 @@ use File::Copy;
 
 # backup configs
 
-my $data_dir = 'data/';
-my $bak_dir = 'bak/';
-my $defaults_dir = 'dev/data/';
+my $data_dir = 'data';
+my $bak_dir = 'bak';
+my $defaults_dir = 'dev/data';
 
 if (! -d $bak_dir){
     mkdir $bak_dir or die $!;

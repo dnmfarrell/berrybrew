@@ -48,7 +48,7 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 45b8f88ca39d4e7289867c98188fb157dee906c6`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 9f9dd614768ac7553c8d61a07048fb3653ca30d1`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
