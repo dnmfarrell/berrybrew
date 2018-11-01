@@ -289,13 +289,31 @@ If you choose to ignore this, follow this procedure:
 
     bin\berrybrew.exe config
 
+## Create a development build
+
+During development, it's handy to be able to ensure the code builds and works
+correctly without overwriting the currently-installed production installation.
+
+Create the new development build:
+
+- run the `dev\build.bat` script, which compiles the binary and library, and
+places the new build within a newly-created `build` directory within your
+repository directory
+
+Test the new development build:
+
+- simply run `berrybrew` out of the new build directory, eg:
+
+    build\berrybrew.exe version
+    
 ## Create a Release
 
 If you've modified the information of the configuration files for the new
 build, you must copy them to the `dev\data` directory before performing the
 below steps.
 
-- if necessary, bump the version number within the `src/berrybrew.cs`'s `Version()` method
+- if necessary, bump the version number within the `src/berrybrew.cs`'s 
+`Version()` method
 
 Use the included `dev/release.pl` script, which:
 
@@ -309,7 +327,8 @@ Use the included `dev/release.pl` script, which:
 
 - updates the `README.md` file with the zip archive's new SHA1 sum
 
-- updates the `README.md` file with the version number found in the API's `Version()` method
+- updates the `README.md` file with the version number found in the API's 
+`Version()` method
 
 If you had any custom configuration files in place, run 
 `dev\post_release.pl` to restore them.
