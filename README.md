@@ -337,6 +337,9 @@ below steps.
 - if necessary, bump the version number within the `src/berrybrew.cs`'s 
 `Version()` method
 
+- run `berrybrew fetch`, and copy the `data/perls.json` file into the 
+`dev/data/` directory (this updates the Perls available listing)
+
 Use the included `dev/release.pl` script, which:
 
 - compiles the `berrybrew.exe` binary and the `bbapi.dll` API library
