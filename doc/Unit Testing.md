@@ -19,6 +19,10 @@ Unit tests are written in Perl.
 
 ## Running the tests
 
+IMPORTANT: It is highly recommended to close all command line windows and open a
+new one before starting the testing, as changes to the `PATH` environment
+variables during development may break the testing routines.
+
 Execute one of the following batch calls to run all tests
 
 - Run them all _en masse_, with the standard perl-module test results (with a summary of the number of files and number of tests passing and failing)

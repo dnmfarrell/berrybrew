@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.19 UNREL
+1.19    2018-11-01
         - integrated hurricup's PR#107, which includes changes required in
           preparation for berrybrew's inclusion within the Camelcade Perl5
           intelliJ IDEA plugin
