@@ -2,7 +2,9 @@
 
 ### Command List:
 
+- [debug](#debug)
 - [available](#available)
+- [list](#list)
 - [clean](#clean)
 - [clone](#clone)
 - [config](#config)
@@ -49,6 +51,16 @@ includes installed and custom versions. A shortened example:
 
     * Currently using
 
+#### list
+
+    berrybrew list
+    
+Takes no options, displays a list of the currently installed Perl instances:
+
+    berrybrew list
+            5.26.2_64
+            5.10.1_32
+            
 #### clean
 
 Usage:  `berrybrew clean [option]`

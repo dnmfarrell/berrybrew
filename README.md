@@ -87,7 +87,7 @@ will reside.
 
 ## Synopsis
 
-List all available versions of Perl that are available:
+List all versions of Perl that are available, installed, and currently used:
     
     > berrybrew available
 
@@ -117,6 +117,13 @@ List all available versions of Perl that are available:
         5.24.1_64       [custom] [installed] *
 
     * Currently using
+    
+List all currently installed versions of Perl:
+
+    > berrybrew list
+
+        5.26.2_64
+        5.10.1_32
     
 Install a specific version:
 
