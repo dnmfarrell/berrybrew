@@ -1,5 +1,9 @@
 Revision history for berrybrew
 
+1.19 UNREL
+        - added notes regarding version bumping and updating in README
+          (closes #108)
+
 1.18    2018-02-16
         - Perls listed with "berrybrew available" are now listed in numerical,
           descending order (closes #101) (thanks @shawnlaffan for the

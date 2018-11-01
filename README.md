@@ -295,6 +295,8 @@ If you've modified the information of the configuration files for the new
 build, you must copy them to the `dev\data` directory before performing the
 below steps.
 
+- if necessary, bump the version number within the `src/berrybrew.cs`'s `Version()` method
+
 Use the included `dev/release.pl` script, which:
 
 - compiles the `berrybrew.exe` binary and the `bbapi.dll` API library
@@ -306,6 +308,8 @@ Use the included `dev/release.pl` script, which:
 - performs SHA1 checksum tasks
 
 - updates the `README.md` file with the zip archive's new SHA1 sum
+
+- updates the `README.md` file with the version number found in the API's `Version()` method
 
 If you had any custom configuration files in place, run 
 `dev\post_release.pl` to restore them.
