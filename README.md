@@ -30,6 +30,7 @@ full list of documentation.
 - [Update Perls Available](#update-perls-available)
 - [Configure Perl Instance Directory](#configure-root-directory)
 - [Compile Your Own](#compile-your-own)
+- [Create a Development Build](#create-a-development-build)
 - [Create a Release](#create-a-release)
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
@@ -289,7 +290,7 @@ If you choose to ignore this, follow this procedure:
 
     bin\berrybrew.exe config
 
-## Create a development build
+## Create a Development Build
 
 During development, it's handy to be able to ensure the code builds and works
 correctly without overwriting the currently-installed production installation.
@@ -308,8 +309,8 @@ Test the new development build:
     
 ## Create a Release
 
-If you've modified the information of the configuration files for the new
-build, you must copy them to the `dev\data` directory before performing the
+IMPORTANT: If you've modified the information of the configuration files for the
+new build, you must copy them to the `dev\data` directory before performing the
 below steps.
 
 - if necessary, bump the version number within the `src/berrybrew.cs`'s 
