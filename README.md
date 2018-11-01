@@ -48,7 +48,7 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 06e1d045e4141f15d5a048ef7023c1cde13a7aef`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: f59ddd14920f81bdfe8f7f18e5d93e9815b8c14d`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
@@ -79,6 +79,7 @@ will reside.
     berrybrew <command> [subcommand] [option]
 
         available   List available Strawberry Perl versions and which are installed
+        list        List the version numbers of all installed Perls
         config      Add berrybrew to your PATH
         clean *     Remove all temporary berrybrew files
         clone       Clones an installed version to a custom-named one
@@ -408,7 +409,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.18
+    1.19
 
 ## Original Author
 
