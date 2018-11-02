@@ -32,7 +32,6 @@ full list of documentation.
 - [Configure Perl Instance Directory](#configure-root-directory)
 - [Compile Your Own](#compile-your-own)
 - [Create a Development Build](#create-a-development-build)
-- [Create a Release](#create-a-release)
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
 - [Documentation](#see-also)
@@ -331,36 +330,6 @@ Test the new development build:
 
     build\berrybrew.exe version
     
-## Create a Release
-
-IMPORTANT: If you've modified the information of the configuration files for the
-new build, you must copy them to the `dev\data` directory before performing the
-below steps.
-
-- if necessary, bump the version number within the `src/berrybrew.cs`'s 
-`Version()` method
-
-- run `berrybrew fetch`, and copy the `data/perls.json` file into the 
-`dev/data/` directory (this updates the Perls available listing)
-
-Use the included `dev/release.pl` script, which:
-
-- compiles the `berrybrew.exe` binary and the `bbapi.dll` API library
-
-- collects default configuration files
-
-- builds the bundled zip archive, and puts it into `download/`
-
-- performs SHA1 checksum tasks
-
-- updates the `README.md` file with the zip archive's new SHA1 sum
-
-- updates the `README.md` file with the version number found in the API's 
-`Version()` method
-
-If you had any custom configuration files in place, run 
-`dev\post_release.pl` to restore them.
-
 ## Requirements
 
 - .Net Framework 2.0 or higher
