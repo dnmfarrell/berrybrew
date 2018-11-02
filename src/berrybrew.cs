@@ -120,6 +120,11 @@ namespace BerryBrew {
             List<int> nameLengths = new List<int>();
             List<StrawberryPerl> installedPerls = PerlsInstalled();
 
+            if (! installedPerls.Any()){
+                Console.Write("\nNo versions of Perl are installed.\n");
+                Environment.Exit(0);
+            }
+
             foreach (StrawberryPerl perl in installedPerls)
                 nameLengths.Add(perl.Name.Length);
 
