@@ -6,7 +6,9 @@ Revision history for berrybrew
         - add note in Unit Testing doc to update the t/data/available.txt and
           t/data/custom_available.txt files if Perls available has changed
           before running tests (fixes #118)
-         
+        - rearrange the Installation and Configuration sections in README
+          (closes #122)
+           
 1.19    2018-11-01
         - integrated hurricup's PR#107, which includes changes required in
           preparation for berrybrew's inclusion within the Camelcade Perl5

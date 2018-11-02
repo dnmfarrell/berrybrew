@@ -2,8 +2,8 @@
 
 The perlbrew for Windows Strawberry Perl! 
 
-For a quick-start, jump to the [Installation](#installation) and
-[Configuration](#configuration) sections.
+For a quick-start, jump to the [Install](#install) and [Commands](#commands)
+sections.
 
 `berrybrew` can download, install, remove and manage multiple concurrent
 versions of Strawberry Perl for Windows. There is no 
@@ -22,7 +22,7 @@ full list of documentation.
 
 ## Table of Contents
 
-- [Installation](#installation)
+- [Install](#install)
 - [Uninstall](#uninstall)
 - [Configuration](#configuration)
 - [Commands](#commands)
@@ -40,7 +40,7 @@ full list of documentation.
 - [License](#license)
 - [Version](#version)
 
-## Installation
+## Install
 
 ##### Git clone
 
@@ -53,6 +53,13 @@ full list of documentation.
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
 
+See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) 
+if you wish to change the default location that your Perl installations
+will reside, before running the actual installation commands below.
+
+    cd berrybrew
+    bin\berrybrew.exe config
+
 ## Uninstall
 
 First run the `berrybrew unconfig` command which removes the `PATH` environment
@@ -64,15 +71,6 @@ If you wish to delete the actual installation:
 - remove the `C:\berrybrew` directory which contains the installation, perl
 installations and all configuration and temporary data
 - remove the original download directory
-
-## Configuration
-
-See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) 
-if you wish to change the default location that your Perl installations
-will reside.
-
-    cd berrybrew
-    bin\berrybrew.exe config
 
 ## Commands
 
