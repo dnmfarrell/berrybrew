@@ -1,6 +1,6 @@
 ## berrybrew Configuration
 
-[Global config](#global-config)
+### [Global config](#global-config)
 
 |Directive|Description|
 |---|---|   
@@ -11,9 +11,9 @@
 [download_url](#download_url)|The URL for the Strawberry release JSON file|
 [custom_exec](#custom_exec)|Include custom (cloned) instances under `berrybrew exec`|
     
-[Messages config](#messages-config)
+### [Messages config](#messages-config)
 
-[Perls available config](#perl-config)
+### [Perls available config](#perl-config)
 
 #### Global Config
 
