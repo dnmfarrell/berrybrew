@@ -10,7 +10,9 @@ Revision history for berrybrew
           (closes #122)
         - replace magic number in CheckName() with a private const int
           (closes #119)
-
+        - update examples with most recent Perl versions in README (SYNOPSIS)
+          (closes #123)
+          
 1.19    2018-11-01
         - integrated hurricup's PR#107, which includes changes required in
           preparation for berrybrew's inclusion within the Camelcade Perl5
