@@ -8,7 +8,9 @@ Revision history for berrybrew
           before running tests (fixes #118)
         - rearrange the Installation and Configuration sections in README
           (closes #122)
-           
+        - replace magic number in CheckName() with a private const int
+          (closes #119)
+
 1.19    2018-11-01
         - integrated hurricup's PR#107, which includes changes required in
           preparation for berrybrew's inclusion within the Camelcade Perl5

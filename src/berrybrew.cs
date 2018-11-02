@@ -39,6 +39,8 @@ namespace BerryBrew {
         private const int WM_SETTINGCHANGE = 0x001a;
         private const int SMTO_ABORTIFHUNG = 0x2;
 
+        private const int MAX_PERL_NAME_LENGTH = 25;
+
         public bool Debug { set; get; }
 
         static string assembly_path = Assembly.GetExecutingAssembly().Location;
@@ -166,9 +168,10 @@ namespace BerryBrew {
 
         private static bool CheckName (string perlName){
 
-            if (perlName.Length > 25){
+            if (perlName.Length > MAX_PERL_NAME_LENGTH){
                 Console.WriteLine(
-                    "name for a Perl must be 25 chars or less. You supplied {0}, length {1}",
+                    "name for a Perl must be {0} chars or less. You supplied {1}, length {2}",
+                    MAX_PERL_NAME_LENGTH,
                     perlName,
                     perlName.Length
                 );
