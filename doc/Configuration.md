@@ -1,7 +1,15 @@
 ## berrybrew Configuration
 
 - [Global config](#global-config)
+    - [debug](#debug) Enable/disable debugging
+    - [root_dir](#root_dir) Location of the Perl installations
+    - [temp_dir](#temp_dir) Location of `berrybrew` temporary files
+    - [strawberry_url](#strawberry_url) The Strawberry Perl website
+    - [download_url](#download_url) The URL for the Strawberry release JSON file
+    - [custom_exec](#custom_exec) Include custom (cloned) instances under `berrybrew exec`
+    
 - [Messages config](#messages-config)
+
 - [Perls available config](#perl-config)
 
 #### Global Config
@@ -13,6 +21,14 @@ File location:
     data\config.json
 
 Available options:
+
+###### debug
+
+Enables debugging output.
+
+Default: `false`
+
+Values: "true" or "false"
 
 ###### root_dir
 
@@ -29,14 +45,6 @@ Directory where we store the Perl installation zip files.
 Default: `C:\berrybrew\temp`
 
 Values: Any directory accessible on the system.
-
-###### debug
-
-Enables debugging output.
-
-Default: `false`
-
-Values: "true" or "false"
 
 ###### strawberry_url
 

@@ -6,6 +6,8 @@ Revision history for berrybrew
           "Create a release" README sections to their own documentation files.
           Also greatly expanded on the "Create a release" doc to include steps
           to complete the entire release cycle (closes #126)
+        - added a config directive index at the top of the configuration doc
+          file (closes #129)
 
 1.20    2018-11-02
         - fix improper indentation of the Off() method in berrybrew.cs
