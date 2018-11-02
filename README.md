@@ -2,8 +2,8 @@
 
 The perlbrew for Windows Strawberry Perl! 
 
-For a quick-start, jump to the [Installation](#installation) and
-[Configuration](#configuration) sections.
+For a quick-start, jump to the [Install](#install) and [Commands](#commands)
+sections.
 
 `berrybrew` can download, install, remove and manage multiple concurrent
 versions of Strawberry Perl for Windows. There is no 
@@ -22,7 +22,7 @@ full list of documentation.
 
 ## Table of Contents
 
-- [Installation](#installation)
+- [Install](#install)
 - [Uninstall](#uninstall)
 - [Configuration](#configuration)
 - [Commands](#commands)
@@ -40,7 +40,7 @@ full list of documentation.
 - [License](#license)
 - [Version](#version)
 
-## Installation
+## Install
 
 ##### Git clone
 
@@ -48,10 +48,17 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 9f9dd614768ac7553c8d61a07048fb3653ca30d1`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 0e3d568df5ccbff70e9c5f4ad2642cd2754ee27a`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
+
+See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) 
+if you wish to change the default location that your Perl installations
+will reside, before running the actual installation commands below.
+
+    cd berrybrew
+    bin\berrybrew.exe config
 
 ## Uninstall
 
@@ -64,15 +71,6 @@ If you wish to delete the actual installation:
 - remove the `C:\berrybrew` directory which contains the installation, perl
 installations and all configuration and temporary data
 - remove the original download directory
-
-## Configuration
-
-See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) 
-if you wish to change the default location that your Perl installations
-will reside.
-
-    cd berrybrew
-    bin\berrybrew.exe config
 
 ## Commands
 
@@ -107,12 +105,15 @@ List all versions of Perl that are available, installed, and currently used:
 
     The following Strawberry Perls are available:
 
-        5.26.0_64
-        5.26.0_64_PDL
-        5.26.0_32
-        5.24.2_64
-        5.24.2_64_PDL
-        5.24.2_32
+        5.28.0_64
+        5.28.0_64_PDL
+        5.28.0_32
+        5.26.2_64
+        5.26.2_64_PDL
+        5.26.2_32
+        5.24.4_64
+        5.24.4_64_PDL
+        5.24.4_32
         5.22.3_64
         5.22.3_64_PDL
         5.22.3_32
@@ -125,6 +126,7 @@ List all versions of Perl that are available, installed, and currently used:
         5.16.3_32
         5.14.4_64
         5.14.4_32
+        5.12.3_64
         5.12.3_32
         5.10.1_32       [installed]
         5.8.9_32
@@ -136,37 +138,38 @@ List all currently installed versions of Perl:
 
     > berrybrew list
 
+        5.28.0_64
         5.26.2_64
         5.10.1_32
     
 Install a specific version:
 
-    > berrybrew install 5.26.0_64
+    > berrybrew install 5.28.0_64
 
 Switch to a different version (permanently):
 
-    > berrybrew switch 5.26.0_64
+    > berrybrew switch 5.28.0_64
 
-    Switched to 5.26.0_64, start a new terminal to use it.
+    Switched to 5.28.0_64, start a new terminal to use it.
 
 Start a new cmd.exe to use the new version:
 
     > perl -v
 
-    This is perl 5, version 26, subversion 0 (v5.26.0) built for MSWin32-x64-multi-thread
+    This is perl 5, version 28, subversion 0 (v5.28.0) built for MSWin32-x64-multi-thread
 
     ...       
 
 Clone an installed instance (very useful for setting up a main instance,
 and cloning it into an instance named "template")
 
-    > berrybrew clone 5.26.0_64 template
+    > berrybrew clone 5.28.0_64 template
 
 Uninstall a version of perl:
 
-    > berrybrew remove 5.26.0_64
+    > berrybrew remove 5.28.0_64
 
-    Successfully removed Strawberry Perl 5.26.0_64
+    Successfully removed Strawberry Perl 5.28.0_64
 
 Manually register a custom directory within the Perl installation directory
 
@@ -187,14 +190,14 @@ Temporarily use a Perl version, but spawn in a new command window:
 
 Temporarily spawn several versions, all in new windows:
 
-    > berrybrew use --win 5.10.1_32,5.24.2_64,5.26.0_64
+    > berrybrew use --win 5.10.1_32,5.24.2_64,5.28.0_64
 
 Execute something across all perls (we do not execute on Perls that has
 'tmpl' or 'template' in the name):
 
     > berrybrew exec prove -l
 
-    Perl-5.26.0_64
+    Perl-5.28.0_64
     ==============
     t\DidYouMean.t .. ok
     All tests successful.
@@ -224,9 +227,9 @@ Execute something across all perls (we do not execute on Perls that has
 
 Execute on only a selection of installed versions:
 
-    > berrybrew exec --with 5.26.0_64,5.10.1_32 perl -e die()
+    > berrybrew exec --with 5.28.0_64,5.10.1_32 perl -e die()
 
-    Perl-5.26.0_64
+    Perl-5.28.0_64
     ==============
     Died at -e line 1.
 
@@ -337,6 +340,9 @@ below steps.
 - if necessary, bump the version number within the `src/berrybrew.cs`'s 
 `Version()` method
 
+- run `berrybrew fetch`, and copy the `data/perls.json` file into the 
+`dev/data/` directory (this updates the Perls available listing)
+
 Use the included `dev/release.pl` script, which:
 
 - compiles the `berrybrew.exe` binary and the `bbapi.dll` API library
@@ -409,7 +415,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.19
+    1.20
 
 ## Original Author
 

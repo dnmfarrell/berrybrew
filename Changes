@@ -1,5 +1,20 @@
 Revision history for berrybrew
 
+1.20    2018-11-02
+        - fix improper indentation of the Off() method in berrybrew.cs
+          (fixes #120)
+        - add note in Unit Testing doc to update the t/data/available.txt and
+          t/data/custom_available.txt files if Perls available has changed
+          before running tests (fixes #118)
+        - rearrange the Installation and Configuration sections in README
+          (closes #122)
+        - replace magic number in CheckName() with a private const int
+          (closes #119)
+        - update examples with most recent Perl versions in README (SYNOPSIS)
+          (closes #123)
+        - fix a missed exception handling in List() when no Perls are installed
+          (fixes #117)
+                  
 1.19    2018-11-01
         - integrated hurricup's PR#107, which includes changes required in
           preparation for berrybrew's inclusion within the Camelcade Perl5

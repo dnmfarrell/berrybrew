@@ -7,8 +7,6 @@ my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berr
 
 my $v = `$c version`;
 
-print "\n\nTEST VERSION: $v\n\n";
-
 my $list = `$c available`;
 
 #@avail = grep {s/\s+//g; $_ =~ /^5/} @avail;
@@ -20,6 +18,7 @@ my @base = <$fh>;
 pop @base;
 
 my @list = split /\n/, $list;
+shift @list;
 
 for (@list){
     s/\s+//g;

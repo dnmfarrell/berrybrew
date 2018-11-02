@@ -39,6 +39,8 @@ namespace BerryBrew {
         private const int WM_SETTINGCHANGE = 0x001a;
         private const int SMTO_ABORTIFHUNG = 0x2;
 
+        private const int MAX_PERL_NAME_LENGTH = 25;
+
         public bool Debug { set; get; }
 
         static string assembly_path = Assembly.GetExecutingAssembly().Location;
@@ -118,6 +120,11 @@ namespace BerryBrew {
             List<int> nameLengths = new List<int>();
             List<StrawberryPerl> installedPerls = PerlsInstalled();
 
+            if (! installedPerls.Any()){
+                Console.Write("\nNo versions of Perl are installed.\n");
+                Environment.Exit(0);
+            }
+
             foreach (StrawberryPerl perl in installedPerls)
                 nameLengths.Add(perl.Name.Length);
 
@@ -166,9 +173,10 @@ namespace BerryBrew {
 
         private static bool CheckName (string perlName){
 
-            if (perlName.Length > 25){
+            if (perlName.Length > MAX_PERL_NAME_LENGTH){
                 Console.WriteLine(
-                    "name for a Perl must be 25 chars or less. You supplied {0}, length {1}",
+                    "name for a Perl must be {0} chars or less. You supplied {1}, length {2}",
+                    MAX_PERL_NAME_LENGTH,
                     perlName,
                     perlName.Length
                 );
@@ -619,7 +627,7 @@ namespace BerryBrew {
             System.IO.File.WriteAllText(writeFile, jsonString);
         }
 
-            public void Off(){
+        public void Off(){
 
             PathRemovePerl();
             Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
@@ -1303,7 +1311,7 @@ namespace BerryBrew {
         }
 
         public string Version(){
-            return @"1.19";
+            return @"1.20";
         }
 
         internal Process ProcessCreate(string cmd, bool hidden=true){
