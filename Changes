@@ -1,7 +1,7 @@
 Revision history for berrybrew
 
 1.21 UNREL
-        -
+        - updated CONTRIBUTING doc (closes #128)
 
 1.20    2018-11-02
         - fix improper indentation of the Off() method in berrybrew.cs
