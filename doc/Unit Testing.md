@@ -23,6 +23,11 @@ IMPORTANT: It is highly recommended to close all command line windows and open a
 new one before starting the testing, as changes to the `PATH` environment
 variables during development may break the testing routines.
 
+IMPORTANT: If you've updated the list of available Perls in the `perls.json`
+file (ie. ran `berrybrew fetch`), you must copy/paste the output of
+`berrybrew available` into the `t/data/available.txt` file. See that file for
+details.
+
 Execute one of the following batch calls to run all tests
 
 - Run them all _en masse_, with the standard perl-module test results (with a summary of the number of files and number of tests passing and failing)
