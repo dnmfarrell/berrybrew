@@ -30,8 +30,6 @@ full list of documentation.
 - [Upgrading](#upgrading)
 - [Update Perls Available](#update-perls-available)
 - [Configure Perl Instance Directory](#configure-root-directory)
-- [Compile Your Own](#compile-your-own)
-- [Create a Development Build](#create-a-development-build)
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
 - [Documentation](#see-also)
@@ -289,47 +287,6 @@ If you choose to ignore this, follow this procedure:
 
 - run `berrybrew switch $version` to set things back up
 
-## Compile Your Own 
-
-    git clone https://github.com/stevieb9/berrybrew
-    cd berrybrew
-    
-    # compile the API library
-
-    mcs \
-        -lib:bin \
-        -t:library \
-        -r:Newtonsoft.Json.dll,ICSharpCode.SharpZipLib.dll \ 
-        -out:bin/bbapi.dll \
-        src/berrybrew.cs
-
-    # compile the berrybrew.exe binary
-
-    mcs \
-        src/bbconsole.cs
-        -lib:bin -r:bbapi.dll \
-        -out:bin/berrybrew.exe \
-        -win32icon:inc/berrybrew.ico
-
-    bin\berrybrew.exe config
-
-## Create a Development Build
-
-During development, it's handy to be able to ensure the code builds and works
-correctly without overwriting the currently-installed production installation.
-
-Create the new development build:
-
-- run the `dev\build.bat` script, which compiles the binary and library, and
-places the new build within a newly-created `build` directory within your
-repository directory
-
-Test the new development build:
-
-- simply run `berrybrew` out of the new build directory, eg:
-
-    build\berrybrew.exe version
-    
 ## Requirements
 
 - .Net Framework 2.0 or higher
@@ -363,6 +320,14 @@ line:
 
 - [Configuration](https://github.com/stevieb9/berrybrew/blob/master/doc/Configuration.md)
  Guide to various configuration files and options
+ 
+ - [Create and Publish a Release](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Create%20a%20Release.md)
+ Guide to creating a release, publishing it as a production install, and
+ setting up the next release branch
+ 
+ - dev build
+ 
+ - compile your own install
 
 ## CAVEATS
 
