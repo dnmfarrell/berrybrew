@@ -325,9 +325,11 @@ line:
  Guide to creating a release, publishing it as a production install, and
  setting up the next release branch
  
- - dev build
+ - [Create a Development Build](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Create%20a%20Development%20Build.md)
+ Guide to creating a development build for testing new functionality
  
- - compile your own install
+ - [Compile Your Own Installation](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Compile%20Your%20Own.md)
+ Guide to compiling `berrybrew` from source
 
 ## CAVEATS
 
