@@ -1,5 +1,10 @@
 Revision history for berrybrew
 
+1.20 UNREL
+        - fix improper indentation of the Off() method in berrybrew.cs
+          (fixes #120)
+        -
+        
 1.19    2018-11-01
         - integrated hurricup's PR#107, which includes changes required in
           preparation for berrybrew's inclusion within the Camelcade Perl5

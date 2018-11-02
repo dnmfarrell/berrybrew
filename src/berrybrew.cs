@@ -619,7 +619,7 @@ namespace BerryBrew {
             System.IO.File.WriteAllText(writeFile, jsonString);
         }
 
-            public void Off(){
+        public void Off(){
 
             PathRemovePerl();
             Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
