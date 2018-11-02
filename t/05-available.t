@@ -18,6 +18,7 @@ my @base = <$fh>;
 pop @base;
 
 my @list = split /\n/, $list;
+shift @list;
 
 for (@list){
     s/\s+//g;

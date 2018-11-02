@@ -3,9 +3,10 @@ Revision history for berrybrew
 1.20 UNREL
         - fix improper indentation of the Off() method in berrybrew.cs
           (fixes #120)
-        - add note in Unit Testing doc to update the t/data/available.txt file
-          if Perls available has changed before running tests (fixes #118)
-        
+        - add note in Unit Testing doc to update the t/data/available.txt and
+          t/data/custom_available.txt files if Perls available has changed
+          before running tests (fixes #118)
+         
 1.19    2018-11-01
         - integrated hurricup's PR#107, which includes changes required in
           preparation for berrybrew's inclusion within the Camelcade Perl5

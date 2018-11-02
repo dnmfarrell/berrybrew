@@ -24,9 +24,15 @@ new one before starting the testing, as changes to the `PATH` environment
 variables during development may break the testing routines.
 
 IMPORTANT: If you've updated the list of available Perls in the `perls.json`
-file (ie. ran `berrybrew fetch`), you must copy/paste the output of
-`berrybrew available` into the `t/data/available.txt` file. See that file for
-details.
+file (ie. ran `berrybrew fetch`), you must perform a couple of tasks for the
+tests to complete successfully:
+
+- copy/paste the output of `berrybrew available` into the `t/data/available.txt`
+file. See that file for details.
+- review `t/data/custom_available.txt`. All of the Perls listed above the
+`[installed]` ones need to be replaced with the updated versions from
+`berrybrew available`. Simply remove them all, and paste in the new list,
+leaving the existing `[installed]` ones in place
 
 Execute one of the following batch calls to run all tests
 
