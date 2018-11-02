@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.20 UNREL
+1.20    2018-11-02
         - fix improper indentation of the Off() method in berrybrew.cs
           (fixes #120)
         - add note in Unit Testing doc to update the t/data/available.txt and
