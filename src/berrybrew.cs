@@ -349,10 +349,14 @@ namespace BerryBrew {
             process.Start();
 
             process.OutputDataReceived += (proc, line)=>{
-                Console.Out.WriteLine(line.Data);
+                if( line.Data != null){
+                    Console.Out.WriteLine(line.Data);
+                }
             };
             process.ErrorDataReceived += (proc, line)=>{
-                Console.Error.WriteLine(line.Data);
+                if( line.Data != null){
+                    Console.Error.WriteLine(line.Data);
+                }
             };
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
