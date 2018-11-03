@@ -314,9 +314,9 @@ namespace BerryBrew {
                 Message.Print("config_complete");
         }
 
-        internal void Exec(StrawberryPerl perl, List<string> parameters, string sysPath, Boolean printHeader){
+        internal void Exec(StrawberryPerl perl, List<string> parameters, string sysPath, Boolean singleMode){
 
-            if(printHeader){
+            if(!singleMode){
                 Console.WriteLine("perl-" + perl.Name + "\n==============");
             }
 
@@ -357,6 +357,9 @@ namespace BerryBrew {
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
+            if (singleMode){
+                Environment.ExitCode = process.ExitCode;
+            }
         }
 
         public void ExecCompile(List<String> parameters){
@@ -393,7 +396,7 @@ namespace BerryBrew {
             }
 
             foreach (StrawberryPerl perl in filteredExecWith){
-                Exec(perl, parameters, sysPath, filteredExecWith.Count > 1);
+                Exec(perl, parameters, sysPath, filteredExecWith.Count == 1);
             }
         }
 
