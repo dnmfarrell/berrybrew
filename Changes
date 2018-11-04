@@ -1,5 +1,21 @@
 Revision history for berrybrew
 
+1.21 2018-11-04
+        - updated CONTRIBUTING doc (closes #128)
+        - moved the "Compile your own installation", "Create a dev build", and
+          "Create a release" README sections to their own documentation files.
+          Also greatly expanded on the "Create a release" doc to include steps
+          to complete the entire release cycle (closes #126)
+        - added a config directive index at the top of the configuration doc
+          file (closes #129)
+        - integrate hurricup's PR#132, proxy of error code if 'exec' is run
+          in single mode (prep for integration with Camelcade Perl5 plugin)
+        - test changes in PR#132, and modify docs accordingly (closes #133)
+        - the "test" directory is no longer seen as an orphaned Perl install
+          (closes #134)
+        - add note in "create a dev release" doc that all Perl instances are
+          located under the "test" directory (closes #135)
+
 1.20    2018-11-02
         - fix improper indentation of the Off() method in berrybrew.cs
           (fixes #120)

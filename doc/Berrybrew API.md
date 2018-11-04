@@ -156,16 +156,19 @@ variable.
 
 #### Exec
 
-    internal void Exec(StrawberryPerl perl, string command, string sysPath)
+    internal void Exec(StrawberryPerl perl, List<string> parameters, string sysPath, Boolean singleMode)
 
         argument:   perl
         value:      A single StrawberryPerl object
 
-        argument:   command
+        argument:   parameters
         value:      The full command string you want all installed Perls to execute
 
         argument:   sysPath
         value:      String containing the full Machine PATH environment variable
+        
+        argument:   singleMode
+        value:      True if running on a single Perl instance, False otherwise
 
 Called by `ExecCompile()`, sends a single Perl instance a command to execute.
 

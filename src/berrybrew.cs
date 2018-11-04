@@ -322,9 +322,9 @@ namespace BerryBrew {
                 Message.Print("config_complete");
         }
 
-        internal void Exec(StrawberryPerl perl, List<string> parameters, string sysPath, Boolean printHeader){
+        internal void Exec(StrawberryPerl perl, List<string> parameters, string sysPath, Boolean singleMode){
 
-            if(printHeader){
+            if(!singleMode){
                 Console.WriteLine("perl-" + perl.Name + "\n==============");
             }
 
@@ -357,14 +357,21 @@ namespace BerryBrew {
             process.Start();
 
             process.OutputDataReceived += (proc, line)=>{
-                Console.Out.WriteLine(line.Data);
+                if( line.Data != null){
+                    Console.Out.WriteLine(line.Data);
+                }
             };
             process.ErrorDataReceived += (proc, line)=>{
-                Console.Error.WriteLine(line.Data);
+                if( line.Data != null){
+                    Console.Error.WriteLine(line.Data);
+                }
             };
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
+            if (singleMode){
+                Environment.ExitCode = process.ExitCode;
+            }
         }
 
         public void ExecCompile(List<String> parameters){
@@ -401,7 +408,7 @@ namespace BerryBrew {
             }
 
             foreach (StrawberryPerl perl in filteredExecWith){
-                Exec(perl, parameters, sysPath, filteredExecWith.Count > 1);
+                Exec(perl, parameters, sysPath, filteredExecWith.Count == 1);
             }
         }
 
@@ -816,9 +823,12 @@ namespace BerryBrew {
             foreach (string dir in dirs){
                 if (dir == this.archivePath)
                     continue;
+                
+                if (Regex.Match(dir, @"\\test$").Success)
+                    continue;
 
                 if (! perlInstallations.Contains(dir) && ! Regex.Match(dir, @".cpanm").Success){
-                    string dirBaseName= dir.Remove(0, this.rootPath.Length);
+                    string dirBaseName = dir.Remove(0, this.rootPath.Length);
                     orphans.Add(dirBaseName);
                 }
             }
@@ -1311,7 +1321,7 @@ namespace BerryBrew {
         }
 
         public string Version(){
-            return @"1.20";
+            return @"1.21";
         }
 
         internal Process ProcessCreate(string cmd, bool hidden=true){
