@@ -8,6 +8,9 @@ Revision history for berrybrew
           to complete the entire release cycle (closes #126)
         - added a config directive index at the top of the configuration doc
           file (closes #129)
+        - integrate hurricup's PR#132, proxy of error code if 'exec' is run
+          in single mode (prep for integration with Camelcade Perl5 plugin)
+        - test changes in PR#132, and modify docs accordingly (closes #133)
 
 1.20    2018-11-02
         - fix improper indentation of the Off() method in berrybrew.cs

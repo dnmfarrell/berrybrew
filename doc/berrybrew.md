@@ -106,9 +106,9 @@ Takes no arguments. Simply sets up your `PATH` environment variables so that
 
 #### exec
 
-Usage:  `berrybrew exec [options] <command>`
+Usage:  `berrybrew exec [options] <version> <commands>`
 
-Executes the command and its arguments found in `<command>`, and
+Executes the command and its arguments found in `<commands>`, and
 executes it across all installed Perl instances, less ones that have
 either `tmpl` or `template` in the name.
 
