@@ -10,5 +10,3 @@ mkdir c:\berrybrew\test
 mkdir c:\berrybrew\test\temp
 
 %BBTEST_PERLROOT%\perl\bin\perl t/run_tests.pl %*
-
-echo %BBTEST_PERLROOT%

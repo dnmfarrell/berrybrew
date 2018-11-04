@@ -8,6 +8,8 @@ Revision history for berrybrew
           to complete the entire release cycle (closes #126)
         - added a config directive index at the top of the configuration doc
           file (closes #129)
+        - the "test" directory is no longer seen as an orphaned Perl install
+          (closes #134)
 
 1.20    2018-11-02
         - fix improper indentation of the Off() method in berrybrew.cs

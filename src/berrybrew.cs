@@ -823,9 +823,12 @@ namespace BerryBrew {
             foreach (string dir in dirs){
                 if (dir == this.archivePath)
                     continue;
+                
+                if (Regex.Match(dir, @"\\test$").Success)
+                    continue;
 
                 if (! perlInstallations.Contains(dir) && ! Regex.Match(dir, @".cpanm").Success){
-                    string dirBaseName= dir.Remove(0, this.rootPath.Length);
+                    string dirBaseName = dir.Remove(0, this.rootPath.Length);
                     orphans.Add(dirBaseName);
                 }
             }
