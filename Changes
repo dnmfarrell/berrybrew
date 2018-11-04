@@ -13,6 +13,8 @@ Revision history for berrybrew
         - test changes in PR#132, and modify docs accordingly (closes #133)
         - the "test" directory is no longer seen as an orphaned Perl install
           (closes #134)
+        - add note in "create a dev release" doc that all Perl instances are
+          located under the "test" directory (closes #135)
 
 1.20    2018-11-02
         - fix improper indentation of the Off() method in berrybrew.cs

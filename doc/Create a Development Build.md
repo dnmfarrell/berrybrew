@@ -18,3 +18,8 @@ Use the new development build:
 - simply run `berrybrew` out of the new build directory, eg:
 
     build\berrybrew.exe command [options]
+    
+NOTE: When running under the development build, Perl installations and
+`berrybrew`'s temporary directory are stored within a newly created `test`
+directory underneath of `berrybrew`'s default directory (defaults to 
+`C:\berrybrew`)    
