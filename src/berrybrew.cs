@@ -47,7 +47,7 @@ namespace BerryBrew {
         private readonly string _binPath = AssemblyDirectory;
         private readonly string _confPath;
         private readonly string _downloadUrl;
-        private readonly string _strawberryUrl;
+        // private readonly string _strawberryUrl; /* currently unneeded */
         private readonly bool _customExec;
 
         private bool _bypassOrphanCheck;
@@ -65,7 +65,7 @@ namespace BerryBrew {
             dynamic jsonConf = JsonParse("config");
             RootPath = jsonConf.root_dir + "\\";
             ArchivePath = jsonConf.temp_dir;
-            _strawberryUrl = jsonConf.strawberry_url;
+            // _strawberryUrl = jsonConf.strawberry_url; /* currently unneeded */
             _downloadUrl = jsonConf.download_url;
             if (jsonConf.custom_exec == "true")
                 _customExec = true;
@@ -94,7 +94,7 @@ namespace BerryBrew {
 
             // perls
 
-            bool installPerlsIntoSelf = true;
+            const bool installPerlsIntoSelf = true;
             PerlGenerateObjects(installPerlsIntoSelf);
         }
 
