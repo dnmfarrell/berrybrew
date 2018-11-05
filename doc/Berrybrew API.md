@@ -46,6 +46,7 @@ The `Berrybrew` class is the base of the system.
 [PerlGenerateObjects](#perlgenerateobjects)| private | Generates the `StrawberryPerl` class objects
 [PerlInUse](#perlinuse)| private | Returns the name of the Perl currently in use
 [PerlIsInstalled](#perlisinstalled)| private | Checks if a specific Perl is installed
+[PerlsInstalled](#perlsinstalled)| private | Fetches the list of Perls installed
 [PerlRemove](#perlremove)| **public** | Uninstalls a specific instance of Perl
 [PerlRegisterCustomInstall](#perlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
 [PerlResolveVersion](#PerlResolveVersion)| private | Resolves the name of a Perl to its StrawberryPerl object
@@ -444,6 +445,14 @@ Locates which instance of Perl is currently in use, and returns the
 Checks to see whether a specific Perl instance is installed. Returns `true`
 if it is, and `false` if not.
 
+#### PerlsInstalled
+
+    private List<StrawberryPerl> PerlsInstalled()
+    
+    return: A list of the Strawberry Perl objects currently installed
+    
+Fetches the list of currently installed Perl instances, and returns a list of objects.
+    
 #### PerlRemove
 
     public void PerlRemove(string versionToRemove)
