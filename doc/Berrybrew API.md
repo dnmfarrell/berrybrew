@@ -37,6 +37,7 @@ The `Berrybrew` class is the base of the system.
 [PathAddBerryBrew](#pathaddberrybrew)| private | Adds `berrybrew` to `PATH`
 [PathAddPerl](#pathaddperl)| private | Adds a Perl to `PATH`
 [PathGet](#pathget)| private | Retrieves the Machine `PATH`
+[PathGetUsr](#pathgetusr)| private | Get the currently logged in user's `PATH` environment variable
 [PathRemoveBerrybrew](#pathremoveberrybrew)| private | Removes berrybrew from `PATH`
 [PathRemovePerl](#pathremoveperl)| private | Removes specified Perl from `PATH`
 [PathScan](#pathscan)| private | Checks `PATH` for a specific binary file
@@ -336,6 +337,17 @@ housed in the `perl` object will be used on the system.
 Using the registry, retrieves the current Machine (System) `PATH` environment
 variable. Using the registry ensures we have the most current data, even if
 the current shell has not yet been updated.
+
+Does not expand any variable-based `PATH` entries on extraction.
+
+#### PathGetUsr
+
+    private static string PathGetUsr()
+    
+    return: String containing the currently logged in user's PATH environment variable
+    
+Fetches and returns a string containing the currently logged in user's `PATH`
+environment variable.    
 
 Does not expand any variable-based `PATH` entries on extraction.
 
