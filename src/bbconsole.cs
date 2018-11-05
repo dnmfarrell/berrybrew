@@ -5,10 +5,8 @@ using BerryBrew;
 using System.Collections.Generic;
 
 namespace berrybrew {
-
-    class Bbconsole {
-
-        static void Main(string[] args){
+    internal class Bbconsole {
+        private static void Main(string[] args){
 
             Berrybrew bb = new Berrybrew();
 
