@@ -9,7 +9,11 @@ Revision history for berrybrew
           (closes #140)
         - added PerlsInstalled() method to API doc (closes #139)
         - added PathGetUsr() method to API doc (closes #138)
-         
+        - when running a dev build, the Perl instance and berrybrew temp
+          directories are now located under a "build" dir, as opposed to the
+          "test" directory as it was previously. This separates the unit testing
+          platform from the development build one (closes #114)
+            
 1.21 2018-11-04
         - updated CONTRIBUTING doc (closes #128)
         - moved the "Compile your own installation", "Create a dev build", and

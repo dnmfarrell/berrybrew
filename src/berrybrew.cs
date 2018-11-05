@@ -801,10 +801,15 @@ namespace BerryBrew {
             foreach (string dir in dirs){
                 if (dir == ArchivePath)
                     continue;
-                
+               
+                // testing directory
                 if (Regex.Match(dir, @"\\test$").Success)
                     continue;
 
+                // dev build directory
+                 if (Regex.Match(dir, @"\\build$").Success)
+                    continue;               
+                
                 if (! perlInstallations.Contains(dir) && ! Regex.Match(dir, @".cpanm").Success){
                     string dirBaseName = dir.Remove(0, RootPath.Length);
                     orphans.Add(dirBaseName);
