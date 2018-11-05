@@ -1,7 +1,8 @@
 Revision history for berrybrew
 
 1.23 UNREL
-        -
+        - fixed issue in README where some external doc links were pointing to
+          the wrong branch (fixes #147)
 
 1.22    2018-11-05
         - clarifications and updates to the "Create a Release" doc (closes #137)

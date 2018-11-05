@@ -319,16 +319,16 @@ line:
 - [Configuration](https://github.com/stevieb9/berrybrew/blob/master/doc/Configuration.md)
  Guide to various configuration files and options
 
-- [Compile Your Own Installation](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Compile%20Your%20Own.md)
+- [Compile Your Own Installation](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
  Guide to compiling `berrybrew` from source
 
-- [Create a Development Build](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Create%20a%20Development%20Build.md)
+- [Create a Development Build](https://github.com/stevieb9/berrybrew/blob/master/doc/Create%20a%20Development%20Build.md)
  Guide to creating a development build for testing new functionality
 
 - [Unit Testing](https://github.com/stevieb9/berrybrew/blob/master/doc/Unit%20Testing.md)
  Documentation for unit testing `berrybrew`
  
-- [Create and Publish a Release](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Create%20a%20Release.md)
+- [Create and Publish a Release](https://github.com/stevieb9/berrybrew/blob/master/doc/Create%20a%20Release.md)
  Guide to creating a release, publishing it as a production install, and
  setting up the next release branch
 
