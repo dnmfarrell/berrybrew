@@ -41,8 +41,17 @@ their proper location
 - In Github, create a new Pull Request from the release branch, and merge it
 into the master branch
 
-- Ensure everything appears proper within the master branch
+- Check out master and ensure everything appears proper within the master branch
 
+    - `git checkout master`
+    - `git pull`
+    - `berrybrew version` (should be the updated version number)
+
+- Tag the new master branch as a release, and push it
+
+    - `git tag vx.xx`
+    - `git push --tags`
+    
 - Update David Farrell's `berrybrew` repository:
 
     - `git clone https://stevieb9@github.com/dnmfarrell/berrybrew bb-dnm`
@@ -61,12 +70,16 @@ into the master branch
 
 - Locally, create a new branch: `git checkout -b vx.xx`
 
-- Push the new branch to Github: `git push -u origin vx.xx` 
-
 - Update the `Version()` method in `src\berrybrew.cs` file with the new version
 
 - Add the following to the `Changes` file:
 
-    - x.xx UNREL
-    
-- `git commit && git push` to push these changes to the new version's branch
+    - `x.xx UNREL`
+   
+- Commit the changes:
+
+    - `git commit -a -m "bumped to ver x.xx`    
+
+- Push the new branch to Github: 
+
+    - `git push -u origin vx.xx` 
