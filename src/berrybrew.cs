@@ -1446,35 +1446,35 @@ namespace BerryBrew {
 
     public struct StrawberryPerl {
 
-        public string Name;
-        public string File;
-        public bool Custom;
-        public string Url;
-        public string Version;
-        public string ArchivePath;
-        public string InstallPath;
-        public string CPath;
-        public string PerlPath;
-        public string PerlSitePath;
-        public List<String> Paths;
-        public string Sha1Checksum;
+        public readonly string Name;
+        public readonly string File;
+        public readonly bool Custom;
+        public readonly string Url;
+        public readonly string Version;
+        public readonly string ArchivePath;
+        public readonly string InstallPath;
+        public readonly string CPath;
+        public readonly string PerlPath;
+        public readonly string PerlSitePath;
+        public readonly List<String> Paths;
+        public readonly string Sha1Checksum;
 
-        public StrawberryPerl(Berrybrew BB, object name, object file, object url, object version, object csum, bool custom){
+        public StrawberryPerl(Berrybrew bb, object name, object file, object url, object version, object csum, bool custom){
 
-            this.Name = name.ToString();
-            this.Custom = custom;
-            this.File = file.ToString();
-            this.Url = url.ToString();
-            this.Version = version.ToString();
-            this.ArchivePath = BB.archivePath;
-            this.InstallPath =  BB.rootPath + name;
-            this.CPath = BB.rootPath + name + @"\c\bin";
-            this.PerlPath = BB.rootPath + name + @"\perl\bin";
-            this.PerlSitePath = BB.rootPath + name + @"\perl\site\bin";
-            this.Paths = new List <String>{
-                this.CPath, this.PerlPath, this.PerlSitePath
+            Name = name.ToString();
+            Custom = custom;
+            File = file.ToString();
+            Url = url.ToString();
+            Version = version.ToString();
+            ArchivePath = bb.archivePath;
+            InstallPath =  bb.rootPath + name;
+            CPath = bb.rootPath + name + @"\c\bin";
+            PerlPath = bb.rootPath + name + @"\perl\bin";
+            PerlSitePath = bb.rootPath + name + @"\perl\site\bin";
+            Paths = new List <String>{
+                CPath, PerlPath, PerlSitePath
             };
-            this.Sha1Checksum = csum.ToString();
+            Sha1Checksum = csum.ToString();
         }
     }
 }
