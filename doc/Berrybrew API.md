@@ -502,9 +502,11 @@ updates the internal `perls.json` available list with the updated data.
 If the `allPerls` bool is set to true, we will fetch all available Strawberry
 Perl listings.
 
-#### PerlUpdateAvailableListOrphans()
+#### PerlUpdateAvailableListOrphans
 
-Automatically registered any orphaned Perls after using the `Fetch()` method. This
+    public void PerlUpdateAvailableListOrphans()
+
+Automatically register any orphaned Perls after using the `Fetch()` method. This
 should only be called after a call to `PerlUpdateAvailableList()`.
 
 #### ProcessCreate
