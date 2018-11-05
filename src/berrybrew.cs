@@ -196,7 +196,7 @@ namespace BerryBrew {
         }
 
         public void Clean(string subcmd="temp"){
-            bool cleansed = false;
+            bool cleansed;
 
             switch (subcmd){
                 case "temp":
@@ -285,7 +285,7 @@ namespace BerryBrew {
                 return true;
             }
 
-            catch (System.IO.IOException err){
+            catch (IOException err){
                 Console.WriteLine("\nClone failed due to disk I/O error... ensure the disk isn't full\n");
 
                 if (Debug)
@@ -331,7 +331,7 @@ namespace BerryBrew {
             newPath = perl.Paths;
             newPath.Add(sysPath);
 
-            System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
+            Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
 
             startInfo.FileName = "cmd.exe";
             List<String> patchedParams = new List<String>();
@@ -546,7 +546,7 @@ namespace BerryBrew {
 
                     catch (JsonReaderException error){
                         Console.WriteLine("\n{0} file is malformed. See berrybrew_error.txt in this directory for details.", jsonFile);
-                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"berrybrew_error.txt", true))
+                        using (StreamWriter file = new StreamWriter(@"berrybrew_error.txt", true))
                             file.WriteLine(error);
 
                         Environment.Exit(0);
@@ -554,7 +554,7 @@ namespace BerryBrew {
                 }
             }
 
-            catch (System.IO.FileNotFoundException err){
+            catch (FileNotFoundException err){
                 Console.WriteLine("\n{0} file can not be found in {1}", filename, jsonFile);
 
                 if (Debug)
@@ -582,7 +582,7 @@ namespace BerryBrew {
                     }
                     perlList.Add(perl);
                 }
-                jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(perlList, Formatting.Indented);
+                jsonString = JsonConvert.SerializeObject(perlList, Formatting.Indented);
             }
             else{
                 List<string> perlVersions = new List<string>();
@@ -620,13 +620,13 @@ namespace BerryBrew {
                     }
                 }
 
-                jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(sortedData, Formatting.Indented);
+                jsonString = JsonConvert.SerializeObject(sortedData, Formatting.Indented);
             }
 
             string writeFile = _confPath + type;
             writeFile = writeFile + @".json";
 
-            System.IO.File.WriteAllText(writeFile, jsonString);
+            File.WriteAllText(writeFile, jsonString);
         }
 
         public void Off(){
@@ -729,10 +729,7 @@ namespace BerryBrew {
 
             EnvironmentVariableTarget envTarget = new EnvironmentVariableTarget();
 
-            if (target == "machine")
-                envTarget = EnvironmentVariableTarget.Machine;
-            else
-                envTarget = EnvironmentVariableTarget.User;
+            envTarget = target == "machine" ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.User;
 
             string paths = Environment.GetEnvironmentVariable("path", envTarget);
 
@@ -769,7 +766,7 @@ namespace BerryBrew {
                 );
             }
 
-            catch(System.UnauthorizedAccessException err){
+            catch(UnauthorizedAccessException err){
                 Console.WriteLine("\nAdding berrybrew to the PATH requires Administrator privilege");
                 if (Debug)
                     Console.WriteLine(err);
@@ -936,7 +933,7 @@ namespace BerryBrew {
                         Console.WriteLine("Successfully removed Strawberry Perl " + perlVersionToRemove);
                     }
 
-                    catch (System.IO.IOException err){
+                    catch (IOException err){
                         Console.WriteLine("Unable to completely remove Strawberry Perl " + perlVersionToRemove + " some files may remain");
 
                         if (Debug)
@@ -1022,7 +1019,7 @@ namespace BerryBrew {
                     jsonData = client.DownloadString(_downloadUrl);
                 }
 
-                catch (System.Net.WebException error){
+                catch (WebException error){
                     Console.Write("\nCan't open file {0}. Can not continue...\n", _downloadUrl);
                     if (Debug)
                         Console.Write(error);
@@ -1035,7 +1032,7 @@ namespace BerryBrew {
                     json = JsonConvert.DeserializeObject(jsonData);
                 }
 
-                catch (Newtonsoft.Json.JsonReaderException error){
+                catch (JsonReaderException error){
                     Console.Write("\nCan't read the JSON data. It may be invalid\n");
                     if (Debug)
                         Console.WriteLine(error);
@@ -1254,7 +1251,7 @@ namespace BerryBrew {
                 newPath = perl.Paths;
                 newPath.AddRange(Environment.ExpandEnvironmentVariables(sysPath).Split(';').ToList());
                 newPath.AddRange(Environment.ExpandEnvironmentVariables(usrPath).Split(';').ToList());
-                System.Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
+                Environment.SetEnvironmentVariable("PATH", String.Join(";", newPath));
 
                 string prompt = Environment.GetEnvironmentVariable("PROMPT");
                 Environment.SetEnvironmentVariable("PROMPT", "$Lberrybrew use perl-" + perl.Name + "$G" + "$_" + prompt);
@@ -1342,13 +1339,13 @@ namespace BerryBrew {
             string backupDir = InstallPath + @"/backup_" + span.TotalSeconds;
             Directory.CreateDirectory(backupDir);
 
-            if (System.IO.Directory.Exists(_confPath)){
-                string[] files = System.IO.Directory.GetFiles(_confPath);
+            if (Directory.Exists(_confPath)){
+                string[] files = Directory.GetFiles(_confPath);
 
                 foreach (string s in files){
-                    string fileName = System.IO.Path.GetFileName(s);
-                    string destFile = System.IO.Path.Combine(backupDir, fileName);
-                    System.IO.File.Copy(s, destFile, true);
+                    string fileName = Path.GetFileName(s);
+                    string destFile = Path.Combine(backupDir, fileName);
+                    File.Copy(s, destFile, true);
                 }
             }
 
@@ -1383,10 +1380,10 @@ namespace BerryBrew {
                 Environment.Exit(0);
             }
 
-            string[] bakFiles = System.IO.Directory.GetFiles(backupDir);
+            string[] bakFiles = Directory.GetFiles(backupDir);
 
             foreach (string s in bakFiles){
-                string fileName = System.IO.Path.GetFileName(s);
+                string fileName = Path.GetFileName(s);
 
                 if (!fileName.Equals(@"perls_custom.json")){
                     if (Debug)
@@ -1398,8 +1395,8 @@ namespace BerryBrew {
                 if (Debug)
                     Console.WriteLine("Restoring the '{0}' config file.", fileName);
 
-                string destFile = System.IO.Path.Combine(_confPath, fileName);
-                System.IO.File.Copy(s, destFile, true);
+                string destFile = Path.Combine(_confPath, fileName);
+                File.Copy(s, destFile, true);
             }
 
             Console.WriteLine("\nSuccessfully upgraded berrybrew\n");
