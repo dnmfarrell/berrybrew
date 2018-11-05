@@ -33,6 +33,7 @@ full list of documentation.
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
 - [Documentation](#see-also)
+- [Developed Using](#developed-using)
 - [Caveats](#caveats)
 - [License](#license)
 - [Version](#version)
@@ -344,6 +345,19 @@ will never be overwritten, and this warning does not apply for it.
 - At this time, `berrybrew` requires Administrative privileges to
 operate correctly. This is due to the way Windows forces the System 
 `PATH` to take precedence over User `PATH`.
+
+## Developed Using
+
+|Software|Description|Notes|
+|---|---|---|
+|[Jetbrains Rider](https://www.jetbrains.com/rider/)|.Net IDE|Thanks to their [Open Source Licensing](https://www.jetbrains.com/buy/opensource/)
+|[Jetbrains intelliJ IDEA](https://www.jetbrains.com/idea/)|IDE for Perl coding|Freely available, also comes with the open source license|
+|[Camelcade Perl5 Plugin](https://github.com/Camelcade/Perl5-IDEA)|Perl5 Plugin for intelliJ IDEA||
+|[Devel::Camelcadedb](https://metacpan.org/pod/distribution/Devel-Camelcadedb/lib/Devel/Camelcadedb.pod)|Adds Perl5 debug support for intelliJ IDEA||
+|[Mono](https://www.mono-project.com/)|.Net Framework for Unix||
+|[Mono C# Compiler](https://www.mono-project.com/docs/about-mono/languages/csharp/)|C# Compiler for Unix||
+
+
 
 ## License
 
