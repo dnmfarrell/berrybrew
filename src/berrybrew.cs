@@ -27,7 +27,7 @@ namespace BerryBrew {
         [DllImport("user32.dll", SetLastError = true)]
         private static extern IntPtr SendMessageTimeout(
             IntPtr hWnd,
-            int Msg,
+            int msg,
             IntPtr wParam,
             string lParam,
             uint fuFlags,
@@ -35,11 +35,11 @@ namespace BerryBrew {
             IntPtr
             lpdwResult
         );
-        private static readonly IntPtr HWND_BROADCAST = new IntPtr(0xffff);
-        private const int WM_SETTINGCHANGE = 0x001a;
-        private const int SMTO_ABORTIFHUNG = 0x2;
+        private static readonly IntPtr HwndBroadcast = new IntPtr(0xffff);
+        private const int WmSettingchange = 0x001a;
+        private const int SmtoAbortifhung = 0x2;
 
-        private const int MAX_PERL_NAME_LENGTH = 25;
+        private const int MaxPerlNameLength = 25;
 
         public bool Debug { set; get; }
 
@@ -173,10 +173,10 @@ namespace BerryBrew {
 
         private static bool CheckName (string perlName){
 
-            if (perlName.Length > MAX_PERL_NAME_LENGTH){
+            if (perlName.Length > MaxPerlNameLength){
                 Console.WriteLine(
                     "name for a Perl must be {0} chars or less. You supplied {1}, length {2}",
-                    MAX_PERL_NAME_LENGTH,
+                    MaxPerlNameLength,
                     perlName,
                     perlName.Length
                 );
@@ -764,11 +764,11 @@ namespace BerryBrew {
                 );
 
                 SendMessageTimeout(
-                    HWND_BROADCAST,
-                    WM_SETTINGCHANGE,
+                    HwndBroadcast,
+                    WmSettingchange,
                     IntPtr.Zero,
                     "Environment",
-                    SMTO_ABORTIFHUNG,
+                    SmtoAbortifhung,
                     100,
                     IntPtr.Zero
                 );
