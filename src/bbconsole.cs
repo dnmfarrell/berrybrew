@@ -6,57 +6,57 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
-namespace BBConsole {
+namespace berrybrew {
 
-    class bbconsole {
+    class Bbconsole {
 
         static void Main(string[] args){
 
-            Berrybrew BB = new Berrybrew();
+            Berrybrew bb = new Berrybrew();
 
             if (args.Length != 0 && args[0] == "debug"){
-                BB.Debug = true;
+                bb.Debug = true;
                 args = args.Skip(1).ToArray();
             }
-            if (BB.Debug){
+            if (bb.Debug){
                 Console.WriteLine("\nberrybrew debugging enabled...\n");
                 Console.WriteLine(
                     "install dir: {0}\nperl root dir: {1}\ntemp dir: {2}",
-                    BB.installPath, BB.rootPath, BB.archivePath
+                    bb.InstallPath, bb.RootPath, bb.ArchivePath
                 );
             }
 
             if (args.Length == 0){
-                BB.Message.Print("help");
+                bb.Message.Print("help");
                 Environment.Exit(0);
             }
 
             switch (args[0]){
                 case "available":
-                    BB.Available();
+                    bb.Available();
                     break;
 
                 case "list":
-                    BB.List();
+                    bb.List();
                     break;
 
                 case "clean":
                     if (args.Length > 1){
                         if (args[1].StartsWith("h"))
-                            BB.Message.Say("subcmd.clean");
+                            bb.Message.Say("subcmd.clean");
                         else
-                            BB.Clean(args[1]);
+                            bb.Clean(args[1]);
                     }
                     else
-                        BB.Clean();
+                        bb.Clean();
 
                     break;
 
                 case "clone":
                     if (args.Length != 3)
-                        BB.Message.Say("clone_command_usage");
+                        bb.Message.Say("clone_command_usage");
 
-                    bool ok = BB.Clone(args[1], args[2]);
+                    bool ok = bb.Clone(args[1], args[2]);
 
                     if (! ok)
                         Environment.Exit(0);
@@ -71,59 +71,59 @@ namespace BBConsole {
                         Environment.Exit(0);
                     }
 
-                    BB.Config();
+                    bb.Config();
                     break;
 
                 case "exec":
                     if (args.Length == 1)
-                        BB.Message.Say("exec_command_required");
+                        bb.Message.Say("exec_command_required");
 
                     args[0] = "";
 
                     if (args[1] == "-h" || args[1] == "help")
-                        BB.Message.Say("subcmd.exec");
+                        bb.Message.Say("subcmd.exec");
 
                     List<String> newArgs = args.ToList();
                     newArgs.RemoveAt(0);
-                    BB.ExecCompile(newArgs);
+                    bb.ExecCompile(newArgs);
                     break;
 
                 case "fetch":
                     bool allPerls = false;
                     if (args.Length > 1){
                         if (args[1].StartsWith("h"))
-                            BB.Message.Say("subcmd.fetch");
+                            bb.Message.Say("subcmd.fetch");
                         else
                             allPerls = args[1].Equals("all");
                     }
 
-                    BB.PerlUpdateAvailableList(allPerls);
-                    BB.PerlUpdateAvailableListOrphans();
+                    bb.PerlUpdateAvailableList(allPerls);
+                    bb.PerlUpdateAvailableListOrphans();
                     break;
 
                 case "help":
                     if (args.Length == 1) {
-                        BB.Message.Say("help");
+                        bb.Message.Say("help");
                     } else {
                         switch (args[1].ToLower()) {
                             case "clean":
-                                BB.Message.Say("subcmd.clean");
+                                bb.Message.Say("subcmd.clean");
                                 break;
 
                             case "exec":
-                                BB.Message.Say("subcmd.exec");
+                                bb.Message.Say("subcmd.exec");
                                 break;
 
                             case "fetch":
-                                BB.Message.Say("subcmd.fetch");
+                                bb.Message.Say("subcmd.fetch");
                                 break;
 
                             case "use":
-                                BB.Message.Say("subcmd.use");
+                                bb.Message.Say("subcmd.use");
                                 break;
 
                             default:
-                                BB.Message.Say("help");
+                                bb.Message.Say("help");
                                 break;
                         }
                     }
@@ -131,91 +131,91 @@ namespace BBConsole {
 
                 case "install":
                     if (args.Length == 1)
-                        BB.Message.Say("install_ver_required");
+                        bb.Message.Say("install_ver_required");
 
                     try {
-                        BB.Install(args[1]);
+                        bb.Install(args[1]);
                     }
 
                     catch (ArgumentException error){
-                        if (BB.Debug)
+                        if (bb.Debug)
                             Console.WriteLine(error);
 
-                        BB.Message.Say("install_ver_unknown");
+                        bb.Message.Say("install_ver_unknown");
                     }
 
                     break;
 
                 case "license":
                     if (args.Length == 1)
-                        BB.Message.Say("license");
+                        bb.Message.Say("license");
 
                     break;
 
                 case "off":
-                    BB.Off();
+                    bb.Off();
                     break;
 
                 case "register":
                     if (args.Length == 1)
-                        BB.Message.Say("register_ver_required");
+                        bb.Message.Say("register_ver_required");
 
-                    BB.PerlRegisterCustomInstall(args[1]);
+                    bb.PerlRegisterCustomInstall(args[1]);
                     break;
 
                 case "remove":
                     if (args.Length == 1)
-                        BB.Message.Say("remove_ver_required");
+                        bb.Message.Say("remove_ver_required");
 
-                    BB.PerlRemove(args[1]);
+                    bb.PerlRemove(args[1]);
                     break;
 
                 case "switch":
                     if (args.Length == 1)
-                        BB.Message.Say("switch_ver_required");
+                        bb.Message.Say("switch_ver_required");
 
-                    BB.Switch(args[1]);
+                    bb.Switch(args[1]);
                     break;
 
                 case "unconfig":
-                    BB.Unconfig();
+                    bb.Unconfig();
                     break;
 
                 case "upgrade":
-                    BB.Upgrade();
+                    bb.Upgrade();
                     break;
 
                 case "use": // pryrt's added feature
                     if (args.Length == 1) {
-                        BB.Message.Say("use_ver_required");
+                        bb.Message.Say("use_ver_required");
                     }
                     switch(args[1].ToLower()) {
                         case "-h":
                         case "help":
                         case "-help":
                         case "--help":
-                            BB.Message.Say("subcmd.use");
+                            bb.Message.Say("subcmd.use");
                             break;
                         case "--win":
                         case "--window":
                         case "--windowed":
                             if(args.Length<3)
-                                BB.Message.Say("use_ver_required");
+                                bb.Message.Say("use_ver_required");
                             else
-                                BB.UseCompile(args[2], true);
+                                bb.UseCompile(args[2], true);
                             break;
                         default:
-                            BB.UseCompile(args[1], false);
+                            bb.UseCompile(args[1]);
                             break;
                     }
                     break;
 
                 case "version":
-                    Console.WriteLine(BB.Version());
+                    Console.WriteLine(bb.Version());
                     break;
 
                 default:
-                    BB.Message.Say("help");
+                    bb.Message.Say("help");
                     break;
             }
         }
