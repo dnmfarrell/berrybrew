@@ -357,8 +357,6 @@ operate correctly. This is due to the way Windows forces the System
 |[Mono](https://www.mono-project.com/)|.Net Framework for Unix||
 |[Mono C# Compiler](https://www.mono-project.com/docs/about-mono/languages/csharp/)|C# Compiler for Unix||
 
-
-
 ## License
 
 2 Clause FreeBSD - see LICENSE
@@ -374,14 +372,6 @@ David Farrell [http://perltricks.com]
 ## This Fork Maintained By
 
 Steve Bertrand `steveb<>cpan.org`
-
-## Updating dnmfarrell berrybrew
-
-    git clone https://stevieb9@github.com/dnmfarrell/berrybrew bb-dnm
-    cd bb-dnm
-    git remote add stevieb9 https://github.com/stevieb9/berrybrew
-    git pull stevieb9 master
-    git push
 
 ## See Also
 
