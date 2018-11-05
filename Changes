@@ -1,5 +1,8 @@
 Revision history for berrybrew
 
+1.23 UNREL
+        -
+
 1.22    2018-11-05
         - clarifications and updates to the "Create a Release" doc (closes #137)
         - major, sweeping code refactoring: method privileges, exception
