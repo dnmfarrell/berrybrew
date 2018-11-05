@@ -425,8 +425,14 @@ namespace BerryBrew {
 
                     String fullZipToPath = Path.Combine(perl.InstallPath, entryFileName);
                     string directoryName = Path.GetDirectoryName(fullZipToPath);
-                    if (directoryName.Length > 0)
+                    
+                    if (!string.IsNullOrEmpty(directoryName)){
                         Directory.CreateDirectory(directoryName);
+                    }
+                    else {
+                        Console.WriteLine("\nCould not get the zip archive's directory name.\n");
+                        Environment.Exit(0);
+                    }
 
                     using (FileStream streamWriter = File.Create(fullZipToPath)){
                         ICSharpCode.SharpZipLib.Core.StreamUtils.Copy(zipStream, streamWriter, buffer);
@@ -663,12 +669,15 @@ namespace BerryBrew {
         private static string PathGet(){
 
             string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment\";
-            string path = (string)Registry.LocalMachine.OpenSubKey(keyName).GetValue(
-                "PATH",
-                "",
-                RegistryValueOptions.DoNotExpandEnvironmentNames
-            );
-
+            string path = null;
+            
+            if (Registry.LocalMachine != null){
+                path = (string) Registry.LocalMachine.OpenSubKey(keyName).GetValue(
+                    "PATH",
+                    "",
+                    RegistryValueOptions.DoNotExpandEnvironmentNames
+                );
+            }
             return path;
         }
 
