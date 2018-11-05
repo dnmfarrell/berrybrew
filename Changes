@@ -14,7 +14,11 @@ Revision history for berrybrew
           "test" directory as it was previously. This separates the unit testing
           platform from the development build one (closes #114)
         - added "developed using" section in README (closes #141)
-        
+        - add new "dev\build_tests.bat" script that the "t\test.bat" script
+          calls to set up the unit test environment. We used to call 
+          "t\build.bat", but since changing the dev build system, we needed to
+          separate the functionality (fixes #143)
+          
 1.21 2018-11-04
         - updated CONTRIBUTING doc (closes #128)
         - moved the "Compile your own installation", "Create a dev build", and
