@@ -1,4 +1,4 @@
-call dev\build.bat
+call dev\build_tests.bat
 
 IF NOT DEFINED BBTEST_PERLROOT CALL t\setup_test_env.bat
 IF NOT DEFINED BBTEST_REPO     CALL t\setup_test_env.bat

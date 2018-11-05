@@ -33,6 +33,7 @@ full list of documentation.
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
 - [Documentation](#see-also)
+- [Developed Using](#developed-using)
 - [Caveats](#caveats)
 - [License](#license)
 - [Version](#version)
@@ -45,7 +46,7 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 1af83985fefab027e1f60bc60fd9d4c0a1a99c99`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: c9de157269d9f6191d94b1ea1bcc7798232dd71b`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
 installation.
@@ -315,21 +316,21 @@ line:
 - [Berrybrew API](https://github.com/stevieb9/berrybrew/blob/master/doc/Berrybrew%20API.md)
  API documentation
 
-- [Unit Testing](https://github.com/stevieb9/berrybrew/blob/master/doc/Unit%20Testing.md)
- Documentation for unit testing `berrybrew`
-
 - [Configuration](https://github.com/stevieb9/berrybrew/blob/master/doc/Configuration.md)
  Guide to various configuration files and options
+
+- [Compile Your Own Installation](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Compile%20Your%20Own.md)
+ Guide to compiling `berrybrew` from source
+
+- [Create a Development Build](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Create%20a%20Development%20Build.md)
+ Guide to creating a development build for testing new functionality
+
+- [Unit Testing](https://github.com/stevieb9/berrybrew/blob/master/doc/Unit%20Testing.md)
+ Documentation for unit testing `berrybrew`
  
- - [Create and Publish a Release](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Create%20a%20Release.md)
+- [Create and Publish a Release](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Create%20a%20Release.md)
  Guide to creating a release, publishing it as a production install, and
  setting up the next release branch
- 
- - [Create a Development Build](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Create%20a%20Development%20Build.md)
- Guide to creating a development build for testing new functionality
- 
- - [Compile Your Own Installation](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Compile%20Your%20Own.md)
- Guide to compiling `berrybrew` from source
 
 ## CAVEATS
 
@@ -345,13 +346,26 @@ will never be overwritten, and this warning does not apply for it.
 operate correctly. This is due to the way Windows forces the System 
 `PATH` to take precedence over User `PATH`.
 
+## Developed Using
+
+|Software|Description|Notes|
+|---|---|---|
+|[Jetbrains Rider](https://www.jetbrains.com/rider/)|.Net IDE|Thanks to their [Open Source Licensing](https://www.jetbrains.com/buy/opensource/)
+|[Jetbrains intelliJ IDEA](https://www.jetbrains.com/idea/)|IDE for Perl coding|Freely available, also comes with the open source license|
+|[Camelcade Perl5 Plugin](https://github.com/Camelcade/Perl5-IDEA)|Perl5 Plugin for intelliJ IDEA||
+|[Devel::Camelcadedb](https://metacpan.org/pod/distribution/Devel-Camelcadedb/lib/Devel/Camelcadedb.pod)|Adds Perl5 debug support for intelliJ IDEA||
+|[Mono](https://www.mono-project.com/)|.Net Framework for Unix||
+|[Mono C# Compiler](https://www.mono-project.com/docs/about-mono/languages/csharp/)|C# Compiler for Unix||
+
+
+
 ## License
 
 2 Clause FreeBSD - see LICENSE
 
 ## Version
 
-    1.21
+    1.22
 
 ## Original Author
 
