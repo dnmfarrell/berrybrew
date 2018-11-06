@@ -48,7 +48,7 @@ full list of documentation.
 
 [berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: c9de157269d9f6191d94b1ea1bcc7798232dd71b`
 
-You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
+You can also [Compile your own](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
 installation.
 
 See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) 
@@ -354,8 +354,8 @@ operate correctly. This is due to the way Windows forces the System
 |[Jetbrains intelliJ IDEA](https://www.jetbrains.com/idea/)|IDE for Perl coding|Freely available, also comes with the open source license|
 |[Camelcade Perl5 Plugin](https://github.com/Camelcade/Perl5-IDEA)|Perl5 Plugin for intelliJ IDEA||
 |[Devel::Camelcadedb](https://metacpan.org/pod/distribution/Devel-Camelcadedb/lib/Devel/Camelcadedb.pod)|Adds Perl5 debug support for intelliJ IDEA||
-|[Mono](https://www.mono-project.com/)|.Net Framework for Unix||
-|[Mono C# Compiler](https://www.mono-project.com/docs/about-mono/languages/csharp/)|C# Compiler for Unix||
+|[Mono](https://www.mono-project.com/)|Open Source .Net Framework||
+|[Mono C# Compiler](https://www.mono-project.com/docs/about-mono/languages/csharp/)|C#|Open Source C# Compiler|
 
 ## License
 

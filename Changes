@@ -5,7 +5,8 @@ Revision history for berrybrew
           the wrong branch (fixes #147)
         - removed the "update dnmfarrell repo" section from README; it's been
           moved to the "create a release" doc (closes #146)
-          
+        - "Compile your own" link wasn't directing to the proper doc 
+          (closes #148)
 1.22    2018-11-05
         - clarifications and updates to the "Create a Release" doc (closes #137)
         - major, sweeping code refactoring: method privileges, exception
