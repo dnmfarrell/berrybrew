@@ -199,6 +199,14 @@ namespace BerryBrew {
             bool cleansed;
 
             switch (subcmd){
+                case "dev":
+                    cleansed = CleanDev();
+                    if (cleansed)
+                        Console.WriteLine("\nremoved the build and test directories");
+                    else
+                        Console.WriteLine("\nAn error has occured removing dev directories");
+                    break;
+                    
                 case "temp":
                     cleansed = CleanTemp();
                     if (cleansed)
@@ -215,6 +223,20 @@ namespace BerryBrew {
             }
         }
 
+        private bool CleanDev()
+        {
+            string buildDir = "build";
+            string testDir = "test";
+
+            if (Directory.Exists(buildDir))
+                Directory.Delete(buildDir, true); 
+            
+            if (Directory.Exists(testDir))
+                Directory.Delete(testDir, true);
+
+            return !Directory.Exists(buildDir) && !Directory.Exists(testDir);
+        }
+                    
         private bool CleanOrphan(){
             List<string> orphans = PerlFindOrphans();
 
