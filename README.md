@@ -37,6 +37,7 @@ full list of documentation.
 - [Caveats](#caveats)
 - [License](#license)
 - [Version](#version)
+- [Undocumented Features](#undocumented-features)
 
 ## Install
 
@@ -364,6 +365,35 @@ operate correctly. This is due to the way Windows forces the System
 ## Version
 
     1.22
+
+## Undocumented Features
+
+There are certain features that should only be used by developers and
+maintainers of this software. There's only one currently, so if I create
+more and/or make them more complex, I'll create a separate document
+for them.
+
+#### test
+
+This feature should only be used by developers of berrybrew.
+
+Like the `debug` feature, I've added a new `test` argument. It must
+follow `berrybrew` and preceed all further operations. To include the
+`debug` argument as well, specify it first, then include `test`, then
+your command and any options:
+
+Examples: 
+
+- Test feature only:
+
+    `berrybrew test clean ...`
+    
+- Test and Debug:
+
+    `berrybrew debug test clean ...`
+
+Currently, it's only used in the `t/99_clean.t` test to strip off
+unneeded path elements for a couple of specific tests.
 
 ## Original Author
 

@@ -36,6 +36,7 @@ namespace BerryBrew {
         private const int MaxPerlNameLength = 25;
 
         public bool Debug { set; get; }
+        public bool Testing { set; get; }
 
         private static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
         private static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
@@ -230,9 +231,20 @@ namespace BerryBrew {
         }
 
         private bool CleanDev() {
-            string buildDir = RootPath + @"build2";
-            string testDir = RootPath + @"test";
 
+            string buildDir = RootPath;
+            string testDir = RootPath;
+            
+            if (Testing) {
+                buildDir = buildDir.Replace("\\build", "");
+                testDir = testDir.Replace("\\build", "");
+                buildDir = buildDir.Replace("\\test", "");
+                testDir = testDir.Replace("\\test", "");               
+            } 
+
+            buildDir += @"build";
+            testDir = $@"{testDir}test";
+            
             try {
                 if (Directory.Exists(buildDir))
                 {
@@ -250,6 +262,7 @@ namespace BerryBrew {
             try {
                 if (Directory.Exists(testDir))
                 {
+                    Console.WriteLine("test exists");
                     FilesystemResetAttributes(testDir);
                     Directory.Delete(testDir, true);
                 }
@@ -843,9 +856,23 @@ namespace BerryBrew {
         private List<string> PerlFindOrphans(){
 
             List<StrawberryPerl> perls = PerlsInstalled();
+            
+            try
+            {
+                Directory.GetDirectories(RootPath);
+            }
+            catch (Exception err)
+            {
+                if (Debug)
+                {
+                    Console.WriteLine("failure getting directories of root");
+                    Console.WriteLine(err);
+                }
 
-            string[] dirs = Directory.GetDirectories(RootPath);
-
+                Environment.Exit(0);
+            }
+            
+            List<string> dirs = new List<string>(Directory.GetDirectories(RootPath));
             List<string> perlInstallations = new List<string>();
 
             foreach (StrawberryPerl perl in perls)

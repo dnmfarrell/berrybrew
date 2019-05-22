@@ -14,12 +14,19 @@ namespace berrybrew {
                 bb.Debug = true;
                 args = args.Skip(1).ToArray();
             }
+
             if (bb.Debug){
                 Console.WriteLine("\nberrybrew debugging enabled...\n");
                 Console.WriteLine(
                     "install dir: {0}\nperl root dir: {1}\ntemp dir: {2}",
                     bb.InstallPath, bb.RootPath, bb.ArchivePath
                 );
+            }
+
+            if (args.Length != 0 && args[0] == "test") {
+                bb.Testing = true;
+                Console.WriteLine("\nberrybrew testing enabled");
+                args = args.Skip(1).ToArray();
             }
 
             if (args.Length == 0){

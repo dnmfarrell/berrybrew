@@ -8,7 +8,18 @@ Revision history for berrybrew
         - "Compile your own" link wasn't directing to the proper doc 
           (closes #148)
         - added "dev" and "all" to the "clean" operation (closes #149)
-                            
+        - added t/99_clean.t for testing the "berrybrew clean dev" feature
+          (closes #151)
+        - added new "test" argument to "berrybrew". This is for developers to
+          tell the system we're in unit testing mode to shim the system where
+          necessary
+        - added an exception handling routine in PerlFindOrphans() to catch an
+          error in certain cases when running "berrybrew clean dev"
+        - t/95-remote.t no longer cleans up the test directory, that's left to
+          t/99-clean.t now
+        - slight modifications to the testing infrastructure and documentation
+          instructions
+                              
 1.22    2018-11-05
         - clarifications and updates to the "Create a Release" doc (closes #137)
         - major, sweeping code refactoring: method privileges, exception

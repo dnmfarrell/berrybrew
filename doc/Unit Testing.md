@@ -2,6 +2,9 @@
 
 Unit tests are written in Perl.
 
+See [Undocumented Features](../README.md) for the `test` argument to
+`berrybrew`. It sets up some additional routines while unit testing.
+
 ## Prerequisites
 
 - You must be on a Windows system
