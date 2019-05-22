@@ -7,8 +7,6 @@ Revision history for berrybrew
           moved to the "create a release" doc (closes #146)
         - "Compile your own" link wasn't directing to the proper doc 
           (closes #148)
-        - when creating a dev build, we now copy the main messages.json and
-          perls.json files to the build\data directory
         - added "dev" and "all" to the "clean" operation (closes #149)
                             
 1.22    2018-11-05

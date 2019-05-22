@@ -2,9 +2,6 @@
 mkdir build
 mkdir build\data
 
-copy data\messages.json build\data
-copy data\perls.json build\data
-
 copy dev\data\*.json build\data
 
 call perl -i.bak -ne "s/berrybrew(?!\\\\build)/berrybrew\\\\build/; print" build/data/config.json
