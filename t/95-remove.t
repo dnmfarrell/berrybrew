@@ -11,10 +11,10 @@ my $dir = 'c:/berrybrew/test';
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
 
-my @installed = BB::get_installed();
+my @intalled = BB::get_installed();
 
 if (! @installed){
-    plan skip_all => "no perls installed... nothing to do";
+    plan skip_all => "no perls installed... nothing to do"
 }
 
 for (@installed){
