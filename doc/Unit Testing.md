@@ -26,7 +26,7 @@ variables during development may break the testing routines.
 Clean up the Perls available lists
 
 - run `berrybrew fetch`
-- run `berrybrew available > t/data/available.json`
+- run `berrybrew available > t/data/available.txt`
 - review `t/data/custom_available.txt`. All of the Perls listed above the
 `[installed]` ones need to be replaced with the updated versions from
 `berrybrew available`. Simply remove them all, and paste in the new list,
