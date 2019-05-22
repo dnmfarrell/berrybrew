@@ -75,6 +75,7 @@ directory.
     temp        Deletes all Perl installation zip files
     orphan      Deletes any directories in the Perl install directory that
                 berrybrew hasn't registered
+    dev         Deletes all developer data (test and build directories)                
     all         Performs both a 'temp' and 'orphan' clean
 
 #### clone

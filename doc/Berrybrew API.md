@@ -19,6 +19,7 @@ The `Berrybrew` class is the base of the system.
 [CheckName](#checkname)| internal | Validates the name of a custom Perl install
 [CheckRootDir](#checkrootdir)| private | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
+[CleanDev](#cleandev) | private | Remove the developer's `build` and `test` directories
 [CleanOrphan](#cleanorphan)| private | Removes all orphaned Perls
 [CleanTemp](#cleantemp)| private | Removes temporary files
 [Clone](#clone)| **public** | Copies an installed Perl to a new name
@@ -113,6 +114,16 @@ By default, `subcmd` is set to "temp", which we delete all downloaded Perl
 installation zip files from the temporary directory. With "orphan", we'll
 delete all directories found in the Perl installation root directory that
 `berrybrew` has not registered as valid Perl installs.
+
+#### CleanDev
+
+    private bool CleanDev()
+    
+Removes both the `build` and `test` directories. This method should only
+be used by developers of `berrybrew`.
+
+Returns `true` if both directories are non-existent after the routine
+has been run, or `false` otherwise.
 
 #### CleanOrphan
 

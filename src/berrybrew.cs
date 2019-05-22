@@ -39,7 +39,7 @@ namespace BerryBrew {
 
         private static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
         private static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
-
+        
         public readonly string ArchivePath;
         public readonly string InstallPath;
         public readonly string RootPath;
@@ -199,12 +199,18 @@ namespace BerryBrew {
             bool cleansed;
 
             switch (subcmd){
+                case "all":
+                    CleanTemp();
+                    CleanOrphan();
+                    CleanDev();
+                    break;
+                                        
                 case "dev":
                     cleansed = CleanDev();
                     if (cleansed)
                         Console.WriteLine("\nremoved the build and test directories");
                     else
-                        Console.WriteLine("\nAn error has occured removing dev directories");
+                        Console.WriteLine("\nan error has occured removing dev directories");
                     break;
                     
                 case "temp":
@@ -223,18 +229,45 @@ namespace BerryBrew {
             }
         }
 
-        private bool CleanDev()
-        {
-            string buildDir = "build";
-            string testDir = "test";
+        private bool CleanDev() {
+            string buildDir = RootPath + @"build2";
+            string testDir = RootPath + @"test";
+
+            try {
+                if (Directory.Exists(buildDir))
+                {
+                    FilesystemResetAttributes(buildDir);
+                    Directory.Delete(buildDir, true);
+                }
+            }
+            catch (Exception err) {
+                Console.WriteLine("\nUnable to remove the build directory");
+                if (Debug) {
+                    Console.WriteLine(err);
+                }
+            }
+
+            try {
+                if (Directory.Exists(testDir))
+                {
+                    FilesystemResetAttributes(testDir);
+                    Directory.Delete(testDir, true);
+                }
+            }
+            catch (Exception err){
+                Console.WriteLine("\nUnable to remove the test directory");
+                if (Debug) {
+                    Console.WriteLine(err);
+                }               
+            }
 
             if (Directory.Exists(buildDir))
-                Directory.Delete(buildDir, true); 
-            
-            if (Directory.Exists(testDir))
-                Directory.Delete(testDir, true);
+                return false;
 
-            return !Directory.Exists(buildDir) && !Directory.Exists(testDir);
+            if (Directory.Exists(testDir))
+                return false;
+            
+            return true;
         }
                     
         private bool CleanOrphan(){
