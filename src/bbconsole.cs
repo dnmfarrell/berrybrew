@@ -10,6 +10,11 @@ namespace berrybrew {
 
             Berrybrew bb = new Berrybrew();
 
+            if (args[0] == "export-modules")
+            {
+                bb.ExportModules();
+                Environment.Exit(0);
+            }
             if (args.Length != 0 && args[0] == "debug"){
                 bb.Debug = true;
                 args = args.Skip(1).ToArray();

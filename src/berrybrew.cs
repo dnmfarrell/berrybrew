@@ -382,6 +382,42 @@ namespace BerryBrew {
                 Message.Print("config_complete");
         }
 
+        public void ExportModules()
+        {
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo {WindowStyle = ProcessWindowStyle.Hidden};
+
+            string moduleDir = RootPath;
+            
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments =
+                "/c " +
+                "perl -MExtUtils::Installed -E \"say $_ for ExtUtils::Installed->new->modules\"" +
+                " > " +
+                moduleDir +
+                "\\module_list.dat";
+        
+            process.StartInfo = startInfo;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.Start();
+
+            process.OutputDataReceived += (proc, line)=>{
+                if( line.Data != null){
+                    Console.Out.WriteLine(line.Data);
+                }
+            };
+            process.ErrorDataReceived += (proc, line)=>{
+                if( line.Data != null){
+                    Console.Error.WriteLine(line.Data);
+                }
+            };
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.WaitForExit();
+            
+        }
         private static void Exec(StrawberryPerl perl, IEnumerable<string> parameters, string sysPath, bool singleMode){
 
             if(!singleMode){
@@ -457,8 +493,6 @@ namespace BerryBrew {
                             execWith.Add(perl);
                     }
                 }
-                
-                Console.WriteLine(execWith[0].Name);
             }
             else {
                 execWith = perlsInstalled;
