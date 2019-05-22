@@ -20,6 +20,8 @@ Revision history for berrybrew
         - slight modifications to the testing infrastructure and documentation
           instructions
         - rename "Synopsis" to "Examples" in README (closes #124)
+        - corrected issue in ExecCompile(), where if we're using --with to exec
+          with only one perl instance, it wasn't filtering correctly
                               
 1.22    2018-11-05
         - clarifications and updates to the "Create a Release" doc (closes #137)

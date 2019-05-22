@@ -441,7 +441,15 @@ namespace BerryBrew {
                 parameters.RemoveAt(0);
                 String perlsToUse = parameters.ElementAt(0);
                 parameters.RemoveAt(0);
-                string[] perls = perlsToUse.Split(',');
+
+                List<string> perls = new List<string>();
+
+                if (!perlsToUse.Contains(','))
+                {
+                    perls.Add(perlsToUse);
+                }
+                else
+                     perls = new List<string>(perlsToUse.Split(','));
 
                 foreach (StrawberryPerl perl in perlsInstalled){
                     foreach (string perlName in perls){
@@ -449,6 +457,8 @@ namespace BerryBrew {
                             execWith.Add(perl);
                     }
                 }
+                
+                Console.WriteLine(execWith[0].Name);
             }
             else {
                 execWith = perlsInstalled;
@@ -457,6 +467,7 @@ namespace BerryBrew {
             string sysPath = PathGet();
 
             List<StrawberryPerl> filteredExecWith = new List<StrawberryPerl>();
+
             foreach(StrawberryPerl perl in execWith){
                 if (perl.Custom && ! _customExec)
                     continue;
