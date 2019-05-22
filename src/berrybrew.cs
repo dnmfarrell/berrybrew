@@ -203,6 +203,7 @@ namespace BerryBrew {
                 case "all":
                     CleanTemp();
                     CleanOrphan();
+                    CleanModules();
                     CleanDev();
                     break;
                                         
@@ -214,6 +215,14 @@ namespace BerryBrew {
                         Console.WriteLine("\nan error has occured removing dev directories");
                     break;
                     
+                case "modules":
+                    cleansed = CleanModules();
+                    if (cleansed)
+                        Console.WriteLine("\nremoved the module list storage directory");
+                    else
+                        Console.WriteLine("\nno module lists saved to remove");
+                    break;
+                
                 case "temp":
                     cleansed = CleanTemp();
                     if (cleansed)
@@ -229,7 +238,30 @@ namespace BerryBrew {
                     break;
             }
         }
+        private bool CleanModules()
+        {
+            string moduleDir = RootPath + "modules";
+            
+            try {
+                if (Directory.Exists(moduleDir))
+                {
+                    FilesystemResetAttributes(moduleDir);
+                    Directory.Delete(moduleDir, true);
+                }
+            }
+            catch (Exception err) {
+                Console.WriteLine("\nUnable to remove the module list directory");
+                if (Debug) {
+                    Console.WriteLine(err);
+                }
+            }
 
+            if (Directory.Exists(moduleDir))
+                return false;
+
+            return true;
+        }
+ 
         private bool CleanDev() {
 
             string buildDir = RootPath;

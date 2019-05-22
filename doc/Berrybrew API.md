@@ -20,6 +20,7 @@ The `Berrybrew` class is the base of the system.
 [CheckRootDir](#checkrootdir)| private | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
 [CleanDev](#cleandev) | private | Remove the developer's `build` and `test` directories
+[CleanModules](#cleanmodules) | private | Removes the directory where we store exported module lists
 [CleanOrphan](#cleanorphan)| private | Removes all orphaned Perls
 [CleanTemp](#cleantemp)| private | Removes temporary files
 [Clone](#clone)| **public** | Copies an installed Perl to a new name
@@ -124,6 +125,14 @@ be used by developers of `berrybrew`.
 
 Returns `true` if both directories are non-existent after the routine
 has been run, or `false` otherwise.
+
+#### CleanModules
+
+    private bool CleanDev()
+    
+Removes the directory that we store exported module list files into.    
+
+Returns `true` on success, and `false` on failure.
 
 #### CleanOrphan
 

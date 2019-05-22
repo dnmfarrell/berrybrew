@@ -22,7 +22,11 @@ Revision history for berrybrew
         - rename "Synopsis" to "Examples" in README (closes #124)
         - corrected issue in ExecCompile(), where if we're using --with to exec
           with only one perl instance, it wasn't filtering correctly
-                              
+        - added ExportModules(), saves the current perl's module list for import
+          later in a different perl (work on #150)          
+        - added CleanModules() with new `berrybrew clean modules` to clean up
+          the exported module list directory
+
 1.22    2018-11-05
         - clarifications and updates to the "Create a Release" doc (closes #137)
         - major, sweeping code refactoring: method privileges, exception
