@@ -384,18 +384,27 @@ namespace BerryBrew {
 
         public void ExportModules()
         {
+
+            StrawberryPerl perl = PerlInUse();
+             
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo {WindowStyle = ProcessWindowStyle.Hidden};
 
-            string moduleDir = RootPath;
+            string moduleDir = RootPath + "modules\\";
+
+            if (!Directory.Exists(moduleDir))
+            {
+                Directory.CreateDirectory(moduleDir);
+            }
+
+            string moduleFile = moduleDir + perl.Name;
             
             startInfo.FileName = "cmd.exe";
             startInfo.Arguments =
                 "/c " +
                 "perl -MExtUtils::Installed -E \"say $_ for ExtUtils::Installed->new->modules\"" +
                 " > " +
-                moduleDir +
-                "\\module_list.dat";
+                moduleFile;
         
             process.StartInfo = startInfo;
             process.StartInfo.RedirectStandardOutput = true;
@@ -416,6 +425,8 @@ namespace BerryBrew {
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
+            
+            Console.WriteLine("\nsuccessfully wrote out {0} module list file", moduleFile);
             
         }
         private static void Exec(StrawberryPerl perl, IEnumerable<string> parameters, string sysPath, bool singleMode){
@@ -934,8 +945,13 @@ namespace BerryBrew {
                     continue;
 
                 // dev build directory
-                 if (Regex.Match(dir, @"\\build$").Success)
-                    continue;               
+                if (Regex.Match(dir, @"\\build$").Success)
+                    continue;
+
+                if (Regex.Match(dir, @"\\modules$").Success)
+                {
+                    continue;
+                }
                 
                 if (! perlInstallations.Contains(dir) && ! Regex.Match(dir, @".cpanm").Success){
                     string dirBaseName = dir.Remove(0, RootPath.Length);
