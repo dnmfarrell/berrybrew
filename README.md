@@ -26,7 +26,7 @@ full list of documentation.
 - [Uninstall](#uninstall)
 - [Configuration](#configuration)
 - [Commands](#commands)
-- [Synopsis](#synopsis)
+- [Examples](#examples)
 - [Upgrading](#upgrading)
 - [Update Perls Available](#update-perls-available)
 - [Configure Perl Instance Directory](#configure-root-directory)
@@ -96,7 +96,7 @@ installations and all configuration and temporary data
 
         * - view subcommand details with 'berrybrew <command> help'
 
-## Synopsis
+## Examples
 
 List all versions of Perl that are available, installed, and currently used:
     
