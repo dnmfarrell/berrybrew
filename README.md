@@ -85,7 +85,8 @@ installations and all configuration and temporary data
         register       Manually register a custom installation directory
         remove         Uninstall a Strawberry Perl
         switch         Switch to use a different Strawberry Perl
-        modules-export Export a list of installed modules under the current Perl",
+        modules-import Installs an exported list of modules from a different Perl
+        modules-export Export a list of installed modules under the current Perl
         off            Disable berrybrew perls (use 'switch' to re-enable)
         exec *         Run a command for every installed Strawberry Perl
         unconfig       Remove berrybrew from PATH

@@ -64,6 +64,13 @@
     ]
 },
 {
+    "label": "export_modules",
+    
+    "content": [
+        "\nno module lists have been created. Run 'berrybrew modules-export'."
+    ]
+},    
+{
     "label": "install_ver_required",
 
     "content": [
@@ -142,6 +149,7 @@
         "    exec *         Run a command for every installed Strawberry Perl",
         "    fetch          Update the list of Strawberry Perl instances available",
         "    install        Download, extract and install a Strawberry Perl",
+        "    modules-import Import/install all modules exported from another perl",
         "    modules-export Export a list of installed modules under the current Perl",
         "    off            Disable berrybrew perls (use 'switch' to re-enable)",
         "    register       Manually register a custom installation directory",

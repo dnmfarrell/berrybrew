@@ -26,7 +26,9 @@ Revision history for berrybrew
           later in a different perl (work on #150)          
         - added CleanModules() with new `berrybrew clean modules` to clean up
           the exported module list directory
-
+        - added ImportModules(), ImportModulesExec(), modules-export and
+          modules-import (work on #150)
+          
 1.22    2018-11-05
         - clarifications and updates to the "Create a Release" doc (closes #137)
         - major, sweeping code refactoring: method privileges, exception

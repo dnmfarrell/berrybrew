@@ -158,6 +158,15 @@ namespace berrybrew {
                 case "modules-export":
                     bb.ExportModules();
                     break;
+               
+                case "modules-import":
+                    string version = "";
+
+                    if (args.Length > 1)
+                        version = args[1];
+                    
+                    bb.ImportModules(version);
+                    break;
                 
                 case "off":
                     bb.Off();

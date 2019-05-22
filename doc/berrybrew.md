@@ -11,6 +11,7 @@
 - [exec](#exec)
 - [fetch](#fetch)
 - [install](#install)
+- [module-import](#module-import)
 - [off](#off)
 - [register](#register)
 - [remove](#remove)
@@ -139,6 +140,20 @@ Usage:  `berrybrew install <version>`
 
 Installs a single Perl version as seen in `berrybrew available`, and makes it
 available for use.
+
+#### module-import
+
+Usage: `berrybrew module-import [version]`
+
+Imports a previously exported list of modules from a different instance
+of Perl, and installs them all.
+
+#### module-export
+
+Usage: `berrybrew module-export`
+
+Exports a list of all modules installed on the current Perl instance.
+Used for the `module-import` command.
 
 #### off
 
