@@ -75,24 +75,25 @@ installations and all configuration and temporary data
 
     berrybrew <command> [subcommand] [option]
 
-        available   List available Strawberry Perl versions and which are installed
-        list        List the version numbers of all installed Perls
-        config      Add berrybrew to your PATH
-        clean *     Remove all temporary berrybrew files
-        clone       Clones an installed version to a custom-named one
-        fetch *     Upgrade the list of Strawberry Perl instances available
-        install     Download, extract and install a Strawberry Perl
-        register    Manually register a custom installation directory
-        remove      Uninstall a Strawberry Perl
-        switch      Switch to use a different Strawberry Perl
-        off         Disable berrybrew perls (use 'switch' to re-enable)
-        exec *      Run a command for every installed Strawberry Perl
-        unconfig    Remove berrybrew from PATH
-        upgrade     Backs up config, does a `git pull`, and restores config
-        use *       Use a specific Strawberry Perl version temporarily
-        help        Display this help screen
-        license     Show berrybrew license
-        version     Displays the version
+        available      List available Strawberry Perl versions and which are installed
+        list           List the version numbers of all installed Perls
+        config         Add berrybrew to your PATH
+        clean *        Remove all temporary berrybrew files
+        clone          Clones an installed version to a custom-named one
+        fetch *        Upgrade the list of Strawberry Perl instances available
+        install        Download, extract and install a Strawberry Perl
+        register       Manually register a custom installation directory
+        remove         Uninstall a Strawberry Perl
+        switch         Switch to use a different Strawberry Perl
+        modules-export Export a list of installed modules under the current Perl",
+        off            Disable berrybrew perls (use 'switch' to re-enable)
+        exec *         Run a command for every installed Strawberry Perl
+        unconfig       Remove berrybrew from PATH
+        upgrade        Backs up config, does a `git pull`, and restores config
+        use *          Use a specific Strawberry Perl version temporarily
+        help           Display this help screen
+        license        Show berrybrew license
+        version        Displays the version
 
         * - view subcommand details with 'berrybrew <command> help'
 

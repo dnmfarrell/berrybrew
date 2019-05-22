@@ -416,7 +416,6 @@ namespace BerryBrew {
 
         public void ExportModules()
         {
-
             StrawberryPerl perl = PerlInUse();
              
             Process process = new Process();

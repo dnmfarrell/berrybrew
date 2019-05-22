@@ -9,12 +9,7 @@ namespace berrybrew {
         private static void Main(string[] args){
 
             Berrybrew bb = new Berrybrew();
-
-            if (args[0] == "export-modules")
-            {
-                bb.ExportModules();
-                Environment.Exit(0);
-            }
+            
             if (args.Length != 0 && args[0] == "debug"){
                 bb.Debug = true;
                 args = args.Skip(1).ToArray();
@@ -160,6 +155,10 @@ namespace berrybrew {
 
                     break;
 
+                case "modules-export":
+                    bb.ExportModules();
+                    break;
+                
                 case "off":
                     bb.Off();
                     break;
