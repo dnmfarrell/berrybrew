@@ -87,6 +87,13 @@
     ]
 },
 {
+    "label": "modules_command_required",
+    
+    "content": [
+        "\nmodules command requires a sub option. Run 'berrybrew modules help' for details"
+    ]
+},    
+{
     "label": "register_ver_required",
     "content": [
         "\nregister command requires a directory as an argument."
@@ -149,8 +156,7 @@
         "    exec *         Run a command for every installed Strawberry Perl",
         "    fetch          Update the list of Strawberry Perl instances available",
         "    install        Download, extract and install a Strawberry Perl",
-        "    modules-import Import/install all modules exported from another perl",
-        "    modules-export Export a list of installed modules under the current Perl",
+        "    modules *      Export and import a module list from one Perl to install on another",
         "    off            Disable berrybrew perls (use 'switch' to re-enable)",
         "    register       Manually register a custom installation directory",
         "    remove         Uninstall a Strawberry Perl",
@@ -233,6 +239,17 @@
         "   Execute a command across only select versions of Perl"
     ]
 },
+{
+    "label": "subcmd.modules",
+    
+    "content": [
+        "",
+        "   berrybrew 'modules' subcommands:",
+        "",
+        "   export  Exports a list of all installed modules in the current Perl",
+        "   import  Imports a previously exported module list and installs them in the current perl",
+    ]
+},    
 {
     "label": "subcmd.use",
 

@@ -82,11 +82,10 @@ installations and all configuration and temporary data
         clone          Clones an installed version to a custom-named one
         fetch *        Upgrade the list of Strawberry Perl instances available
         install        Download, extract and install a Strawberry Perl
+        modules *      Export and import a module list from one Perl to install on another
         register       Manually register a custom installation directory
         remove         Uninstall a Strawberry Perl
         switch         Switch to use a different Strawberry Perl
-        modules-import Installs an exported list of modules from a different Perl
-        modules-export Export a list of installed modules under the current Perl
         off            Disable berrybrew perls (use 'switch' to re-enable)
         exec *         Run a command for every installed Strawberry Perl
         unconfig       Remove berrybrew from PATH

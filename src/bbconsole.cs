@@ -155,17 +155,32 @@ namespace berrybrew {
 
                     break;
 
-                case "modules-export":
-                    bb.ExportModules();
-                    break;
-               
-                case "modules-import":
-                    string version = "";
+                case "modules":
+                    if (args.Length == 1)
+                        bb.Message.Say("modules_command_required");
 
-                    if (args.Length > 1)
-                        version = args[1];
+                    args[0] = "";
+
+                    if (args[1] == "-h" || args[1] == "help")
+                        bb.Message.Say("subcmd.modules");
+
+                    if (args[1] == "import")
+                    {
+                        if (args.Length < 3)
+                        {
+                            bb.ImportModules();
+                        }
+                        else
+                        {
+                            bb.ImportModules(args[2]);
+                        }
+                    }
+
+                    if (args[1] == "export")
+                    {
+                        bb.ExportModules();
+                    }
                     
-                    bb.ImportModules(version);
                     break;
                 
                 case "off":
