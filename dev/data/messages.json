@@ -64,13 +64,6 @@
     ]
 },
 {
-    "label": "export_modules",
-    
-    "content": [
-        "\nno module lists have been created. Run 'berrybrew modules-export'."
-    ]
-},    
-{
     "label": "install_ver_required",
 
     "content": [
