@@ -159,6 +159,8 @@ namespace berrybrew {
                     if (args.Length == 1)
                         bb.Message.Say("modules_command_required");
 
+                    bb.Message.Print("warning_modules_beta");
+                    
                     args[0] = "";
 
                     if (args[1] == "-h" || args[1] == "help")
