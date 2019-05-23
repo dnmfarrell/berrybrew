@@ -27,10 +27,13 @@ The `Berrybrew` class is the base of the system.
 [Config](#config)| **public** | Puts `berrybrew.exe` in `PATH`
 [Exec](#exec)| private | Runs commands on all installed Perls
 [ExecCompile](#execcompile)| **public** | Staging for `Exec()`
+[ExportModules](#exportmodules)| **public** | Export an instaled module list from current Perl
 [Extract](#extract)| private | Extracts Perl installation zip archives
 [Fetch](#fetch)| private | Downloads the Perl installation files
 [FileRemove](#fileremove)| private | Deletes a file
 [FileSystemResetAttributes](#filesystemresetattributes)| private | Defaults filesystem attrs
+[ImportModules](#importmodules)| **public** | Import modules into a Perl from a previously exported list
+[ImportModulesExec](#importmodulesexec)| private | Helper/executive method for `ImportModules()`
 [Install](#install)| **public** | Installs new instances of Perl
 [JsonParse](#jsonparse)| private | Reads JSON config files
 [JsonWrite](#jsonwrite)| private | Writes out JSON configuration
@@ -212,7 +215,14 @@ any Perls that have either `tmpl` or `template` in the name.
 By default, we also skip over all custom (cloned) instances. To have them
 included, set `custom_exec` to `true` in the configuration file.
 
-#### Extract()
+#### ExportModules
+
+    public void ExportModules()
+    
+Exports a list of all installed modules from the currently in-use Perl
+instance.
+    
+#### Extract
 
     private static void Extract(StrawberryPerl perl, string tempDir)
 
@@ -261,6 +271,29 @@ operated on back to default. This method was written specifically to ensure
 that no files were readonly, which prevented us from removing Perl
 installations.
 
+#### ImportModules
+
+    public void ImportModules(string version="")
+    
+        argument:   version
+        value:      Name of a Perl instance you've exported a module list from
+        
+Imports a previously exported module list (from a different Perl instance),
+and installs all of the listed modules into the currently in-use Perl.
+
+#### ImportModulesExec
+
+    private void ImportModulesExec(string file, string path)
+    
+        argument:   file
+        value:      The name of a Perl instance that you've exported the module list from
+        
+        argument:   path
+        value:      The full path including the file name listed in the 'file' parameter
+        
+This method is called by `ImportModules()`, and simply performs the routines
+that install all of the listed modules within the exported file.
+        
 #### Install
 
     public void Install(string version)
