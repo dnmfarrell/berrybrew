@@ -28,6 +28,9 @@ Revision history for berrybrew
           the exported module list directory
         - added ImportModules(), ImportModulesExec(), modules-export and
           modules-import (work on #150)
+        - added new "currentperl" hidden command which displays which Perl
+          is currently in use. Changed "PerlInUse()" from private to public to
+          facilitate the new feature
           
 1.22    2018-11-05
         - clarifications and updates to the "Create a Release" doc (closes #137)

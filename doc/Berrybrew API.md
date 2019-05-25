@@ -50,7 +50,7 @@ The `Berrybrew` class is the base of the system.
 [PerlArchivePath](#perlarchivepath)| private | Returns the path and filename of the zip file
 [PerlFindOrphans](#perlfindorphans)| private | Locates non-registered directories in Perl root
 [PerlGenerateObjects](#perlgenerateobjects)| private | Generates the `StrawberryPerl` class objects
-[PerlInUse](#perlinuse)| private | Returns the name of the Perl currently in use
+[PerlInUse](#perlinuse)| **public** | Returns the name of the Perl currently in use
 [PerlIsInstalled](#perlisinstalled)| private | Checks if a specific Perl is installed
 [PerlsInstalled](#perlsinstalled)| private | Fetches the list of Perls installed
 [PerlRemove](#perlremove)| **public** | Uninstalls a specific instance of Perl
@@ -491,7 +491,7 @@ Set `importIntoObject` to `true` to have the list of objects imported into the
 
 #### PerlInUse
 
-    private StrawberryPerl PerlInUse()
+    public StrawberryPerl PerlInUse()
 
         return:     Instance of the StrawberryPerl class
 

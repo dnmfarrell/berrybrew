@@ -396,6 +396,13 @@ Examples:
 Currently, it's only used in the `t/99_clean.t` test to strip off
 unneeded path elements for a couple of specific tests.
 
+#### currentperl
+
+This feature simply fetches the Perl instance that's currently in use,
+prints out its name, and exits.
+
+Used primarily for certain unit tetss.
+
 ## Original Author
 
 David Farrell [http://perltricks.com]

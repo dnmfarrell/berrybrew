@@ -43,6 +43,10 @@ namespace berrybrew {
                     bb.List();
                     break;
 
+                case "currentperl":
+                    Console.WriteLine(bb.PerlInUse().Name);
+                    break;
+                
                 case "clean":
                     if (args.Length > 1){
                         if (args[1].StartsWith("h"))

@@ -445,7 +445,7 @@ namespace BerryBrew {
             if (file == PerlInUse().Name)
             {
                 Console.WriteLine("\ncan't import modules exported from the same perl version\n");
-                Console.WriteLine("you're trying to use an export from version {0} and you're on {1}\n", file, PerlInUse().Name);
+                Console.WriteLine("you're trying to use an export from version {0} and you're on {1}\n", file, arg1: PerlInUse().Name);
                 Environment.Exit(0);
             }
                 
@@ -1106,7 +1106,7 @@ namespace BerryBrew {
             }
         }
 
-        private StrawberryPerl PerlInUse(){
+        public StrawberryPerl PerlInUse(){
 
             string path = PathGet();
             StrawberryPerl currentPerl = new StrawberryPerl();
