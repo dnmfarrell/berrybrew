@@ -409,7 +409,7 @@ operate correctly. This is due to the way Windows forces the System
 ## Undocumented Features
 
 There are certain features that should only be used by developers and
-maintainers of this software. There's only one currently, so if I create
+maintainers of this software. There's only a couple, so if I create
 more and/or make them more complex, I'll create a separate document
 for them.
 
