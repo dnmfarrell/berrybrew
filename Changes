@@ -1,10 +1,40 @@
 Revision history for berrybrew
 
-1.23 UNREL
+1.23    2019-05-26
         - fixed issue in README where some external doc links were pointing to
           the wrong branch (fixes #147)
         - removed the "update dnmfarrell repo" section from README; it's been
           moved to the "create a release" doc (closes #146)
+        - "Compile your own" link wasn't directing to the proper doc 
+          (closes #148)
+        - added "dev" and "all" to the "clean" operation (closes #149)
+        - added t/99_clean.t for testing the "berrybrew clean dev" feature
+          (closes #151)
+        - added new "test" argument to "berrybrew". This is for developers to
+          tell the system we're in unit testing mode to shim the system where
+          necessary
+        - added an exception handling routine in PerlFindOrphans() to catch an
+          error in certain cases when running "berrybrew clean dev"
+        - t/95-remote.t no longer cleans up the test directory, that's left to
+          t/99-clean.t now
+        - slight modifications to the testing infrastructure and documentation
+          instructions
+        - rename "Synopsis" to "Examples" in README (closes #124)
+        - corrected issue in ExecCompile(), where if we're using --with to exec
+          with only one perl instance, it wasn't filtering correctly
+        - added ExportModules(), saves the current perl's module list for import
+          later in a different perl (work on #150)          
+        - added CleanModules() with new `berrybrew clean modules` to clean up
+          the exported module list directory
+        - added ImportModules(), ImportModulesExec(), modules export and
+          import (work on #150)
+        - update all documentation with the new "modules export/import"
+          functionality (closes #150)
+        - added new "currentperl" hidden command which displays which Perl
+          is currently in use. Changed "PerlInUse()" from private to public to
+          facilitate the new feature
+        - bumped perls.json to include the new 5.30 Perl release          
+        - several other minor issues closed (mostly small doc fixes etc)
           
 1.22    2018-11-05
         - clarifications and updates to the "Create a Release" doc (closes #137)
@@ -25,7 +55,7 @@ Revision history for berrybrew
           "t\build.bat", but since changing the dev build system, we needed to
           separate the functionality (fixes #143)
           
-1.21 2018-11-04
+1.21    2018-11-04
         - updated CONTRIBUTING doc (closes #128)
         - moved the "Compile your own installation", "Create a dev build", and
           "Create a release" README sections to their own documentation files.

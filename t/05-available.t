@@ -16,6 +16,7 @@ $list =~ s/\[installed\]\s+\*?//g;
 open my $fh, '<', 't/data/available.txt' or die $!;
 my @base = <$fh>;
 pop @base;
+shift @base;
 
 my @list = split /\n/, $list;
 shift @list;

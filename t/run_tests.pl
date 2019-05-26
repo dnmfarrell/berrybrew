@@ -19,7 +19,7 @@ if(!$sff) {
     system "prove", "t/*.t";
 } else {
     foreach (glob("t/*.t")) {
-print "before `prove $_`: " . `ls -latr \\berrybrew\\test`;
+        print "before `prove $_`: " . `ls -latr \\berrybrew\\test`;
         system "prove", $_;
         if($? == -1) {
             die sprintf "`prove %s` failed to execute: %s\n", $_, $!;

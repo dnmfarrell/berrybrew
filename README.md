@@ -26,9 +26,10 @@ full list of documentation.
 - [Uninstall](#uninstall)
 - [Configuration](#configuration)
 - [Commands](#commands)
-- [Synopsis](#synopsis)
+- [Examples](#examples)
 - [Upgrading](#upgrading)
 - [Update Perls Available](#update-perls-available)
+- [Cloning Modules](#cloning-modules)
 - [Configure Perl Instance Directory](#configure-root-directory)
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
@@ -37,6 +38,7 @@ full list of documentation.
 - [Caveats](#caveats)
 - [License](#license)
 - [Version](#version)
+- [Undocumented Features](#undocumented-features)
 
 ## Install
 
@@ -46,9 +48,9 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: c9de157269d9f6191d94b1ea1bcc7798232dd71b`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 4ac8fcab1ff940395879e8963f7fe62a426ef2e1`
 
-You can also [Compile your own](https://github.com/stevieb9/berrybrew#configure-root-directory)
+You can also [Compile your own](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
 installation.
 
 See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) 
@@ -74,28 +76,29 @@ installations and all configuration and temporary data
 
     berrybrew <command> [subcommand] [option]
 
-        available   List available Strawberry Perl versions and which are installed
-        list        List the version numbers of all installed Perls
-        config      Add berrybrew to your PATH
-        clean *     Remove all temporary berrybrew files
-        clone       Clones an installed version to a custom-named one
-        fetch *     Upgrade the list of Strawberry Perl instances available
-        install     Download, extract and install a Strawberry Perl
-        register    Manually register a custom installation directory
-        remove      Uninstall a Strawberry Perl
-        switch      Switch to use a different Strawberry Perl
-        off         Disable berrybrew perls (use 'switch' to re-enable)
-        exec *      Run a command for every installed Strawberry Perl
-        unconfig    Remove berrybrew from PATH
-        upgrade     Backs up config, does a `git pull`, and restores config
-        use *       Use a specific Strawberry Perl version temporarily
-        help        Display this help screen
-        license     Show berrybrew license
-        version     Displays the version
+        available      List available Strawberry Perl versions and which are installed
+        list           List the version numbers of all installed Perls
+        config         Add berrybrew to your PATH
+        clean *        Remove all temporary berrybrew files
+        clone          Clones an installed version to a custom-named one
+        fetch *        Upgrade the list of Strawberry Perl instances available
+        install        Download, extract and install a Strawberry Perl
+        modules *      Export and import a module list from one Perl to install on another
+        register       Manually register a custom installation directory
+        remove         Uninstall a Strawberry Perl
+        switch         Switch to use a different Strawberry Perl
+        off            Disable berrybrew perls (use 'switch' to re-enable)
+        exec *         Run a command for every installed Strawberry Perl
+        unconfig       Remove berrybrew from PATH
+        upgrade        Backs up config, does a `git pull`, and restores config
+        use *          Use a specific Strawberry Perl version temporarily
+        help           Display this help screen
+        license        Show berrybrew license
+        version        Displays the version
 
         * - view subcommand details with 'berrybrew <command> help'
 
-## Synopsis
+## Examples
 
 List all versions of Perl that are available, installed, and currently used:
     
@@ -267,6 +270,44 @@ local `perls.json` file with them.
 If you supply the `all` subcommand to `berrybrew fetch`, we will load all
 available Perls that Strawberry has to offer.
 
+## Cloning Modules
+
+Currently, this is a two-phase operation, and is in beta. Here's the
+procedure. first, `berrybrew switch` to the Perl instance you want to
+export the module list for, and:
+
+    > berrybrew modules export
+
+Then, `berrybrew switch` to the Perl instance you want to import the
+exported modules into. You'll need to close and reopen a new command
+window, as always.
+
+Then, the following command will display a list of all exported module
+files from any/all Perl instances you've done an export from:
+
+    > berrybrew modules import
+    
+    re-run the command with one of the following options:
+
+    5.16.3_64    
+    
+In my case here, I've only got one export, from a `5.16.3_64` Perl
+instance. Use it (I'm currently on `5.20.3_64`):
+
+    > berrybrew modules import 5.16.3_64
+    
+NOTE: It is best to export from an older Perl and install on a newer
+one, as it can take a significant amount of time to re-install ALL
+exported modules.
+
+NOTE: You can edit the module export file (by default in `C:\berrybrew\modules\`).
+Each export file has the name of the Perl it was exported from. Just
+add and/or remove any entries you'd like. You can even create the files
+manually by hand so you have a custom, ready made template for all new
+Perl installs. There is no limit on naming convention, so you can
+literally manually create a file called `base_modules_template` for
+example.
+    
 ## Configure Root Directory
 
 By default, we manage Perls out of the `C:\berrybrew` directory. To 
@@ -319,16 +360,16 @@ line:
 - [Configuration](https://github.com/stevieb9/berrybrew/blob/master/doc/Configuration.md)
  Guide to various configuration files and options
 
-- [Compile Your Own Installation](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Compile%20Your%20Own.md)
+- [Compile Your Own Installation](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
  Guide to compiling `berrybrew` from source
 
-- [Create a Development Build](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Create%20a%20Development%20Build.md)
+- [Create a Development Build](https://github.com/stevieb9/berrybrew/blob/master/doc/Create%20a%20Development%20Build.md)
  Guide to creating a development build for testing new functionality
 
 - [Unit Testing](https://github.com/stevieb9/berrybrew/blob/master/doc/Unit%20Testing.md)
  Documentation for unit testing `berrybrew`
  
-- [Create and Publish a Release](https://github.com/stevieb9/berrybrew/blob/v1.21/doc/Create%20a%20Release.md)
+- [Create and Publish a Release](https://github.com/stevieb9/berrybrew/blob/master/doc/Create%20a%20Release.md)
  Guide to creating a release, publishing it as a production install, and
  setting up the next release branch
 
@@ -354,10 +395,8 @@ operate correctly. This is due to the way Windows forces the System
 |[Jetbrains intelliJ IDEA](https://www.jetbrains.com/idea/)|IDE for Perl coding|Freely available, also comes with the open source license|
 |[Camelcade Perl5 Plugin](https://github.com/Camelcade/Perl5-IDEA)|Perl5 Plugin for intelliJ IDEA||
 |[Devel::Camelcadedb](https://metacpan.org/pod/distribution/Devel-Camelcadedb/lib/Devel/Camelcadedb.pod)|Adds Perl5 debug support for intelliJ IDEA||
-|[Mono](https://www.mono-project.com/)|.Net Framework for Unix||
-|[Mono C# Compiler](https://www.mono-project.com/docs/about-mono/languages/csharp/)|C# Compiler for Unix||
-
-
+|[Mono](https://www.mono-project.com/)|Open Source .Net Framework||
+|[Mono C# Compiler](https://www.mono-project.com/docs/about-mono/languages/csharp/)|C#|Open Source C# Compiler|
 
 ## License
 
@@ -365,7 +404,43 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.22
+    1.23
+
+## Undocumented Features
+
+There are certain features that should only be used by developers and
+maintainers of this software. There's only one currently, so if I create
+more and/or make them more complex, I'll create a separate document
+for them.
+
+#### test
+
+This feature should only be used by developers of berrybrew.
+
+Like the `debug` feature, I've added a new `test` argument. It must
+follow `berrybrew` and preceed all further operations. To include the
+`debug` argument as well, specify it first, then include `test`, then
+your command and any options:
+
+Examples: 
+
+- Test feature only:
+
+    `berrybrew test clean ...`
+    
+- Test and Debug:
+
+    `berrybrew debug test clean ...`
+
+Currently, it's only used in the `t/99_clean.t` test to strip off
+unneeded path elements for a couple of specific tests.
+
+#### currentperl
+
+This feature simply fetches the Perl instance that's currently in use,
+prints out its name, and exits.
+
+Used primarily for certain unit tests.
 
 ## Original Author
 
@@ -374,14 +449,6 @@ David Farrell [http://perltricks.com]
 ## This Fork Maintained By
 
 Steve Bertrand `steveb<>cpan.org`
-
-## Updating dnmfarrell berrybrew
-
-    git clone https://stevieb9@github.com/dnmfarrell/berrybrew bb-dnm
-    cd bb-dnm
-    git remote add stevieb9 https://github.com/stevieb9/berrybrew
-    git pull stevieb9 master
-    git push
 
 ## See Also
 

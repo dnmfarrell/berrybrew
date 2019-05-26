@@ -1,45 +1,66 @@
 [
   {
-    "name": "5.28.0_64",
-    "url": "http://strawberryperl.com/download/5.28.0.1/strawberry-perl-5.28.0.1-64bit-portable.zip",
-    "file": "strawberry-perl-5.28.0.1-64bit-portable.zip",
-    "csum": "22a773ae058119a02577e97447fa298926cee67e",
-    "ver": "5.28.0"
+    "name": "5.30.0_64",
+    "url": "http://strawberryperl.com/download/5.30.0.1/strawberry-perl-5.30.0.1-64bit-portable.zip",
+    "file": "strawberry-perl-5.30.0.1-64bit-portable.zip",
+    "csum": "cda71445c20f4e0be0a9e07f65dcc10a047a8097",
+    "ver": "5.30.0"
   },
   {
-    "name": "5.28.0_64_PDL",
-    "url": "http://strawberryperl.com/download/5.28.0.1/strawberry-perl-5.28.0.1-64bit-PDL.zip",
-    "file": "strawberry-perl-5.28.0.1-64bit-PDL.zip",
-    "csum": "b3c39861a3ecd0bddfc7d6d2bbb505a880aa61de",
-    "ver": "5.28.0"
+    "name": "5.30.0_64_PDL",
+    "url": "http://strawberryperl.com/download/5.30.0.1/strawberry-perl-5.30.0.1-64bit-PDL.zip",
+    "file": "strawberry-perl-5.30.0.1-64bit-PDL.zip",
+    "csum": "5dbf07f1236de298f8a7bbdb5706df414fc704cf",
+    "ver": "5.30.0"
   },
   {
-    "name": "5.28.0_32",
-    "url": "http://strawberryperl.com/download/5.28.0.1/strawberry-perl-no64-5.28.0.1-32bit-portable.zip",
-    "file": "strawberry-perl-no64-5.28.0.1-32bit-portable.zip",
-    "csum": "25bbb0d1fa1278aba0567b6de7b08c9116db5c41",
-    "ver": "5.28.0"
+    "name": "5.30.0_32",
+    "url": "http://strawberryperl.com/download/5.30.0.1/strawberry-perl-no64-5.30.0.1-32bit-portable.zip",
+    "file": "strawberry-perl-no64-5.30.0.1-32bit-portable.zip",
+    "csum": "6e9f1b813c47d7d5fa0f0dcc79489f09e9625e91",
+    "ver": "5.30.0"
   },
   {
-    "name": "5.26.2_64",
-    "url": "http://strawberryperl.com/download/5.26.2.1/strawberry-perl-5.26.2.1-64bit-portable.zip",
-    "file": "strawberry-perl-5.26.2.1-64bit-portable.zip",
-    "csum": "7996609176451c54864f700ffa299ee81712d8bd",
-    "ver": "5.26.2"
+    "name": "5.28.2_64",
+    "url": "http://strawberryperl.com/download/5.28.2.1/strawberry-perl-5.28.2.1-64bit-portable.zip",
+    "file": "strawberry-perl-5.28.2.1-64bit-portable.zip",
+    "csum": "95e5d5c7ad6041b05a3f0b61cad9196567161998",
+    "ver": "5.28.2"
   },
   {
-    "name": "5.26.2_64_PDL",
-    "url": "http://strawberryperl.com/download/5.26.2.1/strawberry-perl-5.26.2.1-64bit-PDL.zip",
-    "file": "strawberry-perl-5.26.2.1-64bit-PDL.zip",
-    "csum": "1159a1f7d1c7af556938769b0089712710af8c43",
-    "ver": "5.26.2"
+    "name": "5.28.2_64_PDL",
+    "url": "http://strawberryperl.com/download/5.28.2.1/strawberry-perl-5.28.2.1-64bit-PDL.zip",
+    "file": "strawberry-perl-5.28.2.1-64bit-PDL.zip",
+    "csum": "4d6d6a6cc3c376bf5dc244ec08bf395e80f52497",
+    "ver": "5.28.2"
   },
   {
-    "name": "5.26.2_32",
-    "url": "http://strawberryperl.com/download/5.26.2.1/strawberry-perl-no64-5.26.2.1-32bit-portable.zip",
-    "file": "strawberry-perl-no64-5.26.2.1-32bit-portable.zip",
-    "csum": "3414b2813435a9545375cdf409269b1c7773f3ac",
-    "ver": "5.26.2"
+    "name": "5.28.2_32",
+    "url": "http://strawberryperl.com/download/5.28.2.1/strawberry-perl-no64-5.28.2.1-32bit-portable.zip",
+    "file": "strawberry-perl-no64-5.28.2.1-32bit-portable.zip",
+    "csum": "21702cc879724528e79db5b94285ee3bfe3ba46f",
+    "ver": "5.28.2"
+  },
+  {
+    "name": "5.26.3_64",
+    "url": "http://strawberryperl.com/download/5.26.3.1/strawberry-perl-5.26.3.1-64bit-portable.zip",
+    "file": "strawberry-perl-5.26.3.1-64bit-portable.zip",
+    "csum": "04dcda8a5e4cdd00414a18676240739e51773dbf",
+    "ver": "5.26.3"
+  },
+  {
+    "name": "5.26.3_64_PDL",
+    "url": "http://strawberryperl.com/download/5.26.3.1/strawberry-perl-5.26.3.1-64bit-PDL.zip",
+    "file": "strawberry-perl-5.26.3.1-64bit-PDL.zip",
+    "csum": "00c4e23b4ef8e045763c8a214c9adbb37c294743",
+    "ver": "5.26.3"
+  },
+  {
+    "name": "5.26.3_32",
+    "url": "http://strawberryperl.com/download/5.26.3.1/strawberry-perl-no64-5.26.3.1-32bit-portable.zip",
+    "file": "strawberry-perl-no64-5.26.3.1-32bit-portable.zip",
+    "csum": "8c9fa0c8b8a76ff2e88e2eb329b020d061e80023",
+    "ver": "5.26.3"
   },
   {
     "name": "5.24.4_64",
