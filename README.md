@@ -48,7 +48,7 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: f725bbea74f82042218af2bfd1e12c5ee5ca0282`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 4ac8fcab1ff940395879e8963f7fe62a426ef2e1`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
 installation.
@@ -274,7 +274,9 @@ available Perls that Strawberry has to offer.
 
 Currently, this is a two-phase operation, and is in beta. Here's the
 procedure. first, `berrybrew switch` to the Perl instance you want to
-export the module list for.
+export the module list for, and:
+
+    > berrybrew modules export
 
 Then, `berrybrew switch` to the Perl instance you want to import the
 exported modules into. You'll need to close and reopen a new command
