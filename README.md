@@ -401,7 +401,7 @@ unneeded path elements for a couple of specific tests.
 This feature simply fetches the Perl instance that's currently in use,
 prints out its name, and exits.
 
-Used primarily for certain unit tetss.
+Used primarily for certain unit tests.
 
 ## Original Author
 
