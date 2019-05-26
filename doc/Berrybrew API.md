@@ -747,4 +747,4 @@ Returns the message content that corresponds with a specific message label.
 Same thing as `Message.Print`, but after printing, calls `Environment.Exit(0)`
 and terminates the application.
 
-&copy; 2017 by Steve Bertrand
+&copy; 2017-2019 by Steve Bertrand
