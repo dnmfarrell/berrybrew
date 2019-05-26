@@ -112,7 +112,7 @@ Checks whether the Perl root installation directory exists, and creates it if no
     public void Clean(string subcmd="temp")
 
         argument:   subcmd
-        values:     "temp", "orphan", "all"
+        values:     "temp", "orphan", "module", "dev", "all"
 
 By default, `subcmd` is set to "temp", which we delete all downloaded Perl
 installation zip files from the temporary directory. With "orphan", we'll
