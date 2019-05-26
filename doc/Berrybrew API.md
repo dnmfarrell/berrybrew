@@ -221,6 +221,11 @@ included, set `custom_exec` to `true` in the configuration file.
     
 Exports a list of all installed modules from the currently in-use Perl
 instance.
+
+The process will create a new `modules` directory under the Perl
+installation directory (default is `C:\berrybrew`), and the name of the
+file will be the version name of the Perl you're exporting from (eg.
+`5.20.3_64`).
     
 #### Extract
 
