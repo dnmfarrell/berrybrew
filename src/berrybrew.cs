@@ -417,7 +417,7 @@ namespace BerryBrew {
         public void ImportModules(string version="")
         {
             string moduleDir = RootPath + "modules\\";
-             
+
             if (! Directory.Exists(moduleDir))
                 Message.Say("export_modules");
 
@@ -429,7 +429,10 @@ namespace BerryBrew {
                 
                 foreach (string fileName in moduleListFiles)
                 {
-                   Console.WriteLine(Path.GetFileName(fileName)); 
+                    if (fileName.Contains("~"))
+                        continue;
+                    
+                    Console.WriteLine(Path.GetFileName(fileName)); 
                 }
 
                 Console.WriteLine();

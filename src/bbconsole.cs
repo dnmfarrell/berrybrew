@@ -170,6 +170,13 @@ namespace berrybrew {
                     if (args[1] == "-h" || args[1] == "help")
                         bb.Message.Say("subcmd.modules");
 
+                    if (args[1] != "import" && args[1] != "export")
+                    {
+                        Console.WriteLine("\ninvalid option...\n");
+                        bb.Message.Say("subcmd.modules");
+                        
+                    }
+                    
                     if (args[1] == "import")
                     {
                         if (args.Length < 3)
