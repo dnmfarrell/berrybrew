@@ -19,16 +19,21 @@ The `Berrybrew` class is the base of the system.
 [CheckName](#checkname)| internal | Validates the name of a custom Perl install
 [CheckRootDir](#checkrootdir)| private | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
+[CleanDev](#cleandev) | private | Remove the developer's `build` and `test` directories
+[CleanModules](#cleanmodules) | private | Removes the directory where we store exported module lists
 [CleanOrphan](#cleanorphan)| private | Removes all orphaned Perls
 [CleanTemp](#cleantemp)| private | Removes temporary files
 [Clone](#clone)| **public** | Copies an installed Perl to a new name
 [Config](#config)| **public** | Puts `berrybrew.exe` in `PATH`
 [Exec](#exec)| private | Runs commands on all installed Perls
 [ExecCompile](#execcompile)| **public** | Staging for `Exec()`
+[ExportModules](#exportmodules)| **public** | Export an instaled module list from current Perl
 [Extract](#extract)| private | Extracts Perl installation zip archives
 [Fetch](#fetch)| private | Downloads the Perl installation files
 [FileRemove](#fileremove)| private | Deletes a file
 [FileSystemResetAttributes](#filesystemresetattributes)| private | Defaults filesystem attrs
+[ImportModules](#importmodules)| **public** | Import modules into a Perl from a previously exported list
+[ImportModulesExec](#importmodulesexec)| private | Helper/executive method for `ImportModules()`
 [Install](#install)| **public** | Installs new instances of Perl
 [JsonParse](#jsonparse)| private | Reads JSON config files
 [JsonWrite](#jsonwrite)| private | Writes out JSON configuration
@@ -45,7 +50,7 @@ The `Berrybrew` class is the base of the system.
 [PerlArchivePath](#perlarchivepath)| private | Returns the path and filename of the zip file
 [PerlFindOrphans](#perlfindorphans)| private | Locates non-registered directories in Perl root
 [PerlGenerateObjects](#perlgenerateobjects)| private | Generates the `StrawberryPerl` class objects
-[PerlInUse](#perlinuse)| private | Returns the name of the Perl currently in use
+[PerlInUse](#perlinuse)| **public** | Returns the name of the Perl currently in use
 [PerlIsInstalled](#perlisinstalled)| private | Checks if a specific Perl is installed
 [PerlsInstalled](#perlsinstalled)| private | Fetches the list of Perls installed
 [PerlRemove](#perlremove)| **public** | Uninstalls a specific instance of Perl
@@ -107,12 +112,30 @@ Checks whether the Perl root installation directory exists, and creates it if no
     public void Clean(string subcmd="temp")
 
         argument:   subcmd
-        values:     "temp", "orphan", "all"
+        values:     "temp", "orphan", "module", "dev", "all"
 
 By default, `subcmd` is set to "temp", which we delete all downloaded Perl
 installation zip files from the temporary directory. With "orphan", we'll
 delete all directories found in the Perl installation root directory that
 `berrybrew` has not registered as valid Perl installs.
+
+#### CleanDev
+
+    private bool CleanDev()
+    
+Removes both the `build` and `test` directories. This method should only
+be used by developers of `berrybrew`.
+
+Returns `true` if both directories are non-existent after the routine
+has been run, or `false` otherwise.
+
+#### CleanModules
+
+    private bool CleanDev()
+    
+Removes the directory that we store exported module list files into.    
+
+Returns `true` on success, and `false` on failure.
 
 #### CleanOrphan
 
@@ -192,7 +215,19 @@ any Perls that have either `tmpl` or `template` in the name.
 By default, we also skip over all custom (cloned) instances. To have them
 included, set `custom_exec` to `true` in the configuration file.
 
-#### Extract()
+#### ExportModules
+
+    public void ExportModules()
+    
+Exports a list of all installed modules from the currently in-use Perl
+instance.
+
+The process will create a new `modules` directory under the Perl
+installation directory (default is `C:\berrybrew`), and the name of the
+file will be the version name of the Perl you're exporting from (eg.
+`5.20.3_64`).
+    
+#### Extract
 
     private static void Extract(StrawberryPerl perl, string tempDir)
 
@@ -241,6 +276,29 @@ operated on back to default. This method was written specifically to ensure
 that no files were readonly, which prevented us from removing Perl
 installations.
 
+#### ImportModules
+
+    public void ImportModules(string version="")
+    
+        argument:   version
+        value:      Name of a Perl instance you've exported a module list from
+        
+Imports a previously exported module list (from a different Perl instance),
+and installs all of the listed modules into the currently in-use Perl.
+
+#### ImportModulesExec
+
+    private void ImportModulesExec(string file, string path)
+    
+        argument:   file
+        value:      The name of a Perl instance that you've exported the module list from
+        
+        argument:   path
+        value:      The full path including the file name listed in the 'file' parameter
+        
+This method is called by `ImportModules()`, and simply performs the routines
+that install all of the listed modules within the exported file.
+        
 #### Install
 
     public void Install(string version)
@@ -438,7 +496,7 @@ Set `importIntoObject` to `true` to have the list of objects imported into the
 
 #### PerlInUse
 
-    private StrawberryPerl PerlInUse()
+    public StrawberryPerl PerlInUse()
 
         return:     Instance of the StrawberryPerl class
 
@@ -689,4 +747,4 @@ Returns the message content that corresponds with a specific message label.
 Same thing as `Message.Print`, but after printing, calls `Environment.Exit(0)`
 and terminates the application.
 
-&copy; 2017 by Steve Bertrand
+&copy; 2017-2019 by Steve Bertrand

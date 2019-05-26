@@ -9,17 +9,24 @@ namespace berrybrew {
         private static void Main(string[] args){
 
             Berrybrew bb = new Berrybrew();
-
+            
             if (args.Length != 0 && args[0] == "debug"){
                 bb.Debug = true;
                 args = args.Skip(1).ToArray();
             }
+
             if (bb.Debug){
                 Console.WriteLine("\nberrybrew debugging enabled...\n");
                 Console.WriteLine(
                     "install dir: {0}\nperl root dir: {1}\ntemp dir: {2}",
                     bb.InstallPath, bb.RootPath, bb.ArchivePath
                 );
+            }
+
+            if (args.Length != 0 && args[0] == "test") {
+                bb.Testing = true;
+                Console.WriteLine("\nberrybrew testing enabled");
+                args = args.Skip(1).ToArray();
             }
 
             if (args.Length == 0){
@@ -36,6 +43,10 @@ namespace berrybrew {
                     bb.List();
                     break;
 
+                case "currentperl":
+                    Console.WriteLine(bb.PerlInUse().Name);
+                    break;
+                
                 case "clean":
                     if (args.Length > 1){
                         if (args[1].StartsWith("h"))
@@ -148,6 +159,42 @@ namespace berrybrew {
 
                     break;
 
+                case "modules":
+                    if (args.Length == 1)
+                        bb.Message.Say("modules_command_required");
+
+                    bb.Message.Print("warning_modules_beta");
+                    
+                    args[0] = "";
+
+                    if (args[1] == "-h" || args[1] == "help")
+                        bb.Message.Say("subcmd.modules");
+
+                    if (args[1] != "import" && args[1] != "export")
+                    {
+                        Console.WriteLine("\ninvalid option...\n");
+                        bb.Message.Say("subcmd.modules");
+                    }
+                    
+                    if (args[1] == "import")
+                    {
+                        if (args.Length < 3)
+                        {
+                            bb.ImportModules();
+                        }
+                        else
+                        {
+                            bb.ImportModules(args[2]);
+                        }
+                    }
+
+                    if (args[1] == "export")
+                    {
+                        bb.ExportModules();
+                    }
+                    
+                    break;
+                
                 case "off":
                     bb.Off();
                     break;

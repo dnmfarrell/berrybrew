@@ -11,6 +11,7 @@
 - [exec](#exec)
 - [fetch](#fetch)
 - [install](#install)
+- [modules](#modules)
 - [off](#off)
 - [register](#register)
 - [remove](#remove)
@@ -75,7 +76,9 @@ directory.
     temp        Deletes all Perl installation zip files
     orphan      Deletes any directories in the Perl install directory that
                 berrybrew hasn't registered
-    all         Performs both a 'temp' and 'orphan' clean
+    module      Deletes the exported module list directory                
+    dev         Deletes all developer data (test and build directories)                
+    all         Runs all of the above "clean" processes
 
 #### clone
 
@@ -138,6 +141,24 @@ Usage:  `berrybrew install <version>`
 Installs a single Perl version as seen in `berrybrew available`, and makes it
 available for use.
 
+#### modules
+
+Usage: `berrybrew modules <command> [option]`
+
+Allows you the ability to export the currently installed module list
+from one instance of Perl for import and installation on a different
+instance of Perl.
+
+##### modules commands
+
+    export  Exports a list of all installed modules in the current Perl
+    import  Imports a previously exported module list and installs them in the current perl
+     
+`import` command has an optional argument, which is the name of the
+instance of Perl that you've previously exported from. If no argument is
+sent in, we'll list the available exports you can choose to install
+from.
+        
 #### off
 
 Usage:  `berrybrew off`
@@ -230,4 +251,4 @@ Usage:  `berrybrew version`
 Displays the current version of the `berrybrew.exe` binary and `bbapi.dll`
 library.
 
-&copy; 2017 by Steve Bertrand
+&copy; 2017-2019 by Steve Bertrand

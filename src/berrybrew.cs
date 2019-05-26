@@ -36,10 +36,11 @@ namespace BerryBrew {
         private const int MaxPerlNameLength = 25;
 
         public bool Debug { set; get; }
+        public bool Testing { set; get; }
 
         private static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
         private static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
-
+        
         public readonly string ArchivePath;
         public readonly string InstallPath;
         public readonly string RootPath;
@@ -199,6 +200,29 @@ namespace BerryBrew {
             bool cleansed;
 
             switch (subcmd){
+                case "all":
+                    CleanTemp();
+                    CleanOrphan();
+                    CleanModules();
+                    CleanDev();
+                    break;
+                                        
+                case "dev":
+                    cleansed = CleanDev();
+                    if (cleansed)
+                        Console.WriteLine("\nremoved the build and test directories");
+                    else
+                        Console.WriteLine("\nan error has occured removing dev directories");
+                    break;
+                    
+                case "modules":
+                    cleansed = CleanModules();
+                    if (cleansed)
+                        Console.WriteLine("\nremoved the module list storage directory");
+                    else
+                        Console.WriteLine("\nno module lists saved to remove");
+                    break;
+                
                 case "temp":
                     cleansed = CleanTemp();
                     if (cleansed)
@@ -214,7 +238,83 @@ namespace BerryBrew {
                     break;
             }
         }
+        private bool CleanModules()
+        {
+            string moduleDir = RootPath + "modules";
+            
+            try {
+                if (Directory.Exists(moduleDir))
+                {
+                    FilesystemResetAttributes(moduleDir);
+                    Directory.Delete(moduleDir, true);
+                }
+            }
+            catch (Exception err) {
+                Console.WriteLine("\nUnable to remove the module list directory");
+                if (Debug) {
+                    Console.WriteLine(err);
+                }
+            }
 
+            if (Directory.Exists(moduleDir))
+                return false;
+
+            return true;
+        }
+ 
+        private bool CleanDev() {
+
+            string buildDir = RootPath;
+            string testDir = RootPath;
+            
+            if (Testing) {
+                buildDir = buildDir.Replace("\\build", "");
+                testDir = testDir.Replace("\\build", "");
+                buildDir = buildDir.Replace("\\test", "");
+                testDir = testDir.Replace("\\test", "");               
+            } 
+
+            buildDir += @"build";
+            testDir = $@"{testDir}test";
+            
+            try {
+                if (Directory.Exists(buildDir))
+                {
+                    FilesystemResetAttributes(buildDir);
+                    Directory.Delete(buildDir, true);
+                }
+            }
+            catch (Exception err) {
+                Console.WriteLine("\nUnable to remove the build directory");
+                if (Debug) {
+                    Console.WriteLine(err);
+                }
+            }
+
+            try {
+                if (Directory.Exists(testDir))
+                {
+                    Console.WriteLine("test exists");
+                    FilesystemResetAttributes(testDir);
+                    Directory.Delete(testDir, true);
+                }
+            }
+            catch (Exception err){
+                Console.WriteLine("\nUnable to remove the test directory");
+                if (Debug) {
+                    Console.WriteLine(err);
+                }               
+            }
+
+            if (Directory.Exists(buildDir))
+                return false;
+
+            if (Directory.Exists(testDir))
+                return false;
+            
+            return true;
+        }
+                    
         private bool CleanOrphan(){
             List<string> orphans = PerlFindOrphans();
 
@@ -314,6 +414,127 @@ namespace BerryBrew {
                 Message.Print("config_complete");
         }
 
+        public void ImportModules(string version="")
+        {
+            string moduleDir = RootPath + "modules\\";
+
+            if (! Directory.Exists(moduleDir))
+                Message.Say("export_modules");
+
+            if (version == "")
+            {
+                string[] moduleListFiles = Directory.GetFiles(moduleDir);
+                
+                Console.WriteLine("\nre-run the command with one of the following options:\n");
+                
+                foreach (string fileName in moduleListFiles)
+                {
+                    if (fileName.Contains("~"))
+                        continue;
+                    
+                    Console.WriteLine(Path.GetFileName(fileName)); 
+                }
+
+                Console.WriteLine();
+            }
+            else
+            {
+                ImportModulesExec(version, moduleDir + version);
+            }
+        }
+
+        private void ImportModulesExec(string file, string path)
+        {
+            if (file == PerlInUse().Name)
+            {
+                Console.WriteLine("\ncan't import modules exported from the same perl version\n");
+                Console.WriteLine("you're trying to use an export from version {0} and you're on {1}\n", file, arg1: PerlInUse().Name);
+                Environment.Exit(0);
+            }
+                
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo {WindowStyle = ProcessWindowStyle.Hidden};
+
+            path = path.Replace("\\", "/");
+            
+            Console.WriteLine(path);
+            
+            string perlCmd = "while(<>){print $_}\" " + path;
+            string cmd = "perl -wMstrict -E \"" + perlCmd + " | cpanm";
+           
+            Console.WriteLine(cmd);
+            
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/c " + cmd;
+        
+            process.StartInfo = startInfo;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.Start();
+
+            process.OutputDataReceived += (proc, line)=>{
+                if( line.Data != null){
+                    Console.Out.WriteLine(line.Data);
+                }
+            };
+            process.ErrorDataReceived += (proc, line)=>{
+                if( line.Data != null){
+                    Console.Error.WriteLine(line.Data);
+                }
+            };
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.WaitForExit();
+            
+        }
+
+        public void ExportModules()
+        {
+            StrawberryPerl perl = PerlInUse();
+             
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo {WindowStyle = ProcessWindowStyle.Hidden};
+
+            string moduleDir = RootPath + "modules\\";
+
+            if (!Directory.Exists(moduleDir))
+            {
+                Directory.CreateDirectory(moduleDir);
+            }
+
+            string moduleFile = moduleDir + perl.Name;
+            
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments =
+                "/c " +
+                "perl -MExtUtils::Installed -E \"say $_ for ExtUtils::Installed->new->modules\"" +
+                " > " +
+                moduleFile;
+        
+            process.StartInfo = startInfo;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.Start();
+
+            process.OutputDataReceived += (proc, line)=>{
+                if( line.Data != null){
+                    Console.Out.WriteLine(line.Data);
+                }
+            };
+            process.ErrorDataReceived += (proc, line)=>{
+                if( line.Data != null){
+                    Console.Error.WriteLine(line.Data);
+                }
+            };
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.WaitForExit();
+            
+            Console.WriteLine("\nsuccessfully wrote out {0} module list file", moduleFile);
+            
+        }
         private static void Exec(StrawberryPerl perl, IEnumerable<string> parameters, string sysPath, bool singleMode){
 
             if(!singleMode){
@@ -373,7 +594,15 @@ namespace BerryBrew {
                 parameters.RemoveAt(0);
                 String perlsToUse = parameters.ElementAt(0);
                 parameters.RemoveAt(0);
-                string[] perls = perlsToUse.Split(',');
+
+                List<string> perls = new List<string>();
+
+                if (!perlsToUse.Contains(','))
+                {
+                    perls.Add(perlsToUse);
+                }
+                else
+                     perls = new List<string>(perlsToUse.Split(','));
 
                 foreach (StrawberryPerl perl in perlsInstalled){
                     foreach (string perlName in perls){
@@ -389,6 +618,7 @@ namespace BerryBrew {
             string sysPath = PathGet();
 
             List<StrawberryPerl> filteredExecWith = new List<StrawberryPerl>();
+
             foreach(StrawberryPerl perl in execWith){
                 if (perl.Custom && ! _customExec)
                     continue;
@@ -788,9 +1018,23 @@ namespace BerryBrew {
         private List<string> PerlFindOrphans(){
 
             List<StrawberryPerl> perls = PerlsInstalled();
+            
+            try
+            {
+                Directory.GetDirectories(RootPath);
+            }
+            catch (Exception err)
+            {
+                if (Debug)
+                {
+                    Console.WriteLine("failure getting directories of root");
+                    Console.WriteLine(err);
+                }
 
-            string[] dirs = Directory.GetDirectories(RootPath);
-
+                Environment.Exit(0);
+            }
+            
+            List<string> dirs = new List<string>(Directory.GetDirectories(RootPath));
             List<string> perlInstallations = new List<string>();
 
             foreach (StrawberryPerl perl in perls)
@@ -807,8 +1051,13 @@ namespace BerryBrew {
                     continue;
 
                 // dev build directory
-                 if (Regex.Match(dir, @"\\build$").Success)
-                    continue;               
+                if (Regex.Match(dir, @"\\build$").Success)
+                    continue;
+
+                if (Regex.Match(dir, @"\\modules$").Success)
+                {
+                    continue;
+                }
                 
                 if (! perlInstallations.Contains(dir) && ! Regex.Match(dir, @".cpanm").Success){
                     string dirBaseName = dir.Remove(0, RootPath.Length);
@@ -860,7 +1109,7 @@ namespace BerryBrew {
             }
         }
 
-        private StrawberryPerl PerlInUse(){
+        public StrawberryPerl PerlInUse(){
 
             string path = PathGet();
             StrawberryPerl currentPerl = new StrawberryPerl();
@@ -1281,7 +1530,7 @@ namespace BerryBrew {
         }
 
         public string Version(){
-            return @"1.22";
+            return @"1.23";
         }
 
         private static Process ProcessCreate(string cmd, bool hidden=true){

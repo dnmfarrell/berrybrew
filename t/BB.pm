@@ -1,5 +1,8 @@
 package BB;
 
+use strict;
+use warnings;
+
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
 
 sub get_avail {

@@ -2,6 +2,9 @@
 
 Unit tests are written in Perl.
 
+See [Undocumented Features](../README.md) for the `test` argument to
+`berrybrew`. It sets up some additional routines while unit testing.
+
 ## Prerequisites
 
 - You must be on a Windows system
@@ -23,12 +26,10 @@ IMPORTANT: It is highly recommended to close all command line windows and open a
 new one before starting the testing, as changes to the `PATH` environment
 variables during development may break the testing routines.
 
-IMPORTANT: If you've updated the list of available Perls in the `perls.json`
-file (ie. ran `berrybrew fetch`), you must perform a couple of tasks for the
-tests to complete successfully:
+Clean up the Perls available lists
 
-- copy/paste the output of `berrybrew available` into the `t/data/available.txt`
-file. See that file for details.
+- run `berrybrew fetch`
+- run `berrybrew available > t/data/available.txt`
 - review `t/data/custom_available.txt`. All of the Perls listed above the
 `[installed]` ones need to be replaced with the updated versions from
 `berrybrew available`. Simply remove them all, and paste in the new list,

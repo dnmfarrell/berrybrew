@@ -103,7 +103,9 @@ while (<$fh>){
     }
 }
 
-open my $fh, '<', 'README.md' or die $!;
+close $fh;
+
+open $fh, '<', 'README.md' or die $!;
 my @contents = <$fh>;
 close $fh or die $!;
 

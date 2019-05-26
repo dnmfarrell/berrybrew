@@ -7,14 +7,12 @@ use File::Path qw(rmtree);
 use Test::More;
 use Win32::TieRegistry;
 
-my $dir = 'c:/berrybrew/test';
-
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
 
 my @installed = BB::get_installed();
 
 if (! @installed){
-    plan skip_all => "no perls installed... nothing to do";
+    plan skip_all => "no perls installed... nothing to do"
 }
 
 for (@installed){
@@ -26,8 +24,5 @@ for (@installed){
 @installed = BB::get_installed();
 
 is @installed, 0, "all perls removed";
-
-rmtree $dir;
-is -d $dir, undef, "$dir directory removed ok";
 
 done_testing();

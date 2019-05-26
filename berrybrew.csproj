@@ -135,10 +135,6 @@
     <None Include="t\60-use.t" />
     <None Include="t\99-remove.t" />
     <None Include="t\BB.pm" />
-    <None Include="t\config\config.json" />
-    <None Include="t\config\messages.json" />
-    <None Include="t\config\perls.json" />
-    <None Include="t\config\perls_custom.json" />
     <None Include="t\run_tests.pl" />
     <None Include="t\setup_test_env.bat" />
     <None Include="t\test.bat" />
@@ -161,6 +157,7 @@
     <Content Include="build\ICSharpCode.SharpZipLib.dll" />
     <Content Include="build\Newtonsoft.Json.dll" />
     <Content Include="inc\berrybrew.ico" />
+    <Content Include="t\99-clean.t" />
     <Content Include="t\data\available.txt" />
     <Content Include="t\data\custom_available.txt" />
   </ItemGroup>
