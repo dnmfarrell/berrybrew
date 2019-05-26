@@ -78,7 +78,7 @@ directory.
                 berrybrew hasn't registered
     module      Deletes the exported module list directory                
     dev         Deletes all developer data (test and build directories)                
-    all         Performs both a 'temp' and 'orphan' clean
+    all         Runs all of the above "clean" processes
 
 #### clone
 
