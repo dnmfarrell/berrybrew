@@ -29,6 +29,7 @@ full list of documentation.
 - [Examples](#examples)
 - [Upgrading](#upgrading)
 - [Update Perls Available](#update-perls-available)
+- [Cloning Modules](#cloning-modules)
 - [Configure Perl Instance Directory](#configure-root-directory)
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
@@ -47,7 +48,7 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 9b35b1466db89e46ac9e5ba960db504aa45f543c`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: f725bbea74f82042218af2bfd1e12c5ee5ca0282`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
 installation.
@@ -269,6 +270,42 @@ local `perls.json` file with them.
 If you supply the `all` subcommand to `berrybrew fetch`, we will load all
 available Perls that Strawberry has to offer.
 
+## Cloning Modules
+
+Currently, this is a two-phase operation, and is in beta. Here's the
+procedure. first, `berrybrew switch` to the Perl instance you want to
+export the module list for.
+
+Then, `berrybrew switch` to the Perl instance you want to import the
+exported modules into. You'll need to close and reopen a new command
+window, as always.
+
+Then, the following command will display a list of all exported module
+files from any/all Perl instances you've done an export from:
+
+    > berrybrew modules import
+    
+    re-run the command with one of the following options:
+
+    5.16.3_64    
+    
+In my case here, I've only got one export, from a `5.16.3_64` Perl
+instance. Use it (I'm currently on `5.20.3_64`):
+
+    > berrybrew modules import 5.16.3_64
+    
+NOTE: It is best to export from an older Perl and install on a newer
+one, as it can take a significant amount of time to re-install ALL
+exported modules.
+
+NOTE: You can edit the module export file (by default in `C:\berrybrew\modules\`).
+Each export file has the name of the Perl it was exported from. Just
+add and/or remove any entries you'd like. You can even create the files
+manually by hand so you have a custom, ready made template for all new
+Perl installs. There is no limit on naming convention, so you can
+literally manually create a file called `base_modules_template` for
+example.
+    
 ## Configure Root Directory
 
 By default, we manage Perls out of the `C:\berrybrew` directory. To 

@@ -26,8 +26,8 @@ Revision history for berrybrew
           later in a different perl (work on #150)          
         - added CleanModules() with new `berrybrew clean modules` to clean up
           the exported module list directory
-        - added ImportModules(), ImportModulesExec(), modules-export and
-          modules-import (work on #150)
+        - added ImportModules(), ImportModulesExec(), modules export and
+          import (work on #150)
         - added new "currentperl" hidden command which displays which Perl
           is currently in use. Changed "PerlInUse()" from private to public to
           facilitate the new feature
