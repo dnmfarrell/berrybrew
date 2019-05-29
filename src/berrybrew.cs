@@ -1402,7 +1402,7 @@ namespace BerryBrew {
                 PathAddPerl(perl);
 
                 Console.WriteLine(
-                        "Switched to {0}, start a new terminal to use it.", 
+                        "\nSwitched to Perl version {0}...\n\n",
                         switchToVersion
                 );
             }
