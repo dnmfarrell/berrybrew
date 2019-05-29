@@ -35,6 +35,10 @@ namespace berrybrew {
             }
 
             switch (args[0]){
+                case "proc":
+                    bb.Proc();
+                    break;
+                
                 case "available":
                     bb.Available();
                     break;
