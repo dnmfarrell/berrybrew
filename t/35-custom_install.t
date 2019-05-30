@@ -49,8 +49,7 @@ for my $base (<$fh>){
     my $ver = 'custom';
 
     $o = `$c switch $ver`;
-    like $o, qr/Switched to $ver/, "switch to custom install ok";
-
+    like $o, qr/Switched to Perl version $ver/, "switch to custom install ok";
     $path = $Registry->{$path_key};
     like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";
 }
@@ -62,7 +61,6 @@ for my $base (<$fh>){
     my $path = $Registry->{$path_key};
     unlike $path, qr/^C:\\berrybrew\\test/, "PATH set ok for 'off'";
 }
-
 
 $o = `$c remove custom`;
 like $o, qr/Successfully/, "remove custom install ok";

@@ -30,7 +30,7 @@ while(@installed < 2) {
     my $ver = $installed[-1];
 
     $o = `$c switch $ver`;
-    like $o, qr/Switched to $ver/, "switch to good $ver ok";
+    like $o, qr/Switched to Perl version $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
     like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";
@@ -40,7 +40,7 @@ while(@installed < 2) {
     my $ver = $installed[-2];
 
     $o = `$c switch $ver`;
-    like $o, qr/Switched to $ver/, "switch to good $ver ok";
+    like $o, qr/Switched to Perl version $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
     like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";

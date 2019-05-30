@@ -22,7 +22,7 @@ my $path = $Registry->{$path_key};
     my $ver = '5.10.1_32';
 
     my $o = `$c switch $ver`;
-    like $o, qr/Switched to $ver/, "switch to good $ver ok";
+    like $o, qr/Switched to Perl version $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
     like $path, qr/C:\\berrybrew\\$operation_dir\\$ver/, "PATH set ok for $ver";

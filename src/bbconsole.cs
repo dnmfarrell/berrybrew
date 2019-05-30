@@ -9,7 +9,7 @@ namespace berrybrew {
         private static void Main(string[] args){
 
             Berrybrew bb = new Berrybrew();
-            
+
             if (args.Length != 0 && args[0] == "debug"){
                 bb.Debug = true;
                 args = args.Skip(1).ToArray();

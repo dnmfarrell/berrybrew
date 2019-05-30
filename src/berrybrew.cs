@@ -1379,6 +1379,14 @@ namespace BerryBrew {
                 PathRemovePerl();
                 PathAddPerl(perl);
 
+                Int32 bbSwitchTest = Convert.ToInt32(
+                    Environment.GetEnvironmentVariable("BB_SWITCH_TEST")
+                );
+
+                if (Convert.ToInt32(bbSwitchTest) != 1) {
+                    SwitchProcess();
+                }
+
                 Console.WriteLine(
                         "\nSwitched to Perl version {0}...\n\n",
                         switchToVersion

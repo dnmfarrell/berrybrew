@@ -1,5 +1,11 @@
 @echo off
 
+rem Let's set up some core test environment variables
+SET BB_TESTING=1
+
+rem Switch() testing
+SET BB_SWITCH_TEST=1 
+
 IF DEFINED BBTEST_PERLROOT GOTO KnownStrawberryRoot
 
 :GrabPerlFromPath
