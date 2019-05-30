@@ -101,3 +101,22 @@ After running `t\test.bat` (to ensure `berrybrew is built`, and the test environ
 - You may also re-run all the tests without recompiling berrybrew
 
         c:> perl t\run_tests.pl [--stopfirstfail|--sff]
+        
+## Environment Variables
+
+As the software becomes more complex and dynamic, sometimes we have to
+inform the code that we're in testing mode as to shim up (or unshim) the
+system so testing can proceed.
+
+As needed, certain environment variables for testing will be added to
+the top of the `t\setup_test_env.bat` script, before the `BEGIN  TEST
+ENV SETUP` line.
+
+Nasty, weird things can happen if they are disabled without 
+understanding what they do and why they're there.
+
+#### BB_SWITCH_TEST
+
+This flag is to inform the `Switch()` method that we're in testing, so
+it won't run the `SwitchProcess()` call. That call removes the parent
+process, so everything breaks if this flag isn't set.        
