@@ -43,8 +43,6 @@ my $path = $Registry->{$path_key};
 
         is exists $file_hash{LWP}, 1, "LWP exists in export";
         is exists $file_hash{'Data::Dumper'}, 1, "Data::Dumper exists in export";
-        is exists $file_hash{strictures}, 1, "strictures exists in export";
-        is exists $file_hash{autodie}, 1, "autodie exists in export";
         is exists $file_hash{'JSON'}, 1, "JSON exists in export";
     }
     else {
