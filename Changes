@@ -7,6 +7,15 @@ Revision history for berrybrew
         - added new testing environment variables (set in t\setup_test_env.bat)
           which set up some test-specific flags to shim the system where
           necessary
+        - reworked unit test platform; the "dev build" and "test" infrastructures
+          are now completely separate. This eliminates issues where in some
+          cases, the two environments overlapped each other
+        - reworked how the "modules" infrastructure works. We now create the
+          directory on 'import' if it doesn't exist, and produce more sound
+          warnings in certain circumstances (fixes #169)
+        - "clean modules" now leaves any custom export lists in place, and
+          operates at file level, not simply remove the entire directory
+          (closes #162)
 
 1.23    2019-05-26
         - fixed issue in README where some external doc links were pointing to

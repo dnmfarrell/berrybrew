@@ -214,7 +214,7 @@ namespace BerryBrew {
                 case "modules":
                     cleansed = CleanModules();
                     Console.WriteLine(cleansed
-                        ? "\nremoved the module list storage directory"
+                        ? "\ncleaned the module list storage directory"
                         : "\nno module lists saved to remove");
                     break;
                 
@@ -234,25 +234,42 @@ namespace BerryBrew {
             }
         }
         private bool CleanModules(){
-            string moduleDir = RootPath + "modules";
-            
-            try {
-                if (Directory.Exists(moduleDir)) {
-                    FilesystemResetAttributes(moduleDir);
-                    Directory.Delete(moduleDir, true);
-                }
+            string moduleDir = RootPath + "modules\\";
+            string[] moduleListFiles = Directory.GetFiles(moduleDir);
+
+            if (! Directory.Exists(moduleDir)) {
+                return true;
             }
+
+            try {
+                    FilesystemResetAttributes(moduleDir);
+
+                    foreach (string file in moduleListFiles) {
+                        if (! Regex.Match(file, @"\d\.\d+\.\d+_\d+").Success) {
+                            continue;
+                        }
+                        FileRemove(file);
+                    }
+            }
+            
             catch (Exception err) {
-                Console.WriteLine("\nUnable to remove the module list directory");
+                Console.WriteLine(
+                    "\nUnable to clean up the module list directory");
                 if (Debug) {
                     Console.WriteLine(err);
                 }
             }
 
-            if (Directory.Exists(moduleDir))
-                return false;
-
-            return true;
+            moduleListFiles = Directory.GetFiles(moduleDir);
+            bool cleaned = true;
+            
+            foreach (string file in moduleListFiles) {
+                if ( Regex.Match(file, @"\d\.\d+\.\d+_\d+").Success) {
+                    cleaned = false;
+                }
+            }           
+           
+            return cleaned;
         }
  
         private bool CleanDev() {
@@ -400,11 +417,17 @@ namespace BerryBrew {
 
             string moduleDir = RootPath + "modules\\";
 
-            if (! Directory.Exists(moduleDir))
-                Message.Say("export_modules");
-
+            if (! Directory.Exists(moduleDir)) {
+                Directory.CreateDirectory((moduleDir));
+            }
+            
             if (version == "") {
                 string[] moduleListFiles = Directory.GetFiles(moduleDir);
+
+                if (moduleListFiles.Length == 0) {
+                    Console.WriteLine("\nno module lists to import from. Run 'berrybrew modules export', then re-run the import command...\n"); 
+                    Environment.Exit(0);
+                }
                 
                 Console.WriteLine("\nre-run the command with one of the following options:\n");
                 
@@ -468,7 +491,12 @@ namespace BerryBrew {
 
         public void ExportModules(){
             StrawberryPerl perl = PerlInUse();
-             
+
+            if (string.IsNullOrEmpty(perl.Name)) {
+                Console.WriteLine("\nno Perl is in use. Run 'berrybrew switch' to enable one before exporting a module list\n");
+                Environment.Exit(0);
+            }
+            
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo {WindowStyle = ProcessWindowStyle.Hidden};
 
