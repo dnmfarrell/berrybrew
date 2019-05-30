@@ -16,6 +16,9 @@ Revision history for berrybrew
         - "clean modules" now leaves any custom export lists in place, and
           operates at file level, not simply remove the entire directory
           (closes #162)
+        - added new config file directive, "windows_homedir", which allows a user
+          on a global basis to use the Portable homedir (default), or the
+          Windows homedir. This happens during 'berrybrew install' (closes #121)
 
 1.23    2019-05-26
         - fixed issue in README where some external doc links were pointing to

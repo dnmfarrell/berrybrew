@@ -48,6 +48,8 @@ namespace BerryBrew {
         private readonly string _binPath = AssemblyDirectory;
         private readonly string _confPath;
         private readonly string _downloadUrl;
+        private readonly bool _windowsHomedir;
+        
         // private readonly string _strawberryUrl; /* currently unneeded */
         private readonly bool _customExec;
 
@@ -60,7 +62,7 @@ namespace BerryBrew {
 
             InstallPath = Regex.Replace(_binPath, @"bin", "");
             _confPath = InstallPath + @"/data/";
-
+            
             // config
 
             dynamic jsonConf = JsonParse("config");
@@ -68,6 +70,8 @@ namespace BerryBrew {
             ArchivePath = jsonConf.temp_dir;
             // _strawberryUrl = jsonConf.strawberry_url; /* currently unneeded */
             _downloadUrl = jsonConf.download_url;
+            _windowsHomedir = jsonConf.windows_homedir;
+            
             if (jsonConf.custom_exec == "true")
                 _customExec = true;
 
@@ -754,6 +758,17 @@ namespace BerryBrew {
             StrawberryPerl perl = PerlResolveVersion(version);
             string archivePath = Fetch(perl);
             Extract(perl, archivePath);
+            
+
+            if (_windowsHomedir) {
+                string homedirFile = perl.InstallPath + "/perl/vendor/lib/Portable/HomeDir.pm";
+                
+                if (File.Exists(homedirFile)) {
+                    Console.WriteLine("file exists");
+                    FileRemove(homedirFile);
+                }
+            }
+            
             Available();
         }
 
