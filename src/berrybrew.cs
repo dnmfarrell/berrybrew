@@ -401,9 +401,6 @@ namespace BerryBrew {
             Console.WriteLine(configIntro + Version() + "\n");
 
             if (! PathScan(new Regex("berrybrew.bin"), "machine")){
-                Message.Print("add_bb_to_path");
-
-                if (Console.ReadLine() != "y") return;
                 PathAddBerryBrew(_binPath);
 
                 Message.Print(PathScan(new Regex("berrybrew.bin"), "machine")
@@ -1530,7 +1527,7 @@ namespace BerryBrew {
         }
 
         public string Version(){
-            return @"1.23";
+            return @"1.24";
         }
 
         private static Process ProcessCreate(string cmd, bool hidden=true){

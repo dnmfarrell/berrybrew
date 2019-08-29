@@ -48,7 +48,7 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 4ac8fcab1ff940395879e8963f7fe62a426ef2e1`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 53d2be38d4f052dc8a05f062e17de83c0841a858`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
 installation.
@@ -404,7 +404,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.23
+    1.24
 
 ## Undocumented Features
 

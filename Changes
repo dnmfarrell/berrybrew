@@ -1,5 +1,9 @@
 Revision history for berrybrew
 
+1.24    2019-08-29
+        - removed confirmation dialog when running "config" as to allow for
+          unattended installations (closes #173)
+
 1.23    2019-05-26
         - fixed issue in README where some external doc links were pointing to
           the wrong branch (fixes #147)
