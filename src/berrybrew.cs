@@ -290,7 +290,11 @@ namespace BerryBrew {
 
             buildDir += @"build";
             testDir = $@"{testDir}test";
-            
+
+            if (Debug){
+                Console.WriteLine("build dir: {0}", buildDir);
+                Console.WriteLine("test dir: {0}", testDir);
+            }
             try {
                 if (Directory.Exists(buildDir)){
                     FilesystemResetAttributes(buildDir);
@@ -306,7 +310,6 @@ namespace BerryBrew {
 
             try {
                 if (Directory.Exists(testDir)) {
-                    Console.WriteLine("test exists");
                     FilesystemResetAttributes(testDir);
                     Directory.Delete(testDir, true);
                 }
