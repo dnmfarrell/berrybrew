@@ -7,7 +7,7 @@ use File::HomeDir;
 use JSON;
 use Test::More;
 
-plan skip_all => "mother fscking can't get the first test to pass even though it works on the command line";
+plan skip_all => "can't get the first test to pass even though it works on the command line";
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 
