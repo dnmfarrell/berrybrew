@@ -1,8 +1,6 @@
 Revision history for berrybrew
 
-1.24    2019-08-29
-        - removed confirmation dialog when running "config" as to allow for
-          unattended installations (closes #173)
+1.25 UNREL
         - fix typo in API doc (fixes #163)
         - added new testing environment variables (set in t\setup_test_env.bat)
           which set up some test-specific flags to shim the system where
@@ -19,6 +17,10 @@ Revision history for berrybrew
         - added new config file directive, "windows_homedir", which allows a user
           on a global basis to use the Portable homedir (default), or the
           Windows homedir. This happens during 'berrybrew install' (closes #121)
+
+1.24    2019-08-29
+        - removed confirmation dialog when running "config" as to allow for
+          unattended installations (closes #173)
 
 1.23    2019-05-26
         - fixed issue in README where some external doc links were pointing to
