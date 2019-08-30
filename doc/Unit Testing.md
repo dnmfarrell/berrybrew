@@ -51,11 +51,12 @@ Execute one of the following batch calls to run all tests
 - `t\test.bat` builds berrybrew and calls `t\run_tests.pl` using your system Strawberry Perl's perl
 
     - It ensures that the `c:\berrybrew\test` directory hierarchy exists.  This directory is used for holding the test installs of at least two different strawberry perls, plus the clones and templates.  It is safe to delete the whole `c:\berrybrew\test` hierarchy after testing is complete. We remove this directory and recreate it at the beginning of each test run
-    - Removes the `build\data\perls_custom.json` file if it exists at the commencement of the run
-    - It changes the `build\data\config.json` file to reference `c:\berrybrew\test` instead of `c:\berrybrew`
+    - Removes the `test\data\perls_custom.json` file if it exists at the commencement of the run
+    - It changes the `test\data\config.json` file to reference `c:\berrybrew\test` instead of `c:\berrybrew`
     - It calls `t\setup_test_env.bat` to set the BBTEST_PERLROOT and BBTEST_REPO environment variables.  As described above, BBTEST_PERLROOT is used for generating a valid path that includes your already-installed system perl.  BBTEST_REPO defaults to the current directory when runing the test suite (which, per above, should be the root of the `berrybrew` repository)
     - If there are any command-line options given to `t\test.bat`, it will pass them on to `t\run_tests.pl`
-
+    - Builds the software, and locates it into a newly-created `c:\repos\test` directory
+    
 - `t\run_tests.pl` prepends `%PATH%` with the Strawberry Perl's paths, and then it executes `prove t\*.t`
     - the `--stopfirstfail` (aka `--sff`) will cause it to `prove $_` individually for each test in `t\*.t`, and stop after the first test file that has a failing test.
 
@@ -101,7 +102,16 @@ After running `t\test.bat` (to ensure `berrybrew is built`, and the test environ
 - You may also re-run all the tests without recompiling berrybrew
 
         c:> perl t\run_tests.pl [--stopfirstfail|--sff]
-        
+
+## Build a Test Environment Without Running Tests
+
+This can be handy for certain cleanup routines (for example, if test
+cleanup fails and the test env gets removed).
+
+    dev\build_tests.bat
+    
+The test binary now resides at `test\berrybrew.exe`.
+           
 ## Environment Variables
 
 As the software becomes more complex and dynamic, sometimes we have to

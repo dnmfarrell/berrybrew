@@ -5,7 +5,7 @@ IF NOT DEFINED BBTEST_REPO     CALL t\setup_test_env.bat
 IF NOT DEFINED BB_TESTING      CALL t\setup_test_env.bat
 
 IF EXIST c:\berrybrew\test RMDIR /s /q c:\berrybrew\test
-IF EXIST %BBTEST_REPO%\build\data\perls_custom.json DEL %BBTEST_REPO%\build\data\perls_custom.json
+IF EXIST %BBTEST_REPO%\test\data\perls_custom.json DEL %BBTEST_REPO%\test\data\perls_custom.json
 
 mkdir c:\berrybrew\test
 mkdir c:\berrybrew\test\temp

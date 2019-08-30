@@ -5,9 +5,9 @@ use Test::More;
 use lib 't/';
 use BB;
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
-my $customfile = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/data/perls_custom.json" : 'c:/repos/berrybrew/build/data/perls_custom.json';
-my $conf = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/data/config.json" : 'c:/repos/berrybrew/build/data/config.json';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
+my $customfile = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/data/perls_custom.json" : 'c:/repos/berrybrew/test/data/perls_custom.json';
+my $conf = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/data/config.json" : 'c:/repos/berrybrew/test/data/config.json';
 
 my $o;
 

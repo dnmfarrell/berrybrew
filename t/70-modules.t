@@ -8,8 +8,8 @@ use Win32::TieRegistry;
 
 my $operation_dir = 'test';
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
-#my $c = "$ENV{BBTEST_REPO}/build/berrybrew";
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
+#my $c = "$ENV{BBTEST_REPO}/test/berrybrew";
 
 my $install_ok = `$c install 5.10.1_32`;
 
@@ -52,7 +52,7 @@ my $path = $Registry->{$path_key};
 
 {
     my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
-
+    
     my $o = `$c off`;
     like $o, qr/berrybrew perl disabled/, "off ok";
 

@@ -1,10 +1,10 @@
 @echo off
-mkdir build
-mkdir build\data
+mkdir test
+mkdir test\data
 
-copy dev\data\*.json build\data
+copy dev\data\*.json test\data
 
-call perl -i.bak -ne "s/berrybrew(?!\\\\test)/berrybrew\\\\test/; print" build/data/config.json
+call perl -i.bak -ne "s/berrybrew(?!\\\\test)/berrybrew\\\\test/; print" test/data/config.json
 
 echo "compiling dll..."
 
@@ -12,17 +12,17 @@ call mcs^
     -lib:bin^
     -t:library^
     -r:Newtonsoft.Json.dll,ICSharpCode.SharpZipLib.dll^
-    -out:build\bbapi.dll^
+    -out:test\bbapi.dll^
     src\berrybrew.cs
 
 echo "compiling binary..."
 
 call mcs^
-    -lib:build^
+    -lib:test^
     -r:bbapi.dll^
     -win32icon:inc/berrybrew.ico^
-    -out:build/berrybrew.exe^
+    -out:test/berrybrew.exe^
     src\bbconsole.cs
 
-copy bin\ICSharpCode.SharpZipLib.dll build\
-copy bin\Newtonsoft.Json.dll build\
+copy bin\ICSharpCode.SharpZipLib.dll test\
+copy bin\Newtonsoft.Json.dll test\
