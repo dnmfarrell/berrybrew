@@ -6,7 +6,7 @@ use BB;
 use Test::More;
 use Win32::TieRegistry;
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
 
@@ -30,7 +30,7 @@ while(@installed < 2) {
     my $ver = $installed[-1];
 
     $o = `$c switch $ver`;
-    like $o, qr/Switched to $ver/, "switch to good $ver ok";
+    like $o, qr/Switched to Perl version $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
     like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";
@@ -40,7 +40,7 @@ while(@installed < 2) {
     my $ver = $installed[-2];
 
     $o = `$c switch $ver`;
-    like $o, qr/Switched to $ver/, "switch to good $ver ok";
+    like $o, qr/Switched to Perl version $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
     like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";

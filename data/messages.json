@@ -268,15 +268,5 @@
         "      with each new version spawning its own command window.",
         "      When done with a given version, type exit to close that window."
     ]
-  },
-  {
-      "label": "warning_modules_beta",
-      
-      "content": [
-          "the 'modules' functionality is in beta. It's best to export from an",
-          "older version of Perl and import into a newer one. Even still the",
-          "import process may take quite some time to complete. Please report",
-          "any issues."
-      ]
   }
 ]

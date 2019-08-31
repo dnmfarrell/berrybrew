@@ -3,7 +3,7 @@ package BB;
 use strict;
 use warnings;
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 
 sub get_avail {
     # returns a list of available strawberry perls that are _not_ already installed

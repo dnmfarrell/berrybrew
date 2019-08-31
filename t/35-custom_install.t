@@ -6,8 +6,8 @@ use BB;
 use Test::More;
 use Win32::TieRegistry;
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
-my $customfile = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/data/perls_custom.json" : 'c:/repos/berrybrew/build/data/perls_custom.json';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
+my $customfile = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/data/perls_custom.json" : 'c:/repos/berrybrew/test/data/perls_custom.json';
 
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
 
@@ -49,8 +49,7 @@ for my $base (<$fh>){
     my $ver = 'custom';
 
     $o = `$c switch $ver`;
-    like $o, qr/Switched to $ver/, "switch to custom install ok";
-
+    like $o, qr/Switched to Perl version $ver/, "switch to custom install ok";
     $path = $Registry->{$path_key};
     like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";
 }
@@ -62,7 +61,6 @@ for my $base (<$fh>){
     my $path = $Registry->{$path_key};
     unlike $path, qr/^C:\\berrybrew\\test/, "PATH set ok for 'off'";
 }
-
 
 $o = `$c remove custom`;
 like $o, qr/Successfully/, "remove custom install ok";

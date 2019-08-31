@@ -10,6 +10,7 @@
 [strawberry_url](#strawberry_url)|The Strawberry Perl website|
 [download_url](#download_url)|The URL for the Strawberry release JSON file|
 [custom_exec](#custom_exec)|Include custom (cloned) instances under `berrybrew exec`|
+[windows_homedir](#windows_homedir)|Default home directory for `File::HomeDir`|
     
 ### [Messages config](#messages-config)
 
@@ -68,6 +69,19 @@ Include custom (cloned) instances when using `berrybrew exec`.
 Default: `false`
 
 Values:  "true", "false"
+
+##### windows_homedir
+
+When using `File::HomeDir` with Portable Strawberry Perl instances,
+the default home directory location is different than a full-blown
+Strawberry Install.
+
+If you set this directive to `true`, we'll revert back to the way
+the full-blown install does things.
+
+Default: `false`
+
+Values: "true", "false"
 
 #### Messages Config
 

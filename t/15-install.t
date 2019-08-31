@@ -4,9 +4,8 @@ use strict;
 use lib 't/';
 use BB;
 use Test::More;
-use constant DEBUG => 0;
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 
 my @avail = BB::get_avail();
 

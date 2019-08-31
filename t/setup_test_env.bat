@@ -1,5 +1,12 @@
 @echo off
 
+rem Switch() testing
+SET BB_SWITCH_TEST=1 
+
+rem *** BEGIN TEST ENV SETUP ***
+
+SET BB_TESTING=1
+
 IF DEFINED BBTEST_PERLROOT GOTO KnownStrawberryRoot
 
 :GrabPerlFromPath

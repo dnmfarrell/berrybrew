@@ -9,7 +9,7 @@ namespace berrybrew {
         private static void Main(string[] args){
 
             Berrybrew bb = new Berrybrew();
-            
+
             if (args.Length != 0 && args[0] == "debug"){
                 bb.Debug = true;
                 args = args.Skip(1).ToArray();
@@ -163,8 +163,6 @@ namespace berrybrew {
                     if (args.Length == 1)
                         bb.Message.Say("modules_command_required");
 
-                    bb.Message.Print("warning_modules_beta");
-                    
                     args[0] = "";
 
                     if (args[1] == "-h" || args[1] == "help")

@@ -6,7 +6,7 @@ use BB;
 use Test::More;
 use Win32::TieRegistry;
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 
 my @installed = BB::get_installed();
 my @avail = BB::get_avail();

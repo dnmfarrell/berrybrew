@@ -1,5 +1,23 @@
 Revision history for berrybrew
 
+1.25    2019-08-30
+        - fix typo in API doc (fixes #163)
+        - added new testing environment variables (set in t\setup_test_env.bat)
+          which set up some test-specific flags to shim the system where
+          necessary
+        - reworked unit test platform; the "dev build" and "test" infrastructures
+          are now completely separate. This eliminates issues where in some
+          cases, the two environments overlapped each other
+        - reworked how the "modules" infrastructure works. We now create the
+          directory on 'import' if it doesn't exist, and produce more sound
+          warnings in certain circumstances (fixes #169)
+        - "clean modules" now leaves any custom export lists in place, and
+          operates at file level, not simply remove the entire directory
+          (closes #162)
+        - added new config file directive, "windows_homedir", which allows a user
+          on a global basis to use the Portable homedir (default), or the
+          Windows homedir. This happens during 'berrybrew install' (closes #121)
+
 1.24    2019-08-29
         - removed confirmation dialog when running "config" as to allow for
           unattended installations (closes #173)

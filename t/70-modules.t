@@ -8,8 +8,8 @@ use Win32::TieRegistry;
 
 my $operation_dir = 'test';
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/build/berrybrew" : 'c:/repos/berrybrew/build/berrybrew';
-#my $c = "$ENV{BBTEST_REPO}/build/berrybrew";
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
+#my $c = "$ENV{BBTEST_REPO}/test/berrybrew";
 
 my $install_ok = `$c install 5.10.1_32`;
 
@@ -22,7 +22,7 @@ my $path = $Registry->{$path_key};
     my $ver = '5.10.1_32';
 
     my $o = `$c switch $ver`;
-    like $o, qr/Switched to $ver/, "switch to good $ver ok";
+    like $o, qr/Switched to Perl version $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
     like $path, qr/C:\\berrybrew\\$operation_dir\\$ver/, "PATH set ok for $ver";
@@ -43,8 +43,6 @@ my $path = $Registry->{$path_key};
 
         is exists $file_hash{LWP}, 1, "LWP exists in export";
         is exists $file_hash{'Data::Dumper'}, 1, "Data::Dumper exists in export";
-        is exists $file_hash{strictures}, 1, "strictures exists in export";
-        is exists $file_hash{autodie}, 1, "autodie exists in export";
         is exists $file_hash{'JSON'}, 1, "JSON exists in export";
     }
     else {
@@ -54,7 +52,7 @@ my $path = $Registry->{$path_key};
 
 {
     my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
-
+    
     my $o = `$c off`;
     like $o, qr/berrybrew perl disabled/, "off ok";
 
