@@ -83,3 +83,22 @@ into the master branch
 - Push the new branch to Github: 
 
     - `git push -u origin vx.xx` 
+    
+## Updates for the Next Release
+
+- Check out the version branch: `git checkout vx.xx`    
+
+- Ensure it's up-to-date: `git pull`
+
+- Create a working branch: `git checkout -b some_feature`, and perform your work
+
+- Push the new branch after making commits: `git push origin some_feature`
+
+- After all tests pass, create a Pull Request for the feature branch into the
+new version branch
+
+- Check out the new version branch `git checkout vx.xx` and update: `git pull`
+
+- Run all unit tests
+
+- Repeat this Release Cycle
