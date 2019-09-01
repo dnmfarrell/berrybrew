@@ -37,6 +37,7 @@ namespace BerryBrew {
 
         public bool Debug { set; get; }
         public bool Testing { set; get; }
+		public bool switchQuick { set; get; }
 
         private static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
         private static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
@@ -113,7 +114,7 @@ namespace BerryBrew {
             }
         }
 
-        public void SwitchProcess ()
+        public void SwitchQuick ()
         {
             string procName = Process.GetCurrentProcess().ProcessName;
 
@@ -1460,12 +1461,17 @@ namespace BerryBrew {
                 PathRemovePerl();
                 PathAddPerl(perl);
 
-                SwitchProcess();
+				if (switchQuick){
+	                SwitchQuick();
+				}
                 
                 Console.WriteLine(
                         "\nSwitched to Perl version {0}...\n\n",
                         switchToVersion
                 );
+
+				if (!switchQuick)
+					Console.WriteLine("Open a new command line window to use it\n");
             }
             catch (ArgumentException){
                 Message.Print("perl_unknown_version");
