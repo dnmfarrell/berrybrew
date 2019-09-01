@@ -106,6 +106,9 @@ List all versions of Perl that are available, installed, and currently used:
 
     The following Strawberry Perls are available:
 
+        5.30.0_64
+        5.30.0_64_PDL
+        5.30.0_32
         5.28.0_64
         5.28.0_64_PDL
         5.28.0_32
@@ -139,38 +142,41 @@ List all currently installed versions of Perl:
 
     > berrybrew list
 
+        5.30.0_64
+        5.30.0_64_PDL
+        5.30.0_32
         5.28.0_64
         5.26.2_64
         5.10.1_32
     
 Install a specific version:
 
-    > berrybrew install 5.28.0_64
+    > berrybrew install 5.30.0_64
 
 Switch to a different version (permanently):
 
-    > berrybrew switch 5.28.0_64
+    > berrybrew switch 5.30.0_64
 
-    Switched to 5.28.0_64, start a new terminal to use it.
+    Switched to 5.30.0_64, start a new terminal to use it.
 
 Start a new cmd.exe to use the new version:
 
     > perl -v
 
-    This is perl 5, version 28, subversion 0 (v5.28.0) built for MSWin32-x64-multi-thread
+    This is perl 5, version 30, subversion 0 (v5.30.0) built for MSWin32-x64-multi-thread
 
     ...       
 
 Clone an installed instance (very useful for setting up a main instance,
 and cloning it into an instance named "template")
 
-    > berrybrew clone 5.28.0_64 template
+    > berrybrew clone 5.30.0_64 template
 
 Uninstall a version of perl:
 
-    > berrybrew remove 5.28.0_64
+    > berrybrew remove 5.30.0_64
 
-    Successfully removed Strawberry Perl 5.28.0_64
+    Successfully removed Strawberry Perl 5.30.0_64
 
 Manually register a custom directory within the Perl installation directory
 
@@ -198,7 +204,7 @@ Execute something across all perls (we do not execute on Perls that has
 
     > berrybrew exec prove -l
 
-    Perl-5.28.0_64
+    Perl-5.30.0_64
     ==============
     t\DidYouMean.t .. ok
     All tests successful.
@@ -228,9 +234,9 @@ Execute something across all perls (we do not execute on Perls that has
 
 Execute on only a selection of installed versions:
 
-    > berrybrew exec --with 5.28.0_64,5.10.1_32 perl -e die()
+    > berrybrew exec --with 5.30.0_64,5.10.1_32 perl -e die()
 
-    Perl-5.28.0_64
+    Perl-5.30.0_64
     ==============
     Died at -e line 1.
 
