@@ -3,8 +3,8 @@ Revision history for berrybrew
 1.26 UNREL
         - modified calls to String.Compare() to specify a string array instead
           of just a string for .Net 4.6 compliance
-        - modified calls to String.Split() to specify a char array instead
-          of just a char for .Net 4.6 compliance
+        - modified calls to String.Split() to specify a char array instead of
+          just a char for .Net 4.6 compliance
 
 1.25    2019-08-30
         - fix typo in API doc (fixes #163)
