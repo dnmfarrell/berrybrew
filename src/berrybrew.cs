@@ -289,7 +289,7 @@ namespace BerryBrew {
             } 
 
             buildDir += @"build";
-            testDir = $@"{testDir}test";
+            testDir = string.Format(@"{0}test", testDir);
 
             if (Debug){
                 Console.WriteLine("build dir: {0}", buildDir);
@@ -777,7 +777,7 @@ namespace BerryBrew {
 
         private dynamic JsonParse(string type, bool raw=false){
 
-            string filename = $"{type}.json";
+            string filename = string.Format("{0}.json", type);
             string jsonFile = _confPath + filename;
 
             try {
@@ -848,7 +848,7 @@ namespace BerryBrew {
                         c = Convert.ToInt32(x[2])
                     })
                     .OrderBy(x => x.a).ThenBy(x => x.b).ThenBy(x => x.c)
-                    .Select(x => $"{x.a}.{x.b}.{x.c}")
+                    .Select(x => string.Format("{0}.{1}.{2}", x.a, x.b, x.c))
                     .ToList();
 
                 sortedPerlVersions.Reverse();

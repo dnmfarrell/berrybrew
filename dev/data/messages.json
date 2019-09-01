@@ -36,13 +36,6 @@
     ]
 },
 {
-    "label": "add_bb_to_path",
-
-    "content": [
-        "Would you like to add berrybrew to PATH? y/n [n] "
-    ]
-},
-{
     "label": "config_success",
 
     "content": [
@@ -240,7 +233,7 @@
         "   berrybrew 'modules' subcommands:",
         "",
         "   export  Exports a list of all installed modules in the current Perl",
-        "   import  Imports a previously exported module list and installs them in the current perl",
+        "   import  Imports a previously exported module list and installs them in the current perl"
     ]
 },    
 {
