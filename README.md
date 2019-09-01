@@ -165,8 +165,6 @@ Start a new cmd.exe to use the new version:
 
     This is perl 5, version 30, subversion 0 (v5.30.0) built for MSWin32-x64-multi-thread
 
-    ...       
-
 Clone an installed instance (very useful for setting up a main instance,
 and cloning it into an instance named "template")
 

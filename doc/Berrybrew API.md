@@ -60,6 +60,7 @@ The `Berrybrew` class is the base of the system.
 [PerlUpdateAvailableListOrphans](#PerlUpdateAvailableListOrphans)| **public** | Registers any orphaned Perls after using `Fetch()`
 [ProcessCreate](#processcreate)| private | Creates and returns a Windows cmd process
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
+[SwitchProcess](#switch-process) | private | Called by `Switch()`, sets up the new environment
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
 [Upgrade](#upgrade)| **public** | Performs a safe `berrybrew` upgrade
 [UseCompile](#usecompile)| **public** | Staging for `UseInNewWindow()` and `UseInSameWindow()`
@@ -621,6 +622,14 @@ Builds and returns a process ready to be modified or have `Start()` called on it
 
 Updates `PATH` with the relevant path details in order to make this Perl
 instance the default used across the board. This is persistent until changed.
+
+#### SwitchProcess
+
+    private void SwitchProcess()
+    
+Called by [Switch](#switch), sets up the new environment so we don't need to
+close the current `cmd` window and open a new one for environment variables
+to be refreshed.
 
 #### Unconfig
 
