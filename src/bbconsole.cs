@@ -212,20 +212,25 @@ namespace berrybrew {
                     break;
 
                 case "switch":
-                   if (args.Length == 1)
-                       bb.Message.Say("switch_ver_required");
-
-                   bb.Switch(args[1]);
-                   break;
-
-                case "switchquick":
-                    if (args.Length == 1)
+                    if (args.Length == 1) 
                         bb.Message.Say("switch_ver_required");
 
-                    bb.switchQuick = true;
-                    bb.Switch(args[1]);
-                    break;               
-                
+                    if (args.Length == 2) {
+                        if (args[1].StartsWith("h"))
+                        {
+                            bb.Message.Say("subcmd.switch");
+                        }
+                    }
+
+                    bool switchQuick = false;
+                    
+                    if (args.Length == 3 && args[2] == "quick") {
+                        switchQuick = true;
+                    }
+                   
+                   bb.Switch(args[1], switchQuick);
+                   break;
+
                 case "unconfig":
                     bb.Unconfig();
                     break;

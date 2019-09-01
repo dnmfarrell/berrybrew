@@ -37,7 +37,6 @@ namespace BerryBrew {
 
         public bool Debug { set; get; }
         public bool Testing { set; get; }
-		public bool switchQuick { set; get; }
 
         private static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
         private static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
@@ -1445,7 +1444,7 @@ namespace BerryBrew {
             throw new ArgumentException("Unknown version: " + version);
         }
 
-        public void Switch(string switchToVersion){
+        public void Switch(string switchToVersion, bool switchQuick=false){
 
             try {
                 StrawberryPerl perl = PerlResolveVersion(switchToVersion);
