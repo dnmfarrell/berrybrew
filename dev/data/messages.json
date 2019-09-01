@@ -36,13 +36,6 @@
     ]
 },
 {
-    "label": "add_bb_to_path",
-
-    "content": [
-        "Would you like to add berrybrew to PATH? y/n [n] "
-    ]
-},
-{
     "label": "config_success",
 
     "content": [
