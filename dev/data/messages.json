@@ -146,7 +146,7 @@
         "    off            Disable berrybrew perls (use 'switch' to re-enable)",
         "    register       Manually register a custom installation directory",
         "    remove         Uninstall a Strawberry Perl",
-        "    switch         Switch to use a different Strawberry Perl",
+        "    switch *       Switch to use a different Strawberry Perl",
         "    unconfig       Remove berrybrew from PATH",
         "    upgrade        Performs a safe upgrade. Requires Git installed",
         "    use *          Use a specific Strawberry Perl version temporarily",
@@ -211,6 +211,18 @@
         "   module Deletes the exported module list directory",
         "   dev    Deletes all files/directories related to berrybrew development",
         "   all    Clean everything"
+    ]
+},
+{
+    "label": "subcmd.switch",
+    
+    "content": [
+        "",
+        "  berrybrew 'switch' subcommands:",
+        "",
+        "  <version> [quick]",
+        "",
+        "  Adding the 'quick' parameter, we'll switch to the new Perl without needing a new console. Binaries and other features may not work correctly."
     ]
 },
 {

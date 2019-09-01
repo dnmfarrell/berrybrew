@@ -62,7 +62,7 @@ namespace BerryBrew {
 
             InstallPath = Regex.Replace(_binPath, @"bin", "");
             _confPath = InstallPath + @"/data/";
-            
+
             // config
 
             dynamic jsonConf = JsonParse("config");
@@ -111,6 +111,41 @@ namespace BerryBrew {
                 foreach (string orphan in orphans)
                     Console.WriteLine("  {0}", orphan);
             }
+        }
+
+        public void SwitchQuick ()
+        {
+            string procName = Process.GetCurrentProcess().ProcessName;
+
+            Process[] procList = Process.GetProcessesByName(procName);
+            PerformanceCounter myParentID = new PerformanceCounter("Process", "Creating Process ID", procName);
+            float parentPID = myParentID.NextValue();
+
+            // Console.WriteLine("Parent for {0}: PID: {1}  Name: {2}", procName, parentPID , Process.GetProcessById((int)parentPID).ProcessName);
+
+            for (int i = 1; i < procList.Length; i++)
+            {
+                PerformanceCounter myParentMultiProcID =
+                    new PerformanceCounter("Process", "ID Process",
+                        procName + "#" + i);
+
+                parentPID = myParentMultiProcID.NextValue();
+            }
+
+            string cwd = Directory.GetCurrentDirectory();
+            
+            Process replacement = new Process();
+            replacement.StartInfo.FileName = "cmd.exe";
+            replacement.StartInfo.WorkingDirectory = cwd;
+            replacement.StartInfo.EnvironmentVariables.Remove("PATH");
+            replacement.StartInfo.EnvironmentVariables.Add("PATH", PathGet());
+            replacement.StartInfo.UseShellExecute = false;
+            replacement.StartInfo.RedirectStandardOutput = false;
+            replacement.Start();
+
+            // kill the original parent proc's cmd window
+            
+            Process.GetProcessById((int) parentPID).Kill();
         }
         
         public void List(){
@@ -1409,7 +1444,7 @@ namespace BerryBrew {
             throw new ArgumentException("Unknown version: " + version);
         }
 
-        public void Switch(string switchToVersion){
+        public void Switch(string switchToVersion, bool switchQuick=false){
 
             try {
                 StrawberryPerl perl = PerlResolveVersion(switchToVersion);
@@ -1425,10 +1460,17 @@ namespace BerryBrew {
                 PathRemovePerl();
                 PathAddPerl(perl);
 
+				if (switchQuick){
+	                SwitchQuick();
+				}
+                
                 Console.WriteLine(
                         "\nSwitched to Perl version {0}...\n\n",
                         switchToVersion
                 );
+
+				if (!switchQuick)
+					Console.WriteLine("Open a new command line window to use it\n");
             }
             catch (ArgumentException){
                 Message.Print("perl_unknown_version");

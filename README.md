@@ -88,7 +88,7 @@ installations and all configuration and temporary data
     off            Disable berrybrew perls (use 'switch' to re-enable)
     register       Manually register a custom installation directory
     remove         Uninstall a Strawberry Perl
-    switch         Switch to use a different Strawberry Perl
+    switch *       Switch to use a different Strawberry Perl
     unconfig       Remove berrybrew from PATH
     upgrade        Performs a safe upgrade. Requires Git installed
     use *          Use a specific Strawberry Perl version temporarily
@@ -165,8 +165,13 @@ Start a new cmd.exe to use the new version:
 
     This is perl 5, version 30, subversion 0 (v5.30.0) built for MSWin32-x64-multi-thread
 
-    ...       
+Switch to a different version (permanently) without needing a new console window:
 
+    > berrybrew switch 5.30.0_64 quick
+    
+You may run into issues running external binaries along with certain features with
+the 'quick' feature. If so, simply close the existing window, and open a new one.
+    
 Clone an installed instance (very useful for setting up a main instance,
 and cloning it into an instance named "template")
 

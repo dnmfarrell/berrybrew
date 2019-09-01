@@ -186,11 +186,16 @@ Removes a single version of Perl, as seen in `berrybrew available`.
 
 #### switch
 
-Usage:  `berrybrew switch <version>`
+Usage:  `berrybrew switch <version> [quick]`
 
 Sets the verion of Perl as seen in `berrybrew available` to the default
 system Perl. This change is persistent. Use `berrybrew off` to disable the
 switched-to Perl, or use `switch` to change to a different one.
+
+If the `quick` argument is sent in, we'll make system changes in a way that
+a new console window isn't required. WARNING: Some binaries and other features
+may not work correctly using this method. If you have problems, simply close
+the current window and open a new one.
 
 #### unconfig
 

@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using BerryBrew;
 using System.Collections.Generic;
-
+            
 namespace berrybrew {
     internal class Bbconsole {
         private static void Main(string[] args){
@@ -33,7 +33,7 @@ namespace berrybrew {
                 bb.Message.Print("help");
                 Environment.Exit(0);
             }
-
+                
             switch (args[0]){
                 case "available":
                     bb.Available();
@@ -212,11 +212,24 @@ namespace berrybrew {
                     break;
 
                 case "switch":
-                    if (args.Length == 1)
+                    if (args.Length == 1) 
                         bb.Message.Say("switch_ver_required");
 
-                    bb.Switch(args[1]);
-                    break;
+                    if (args.Length == 2) {
+                        if (args[1].StartsWith("h"))
+                        {
+                            bb.Message.Say("subcmd.switch");
+                        }
+                    }
+
+                    bool switchQuick = false;
+                    
+                    if (args.Length == 3 && args[2] == "quick") {
+                        switchQuick = true;
+                    }
+                   
+                   bb.Switch(args[1], switchQuick);
+                   break;
 
                 case "unconfig":
                     bb.Unconfig();
@@ -225,7 +238,7 @@ namespace berrybrew {
                 case "upgrade":
                     bb.Upgrade();
                     break;
-
+                    
                 case "use": // pryrt's added feature
                     if (args.Length == 1) {
                         bb.Message.Say("use_ver_required");
