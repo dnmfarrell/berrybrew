@@ -81,14 +81,17 @@ namespace BerryBrew {
 
             CheckRootDir();
 
-            // create the custom perls config file
+            // create the custom and virtual perls config file
 
             string customPerlsFile = _confPath + @"perls_custom.json";
+            string virtualPerlsFile = _confPath + @"perls_virtual.json";
 
-            if (! File.Exists(customPerlsFile)) {
+            if (! File.Exists(customPerlsFile))
                 File.WriteAllText(customPerlsFile, @"[]");
-            }
 
+            if (! File.Exists(virtualPerlsFile))
+                File.WriteAllText(virtualPerlsFile, @"[]");
+            
             // messages
 
             dynamic jsonMessages = JsonParse("messages");
@@ -853,7 +856,7 @@ namespace BerryBrew {
 
             string jsonString;
 
-            if (!fullList){
+            if (!fullList && type == "perls_custom"){
                 dynamic customPerlList = JsonParse("perls_custom", true);
                 var perlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);
 
@@ -868,7 +871,22 @@ namespace BerryBrew {
                 }
                 jsonString = JsonConvert.SerializeObject(perlList, Formatting.Indented);
             }
-            else{
+            else if (!fullList && type == "perls_virtual"){
+                dynamic virtualPerlList = JsonParse("perls_virtual", true);
+                var perlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(virtualPerlList);
+ 
+                foreach (Dictionary<string, object> perl in data){
+                    foreach (Dictionary<string, object> existingPerl in perlList){
+                        if (perl["name"].Equals(existingPerl["name"])){
+                            Console.Write("\n{0} instance is already registered...", perl["name"]);
+                            Environment.Exit(0);
+                        }
+                    }
+                    perlList.Add(perl);
+                }
+                jsonString = JsonConvert.SerializeObject(perlList, Formatting.Indented);
+            }           
+            else {
                 List<string> perlVersions = new List<string>();
 
                 foreach (var perl in data){
@@ -1344,7 +1362,7 @@ namespace BerryBrew {
                 Directory.CreateDirectory(RootPath + perlName);
             }
 
-            Environment.Exit(0);
+//            Environment.Exit(0);
             
             Dictionary<string, object> data = new Dictionary<string, object>();
 
