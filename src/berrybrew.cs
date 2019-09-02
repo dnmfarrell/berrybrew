@@ -1312,44 +1312,58 @@ namespace BerryBrew {
 
             Console.Write("\n");
             
-            Console.Write("\n{0}, {1}, {2}\n", perlPath, libPath, auxPath);
+            Console.Write("\n{0}, {1}, {2}\n", perlPath, string.IsNullOrEmpty(libPath), string.IsNullOrEmpty(auxPath));
             
-            bool pathValid = false;
+            bool perlPathValid = false;
 
             if (File.Exists(String.Format("{0}/perl.exe", perlPath))){
-                pathValid = true;
+                perlPathValid = true;
             }
         
-            if (! pathValid){
+            if (! perlPathValid){
                 Console.WriteLine(
-                    "ERROR: {0} does not have a perl.exe binary. Can't register {1}\n", 
+                    "ERROR: {0} does not have a perl.exe binary. Can't register '{1}' perl instance'\n", 
                     perlPath, 
                     perlName
                 );
                 Environment.Exit(0);
             }
-
+            if (! string.IsNullOrEmpty(libPath) && ! Directory.Exists(libPath)){
+                Console.WriteLine("\n'{0}' library directory doesn't exist. Can't continue...\n", libPath);
+                Environment.Exit(0);
+            }
+            if (! string.IsNullOrEmpty(auxPath) && ! Directory.Exists(auxPath)){
+                Console.WriteLine("\n'{0}' auxillary directory doesn't exist. Can't continue...\n", auxPath);
+                Environment.Exit(0);
+            }           
+            
             string instanceName = RootPath + perlName;
             
             if (!Directory.Exists(instanceName)) {
+                // exit if the dir already exists!
                 Directory.CreateDirectory(RootPath + perlName);
             }
+
             Environment.Exit(0);
             
             Dictionary<string, object> data = new Dictionary<string, object>();
 
             data["name"] = perlName;
-            data["custom"] = true;
+            data["custom"] = false;
+            data["virtual"] = true;
             data["file"] = "";
             data["url"] = "";
             data["ver"] = "";
             data["csum"] = "";
+            data["perl_path"] = perlPath;
+            data["lib_path"] = libPath;
+            data["aux_path"] = auxPath;
 
-            List<Dictionary<string, object>> perlList = new List<Dictionary<string, object>> {data};
+            List<Dictionary<string, object>> virtualPerlList = new List<Dictionary<string, object>> {data};
 
-            JsonWrite("perls_custom", perlList);
+            JsonWrite("perls_virtual", virtualPerlList);
 
-            Console.WriteLine("Successfully registered {0}", perlName);
+            Console.WriteLine("Successfully registered virtual perl {0}", perlName);
 
             _bypassOrphanCheck = true;
         }
