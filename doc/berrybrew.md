@@ -19,6 +19,7 @@
 - [unconfig](#unconfig)
 - [upgrade](#upgrade)
 - [use](#use)
+- [virtual](#virtual)
 - [help](#help)
 - [license](#license)
 - [version](#version)
@@ -186,11 +187,16 @@ Removes a single version of Perl, as seen in `berrybrew available`.
 
 #### switch
 
-Usage:  `berrybrew switch <version>`
+Usage:  `berrybrew switch <version> [quick]`
 
 Sets the verion of Perl as seen in `berrybrew available` to the default
 system Perl. This change is persistent. Use `berrybrew off` to disable the
 switched-to Perl, or use `switch` to change to a different one.
+
+If the `quick` argument is sent in, we'll make system changes in a way that
+a new console window isn't required. WARNING: Some binaries and other features
+may not work correctly using this method. If you have problems, simply close
+the current window and open a new one.
 
 #### unconfig
 
@@ -233,6 +239,19 @@ With the `--win` option (or it's variants), berrybrew will spawn a new window
 for each version of perl selected.  Type `exit` to close the spawned
 environment.  After spawning one or more windows, the window from which
 berrybrew was run is still available for use.
+
+#### virtual
+
+Usage: `berrybrew virtual <desired_instance_name>`
+
+This command will register an external Perl installation for use within
+`berrybrew`. You will be prompted for three paths: a path to the external perl
+binary, a path to the external perl's library directory, and an auxillary
+diretory for any other custom path you may have.
+
+The most common use case is so that you can have a berrybrew perl as your
+standard perl, but you can `use` the external (eg: system) perl temporarily
+without having to use `off` to access it.
 
 #### help
 

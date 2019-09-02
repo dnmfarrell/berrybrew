@@ -55,11 +55,13 @@ The `Berrybrew` class is the base of the system.
 [PerlsInstalled](#perlsinstalled)| private | Fetches the list of Perls installed
 [PerlRemove](#perlremove)| **public** | Uninstalls a specific instance of Perl
 [PerlRegisterCustomInstall](#perlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
+[PerlRegisterVirtualInstall](#perlregistervirtualinstall)| **public** | Make `berrybrew` aware of external Perls
 [PerlResolveVersion](#PerlResolveVersion)| private | Resolves the name of a Perl to its StrawberryPerl object
 [PerlUpdateAvailableList](#PerlUpdateAvailableList)| **public** | Automatically fetches new Strawberry Perls available
 [PerlUpdateAvailableListOrphans](#PerlUpdateAvailableListOrphans)| **public** | Registers any orphaned Perls after using `Fetch()`
 [ProcessCreate](#processcreate)| private | Creates and returns a Windows cmd process
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
+[SwitchQuick](#switch-quick) | private | Called by `Switch()`, sets up the new environment
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
 [Upgrade](#upgrade)| **public** | Performs a safe `berrybrew` upgrade
 [UseCompile](#usecompile)| **public** | Staging for `UseInNewWindow()` and `UseInSameWindow()`
@@ -555,6 +557,19 @@ information (version, path info, download info etc) in the new custom one. Be
 sure if you do this that the base and the new custom instances are the same
 version.
 
+#### PerlRegisterVirtualInstall
+
+    public void PerlRegisterVirtualInstall(string perlName)
+
+        argument:   perlName
+        value:      The name you want to use for this new install, which will
+                    appear in "berrybrew available"
+
+
+Creates a virtual berrybrew instance wrapped around an existing Perl installation.
+
+This can be ActiveState, Strawberry or any other "system" Perl.
+        
 #### PerlResolveVersion
 
     private StrawberryPerl PerlResolveVersion(string name)
@@ -614,13 +629,28 @@ Builds and returns a process ready to be modified or have `Start()` called on it
 
 #### Switch
 
-    public void Switch(string perlVersion)
+    public void Switch(string perlVersion, bool switchQuick=false)
 
         argument:   perlVersion
         value:      Name of an available and installed Perl instance
 
+        argument:   switchQuick
+        value:      Bool, false by default
+        
 Updates `PATH` with the relevant path details in order to make this Perl
 instance the default used across the board. This is persistent until changed.
+
+If `switchQuick` is sent in as true, we'll update the system without requiring you
+to open a new command line window. However, some binaries and features may not work
+correctly when switching quickly.
+
+#### SwitchQuick
+
+    private void SwitchProcess()
+    
+Called by [Switch](#switch), sets up the new environment so we don't need to
+close the current `cmd` window and open a new one for environment variables
+to be refreshed.
 
 #### Unconfig
 

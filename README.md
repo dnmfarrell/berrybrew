@@ -48,7 +48,7 @@ full list of documentation.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: dc695dd9e428dcf376fe0a7f433e75225b7890d3`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 198c618dc9d5faf74cc1860dbe7f0f726477e8b4`
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
 installation.
@@ -76,27 +76,28 @@ installations and all configuration and temporary data
 
     berrybrew <command> [subcommand] [option]
 
-        available      List available Strawberry Perl versions and which are installed
-        list           List the version numbers of all installed Perls
-        config         Add berrybrew to your PATH
-        clean *        Remove all temporary berrybrew files
-        clone          Clones an installed version to a custom-named one
-        fetch *        Upgrade the list of Strawberry Perl instances available
-        install        Download, extract and install a Strawberry Perl
-        modules *      Export and import a module list from one Perl to install on another
-        register       Manually register a custom installation directory
-        remove         Uninstall a Strawberry Perl
-        switch         Switch to use a different Strawberry Perl
-        off            Disable berrybrew perls (use 'switch' to re-enable)
-        exec *         Run a command for every installed Strawberry Perl
-        unconfig       Remove berrybrew from PATH
-        upgrade        Backs up config, does a `git pull`, and restores config
-        use *          Use a specific Strawberry Perl version temporarily
-        help           Display this help screen
-        license        Show berrybrew license
-        version        Displays the version
+    available      List available Strawberry Perl versions and which are installed
+    list           List installed Strawberry Perl versions
+    clean *        Remove all temporary berrybrew files
+    clone          Make a complete copy of a Perl installation
+    config         Add berrybrew to your PATH
+    exec *         Run a command for every installed Strawberry Perl
+    fetch          Update the list of Strawberry Perl instances available
+    install        Download, extract and install a Strawberry Perl
+    modules *      Export and import a module list from one Perl to install on another
+    off            Disable berrybrew perls (use 'switch' to re-enable)
+    register       Manually register a custom installation directory
+    remove         Uninstall a Strawberry Perl
+    switch *       Switch to use a different Strawberry Perl
+    unconfig       Remove berrybrew from PATH
+    upgrade        Performs a safe upgrade. Requires Git installed
+    use *          Use a specific Strawberry Perl version temporarily
+    virtual        Allow berrybrew to manage an external Perl instance
+    help           Display this help screen
+    license        Show berrybrew license
+    version        Displays the version
 
-        * - view subcommand details with 'berrybrew <command> help'
+    * - view subcommand details with 'berrybrew <command> help'
 
 ## Examples
 
@@ -106,6 +107,9 @@ List all versions of Perl that are available, installed, and currently used:
 
     The following Strawberry Perls are available:
 
+        5.30.0_64
+        5.30.0_64_PDL
+        5.30.0_32
         5.28.0_64
         5.28.0_64_PDL
         5.28.0_32
@@ -139,38 +143,58 @@ List all currently installed versions of Perl:
 
     > berrybrew list
 
+        5.30.0_64
+        5.30.0_64_PDL
+        5.30.0_32
         5.28.0_64
         5.26.2_64
         5.10.1_32
     
 Install a specific version:
 
-    > berrybrew install 5.28.0_64
+    > berrybrew install 5.30.0_64
 
 Switch to a different version (permanently):
 
-    > berrybrew switch 5.28.0_64
+    > berrybrew switch 5.30.0_64
 
-    Switched to 5.28.0_64, start a new terminal to use it.
+    Switched to 5.30.0_64, start a new terminal to use it.
 
 Start a new cmd.exe to use the new version:
 
     > perl -v
 
-    This is perl 5, version 28, subversion 0 (v5.28.0) built for MSWin32-x64-multi-thread
+    This is perl 5, version 30, subversion 0 (v5.30.0) built for MSWin32-x64-multi-thread
 
-    ...       
+Switch to a different version (permanently) without needing a new console window:
 
+    > berrybrew switch 5.30.0_64 quick
+    
+You may run into issues running external binaries along with certain features with
+the 'quick' feature. If so, simply close the existing window, and open a new one.
+    
 Clone an installed instance (very useful for setting up a main instance,
 and cloning it into an instance named "template")
 
-    > berrybrew clone 5.28.0_64 template
+    > berrybrew clone 5.30.0_64 template
 
 Uninstall a version of perl:
 
-    > berrybrew remove 5.28.0_64
+    > berrybrew remove 5.30.0_64
 
-    Successfully removed Strawberry Perl 5.28.0_64
+    Successfully removed Strawberry Perl 5.30.0_64
+
+Manage an external instance of Perl (system ActiveState for example):
+
+    > berrybrew virtual activestate
+
+    Specify the path to the perl binary: c:\strawberry\perl\bin
+
+    Specify the library path:
+
+    Specify an additional path:
+
+    Successfully registered virtual perl activestate
 
 Manually register a custom directory within the Perl installation directory
 
@@ -198,7 +222,7 @@ Execute something across all perls (we do not execute on Perls that has
 
     > berrybrew exec prove -l
 
-    Perl-5.28.0_64
+    Perl-5.30.0_64
     ==============
     t\DidYouMean.t .. ok
     All tests successful.
@@ -228,9 +252,9 @@ Execute something across all perls (we do not execute on Perls that has
 
 Execute on only a selection of installed versions:
 
-    > berrybrew exec --with 5.28.0_64,5.10.1_32 perl -e die()
+    > berrybrew exec --with 5.30.0_64,5.10.1_32 perl -e die()
 
-    Perl-5.28.0_64
+    Perl-5.30.0_64
     ==============
     Died at -e line 1.
 
@@ -404,7 +428,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.25
+    1.26
 
 ## Undocumented Features
 

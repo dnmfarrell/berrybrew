@@ -62,7 +62,8 @@ Execute one of the following batch calls to run all tests
 
 ### Running Individual Tests
 
-After running `t\test.bat` (to ensure `berrybrew is built`, and the test environment is initialized), you can go back and re-run individual tests (for example, for digging into specific failing tests without spending the time of the whole test suite).
+After running `t\test.bat` (or `dev\build_tests.bat` which allows you to build
+the test platform without first running tests) (to ensure `berrybrew is built`, and the test environment is initialized), you can go back and re-run individual tests (for example, for digging into specific failing tests without spending the time of the whole test suite).
 
 - You may run without test harness: it's more verbose while running (`Test::More::note()` messages in the .t file _will_ print), but doesn't give the end-of-file summary:
 

@@ -1,0 +1,367 @@
+Revision history for berrybrew
+
+1.26 UNREL
+- added 'berrybrew virtual' command; allows using external perls (eg.
+installed system Active State) from within berrybrew. Useful for
+bypassing berrybrew switched perls without having to disable berrybrew
+entirely 
+- added new 'berrybrew switch x.xx quick' argument, allows switching
+to a new perl without needing to open a new console window (some
+functionality may suffer until a new window is actually opened though)
+- modified calls to String.Compare() to specify a string array instead
+of just a string for .Net 4.6 compliance
+- modified calls to String.Split() to specify a char array instead of
+just a char for .Net 4.6 compliance
+- updated dev\release.pl to create a Changes markdown file for ease
+of online viewing
+                  
+1.25    2019-08-30
+- fix typo in API doc (fixes #163)
+- added new testing environment variables (set in t\setup_test_env.bat)
+which set up some test-specific flags to shim the system where
+necessary
+- reworked unit test platform; the "dev build" and "test" infrastructures
+are now completely separate. This eliminates issues where in some
+cases, the two environments overlapped each other
+- reworked how the "modules" infrastructure works. We now create the
+directory on 'import' if it doesn't exist, and produce more sound
+warnings in certain circumstances (fixes #169)
+- "clean modules" now leaves any custom export lists in place, and
+operates at file level, not simply remove the entire directory
+(closes #162)
+- added new config file directive, "windows_homedir", which allows a user
+on a global basis to use the Portable homedir (default), or the
+Windows homedir. This happens during 'berrybrew install' (closes #121)
+
+1.24    2019-08-29
+- removed confirmation dialog when running "config" as to allow for
+unattended installations (closes #173)
+
+1.23    2019-05-26
+- fixed issue in README where some external doc links were pointing to
+the wrong branch (fixes #147)
+- removed the "update dnmfarrell repo" section from README; it's been
+moved to the "create a release" doc (closes #146)
+- "Compile your own" link wasn't directing to the proper doc 
+(closes #148)
+- added "dev" and "all" to the "clean" operation (closes #149)
+- added t/99_clean.t for testing the "berrybrew clean dev" feature
+(closes #151)
+- added new "test" argument to "berrybrew". This is for developers to
+tell the system we're in unit testing mode to shim the system where
+necessary
+- added an exception handling routine in PerlFindOrphans() to catch an
+error in certain cases when running "berrybrew clean dev"
+- t/95-remote.t no longer cleans up the test directory, that's left to
+t/99-clean.t now
+- slight modifications to the testing infrastructure and documentation
+instructions
+- rename "Synopsis" to "Examples" in README (closes #124)
+- corrected issue in ExecCompile(), where if we're using --with to exec
+with only one perl instance, it wasn't filtering correctly
+- added ExportModules(), saves the current perl's module list for import
+later in a different perl (work on #150)          
+- added CleanModules() with new `berrybrew clean modules` to clean up
+the exported module list directory
+- added ImportModules(), ImportModulesExec(), modules export and
+import (work on #150)
+- update all documentation with the new "modules export/import"
+functionality (closes #150)
+- added new "currentperl" hidden command which displays which Perl
+is currently in use. Changed "PerlInUse()" from private to public to
+facilitate the new feature
+- bumped perls.json to include the new 5.30 Perl release          
+- several other minor issues closed (mostly small doc fixes etc)
+          
+1.22    2018-11-05
+- clarifications and updates to the "Create a Release" doc (closes #137)
+- major, sweeping code refactoring: method privileges, exception
+handling, variable renaming to conform to C# standards etc
+- update API doc with all relevant changes due to the code refactoring
+- update PerlUpdateAvailableListOrphans() details in API doc 
+(closes #140)
+- added PerlsInstalled() method to API doc (closes #139)
+- added PathGetUsr() method to API doc (closes #138)
+- when running a dev build, the Perl instance and berrybrew temp
+directories are now located under a "build" dir, as opposed to the
+"test" directory as it was previously. This separates the unit testing
+platform from the development build one (closes #114)
+- added "developed using" section in README (closes #141)
+- add new "dev\build_tests.bat" script that the "t\test.bat" script
+calls to set up the unit test environment. We used to call 
+"t\build.bat", but since changing the dev build system, we needed to
+separate the functionality (fixes #143)
+          
+1.21    2018-11-04
+- updated CONTRIBUTING doc (closes #128)
+- moved the "Compile your own installation", "Create a dev build", and
+"Create a release" README sections to their own documentation files.
+Also greatly expanded on the "Create a release" doc to include steps
+to complete the entire release cycle (closes #126)
+- added a config directive index at the top of the configuration doc
+file (closes #129)
+- integrate hurricup's PR#132, proxy of error code if 'exec' is run
+in single mode (prep for integration with Camelcade Perl5 plugin)
+- test changes in PR#132, and modify docs accordingly (closes #133)
+- the "test" directory is no longer seen as an orphaned Perl install
+(closes #134)
+- add note in "create a dev release" doc that all Perl instances are
+located under the "test" directory (closes #135)
+
+1.20    2018-11-02
+- fix improper indentation of the Off() method in berrybrew.cs
+(fixes #120)
+- add note in Unit Testing doc to update the t/data/available.txt and
+t/data/custom_available.txt files if Perls available has changed
+before running tests (fixes #118)
+- rearrange the Installation and Configuration sections in README
+(closes #122)
+- replace magic number in CheckName() with a private const int
+(closes #119)
+- update examples with most recent Perl versions in README (SYNOPSIS)
+(closes #123)
+- fix a missed exception handling in List() when no Perls are installed
+(fixes #117)
+                  
+1.19    2018-11-01
+- integrated hurricup's PR#107, which includes changes required in
+preparation for berrybrew's inclusion within the Camelcade Perl5
+intelliJ IDEA plugin
+- added notes regarding version bumping and updating in README
+(closes #108)
+- add new "Create a development build" section in README (closes #109)
+- fix typo in "exec --with" section in SYNOPSIS (fixes #115)
+- added "list" command to docs (bin/API) and README (closes #111)
+- add "Uninstall" section in README (closes #106)
+         
+1.18    2018-02-16
+- Perls listed with "berrybrew available" are now listed in numerical,
+descending order (closes #101) (thanks @shawnlaffan for the
+report!)
+- fixed issue where the orphaned Perls that were installed prior to
+using "fetch" weren't being registered as custom correctly (required
+two calls to "fetch"). To fix, added new 
+PerlUpdateAvailableListOrphans()(closes #102; closes #99) (Thanks
+@pryrt for the report!)
+- added ability to fetch every single Perl version Strawberry has to
+offer with the new "all" argument to "berrybrew fetch" (closes #100;
+closes #103) (thanks @pryrt for the report!)
+- fix issue where we were missing an exception if trying to register
+the same custom version of Perl more than once (fixes #104)
+          
+1.17    2017-10-04
+- task information displayed during install operation is now in logical
+order (fixes #95)
+- fix issue where when running the "build" version (ie. unreleased), it
+was using the same Perl installation directory as the "live" version.
+In the build.bat script, we now update the config.json file
+accordingly to ensure we're using two separate install locations.
+(fixes #97)
+
+1.16    2017-08-03
+- UseInNewWindow() and UseInSameWindow() API calls were incorrectly
+listed as "public" in the API doc which are actually "internal", and
+UseCompile() was "internal" and should be "public"
+- gracefully catch a download problem and report to the user
+(closes #63)
+- fix small typo in README (closes #89)
+- gracefully let user know that berrybrew can't be installed in 
+c:\berrybrew on "config" (fixes #55)
+- consolodated version info. Only hardcoded in the berrybrew.cs file.
+Removed it from messages.json, and updated release.pl script to bump
+the version in the README at release time (closes #86)
+- replaced calls, where appropriate to PathGet() instead of 
+PathRemovePerl(process=false) for clarity (closes #91)
+
+1.15    2017-07-28
+- fix doc links in API, and resized headings in berrybrew doc
+(closes #84)
+- 'register' command now outputs a success message to the console upon
+successful registration (closes #79)
+- use will both output each Perl specified if it's not installed, then
+warn and exit if none of the specified versions are installed
+(closes #83)
+- bumped versions of Perl in doc examples to reflect current 
+availability
+
+1.14    2017-07-28
+- code cleanup
+- bumped 5.24.1 to 5.24.2 in perls.json (prod and test)
+- new "use" feature, allows spawning into a different version in the
+existing cmd window, or a new ones. Multiple perls can be specified
+in a single run. This feature acts similar to Perlbrew's "use"
+feature, in that upon exit, you'll automatically be put back to your
+previously "switch"ed version (@pryrt PR #80)
+
+1.13    2017-07-15
+- updated license information (closes #75)
+- updated perls_available.json to include 5.26
+- we now remove the "test" directory after all tests complete
+(closes #76)
+- correct markdown formatting in Configuration doc (closes #73)
+- small README correction (closes #71)
+- added new "register" command, provides ability to register perl
+installs that happened outside of berrybrew (closes #70)
+- add check to ensure we don't duplicate custom registrations
+- massive unit test framework upgrade (thanks pryrt!). There's still
+more work to be done here, but it's already much better
+- changed the bracing syntax. I dislike the opening brace on a separate
+line
+                              
+1.12    2017-03-31
+- fix local links in the markdown in the documentation
+- added "berrybrew fetch" (PerlUpdateAvailableList()). This function
+fetches the releases.json file from the Strawberry Perl website, and
+updates our data/perls.json file with the most recent patch version
+of each Perl version for 64bit, 32bit and PDL, where each is
+available (work on #62)
+- updated all documentation with the new 'fetch' feature
+- added exception and error handling in PerlUpdateAvailableList() for
+both the web fetch of the JSON file, and the reading of the JSON
+itself
+- enhanced exception handling for 'fetch'. We now print out the full
+exception if in debug mode
+- implement orphan handling for 'fetch'. If there are any orphans, we
+will not proceed any further
+- if there are perl instances orphaned after 'fetch' we now put them
+into the perls_custom.json file so they are still usable. They will
+appear as [custom] installs
+- upgrade now backs up config files, but only restores the
+perls_custom.json file. The user will have to manually merge in any
+custom changes they had from the backup into the updated config files
+
+1.11    2017-03-30
+- replaced Ionic.Zip with SharpZipLib as the former failed to
+consistently extract the zip files completely
+- updated 5.10.1_32 from 5.10.1.2 to 5.10.1.5
+- updated SHA1 checksums for various instances
+
+1.10    2017-02-12
+- fixed issue where the updated perls weren't being reflected in the
+perls.json file in the zip archive
+- added 'unconfig' help menu listing
+- updated SYNOPSIS with more recent versions of Perl (closes #58)
+- a request was made to include the PDL versions, but I'm holding off on
+that for the time being, as I'm focusing my efforts on the automatic
+list update feature (PerlUpdateAvailableList() in the API, I haven't
+decided on the CLI command name yet)
+
+1.09    2017-02-03
+- added 5.24.1_xx and 5.22.3_xx
+
+1.08    2016-11-11
+- doc cleanup/tidying
+- PerlFindOrphans() now ignores the '.cpanm' directory
+- version now hardcoded in the library
+
+1.07    2016-11-11 
+- fix issue where 5.22.2_32 wasn't downloading the portable zip file
+thereby the checksum didn't match (reported by 'atcroft') (fixes #53)
+- test updates/fixes
+- doc updates/cleanup (closes #51 & #54)
+
+1.06    2016-07-26
+- fixed issue where berrybrew config fails if the perl Root dir doesn't
+exist (fixes #46)
+- added "unconfig" command to remove berrybrew from PATH
+- updated API and berrybrew docs (closes #48)
+- removed release.sh, modified release.pl to be cross-platform
+- cleaned up zip file creation
+- better handling of config files for git push
+- perls_custom.json file is no longer included in an install, it is
+created on the fly if it doesn't exist. This prevents it from being
+overwritten during an upgrade
+- changed zip libraries to Ionic.Zip, for easier usage when we
+implement backup/restore functionality
+- added 'upgrade', safely performs a berrybrew upgrade
+- added new attributes 'confPath' and 'binPath'. 'installPath' is now
+the actual root dir of the repo
+
+1.05    2016-07-18
+- updated dev/release.pl to put default config files in place before 
+commit/zip
+- added dev/post_release.pl to restore the backups
+- 'exec' no longer will process perls with either 'tmpl' or 'template'
+in their name
+- new config option, 'custom_exec' (default is false) will skip over
+Custom (cloned) Perls on 'exec'. Set to true in the config file to
+exec on them
+- added exception handling for when a clone fails
+- tests now perform their work in a test subdir of berrybrew, as to not
+accidentally remove custom installs as orphans
+
+1.04    2016-07-17
+- added documentation in doc/ for berrybrew, the API and configuration
+- fixed issue with name length, max is now 25 chars for custom perls
+- added CheckName(), validates the name of a custom perl
+- added release.pl and removed release.sh
+
+1.03    2016-07-16
+- added debug support within API. Set within the data\config.json file. 
+For the API, call ``obj.Debug = bool;'', for the CLI, 
+``berrybrew debug ...''
+- major code restructuring
+- cleaned up Exec() PATH configuration (closes #10, #12 and #23)
+- removed Dir class, path info now stored in member variables
+- added doc/
+- added unit test doc
+- on destruction, we now check for orphaned perl installs, and warn the user
+(closes #16)
+- StrawberryPerl objects are now only generated once, and stored within the BerryBrew
+object
+- removed several unused imports
+- sub command help for the commands that have sub commands
+- 'clean' removes temp files by default, but can also clean orphaned perls with
+the 'orphan' subcommand
+- consolodated ParseJson() and ParseConfig() into the former
+- completed most of the work on the auto updating of the Perls list
+- renamed ParseJson() to JsonParse(), and added JsonWrite()
+- added 'clone', allows cloning of instances with custom names (useful for
+creating perl installation templates, and snapshots)
+- more tests
+
+1.01    2016-07-13
+- added RemoveFilesystemAttributes(), removes RO flag on all files
+in perl install dirs before deleting. C# can't delete them otherwise
+- the API has been separated out into a DLL for re-use and easier
+testing. Source file for the library is berrybrew.cs. The console app
+resides in bbconsole.cs
+- changed to a more Perlish version numbering system
+
+20160703 2016-07-12
+- fixed issues where %VARIABLE% based PATH entries weren't being
+expanded properly. We now set the registry value to REG_EXPAND_SZ
+type instead of REG_SZ
+- added initial set of basic Perl unit tests
+
+20160702 2016-07-11
+- added 'clean' option, removes all archive zips of perl (closes #5)
+- consolodated directory locations into a class
+- moved almost all console messages to data/messages.json
+- moved perls.json to data/
+- added exception handling for missing and/or malformed json files
+- variable based PATH env vars no longer get expanded and clobbered (fixes #10)
+(reported by PeterCJ (pryrt)
+- add preliminary ability to change Perl installation directory (closes #11)
+
+20160701 2016-07-07
+- fixed bug where PATH wasn't being set correctly when switching perls
+- added release.sh script, performs all tasks related to a release
+
+20160603 2016-06-24
+- added perl.Paths to the struct, holds all three paths in a list
+- re-worked the setting of PATH in exec subshells
+
+20160602
+- added 'off' feature, we now play nice with ActiveState and Strawberry
+Perl installations
+- moved from using the User PATH env var to Machine(System) PATH, so
+that 'off' works correctly
+
+20160501 2016-05-13
+- separated fork from dnmfarrell's original
+- added --with flag for exec, like perlbrew
+- added better ENV handling on spawned sub-shells in exec
+- added ability to load perls available through an external perls.json
+file, located in the repo root directory
+- tidied up README
