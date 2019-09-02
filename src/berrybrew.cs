@@ -1788,33 +1788,60 @@ namespace BerryBrew {
 
         public readonly string Name;
         public readonly string File;
-        public readonly bool Custom;
         public readonly string Url;
         public readonly string Version;
+        public readonly string Sha1Checksum;
+        public readonly bool Custom;
+        public readonly bool Virtual;
         public readonly string ArchivePath;
         public readonly string InstallPath;
         public readonly string CPath;
         public readonly string PerlPath;
         public readonly string PerlSitePath;
         public readonly List<string> Paths;
-        public readonly string Sha1Checksum;
 
-        public StrawberryPerl(Berrybrew bb, object name, object file, object url, object version, object csum, bool custom){
+        public StrawberryPerl(
+            Berrybrew bb, 
+            object name, 
+            object file, 
+            object url, 
+            object version, 
+            object csum, 
+            bool custom,
+            bool virtual_install = false,
+            string perl_path = "",
+            string lib_path = "",
+            string aux_path = ""
+            ){
 
+            if (string.IsNullOrEmpty(perl_path))
+                perl_path = bb.RootPath + name + @"\perl\bin";
+
+            if (string.IsNullOrEmpty(lib_path))
+                lib_path = bb.RootPath + name + @"perl\site\bin";
+
+            if (string.IsNullOrEmpty(aux_path))
+                aux_path = bb.RootPath + name + @"\c\bin";
+            
             Name = name.ToString();
             Custom = custom;
+            Virtual = virtual_install;
             File = file.ToString();
             Url = url.ToString();
+            Sha1Checksum = csum.ToString();
             Version = version.ToString();
+
             ArchivePath = bb.ArchivePath;
             InstallPath =  bb.RootPath + name;
-            CPath = bb.RootPath + name + @"\c\bin";
-            PerlPath = bb.RootPath + name + @"\perl\bin";
-            PerlSitePath = bb.RootPath + name + @"\perl\site\bin";
+
+            CPath = aux_path;
+            PerlPath = perl_path;
+            PerlSitePath = lib_path;
+            
             Paths = new List <string>{
                 CPath, PerlPath, PerlSitePath
             };
-            Sha1Checksum = csum.ToString();
+
         }
     }
 }    
