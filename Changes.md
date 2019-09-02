@@ -1,6 +1,10 @@
 Revision history for berrybrew
 
 1.26 UNREL
+- added 'berrybrew virtual' command; allows using external perls (eg.
+installed system Active State) from within berrybrew. Useful for
+bypassing berrybrew switched perls without having to disable berrybrew
+entirely 
 - added new 'berrybrew switch x.xx quick' argument, allows switching
 to a new perl without needing to open a new console window (some
 functionality may suffer until a new window is actually opened though)
@@ -8,7 +12,9 @@ functionality may suffer until a new window is actually opened though)
 of just a string for .Net 4.6 compliance
 - modified calls to String.Split() to specify a char array instead of
 just a char for .Net 4.6 compliance
-        
+- updated dev\release.pl to create a Changes markdown file for ease
+of online viewing
+                  
 1.25    2019-08-30
 - fix typo in API doc (fixes #163)
 - added new testing environment variables (set in t\setup_test_env.bat)
