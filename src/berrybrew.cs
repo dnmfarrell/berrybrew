@@ -460,7 +460,7 @@ namespace BerryBrew {
                 Message.Print("config_complete");
         }
 
-        public void ImportModule(string version=""){
+        public void ImportModules(string version=""){
 
             string moduleDir = RootPath + "modules\\";
 
