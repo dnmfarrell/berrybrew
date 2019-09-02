@@ -1284,6 +1284,58 @@ namespace BerryBrew {
 
             _bypassOrphanCheck = true;
         }
+
+        public void PerlRegisterVirtualInstall(string perlName){
+            StrawberryPerl virtualPerl = new StrawberryPerl();
+
+            if (!CheckName(PerlName))
+                Environment.Exit(0);
+
+            /*
+             * Get:
+             * - perl binary path
+             * - library path
+             * - alternate (C) path
+             *
+             * Perform checks to ensure all dires are valid after each one is
+             * sent in by the user
+             */
+            
+            string instanceName = RootPath + perlName;
+            
+            if (!Directory.Exists(instanceName)) {
+                Directory.CreateDirectory(RootPath + perlName);
+            }
+            
+            bool pathValid = false;
+
+            if (File.Exists(String.Format("{0}/perl.exe", path))){
+                pathValid = true;
+                break;
+            }
+        
+            if (! pathValid)){
+                Console.WriteLine("{0} is not a valid Perl installation", perlName);
+                Environment.Exit(0);
+            }
+
+            Dictionary<string, object> data = new Dictionary<string, object>();
+
+            data["name"] = perlName;
+            data["custom"] = true;
+            data["file"] = "";
+            data["url"] = "";
+            data["ver"] = "";
+            data["csum"] = "";
+
+            List<Dictionary<string, object>> perlList = new List<Dictionary<string, object>> {data};
+
+            JsonWrite("perls_custom", perlList);
+
+            Console.WriteLine("Successfully registered {0}", perlName);
+
+            _bypassOrphanCheck = true;
+        }
         
         public void PerlUpdateAvailableList(bool allPerls=false){
 
@@ -1748,4 +1800,4 @@ namespace BerryBrew {
             Sha1Checksum = csum.ToString();
         }
     }
-}
+}    

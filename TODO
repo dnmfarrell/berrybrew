@@ -1,0 +1,3 @@
+﻿- add PerlRegisterVirtualInstall() to documentation
+
+- add prompting in virtual register for path info
