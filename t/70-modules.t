@@ -32,7 +32,7 @@ my $path = $Registry->{$path_key};
     print "\nInstalling Mock::Sub\n";
     $o = `cpanm Mock::Sub`;
     
-    like $o, qr/(?:successfully|up to date)/, "successfully installed Mock::Sub";
+    like $o, qr/(?:Successfully|up to date)/, "successfully installed Mock::Sub";
     
     $o = `$c modules export`;
 
