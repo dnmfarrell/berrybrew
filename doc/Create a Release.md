@@ -27,7 +27,8 @@ version that's about to be released
     - Update the `README.md` file with the zip archive's new SHA sum
     - Update the `README.md` file with the new version from the API's
     `Version()` method
-
+    - Creates a Markdown version of the Changes file
+    
 - If you had any custom configuration files in place before running the
 `dev\release.pl` script, run `perl dev\post_release.pl` to put them back to
 their proper location
