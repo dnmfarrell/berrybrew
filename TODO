@@ -1,4 +1,4 @@
 ﻿- add PerlRegisterVirtualInstall() to documentation
 
-- add [virtual] tag like [custom]:
+- remove from virtual json
 

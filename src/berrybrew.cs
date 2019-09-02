@@ -196,6 +196,8 @@ namespace BerryBrew {
 
                 if (perl.Custom)
                     Console.Write(" [custom]");
+                if (perl.Virtual)
+                    Console.Write(" [virtual]");               
                 if (PerlIsInstalled(perl))
                     Console.Write(" [installed]");
                 if (perl.Name == PerlInUse().Name)
@@ -1148,12 +1150,12 @@ namespace BerryBrew {
         private void PerlGenerateObjects(bool importIntoObject=false){
 
             List<StrawberryPerl> perlObjects = new List<StrawberryPerl>();
+
             var perls = JsonParse("perls");
             var customPerls = JsonParse("perls_custom");
             var virtualPerls = JsonParse("perls_virtual");
 
             foreach (var perl in perls) {
-                Console.WriteLine("normal: {0}\n", perl.name);
                 perlObjects.Add(
                     new StrawberryPerl(
                         this,
@@ -1168,7 +1170,6 @@ namespace BerryBrew {
             }
 
             foreach (var perl in customPerls){
-                Console.WriteLine("custom: {0}\n", perl.name);
                 perlObjects.Add(
                     new StrawberryPerl(
                         this,
@@ -1277,6 +1278,18 @@ namespace BerryBrew {
                     }
                     JsonWrite("perls_custom", updatedPerls, true);
                 }
+                if (perl.Virtual){
+                    dynamic virtualPerlList = JsonParse("perls_virtual", true);
+                    virtualPerlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(virtualPerlList);
+ 
+                    List<Dictionary<string, object>> updatedPerls = new List<Dictionary<string, object>>();
+ 
+                    foreach (Dictionary<string, object> perlStruct in virtualPerlList){
+                        if (! perlVersionToRemove.Equals(perlStruct["name"].ToString()))
+                            updatedPerls.Add(perlStruct);
+                    }
+                    JsonWrite("perls_virtual", updatedPerls, true);
+                }               
             }
 
             catch (ArgumentException err){
@@ -1327,20 +1340,9 @@ namespace BerryBrew {
         }
 
         public void PerlRegisterVirtualInstall(string perlName){
-            StrawberryPerl virtualPerl = new StrawberryPerl();
 
             if (!CheckName(perlName))
                 Environment.Exit(0);
-
-            /*
-             * Get:
-             * - perl binary path
-             * - library path
-             * - alternate (C) path
-             *
-             * Perform checks to ensure all dires are valid after each one is
-             * sent in by the user
-             */
 
             Console.Write("\nSpecify the path to the perl binary: ");
             string perlPath = Console.ReadLine();
@@ -1352,8 +1354,6 @@ namespace BerryBrew {
             string auxPath = Console.ReadLine();
 
             Console.Write("\n");
-            
-            Console.Write("\n{0}, {1}, {2}\n", perlPath, string.IsNullOrEmpty(libPath), string.IsNullOrEmpty(auxPath));
             
             bool perlPathValid = false;
 
@@ -1404,7 +1404,7 @@ namespace BerryBrew {
 
             JsonWrite("perls_virtual", virtualPerlList);
 
-            Console.WriteLine("Successfully registered virtual perl {0}", perlName);
+            Console.WriteLine("\nSuccessfully registered virtual perl {0}", perlName);
 
             _bypassOrphanCheck = true;
         }
@@ -1869,14 +1869,16 @@ namespace BerryBrew {
             string aux_path = ""
             ){
 
-            if (string.IsNullOrEmpty(perl_path))
-                perl_path = bb.RootPath + name + @"\perl\bin";
+            if (! virtual_install) {
+                if (string.IsNullOrEmpty(perl_path))
+                    perl_path = bb.RootPath + name + @"\perl\bin";
 
-            if (string.IsNullOrEmpty(lib_path))
-                lib_path = bb.RootPath + name + @"perl\site\bin";
+                if (string.IsNullOrEmpty(lib_path))
+                    lib_path = bb.RootPath + name + @"\perl\site\bin";
 
-            if (string.IsNullOrEmpty(aux_path))
-                aux_path = bb.RootPath + name + @"\c\bin";
+                if (string.IsNullOrEmpty(aux_path))
+                    aux_path = bb.RootPath + name + @"\c\bin";               
+            }
             
             Name = name.ToString();
             Custom = custom;

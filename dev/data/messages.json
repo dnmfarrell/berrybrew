@@ -78,9 +78,17 @@
     "content": [
         "\nmodules command requires a sub option. Run 'berrybrew modules help' for details"
     ]
-},    
+},
+{    
+    "label": "virtual_command_required",
+
+    "content": [
+        "\nvirtual command requires a name for the virtual instance."
+    ]
+},
 {
     "label": "register_ver_required",
+
     "content": [
         "\nregister command requires a directory as an argument."
     ]
@@ -150,6 +158,7 @@
         "    unconfig       Remove berrybrew from PATH",
         "    upgrade        Performs a safe upgrade. Requires Git installed",
         "    use *          Use a specific Strawberry Perl version temporarily",
+        "    virtual        Allow berrybrew to manage an external Perl instance",
         "    help           Display this help screen",
         "    license        Show berrybrew license",
         "    version        Displays the version",
