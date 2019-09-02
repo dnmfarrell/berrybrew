@@ -1,9 +1,4 @@
 ﻿- add PerlRegisterVirtualInstall() to documentation
 
-- add prompting in virtual register for path info
+- add [virtual] tag like [custom]:
 
-- change StrawberryPerl instance to allow for modified path info for virtual
-instances
-
-- new JsonWrite() functionality to facilitate storing path information for
-virtual instances

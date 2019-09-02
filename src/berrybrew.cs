@@ -116,8 +116,7 @@ namespace BerryBrew {
             }
         }
 
-        public void SwitchQuick ()
-        {
+        public void SwitchQuick (){
             string procName = Process.GetCurrentProcess().ProcessName;
 
             Process[] procList = Process.GetProcessesByName(procName);
@@ -275,6 +274,7 @@ namespace BerryBrew {
                     break;
             }
         }
+        
         private bool CleanModules(){
             string moduleDir = RootPath + "modules\\";
             string[] moduleListFiles = Directory.GetFiles(moduleDir);
@@ -583,6 +583,7 @@ namespace BerryBrew {
             Console.WriteLine("\nsuccessfully wrote out {0} module list file", moduleFile);
             
         }
+       
         private static void Exec(StrawberryPerl perl, IEnumerable<string> parameters, string sysPath, bool singleMode){
 
             if(!singleMode){
@@ -1149,8 +1150,10 @@ namespace BerryBrew {
             List<StrawberryPerl> perlObjects = new List<StrawberryPerl>();
             var perls = JsonParse("perls");
             var customPerls = JsonParse("perls_custom");
+            var virtualPerls = JsonParse("perls_virtual");
 
-            foreach (var perl in perls){
+            foreach (var perl in perls) {
+                Console.WriteLine("normal: {0}\n", perl.name);
                 perlObjects.Add(
                     new StrawberryPerl(
                         this,
@@ -1165,6 +1168,7 @@ namespace BerryBrew {
             }
 
             foreach (var perl in customPerls){
+                Console.WriteLine("custom: {0}\n", perl.name);
                 perlObjects.Add(
                     new StrawberryPerl(
                         this,
@@ -1178,6 +1182,25 @@ namespace BerryBrew {
                 );
             }
 
+            foreach (var perl in virtualPerls) {
+
+                perlObjects.Add(
+                    new StrawberryPerl(
+                        this,
+                        perl.name,
+                        perl.file,
+                        perl.url,
+                        perl.ver,
+                        perl.csum,
+                        false, // custom
+                        true,  // virtual
+                        perl.perl_path.ToString(),
+                        perl.lib_path.ToString(),
+                        perl.aux_path.ToString()
+                    )
+                );
+            }
+            
             if (!importIntoObject) return;
 
             foreach (StrawberryPerl perl in perlObjects)
@@ -1839,7 +1862,7 @@ namespace BerryBrew {
             object url, 
             object version, 
             object csum, 
-            bool custom,
+            bool custom = false,
             bool virtual_install = false,
             string perl_path = "",
             string lib_path = "",
