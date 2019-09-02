@@ -194,12 +194,13 @@ namespace BerryBrew {
                 string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
                 Console.Write("\t" + perlNameToPrint);
 
-                if (perl.Custom)
-                    Console.Write(" [custom]");
-                if (perl.Virtual)
-                    Console.Write(" [virtual]");               
                 if (PerlIsInstalled(perl))
-                    Console.Write(" [installed]");
+                    Console.Write(" [installed] ");
+                if (perl.Custom)
+                    Console.Write("[custom]");
+                if (perl.Virtual)
+                    Console.Write("[virtual]");               
+
                 if (perl.Name == PerlInUse().Name)
                     Console.Write(" *");
 
