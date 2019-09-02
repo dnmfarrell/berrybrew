@@ -460,7 +460,7 @@ namespace BerryBrew {
                 Message.Print("config_complete");
         }
 
-        public void ImportModules(string version=""){
+        public void ImportModule(string version=""){
 
             string moduleDir = RootPath + "modules\\";
 
@@ -543,6 +543,10 @@ namespace BerryBrew {
                 Console.WriteLine("\nno Perl is in use. Run 'berrybrew switch' to enable one before exporting a module list\n");
                 Environment.Exit(0);
             }
+            if (perl.Name == "5.10.1_32"){
+                Console.WriteLine("\nmodules command requires a Perl version greater than 5.10\n");
+                Environment.Exit(0);
+            }           
             
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo {WindowStyle = ProcessWindowStyle.Hidden};
