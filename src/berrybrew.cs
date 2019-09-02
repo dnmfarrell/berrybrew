@@ -1288,7 +1288,7 @@ namespace BerryBrew {
         public void PerlRegisterVirtualInstall(string perlName){
             StrawberryPerl virtualPerl = new StrawberryPerl();
 
-            if (!CheckName(PerlName))
+            if (!CheckName(perlName))
                 Environment.Exit(0);
 
             /*
@@ -1300,25 +1300,42 @@ namespace BerryBrew {
              * Perform checks to ensure all dires are valid after each one is
              * sent in by the user
              */
+
+            Console.Write("\nSpecify the path to the perl binary: ");
+            string perlPath = Console.ReadLine();
+           
+            Console.Write("\nSpecify the library path: ");
+            string libPath = Console.ReadLine();           
             
+            Console.Write("\nSpecify an additional path: ");
+            string auxPath = Console.ReadLine();
+
+            Console.Write("\n");
+            
+            Console.Write("\n{0}, {1}, {2}\n", perlPath, libPath, auxPath);
+            
+            bool pathValid = false;
+
+            if (File.Exists(String.Format("{0}/perl.exe", perlPath))){
+                pathValid = true;
+            }
+        
+            if (! pathValid){
+                Console.WriteLine(
+                    "ERROR: {0} does not have a perl.exe binary. Can't register {1}\n", 
+                    perlPath, 
+                    perlName
+                );
+                Environment.Exit(0);
+            }
+
             string instanceName = RootPath + perlName;
             
             if (!Directory.Exists(instanceName)) {
                 Directory.CreateDirectory(RootPath + perlName);
             }
+            Environment.Exit(0);
             
-            bool pathValid = false;
-
-            if (File.Exists(String.Format("{0}/perl.exe", path))){
-                pathValid = true;
-                break;
-            }
-        
-            if (! pathValid)){
-                Console.WriteLine("{0} is not a valid Perl installation", perlName);
-                Environment.Exit(0);
-            }
-
             Dictionary<string, object> data = new Dictionary<string, object>();
 
             data["name"] = perlName;

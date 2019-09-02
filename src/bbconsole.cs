@@ -35,6 +35,10 @@ namespace berrybrew {
             }
                 
             switch (args[0]){
+                case "virtual":
+                    bb.PerlRegisterVirtualInstall("virtual");
+                    break;
+                
                 case "available":
                     bb.Available();
                     break;
