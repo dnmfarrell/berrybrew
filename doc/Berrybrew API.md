@@ -55,6 +55,7 @@ The `Berrybrew` class is the base of the system.
 [PerlsInstalled](#perlsinstalled)| private | Fetches the list of Perls installed
 [PerlRemove](#perlremove)| **public** | Uninstalls a specific instance of Perl
 [PerlRegisterCustomInstall](#perlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
+[PerlRegisterVirtualInstall](#perlregistervirtualinstall)| **public** | Make `berrybrew` aware of external Perls
 [PerlResolveVersion](#PerlResolveVersion)| private | Resolves the name of a Perl to its StrawberryPerl object
 [PerlUpdateAvailableList](#PerlUpdateAvailableList)| **public** | Automatically fetches new Strawberry Perls available
 [PerlUpdateAvailableListOrphans](#PerlUpdateAvailableListOrphans)| **public** | Registers any orphaned Perls after using `Fetch()`
@@ -556,6 +557,19 @@ information (version, path info, download info etc) in the new custom one. Be
 sure if you do this that the base and the new custom instances are the same
 version.
 
+#### PerlRegisterVirtualInstall
+
+    public void PerlRegisterVirtualInstall(string perlName)
+
+        argument:   perlName
+        value:      The name you want to use for this new install, which will
+                    appear in "berrybrew available"
+
+
+Creates a virtual berrybrew instance wrapped around an existing Perl installation.
+
+This can be ActiveState, Strawberry or any other "system" Perl.
+        
 #### PerlResolveVersion
 
     private StrawberryPerl PerlResolveVersion(string name)

@@ -134,3 +134,21 @@ open my $wfh, '>', 'README.md' or die $!;
 for (@contents){
     print $wfh $_;
 }
+
+# create a Changes.md for Github viewing
+
+my $changes = 'Changes';
+my $changes_md = 'Changes.md';
+
+copy($changes, $changes_md) or die $!;
+
+open my $changes_fh, '<', $changes or die $!;
+open my $changes_md_wfh, '>', $changes_md or die $!;
+
+while (<$changes_fh>){
+    if ($_ !~ /^$/ && $_ !~ /^\s+$/){
+        s/^\s+//;
+    }
+    print $changes_md_wfh $_;
+} 
+

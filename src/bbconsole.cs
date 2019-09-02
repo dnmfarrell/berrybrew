@@ -35,6 +35,7 @@ namespace berrybrew {
             }
                 
             switch (args[0]){
+
                 case "available":
                     bb.Available();
                     break;
@@ -262,6 +263,13 @@ namespace berrybrew {
                             bb.UseCompile(args[1]);
                             break;
                     }
+                    break;
+
+                case "virtual":
+					if (args.Length == 1)
+                        bb.Message.Say("virtual_command_required");
+
+                    bb.PerlRegisterVirtualInstall(args[1]);
                     break;
 
                 case "version":

@@ -92,6 +92,7 @@ installations and all configuration and temporary data
     unconfig       Remove berrybrew from PATH
     upgrade        Performs a safe upgrade. Requires Git installed
     use *          Use a specific Strawberry Perl version temporarily
+    virtual        Allow berrybrew to manage an external Perl instance
     help           Display this help screen
     license        Show berrybrew license
     version        Displays the version
@@ -182,6 +183,18 @@ Uninstall a version of perl:
     > berrybrew remove 5.30.0_64
 
     Successfully removed Strawberry Perl 5.30.0_64
+
+Manage an external instance of Perl (system ActiveState for example):
+
+    > berrybrew virtual activestate
+
+    Specify the path to the perl binary: c:\strawberry\perl\bin
+
+    Specify the library path:
+
+    Specify an additional path:
+
+    Successfully registered virtual perl activestate
 
 Manually register a custom directory within the Perl installation directory
 
