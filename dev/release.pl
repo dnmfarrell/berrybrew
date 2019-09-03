@@ -137,6 +137,8 @@ for (@contents){
 
 # create a Changes.md for Github viewing
 
+print "\nGenerating a Changes markdown file...\n";
+
 my $changes = 'Changes';
 my $changes_md = 'Changes.md';
 
@@ -152,3 +154,4 @@ while (<$changes_fh>){
     print $changes_md_wfh $_;
 } 
 
+print "\nDone!\n";
