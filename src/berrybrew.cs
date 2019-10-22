@@ -172,6 +172,8 @@ namespace BerryBrew {
 
                 if (perl.Custom)
                     Console.Write(" [custom]");
+                if (perl.Virtual)
+                    Console.Write(" [virtual]");
                 if (perl.Name == currentPerl.Name)
                     Console.Write(" *");
 
