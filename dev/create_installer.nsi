@@ -29,7 +29,7 @@
 !insertmacro MUI_LANGUAGE "English"
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "Setup.exe"
+OutFile "..\download\berrybrewInstaller.exe"
 InstallDir "$PROGRAMFILES\berrybrew"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
@@ -76,9 +76,6 @@ Section "-MainSection" SEC01
   File "..\doc\Unit Testing.md"
   SetOutPath "$PROGRAMFILES\berrybrew\inc"
   File "..\inc\berrybrew.ico"
-  File "..\inc\Setup.exe"
-  File "..\inc\test.nsi"
-  File "..\inc\Untitled 08.nsi"
   SetOutPath "$PROGRAMFILES\berrybrew"
   File "..\LICENSE"
   File "..\README.md"
@@ -241,3 +238,4 @@ Section Uninstall
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
   SetAutoClose true
 SectionEnd
+
