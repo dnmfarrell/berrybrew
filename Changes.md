@@ -1,10 +1,14 @@
 Revision history for berrybrew
 
-1.27 UNREL
+1.27    2019-11-22
+- we now have a self-extracting installer!
 - fix issue where 'list' wasn't showing the 'virtual' tag (fixes #186)
-- added self-extracting installer binary and installer NSIS script
+- added installer NSIS script and logic to automatically build the
+binary during the release process
 - 'remove' now displays notification of its actions (closes #190)
 - fix label ordering issue in custom_install test file
+- update release script to automatically update version numbers in the
+installer script (closes #189)
 
 1.26    2019-09-02
 - added 'berrybrew virtual' command; allows using external perls (eg.
