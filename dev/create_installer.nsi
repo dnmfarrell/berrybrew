@@ -3,7 +3,7 @@
 !include "MUI.nsh"
 
 !define PRODUCT_NAME "berrybrew"
-!define PRODUCT_VERSION "1.26"
+!define PRODUCT_VERSION "1.27"
 !define PRODUCT_PUBLISHER "Steve Bertrand"
 !define PRODUCT_WEB_SITE "https://github.com/stevieb9/berrybrew"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\berrybrew.exe"
