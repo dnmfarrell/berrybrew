@@ -36,9 +36,7 @@ ShowInstDetails show
 ShowUnInstDetails show
 
 Section "-MainSection" SEC01
-  SetOutPath "$PROGRAMFILES\berrybrew"
   SetOverwrite try
-  File "..\.gitignore"
   SetOutPath "$PROGRAMFILES\berrybrew\bin"
   File "..\bin\bbapi.dll"
   File "..\bin\berrybrew.exe"
@@ -116,6 +114,8 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
+  SetOutPath $INSTDIR
+  Exec '"$SYSDIR\cmd.exe" /K "berrybrew.exe" unconfig'
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$PROGRAMFILES\berrybrew\src\berrybrew.cs"
@@ -130,6 +130,8 @@ Section Uninstall
   Delete "$PROGRAMFILES\berrybrew\doc\berrybrew.md"
   Delete "$PROGRAMFILES\berrybrew\doc\Berrybrew API.md"
   Delete "$PROGRAMFILES\berrybrew\data\perls.json"
+  Delete "$PROGRAMFILES\berrybrew\data\perls_custom.json"
+  Delete "$PROGRAMFILES\berrybrew\data\perls_virtual.json"
   Delete "$PROGRAMFILES\berrybrew\data\messages.json"
   Delete "$PROGRAMFILES\berrybrew\data\config.json"
   Delete "$PROGRAMFILES\berrybrew\CONTRIBUTING.md"
