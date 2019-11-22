@@ -1256,6 +1256,7 @@ namespace BerryBrew {
 
                 if (Directory.Exists(perl.InstallPath)){
                     try {
+                        Console.WriteLine("Removing Strawberry Perl " + perlVersionToRemove);
                         FilesystemResetAttributes(perl.InstallPath);
                         Directory.Delete(perl.InstallPath, true);
                         Console.WriteLine("Successfully removed Strawberry Perl " + perlVersionToRemove);

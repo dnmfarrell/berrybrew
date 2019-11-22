@@ -29,6 +29,6 @@ The following Strawberry Perls are available:
 	5.12.3_32      
     5.10.1_32       [installed]
     5.8.9_32        [installed]
-    custom          [custom] [installed]
+    custom          [installed] [custom]
 
 * Currently using
