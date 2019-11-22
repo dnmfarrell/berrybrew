@@ -30,7 +30,7 @@
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 OutFile "..\download\berrybrewInstaller.exe"
-InstallDir "$PROGRAMFILES\berrybrew"
+InstallDir "$PROGRAMFILES\berrybrew\"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
