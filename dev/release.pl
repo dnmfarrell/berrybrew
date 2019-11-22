@@ -8,6 +8,8 @@ use File::Copy;
 
 use constant {
     INSTALLER_SCRIPT => 'dev/create_installer.nsi',
+    EXE_FILE         => 'download/berrybrewInstaller.exe',
+    ZIP_FILE         => 'download/berrybrew.zip',
 };
 
 # run checks
@@ -21,7 +23,7 @@ compile();
 create_zip();
 create_changes();
 create_installer();
-update_readme(generate_shasum());
+update_readme();
 finish();
 
 sub backup_configs {
@@ -108,12 +110,14 @@ sub create_changes {
 sub create_installer {
     system("makensis", INSTALLER_SCRIPT);
 }
-sub generate_shasum {
-    print "\ncalculating SHA1 for zipfile...\n";
+sub _generate_shasum {
+    my ($file) = @_;
 
-    my $sha1 = Digest::SHA->new('sha1');
+    if (! defined $file){
+        die "_generate_shasum() requres a filename sent in";
+    }
 
-    my $file = 'download/berrybrew.zip';
+    print "\ncalculating SHA1 for $file...\n";
 
     my $digest = `shasum $file`;
     $digest = (split /\s+/, $digest)[0];
@@ -146,11 +150,17 @@ sub update_readme {
     my @contents = <$fh>;
     close $fh or die $!;
 
+    my $zip_sha = _generate_shasum(ZIP_FILE);
+    my $exe_sha = _generate_shasum(EXE_FILE);
+
     $c = 0;
 
     for (@contents) {
-        if (/.*(`SHA1: \w+`)/) {
-            s/$1/`SHA1: $digest`/;
+        if (/^berrybrew\.zip.*(`SHA1: \w+`)/) {
+            s/$1/`SHA1: $zip_sha`/;
+        }
+        if (/^berrybrewInstaller\.exe.*(`SHA1: \w+`)/) {
+            s/$1/`SHA1: $exe_sha`/;
         }
         if (/## Version/) {
             $c++;
