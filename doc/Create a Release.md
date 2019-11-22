@@ -23,9 +23,10 @@ version that's about to be released
     - Collect the JSON configuration files from the `dev\data` directory
     - Build the bundled zip archive, and places it into the `download/`
     directory
-    - Creates an MSI installer program
-    - Perform SHA checksum tasks on the new zip archive
-    - Update the `README.md` file with the zip archive's new SHA sum
+    - Updates the MSI installer script with berrybrew and perl version info
+    - Creates the MSI installer program
+    - Perform SHA checksum tasks on the new zip archive and MSI installer
+    - Update the `README.md` file with the zip and installer's new SHA sum
     - Update the `README.md` file with the new version from the API's
     `Version()` method
     - Creates a Markdown version of the Changes file
