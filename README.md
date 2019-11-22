@@ -42,6 +42,10 @@ full list of documentation.
 
 ## Install
 
+##### Self-installing executable
+
+[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.exe?raw=true "berrybrew MSI installer") `SHA1: 198c618dc9d5faf74cc1860dbe7f0f726477e8b4`
+
 ##### Git clone
 
     git clone https://github.com/stevieb9/berrybrew
@@ -52,6 +56,11 @@ full list of documentation.
 
 You can also [Compile your own](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
 installation.
+
+## Configuration
+
+Skip this configuration section if you've installed `berrybrew` using the
+self-extracting MSI installer.
 
 See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) 
 if you wish to change the default location that your Perl installations

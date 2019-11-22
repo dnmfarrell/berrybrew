@@ -64,7 +64,6 @@ Section "-MainSection" SEC01
   File "..\inc\berrybrew.ico"
   SetOutPath "$PROGRAMFILES\berrybrew"
   File "..\LICENSE"
-  File "..\README.md"
   SetOutPath "$PROGRAMFILES\berrybrew\src"
   File "..\src\bbconsole.cs"
   File "..\src\berrybrew.cs"
@@ -119,9 +118,8 @@ FunctionEnd
 Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
- Delete "$PROGRAMFILES\berrybrew\src\berrybrew.cs"
+  Delete "$PROGRAMFILES\berrybrew\src\berrybrew.cs"
   Delete "$PROGRAMFILES\berrybrew\src\bbconsole.cs"
-  Delete "$PROGRAMFILES\berrybrew\README.md"
   Delete "$PROGRAMFILES\berrybrew\LICENSE"
   Delete "$PROGRAMFILES\berrybrew\inc\berrybrew.ico"
   Delete "$PROGRAMFILES\berrybrew\doc\Unit Testing.md"
