@@ -95,15 +95,15 @@ FunctionEnd
 
 Function LaunchFinish
   SetOutPath $INSTDIR
-  ExecWait '"$SYSDIR\cmd.exe" /K if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
+  ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
 
   ${If} ${SectionIsSelected} ${SEC02}
     ${If} ${FileExists} "C:\berrybrew\5.30.0_64\perl\bin\perl.exe"
       MessageBox MB_OK "Perl 5.30.0 is already installed, we'll switch to it"
     ${Else}
-      ExecWait '"$SYSDIR\cmd.exe" /K if 1==1 "$INSTDIR\bin\berrybrew.exe" install 5.30.0_64'
+      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" install 5.30.0_64'
     ${EndIf}
-    ExecWait '"$SYSDIR\cmd.exe" /K if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.30.0_64'
+    ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.30.0_64'
   ${EndIf}
 FunctionEnd
 
