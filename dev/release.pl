@@ -156,10 +156,10 @@ sub update_readme {
     $c = 0;
 
     for (@contents) {
-        if (/^berrybrew\.zip.*(`SHA1: \w+`)/) {
+        if (/^\[berrybrew\.zip.*(`SHA1: \w+`)/) {
             s/$1/`SHA1: $zip_sha`/;
         }
-        if (/^berrybrewInstaller\.exe.*(`SHA1: \w+`)/) {
+        if (/^\[berrybrewInstaller\.exe.*(`SHA1: \w+`)/) {
             s/$1/`SHA1: $exe_sha`/;
         }
         if (/## Version/) {
