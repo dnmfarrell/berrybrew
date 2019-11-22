@@ -42,25 +42,37 @@ full list of documentation.
 
 ## Install
 
+##### Self-installing executable
+
+The easiest and most straight forward method.
+
+[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.exe?raw=true "berrybrew MSI installer") `SHA1: c74641051c9d1b99b75ae57e178acab0ff1a735f`
+
 ##### Git clone
 
     git clone https://github.com/stevieb9/berrybrew
+    cd berrybrew
+    bin\berrybrew.exe config
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 198c618dc9d5faf74cc1860dbe7f0f726477e8b4`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 8f1f77e524292cb12f2885dbd6d36c8794e159b1`
 
-You can also [Compile your own](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
-installation.
-
-See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) 
-if you wish to change the default location that your Perl installations
-will reside, before running the actual installation commands below.
+After extraction:
 
     cd berrybrew
     bin\berrybrew.exe config
 
+#### Compile your own
+    
+You can also [Compile your own](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
+installation.
+
 ## Uninstall
+
+If you used the self-extracting installer, simply run the uninstaller.
+
+If you installed via any other method:
 
 First run the `berrybrew unconfig` command which removes the `PATH` environment
 variables for any in-use Perl installation, and then removes `berrybrew` from
@@ -428,7 +440,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.26
+    1.27
 
 ## Undocumented Features
 

@@ -172,6 +172,8 @@ namespace BerryBrew {
 
                 if (perl.Custom)
                     Console.Write(" [custom]");
+                if (perl.Virtual)
+                    Console.Write(" [virtual]");
                 if (perl.Name == currentPerl.Name)
                     Console.Write(" *");
 
@@ -194,12 +196,13 @@ namespace BerryBrew {
                 string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
                 Console.Write("\t" + perlNameToPrint);
 
-                if (perl.Custom)
-                    Console.Write(" [custom]");
-                if (perl.Virtual)
-                    Console.Write(" [virtual]");               
                 if (PerlIsInstalled(perl))
-                    Console.Write(" [installed]");
+                    Console.Write(" [installed] ");
+                if (perl.Custom)
+                    Console.Write("[custom]");
+                if (perl.Virtual)
+                    Console.Write("[virtual]");               
+
                 if (perl.Name == PerlInUse().Name)
                     Console.Write(" *");
 
@@ -1253,6 +1256,7 @@ namespace BerryBrew {
 
                 if (Directory.Exists(perl.InstallPath)){
                     try {
+                        Console.WriteLine("Removing Strawberry Perl " + perlVersionToRemove);
                         FilesystemResetAttributes(perl.InstallPath);
                         Directory.Delete(perl.InstallPath, true);
                         Console.WriteLine("Successfully removed Strawberry Perl " + perlVersionToRemove);
@@ -1721,7 +1725,7 @@ namespace BerryBrew {
         }
 
         public string Version(){
-            return @"1.26";
+            return @"1.27";
         }
 
         private static Process ProcessCreate(string cmd, bool hidden=true){

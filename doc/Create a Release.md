@@ -23,8 +23,10 @@ version that's about to be released
     - Collect the JSON configuration files from the `dev\data` directory
     - Build the bundled zip archive, and places it into the `download/`
     directory
-    - Perform SHA checksum tasks on the new zip archive
-    - Update the `README.md` file with the zip archive's new SHA sum
+    - Updates the MSI installer script with berrybrew and perl version info
+    - Creates the MSI installer program
+    - Perform SHA checksum tasks on the new zip archive and MSI installer
+    - Update the `README.md` file with the zip and installer's new SHA sum
     - Update the `README.md` file with the new version from the API's
     `Version()` method
     - Creates a Markdown version of the Changes file
@@ -32,6 +34,9 @@ version that's about to be released
 - If you had any custom configuration files in place before running the
 `dev\release.pl` script, run `perl dev\post_release.pl` to put them back to
 their proper location
+
+- On a clean platform, run the self-extracting installer from the `download/`
+directory, and ensure that both the `berrybrew`, and Perl versions are correct
 
 - `git commit -a -m "release x.xx"`
 

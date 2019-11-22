@@ -3,7 +3,7 @@
 !include "MUI.nsh"
 
 !define PRODUCT_NAME "berrybrew"
-!define PRODUCT_VERSION "1.26"
+!define PRODUCT_VERSION "1.27"
 !define PRODUCT_PUBLISHER "Steve Bertrand"
 !define PRODUCT_WEB_SITE "https://github.com/stevieb9/berrybrew"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\berrybrew.exe"
@@ -29,22 +29,17 @@
 !insertmacro MUI_LANGUAGE "English"
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "Setup.exe"
-InstallDir "$PROGRAMFILES\berrybrew"
+OutFile "..\download\berrybrewInstaller.exe"
+InstallDir "$PROGRAMFILES\berrybrew\"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
 
-Section "-MainSection" SEC01
-  SetOutPath "$PROGRAMFILES\berrybrew"
+Section "-MainSection" SEC_MAIN
   SetOverwrite try
-  File "..\.gitignore"
   SetOutPath "$PROGRAMFILES\berrybrew\bin"
   File "..\bin\bbapi.dll"
   File "..\bin\berrybrew.exe"
-  CreateDirectory "$SMPROGRAMS\berrybrew"
-  CreateShortCut "$SMPROGRAMS\berrybrew\berrybrew.lnk" "$PROGRAMFILES\berrybrew\bin\berrybrew.exe"
-  CreateShortCut "$DESKTOP\berrybrew.lnk" "$PROGRAMFILES\berrybrew\bin\berrybrew.exe"
   File "..\bin\ICSharpCode.SharpZipLib.dll"
   File "..\bin\Newtonsoft.Json.dll"
   SetOutPath "$PROGRAMFILES\berrybrew"
@@ -55,17 +50,6 @@ Section "-MainSection" SEC01
   File "..\data\config.json"
   File "..\data\messages.json"
   File "..\data\perls.json"
-  SetOutPath "$PROGRAMFILES\berrybrew\dev"
-  File "..\dev\build.bat"
-  File "..\dev\build_tests.bat"
-  SetOutPath "$PROGRAMFILES\berrybrew\dev\data"
-  File "..\dev\data\config.json"
-  File "..\dev\data\messages.json"
-  File "..\dev\data\perls.json"
-  SetOutPath "$PROGRAMFILES\berrybrew\dev"
-  File "..\dev\env_var_refresh.bat"
-  File "..\dev\post_release.pl"
-  File "..\dev\release.pl"
   SetOutPath "$PROGRAMFILES\berrybrew\doc"
   File "..\doc\Berrybrew API.md"
   File "..\doc\berrybrew.md"
@@ -76,43 +60,14 @@ Section "-MainSection" SEC01
   File "..\doc\Unit Testing.md"
   SetOutPath "$PROGRAMFILES\berrybrew\inc"
   File "..\inc\berrybrew.ico"
-  File "..\inc\Setup.exe"
-  File "..\inc\test.nsi"
-  File "..\inc\Untitled 08.nsi"
   SetOutPath "$PROGRAMFILES\berrybrew"
   File "..\LICENSE"
-  File "..\README.md"
   SetOutPath "$PROGRAMFILES\berrybrew\src"
   File "..\src\bbconsole.cs"
   File "..\src\berrybrew.cs"
-  SetOutPath "$PROGRAMFILES\berrybrew\t"
-  File "..\t\05-available.t"
-  File "..\t\10-homedir.t"
-  File "..\t\15-install.t"
-  File "..\t\20-switch.t"
-  File "..\t\25-env_vars.t"
-  File "..\t\30-orphan_perls.t"
-  File "..\t\35-custom_install.t"
-  File "..\t\40-name_check.t"
-  File "..\t\45-template_exec_skip.t"
-  File "..\t\50-custom_exec_skip.t"
-  File "..\t\55-register.t"
-  File "..\t\60-use.t"
-  File "..\t\70-modules.t"
-  File "..\t\95-remove.t"
-  File "..\t\99-clean.t"
-  File "..\t\BB.pm"
-  SetOutPath "$PROGRAMFILES\berrybrew\t\data"
-  File "..\t\data\available.txt"
-  File "..\t\data\custom_available.txt"
-  SetOutPath "$PROGRAMFILES\berrybrew\t"
-  File "..\t\run_tests.pl"
-  File "..\t\setup_test_env.bat"
-  File "..\t\test.bat"
-  File "..\t\unset_test_env.bat"
 SectionEnd
 
-Section "Install Perl 5.30.0" SEC02
+Section "Perl 5.30.0_64" SEC_INSTALL_NEWEST_PERL
 SectionEnd
 
 Section -AdditionalIcons
@@ -140,12 +95,20 @@ FunctionEnd
 
 Function LaunchFinish
   SetOutPath $INSTDIR
-  Exec '"$SYSDIR\cmd.exe" /C "berrybrew.exe" config'
+  ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
 
-  ${If} ${SectionIsSelected} ${SEC02}
-    Exec '"$SYSDIR\cmd.exe" /C "berrybrew.exe" install 5.30.0_64'
-    Exec '"$SYSDIR\cmd.exe" /C "berrybrew.exe" switch 5.30.0_64'
+  ${If} ${SectionIsSelected} ${SEC_INSTALL_NEWEST_PERL}
+    ${If} ${FileExists} "C:\berrybrew\5.30.0_64\perl\bin\perl.exe"
+      MessageBox MB_OK "Perl 5.30.0_64 is already installed, we'll switch to it"
+    ${Else}
+      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" install 5.30.0_64'
+    ${EndIf}
+    ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.30.0_64'
   ${EndIf}
+FunctionEnd
+
+Function .onInit
+  StrCpy $InstDir "$PROGRAMFILES\berrybrew\"
 FunctionEnd
 
 Function un.onUninstSuccess
@@ -159,39 +122,15 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
+  SetOutPath $INSTDIR
+  ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" off'
+  ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" unconfig'
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
-  Delete "$PROGRAMFILES\berrybrew\t\unset_test_env.bat"
-  Delete "$PROGRAMFILES\berrybrew\t\test.bat"
-  Delete "$PROGRAMFILES\berrybrew\t\setup_test_env.bat"
-  Delete "$PROGRAMFILES\berrybrew\t\run_tests.pl"
-  Delete "$PROGRAMFILES\berrybrew\t\data\custom_available.txt"
-  Delete "$PROGRAMFILES\berrybrew\t\data\available.txt"
-  Delete "$PROGRAMFILES\berrybrew\t\BB.pm"
-  Delete "$PROGRAMFILES\berrybrew\t\99-clean.t"
-  Delete "$PROGRAMFILES\berrybrew\t\95-remove.t"
-  Delete "$PROGRAMFILES\berrybrew\t\70-modules.t"
-  Delete "$PROGRAMFILES\berrybrew\t\60-use.t"
-  Delete "$PROGRAMFILES\berrybrew\t\55-register.t"
-  Delete "$PROGRAMFILES\berrybrew\t\50-custom_exec_skip.t"
-  Delete "$PROGRAMFILES\berrybrew\t\45-template_exec_skip.t"
-  Delete "$PROGRAMFILES\berrybrew\t\40-name_check.t"
-  Delete "$PROGRAMFILES\berrybrew\t\35-custom_install.t"
-  Delete "$PROGRAMFILES\berrybrew\t\30-orphan_perls.t"
-  Delete "$PROGRAMFILES\berrybrew\t\25-env_vars.t"
-  Delete "$PROGRAMFILES\berrybrew\t\20-switch.t"
-  Delete "$PROGRAMFILES\berrybrew\t\15-install.t"
-  Delete "$PROGRAMFILES\berrybrew\t\10-homedir.t"
-  Delete "$PROGRAMFILES\berrybrew\t\05-available.t"
   Delete "$PROGRAMFILES\berrybrew\src\berrybrew.cs"
   Delete "$PROGRAMFILES\berrybrew\src\bbconsole.cs"
-  Delete "$PROGRAMFILES\berrybrew\README.md"
   Delete "$PROGRAMFILES\berrybrew\LICENSE"
-  Delete "$PROGRAMFILES\berrybrew\inc\Untitled 08.nsi"
-  Delete "$PROGRAMFILES\berrybrew\inc\test.nsi"
-  Delete "$PROGRAMFILES\berrybrew\inc\Setup.exe"
   Delete "$PROGRAMFILES\berrybrew\inc\berrybrew.ico"
-  Delete "$PROGRAMFILES\berrybrew\download\berrybrew.zip"
   Delete "$PROGRAMFILES\berrybrew\doc\Unit Testing.md"
   Delete "$PROGRAMFILES\berrybrew\doc\Create a Release.md"
   Delete "$PROGRAMFILES\berrybrew\doc\Create a Development Build.md"
@@ -199,15 +138,9 @@ Section Uninstall
   Delete "$PROGRAMFILES\berrybrew\doc\Compile Your Own.md"
   Delete "$PROGRAMFILES\berrybrew\doc\berrybrew.md"
   Delete "$PROGRAMFILES\berrybrew\doc\Berrybrew API.md"
-  Delete "$PROGRAMFILES\berrybrew\dev\release.pl"
-  Delete "$PROGRAMFILES\berrybrew\dev\post_release.pl"
-  Delete "$PROGRAMFILES\berrybrew\dev\env_var_refresh.bat"
-  Delete "$PROGRAMFILES\berrybrew\dev\data\perls.json"
-  Delete "$PROGRAMFILES\berrybrew\dev\data\messages.json"
-  Delete "$PROGRAMFILES\berrybrew\dev\data\config.json"
-  Delete "$PROGRAMFILES\berrybrew\dev\build_tests.bat"
-  Delete "$PROGRAMFILES\berrybrew\dev\build.bat"
   Delete "$PROGRAMFILES\berrybrew\data\perls.json"
+  Delete "$PROGRAMFILES\berrybrew\data\perls_custom.json"
+  Delete "$PROGRAMFILES\berrybrew\data\perls_virtual.json"
   Delete "$PROGRAMFILES\berrybrew\data\messages.json"
   Delete "$PROGRAMFILES\berrybrew\data\config.json"
   Delete "$PROGRAMFILES\berrybrew\CONTRIBUTING.md"
@@ -217,7 +150,11 @@ Section Uninstall
   Delete "$PROGRAMFILES\berrybrew\bin\ICSharpCode.SharpZipLib.dll"
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.exe"
   Delete "$PROGRAMFILES\berrybrew\bin\bbapi.dll"
-  Delete "$PROGRAMFILES\berrybrew\.gitignore"
+
+  Delete "$PROGRAMFILES\berrybrew\bin\uninst.exe"
+  Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.lnk"
+  Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.url"
+  Delete "$PROGRAMFILES\berrybrew\bin\berrybrew"
 
   Delete "$SMPROGRAMS\berrybrew\Uninstall.lnk"
   Delete "$SMPROGRAMS\berrybrew\Website.lnk"
