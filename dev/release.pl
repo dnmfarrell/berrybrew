@@ -52,7 +52,7 @@ sub backup_configs {
     }
 }
 sub compile {
-    print "compiling the API library...\n\n";
+    print "\ncompiling the API library...\n\n";
 
     my $api_build = "" .
         "mcs " .
