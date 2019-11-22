@@ -46,7 +46,7 @@ full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.exe?raw=true "berrybrew MSI installer") `SHA1: c74641051c9d1b99b75ae57e178acab0ff1a735f`
+[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: c74641051c9d1b99b75ae57e178acab0ff1a735f`
 
 ##### Git clone
 
