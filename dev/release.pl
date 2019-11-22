@@ -6,6 +6,19 @@ use Digest::SHA qw(sha1);
 use File::Find::Rule;
 use File::Copy;
 
+use constant {
+    INSTALLER_SCRIPT => 'dev/create_installer.nsi',
+};
+
+# run checks
+
+if (! grep { -x "$_/makensis.exe" } split /;/, $ENV{PATH}){
+    die "makensis.exe not found, check your PATH. Can't build installer...";
+}
+
+create_installer();
+exit;
+
 # backup configs
 
 my $data_dir = 'data';
@@ -153,5 +166,9 @@ while (<$changes_fh>){
     }
     print $changes_md_wfh $_;
 } 
+
+sub create_installer {
+    system("makensis", INSTALLER_SCRIPT);
+}
 
 print "\nDone!\n";
