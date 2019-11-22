@@ -67,7 +67,7 @@ Section "-MainSection" SEC_MAIN
   File "..\src\berrybrew.cs"
 SectionEnd
 
-Section "Install Perl 5.30.0_64" SEC_INSTALL_NEWEST_PERL
+Section "Perl 5.30.0_64" SEC_INSTALL_NEWEST_PERL
 SectionEnd
 
 Section -AdditionalIcons

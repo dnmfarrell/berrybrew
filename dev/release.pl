@@ -5,6 +5,7 @@ use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
 use Digest::SHA qw(sha1);
 use File::Find::Rule;
 use File::Copy;
+use JSON::PP;
 
 use constant {
     INSTALLER_SCRIPT => 'dev/create_installer.nsi',
@@ -26,6 +27,7 @@ backup_configs();
 compile();
 create_zip();
 create_changes();
+update_installer_script();
 create_installer();
 update_readme();
 finish();
@@ -77,7 +79,7 @@ sub compile {
     system $bin_build;
 }
 sub create_zip {
-    print "packaging pre-built zipfile...\n";
+    print "\npackaging pre-built zipfile...\n";
 
     my $zip = Archive::Zip->new;
 
@@ -124,9 +126,7 @@ sub _generate_shasum {
 
     return $digest;
 }
-sub update_readme {
-    print "updating README with new SHA1 sums and version...\n";
-
+sub _berrybrew_version {
     open my $fh, '<', 'src/berrybrew.cs' or die $!;
 
     my $c = 0;
@@ -146,14 +146,56 @@ sub update_readme {
 
     close $fh;
 
-    open $fh, '<', 'README.md' or die $!;
+    return $ver;
+}
+sub update_installer_script {
+    print "\nupdating installer script with version information\n";
+
+    my $bb_ver = _berrybrew_version();
+
+    open my $pfh, '<', 'data/perls.json' or die $!;
+    my $most_recent_perl_ver;
+    while (<$pfh>){
+        if (/"name": "(5\.\d+\.\d+_64)"/){
+            $most_recent_perl_ver = $1;
+            last;
+        }
+    }
+    close $pfh;
+
+    open my $fh, '<', INSTALLER_SCRIPT or die $!;
     my @contents = <$fh>;
     close $fh or die $!;
 
+    for (@contents){
+        if (/PRODUCT_VERSION "(\d+\.\d+)"$/) {
+            s/$1/$bb_ver/;
+        }
+        if (/.*(5\.\d+\.\d+_64).*/){
+            s/$1/$most_recent_perl_ver/;
+        }
+    }
+
+    open my $wfh, '>',  INSTALLER_SCRIPT or die $!;
+
+    for (@contents) {
+        print $wfh $_;
+    }
+
+    close $wfh;
+}
+sub update_readme {
+    print "\nupdating README with new SHA1 sums and version...\n";
+
+    open my $fh, '<', 'README.md' or die $!;
+    my @contents = <$fh>;
+    close $fh or die $!;
+
+    my $bb_ver = _berrybrew_version();
     my $zip_sha = _generate_shasum(ZIP_FILE);
     my $exe_sha = _generate_shasum(EXE_FILE);
 
-    $c = 0;
+    my $c = 0;
 
     for (@contents) {
         if (/^\[berrybrew\.zip.*(`SHA1: \w+`)/) {
@@ -171,7 +213,7 @@ sub update_readme {
             next;
         }
         if ($c == 2) {
-            s/\d+\.\d+/$ver/;
+            s/\d+\.\d+/$bb_ver/;
             $c++;
         }
     }
