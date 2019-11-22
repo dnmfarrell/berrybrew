@@ -35,7 +35,7 @@ InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
 
-Section "-MainSection" SEC01
+Section "-MainSection" SEC_MAIN
   SetOverwrite try
   SetOutPath "$PROGRAMFILES\berrybrew\bin"
   File "..\bin\bbapi.dll"
@@ -67,7 +67,7 @@ Section "-MainSection" SEC01
   File "..\src\berrybrew.cs"
 SectionEnd
 
-Section "Install Perl 5.30.0" SEC02
+Section "Install Perl 5.30.0_64" SEC_INSTALL_NEWEST_PERL
 SectionEnd
 
 Section -AdditionalIcons
@@ -97,9 +97,9 @@ Function LaunchFinish
   SetOutPath $INSTDIR
   ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
 
-  ${If} ${SectionIsSelected} ${SEC02}
+  ${If} ${SectionIsSelected} ${SEC_INSTALL_NEWEST_PERL}
     ${If} ${FileExists} "C:\berrybrew\5.30.0_64\perl\bin\perl.exe"
-      MessageBox MB_OK "Perl 5.30.0 is already installed, we'll switch to it"
+      MessageBox MB_OK "Perl 5.30.0_64 is already installed, we'll switch to it"
     ${Else}
       ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" install 5.30.0_64'
     ${EndIf}
