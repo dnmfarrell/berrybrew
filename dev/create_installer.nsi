@@ -107,6 +107,10 @@ Function LaunchFinish
   ${EndIf}
 FunctionEnd
 
+Function .onInit
+  StrCpy $InstDir "$PROGRAMFILES\berrybrew\"
+FunctionEnd
+
 Function un.onUninstSuccess
   HideWindow
   MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer."
