@@ -95,11 +95,11 @@ FunctionEnd
 
 Function LaunchFinish
   SetOutPath $INSTDIR
-  Exec '"$SYSDIR\cmd.exe" /C "berrybrew.exe" config'
+  ExecWait '"$SYSDIR\cmd.exe" /C "berrybrew.exe" config'
 
   ${If} ${SectionIsSelected} ${SEC02}
-    Exec '"$SYSDIR\cmd.exe" /C "berrybrew.exe" install 5.30.0_64'
-    Exec '"$SYSDIR\cmd.exe" /C "berrybrew.exe" switch 5.30.0_64'
+    ExecWait '"$SYSDIR\cmd.exe" /C "berrybrew.exe" install 5.30.0_64'
+    ExecWait '"$SYSDIR\cmd.exe" /C "berrybrew.exe" switch 5.30.0_64'
   ${EndIf}
 FunctionEnd
 
@@ -115,7 +115,7 @@ FunctionEnd
 
 Section Uninstall
   SetOutPath $INSTDIR
-  Exec '"$SYSDIR\cmd.exe" /K "berrybrew.exe" unconfig'
+  ExecWait '"$SYSDIR\cmd.exe" /C "berrybrew.exe" unconfig'
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$PROGRAMFILES\berrybrew\src\berrybrew.cs"
@@ -141,6 +141,10 @@ Section Uninstall
   Delete "$PROGRAMFILES\berrybrew\bin\ICSharpCode.SharpZipLib.dll"
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.exe"
   Delete "$PROGRAMFILES\berrybrew\bin\bbapi.dll"
+
+  Delete "$PROGRAMFILES\berrybrew\bin\uninst.exe"
+  Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.lnk"
+  Delete "$PROGRAMFILES\berrybrew\bin\berrybrew"
 
   Delete "$SMPROGRAMS\berrybrew\Uninstall.lnk"
   Delete "$SMPROGRAMS\berrybrew\Website.lnk"
