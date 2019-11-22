@@ -18,6 +18,10 @@ if (! grep { -x "$_/makensis.exe" } split /;/, $ENV{PATH}){
     die "makensis.exe not found, check your PATH. Can't build installer...";
 }
 
+my $data_dir = 'data';
+my $bak_dir = 'bak';
+my $defaults_dir = 'dev/data';
+
 backup_configs();
 compile();
 create_zip();
@@ -27,10 +31,6 @@ update_readme();
 finish();
 
 sub backup_configs {
-
-    my $data_dir = 'data';
-    my $bak_dir = 'bak';
-    my $defaults_dir = 'dev/data';
 
     if (!-d $bak_dir) {
         mkdir $bak_dir or die $!;
@@ -125,7 +125,7 @@ sub _generate_shasum {
     return $digest;
 }
 sub update_readme {
-    print "updating README with new SHA1 sum $digest, and version...\n";
+    print "updating README with new SHA1 sums and version...\n";
 
     open my $fh, '<', 'src/berrybrew.cs' or die $!;
 
