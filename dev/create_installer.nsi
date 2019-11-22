@@ -178,4 +178,3 @@ Section Uninstall
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
   SetAutoClose true
 SectionEnd
-
