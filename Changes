@@ -2,6 +2,7 @@ Revision history for berrybrew
 
 1.27 UNREL
         - fix issue where 'list' wasn't showing the 'virtual' tag (fixes #186)
+        - added self-extracting installer binary and installer NSIS script
 
 1.26    2019-09-02
         - added 'berrybrew virtual' command; allows using external perls (eg.
