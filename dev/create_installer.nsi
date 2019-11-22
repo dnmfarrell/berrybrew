@@ -95,11 +95,15 @@ FunctionEnd
 
 Function LaunchFinish
   SetOutPath $INSTDIR
-  ExecWait '"$SYSDIR\cmd.exe" /C "berrybrew.exe" config'
+  ExecWait '"$SYSDIR\cmd.exe" /C "$INSTDIR\bin\berrybrew.exe" config'
 
   ${If} ${SectionIsSelected} ${SEC02}
-    ExecWait '"$SYSDIR\cmd.exe" /C "berrybrew.exe" install 5.30.0_64'
-    ExecWait '"$SYSDIR\cmd.exe" /C "berrybrew.exe" switch 5.30.0_64'
+    ${If} ${FileExists} "C:\berrybrew\5.30.0_64\perl\bin\perl.exe"
+      MessageBox MB_OK "Perl 5.30.0 is already installed, we'll switch to it"
+    ${Else}
+      ExecWait '"$SYSDIR\cmd.exe" /C "$INSTDIR\bin\berrybrew.exe" install 5.30.0_64'
+    ${EndIf}
+    ExecWait '"$SYSDIR\cmd.exe" /C "$INSTDIR\bin\berrybrew.exe" switch 5.30.0_64'
   ${EndIf}
 FunctionEnd
 
@@ -115,7 +119,8 @@ FunctionEnd
 
 Section Uninstall
   SetOutPath $INSTDIR
-  ExecWait '"$SYSDIR\cmd.exe" /C "berrybrew.exe" unconfig'
+  ExecWait '"$SYSDIR\cmd.exe" /C "$INSTDIR\bin\berrybrew.exe" off'
+  ExecWait '"$SYSDIR\cmd.exe" /C "$INSTDIR\bin\berrybrew.exe" unconfig'
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$PROGRAMFILES\berrybrew\src\berrybrew.cs"
@@ -144,6 +149,7 @@ Section Uninstall
 
   Delete "$PROGRAMFILES\berrybrew\bin\uninst.exe"
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.lnk"
+  Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.url"
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew"
 
   Delete "$SMPROGRAMS\berrybrew\Uninstall.lnk"
