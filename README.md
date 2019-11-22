@@ -44,32 +44,35 @@ full list of documentation.
 
 ##### Self-installing executable
 
+The easiest and most straight forward method.
+
 [berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.exe?raw=true "berrybrew MSI installer") `SHA1: 198c618dc9d5faf74cc1860dbe7f0f726477e8b4`
 
 ##### Git clone
 
     git clone https://github.com/stevieb9/berrybrew
+    cd berrybrew
+    bin\berrybrew.exe config
 
 ##### Pre-built zip archive
 
 [berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 198c618dc9d5faf74cc1860dbe7f0f726477e8b4`
 
-You can also [Compile your own](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
-installation.
-
-## Configuration
-
-Skip this configuration section if you've installed `berrybrew` using the
-self-extracting MSI installer.
-
-See [Configure Root Directory](https://github.com/stevieb9/berrybrew#configure-root-directory) 
-if you wish to change the default location that your Perl installations
-will reside, before running the actual installation commands below.
+After extraction:
 
     cd berrybrew
     bin\berrybrew.exe config
 
+#### Compile your own
+    
+You can also [Compile your own](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
+installation.
+
 ## Uninstall
+
+If you used the self-extracting installer, simply run the uninstaller.
+
+If you installed via any other method:
 
 First run the `berrybrew unconfig` command which removes the `PATH` environment
 variables for any in-use Perl installation, and then removes `berrybrew` from
