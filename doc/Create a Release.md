@@ -34,6 +34,9 @@ version that's about to be released
 `dev\release.pl` script, run `perl dev\post_release.pl` to put them back to
 their proper location
 
+- On a clean platform, run the self-extracting installer from the `download/`
+directory, and ensure that both the `berrybrew`, and Perl versions are correct
+
 - `git commit -a -m "release x.xx"`
 
 - `git push`
