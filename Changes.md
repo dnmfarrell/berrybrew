@@ -1,6 +1,9 @@
 Revision history for berrybrew
 
-1.26 UNREL
+1.27 UNREL
+- fix issue where 'list' wasn't showing the 'virtual' tag (fixes #186)
+
+1.26    2019-09-02
 - added 'berrybrew virtual' command; allows using external perls (eg.
 installed system Active State) from within berrybrew. Useful for
 bypassing berrybrew switched perls without having to disable berrybrew
