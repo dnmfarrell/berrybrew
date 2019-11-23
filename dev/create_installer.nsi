@@ -1,9 +1,8 @@
 !include LogicLib.nsh
-;!include "MUI.nsh"
 !include MUI2.nsh
 
 !define PRODUCT_NAME "berrybrew"
-!define PRODUCT_VERSION "1.27"
+!define PRODUCT_VERSION "1.28"
 !define PRODUCT_PUBLISHER "Steve Bertrand"
 !define PRODUCT_WEB_SITE "https://github.com/stevieb9/berrybrew"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\berrybrew.exe"
@@ -109,13 +108,22 @@ FunctionEnd
 
 Function .onInit
   StrCpy $InstDir "$PROGRAMFILES\berrybrew\"
-  ExecWait '"berrybrew" version' $0
+
+  ; check for previously installed versions
   
+  ExecWait '"berrybrew" version' $0
+
   ${If} $0 == 0
-    MessageBox MB_ICONEXCLAMATION "You have a previous berrybrew installation. Its path needs to be removed from the PATH environment variable before we can run this installer.$\r$\n\
-    $\r$\n\
-    Run 'berrybrew off', then remove the path from PATH."
-    Abort
+    MessageBox MB_ICONQUESTION|MB_YESNO "You have a previous version of berrybrew. Can we try to disable it?" IDYES true IDNO false
+    false:
+      Abort
+    true:
+      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" off'
+      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" unconfig'
+  ${EndIf}
+
+  ${If} $0 == 0
+    MessageBox MB_ICONEXCLAMATION "If you need to use your previous version, run 'berrybrew off', and re-run 'config' and 'switch' on the old version."
   ${EndIf}
 FunctionEnd
 
