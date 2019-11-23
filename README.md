@@ -89,6 +89,9 @@ installations and all configuration and temporary data
 
 ## Commands
 
+See the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+documentation for a full explanation of all of the following commands.
+
     berrybrew <command> [subcommand] [option]
 
     available      List available Strawberry Perl versions and which are installed
@@ -277,10 +280,6 @@ Execute on only a selection of installed versions:
     ==============
     Died at -e line 1.
 
-Upgrade:
-
-    > berrybrew upgrade
-
 Remove `berrybrew` from `PATH` (useful for switching between versions of
 `berrybrew`):
 
@@ -288,7 +287,10 @@ Remove `berrybrew` from `PATH` (useful for switching between versions of
     
 ## Upgrading
 
-Easiest way is to use `berrybrew upgrade`. This requires Git to be
+Using the [installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
+is the best and safest way to upgrade your `berrybrew`.
+
+The next best method is to use `berrybrew upgrade`. This requires Git to be
 installed and in your `PATH`. It will create a `backup_timestamp`
 directory and copy your configuration files into it.
 
