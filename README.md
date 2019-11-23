@@ -49,7 +49,7 @@ full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 29b4ea3d819b6f5436d69f72c7a543cbb843fde6`
+[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 17aaf6c24ce8ae85aa95c9b673bfd81f6ee6e263`
 
 ##### Git clone
 
@@ -59,7 +59,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 41aa9f0ae7c71b4763d7f37504e457d18e34b581`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 8722800446c22cf89d1b6ba0c6b931f645db6df4`
 
 After extraction:
 
@@ -88,6 +88,9 @@ installations and all configuration and temporary data
 - remove the original download directory
 
 ## Commands
+
+See the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+documentation for a full explanation of all of the following commands.
 
     berrybrew <command> [subcommand] [option]
 
@@ -277,10 +280,6 @@ Execute on only a selection of installed versions:
     ==============
     Died at -e line 1.
 
-Upgrade:
-
-    > berrybrew upgrade
-
 Remove `berrybrew` from `PATH` (useful for switching between versions of
 `berrybrew`):
 
@@ -288,7 +287,15 @@ Remove `berrybrew` from `PATH` (useful for switching between versions of
     
 ## Upgrading
 
-Easiest way is to use `berrybrew upgrade`. This requires Git to be
+Using the [installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
+is the best and safest way to upgrade your `berrybrew`. :w
+If the new install
+will not be in the same directory as your previous version, copy any new or
+differing configuration options in the `data\config.json` file from the old
+instance to the new one, and if you've got a `data\perls_custom.json` or a
+`data\perls_virtual.json` file, copy them over in their entirety.
+
+The next best method is to use `berrybrew upgrade`. This requires Git to be
 installed and in your `PATH`. It will create a `backup_timestamp`
 directory and copy your configuration files into it.
 
@@ -443,7 +450,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.27
+    1.28
 
 ## Undocumented Features
 
@@ -477,7 +484,12 @@ unneeded path elements for a couple of specific tests.
 #### currentperl
 
 This feature simply fetches the Perl instance that's currently in use,
-prints out its name, and exits.
+prints out its name, and exits. It will not display anything if there's no
+Perl currently in use.
+
+Usage:
+
+    berrybrew currentperl
 
 Used primarily for certain unit tests.
 

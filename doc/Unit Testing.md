@@ -9,6 +9,9 @@ See [Undocumented Features](../README.md) for the `test` argument to
 
 - You must be on a Windows system
 
+- You need to be running the command window as an Administrator, since several
+tests need to update the `PATH` environment variable.
+
 - You must have an alternate Perl installation available.
    - Default is the first perl in your path
    - If you don't have perl in your path, or you would like to use a different perl for testing, set `BBTEST_PERLROOT`: it will use `%BBTEST_PERLROOT%\perl\bin\perl.exe` for running perl, and will include `%BBTEST_PERLROOT%\perl\bin\`,  `%BBTEST_PERLROOT%\perl\site\bin\`, and  `%BBTEST_PERLROOT%\c\bin\` in the PATH.
