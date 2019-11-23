@@ -1,7 +1,10 @@
 Revision history for berrybrew
 
-1.28 UNREL
--
+1.28    2019-11-22
+- modified PathAddBerrybrew() to insert berrybrew's path to the start
+of the PATH as opposed to the end of it
+- modified the installer so that it asks the user if we can try to
+disable a previous version
 
 1.27    2019-11-22
 - we now have a self-extracting installer!
