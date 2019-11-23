@@ -1,6 +1,6 @@
 !include LogicLib.nsh
+;!include "MUI.nsh"
 !include MUI2.nsh
-!include "MUI.nsh"
 
 !define PRODUCT_NAME "berrybrew"
 !define PRODUCT_VERSION "1.27"
@@ -109,6 +109,14 @@ FunctionEnd
 
 Function .onInit
   StrCpy $InstDir "$PROGRAMFILES\berrybrew\"
+  ExecWait '"berrybrew" version' $0
+  
+  ${If} $0 == 0
+    MessageBox MB_ICONEXCLAMATION "You have a previous berrybrew installation. Its path needs to be removed from the PATH environment variable before we can run this installer.$\r$\n\
+    $\r$\n\
+    Run 'berrybrew off', then remove the path from PATH."
+    Abort
+  ${EndIf}
 FunctionEnd
 
 Function un.onUninstSuccess
