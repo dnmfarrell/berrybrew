@@ -484,7 +484,12 @@ unneeded path elements for a couple of specific tests.
 #### currentperl
 
 This feature simply fetches the Perl instance that's currently in use,
-prints out its name, and exits.
+prints out its name, and exits. It will not display anything if there's no
+Perl currently in use.
+
+Usage:
+
+    berrybrew currentperl
 
 Used primarily for certain unit tests.
 
