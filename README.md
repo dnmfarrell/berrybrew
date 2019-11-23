@@ -2,6 +2,9 @@
 
 The perlbrew for Windows Strawberry Perl! 
 
+
+###### [Click here to download the installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
+
 For a quick-start, jump to the [Install](#install) and [Commands](#commands)
 sections.
 
