@@ -1725,7 +1725,7 @@ namespace BerryBrew {
         }
 
         public string Version(){
-            return @"1.27";
+            return @"1.28";
         }
 
         private static Process ProcessCreate(string cmd, bool hidden=true){

@@ -1,5 +1,8 @@
 Revision history for berrybrew
 
+1.28 UNREL
+        -
+
 1.27    2019-11-22
         - we now have a self-extracting installer!
         - fix issue where 'list' wasn't showing the 'virtual' tag (fixes #186)
