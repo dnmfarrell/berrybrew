@@ -954,8 +954,8 @@ namespace BerryBrew {
                 if (path[path.Length - 1] == ';')
                     path = path.Substring(0, path.Length - 1);
 
-                newPath.Add(path);
                 newPath.Add(binPath);
+                newPath.Add(path);
             }
             PathSet(newPath);
         }
@@ -997,7 +997,7 @@ namespace BerryBrew {
         private void PathRemoveBerrybrew(){
 
             string path = PathGet();
-            Regex binPath = new Regex("berrybrew.bin");
+            Regex binPath = new Regex("berrybrew.*bin");
             List<string> paths = path.Split(new char[] {';'}).ToList();
             List<string> updatedPaths = new List<string>();
 
