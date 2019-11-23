@@ -288,7 +288,12 @@ Remove `berrybrew` from `PATH` (useful for switching between versions of
 ## Upgrading
 
 Using the [installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
-is the best and safest way to upgrade your `berrybrew`.
+is the best and safest way to upgrade your `berrybrew`. :w
+If the new install
+will not be in the same directory as your previous version, copy any new or
+differing configuration options in the `data\config.json` file from the old
+instance to the new one, and if you've got a `data\perls_custom.json` or a
+`data\perls_virtual.json` file, copy them over in their entirety.
 
 The next best method is to use `berrybrew upgrade`. This requires Git to be
 installed and in your `PATH`. It will create a `backup_timestamp`
