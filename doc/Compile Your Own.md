@@ -16,7 +16,8 @@
 
     mcs \
         src/bbconsole.cs
-        -lib:bin -r:bbapi.dll \
+        -lib:bin \
+        -r:bbapi.dll \
         -out:bin/berrybrew.exe \
         -win32icon:inc/berrybrew.ico
 
