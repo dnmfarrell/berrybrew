@@ -10,6 +10,7 @@
 - [config](#config)
 - [exec](#exec)
 - [fetch](#fetch)
+- [info](#info)
 - [install](#install)
 - [modules](#modules)
 - [off](#off)
@@ -134,6 +135,15 @@ available immediately with `berrybrew available`.
 Send in the all string as a subcommand and instead of listing the most
 recent version for every major version, we'll download every version that
 Strawberry has to offer.
+
+#### info
+
+Usage: `berrybrew info <option>`
+
+Retrieves and displays specific implementation and installation details
+regarding the `berrybrew` installation itself.
+
+Run `berrybrew info` to get a list of the valid options.
 
 #### install
 

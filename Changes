@@ -1,8 +1,12 @@
 Revision history for berrybrew
 
 1.29 UNREL
-        -
-
+        - add missing closing parens on 'remove' if a Perl isn't installed
+          (fixes #196)
+        - added "berrybrew info" command, and info() method. retrieves and
+          displays various installation information (paths etc) (work on #193
+          and #194)
+          
 1.28    2019-11-22
         - modified PathAddBerrybrew() to insert berrybrew's path to the start
           of the PATH as opposed to the end of it

@@ -49,7 +49,7 @@ full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 17aaf6c24ce8ae85aa95c9b673bfd81f6ee6e263`
+[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: dad4d6bfee370e0e3394c1fd691a6e99ae648454`
 
 ##### Git clone
 
@@ -59,7 +59,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 8722800446c22cf89d1b6ba0c6b931f645db6df4`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 85e2b250ca6bae62917df7c5ebfce421b7285384`
 
 After extraction:
 
@@ -101,6 +101,7 @@ documentation for a full explanation of all of the following commands.
     config         Add berrybrew to your PATH
     exec *         Run a command for every installed Strawberry Perl
     fetch          Update the list of Strawberry Perl instances available
+    info           Retrieve details about the berrybrew installation itself
     install        Download, extract and install a Strawberry Perl
     modules *      Export and import a module list from one Perl to install on another
     off            Disable berrybrew perls (use 'switch' to re-enable)
@@ -450,7 +451,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.28
+    1.29
 
 ## Undocumented Features
 

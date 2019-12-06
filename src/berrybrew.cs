@@ -804,6 +804,37 @@ namespace BerryBrew {
                 File.SetAttributes(file, FileAttributes.Normal);
         }
 
+        public void Info(string want){
+            List <string> options = new List<string>(){"install_path", "bin_path", "root_path", "archive_path"};
+
+            if (! options.Contains(want)) {
+                Console.WriteLine("\n'{0}' is not a valid option. Valid options are:\n", want);
+                foreach (string opt in options){
+                    Console.WriteLine("\t{0}", opt);
+                }
+                Environment.Exit(0);
+            }
+
+            switch (want) {
+                case "install_path":
+                    Console.WriteLine("\n\t{0}", InstallPath);
+                    break;
+                case "bin_path":
+                    Console.WriteLine("\n\t{0}", _binPath);
+                    break;
+                case "root_path":
+                    Console.WriteLine("\n\t{0}", RootPath);
+                    break;
+                case "archive_path":
+                    Console.WriteLine("\n\t{0}", ArchivePath);
+                    break;
+                default:
+                    Console.WriteLine("\nCould not fetch details for '{0}'", want);
+                    Environment.Exit(0);
+                    break;
+            }
+        }
+
         public void Install(string version){
 
             StrawberryPerl perl = PerlResolveVersion(version);
@@ -948,11 +979,13 @@ namespace BerryBrew {
             string path = PathGet();
             List<string> newPath = new List<string>();
 
-            if (path == null)
+            if (path == null) {
                 newPath.Add(binPath);
+            }
             else {
-                if (path[path.Length - 1] == ';')
+                if (path[path.Length - 1] == ';') {
                     path = path.Substring(0, path.Length - 1);
+                }
 
                 newPath.Add(binPath);
                 newPath.Add(path);
@@ -1393,8 +1426,6 @@ namespace BerryBrew {
                 Directory.CreateDirectory(RootPath + perlName);
             }
 
-//            Environment.Exit(0);
-            
             Dictionary<string, object> data = new Dictionary<string, object>();
 
             data["name"] = perlName;

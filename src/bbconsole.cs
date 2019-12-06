@@ -137,6 +137,14 @@ namespace berrybrew {
                     }
                     break;
 
+                case "info":
+                    if (args.Length == 1)
+                        bb.Message.Say("info_option_required");
+
+                    bb.Info(args[1]);
+               
+                    break;
+                
                 case "install":
                     if (args.Length == 1)
                         bb.Message.Say("install_ver_required");

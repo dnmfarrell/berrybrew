@@ -1,5 +1,8 @@
 Revision history for berrybrew
 
+1.29 UNREL
+-
+
 1.28    2019-11-22
 - modified PathAddBerrybrew() to insert berrybrew's path to the start
 of the PATH as opposed to the end of it
