@@ -1270,7 +1270,7 @@ namespace BerryBrew {
                     }
                 }
                 else {
-                    Console.WriteLine("Strawberry Perl " + perlVersionToRemove + " not found (are you sure it's installed?");
+                    Console.WriteLine("Strawberry Perl " + perlVersionToRemove + " not found (are you sure it's installed?)");
                     Environment.Exit(0);
                 }
 
