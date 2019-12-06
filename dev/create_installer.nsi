@@ -110,23 +110,36 @@ Function .onInit
   StrCpy $InstDir "$PROGRAMFILES\berrybrew\"
 
   ; check for previously installed versions
-  
-  nsExec::ExecToStack '"berrybrew" version'
+   
+  IfFileExists "$INSTDIR\bin\berrybrew.exe" file_found file_not_found
 
-  Pop $1
+    file_found:
+   
+      MessageBox MB_ICONQUESTION|MB_YESNO "This will overwrite your existing berrybrew install. Continue?" IDYES true IDNO false
+      false: 
+        Abort
+      true:
+        nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" off'
+        nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" unconfig' 
+     
+      goto end_find_file
+      
+    file_not_found:
   
-  ${If} $1 == 0
-    MessageBox MB_ICONQUESTION|MB_YESNO "You have a previous version of berrybrew. Can we try to disable it?" IDYES true IDNO false
-    false:
-      Abort
-    true:
-      nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" off'
-      nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" unconfig'
-  ${EndIf}
+      nsExec::ExecToStack '"berrybrew" version'
+      Pop $1  
 
-  ${If} $0 == 0
-    MessageBox MB_ICONEXCLAMATION "If you need to use your previous version, run 'berrybrew off', and re-run 'config' and 'switch' on the old version."
-  ${EndIf}
+      ${If} $1 == 0
+        MessageBox MB_ICONQUESTION|MB_YESNO "You have a previous version of berrybrew. Can we try to disable it?" IDYES yep IDNO nope
+        nope:
+          Abort
+        yep:
+          nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" off'
+          nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" unconfig'
+          MessageBox MB_ICONEXCLAMATION "If you need to use your previous version, run 'berrybrew off', and re-run 'config' and 'switch' on the old version."
+      ${EndIf}
+    
+    end_find_file:      
 FunctionEnd
 
 Function un.onUninstSuccess

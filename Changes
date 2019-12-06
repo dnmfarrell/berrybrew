@@ -12,7 +12,12 @@ Revision history for berrybrew
           absolute correct entry (fixes #193; closes #194)
         - if 'fetch' is called w/o administrator privileges, we gracefully
           catch this and inform the user instead of crashing (fixes #198)
-                              
+        - installer now uses nsExec::Exec functions as to ensure the command
+          line windows we need to open are not visible (closes #200)
+        - implemented logic in installer to identify whether there's an
+          existing berrybrew, and whether the install will overwrite or sit
+          beside it (closes #195)
+          
 1.28    2019-11-22
         - modified PathAddBerrybrew() to insert berrybrew's path to the start
           of the PATH as opposed to the end of it
