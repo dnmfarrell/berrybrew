@@ -450,12 +450,16 @@ namespace BerryBrew {
         public void Config(){
 
             string configIntro = Message.Get("config_intro");
-            Console.WriteLine(configIntro + Version() + "\n");
+            
+            configIntro = configIntro.Replace("\n", String.Empty);
+            configIntro = configIntro.Replace("\r", String.Empty);            
 
-            if (! PathScan(new Regex("berrybrew.bin"), "machine")){
+            Console.WriteLine("\n{0}{1}", configIntro, Version());
+
+            if (! PathScan(_binPath, "machine")){
                 PathAddBerryBrew(_binPath);
 
-                Message.Print(PathScan(new Regex("berrybrew.bin"), "machine")
+                Message.Print(PathScan(_binPath, "machine")
                     ? "config_success"
                     : "config_failure");
             }
@@ -1030,12 +1034,12 @@ namespace BerryBrew {
         private void PathRemoveBerrybrew(){
 
             string path = PathGet();
-            Regex binPath = new Regex("berrybrew.*bin");
+            string binPath = _binPath;
             List<string> paths = path.Split(new char[] {';'}).ToList();
             List<string> updatedPaths = new List<string>();
 
             foreach (string pathEntry in paths){
-                if (! binPath.Match(pathEntry).Success)
+                if (pathEntry != binPath)
                     updatedPaths.Add(pathEntry);
             }
 
@@ -1066,12 +1070,17 @@ namespace BerryBrew {
                 PathSet(paths);
         }
 
-        private static bool PathScan(Regex binPattern, string target){
+        private static bool PathScan(string binPath, string target){
+            
             var envTarget = target == "machine" ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.User;
 
             string paths = Environment.GetEnvironmentVariable("path", envTarget);
 
-            if (paths != null && paths.Split(new char[] {';'}).Any(path => binPattern.Match(path).Success)) return true;
+            foreach (string path in paths.Split(new char[]{';'})) {
+                if (path == binPath)
+                    return true;
+            }
+
             return false;
         }
 

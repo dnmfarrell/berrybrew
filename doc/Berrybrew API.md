@@ -442,10 +442,10 @@ If `process` is set to `true` (default), we'll execute the removal via
 
 #### PathScan
 
-    private static bool PathScan(Regex binPattern, string target)
+    private static bool PathScan(string binPath, string target)
 
-        argument:   binPattern
-        value:      Regex object containing an executable's filename
+        argument:   binPath
+        value:      string that contains the path to check against 
 
         argument:   target
         value:      "machine" or "user"
