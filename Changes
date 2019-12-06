@@ -10,7 +10,9 @@ Revision history for berrybrew
           a regex. All methods that add/remove from %PATH% now use BB object
           path attributes so we always know we are looking for/working on the
           absolute correct entry (fixes #193; closes #194)
-                    
+        - if 'fetch' is called w/o administrator privileges, we gracefully
+          catch this and inform the user instead of crashing (fixes #198)
+                              
 1.28    2019-11-22
         - modified PathAddBerrybrew() to insert berrybrew's path to the start
           of the PATH as opposed to the end of it

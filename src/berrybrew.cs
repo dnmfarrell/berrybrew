@@ -1588,7 +1588,18 @@ namespace BerryBrew {
                     }
                 } // end build data
 
-                JsonWrite("perls", data, true);
+                try {
+                    JsonWrite("perls", data, true);
+                }
+                catch (System.UnauthorizedAccessException e){
+                    Console.WriteLine("\nYou need to be running with elevated prvileges to run this command\n");
+                    
+                    if (Debug) {
+                        Console.WriteLine(e);
+                    }
+                   
+                    Environment.Exit(0);
+                }
                 
                 Console.WriteLine("Successfully updated the available Perls list...");
             }
