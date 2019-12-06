@@ -94,7 +94,7 @@ FunctionEnd
 
 Function LaunchFinish
   SetOutPath $INSTDIR
-  ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
+  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
 
   ${If} ${SectionIsSelected} ${SEC_INSTALL_NEWEST_PERL}
     ${If} ${FileExists} "C:\berrybrew\5.30.0_64\perl\bin\perl.exe"
@@ -102,7 +102,7 @@ Function LaunchFinish
     ${Else}
       ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" install 5.30.0_64'
     ${EndIf}
-    ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.30.0_64'
+    nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.30.0_64'
   ${EndIf}
 FunctionEnd
 
@@ -111,15 +111,17 @@ Function .onInit
 
   ; check for previously installed versions
   
-  ExecWait '"berrybrew" version' $0
+  nsExec::ExecToStack '"berrybrew" version'
 
-  ${If} $0 == 0
+  Pop $1
+  
+  ${If} $1 == 0
     MessageBox MB_ICONQUESTION|MB_YESNO "You have a previous version of berrybrew. Can we try to disable it?" IDYES true IDNO false
     false:
       Abort
     true:
-      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" off'
-      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" unconfig'
+      nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" off'
+      nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" unconfig'
   ${EndIf}
 
   ${If} $0 == 0
@@ -139,8 +141,8 @@ FunctionEnd
 
 Section Uninstall
   SetOutPath $INSTDIR
-  ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" off'
-  ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" unconfig'
+  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" off'
+  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" unconfig'
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$PROGRAMFILES\berrybrew\src\berrybrew.cs"
