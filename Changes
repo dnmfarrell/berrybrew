@@ -3,7 +3,7 @@ Revision history for berrybrew
 1.29 UNREL
         - add missing closing parens on 'remove' if a Perl isn't installed
           (fixes #196)
-        - added "berrybrew info" command, and info() method. retrieves and
+        - added "berrybrew info" command, and BB.Info() method. retrieves and
           displays various installation information (paths etc) (work on #193
           and #194)
         - PathScan() now accepts a string to search %PATH% with, as opposed to
