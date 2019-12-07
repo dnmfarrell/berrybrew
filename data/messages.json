@@ -1,4 +1,4 @@
-[
+﻿[
 {
     "label": "unconfig",
 
@@ -68,7 +68,11 @@
     "label": "info_option_required",
 
     "content": [
-        "\n'info' command requires an option argument to be send in"
+        "\n'info' command requires an option argument to be send in. Valid options:\n",
+        "\t archive_path",
+        "\t root_path",
+        "\t install_path",
+        "\t bin_path"
     ]
 },
 {
@@ -156,7 +160,6 @@
         "    config         Add berrybrew to your PATH",
         "    exec *         Run a command for every installed Strawberry Perl",
         "    fetch          Update the list of Strawberry Perl instances available",
-        "    info           Retrieve information about the berrybrew installation itself",
         "    install        Download, extract and install a Strawberry Perl",
         "    modules *      Export and import a module list from one Perl to install on another",
         "    off            Disable berrybrew perls (use 'switch' to re-enable)",

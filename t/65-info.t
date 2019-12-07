@@ -5,9 +5,8 @@ use Test::More;
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 
-print "$c\n";
-
 my ($bbpath) = $c =~ m|(.*)/berrybrew|;
+$bbpath =~ s|/||g;
 
 my %valid_opts = (
     archive_path    => 'c:\berrybrew\test\temp',
@@ -20,17 +19,17 @@ like `$c info`, qr/requires an option argument/, "info with no args ok";
 
 like `$c info invalid`, qr/is not a valid option/, "info with bad arg ok";
 
-for (keys %valid_opts){
-    my $o = `$c info $_`;
+for my $f (keys %valid_opts){
+    my $o = `$c info $f`;
     $o =~ tr/\n//d;
     $o =~ s/^\s+//;
     $o =~ s|\\|/|g;
     $o =~ s/\/$//;
 
-    $valid_opts{$_} =~ s/\/$//;
-    $valid_opts{$_} =~ s/\\/\//g;
-    
-    is lc $o, lc $valid_opts{$_}, "'$_' has proper path returned";
+    $valid_opts{$f} =~ s/\/$//;
+    $valid_opts{$f} =~ s/\\/\//g;
+
+    is lc $valid_opts{$f}, lc $o, "'$f' has proper path returned";
 }
 
 done_testing();

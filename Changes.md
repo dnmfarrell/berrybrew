@@ -1,8 +1,20 @@
 Revision history for berrybrew
 
 1.29 UNREL
--
-
+- add missing closing parens on 'remove' if a Perl isn't installed
+(fixes #196)
+- added "berrybrew info" command, and info() method. retrieves and
+displays various installation information (paths etc) (work on #193
+and #194)
+- PathScan() now accepts a string to search %PATH% with, as opposed to
+a regex. All methods that add/remove from %PATH% now use BB object
+path attributes so we always know we are looking for/working on the
+absolute correct entry (fixes #193; closes #194)
+- if 'fetch' is called w/o administrator privileges, we gracefully
+catch this and inform the user instead of crashing (fixes #198)
+- installer now uses nsExec::Exec functions as to ensure the command
+line windows we need to open are not visible (closes #200)
+          
 1.28    2019-11-22
 - modified PathAddBerrybrew() to insert berrybrew's path to the start
 of the PATH as opposed to the end of it
