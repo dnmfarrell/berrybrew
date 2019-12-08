@@ -117,7 +117,7 @@ Function .onInit
 
     file_found:
    
-      MessageBox MB_ICONQUESTION|MB_YESNO "This will overwrite your existing berrybrew install. Continue?" IDYES true IDNO false
+      MessageBox MB_ICONQUESTION|MB_YESNO "This will upgrade your existing berrybrew install. Continue?" IDYES true IDNO false
       false: 
         Abort
       true:
