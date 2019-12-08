@@ -1610,6 +1610,8 @@ namespace BerryBrew {
                 
                 Console.WriteLine("Successfully updated the available Perls list...");
             }
+        
+            PerlUpdateAvailableListOrphans();
         }
 
         public void PerlUpdateAvailableListOrphans(){
@@ -1621,7 +1623,7 @@ namespace BerryBrew {
                 PerlRegisterCustomInstall(orphan);
             }
         }
-        
+       
         private StrawberryPerl PerlResolveVersion(string version){
 
             foreach (StrawberryPerl perl in _perls.Values){
@@ -1631,7 +1633,24 @@ namespace BerryBrew {
 
             throw new ArgumentException("Unknown version: " + version);
         }
+        
+        private static Process ProcessCreate(string cmd, bool hidden=true){
 
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+
+            if (hidden)
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/c " + cmd;
+            process.StartInfo = startInfo;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            return process;
+        }
+        
         public void Switch(string switchToVersion, bool switchQuick=false){
 
             try {
@@ -1779,28 +1798,7 @@ namespace BerryBrew {
                 Console.WriteLine(objException);
             }
         }
-
-        public string Version(){
-            return @"1.29";
-        }
-
-        private static Process ProcessCreate(string cmd, bool hidden=true){
-
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-
-            if (hidden)
-                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-
-            startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = "/c " + cmd;
-            process.StartInfo = startInfo;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.UseShellExecute = false;
-            return process;
-        }
-
+        
         public void Upgrade(){
 
             TimeSpan span = DateTime.Now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0));
@@ -1866,7 +1864,13 @@ namespace BerryBrew {
                 File.Copy(s, destFile, true);
             }
 
+            PerlUpdateAvailableListOrphans();
+            
             Console.WriteLine("\nSuccessfully upgraded berrybrew\n");
+        }
+        
+        public string Version(){
+            return @"1.29";
         }
     }
 
