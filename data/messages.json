@@ -39,7 +39,7 @@
     "label": "config_success",
 
     "content": [
-        "\nberrybrew was successfully added to PATH, start a new terminal to use it."
+        "\nberrybrew was successfully added to PATH, run 'berrybrew-refresh' to use it."
     ]
 },
 {

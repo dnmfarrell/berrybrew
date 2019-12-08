@@ -37,6 +37,7 @@ ShowUnInstDetails show
 Section "-MainSection" SEC_MAIN
   SetOverwrite try
   SetOutPath "$PROGRAMFILES\berrybrew\bin"
+  File "..\bin\berrybrew-refresh.bat"
   File "..\bin\bbapi.dll"
   File "..\bin\berrybrew.exe"
   File "..\bin\ICSharpCode.SharpZipLib.dll"
@@ -66,7 +67,7 @@ Section "-MainSection" SEC_MAIN
   File "..\src\berrybrew.cs"
 SectionEnd
 
-Section "Perl 5.30.0_64" SEC_INSTALL_NEWEST_PERL
+Section "Perl 5.30.1_64" SEC_INSTALL_NEWEST_PERL
 SectionEnd
 
 Section -AdditionalIcons
@@ -97,12 +98,12 @@ Function LaunchFinish
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
 
   ${If} ${SectionIsSelected} ${SEC_INSTALL_NEWEST_PERL}
-    ${If} ${FileExists} "C:\berrybrew\5.30.0_64\perl\bin\perl.exe"
-      MessageBox MB_OK "Perl 5.30.0_64 is already installed, we'll switch to it"
+    ${If} ${FileExists} "C:\berrybrew\5.30.1_64\perl\bin\perl.exe"
+      MessageBox MB_OK "Perl 5.30.1_64 is already installed, we'll switch to it"
     ${Else}
-      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" install 5.30.0_64'
+      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" install 5.30.1_64'
     ${EndIf}
-    nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.30.0_64'
+    nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.30.1_64'
   ${EndIf}
 FunctionEnd
 
@@ -177,6 +178,7 @@ Section Uninstall
   Delete "$PROGRAMFILES\berrybrew\CONTRIBUTING.md"
   Delete "$PROGRAMFILES\berrybrew\Changes.md"
   Delete "$PROGRAMFILES\berrybrew\Changes"
+  Delete "$PROGRAMFILES\berrybrew\bin\berrybrew-refresh.bat"
   Delete "$PROGRAMFILES\berrybrew\bin\Newtonsoft.Json.dll"
   Delete "$PROGRAMFILES\berrybrew\bin\ICSharpCode.SharpZipLib.dll"
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.exe"

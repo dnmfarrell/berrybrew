@@ -24,5 +24,6 @@ call mcs^
     -out:test/berrybrew.exe^
     src\bbconsole.cs
 
+copy bin\berrybrew-refresh.bat test\
 copy bin\ICSharpCode.SharpZipLib.dll test\
 copy bin\Newtonsoft.Json.dll test\

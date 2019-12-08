@@ -24,5 +24,6 @@ call mcs^
     -out:build/berrybrew.exe^
     src\bbconsole.cs
 
+copy bin\berrybrew-refresh.bat build\
 copy bin\ICSharpCode.SharpZipLib.dll build\
 copy bin\Newtonsoft.Json.dll build\
