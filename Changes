@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.29 UNREL
+1.29    2019-12-08
         - add missing closing parens on 'remove' if a Perl isn't installed
           (fixes #196)
         - added "berrybrew info" command, and BB.Info() method. retrieves and

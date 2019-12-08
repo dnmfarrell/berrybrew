@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.29 UNREL
+1.29    2019-12-08
 - add missing closing parens on 'remove' if a Perl isn't installed
 (fixes #196)
 - added "berrybrew info" command, and BB.Info() method. retrieves and
@@ -18,7 +18,19 @@ line windows we need to open are not visible (closes #200)
 existing berrybrew, and whether the install will overwrite or sit
 beside it (closes #195)
 - update test data with Perl 5.30.1 data
-          
+- added 'berrybrew-refresh' batch script to allow updating PATH env
+var in current window (saves from having to open new cmd windows all
+the time
+- 'clean modules' and 'clean temp' now check for directory existence
+before processing to avoid uncaught exceptions (fixes #202)
+- added 'register_orphans' hidden command
+- added calls to PerlUpdateAvailableListOrphans() in Upgrade() and
+added call to 'berrybrew register_orphans' in the installer. This
+ensures that if 'perls.json' is updated, the old Perl instances will
+be registered and available (fixes #199)
+- if source Perl for clone operation isn't available, exit gracefully
+(fixes #205)
+-   
 1.28    2019-11-22
 - modified PathAddBerrybrew() to insert berrybrew's path to the start
 of the PATH as opposed to the end of it
