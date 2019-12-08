@@ -1615,6 +1615,23 @@ namespace BerryBrew {
             }
         }
         
+        private static Process ProcessCreate(string cmd, bool hidden=true){
+
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+
+            if (hidden)
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/c " + cmd;
+            process.StartInfo = startInfo;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            return process;
+        }
+        
         private StrawberryPerl PerlResolveVersion(string version){
 
             foreach (StrawberryPerl perl in _perls.Values){
@@ -1772,28 +1789,7 @@ namespace BerryBrew {
                 Console.WriteLine(objException);
             }
         }
-
-        public string Version(){
-            return @"1.29";
-        }
-
-        private static Process ProcessCreate(string cmd, bool hidden=true){
-
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-
-            if (hidden)
-                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-
-            startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = "/c " + cmd;
-            process.StartInfo = startInfo;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.UseShellExecute = false;
-            return process;
-        }
-
+        
         public void Upgrade(){
 
             TimeSpan span = DateTime.Now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0));
@@ -1860,6 +1856,10 @@ namespace BerryBrew {
             }
 
             Console.WriteLine("\nSuccessfully upgraded berrybrew\n");
+        }
+        
+        public string Version(){
+            return @"1.29";
         }
     }
 
