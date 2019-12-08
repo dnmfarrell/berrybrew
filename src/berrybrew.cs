@@ -1880,7 +1880,7 @@ namespace BerryBrew {
         }
         
         public string Version(){
-            return @"1.29";
+            return @"1.30";
         }
     }
 
