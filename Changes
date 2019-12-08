@@ -21,6 +21,8 @@ Revision history for berrybrew
         - added 'berrybrew-refresh' batch script to allow updating PATH env
           var in current window (saves from having to open new cmd windows all
           the time
+        - `clean modules` and `clean temp` now check for directory existence
+          before processing to avoid uncaught exceptions (fixes #202)
           
 1.28    2019-11-22
         - modified PathAddBerrybrew() to insert berrybrew's path to the start
