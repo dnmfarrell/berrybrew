@@ -41,7 +41,7 @@ full list of documentation.
 - [Caveats](#caveats)
 - [License](#license)
 - [Version](#version)
-- [Undocumented Features](#undocumented-features)
+- [Hidden Features](#hidden-features)
 
 ## Install
 
@@ -49,7 +49,7 @@ full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 17aaf6c24ce8ae85aa95c9b673bfd81f6ee6e263`
+[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: `
 
 ##### Git clone
 
@@ -59,7 +59,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 8722800446c22cf89d1b6ba0c6b931f645db6df4`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: `
 
 After extraction:
 
@@ -101,6 +101,7 @@ documentation for a full explanation of all of the following commands.
     config         Add berrybrew to your PATH
     exec *         Run a command for every installed Strawberry Perl
     fetch          Update the list of Strawberry Perl instances available
+    info           Retrieve details about the berrybrew installation itself
     install        Download, extract and install a Strawberry Perl
     modules *      Export and import a module list from one Perl to install on another
     off            Disable berrybrew perls (use 'switch' to re-enable)
@@ -176,7 +177,7 @@ Switch to a different version (permanently):
 
     > berrybrew switch 5.30.0_64
 
-    Switched to 5.30.0_64, start a new terminal to use it.
+    Switched to 5.30.0_64, run 'berrybrew-refresh' to use it.
 
 Start a new cmd.exe to use the new version:
 
@@ -189,7 +190,8 @@ Switch to a different version (permanently) without needing a new console window
     > berrybrew switch 5.30.0_64 quick
     
 You may run into issues running external binaries along with certain features with
-the 'quick' feature. If so, simply close the existing window, and open a new one.
+the 'quick' feature. If so, simply run `berrybrew-refresh`, or start a new terminal
+window.
     
 Clone an installed instance (very useful for setting up a main instance,
 and cloning it into an instance named "template")
@@ -325,8 +327,7 @@ export the module list for, and:
     > berrybrew modules export
 
 Then, `berrybrew switch` to the Perl instance you want to import the
-exported modules into. You'll need to close and reopen a new command
-window, as always.
+exported modules into, then run `berrybrew-refresh` to reset the environment.
 
 Then, the following command will display a list of all exported module
 files from any/all Perl instances you've done an export from:
@@ -450,9 +451,9 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.28
+    1.29
 
-## Undocumented Features
+## Hidden Features
 
 There are certain features that should only be used by developers and
 maintainers of this software. There's only a couple, so if I create
@@ -492,6 +493,12 @@ Usage:
     berrybrew currentperl
 
 Used primarily for certain unit tests.
+
+#### register_orphans
+
+This will register all orphaned Perl instances. Used primarily during the
+self-extracting installer during an upgrade to ensure that if the `perls.json`
+file has changed, all previous Perl instances will be visible and usable.
 
 ## Original Author
 

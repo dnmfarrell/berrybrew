@@ -62,6 +62,18 @@ for my $base (<$fh>){
     unlike $path, qr/^C:\\berrybrew\\test/, "PATH set ok for 'off'";
 }
 
+{ # clone unknown
+    
+    my $o = `$c clone unknown blah`;
+    like $o, qr/Can't clone/, "if a Perl isn't known, fail clone gracefully";
+}
+
+{ # clone uninstalled
+
+    my $o = `$c clone 5.20.3_64 blah`;
+    like $o, qr/installed.*Can't clone/, "if a Perl isn't installed, fail clone gracefully";
+}
+
 $o = `$c remove custom`;
 like $o, qr/Successfully/, "remove custom install ok";
 

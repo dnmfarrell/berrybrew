@@ -106,7 +106,6 @@ namespace berrybrew {
                     }
 
                     bb.PerlUpdateAvailableList(allPerls);
-                    bb.PerlUpdateAvailableListOrphans();
                     break;
 
                 case "help":
@@ -137,6 +136,14 @@ namespace berrybrew {
                     }
                     break;
 
+                case "info":
+                    if (args.Length == 1)
+                        bb.Message.Say("info_option_required");
+
+                    bb.Info(args[1]);
+               
+                    break;
+                
                 case "install":
                     if (args.Length == 1)
                         bb.Message.Say("install_ver_required");
@@ -203,6 +210,10 @@ namespace berrybrew {
                         bb.Message.Say("register_ver_required");
 
                     bb.PerlRegisterCustomInstall(args[1]);
+                    break;
+
+                case "register_orphans":
+                    bb.PerlUpdateAvailableListOrphans();
                     break;
 
                 case "remove":

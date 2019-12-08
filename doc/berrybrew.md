@@ -10,6 +10,7 @@
 - [config](#config)
 - [exec](#exec)
 - [fetch](#fetch)
+- [info](#info)
 - [install](#install)
 - [modules](#modules)
 - [off](#off)
@@ -135,6 +136,15 @@ Send in the all string as a subcommand and instead of listing the most
 recent version for every major version, we'll download every version that
 Strawberry has to offer.
 
+#### info
+
+Usage: `berrybrew info <option>`
+
+Retrieves and displays specific implementation and installation details
+regarding the `berrybrew` installation itself.
+
+Run `berrybrew info` to get a list of the valid options.
+
 #### install
 
 Usage:  `berrybrew install <version>`
@@ -195,8 +205,8 @@ switched-to Perl, or use `switch` to change to a different one.
 
 If the `quick` argument is sent in, we'll make system changes in a way that
 a new console window isn't required. WARNING: Some binaries and other features
-may not work correctly using this method. If you have problems, simply close
-the current window and open a new one.
+may not work correctly using this method. If you have problems, simply run
+`berrybrew-refresh`.
 
 #### unconfig
 

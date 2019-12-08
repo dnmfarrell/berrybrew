@@ -2,7 +2,7 @@
 !include MUI2.nsh
 
 !define PRODUCT_NAME "berrybrew"
-!define PRODUCT_VERSION "1.28"
+!define PRODUCT_VERSION "1.29"
 !define PRODUCT_PUBLISHER "Steve Bertrand"
 !define PRODUCT_WEB_SITE "https://github.com/stevieb9/berrybrew"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\berrybrew.exe"
@@ -37,6 +37,7 @@ ShowUnInstDetails show
 Section "-MainSection" SEC_MAIN
   SetOverwrite try
   SetOutPath "$PROGRAMFILES\berrybrew\bin"
+  File "..\bin\berrybrew-refresh.bat"
   File "..\bin\bbapi.dll"
   File "..\bin\berrybrew.exe"
   File "..\bin\ICSharpCode.SharpZipLib.dll"
@@ -66,7 +67,7 @@ Section "-MainSection" SEC_MAIN
   File "..\src\berrybrew.cs"
 SectionEnd
 
-Section "Perl 5.30.0_64" SEC_INSTALL_NEWEST_PERL
+Section "Perl 5.30.1_64" SEC_INSTALL_NEWEST_PERL
 SectionEnd
 
 Section -AdditionalIcons
@@ -94,15 +95,16 @@ FunctionEnd
 
 Function LaunchFinish
   SetOutPath $INSTDIR
-  ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
+  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
+  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" register_orphans'
 
   ${If} ${SectionIsSelected} ${SEC_INSTALL_NEWEST_PERL}
-    ${If} ${FileExists} "C:\berrybrew\5.30.0_64\perl\bin\perl.exe"
-      MessageBox MB_OK "Perl 5.30.0_64 is already installed, we'll switch to it"
+    ${If} ${FileExists} "C:\berrybrew\5.30.1_64\perl\bin\perl.exe"
+      MessageBox MB_OK "Perl 5.30.1_64 is already installed, we'll switch to it"
     ${Else}
-      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" install 5.30.0_64'
+      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" install 5.30.1_64'
     ${EndIf}
-    ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.30.0_64'
+    nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.30.1_64'
   ${EndIf}
 FunctionEnd
 
@@ -110,21 +112,36 @@ Function .onInit
   StrCpy $InstDir "$PROGRAMFILES\berrybrew\"
 
   ; check for previously installed versions
+   
+  IfFileExists "$INSTDIR\bin\berrybrew.exe" file_found file_not_found
+
+    file_found:
+   
+      MessageBox MB_ICONQUESTION|MB_YESNO "This will overwrite your existing berrybrew install. Continue?" IDYES true IDNO false
+      false: 
+        Abort
+      true:
+        nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" off'
+        nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" unconfig' 
+     
+      goto end_find_file
+      
+    file_not_found:
   
-  ExecWait '"berrybrew" version' $0
+      nsExec::ExecToStack '"berrybrew" version'
+      Pop $1  
 
-  ${If} $0 == 0
-    MessageBox MB_ICONQUESTION|MB_YESNO "You have a previous version of berrybrew. Can we try to disable it?" IDYES true IDNO false
-    false:
-      Abort
-    true:
-      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" off'
-      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" unconfig'
-  ${EndIf}
-
-  ${If} $0 == 0
-    MessageBox MB_ICONEXCLAMATION "If you need to use your previous version, run 'berrybrew off', and re-run 'config' and 'switch' on the old version."
-  ${EndIf}
+      ${If} $1 == 0
+        MessageBox MB_ICONQUESTION|MB_YESNO "You have a previous version of berrybrew. Can we try to disable it?" IDYES yep IDNO nope
+        nope:
+          Abort
+        yep:
+          nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" off'
+          nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" unconfig'
+          MessageBox MB_ICONEXCLAMATION "If you need to use your previous version, run 'berrybrew off', and re-run 'config' and 'switch' on the old version."
+      ${EndIf}
+    
+    end_find_file:      
 FunctionEnd
 
 Function un.onUninstSuccess
@@ -139,8 +156,8 @@ FunctionEnd
 
 Section Uninstall
   SetOutPath $INSTDIR
-  ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" off'
-  ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" unconfig'
+  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" off'
+  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" unconfig'
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$PROGRAMFILES\berrybrew\src\berrybrew.cs"
@@ -162,6 +179,7 @@ Section Uninstall
   Delete "$PROGRAMFILES\berrybrew\CONTRIBUTING.md"
   Delete "$PROGRAMFILES\berrybrew\Changes.md"
   Delete "$PROGRAMFILES\berrybrew\Changes"
+  Delete "$PROGRAMFILES\berrybrew\bin\berrybrew-refresh.bat"
   Delete "$PROGRAMFILES\berrybrew\bin\Newtonsoft.Json.dll"
   Delete "$PROGRAMFILES\berrybrew\bin\ICSharpCode.SharpZipLib.dll"
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.exe"

@@ -1,5 +1,36 @@
 Revision history for berrybrew
 
+1.29    2019-12-08
+- add missing closing parens on 'remove' if a Perl isn't installed
+(fixes #196)
+- added "berrybrew info" command, and BB.Info() method. retrieves and
+displays various installation information (paths etc) (work on #193
+and #194)
+- PathScan() now accepts a string to search %PATH% with, as opposed to
+a regex. All methods that add/remove from %PATH% now use BB object
+path attributes so we always know we are looking for/working on the
+absolute correct entry (fixes #193; closes #194)
+- if 'fetch' is called w/o administrator privileges, we gracefully
+catch this and inform the user instead of crashing (fixes #198)
+- installer now uses nsExec::Exec functions as to ensure the command
+line windows we need to open are not visible (closes #200)
+- implemented logic in installer to identify whether there's an
+existing berrybrew, and whether the install will overwrite or sit
+beside it (closes #195)
+- update test data with Perl 5.30.1 data
+- added 'berrybrew-refresh' batch script to allow updating PATH env
+var in current window (saves from having to open new cmd windows all
+the time
+- 'clean modules' and 'clean temp' now check for directory existence
+before processing to avoid uncaught exceptions (fixes #202)
+- added 'register_orphans' hidden command
+- added calls to PerlUpdateAvailableListOrphans() in Upgrade() and
+added call to 'berrybrew register_orphans' in the installer. This
+ensures that if 'perls.json' is updated, the old Perl instances will
+be registered and available (fixes #199)
+- if source Perl for clone operation isn't available, exit gracefully
+(fixes #205)
+
 1.28    2019-11-22
 - modified PathAddBerrybrew() to insert berrybrew's path to the start
 of the PATH as opposed to the end of it
@@ -9,7 +40,7 @@ disable a previous version
 1.27    2019-11-22
 - we now have a self-extracting installer!
 - fix issue where 'list' wasn't showing the 'virtual' tag (fixes #186)
-- added installer NSIS script and logic to automatically build the
+- aded installer NSIS script and logic to automatically build the
 binary during the release process
 - 'remove' now displays notification of its actions (closes #190)
 - fix label ordering issue in custom_install test file

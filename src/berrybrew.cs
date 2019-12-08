@@ -282,11 +282,12 @@ namespace BerryBrew {
         
         private bool CleanModules(){
             string moduleDir = RootPath + "modules\\";
-            string[] moduleListFiles = Directory.GetFiles(moduleDir);
 
             if (! Directory.Exists(moduleDir)) {
                 return true;
             }
+            
+            string[] moduleListFiles = Directory.GetFiles(moduleDir);
 
             try {
                     FilesystemResetAttributes(moduleDir);
@@ -386,7 +387,13 @@ namespace BerryBrew {
         }
 
         private bool CleanTemp(){
+            
+            if (! Directory.Exists(ArchivePath)) {
+                return true;
+            }           
+           
             DirectoryInfo archiveDir = new DirectoryInfo(ArchivePath);
+            
             FilesystemResetAttributes(archiveDir.FullName);
 
             List<FileInfo> zipFiles = archiveDir.GetFiles().ToList();
@@ -402,17 +409,27 @@ namespace BerryBrew {
             if (! CheckName(destPerlName))
                 return false;
 
-            StrawberryPerl sourcePerl = PerlResolveVersion(sourcePerlName);
+            StrawberryPerl sourcePerl = new StrawberryPerl();
+            
+            try {
+                sourcePerl = PerlResolveVersion(sourcePerlName);
+            }
+            catch (System.ArgumentException e) {
+                Console.WriteLine("\n'{0}' is an unknown version of Perl. Can't clone.", sourcePerlName);
+                if (Debug)
+                    Console.WriteLine("\n{0}", e);
+                Environment.Exit(0);
+            }
+
             string sourcePerlDir = sourcePerl.InstallPath;
             string destPerlDir = RootPath + destPerlName;
             DirectoryInfo src = new DirectoryInfo(sourcePerlDir);
 
-            if (! src.Exists){
-                throw new DirectoryNotFoundException(
-                    "Source directory does not exist or could not be found: "
-                    + sourcePerlDir
-                );
+            if (! src.Exists) {
+                Console.WriteLine("\nPerl instance '{0}' isn't installed. Can't clone.", sourcePerlName);
+                Environment.Exit(0);
             }
+            
             try {
                 if (! Directory.Exists(destPerlDir))
                     Directory.CreateDirectory(destPerlDir);
@@ -450,95 +467,23 @@ namespace BerryBrew {
         public void Config(){
 
             string configIntro = Message.Get("config_intro");
-            Console.WriteLine(configIntro + Version() + "\n");
+            
+            configIntro = configIntro.Replace("\n", String.Empty);
+            configIntro = configIntro.Replace("\r", String.Empty);            
 
-            if (! PathScan(new Regex("berrybrew.bin"), "machine")){
+            Console.WriteLine("\n{0}{1}", configIntro, Version());
+
+            if (! PathScan(_binPath, "machine")){
                 PathAddBerryBrew(_binPath);
 
-                Message.Print(PathScan(new Regex("berrybrew.bin"), "machine")
+                Message.Print(PathScan(_binPath, "machine")
                     ? "config_success"
                     : "config_failure");
             }
             else
                 Message.Print("config_complete");
         }
-
-        public void ImportModules(string version=""){
-
-            string moduleDir = RootPath + "modules\\";
-
-            if (! Directory.Exists(moduleDir)) {
-                Directory.CreateDirectory((moduleDir));
-            }
-            
-            if (version == "") {
-                string[] moduleListFiles = Directory.GetFiles(moduleDir);
-
-                if (moduleListFiles.Length == 0) {
-                    Console.WriteLine("\nno module lists to import from. Run 'berrybrew modules export', then re-run the import command...\n"); 
-                    Environment.Exit(0);
-                }
-                
-                Console.WriteLine("\nre-run the command with one of the following options:\n");
-                
-                foreach (string fileName in moduleListFiles){
-                    if (fileName.Contains("~"))
-                        continue;
-                    
-                    Console.WriteLine(Path.GetFileName(fileName)); 
-                }
-
-                Console.WriteLine();
-            }
-            else {
-                ImportModulesExec(version, moduleDir + version);
-            }
-        }
-
-        private void ImportModulesExec(string file, string path){
-            if (file == PerlInUse().Name) {
-                Console.WriteLine("\ncan't import modules exported from the same perl version\n");
-                Console.WriteLine("you're trying to use an export from version {0} and you're on {1}\n", file, arg1: PerlInUse().Name);
-                Environment.Exit(0);
-            }
-                
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo {WindowStyle = ProcessWindowStyle.Hidden};
-
-            path = path.Replace("\\", "/");
-            
-            Console.WriteLine(path);
-            
-            string perlCmd = "while(<>){print $_}\" " + path;
-            string cmd = "perl -wMstrict -E \"" + perlCmd + " | cpanm";
-           
-            Console.WriteLine(cmd);
-            
-            startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = "/c " + cmd;
         
-            process.StartInfo = startInfo;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.UseShellExecute = false;
-            process.Start();
-
-            process.OutputDataReceived += (proc, line)=>{
-                if( line.Data != null){
-                    Console.Out.WriteLine(line.Data);
-                }
-            };
-            process.ErrorDataReceived += (proc, line)=>{
-                if( line.Data != null){
-                    Console.Error.WriteLine(line.Data);
-                }
-            };
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-            process.WaitForExit();
-            
-        }
-
         public void ExportModules(){
             StrawberryPerl perl = PerlInUse();
 
@@ -804,6 +749,111 @@ namespace BerryBrew {
                 File.SetAttributes(file, FileAttributes.Normal);
         }
 
+        public void ImportModules(string version=""){
+
+            string moduleDir = RootPath + "modules\\";
+
+            if (! Directory.Exists(moduleDir)) {
+                Directory.CreateDirectory((moduleDir));
+            }
+            
+            if (version == "") {
+                string[] moduleListFiles = Directory.GetFiles(moduleDir);
+
+                if (moduleListFiles.Length == 0) {
+                    Console.WriteLine("\nno module lists to import from. Run 'berrybrew modules export', then re-run the import command...\n"); 
+                    Environment.Exit(0);
+                }
+                
+                Console.WriteLine("\nre-run the command with one of the following options:\n");
+                
+                foreach (string fileName in moduleListFiles){
+                    if (fileName.Contains("~"))
+                        continue;
+                    
+                    Console.WriteLine(Path.GetFileName(fileName)); 
+                }
+
+                Console.WriteLine();
+            }
+            else {
+                ImportModulesExec(version, moduleDir + version);
+            }
+        }
+
+        private void ImportModulesExec(string file, string path){
+            if (file == PerlInUse().Name) {
+                Console.WriteLine("\ncan't import modules exported from the same perl version\n");
+                Console.WriteLine("you're trying to use an export from version {0} and you're on {1}\n", file, arg1: PerlInUse().Name);
+                Environment.Exit(0);
+            }
+                
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo {WindowStyle = ProcessWindowStyle.Hidden};
+
+            path = path.Replace("\\", "/");
+            
+            Console.WriteLine(path);
+            
+            string perlCmd = "while(<>){print $_}\" " + path;
+            string cmd = "perl -wMstrict -E \"" + perlCmd + " | cpanm";
+           
+            Console.WriteLine(cmd);
+            
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/c " + cmd;
+        
+            process.StartInfo = startInfo;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.Start();
+
+            process.OutputDataReceived += (proc, line)=>{
+                if( line.Data != null){
+                    Console.Out.WriteLine(line.Data);
+                }
+            };
+            process.ErrorDataReceived += (proc, line)=>{
+                if( line.Data != null){
+                    Console.Error.WriteLine(line.Data);
+                }
+            };
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+        }
+        
+        public void Info(string want){
+            List <string> options = new List<string>(){"install_path", "bin_path", "root_path", "archive_path"};
+
+            if (! options.Contains(want)) {
+                Console.WriteLine("\n'{0}' is not a valid option. Valid options are:\n", want);
+                foreach (string opt in options){
+                    Console.WriteLine("\t{0}", opt);
+                }
+                Environment.Exit(0);
+            }
+
+            switch (want) {
+                case "install_path":
+                    Console.WriteLine("\n\t{0}", InstallPath);
+                    break;
+                case "bin_path":
+                    Console.WriteLine("\n\t{0}", _binPath);
+                    break;
+                case "root_path":
+                    Console.WriteLine("\n\t{0}", RootPath);
+                    break;
+                case "archive_path":
+                    Console.WriteLine("\n\t{0}", ArchivePath);
+                    break;
+                default:
+                    Console.WriteLine("\nCould not fetch details for '{0}'", want);
+                    Environment.Exit(0);
+                    break;
+            }
+        }
+
         public void Install(string version){
 
             StrawberryPerl perl = PerlResolveVersion(version);
@@ -940,7 +990,7 @@ namespace BerryBrew {
         public void Off(){
 
             PathRemovePerl();
-            Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
+            Console.Write("berrybrew perl disabled. Run 'berrybrew-refresh' to use the system perl\n");
         }
 
         private void PathAddBerryBrew(string binPath){
@@ -948,11 +998,13 @@ namespace BerryBrew {
             string path = PathGet();
             List<string> newPath = new List<string>();
 
-            if (path == null)
+            if (path == null) {
                 newPath.Add(binPath);
+            }
             else {
-                if (path[path.Length - 1] == ';')
+                if (path[path.Length - 1] == ';') {
                     path = path.Substring(0, path.Length - 1);
+                }
 
                 newPath.Add(binPath);
                 newPath.Add(path);
@@ -997,12 +1049,12 @@ namespace BerryBrew {
         private void PathRemoveBerrybrew(){
 
             string path = PathGet();
-            Regex binPath = new Regex("berrybrew.*bin");
+            string binPath = _binPath;
             List<string> paths = path.Split(new char[] {';'}).ToList();
             List<string> updatedPaths = new List<string>();
 
             foreach (string pathEntry in paths){
-                if (! binPath.Match(pathEntry).Success)
+                if (pathEntry != binPath)
                     updatedPaths.Add(pathEntry);
             }
 
@@ -1033,12 +1085,17 @@ namespace BerryBrew {
                 PathSet(paths);
         }
 
-        private static bool PathScan(Regex binPattern, string target){
+        private static bool PathScan(string binPath, string target){
+            
             var envTarget = target == "machine" ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.User;
 
             string paths = Environment.GetEnvironmentVariable("path", envTarget);
 
-            if (paths != null && paths.Split(new char[] {';'}).Any(path => binPattern.Match(path).Success)) return true;
+            foreach (string path in paths.Split(new char[]{';'})) {
+                if (path == binPath)
+                    return true;
+            }
+
             return false;
         }
 
@@ -1270,7 +1327,7 @@ namespace BerryBrew {
                     }
                 }
                 else {
-                    Console.WriteLine("Strawberry Perl " + perlVersionToRemove + " not found (are you sure it's installed?");
+                    Console.WriteLine("Strawberry Perl " + perlVersionToRemove + " not found (are you sure it's installed?)");
                     Environment.Exit(0);
                 }
 
@@ -1393,8 +1450,6 @@ namespace BerryBrew {
                 Directory.CreateDirectory(RootPath + perlName);
             }
 
-//            Environment.Exit(0);
-            
             Dictionary<string, object> data = new Dictionary<string, object>();
 
             data["name"] = perlName;
@@ -1550,10 +1605,23 @@ namespace BerryBrew {
                     }
                 } // end build data
 
-                JsonWrite("perls", data, true);
+                try {
+                    JsonWrite("perls", data, true);
+                }
+                catch (System.UnauthorizedAccessException e){
+                    Console.WriteLine("\nYou need to be running with elevated prvileges to run this command\n");
+                    
+                    if (Debug) {
+                        Console.WriteLine(e);
+                    }
+                   
+                    Environment.Exit(0);
+                }
                 
                 Console.WriteLine("Successfully updated the available Perls list...");
             }
+        
+            PerlUpdateAvailableListOrphans();
         }
 
         public void PerlUpdateAvailableListOrphans(){
@@ -1565,7 +1633,7 @@ namespace BerryBrew {
                 PerlRegisterCustomInstall(orphan);
             }
         }
-        
+       
         private StrawberryPerl PerlResolveVersion(string version){
 
             foreach (StrawberryPerl perl in _perls.Values){
@@ -1575,7 +1643,24 @@ namespace BerryBrew {
 
             throw new ArgumentException("Unknown version: " + version);
         }
+        
+        private static Process ProcessCreate(string cmd, bool hidden=true){
 
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+
+            if (hidden)
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/c " + cmd;
+            process.StartInfo = startInfo;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            return process;
+        }
+        
         public void Switch(string switchToVersion, bool switchQuick=false){
 
             try {
@@ -1602,7 +1687,7 @@ namespace BerryBrew {
                 );
 
 				if (!switchQuick)
-					Console.WriteLine("Open a new command line window to use it\n");
+					Console.WriteLine("Run 'berrybrew-refresh' to use it.\n");
             }
             catch (ArgumentException){
                 Message.Print("perl_unknown_version");
@@ -1723,28 +1808,7 @@ namespace BerryBrew {
                 Console.WriteLine(objException);
             }
         }
-
-        public string Version(){
-            return @"1.28";
-        }
-
-        private static Process ProcessCreate(string cmd, bool hidden=true){
-
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-
-            if (hidden)
-                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-
-            startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = "/c " + cmd;
-            process.StartInfo = startInfo;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.UseShellExecute = false;
-            return process;
-        }
-
+        
         public void Upgrade(){
 
             TimeSpan span = DateTime.Now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0));
@@ -1810,7 +1874,13 @@ namespace BerryBrew {
                 File.Copy(s, destFile, true);
             }
 
+            PerlUpdateAvailableListOrphans();
+            
             Console.WriteLine("\nSuccessfully upgraded berrybrew\n");
+        }
+        
+        public string Version(){
+            return @"1.29";
         }
     }
 
