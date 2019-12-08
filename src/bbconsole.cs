@@ -106,7 +106,6 @@ namespace berrybrew {
                     }
 
                     bb.PerlUpdateAvailableList(allPerls);
-                    bb.PerlUpdateAvailableListOrphans();
                     break;
 
                 case "help":
@@ -211,6 +210,10 @@ namespace berrybrew {
                         bb.Message.Say("register_ver_required");
 
                     bb.PerlRegisterCustomInstall(args[1]);
+                    break;
+
+                case "register_orphans":
+                    bb.PerlUpdateAvailableListOrphans();
                     break;
 
                 case "remove":

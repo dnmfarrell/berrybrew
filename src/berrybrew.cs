@@ -1603,6 +1603,8 @@ namespace BerryBrew {
                 
                 Console.WriteLine("Successfully updated the available Perls list...");
             }
+        
+            PerlUpdateAvailableListOrphans();
         }
 
         public void PerlUpdateAvailableListOrphans(){
@@ -1855,6 +1857,8 @@ namespace BerryBrew {
                 File.Copy(s, destFile, true);
             }
 
+            PerlUpdateAvailableListOrphans();
+            
             Console.WriteLine("\nSuccessfully upgraded berrybrew\n");
         }
         

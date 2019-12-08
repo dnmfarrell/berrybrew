@@ -96,6 +96,7 @@ FunctionEnd
 Function LaunchFinish
   SetOutPath $INSTDIR
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
+  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" register_orphans'
 
   ${If} ${SectionIsSelected} ${SEC_INSTALL_NEWEST_PERL}
     ${If} ${FileExists} "C:\berrybrew\5.30.1_64\perl\bin\perl.exe"

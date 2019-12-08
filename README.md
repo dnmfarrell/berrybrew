@@ -41,7 +41,7 @@ full list of documentation.
 - [Caveats](#caveats)
 - [License](#license)
 - [Version](#version)
-- [Undocumented Features](#undocumented-features)
+- [Hidden Features](#hidden-features)
 
 ## Install
 
@@ -453,7 +453,7 @@ operate correctly. This is due to the way Windows forces the System
 
     1.29
 
-## Undocumented Features
+## Hidden Features
 
 There are certain features that should only be used by developers and
 maintainers of this software. There's only a couple, so if I create
@@ -493,6 +493,12 @@ Usage:
     berrybrew currentperl
 
 Used primarily for certain unit tests.
+
+#### register_orphans
+
+This will register all orphaned Perl instances. Used primarily during the
+self-extracting installer during an upgrade to ensure that if the `perls.json`
+file has changed, all previous Perl instances will be visible and usable.
 
 ## Original Author
 

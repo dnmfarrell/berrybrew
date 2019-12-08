@@ -21,7 +21,12 @@ Revision history for berrybrew
         - added 'berrybrew-refresh' batch script to allow updating PATH env
           var in current window (saves from having to open new cmd windows all
           the time
-          
+        - added 'register_orphans' hidden command
+        - added calls to PerlUpdateAvailableListOrphans() in Upgrade() and
+          added call to 'berrybrew register_orphans' in the installer. This
+          ensures that if 'perls.json' is updated, the old Perl instances will
+          be registered and available (fixes #199)
+
 1.28    2019-11-22
         - modified PathAddBerrybrew() to insert berrybrew's path to the start
           of the PATH as opposed to the end of it
