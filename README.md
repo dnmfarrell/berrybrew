@@ -177,7 +177,7 @@ Switch to a different version (permanently):
 
     > berrybrew switch 5.30.0_64
 
-    Switched to 5.30.0_64, run `berrybrew-refresh` to use it.
+    Switched to 5.30.0_64, run 'berrybrew-refresh' to use it.
 
 Start a new cmd.exe to use the new version:
 
