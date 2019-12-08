@@ -21,6 +21,8 @@ Revision history for berrybrew
         - added 'berrybrew-refresh' batch script to allow updating PATH env
           var in current window (saves from having to open new cmd windows all
           the time
+        - 'clean modules' and 'clean temp' now check for directory existence
+          before processing to avoid uncaught exceptions (fixes #202)
         - added 'register_orphans' hidden command
         - added calls to PerlUpdateAvailableListOrphans() in Upgrade() and
           added call to 'berrybrew register_orphans' in the installer. This

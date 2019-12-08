@@ -282,11 +282,12 @@ namespace BerryBrew {
         
         private bool CleanModules(){
             string moduleDir = RootPath + "modules\\";
-            string[] moduleListFiles = Directory.GetFiles(moduleDir);
 
             if (! Directory.Exists(moduleDir)) {
                 return true;
             }
+            
+            string[] moduleListFiles = Directory.GetFiles(moduleDir);
 
             try {
                     FilesystemResetAttributes(moduleDir);
@@ -386,7 +387,13 @@ namespace BerryBrew {
         }
 
         private bool CleanTemp(){
+            
+            if (! Directory.Exists(ArchivePath)) {
+                return true;
+            }           
+           
             DirectoryInfo archiveDir = new DirectoryInfo(ArchivePath);
+            
             FilesystemResetAttributes(archiveDir.FullName);
 
             List<FileInfo> zipFiles = archiveDir.GetFiles().ToList();
