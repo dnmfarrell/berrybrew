@@ -1614,6 +1614,16 @@ namespace BerryBrew {
                 PerlRegisterCustomInstall(orphan);
             }
         }
+       
+        private StrawberryPerl PerlResolveVersion(string version){
+
+            foreach (StrawberryPerl perl in _perls.Values){
+                if (perl.Name == version)
+                    return perl;
+            }
+
+            throw new ArgumentException("Unknown version: " + version);
+        }
         
         private static Process ProcessCreate(string cmd, bool hidden=true){
 
@@ -1632,16 +1642,6 @@ namespace BerryBrew {
             return process;
         }
         
-        private StrawberryPerl PerlResolveVersion(string version){
-
-            foreach (StrawberryPerl perl in _perls.Values){
-                if (perl.Name == version)
-                    return perl;
-            }
-
-            throw new ArgumentException("Unknown version: " + version);
-        }
-
         public void Switch(string switchToVersion, bool switchQuick=false){
 
             try {
