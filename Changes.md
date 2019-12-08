@@ -30,7 +30,7 @@ ensures that if 'perls.json' is updated, the old Perl instances will
 be registered and available (fixes #199)
 - if source Perl for clone operation isn't available, exit gracefully
 (fixes #205)
--   
+
 1.28    2019-11-22
 - modified PathAddBerrybrew() to insert berrybrew's path to the start
 of the PATH as opposed to the end of it
