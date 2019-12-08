@@ -409,17 +409,27 @@ namespace BerryBrew {
             if (! CheckName(destPerlName))
                 return false;
 
-            StrawberryPerl sourcePerl = PerlResolveVersion(sourcePerlName);
+            StrawberryPerl sourcePerl = new StrawberryPerl();
+            
+            try {
+                sourcePerl = PerlResolveVersion(sourcePerlName);
+            }
+            catch (System.ArgumentException e) {
+                Console.WriteLine("\n'{0}' is an unknown version of Perl. Can't clone.", sourcePerlName);
+                if (Debug)
+                    Console.WriteLine("\n{0}", e);
+                Environment.Exit(0);
+            }
+
             string sourcePerlDir = sourcePerl.InstallPath;
             string destPerlDir = RootPath + destPerlName;
             DirectoryInfo src = new DirectoryInfo(sourcePerlDir);
 
-            if (! src.Exists){
-                throw new DirectoryNotFoundException(
-                    "Source directory does not exist or could not be found: "
-                    + sourcePerlDir
-                );
+            if (! src.Exists) {
+                Console.WriteLine("\nPerl instance '{0}' isn't installed. Can't clone.", sourcePerlName);
+                Environment.Exit(0);
             }
+            
             try {
                 if (! Directory.Exists(destPerlDir))
                     Directory.CreateDirectory(destPerlDir);
