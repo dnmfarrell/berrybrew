@@ -3,7 +3,7 @@ Revision history for berrybrew
 1.29 UNREL
 - add missing closing parens on 'remove' if a Perl isn't installed
 (fixes #196)
-- added "berrybrew info" command, and info() method. retrieves and
+- added "berrybrew info" command, and BB.Info() method. retrieves and
 displays various installation information (paths etc) (work on #193
 and #194)
 - PathScan() now accepts a string to search %PATH% with, as opposed to
@@ -14,6 +14,10 @@ absolute correct entry (fixes #193; closes #194)
 catch this and inform the user instead of crashing (fixes #198)
 - installer now uses nsExec::Exec functions as to ensure the command
 line windows we need to open are not visible (closes #200)
+- implemented logic in installer to identify whether there's an
+existing berrybrew, and whether the install will overwrite or sit
+beside it (closes #195)
+- update test data with Perl 5.30.1 data
           
 1.28    2019-11-22
 - modified PathAddBerrybrew() to insert berrybrew's path to the start
@@ -24,7 +28,7 @@ disable a previous version
 1.27    2019-11-22
 - we now have a self-extracting installer!
 - fix issue where 'list' wasn't showing the 'virtual' tag (fixes #186)
-- added installer NSIS script and logic to automatically build the
+- aded installer NSIS script and logic to automatically build the
 binary during the release process
 - 'remove' now displays notification of its actions (closes #190)
 - fix label ordering issue in custom_install test file

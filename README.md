@@ -49,7 +49,7 @@ full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: a271f6084d6e437c4b14e3f2e0f191bef2bba8b2`
+[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: `
 
 ##### Git clone
 
@@ -59,7 +59,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 48b0283b3e4747ce9adc8590208e2ec256168e57`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: `
 
 After extraction:
 
@@ -177,7 +177,7 @@ Switch to a different version (permanently):
 
     > berrybrew switch 5.30.0_64
 
-    Switched to 5.30.0_64, start a new terminal to use it.
+    Switched to 5.30.0_64, run `berrybrew-refresh` to use it.
 
 Start a new cmd.exe to use the new version:
 
@@ -190,7 +190,8 @@ Switch to a different version (permanently) without needing a new console window
     > berrybrew switch 5.30.0_64 quick
     
 You may run into issues running external binaries along with certain features with
-the 'quick' feature. If so, simply close the existing window, and open a new one.
+the 'quick' feature. If so, simply run `berrybrew-refresh`, or start a new terminal
+window.
     
 Clone an installed instance (very useful for setting up a main instance,
 and cloning it into an instance named "template")
@@ -326,8 +327,7 @@ export the module list for, and:
     > berrybrew modules export
 
 Then, `berrybrew switch` to the Perl instance you want to import the
-exported modules into. You'll need to close and reopen a new command
-window, as always.
+exported modules into, then run `berrybrew-refresh` to reset the environment.
 
 Then, the following command will display a list of all exported module
 files from any/all Perl instances you've done an export from:

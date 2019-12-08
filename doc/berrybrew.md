@@ -205,8 +205,8 @@ switched-to Perl, or use `switch` to change to a different one.
 
 If the `quick` argument is sent in, we'll make system changes in a way that
 a new console window isn't required. WARNING: Some binaries and other features
-may not work correctly using this method. If you have problems, simply close
-the current window and open a new one.
+may not work correctly using this method. If you have problems, simply run
+`berrybrew-refresh`.
 
 #### unconfig
 

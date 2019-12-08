@@ -973,7 +973,7 @@ namespace BerryBrew {
         public void Off(){
 
             PathRemovePerl();
-            Console.Write("berrybrew perl disabled. Open a new shell to use system perl\n");
+            Console.Write("berrybrew perl disabled. Run 'berrybrew-refresh' to use the system perl\n");
         }
 
         private void PathAddBerryBrew(string binPath){
@@ -1651,7 +1651,7 @@ namespace BerryBrew {
                 );
 
 				if (!switchQuick)
-					Console.WriteLine("Open a new command line window to use it\n");
+					Console.WriteLine("Run 'berrybrew-refresh' to use it.\n");
             }
             catch (ArgumentException){
                 Message.Print("perl_unknown_version");
