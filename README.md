@@ -120,173 +120,9 @@ documentation for a full explanation of all of the following commands.
 
 ## Examples
 
-List all versions of Perl that are available, installed, and currently used:
-    
-    > berrybrew available
+See the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+document for usage examples.
 
-    The following Strawberry Perls are available:
-
-        5.30.0_64
-        5.30.0_64_PDL
-        5.30.0_32
-        5.28.0_64
-        5.28.0_64_PDL
-        5.28.0_32
-        5.26.2_64
-        5.26.2_64_PDL
-        5.26.2_32
-        5.24.4_64
-        5.24.4_64_PDL
-        5.24.4_32
-        5.22.3_64
-        5.22.3_64_PDL
-        5.22.3_32
-        5.20.3_64
-        5.20.3_64_PDL
-        5.20.3_32
-        5.18.4_64
-        5.18.4_32
-        5.16.3_64
-        5.16.3_32
-        5.14.4_64
-        5.14.4_32
-        5.12.3_64
-        5.12.3_32
-        5.10.1_32       [installed]
-        5.8.9_32
-        5.24.1_64       [custom] [installed] *
-
-    * Currently using
-    
-List all currently installed versions of Perl:
-
-    > berrybrew list
-
-        5.30.0_64
-        5.30.0_64_PDL
-        5.30.0_32
-        5.28.0_64
-        5.26.2_64
-        5.10.1_32
-    
-Install a specific version:
-
-    > berrybrew install 5.30.0_64
-
-Switch to a different version (permanently):
-
-    > berrybrew switch 5.30.0_64
-
-    Switched to 5.30.0_64, run 'berrybrew-refresh' to use it.
-
-Start a new cmd.exe to use the new version:
-
-    > perl -v
-
-    This is perl 5, version 30, subversion 0 (v5.30.0) built for MSWin32-x64-multi-thread
-
-Switch to a different version (permanently) without needing a new console window:
-
-    > berrybrew switch 5.30.0_64 quick
-    
-You may run into issues running external binaries along with certain features with
-the 'quick' feature. If so, simply run `berrybrew-refresh`, or start a new terminal
-window.
-    
-Clone an installed instance (very useful for setting up a main instance,
-and cloning it into an instance named "template")
-
-    > berrybrew clone 5.30.0_64 template
-
-Uninstall a version of perl:
-
-    > berrybrew remove 5.30.0_64
-
-    Successfully removed Strawberry Perl 5.30.0_64
-
-Manage an external instance of Perl (system ActiveState for example):
-
-    > berrybrew virtual activestate
-
-    Specify the path to the perl binary: c:\strawberry\perl\bin
-
-    Specify the library path:
-
-    Specify an additional path:
-
-    Successfully registered virtual perl activestate
-
-Manually register a custom directory within the Perl installation directory
-
-    > berrybrew register my_custom_install
-
-Disable berrybrew entirely, and return to system Perl (Strawberry or 
-ActiveState), if available (re-enable with 'switch'):
-
-    > berrybrew off
-
-Temporarily use a selected version:
-
-    > berrybrew use 5.10.1_32
-
-Temporarily use a Perl version, but spawn in a new command window:
-
-    > berrybrew use --win 5.10.1_32
-
-Temporarily spawn several versions, all in new windows:
-
-    > berrybrew use --win 5.10.1_32,5.24.2_64,5.28.0_64
-
-Execute something across all perls (we do not execute on Perls that has
-'tmpl' or 'template' in the name):
-
-    > berrybrew exec prove -l
-
-    Perl-5.30.0_64
-    ==============
-    t\DidYouMean.t .. ok
-    All tests successful.
-    Files=1, Tests=5,  0 wallclock secs ( 0.06 usr +  0.00 sys =  0.06 CPU)
-    Result: PASS
-
-    Perl-5.22.3_32
-    ==============
-    t\DidYouMean.t .. ok
-    All tests successful.
-    Files=1, Tests=5,  0 wallclock secs ( 0.03 usr +  0.03 sys =  0.06 CPU)
-    Result: PASS
-
-    Perl-5.18.4_64
-    ==============
-    t\DidYouMean.t ..
-    Dubious, test returned 5 (wstat 1280, 0x500)
-    Failed 5/5 subtests
-
-    Test Summary Report
-    -------------------
-    t\DidYouMean.t (Wstat: 1280 Tests: 5 Failed: 5)
-      Failed tests:  1-5
-      Non-zero exit status: 5
-    Files=1, Tests=5,  0 wallclock secs ( 0.02 usr +  0.05 sys =  0.06 CPU)
-    Result: FAIL
-
-Execute on only a selection of installed versions:
-
-    > berrybrew exec --with 5.30.0_64,5.10.1_32 perl -e die()
-
-    Perl-5.30.0_64
-    ==============
-    Died at -e line 1.
-
-    Perl-5.10.1_32
-    ==============
-    Died at -e line 1.
-
-Remove `berrybrew` from `PATH` (useful for switching between versions of
-`berrybrew`):
-
-    > berrybrew unconfig
-    
 ## Upgrading
 
 Using the [installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
@@ -318,43 +154,6 @@ local `perls.json` file with them.
 If you supply the `all` subcommand to `berrybrew fetch`, we will load all
 available Perls that Strawberry has to offer.
 
-## Cloning Modules
-
-Currently, this is a two-phase operation, and is in beta. Here's the
-procedure. first, `berrybrew switch` to the Perl instance you want to
-export the module list for, and:
-
-    > berrybrew modules export
-
-Then, `berrybrew switch` to the Perl instance you want to import the
-exported modules into, then run `berrybrew-refresh` to reset the environment.
-
-Then, the following command will display a list of all exported module
-files from any/all Perl instances you've done an export from:
-
-    > berrybrew modules import
-    
-    re-run the command with one of the following options:
-
-    5.16.3_64    
-    
-In my case here, I've only got one export, from a `5.16.3_64` Perl
-instance. Use it (I'm currently on `5.20.3_64`):
-
-    > berrybrew modules import 5.16.3_64
-    
-NOTE: It is best to export from an older Perl and install on a newer
-one, as it can take a significant amount of time to re-install ALL
-exported modules.
-
-NOTE: You can edit the module export file (by default in `C:\berrybrew\modules\`).
-Each export file has the name of the Perl it was exported from. Just
-add and/or remove any entries you'd like. You can even create the files
-manually by hand so you have a custom, ready made template for all new
-Perl installs. There is no limit on naming convention, so you can
-literally manually create a file called `base_modules_template` for
-example.
-    
 ## Configure Root Directory
 
 By default, we manage Perls out of the `C:\berrybrew` directory. To 
@@ -384,7 +183,6 @@ If you choose to ignore this, follow this procedure:
 
 - [Mono](http://www.mono-project.com) or Visual Studio (only if 
 compiling your own version)
-
 
 ## Troubleshooting
 
