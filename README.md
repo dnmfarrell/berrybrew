@@ -73,7 +73,9 @@ installation.
 
 ## Uninstall
 
-If you used the self-extracting installer, simply run the uninstaller.
+If you used the self-extracting installer, simply run the uninstaller from
+either `Add/Remove Programs` in the Control Panel, or the `uninst.exe`
+uninstaller program located in the installation directory.
 
 If you installed via any other method:
 
@@ -83,9 +85,9 @@ the `PATH` as well.
 
 If you wish to delete the actual installation:
 
-- remove the `C:\berrybrew` directory which contains the installation, perl
-installations and all configuration and temporary data
-- remove the original download directory
+- Remove the Perl installation root directory (by default `C:\berrybrew`) 
+
+- Remove the original download directory
 
 ## Commands
 
@@ -126,12 +128,13 @@ document for usage examples.
 ## Upgrading
 
 Using the [installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
-is the best and safest way to upgrade your `berrybrew`. :w
-If the new install
-will not be in the same directory as your previous version, copy any new or
-differing configuration options in the `data\config.json` file from the old
-instance to the new one, and if you've got a `data\perls_custom.json` or a
-`data\perls_virtual.json` file, copy them over in their entirety.
+is the best and safest way to upgrade your `berrybrew`.
+
+If the new install will not be in the same directory as your previous version, 
+copy any new or differing configuration options in the `data\config.json` file
+from the old instance to the new one, and if you've got a 
+`data\perls_custom.json` or a `data\perls_virtual.json` file, copy them over in
+their entirety.
 
 The next best method is to use `berrybrew upgrade`. This requires Git to be
 installed and in your `PATH`. It will create a `backup_timestamp`
