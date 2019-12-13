@@ -77,7 +77,22 @@ sub compile {
         "-win32icon:inc/berrybrew.ico";
 
     system $bin_build;
+    
+    print "\ncompiling the berrybrew UI...\n";
+ 
+    my $ui_build = "" .
+        "mcs " .
+        "-lib:build " .
+        "-r:bbapi.dll " .
+        "-r:System.Drawing " .
+        "-r:System.Windows.Forms " .
+        "-win32icon:inc/berrybrew.ico " .
+        "-out:bin/berrybrew-ui.exe " .
+        "src\berrybrew-ui.cs";
+        
+    system $ui_build;        
 }
+
 sub create_zip {
     print "\npackaging pre-built zipfile...\n";
 

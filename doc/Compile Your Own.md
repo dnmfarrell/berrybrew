@@ -21,4 +21,13 @@
         -out:bin/berrybrew.exe \
         -win32icon:inc/berrybrew.ico
 
+    mcs \
+        -lib:build \
+        -r:bbapi.dll \
+        -r:System.Drawing \
+        -r:System.Windows.Forms \
+        -win32icon:inc/berrybrew.ico \
+        -out:bin/berrybrew-ui.exe \
+        src\berrybrew-ui.cs
+        
     bin\berrybrew.exe config
