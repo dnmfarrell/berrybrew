@@ -119,10 +119,12 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.perlSwitchSelect.SelectedIndex = 0;
     }
+
     private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
         Debug.WriteLine("CLOSED");
         
     }
+   
     private void Form1_Load(object sender, EventArgs e) {
         
         //this.ClientSize = new System.Drawing.Size(240, 100);
@@ -137,6 +139,7 @@ public class BBUI : System.Windows.Forms.Form {
         this.ShowInTaskbar = false;
         this.ResumeLayout(false);
     }    
+   
     private void Form1_FormClosing(Object sender, FormClosingEventArgs e) {
         if (! new StackTrace().GetFrames().Any(x => x.GetMethod().Name == "Close")){
             this.WindowState = FormWindowState.Minimized;
