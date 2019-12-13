@@ -63,19 +63,6 @@ public class BBUI : System.Windows.Forms.Form {
         base.Dispose(disposing);
     }
 
-    private void trayIcon_Click(object Sender, EventArgs e) {
-        if (this.WindowState == FormWindowState.Minimized) {
-            this.WindowState = FormWindowState.Normal;
-        }
-        else {
-            this.WindowState = FormWindowState.Minimized;
-        }
-    }
-    
-    private void rightClickExit_Click(object Sender, EventArgs e) {
-        this.Close();
-    }
-
     private void InitializeComponents() {
         this.InitializeCurrentPerlLabel();
         this.InitializePerlSwitchSelect();
@@ -93,12 +80,6 @@ public class BBUI : System.Windows.Forms.Form {
         this.perlSwitchButton.UseVisualStyleBackColor = true;
 
         this.perlSwitchButton.Click += new System.EventHandler(this.switchPerlButton_Click);
-    }
-
-    private void switchPerlButton_Click(object Sender, EventArgs e) {
-        string newPerl = perlSwitchSelect.Text;
-        Debug.WriteLine(newPerl);
-        this.Close();
     }
     
     private void InitializePerlSwitchSelect() {
@@ -150,9 +131,7 @@ public class BBUI : System.Windows.Forms.Form {
     private void InitializeCurrentPerlLabel() {
             this.currentPerlLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // currentPerlLabel
-            // 
+
             this.currentPerlLabel.AutoSize = true;
             this.currentPerlLabel.Location = new System.Drawing.Point(10, 10);
             this.currentPerlLabel.Name = "currentPerlLabel";
@@ -160,19 +139,30 @@ public class BBUI : System.Windows.Forms.Form {
             this.currentPerlLabel.TabIndex = 0;
             this.currentPerlLabel.Text = "Current Perl: ";
             this.currentPerlLabel.Font = new Font(this.Font, FontStyle.Bold);
-            // this.currentPerlLabel.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // BBUI
-            // 
+
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.currentPerlLabel);
             this.Name = "BBUI";
             this.ResumeLayout(false);
             this.PerformLayout();
-
     }
-
-    private void label1_Click(object sender, EventArgs e) {
-
+ 
+    private void trayIcon_Click(object Sender, EventArgs e) {
+        if (this.WindowState == FormWindowState.Minimized) {
+            this.WindowState = FormWindowState.Normal;
+        }
+        else {
+            this.WindowState = FormWindowState.Minimized;
+        }
     }
+    
+    private void rightClickExit_Click(object Sender, EventArgs e) {
+        this.Close();
+    }
+ 
+    private void switchPerlButton_Click(object Sender, EventArgs e) {
+        string newPerl = perlSwitchSelect.Text;
+        Debug.WriteLine(newPerl);
+        this.Close();
+    }  
 }
