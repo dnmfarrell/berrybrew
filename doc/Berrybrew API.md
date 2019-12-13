@@ -53,7 +53,7 @@ The `Berrybrew` class is the base of the system.
 [PerlGenerateObjects](#perlgenerateobjects)| private | Generates the `StrawberryPerl` class objects
 [PerlInUse](#perlinuse)| **public** | Returns the name of the Perl currently in use
 [PerlIsInstalled](#perlisinstalled)| private | Checks if a specific Perl is installed
-[PerlsInstalled](#perlsinstalled)| private | Fetches the list of Perls installed
+[PerlsInstalled](#perlsinstalled)| **public** | Fetches the list of Perls installed
 [PerlRemove](#perlremove)| **public** | Uninstalls a specific instance of Perl
 [PerlRegisterCustomInstall](#perlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
 [PerlRegisterVirtualInstall](#perlregistervirtualinstall)| **public** | Make `berrybrew` aware of external Perls
@@ -529,7 +529,7 @@ if it is, and `false` if not.
 
 #### PerlsInstalled
 
-    private List<StrawberryPerl> PerlsInstalled()
+    public List<StrawberryPerl> PerlsInstalled()
     
     return: A list of the Strawberry Perl objects currently installed
     

@@ -1,10 +1,13 @@
-﻿using System;
+﻿using BerryBrew;
+using System;
 using System.Linq;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
 public class BBUI : System.Windows.Forms.Form {
+    private Berrybrew bb = new Berrybrew();
+    
     private System.Windows.Forms.NotifyIcon trayIcon;
     private System.Windows.Forms.ContextMenu contextMenu;
     private System.Windows.Forms.MenuItem rightClickExit;
@@ -49,10 +52,8 @@ public class BBUI : System.Windows.Forms.Form {
         this.Name = "Form";
         this.Load += new System.EventHandler(this.Form1_Load);
         this.ResumeLayout(false);
-        
 
         this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
-        this.FormClosed += new FormClosedEventHandler(Form1_FormClosed);
     }
 
     protected override void Dispose(bool disposing) {
@@ -92,13 +93,17 @@ public class BBUI : System.Windows.Forms.Form {
         this.perlSwitchSelect.Size = new System.Drawing.Size(121, 30);
         this.perlSwitchSelect.TabIndex = 0;
 
-        this.perlSwitchSelect.Items.AddRange(new object[] {
-            "5.20.3_64",
-            "5.16.3_32",
-            "5.12.4_32",
-            });
+        string perlInUse = bb.PerlInUse().Name;
+        
+        foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+            if (perl.Name == perlInUse)
+                continue;
+            
+            this.perlSwitchSelect.Items.Add(perl.Name );           
+        }
 
-        this.perlSwitchSelect.SelectedIndex = 0;
+        if (this.perlSwitchSelect.Items.Count > 0)
+            this.perlSwitchSelect.SelectedIndex = 0;
     }
 
     private void InitializeCurrentPerlLabel() {
@@ -135,8 +140,10 @@ public class BBUI : System.Windows.Forms.Form {
  
     private void switchPerlButton_Click(object Sender, EventArgs e) {
         string newPerl = perlSwitchSelect.Text;
-        Debug.WriteLine(newPerl);
-        this.Close();
+        bb.Switch(newPerl);
+        this.WindowState = FormWindowState.Minimized;
+        Application.Restart();
+        Environment.Exit(0);
     }  
  
     private void Form1_Load(object sender, EventArgs e) {
@@ -145,7 +152,15 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.Controls.Add(this.perlSwitchButton);
         this.Controls.Add(this.perlSwitchSelect);
-        this.currentPerlLabel.Text = currentPerlLabel.Text += "5.30.1_64";
+
+        string perlInUse = bb.PerlInUse().Name;
+
+        if (perlInUse == null) {
+            perlInUse = "None configured";
+        }
+
+        this.currentPerlLabel.Text = currentPerlLabel.Text += perlInUse;
+        
         this.Name = "BBUI";
         this.Text = "Berrybrew UI";
         this.WindowState = FormWindowState.Minimized;

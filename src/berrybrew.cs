@@ -1296,7 +1296,7 @@ namespace BerryBrew {
                    && File.Exists(perl.PerlPath + @"\perl.exe");
         }
 
-        private List<StrawberryPerl> PerlsInstalled(){
+        public List<StrawberryPerl> PerlsInstalled(){
             return _perls.Values.Cast<StrawberryPerl>().Where(PerlIsInstalled).ToList();
         }
 
