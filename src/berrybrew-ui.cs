@@ -17,13 +17,11 @@ public class BBUI : System.Windows.Forms.Form
     private System.ComponentModel.IContainer components;
 
     [STAThread]
-    static void Main()
-    {
+
         Application.Run(new BBUI());
     }
 
-    public BBUI()
-    {
+    public BBUI() {
 
         this.components = new System.ComponentModel.Container();
         this.contextMenu = new System.Windows.Forms.ContextMenu();
@@ -58,8 +56,7 @@ public class BBUI : System.Windows.Forms.Form
         this.FormClosed += new FormClosedEventHandler(Form1_FormClosed);
     }
 
-    protected override void Dispose(bool disposing)
-    {
+    protected override void Dispose(bool disposing) {
         if (disposing)
             if (components != null)
                 components.Dispose();
@@ -67,32 +64,26 @@ public class BBUI : System.Windows.Forms.Form
         base.Dispose(disposing);
     }
 
-    private void trayIcon_Click(object Sender, EventArgs e)
-    {
-        if (this.WindowState == FormWindowState.Minimized)
-        {
+    private void trayIcon_Click(object Sender, EventArgs e) {
+        if (this.WindowState == FormWindowState.Minimized) {
             this.WindowState = FormWindowState.Normal;
         }
-        else
-        {
+        else {
             this.WindowState = FormWindowState.Minimized;
         }
     }
     
-    private void rightClickExit_Click(object Sender, EventArgs e)
-    {
+    private void rightClickExit_Click(object Sender, EventArgs e) {
         this.Close();
     }
 
-    private void InitializeComponents()
-    {
+    private void InitializeComponents() {
         this.InitializeCurrentPerlLabel();
         this.InitializePerlSwitchSelect();
         this.InitializePerlSwitchButton();
     }
 
-    private void InitializePerlSwitchButton()
-    {
+    private void InitializePerlSwitchButton() {
         this.perlSwitchButton = new System.Windows.Forms.Button();
 
         this.perlSwitchButton.Location = new System.Drawing.Point(139, 35);
@@ -105,16 +96,13 @@ public class BBUI : System.Windows.Forms.Form
         this.perlSwitchButton.Click += new System.EventHandler(this.switchPerlButton_Click);
     }
 
-    private void switchPerlButton_Click(object Sender, EventArgs e)
-    {
-
+    private void switchPerlButton_Click(object Sender, EventArgs e) {
         string newPerl = perlSwitchSelect.Text;
         Debug.WriteLine(newPerl);
         this.Close();
     }
     
-    private void InitializePerlSwitchSelect()
-    {
+    private void InitializePerlSwitchSelect() {
         this.perlSwitchSelect = new System.Windows.Forms.ComboBox();
         this.perlSwitchSelect.DropDownStyle = ComboBoxStyle.DropDownList;
 
@@ -132,13 +120,11 @@ public class BBUI : System.Windows.Forms.Form
 
         this.perlSwitchSelect.SelectedIndex = 0;
     }
-    private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-    {
+    private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
         Debug.WriteLine("CLOSED");
         
     }
-    private void Form1_Load(object sender, EventArgs e)
-    {
+    private void Form1_Load(object sender, EventArgs e) {
         
         //this.ClientSize = new System.Drawing.Size(240, 100);
 
@@ -152,17 +138,14 @@ public class BBUI : System.Windows.Forms.Form
         this.ShowInTaskbar = false;
         this.ResumeLayout(false);
     }    
-    private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
-    {
+    private void Form1_FormClosing(Object sender, FormClosingEventArgs e) {
         if (! new StackTrace().GetFrames().Any(x => x.GetMethod().Name == "Close")){
             this.WindowState = FormWindowState.Minimized;
             e.Cancel = true;
         }
-            
     }
 
-    private void InitializeCurrentPerlLabel()
-    {
+    private void InitializeCurrentPerlLabel() {
             this.currentPerlLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -187,9 +170,7 @@ public class BBUI : System.Windows.Forms.Form
 
     }
 
-    private void label1_Click(object sender, EventArgs e)
-    {
+    private void label1_Click(object sender, EventArgs e) {
 
     }
-
 }
