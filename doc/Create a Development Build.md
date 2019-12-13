@@ -18,7 +18,12 @@ Use the new development build:
 - simply run `berrybrew` out of the new build directory, eg:
 
     `build\berrybrew.exe command [options]`
-    
+
+Building and testing the UI only:
+
+- run the `dev\build_ui.bat` script, which compiles the UI binary. If not done
+previously, you need to run `dev\build.bat` to build the API library first.
+
 **NOTE**: When running under the development build, Perl installations and
 `berrybrew`'s temporary directory are stored within a newly created `build`
 directory underneath of `berrybrew`'s default directory (defaults to 
