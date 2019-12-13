@@ -4,8 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-public class BBUI : System.Windows.Forms.Form
-{
+public class BBUI : System.Windows.Forms.Form {
     private System.Windows.Forms.NotifyIcon trayIcon;
     private System.Windows.Forms.ContextMenu contextMenu;
     private System.Windows.Forms.MenuItem rightClickExit;
@@ -17,7 +16,7 @@ public class BBUI : System.Windows.Forms.Form
     private System.ComponentModel.IContainer components;
 
     [STAThread]
-
+    static void Main() {
         Application.Run(new BBUI());
     }
 
