@@ -101,33 +101,6 @@ public class BBUI : System.Windows.Forms.Form {
         this.perlSwitchSelect.SelectedIndex = 0;
     }
 
-    private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
-        Debug.WriteLine("CLOSED");
-        
-    }
-   
-    private void Form1_Load(object sender, EventArgs e) {
-        
-        //this.ClientSize = new System.Drawing.Size(240, 100);
-
-        this.Controls.Add(this.perlSwitchButton);
-        this.Controls.Add(this.perlSwitchSelect);
-        this.currentPerlLabel.Text = currentPerlLabel.Text += "5.30.1_64";
-        this.Name = "BBUI";
-        this.Text = "Berrybrew UI";
-        this.WindowState = FormWindowState.Minimized;
-        //this.Hide();
-        this.ShowInTaskbar = false;
-        this.ResumeLayout(false);
-    }    
-   
-    private void Form1_FormClosing(Object sender, FormClosingEventArgs e) {
-        if (! new StackTrace().GetFrames().Any(x => x.GetMethod().Name == "Close")){
-            this.WindowState = FormWindowState.Minimized;
-            e.Cancel = true;
-        }
-    }
-
     private void InitializeCurrentPerlLabel() {
             this.currentPerlLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -165,4 +138,26 @@ public class BBUI : System.Windows.Forms.Form {
         Debug.WriteLine(newPerl);
         this.Close();
     }  
+ 
+    private void Form1_Load(object sender, EventArgs e) {
+        
+        //this.ClientSize = new System.Drawing.Size(240, 100);
+
+        this.Controls.Add(this.perlSwitchButton);
+        this.Controls.Add(this.perlSwitchSelect);
+        this.currentPerlLabel.Text = currentPerlLabel.Text += "5.30.1_64";
+        this.Name = "BBUI";
+        this.Text = "Berrybrew UI";
+        this.WindowState = FormWindowState.Minimized;
+        //this.Hide();
+        this.ShowInTaskbar = false;
+        this.ResumeLayout(false);
+    }    
+   
+    private void Form1_FormClosing(Object sender, FormClosingEventArgs e) {
+        if (! new StackTrace().GetFrames().Any(x => x.GetMethod().Name == "Close")){
+            this.WindowState = FormWindowState.Minimized;
+            e.Cancel = true;
+        }
+    }
 }
