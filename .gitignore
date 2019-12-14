@@ -2,8 +2,6 @@
 data/perls_custom.json
 data/perls_virtual.json
 src/berrybrew.exe
-bin/bbapi.dll
-bin/berrybrew-ui.exe
 Release/
 bak/
 backup_*
