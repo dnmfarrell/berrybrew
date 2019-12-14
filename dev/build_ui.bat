@@ -11,8 +11,9 @@ echo "compiling UI..."
 call mcs^
     -lib:build^
     -r:bbapi.dll^
-    -r:System.Drawing^
-    -r:System.Windows.Forms^
+    -r:System.Drawing.dll^
+    -r:System.Windows.Forms.dll^
     -win32icon:inc/berrybrew.ico^
+    -t:winexe^
     -out:build/berrybrew-ui.exe^
     src\berrybrew-ui.cs

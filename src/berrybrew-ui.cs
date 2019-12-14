@@ -41,7 +41,7 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
 
-        trayIcon.Icon = new Icon("inc/berrybrew.ico");
+        trayIcon.Icon = new Icon("../inc/berrybrew.ico");
         trayIcon.ContextMenu = this.contextMenu;
         trayIcon.Text = "berrybrew UI";
         trayIcon.Visible = true;
