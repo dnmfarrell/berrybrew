@@ -81,7 +81,7 @@ sub compile {
     print "\ncompiling the berrybrew UI...\n";
  
     my $ui_build = "" .
-        "mcs " .
+        "csc " .
         "src/berrybrew-ui.cs " .
         "-lib:bin " .
         "-r:bbapi.dll " .
@@ -89,6 +89,7 @@ sub compile {
         "-r:System.Windows.Forms.dll " .
         "-win32icon:inc/berrybrew.ico " .
         "-t:winexe " .
+        "-win32manifest:berrybrew.manifest " .
         "-out:bin/berrybrew-ui.exe ";        
 
     system $ui_build;        
