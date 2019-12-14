@@ -1,3 +1,5 @@
+RequestExecutionLevel admin
+
 !include LogicLib.nsh
 !include MUI2.nsh
 
@@ -42,6 +44,8 @@ Section "-MainSection" SEC_MAIN
   File "..\bin\berrybrew-ui.exe"
   File "..\bin\ICSharpCode.SharpZipLib.dll"
   File "..\bin\Newtonsoft.Json.dll"
+;  File "..\bin\berrybrew.ico"
+
   SetOutPath "$PROGRAMFILES\berrybrew"
   File "..\Changes"
   File "..\Changes.md"
@@ -79,7 +83,7 @@ SectionEnd
 
 Section -Post
   WriteUninstaller "$INSTDIR\uninst.exe"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI" "$INSTDIR\berrybrew\bin\berrybrew-ui.exe"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI" "$INSTDIR\bin\berrybrew-ui.exe"
   WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$PROGRAMFILES\berrybrew\bin\berrybrew.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
@@ -107,10 +111,12 @@ Function LaunchFinish
     ${EndIf}
     nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.30.1_64'
   ${EndIf}
+   
+;  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew-ui.exe"'
 FunctionEnd
 
 Function .oninstsuccess
-   Exec "$INSTDIR\bin\berrybrew-ui.exe"
+  Exec '"$INSTDIR\bin\berrybrew-ui.exe"'
 FunctionEnd
 
 Function .onInit

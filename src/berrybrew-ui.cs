@@ -1,5 +1,6 @@
 ﻿using BerryBrew;
 using System;
+using System.IO;
 using System.Linq;
 using System.Diagnostics;
 using System.Drawing;
@@ -40,8 +41,11 @@ public class BBUI : System.Windows.Forms.Form {
         this.Text = "berrybrew UI";
 
         this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
-
-        trayIcon.Icon = new Icon("../inc/berrybrew.ico");
+        
+        string iconPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+        string iconFile = System.IO.Directory.GetParent(iconPath) + @"\inc\berrybrew.ico";
+        
+        trayIcon.Icon = new Icon(iconFile);
         trayIcon.ContextMenu = this.contextMenu;
         trayIcon.Text = "berrybrew UI";
         trayIcon.Visible = true;
@@ -127,10 +131,12 @@ public class BBUI : System.Windows.Forms.Form {
  
     private void trayIcon_Click(object Sender, EventArgs e) {
         if (this.WindowState == FormWindowState.Minimized) {
+            this.Show();
             this.WindowState = FormWindowState.Normal;
         }
         else {
             this.WindowState = FormWindowState.Minimized;
+            this.Hide();
         }
     }
     
@@ -142,6 +148,7 @@ public class BBUI : System.Windows.Forms.Form {
         string newPerl = perlSwitchSelect.Text;
         bb.Switch(newPerl);
         this.WindowState = FormWindowState.Minimized;
+        this.Hide();
         Application.Restart();
         Environment.Exit(0);
     }  
@@ -164,13 +171,14 @@ public class BBUI : System.Windows.Forms.Form {
         this.Name = "BBUI";
         this.Text = "Berrybrew UI";
         this.WindowState = FormWindowState.Minimized;
-        //this.Hide();
+        this.Hide();
         this.ShowInTaskbar = false;
         this.ResumeLayout(false);
     }    
    
     private void Form1_FormClosing(Object sender, FormClosingEventArgs e) {
         if (! new StackTrace().GetFrames().Any(x => x.GetMethod().Name == "Close")){
+            this.Hide();
             this.WindowState = FormWindowState.Minimized;
             e.Cancel = true;
         }
