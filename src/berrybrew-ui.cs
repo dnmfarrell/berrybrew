@@ -13,9 +13,13 @@ public class BBUI : System.Windows.Forms.Form {
     private System.Windows.Forms.ContextMenu contextMenu;
     private System.Windows.Forms.MenuItem rightClickExit;
 
+    private Label currentPerlLabel;
+    
     private ComboBox perlSwitchSelect;
     private Button perlSwitchButton;
-    private Label currentPerlLabel;
+    
+    private ComboBox perlInstallSelect;
+    private Button perlInstallButton;
     
     private System.ComponentModel.IContainer components;
 
@@ -70,10 +74,27 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void InitializeComponents() {
         this.InitializeCurrentPerlLabel();
+        
         this.InitializePerlSwitchSelect();
         this.InitializePerlSwitchButton();
+        
+        this.InitializePerlInstallSelect();
+        this.InitializePerlInstallButton();
     }
 
+    private void InitializePerlInstallButton() {
+        this.perlInstallButton = new System.Windows.Forms.Button();
+
+        this.perlInstallButton.Location = new System.Drawing.Point(139, 65);
+        this.perlInstallButton.Name = "perlInstallButton";
+        this.perlInstallButton.Size = new System.Drawing.Size(75, 23);
+        this.perlInstallButton.TabIndex = 1;
+        this.perlInstallButton.Text = "Install";
+        this.perlInstallButton.UseVisualStyleBackColor = true;
+
+        this.perlInstallButton.Click += new System.EventHandler(this.installPerlButton_Click);
+    }
+     
     private void InitializePerlSwitchButton() {
         this.perlSwitchButton = new System.Windows.Forms.Button();
 
@@ -86,7 +107,27 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.perlSwitchButton.Click += new System.EventHandler(this.switchPerlButton_Click);
     }
-    
+     
+    private void InitializePerlInstallSelect() {
+        this.perlInstallSelect = new System.Windows.Forms.ComboBox();
+        this.perlInstallSelect.DropDownStyle = ComboBoxStyle.DropDownList;
+
+        this.perlInstallSelect.FormattingEnabled = true;
+        this.perlInstallSelect.Location = new System.Drawing.Point(10, 65);
+        this.perlInstallSelect.Name = "perlSwitchSelect";
+        this.perlInstallSelect.Size = new System.Drawing.Size(121, 30);
+        this.perlInstallSelect.TabIndex = 0;
+
+        string perlInUse = bb.PerlInUse().Name;
+
+        foreach (string perlName in bb.AvailableList()) {
+            this.perlInstallSelect.Items.Add(perlName );           
+        }
+
+        //if (this.perlInstallSelect.Items.Count > 0)
+            //this.perlInstallSelect.SelectedIndex = 0;
+    }
+   
     private void InitializePerlSwitchSelect() {
         this.perlSwitchSelect = new System.Windows.Forms.ComboBox();
         this.perlSwitchSelect.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -106,8 +147,8 @@ public class BBUI : System.Windows.Forms.Form {
             this.perlSwitchSelect.Items.Add(perl.Name );           
         }
 
-        if (this.perlSwitchSelect.Items.Count > 0)
-            this.perlSwitchSelect.SelectedIndex = 0;
+        // if (this.perlSwitchSelect.Items.Count > 0)
+            // this.perlSwitchSelect.SelectedIndex = 0;
     }
 
     private void InitializeCurrentPerlLabel() {
@@ -143,6 +184,15 @@ public class BBUI : System.Windows.Forms.Form {
     private void rightClickExit_Click(object Sender, EventArgs e) {
         this.Close();
     }
+  
+    private void installPerlButton_Click(object Sender, EventArgs e) {
+        string perlName = perlInstallSelect.Text;
+
+        this.WindowState = FormWindowState.Minimized;
+        this.Hide();
+        Application.Restart();
+        Environment.Exit(0);
+    }  
  
     private void switchPerlButton_Click(object Sender, EventArgs e) {
         string newPerl = perlSwitchSelect.Text;
@@ -155,11 +205,14 @@ public class BBUI : System.Windows.Forms.Form {
  
     private void Form1_Load(object sender, EventArgs e) {
         
-        //this.ClientSize = new System.Drawing.Size(240, 100);
+        this.ClientSize = new System.Drawing.Size(240, 100);
 
         this.Controls.Add(this.perlSwitchButton);
         this.Controls.Add(this.perlSwitchSelect);
 
+        this.Controls.Add(this.perlInstallButton);
+        this.Controls.Add(this.perlInstallSelect);
+        
         string perlInUse = bb.PerlInUse().Name;
 
         if (perlInUse == null) {

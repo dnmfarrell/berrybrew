@@ -181,6 +181,25 @@ namespace BerryBrew {
             }
         }
 
+        public List<string> AvailableList() {
+            List<string> availablePerls = new List<string>();
+
+            foreach (StrawberryPerl perl in _perls.Values) {
+                if (PerlIsInstalled(perl))
+                    continue;
+                if (perl.Custom)
+                    continue;
+                if (perl.Virtual)
+                    continue;
+                if (perl.Name == PerlInUse().Name)
+                    continue;
+
+                availablePerls.Add(perl.Name);
+            }
+
+            return availablePerls;
+        }
+        
         public void Available(){
 
             Message.Print("available_header");
