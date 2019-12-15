@@ -20,6 +20,9 @@ public class BBUI : System.Windows.Forms.Form {
     
     private ComboBox perlInstallSelect;
     private Button perlInstallButton;
+
+    private ComboBox perlRemoveSelect;
+    private Button perlRemoveButton;
     
     private System.ComponentModel.IContainer components;
 
@@ -80,6 +83,9 @@ public class BBUI : System.Windows.Forms.Form {
         
         this.InitializePerlInstallSelect();
         this.InitializePerlInstallButton();
+
+        this.InitializePerlRemoveSelect();
+        this.InitializePerlRemoveButton();       
     }
  
     private void InitializeCurrentPerlLabel() {
@@ -135,7 +141,7 @@ public class BBUI : System.Windows.Forms.Form {
         bb.Install(perlName);
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
-        Redraw();
+        DrawComponents();
     }  
      
     private void InitializePerlSwitchButton() {
@@ -159,10 +165,35 @@ public class BBUI : System.Windows.Forms.Form {
         
         string newPerl = perlSwitchSelect.Text;
         bb.Switch(newPerl);
-        Redraw();
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
-        Redraw();
+        DrawComponents();
+    }  
+      
+    private void InitializePerlRemoveButton() {
+        this.perlRemoveButton = new System.Windows.Forms.Button();
+
+        this.perlRemoveButton.Location = new System.Drawing.Point(139, 95);
+        this.perlRemoveButton.Name = "perlRemoveButton";
+        this.perlRemoveButton.Size = new System.Drawing.Size(75, 23);
+        this.perlRemoveButton.TabIndex = 1;
+        this.perlRemoveButton.Text = "Remove";
+        this.perlRemoveButton.UseVisualStyleBackColor = true;
+
+        this.perlRemoveButton.Click += new System.EventHandler(this.removePerlButton_Click);
+    }
+ 
+    private void removePerlButton_Click(object Sender, EventArgs e) {
+        if (perlRemoveSelect.Text == "") {
+            System.Windows.Forms.MessageBox.Show("No Perl selected to remove!");
+            return;         
+        }
+        
+        string removePerl = perlRemoveSelect.Text;
+        bb.PerlRemove(removePerl);
+        this.WindowState = FormWindowState.Minimized;
+        this.Hide();
+        DrawComponents();
     }  
      
     private void InitializePerlInstallSelect() {
@@ -188,6 +219,31 @@ public class BBUI : System.Windows.Forms.Form {
          }       
         
          perlInstallSelect.SelectedIndex = -1;
+    }
+      
+    private void InitializePerlRemoveSelect() {
+        this.perlRemoveSelect = new System.Windows.Forms.ComboBox();
+        this.perlRemoveSelect.DropDownStyle = ComboBoxStyle.DropDownList;
+
+        this.perlRemoveSelect.FormattingEnabled = true;
+        this.perlRemoveSelect.Location = new System.Drawing.Point(10, 95);
+        this.perlRemoveSelect.Name = "perlRemoveSelect";
+        this.perlRemoveSelect.Size = new System.Drawing.Size(121, 30);
+        this.perlRemoveSelect.TabIndex = 0;
+
+        foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+            this.perlRemoveSelect.Items.Add(perl.Name);           
+        }
+    }
+
+    private void PerlRemoveSelect_Redraw() {
+        perlRemoveSelect.Items.Clear();
+        
+         foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+             this.perlRemoveSelect.Items.Add(perl.Name);           
+         }       
+        
+         perlRemoveSelect.SelectedIndex = -1;
     }
      
     private void InitializePerlSwitchSelect() {
@@ -242,7 +298,7 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void Form1_Load(object sender, EventArgs e) {
         
-        this.ClientSize = new System.Drawing.Size(240, 100);
+        this.ClientSize = new System.Drawing.Size(240, 150);
 
         this.Controls.Add(this.perlSwitchButton);
         this.Controls.Add(this.perlSwitchSelect);
@@ -250,7 +306,10 @@ public class BBUI : System.Windows.Forms.Form {
         this.Controls.Add(this.perlInstallButton);
         this.Controls.Add(this.perlInstallSelect);
 
-        Redraw();
+        this.Controls.Add(this.perlRemoveButton);
+        this.Controls.Add(this.perlRemoveSelect);
+       
+        DrawComponents();
         
         this.Name = "BBUI";
         this.Text = "Berrybrew UI";
@@ -268,11 +327,10 @@ public class BBUI : System.Windows.Forms.Form {
         }
     }
     
-    private void Redraw() {
+    private void DrawComponents() {
         CurrentPerlLabel_Redraw();
         PerlInstallSelect_Redraw();
         PerlSwitchSelect_Redraw();
+        PerlRemoveSelect_Redraw();
     }
-    
-    
 }
