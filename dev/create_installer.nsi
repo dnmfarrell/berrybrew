@@ -1,8 +1,11 @@
+RequestExecutionLevel admin
+
 !include LogicLib.nsh
 !include MUI2.nsh
+!include nsProcess.nsh
 
 !define PRODUCT_NAME "berrybrew"
-!define PRODUCT_VERSION "1.29"
+!define PRODUCT_VERSION "1.30"
 !define PRODUCT_PUBLISHER "Steve Bertrand"
 !define PRODUCT_WEB_SITE "https://github.com/stevieb9/berrybrew"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\berrybrew.exe"
@@ -12,7 +15,6 @@
 !define MUI_ABORTWARNING
 !define MUI_ICON "..\inc\berrybrew.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
-
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "..\LICENSE"
 !insertmacro MUI_PAGE_DIRECTORY
@@ -40,8 +42,11 @@ Section "-MainSection" SEC_MAIN
   File "..\bin\berrybrew-refresh.bat"
   File "..\bin\bbapi.dll"
   File "..\bin\berrybrew.exe"
+  File "..\bin\berrybrew-ui.exe"
   File "..\bin\ICSharpCode.SharpZipLib.dll"
   File "..\bin\Newtonsoft.Json.dll"
+;  File "..\bin\berrybrew.ico"
+
   SetOutPath "$PROGRAMFILES\berrybrew"
   File "..\Changes"
   File "..\Changes.md"
@@ -79,6 +84,7 @@ SectionEnd
 
 Section -Post
   WriteUninstaller "$INSTDIR\uninst.exe"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI" "$INSTDIR\bin\berrybrew-ui.exe"
   WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$PROGRAMFILES\berrybrew\bin\berrybrew.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
@@ -106,9 +112,26 @@ Function LaunchFinish
     ${EndIf}
     nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.30.1_64'
   ${EndIf}
+   
+;  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew-ui.exe"'
+FunctionEnd
+
+Function .oninstsuccess
+  Exec '"$INSTDIR\bin\berrybrew-ui.exe"'
 FunctionEnd
 
 Function .onInit
+    ${nsProcess::FindProcess} "berrybrew-ui.exe" $R0
+    ${If} $R0 == 0
+        DetailPrint "berrybrew-ui.exe is running. Closing it down"
+        ${nsProcess::KillProcess} "berrybrew-ui.exe" $R0
+        DetailPrint "Waiting for berrybrew-ui.exe to close"
+        Sleep 2000  
+    ${Else}
+        DetailPrint "berrybrew-ui.exe was not found to be running"        
+    ${EndIf}    
+    ${nsProcess::Unload}
+
   StrCpy $InstDir "$PROGRAMFILES\berrybrew\"
 
   ; check for previously installed versions
@@ -183,6 +206,7 @@ Section Uninstall
   Delete "$PROGRAMFILES\berrybrew\bin\Newtonsoft.Json.dll"
   Delete "$PROGRAMFILES\berrybrew\bin\ICSharpCode.SharpZipLib.dll"
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.exe"
+  Delete "$PROGRAMFILES\berrybrew\bin\berrybrew-ui.exe"
   Delete "$PROGRAMFILES\berrybrew\bin\bbapi.dll"
 
   Delete "$PROGRAMFILES\berrybrew\bin\uninst.exe"
@@ -208,6 +232,7 @@ Section Uninstall
   RMDir "$PROGRAMFILES\berrybrew\bin"
   RMDir "$PROGRAMFILES\berrybrew"
 
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Run\BerrybrewUI"
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
   SetAutoClose true

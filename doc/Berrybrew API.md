@@ -16,6 +16,7 @@ The `Berrybrew` class is the base of the system.
 |Method name|Available|Description|
 |---|---|---|
 [Available](#available)| **public** | Displays all available Perls
+[AvailableList](#availablelist)/ **public** / Returns a list of available Perl names
 [CheckName](#checkname)| internal | Validates the name of a custom Perl install
 [CheckRootDir](#checkrootdir)| private | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
@@ -93,6 +94,12 @@ Displays the names of the versions of Perl that are available to `berrybrew`,
 as found in `this.Perls`, where `this.Perls` is a
 `OrderedDictionary<string name, Berrybrew.StrawberryPerl>`.
 
+#### AvailableList
+
+    public List<string> AvailableList()
+    
+Returns a list of strings of Perl names that are available for install.
+    
 #### CheckName
 
     private static bool CheckName(string perlName)

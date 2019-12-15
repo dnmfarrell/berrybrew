@@ -252,7 +252,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.29
+    1.30
 
 ## Hidden Features
 

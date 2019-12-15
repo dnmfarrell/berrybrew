@@ -54,7 +54,7 @@ sub backup_configs {
     }
 }
 sub compile {
-    print "\ncompiling the API library...\n\n";
+    print "\ncompiling the berrybrew API...\n";
 
     my $api_build = "" .
         "mcs " .
@@ -81,18 +81,19 @@ sub compile {
     print "\ncompiling the berrybrew UI...\n";
  
     my $ui_build = "" .
-        "mcs " .
-        "-lib:build " .
+        "csc " .
+        "src/berrybrew-ui.cs " .
+        "-lib:bin " .
         "-r:bbapi.dll " .
-        "-r:System.Drawing " .
-        "-r:System.Windows.Forms " .
+        "-r:System.Drawing.dll " .
+        "-r:System.Windows.Forms.dll " .
         "-win32icon:inc/berrybrew.ico " .
-        "-out:bin/berrybrew-ui.exe " .
-        "src\berrybrew-ui.cs";
-        
+        "-t:winexe " .
+        "-win32manifest:berrybrew.manifest " .
+        "-out:bin/berrybrew-ui.exe ";        
+
     system $ui_build;        
 }
-
 sub create_zip {
     print "\npackaging pre-built zipfile...\n";
 
