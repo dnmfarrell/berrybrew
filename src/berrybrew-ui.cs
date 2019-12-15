@@ -100,7 +100,7 @@ public class BBUI : System.Windows.Forms.Form {
             this.PerformLayout();
     }
 
-    private void currentPerlLabel_Redraw() {
+    private void CurrentPerlLabel_Redraw() {
          this.currentPerlLabel.Text = "Current Perl: ";
 
          string perlInUse = bb.PerlInUse().Name;
@@ -130,7 +130,7 @@ public class BBUI : System.Windows.Forms.Form {
         bb.Install(perlName);
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
-        PerlInstallSelect_Redraw();
+        Redraw();
     }  
      
     private void InitializePerlSwitchButton() {
@@ -149,10 +149,10 @@ public class BBUI : System.Windows.Forms.Form {
     private void switchPerlButton_Click(object Sender, EventArgs e) {
         string newPerl = perlSwitchSelect.Text;
         bb.Switch(newPerl);
-        currentPerlLabel_Redraw();
+        Redraw();
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
-        PerlSwitchSelect_Redraw();
+        Redraw();
     }  
      
     private void InitializePerlInstallSelect() {
@@ -240,7 +240,7 @@ public class BBUI : System.Windows.Forms.Form {
         this.Controls.Add(this.perlInstallButton);
         this.Controls.Add(this.perlInstallSelect);
 
-        currentPerlLabel_Redraw();
+        Redraw();
         
         this.Name = "BBUI";
         this.Text = "Berrybrew UI";
@@ -257,4 +257,12 @@ public class BBUI : System.Windows.Forms.Form {
             e.Cancel = true;
         }
     }
+    
+    private void Redraw() {
+        CurrentPerlLabel_Redraw();
+        PerlInstallSelect_Redraw();
+        PerlSwitchSelect_Redraw();
+    }
+    
+    
 }
