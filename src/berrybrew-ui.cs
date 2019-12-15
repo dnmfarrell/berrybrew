@@ -126,6 +126,11 @@ public class BBUI : System.Windows.Forms.Form {
     }
     
     private void installPerlButton_Click(object Sender, EventArgs e) {
+        if (perlInstallSelect.Text == "") {
+            System.Windows.Forms.MessageBox.Show("No Perl selected to install!");
+            return;         
+        }       
+        
         string perlName = perlInstallSelect.Text;
         bb.Install(perlName);
         this.WindowState = FormWindowState.Minimized;
@@ -147,6 +152,11 @@ public class BBUI : System.Windows.Forms.Form {
     }
  
     private void switchPerlButton_Click(object Sender, EventArgs e) {
+        if (perlSwitchSelect.Text == "") {
+            System.Windows.Forms.MessageBox.Show("No Perl selected to switch to!");
+            return;         
+        }
+        
         string newPerl = perlSwitchSelect.Text;
         bb.Switch(newPerl);
         Redraw();
