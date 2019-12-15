@@ -297,7 +297,7 @@ public class BBUI : System.Windows.Forms.Form {
     }
 
     private void Form1_Load(object sender, EventArgs e) {
-        
+
         this.ClientSize = new System.Drawing.Size(240, 150);
 
         this.Controls.Add(this.perlSwitchButton);
