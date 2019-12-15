@@ -118,8 +118,6 @@ public class BBUI : System.Windows.Forms.Form {
         this.perlInstallSelect.Size = new System.Drawing.Size(121, 30);
         this.perlInstallSelect.TabIndex = 0;
 
-        string perlInUse = bb.PerlInUse().Name;
-
         foreach (string perlName in bb.AvailableList()) {
             this.perlInstallSelect.Items.Add(perlName );           
         }
@@ -128,8 +126,6 @@ public class BBUI : System.Windows.Forms.Form {
     private void PerlInstallSelect_Redraw() {
         perlInstallSelect.Items.Clear();
         
-        string perlInUse = bb.PerlInUse().Name;
- 
          foreach (string perlName in bb.AvailableList()) {
              this.perlInstallSelect.Items.Add(perlName );           
          }       
