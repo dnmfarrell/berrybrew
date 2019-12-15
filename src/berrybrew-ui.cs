@@ -139,6 +139,22 @@ public class BBUI : System.Windows.Forms.Form {
         
          perlInstallSelect.SelectedIndex = -1;
     }
+ 
+    private void PerlSwitchSelect_Redraw() {
+        perlSwitchSelect.Items.Clear();
+        
+        string perlInUse = bb.PerlInUse().Name;
+        
+        foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+            if (perl.Name == perlInUse)
+                continue;
+            
+            this.perlSwitchSelect.Items.Add(perl.Name );           
+        }
+
+        perlInstallSelect.SelectedIndex = -1;
+    }
+       
     private void InitializePerlSwitchSelect() {
         this.perlSwitchSelect = new System.Windows.Forms.ComboBox();
         this.perlSwitchSelect.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -211,7 +227,7 @@ public class BBUI : System.Windows.Forms.Form {
         bb.Switch(newPerl);
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
-        this.Refresh();
+        PerlSwitchSelect_Redraw();
         //Application.Restart();
         //Environment.Exit(0);
     }  
