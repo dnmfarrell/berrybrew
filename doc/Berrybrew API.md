@@ -17,6 +17,7 @@ The `Berrybrew` class is the base of the system.
 |---|---|---|
 [Available](#available)| **public** | Displays all available Perls
 [AvailableList](#availablelist)/ **public** / Returns a list of available Perl names
+[BaseConfig](#baseconfig)/ **private** / Initializes the registry-based configuration
 [CheckName](#checkname)| internal | Validates the name of a custom Perl install
 [CheckRootDir](#checkrootdir)| private | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
@@ -99,7 +100,13 @@ as found in `this.Perls`, where `this.Perls` is a
     public List<string> AvailableList()
     
 Returns a list of strings of Perl names that are available for install.
+   
+#### BaseConfig
+
+    private void BaseConfig()
     
+Initializes the registry based configuraiton.
+        
 #### CheckName
 
     private static bool CheckName(string perlName)

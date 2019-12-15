@@ -43,17 +43,17 @@ namespace BerryBrew {
         
         private readonly string registrySubKey = @"SOFTWARE\berrybrew";
         
-        public readonly string ArchivePath;
-        public readonly string InstallPath;
-        public readonly string RootPath;
+        public string ArchivePath;
+        public string InstallPath;
+        public string RootPath;
         
-        private readonly string _binPath = AssemblyDirectory;
-        private readonly string _confPath;
-        private readonly string _downloadUrl;
-        private readonly bool _windowsHomedir;
+        private string _binPath = AssemblyDirectory;
+        private string _confPath;
+        private string _downloadUrl;
+        private bool _windowsHomedir;
         
         // private readonly string _strawberryUrl; /* currently unneeded */
-        private readonly bool _customExec;
+        private bool _customExec;
 
         private bool _bypassOrphanCheck;
 
@@ -62,12 +62,104 @@ namespace BerryBrew {
 
         public Berrybrew() {
             
+            // Initialize configuration
+            
             InstallPath = Regex.Replace(_binPath, @"bin", "");
             _confPath = InstallPath + @"/data/";
 
-            dynamic jsonConf = JsonParse("config");
+            BaseConfig();
+            
+            // ensure the Perl install dir exists
 
-            // Configuration
+            CheckRootDir();
+
+            // create the custom and virtual perls config file
+
+            string customPerlsFile = _confPath + @"perls_custom.json";
+            string virtualPerlsFile = _confPath + @"perls_virtual.json";
+
+            if (! File.Exists(customPerlsFile))
+                File.WriteAllText(customPerlsFile, @"[]");
+
+            if (! File.Exists(virtualPerlsFile))
+                File.WriteAllText(virtualPerlsFile, @"[]");
+            
+            // messages
+
+            dynamic jsonMessages = JsonParse("messages");
+
+            foreach (dynamic entry in jsonMessages)
+                Message.Add(entry);
+
+            // perls
+
+            const bool installPerlsIntoSelf = true;
+            PerlGenerateObjects(installPerlsIntoSelf);
+        }
+
+        ~Berrybrew(){
+            List<string> orphans = PerlFindOrphans();
+
+            if (orphans.Count > 0 && ! _bypassOrphanCheck){
+                string orphanedPerls = Message.Get("perl_orphans");
+                Console.WriteLine("\nWARNING! {0}\n\n", orphanedPerls.Trim());
+                foreach (string orphan in orphans)
+                    Console.WriteLine("  {0}", orphan);
+            }
+        }
+      
+        public void Available(){
+
+            Message.Print("available_header");
+
+            List<int> nameLengths = new List<int>();
+
+            foreach (string perlName in _perls.Keys)
+                nameLengths.Add(perlName.Length);
+
+            int maxNameLength = nameLengths.Max();
+
+            foreach (StrawberryPerl perl in _perls.Values){
+                string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
+                Console.Write("\t" + perlNameToPrint);
+
+                if (PerlIsInstalled(perl))
+                    Console.Write(" [installed] ");
+                if (perl.Custom)
+                    Console.Write("[custom]");
+                if (perl.Virtual)
+                    Console.Write("[virtual]");               
+
+                if (perl.Name == PerlInUse().Name)
+                    Console.Write(" *");
+
+                Console.Write("\n");
+            }
+            Message.Print("available_footer");
+        }
+
+        public List<string> AvailableList() {
+            List<string> availablePerls = new List<string>();
+
+            foreach (StrawberryPerl perl in _perls.Values) {
+                if (PerlIsInstalled(perl))
+                    continue;
+                if (perl.Custom)
+                    continue;
+                if (perl.Virtual)
+                    continue;
+                if (perl.Name == PerlInUse().Name)
+                    continue;
+
+                availablePerls.Add(perl.Name);
+            }
+
+            return availablePerls;
+        }
+
+        private void BaseConfig() {
+ 
+            dynamic jsonConf = JsonParse("config");
             
             try {
                 if (Registry.LocalMachine.OpenSubKey(registrySubKey) ==
@@ -112,158 +204,6 @@ namespace BerryBrew {
 
             if ((string) registry.GetValue("debug", "false") == "true")
                 Debug = true;
-
-            // ensure the Perl install dir exists
-
-            CheckRootDir();
-
-            // create the custom and virtual perls config file
-
-            string customPerlsFile = _confPath + @"perls_custom.json";
-            string virtualPerlsFile = _confPath + @"perls_virtual.json";
-
-            if (! File.Exists(customPerlsFile))
-                File.WriteAllText(customPerlsFile, @"[]");
-
-            if (! File.Exists(virtualPerlsFile))
-                File.WriteAllText(virtualPerlsFile, @"[]");
-            
-            // messages
-
-            dynamic jsonMessages = JsonParse("messages");
-
-            foreach (dynamic entry in jsonMessages)
-                Message.Add(entry);
-
-            // perls
-
-            const bool installPerlsIntoSelf = true;
-            PerlGenerateObjects(installPerlsIntoSelf);
-        }
-
-        ~Berrybrew(){
-            List<string> orphans = PerlFindOrphans();
-
-            if (orphans.Count > 0 && ! _bypassOrphanCheck){
-                string orphanedPerls = Message.Get("perl_orphans");
-                Console.WriteLine("\nWARNING! {0}\n\n", orphanedPerls.Trim());
-                foreach (string orphan in orphans)
-                    Console.WriteLine("  {0}", orphan);
-            }
-        }
-
-        public void SwitchQuick (){
-            string procName = Process.GetCurrentProcess().ProcessName;
-
-            Process[] procList = Process.GetProcessesByName(procName);
-            PerformanceCounter myParentID = new PerformanceCounter("Process", "Creating Process ID", procName);
-            float parentPID = myParentID.NextValue();
-
-            // Console.WriteLine("Parent for {0}: PID: {1}  Name: {2}", procName, parentPID , Process.GetProcessById((int)parentPID).ProcessName);
-
-            for (int i = 1; i < procList.Length; i++)
-            {
-                PerformanceCounter myParentMultiProcID =
-                    new PerformanceCounter("Process", "ID Process",
-                        procName + "#" + i);
-
-                parentPID = myParentMultiProcID.NextValue();
-            }
-
-            string cwd = Directory.GetCurrentDirectory();
-            
-            Process replacement = new Process();
-            replacement.StartInfo.FileName = "cmd.exe";
-            replacement.StartInfo.WorkingDirectory = cwd;
-            replacement.StartInfo.EnvironmentVariables.Remove("PATH");
-            replacement.StartInfo.EnvironmentVariables.Add("PATH", PathGet());
-            replacement.StartInfo.UseShellExecute = false;
-            replacement.StartInfo.RedirectStandardOutput = false;
-            replacement.Start();
-
-            // kill the original parent proc's cmd window
-            
-            Process.GetProcessById((int) parentPID).Kill();
-        }
-        
-        public void List(){
-            StrawberryPerl currentPerl = PerlInUse();
-
-            List<int> nameLengths = new List<int>();
-            List<StrawberryPerl> installedPerls = PerlsInstalled();
-
-            if (! installedPerls.Any()){
-                Console.Write("\nNo versions of Perl are installed.\n");
-                Environment.Exit(0);
-            }
-
-            foreach (StrawberryPerl perl in installedPerls)
-                nameLengths.Add(perl.Name.Length);
-
-            int maxNameLength = nameLengths.Max();
-
-            foreach(StrawberryPerl perl in installedPerls){
-                string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
-                Console.Write("\t" + perlNameToPrint);
-
-                if (perl.Custom)
-                    Console.Write(" [custom]");
-                if (perl.Virtual)
-                    Console.Write(" [virtual]");
-                if (perl.Name == currentPerl.Name)
-                    Console.Write(" *");
-
-                Console.Write("\n");
-            }
-        }
-
-        public List<string> AvailableList() {
-            List<string> availablePerls = new List<string>();
-
-            foreach (StrawberryPerl perl in _perls.Values) {
-                if (PerlIsInstalled(perl))
-                    continue;
-                if (perl.Custom)
-                    continue;
-                if (perl.Virtual)
-                    continue;
-                if (perl.Name == PerlInUse().Name)
-                    continue;
-
-                availablePerls.Add(perl.Name);
-            }
-
-            return availablePerls;
-        }
-        
-        public void Available(){
-
-            Message.Print("available_header");
-
-            List<int> nameLengths = new List<int>();
-
-            foreach (string perlName in _perls.Keys)
-                nameLengths.Add(perlName.Length);
-
-            int maxNameLength = nameLengths.Max();
-
-            foreach (StrawberryPerl perl in _perls.Values){
-                string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
-                Console.Write("\t" + perlNameToPrint);
-
-                if (PerlIsInstalled(perl))
-                    Console.Write(" [installed] ");
-                if (perl.Custom)
-                    Console.Write("[custom]");
-                if (perl.Virtual)
-                    Console.Write("[virtual]");               
-
-                if (perl.Name == PerlInUse().Name)
-                    Console.Write(" *");
-
-                Console.Write("\n");
-            }
-            Message.Print("available_footer");
         }
 
         private static bool CheckName (string perlName){
@@ -1041,7 +981,38 @@ namespace BerryBrew {
 
             File.WriteAllText(writeFile, jsonString);
         }
+        
+        public void List(){
+            StrawberryPerl currentPerl = PerlInUse();
 
+            List<int> nameLengths = new List<int>();
+            List<StrawberryPerl> installedPerls = PerlsInstalled();
+
+            if (! installedPerls.Any()){
+                Console.Write("\nNo versions of Perl are installed.\n");
+                Environment.Exit(0);
+            }
+
+            foreach (StrawberryPerl perl in installedPerls)
+                nameLengths.Add(perl.Name.Length);
+
+            int maxNameLength = nameLengths.Max();
+
+            foreach(StrawberryPerl perl in installedPerls){
+                string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
+                Console.Write("\t" + perlNameToPrint);
+
+                if (perl.Custom)
+                    Console.Write(" [custom]");
+                if (perl.Virtual)
+                    Console.Write(" [virtual]");
+                if (perl.Name == currentPerl.Name)
+                    Console.Write(" *");
+
+                Console.Write("\n");
+            }
+        }
+ 
         public void Off(){
 
             PathRemovePerl();
@@ -1750,6 +1721,40 @@ namespace BerryBrew {
             }
         }
 
+        public void SwitchQuick (){
+            string procName = Process.GetCurrentProcess().ProcessName;
+
+            Process[] procList = Process.GetProcessesByName(procName);
+            PerformanceCounter myParentID = new PerformanceCounter("Process", "Creating Process ID", procName);
+            float parentPID = myParentID.NextValue();
+
+            // Console.WriteLine("Parent for {0}: PID: {1}  Name: {2}", procName, parentPID , Process.GetProcessById((int)parentPID).ProcessName);
+
+            for (int i = 1; i < procList.Length; i++)
+            {
+                PerformanceCounter myParentMultiProcID =
+                    new PerformanceCounter("Process", "ID Process",
+                        procName + "#" + i);
+
+                parentPID = myParentMultiProcID.NextValue();
+            }
+
+            string cwd = Directory.GetCurrentDirectory();
+            
+            Process replacement = new Process();
+            replacement.StartInfo.FileName = "cmd.exe";
+            replacement.StartInfo.WorkingDirectory = cwd;
+            replacement.StartInfo.EnvironmentVariables.Remove("PATH");
+            replacement.StartInfo.EnvironmentVariables.Add("PATH", PathGet());
+            replacement.StartInfo.UseShellExecute = false;
+            replacement.StartInfo.RedirectStandardOutput = false;
+            replacement.Start();
+
+            // kill the original parent proc's cmd window
+            
+            Process.GetProcessById((int) parentPID).Kill();
+        }
+ 
         public void Unconfig(){
             PathRemoveBerrybrew();
             Message.Print("unconfig");
