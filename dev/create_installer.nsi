@@ -2,6 +2,7 @@ RequestExecutionLevel admin
 
 !include LogicLib.nsh
 !include MUI2.nsh
+!include nsProcess.nsh
 
 !define PRODUCT_NAME "berrybrew"
 !define PRODUCT_VERSION "1.30"
@@ -120,6 +121,17 @@ Function .oninstsuccess
 FunctionEnd
 
 Function .onInit
+    ${nsProcess::FindProcess} "berrybrew-ui.exe" $R0
+    ${If} $R0 == 0
+        DetailPrint "berrybrew-ui.exe is running. Closing it down"
+        ${nsProcess::KillProcess} "berrybrew-ui.exe" $R0
+        DetailPrint "Waiting for berrybrew-ui.exe to close"
+        Sleep 2000  
+    ${Else}
+        DetailPrint "berrybrew-ui.exe was not found to be running"        
+    ${EndIf}    
+    ${nsProcess::Unload}
+
   StrCpy $InstDir "$PROGRAMFILES\berrybrew\"
 
   ; check for previously installed versions
