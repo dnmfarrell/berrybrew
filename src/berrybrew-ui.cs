@@ -127,7 +127,18 @@ public class BBUI : System.Windows.Forms.Form {
         //if (this.perlInstallSelect.Items.Count > 0)
             //this.perlInstallSelect.SelectedIndex = 0;
     }
-   
+
+    private void PerlInstallSelect_Redraw() {
+        perlInstallSelect.Items.Clear();
+        
+        string perlInUse = bb.PerlInUse().Name;
+ 
+         foreach (string perlName in bb.AvailableList()) {
+             this.perlInstallSelect.Items.Add(perlName );           
+         }       
+        
+         perlInstallSelect.SelectedIndex = -1;
+    }
     private void InitializePerlSwitchSelect() {
         this.perlSwitchSelect = new System.Windows.Forms.ComboBox();
         this.perlSwitchSelect.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -187,11 +198,12 @@ public class BBUI : System.Windows.Forms.Form {
   
     private void installPerlButton_Click(object Sender, EventArgs e) {
         string perlName = perlInstallSelect.Text;
-
+        bb.Install(perlName);
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
-        Application.Restart();
-        Environment.Exit(0);
+        PerlInstallSelect_Redraw();
+        //Application.Restart();
+        //Environment.Exit(0);
     }  
  
     private void switchPerlButton_Click(object Sender, EventArgs e) {
@@ -199,8 +211,9 @@ public class BBUI : System.Windows.Forms.Form {
         bb.Switch(newPerl);
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
-        Application.Restart();
-        Environment.Exit(0);
+        this.Refresh();
+        //Application.Restart();
+        //Environment.Exit(0);
     }  
  
     private void Form1_Load(object sender, EventArgs e) {
