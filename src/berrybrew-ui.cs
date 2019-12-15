@@ -91,7 +91,6 @@ public class BBUI : System.Windows.Forms.Form {
             this.currentPerlLabel.Name = "currentPerlLabel";
             this.currentPerlLabel.Size = new System.Drawing.Size(35, 35);
             this.currentPerlLabel.TabIndex = 0;
-            this.currentPerlLabel.Text = "Current Perl: ";
             this.currentPerlLabel.Font = new Font(this.Font, FontStyle.Bold);
 
             this.ClientSize = new System.Drawing.Size(284, 261);
@@ -100,7 +99,19 @@ public class BBUI : System.Windows.Forms.Form {
             this.ResumeLayout(false);
             this.PerformLayout();
     }
+
+    private void currentPerlLabel_Redraw() {
+         this.currentPerlLabel.Text = "Current Perl: ";
+
+         string perlInUse = bb.PerlInUse().Name;
  
+         if (perlInUse == null) {
+             perlInUse = "None configured";
+         }
+ 
+         this.currentPerlLabel.Text = currentPerlLabel.Text += perlInUse;       
+    }
+    
     private void InitializePerlInstallButton() {
         this.perlInstallButton = new System.Windows.Forms.Button();
 
@@ -138,6 +149,7 @@ public class BBUI : System.Windows.Forms.Form {
     private void switchPerlButton_Click(object Sender, EventArgs e) {
         string newPerl = perlSwitchSelect.Text;
         bb.Switch(newPerl);
+        currentPerlLabel_Redraw();
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
         PerlSwitchSelect_Redraw();
@@ -227,14 +239,8 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.Controls.Add(this.perlInstallButton);
         this.Controls.Add(this.perlInstallSelect);
-        
-        string perlInUse = bb.PerlInUse().Name;
 
-        if (perlInUse == null) {
-            perlInUse = "None configured";
-        }
-
-        this.currentPerlLabel.Text = currentPerlLabel.Text += perlInUse;
+        currentPerlLabel_Redraw();
         
         this.Name = "BBUI";
         this.Text = "Berrybrew UI";
