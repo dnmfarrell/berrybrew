@@ -41,6 +41,8 @@ namespace BerryBrew {
         private static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
         private static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
         
+        private readonly string registrySubKey = @"SOFTWARE\berrybrew";
+        
         public readonly string ArchivePath;
         public readonly string InstallPath;
         public readonly string RootPath;
@@ -58,24 +60,58 @@ namespace BerryBrew {
         public readonly Message Message = new Message();
         private readonly OrderedDictionary _perls = new OrderedDictionary();
 
-        public Berrybrew(){
-
+        public Berrybrew() {
+            
             InstallPath = Regex.Replace(_binPath, @"bin", "");
             _confPath = InstallPath + @"/data/";
 
-            // config
-
             dynamic jsonConf = JsonParse("config");
-            RootPath = jsonConf.root_dir + "\\";
-            ArchivePath = jsonConf.temp_dir;
-            // _strawberryUrl = jsonConf.strawberry_url; /* currently unneeded */
-            _downloadUrl = jsonConf.download_url;
-            _windowsHomedir = jsonConf.windows_homedir;
+
+            // Configuration
             
-            if (jsonConf.custom_exec == "true")
+            try {
+                if (Registry.LocalMachine.OpenSubKey(registrySubKey) ==
+                    null) {
+
+                    RegistryKey regKey =
+                        Registry.LocalMachine.CreateSubKey(registrySubKey);
+
+                    foreach (string confKey in new string[] {
+                        "root_dir", "temp_dir", "download_url",
+                        "windows_homedir", "custom_exec", "debug"
+                    }) {
+                        Console.WriteLine("{0}: {1}", confKey,
+                            jsonConf[confKey]);
+                        regKey.SetValue(confKey, jsonConf[confKey]);
+                    }
+                }
+            }
+            catch (UnauthorizedAccessException err) {
+                Console.WriteLine(
+                    "\nInitializing berrybrew requires Administrator privileges");
+                if (Debug)
+                    Console.WriteLine(err);
+
+                Environment.Exit(0);
+            }
+            
+            RegistryKey registry = Registry.LocalMachine.OpenSubKey(registrySubKey);
+
+            RootPath = (string) registry.GetValue("root_dir", "");
+            RootPath += @"\";
+
+            ArchivePath = (string) registry.GetValue("temp_dir", "");
+            
+            _downloadUrl = (string) registry.GetValue("download_url", "");
+            
+            if ((string) registry.GetValue("windows_homedir", "false") == "true")
+                _windowsHomedir = true;
+
+            if ((string) registry.GetValue("custom_exec", "false") == "true")
                 _customExec = true;
 
-            Debug = jsonConf.debug;
+            if ((string) registry.GetValue("debug", "false") == "true")
+                Debug = true;
 
             // ensure the Perl install dir exists
 
