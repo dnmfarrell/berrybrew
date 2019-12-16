@@ -29,7 +29,10 @@ IMPORTANT: It is highly recommended to close all command line windows and open a
 new one before starting the testing, as changes to the `PATH` environment
 variables during development may break the testing routines.
 
+
 Clean up the Perls available lists
+
+All test files **must** set the `BERRYBREW_ENV` variable to `test`.
 
 - run `berrybrew fetch`
 - run `berrybrew available > t/data/available.txt`
