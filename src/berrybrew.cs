@@ -38,6 +38,8 @@ namespace BerryBrew {
         public bool Debug { set; get; }
         public bool Testing { set; get; }
 
+		public List<string> validOptions;
+
         private static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
         private static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
 
@@ -63,7 +65,17 @@ namespace BerryBrew {
         public Berrybrew() {
             
             // Initialize configuration
-             
+            
+			validOptions = new List<string>{
+                "debug",
+                "root_dir", 
+                "temp_dir", 
+                "download_url",
+                "windows_homedir", 
+                "custom_exec", 
+                "run_mode"
+            }; 
+
             string tempRegSubKey = @"SOFTWARE\berrybrew";
        
             if (bbEnv == "test") {
