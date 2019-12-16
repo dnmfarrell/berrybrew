@@ -49,13 +49,13 @@ namespace BerryBrew {
         public string InstallPath;
         public string RootPath;
         
-        private string _binPath = AssemblyDirectory;
-        private string _confPath;
-        private string _downloadUrl;
-        private bool _windowsHomedir;
+        private string BinPath = AssemblyDirectory;
+        private string ConfigPath;
+        private string DownloadURL;
+        private bool WindowsHomedir;
         
-        private bool _customExec;
-        private bool _bypassOrphanCheck;
+        private bool CustomExec;
+        private bool BypassOrphanCheck;
 
         public readonly Message Message = new Message();
         private readonly OrderedDictionary _perls = new OrderedDictionary();
@@ -75,8 +75,8 @@ namespace BerryBrew {
 
             registrySubKey = tempRegSubKey;            
             
-            InstallPath = Regex.Replace(_binPath, @"bin", "");
-            _confPath = InstallPath + @"/data/";
+            InstallPath = Regex.Replace(BinPath, @"bin", "");
+            ConfigPath = InstallPath + @"/data/";
 
             BaseConfig();
             
@@ -86,8 +86,8 @@ namespace BerryBrew {
 
             // create the custom and virtual perls config file
 
-            string customPerlsFile = _confPath + @"perls_custom.json";
-            string virtualPerlsFile = _confPath + @"perls_virtual.json";
+            string customPerlsFile = ConfigPath + @"perls_custom.json";
+            string virtualPerlsFile = ConfigPath + @"perls_virtual.json";
 
             if (! File.Exists(customPerlsFile))
                 File.WriteAllText(customPerlsFile, @"[]");
@@ -111,7 +111,7 @@ namespace BerryBrew {
         ~Berrybrew(){
             List<string> orphans = PerlFindOrphans();
 
-            if (orphans.Count > 0 && ! _bypassOrphanCheck){
+            if (orphans.Count > 0 && ! BypassOrphanCheck){
                 string orphanedPerls = Message.Get("perl_orphans");
                 Console.WriteLine("\nWARNING! {0}\n\n", orphanedPerls.Trim());
                 foreach (string orphan in orphans)
@@ -205,13 +205,13 @@ namespace BerryBrew {
 
             ArchivePath = (string) registry.GetValue("temp_dir", "");
             
-            _downloadUrl = (string) registry.GetValue("download_url", "");
+            DownloadURL = (string) registry.GetValue("download_url", "");
             
             if ((string) registry.GetValue("windows_homedir", "false") == "true")
-                _windowsHomedir = true;
+                WindowsHomedir = true;
 
             if ((string) registry.GetValue("custom_exec", "false") == "true")
-                _customExec = true;
+                CustomExec = true;
 
             if ((string) registry.GetValue("debug", "false") == "true")
                 Debug = true;
@@ -479,10 +479,10 @@ namespace BerryBrew {
 
             Console.WriteLine("\n{0}{1}", configIntro, Version());
 
-            if (! PathScan(_binPath, "machine")){
-                PathAddBerryBrew(_binPath);
+            if (! PathScan(BinPath, "machine")){
+                PathAddBerryBrew(BinPath);
 
-                Message.Print(PathScan(_binPath, "machine")
+                Message.Print(PathScan(BinPath, "machine")
                     ? "config_success"
                     : "config_failure");
             }
@@ -628,7 +628,7 @@ namespace BerryBrew {
             List<StrawberryPerl> filteredExecWith = new List<StrawberryPerl>();
 
             foreach(StrawberryPerl perl in execWith){
-                if (perl.Custom && ! _customExec)
+                if (perl.Custom && ! CustomExec)
                     continue;
                 if (perl.Name.Contains("tmpl") || perl.Name.Contains("template"))
                     continue;
@@ -845,7 +845,7 @@ namespace BerryBrew {
                     Console.WriteLine("\n\t{0}", InstallPath);
                     break;
                 case "bin_path":
-                    Console.WriteLine("\n\t{0}", _binPath);
+                    Console.WriteLine("\n\t{0}", BinPath);
                     break;
                 case "root_path":
                     Console.WriteLine("\n\t{0}", RootPath);
@@ -867,7 +867,7 @@ namespace BerryBrew {
             Extract(perl, archivePath);
             
 
-            if (_windowsHomedir) {
+            if (WindowsHomedir) {
                 string homedirFile = perl.InstallPath + "/perl/vendor/lib/Portable/HomeDir.pm";
                 
                 if (File.Exists(homedirFile)) {
@@ -882,7 +882,7 @@ namespace BerryBrew {
         private dynamic JsonParse(string type, bool raw=false){
 
             string filename = string.Format("{0}.json", type);
-            string jsonFile = _confPath + filename;
+            string jsonFile = ConfigPath + filename;
 
             try {
                 using (StreamReader r = new StreamReader(jsonFile)){
@@ -987,7 +987,7 @@ namespace BerryBrew {
                 jsonString = JsonConvert.SerializeObject(sortedData, Formatting.Indented);
             }
 
-            string writeFile = _confPath + type;
+            string writeFile = ConfigPath + type;
             writeFile = writeFile + @".json";
 
             File.WriteAllText(writeFile, jsonString);
@@ -1086,7 +1086,7 @@ namespace BerryBrew {
         private void PathRemoveBerrybrew(){
 
             string path = PathGet();
-            string binPath = _binPath;
+            string binPath = BinPath;
             List<string> paths = path.Split(new char[] {';'}).ToList();
             List<string> updatedPaths = new List<string>();
 
@@ -1438,7 +1438,7 @@ namespace BerryBrew {
 
             Console.WriteLine("Successfully registered {0}", perlName);
 
-            _bypassOrphanCheck = true;
+            BypassOrphanCheck = true;
         }
 
         public void PerlRegisterVirtualInstall(string perlName){
@@ -1506,7 +1506,7 @@ namespace BerryBrew {
 
             Console.WriteLine("\nSuccessfully registered virtual perl {0}", perlName);
 
-            _bypassOrphanCheck = true;
+            BypassOrphanCheck = true;
         }
         
         public void PerlUpdateAvailableList(bool allPerls=false){
@@ -1518,11 +1518,11 @@ namespace BerryBrew {
                 string jsonData = null;
 
                 try {
-                    jsonData = client.DownloadString(_downloadUrl);
+                    jsonData = client.DownloadString(DownloadURL);
                 }
 
                 catch (WebException error){
-                    Console.Write("\nCan't open file {0}. Can not continue...\n", _downloadUrl);
+                    Console.Write("\nCan't open file {0}. Can not continue...\n", DownloadURL);
                     if (Debug)
                         Console.Write(error);
                     Environment.Exit(0);
@@ -1886,8 +1886,8 @@ namespace BerryBrew {
             string backupDir = InstallPath + @"/backup_" + span.TotalSeconds;
             Directory.CreateDirectory(backupDir);
 
-            if (Directory.Exists(_confPath)){
-                string[] files = Directory.GetFiles(_confPath);
+            if (Directory.Exists(ConfigPath)){
+                string[] files = Directory.GetFiles(ConfigPath);
 
                 foreach (string s in files){
                     string fileName = Path.GetFileName(s);
@@ -1941,7 +1941,7 @@ namespace BerryBrew {
                 if (Debug)
                     Console.WriteLine("Restoring the '{0}' config file.", fileName);
 
-                string destFile = Path.Combine(_confPath, fileName);
+                string destFile = Path.Combine(ConfigPath, fileName);
                 File.Copy(s, destFile, true);
             }
 
