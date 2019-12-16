@@ -8,6 +8,8 @@ use File::Path qw(make_path);
 use Test::More;
 use Win32::TieRegistry;
 
+$ENV{BERRYBREW_ENV} = "test";
+
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 my $customfile = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/data/perls_custom.json" : 'c:/repos/berrybrew/test/data/perls_custom.json';
 

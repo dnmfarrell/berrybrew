@@ -5,6 +5,8 @@ use Test::More;
 use lib 't/';
 use BB;
 
+$ENV{BERRYBREW_ENV} = "test";
+
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 my $customfile = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/data/perls_custom.json" : 'c:/repos/berrybrew/test/data/perls_custom.json';
 

@@ -40,8 +40,10 @@ namespace BerryBrew {
 
         private static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
         private static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
-        
-        private readonly string registrySubKey = @"SOFTWARE\berrybrew";
+
+        private readonly string bbEnv = Environment.GetEnvironmentVariable("BERRYBREW_ENV");
+
+        private string registrySubKey;
         
         public string ArchivePath;
         public string InstallPath;
@@ -52,9 +54,7 @@ namespace BerryBrew {
         private string _downloadUrl;
         private bool _windowsHomedir;
         
-        // private readonly string _strawberryUrl; /* currently unneeded */
         private bool _customExec;
-
         private bool _bypassOrphanCheck;
 
         public readonly Message Message = new Message();
@@ -63,6 +63,17 @@ namespace BerryBrew {
         public Berrybrew() {
             
             // Initialize configuration
+             
+            string tempRegSubKey = @"SOFTWARE\berrybrew";
+       
+            if (bbEnv == "test") {
+                tempRegSubKey += "-test";
+            }
+            else if (bbEnv == "build") {
+                 tempRegSubKey += "-build";
+            }
+
+            registrySubKey = tempRegSubKey;            
             
             InstallPath = Regex.Replace(_binPath, @"bin", "");
             _confPath = InstallPath + @"/data/";
@@ -158,7 +169,7 @@ namespace BerryBrew {
         }
 
         private void BaseConfig() {
- 
+
             dynamic jsonConf = JsonParse("config");
             
             try {
