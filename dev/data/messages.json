@@ -153,7 +153,7 @@
         "berrybrew <command> [subcommand] [option]",
         "",
         "",
-        "    available      List available Strawberry Perl versions and which are installed",
+        "    available *    List available Strawberry Perl versions and which are installed",
 		"    list           List installed Strawberry Perl versions",
         "    clean *        Remove all temporary berrybrew files",
         "    clone          Make a complete copy of a Perl installation",
@@ -218,6 +218,16 @@
         "THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT",
         "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE",
         "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+    ]
+},
+{
+    "label": "subcmd.available",
+
+    "content": [
+        "",
+        "   berrybrew 'available' subcommands:",
+        "",
+        "   all    List all available Perls, not just the most recent point release of each major version"
     ]
 },
 {

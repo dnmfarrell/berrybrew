@@ -38,10 +38,10 @@ debugging information.
 
 #### available
 
-    berrybrew available
+    berrybrew available [command]
 
-Takes no options, displays a list of all available Perl versions, which
-includes installed and custom versions. A shortened example:
+Displays a list of available Perl versions, which includes installed and custom
+versions. A shortened example:
 
     The following Strawberry Perls are available:
 
@@ -54,6 +54,9 @@ includes installed and custom versions. A shortened example:
             unit_test-5.18  [custom] [installed] *
 
     * Currently using
+
+If the optional command is set to `all`, we'll list all available versions.
+Otherwise, we list only the most recent point release for each major Perl version.
 
 #### list
 

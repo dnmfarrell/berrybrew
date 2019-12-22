@@ -90,18 +90,32 @@ that is displayed to the user.
 
 #### Available
 
-    public void Available()
+    public void Available(allPerls=false)
 
+        argument:   allPerls
+        value:      Bool
+        default:    false
+         
 Displays the names of the versions of Perl that are available to `berrybrew`,
 as found in `this.Perls`, where `this.Perls` is a
 `OrderedDictionary<string name, Berrybrew.StrawberryPerl>`.
 
+If `allPerls` is set to `true`, we will list all available Perls. Otherwise,
+we display only the most recent point release of each major version.
+
 #### AvailableList
 
-    public List<string> AvailableList()
-    
+    public List<string> AvailableList(allPerls=false)
+        
+         argument:   allPerls
+         value:      Bool
+         default:    false   
+         
 Returns a list of strings of Perl names that are available for install.
-   
+
+If `allPerls` is set to `true`, we will return all available Perls. Otherwise,
+we return only the most recent point release of each major version.  
+
 #### BaseConfig
 
     private void BaseConfig()

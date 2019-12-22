@@ -18,6 +18,9 @@ Revision history for berrybrew
           various configuration option values (closes #216)
         - Strawberry Perl objects now have a new "newest" attribute, to track
           if an instance is the most recent point release of a major version
+        - 'fetch' no longer has the 'all' option, it now performs its duties
+          with the 'available' command instead. All Perl versions are now
+          written to the `perls.json` file (closes #219)
           
 1.29    2019-12-08
         - add missing closing parens on 'remove' if a Perl isn't installed

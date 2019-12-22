@@ -138,21 +138,13 @@ namespace BerryBrew {
                 nameLengths.Add(perlName.Length);
 
             int maxNameLength = nameLengths.Max();
-			List<string> perlVersions = new List<string>();
 
             foreach (StrawberryPerl perl in _perls.Values){
-		/*
-				string[] majorVersionParts = perl.Version.Split(new char[] {'.'});
-                string majorVersion = majorVersionParts[0] + "." + majorVersionParts[1];
-                string bbMajorVersion = majorVersion + "_" + bits;
-
-                if (perlVersions.Contains(bbMajorVersion) && ! allPerls){
+                if (! allPerls && ! perl.Newest){
 					if (! PerlIsInstalled(perl) && ! perl.Custom && ! perl.Virtual)
 	                    continue;
 				}	
 
-				perlVersions.Add(bbMajorVersion);	
-			*/
                 string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
                 Console.Write("\t" + perlNameToPrint);
 
@@ -171,10 +163,15 @@ namespace BerryBrew {
             Message.Print("available_footer");
         }
 
-        public List<string> AvailableList() {
+        public List<string> AvailableList(bool allPerls=false) {
             List<string> availablePerls = new List<string>();
 
             foreach (StrawberryPerl perl in _perls.Values) {
+
+                if (! allPerls && ! perl.Newest){
+                    continue;
+				}
+	
                 if (PerlIsInstalled(perl))
                     continue;
                 if (perl.Custom)
@@ -1345,6 +1342,7 @@ namespace BerryBrew {
             var virtualPerls = JsonParse("perls_virtual");
 
             foreach (var perl in perls) {
+
                 perlObjects.Add(
                     new StrawberryPerl(
                         this,
@@ -1353,6 +1351,7 @@ namespace BerryBrew {
                         perl.url,
                         perl.ver,
                         perl.csum,
+						perl.newest == "true" ? true : false,
                         false // custom
                     )
                 );
@@ -1367,6 +1366,7 @@ namespace BerryBrew {
                         perl.url,
                         perl.ver,
                         perl.csum,
+						perl.newest == "true" ? true : false,
                         true // custom
                     )
                 );
@@ -1382,6 +1382,7 @@ namespace BerryBrew {
                         perl.url,
                         perl.ver,
                         perl.csum,
+						perl.newest == "true" ? true : false,
                         false, // custom
                         true,  // virtual
                         perl.perl_path.ToString(),
@@ -1665,6 +1666,11 @@ namespace BerryBrew {
                                 perlInstance.Add("csum", release.edition.portable.sha1);
                                 perlInstance.Add("ver", bbVersion.Split(new char[] {'_'}).First());
 
+								if (! perls.Contains(bbMajorVersion))
+                                     perlInstance.Add("newest", true);
+                                else
+                                    perlInstance.Add("newest", false);                               
+
                                 if (Debug){
                                     Console.WriteLine(
                                         "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
@@ -1684,6 +1690,11 @@ namespace BerryBrew {
                                 perlInstance.Add("csum", release.edition.zip.sha1);
                                 perlInstance.Add("ver", bbVersion.Split(new char[] {'_'}).First());
 
+								if (! perls.Contains(bbMajorVersion))
+                                     perlInstance.Add("newest", true);
+                                else
+                                    perlInstance.Add("newest", false);                               
+
                                 if (Debug){
                                     Console.WriteLine(
                                         "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
@@ -1695,12 +1706,7 @@ namespace BerryBrew {
                                 }
                             }
 
-						 	if (! perls.Contains(bbMajorVersion))
-                            	perlInstance.Add("newest", true);
-							else
-								perlInstance.Add("newest", false);
-
-                            data.Add(perlInstance);
+							data.Add(perlInstance);
 
                             Dictionary<string, object> pdlInstance = new Dictionary<string, object>();
 
@@ -1725,14 +1731,14 @@ namespace BerryBrew {
                                 }
                                 
 								if (! perls.Contains(bbMajorVersion))
-                                    pdlInstance.Add("newest", true);
-								else
-									pdlInstance.Add("newest", false);
-
-                            	perls.Add(bbMajorVersion);
+                                     pdlInstance.Add("newest", true);
+                                else
+                                    pdlInstance.Add("newest", false);                               
 
                                 data.Add(pdlInstance);
                             }
+
+                          	perls.Add(bbMajorVersion);
                         }
                     }
                 } // end build data
