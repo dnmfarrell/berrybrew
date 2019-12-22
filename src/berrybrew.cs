@@ -52,7 +52,7 @@ namespace BerryBrew {
         public string rootPath;
         
         private string binPath = AssemblyDirectory;
-        private string ConfigPath;
+        private string configPath;
         private string downloadURL;
         private bool windowsHomedir;
         
@@ -63,9 +63,13 @@ namespace BerryBrew {
         private readonly OrderedDictionary _perls = new OrderedDictionary();
 
         public Berrybrew() {
-            
+
             // Initialize configuration
-            
+
+            installPath = Regex.Replace(binPath, @"bin", "");
+            configPath = installPath + @"/data/";                      
+            registrySubKey = @"SOFTWARE\berrybrew";
+
 			validOptions = new List<string>{
                 "debug",
                 "root_dir", 
@@ -75,31 +79,25 @@ namespace BerryBrew {
                 "custom_exec", 
                 "run_mode"
             }; 
-
-            string tempRegSubKey = @"SOFTWARE\berrybrew";
        
+            BaseConfig();
+
             if (bbEnv == "test") {
-                tempRegSubKey += "-test";
+                //tempRegSubKey += "-test";
             }
             else if (bbEnv == "build") {
-                 tempRegSubKey += "-build";
+                 //tempRegSubKey += "-build";
             }
-
-            registrySubKey = tempRegSubKey;            
-            
-            installPath = Regex.Replace(binPath, @"bin", "");
-            ConfigPath = installPath + @"/data/";
-
-            BaseConfig();
-            
+ 
+             //registrySubKey = tempRegSubKey;                       
             // ensure the Perl install dir exists
 
             CheckRootDir();
 
             // create the custom and virtual perls config file
 
-            string customPerlsFile = ConfigPath + @"perls_custom.json";
-            string virtualPerlsFile = ConfigPath + @"perls_virtual.json";
+            string customPerlsFile = configPath + @"perls_custom.json";
+            string virtualPerlsFile = configPath + @"perls_virtual.json";
 
             if (! File.Exists(customPerlsFile))
                 File.WriteAllText(customPerlsFile, @"[]");
@@ -894,7 +892,7 @@ namespace BerryBrew {
         private dynamic JsonParse(string type, bool raw=false){
 
             string filename = string.Format("{0}.json", type);
-            string jsonFile = ConfigPath + filename;
+            string jsonFile = configPath + filename;
 
             try {
                 using (StreamReader r = new StreamReader(jsonFile)){
@@ -999,7 +997,7 @@ namespace BerryBrew {
                 jsonString = JsonConvert.SerializeObject(sortedData, Formatting.Indented);
             }
 
-            string writeFile = ConfigPath + type;
+            string writeFile = configPath + type;
             writeFile = writeFile + @".json";
 
             File.WriteAllText(writeFile, jsonString);
@@ -1065,7 +1063,12 @@ namespace BerryBrew {
 
             string path = PathGet();
             List<string> newPath = perl.Paths;
-            newPath.Add(path);
+			
+			string[] entries = path.Split(new char [] {';'});
+
+			foreach (string p in entries)
+	            newPath.Add(p);
+		
             PathSet(newPath);
         }
 
@@ -1076,7 +1079,7 @@ namespace BerryBrew {
             
             if (Registry.LocalMachine != null){
                 path = (string) Registry.LocalMachine.OpenSubKey(keyName).GetValue(
-                    "PATH",
+                    "Path",
                     "",
                     RegistryValueOptions.DoNotExpandEnvironmentNames
                 );
@@ -1151,13 +1154,23 @@ namespace BerryBrew {
 
             path.RemoveAll(string.IsNullOrEmpty);
 
+			string paths = string.Join(";", path);
+
+            if (! paths.EndsWith(@";"))
+				paths += @";";
+
             try {
                 const string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
-                Registry.LocalMachine.CreateSubKey(keyName).SetValue(
-                    "Path",
-                    string.Join(";", path),
-                    RegistryValueKind.ExpandString
-                );
+				using (RegistryKey pathKey = Registry.LocalMachine.OpenSubKey(keyName, true)){
+
+					pathKey.DeleteValue("Path");
+
+                    pathKey.SetValue(
+                        "Path",
+                        paths,
+                        RegistryValueKind.ExpandString
+                    );
+				}
 
                 SendMessageTimeout(
                     HwndBroadcast,
@@ -1711,6 +1724,8 @@ namespace BerryBrew {
         
         public void Switch(string switchToVersion, bool switchQuick=false){
 
+			Console.WriteLine("Switch() to: {0}", switchToVersion);
+
             try {
                 StrawberryPerl perl = PerlResolveVersion(switchToVersion);
 
@@ -1897,8 +1912,8 @@ namespace BerryBrew {
             string backupDir = installPath + @"/backup_" + span.TotalSeconds;
             Directory.CreateDirectory(backupDir);
 
-            if (Directory.Exists(ConfigPath)){
-                string[] files = Directory.GetFiles(ConfigPath);
+            if (Directory.Exists(configPath)){
+                string[] files = Directory.GetFiles(configPath);
 
                 foreach (string s in files){
                     string fileName = Path.GetFileName(s);
@@ -1952,7 +1967,7 @@ namespace BerryBrew {
                 if (Debug)
                     Console.WriteLine("Restoring the '{0}' config file.", fileName);
 
-                string destFile = Path.Combine(ConfigPath, fileName);
+                string destFile = Path.Combine(configPath, fileName);
                 File.Copy(s, destFile, true);
             }
 

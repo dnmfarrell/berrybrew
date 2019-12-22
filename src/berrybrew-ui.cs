@@ -167,7 +167,9 @@ public class BBUI : System.Windows.Forms.Form {
         bb.Switch(newPerl);
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
-        DrawComponents();
+        Application.Restart();
+        Environment.Exit(0);       
+//        DrawComponents();
     }  
       
     private void InitializePerlRemoveButton() {
