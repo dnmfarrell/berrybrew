@@ -38,7 +38,7 @@ namespace BerryBrew {
         public bool Debug { set; get; }
         public bool Testing { set; get; }
 
-		public List<string> validOptions;
+        public List<string> validOptions;
 
         private static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
         private static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
@@ -70,7 +70,7 @@ namespace BerryBrew {
             configPath = installPath + @"/data/";                      
             registrySubKey = @"SOFTWARE\berrybrew";
 
-			validOptions = new List<string>{
+            validOptions = new List<string>{
                 "debug",
                 "root_dir", 
                 "temp_dir", 
@@ -78,8 +78,8 @@ namespace BerryBrew {
                 "windows_homedir", 
                 "custom_exec", 
                 "run_mode",
-				"file_assoc",
-				"file_assoc_old"
+                "file_assoc",
+                "file_assoc_old"
             }; 
 
             if (bbEnv == "test") {
@@ -143,9 +143,9 @@ namespace BerryBrew {
 
             foreach (StrawberryPerl perl in _perls.Values){
                 if (! allPerls && ! perl.Newest){
-					if (! PerlIsInstalled(perl) && ! perl.Custom && ! perl.Virtual)
-	                    continue;
-				}	
+                    if (! PerlIsInstalled(perl) && ! perl.Custom && ! perl.Virtual)
+                        continue;
+                }	
 
                 string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
                 Console.Write("\t" + perlNameToPrint);
@@ -172,8 +172,8 @@ namespace BerryBrew {
 
                 if (! allPerls && ! perl.Newest){
                     continue;
-				}
-	
+                }
+    
                 if (PerlIsInstalled(perl))
                     continue;
                 if (perl.Custom)
@@ -751,58 +751,58 @@ namespace BerryBrew {
             return archivePath;
         }
 
-		public void FileAssoc(string action="") {
-			string plExtSubKey = @".pl";
+        public void FileAssoc(string action="") {
+            string plExtSubKey = @".pl";
             string plHandlerName = "";
 
-			try {
+            try {
                 RegistryKey plExtKey = Registry.ClassesRoot.CreateSubKey(plExtSubKey);
 
-				if (action == "set") {
+                if (action == "set") {
                     plHandlerName = (string) plExtKey.GetValue("");
        
-					if (plHandlerName == @"berrybrewPerl") {
-						Console.WriteLine("\nberrybrew is already managing the .pl file type\n");
-						Environment.Exit(0);
-					}
+                    if (plHandlerName == @"berrybrewPerl") {
+                        Console.WriteLine("\nberrybrew is already managing the .pl file type\n");
+                        Environment.Exit(0);
+                    }
 
                     Options("file_assoc_old", plHandlerName, true);
-					plHandlerName = @"berrybrewPerl";
-					
+                    plHandlerName = @"berrybrewPerl";
+                    
                     plExtKey.SetValue("", plHandlerName);
-					Options("file_assoc", plHandlerName, true);
+                    Options("file_assoc", plHandlerName, true);
 
                     RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\run\command");
                     plHandlerKey.SetValue("", binPath + @"\env.exe perl ""%1"" %*");
-					
-					Console.WriteLine("\nberrybrew is now managing the Perl file association");
-				}
-				else if (action == "unset") {
+                    
+                    Console.WriteLine("\nberrybrew is now managing the Perl file association");
+                }
+                else if (action == "unset") {
                     string old_file_assoc = Options("file_assoc_old", "", true);
 
-					if (old_file_assoc == "") {
-						Console.WriteLine("\nDefault file association already in place");
-						Environment.Exit(0);
-					}
+                    if (old_file_assoc == "") {
+                        Console.WriteLine("\nDefault file association already in place");
+                        Environment.Exit(0);
+                    }
 
                     plExtKey.SetValue("", old_file_assoc);
-					Options("file_assoc_old", "", true);
-					Options("file_assoc", old_file_assoc, true);
+                    Options("file_assoc_old", "", true);
+                    Options("file_assoc", old_file_assoc, true);
 
-					Console.WriteLine("\nSet Perl file association back to default");
-				}
-				else {
-					Console.WriteLine("\n\tPerl file association handling:");
-					Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", "", true));
-				}
-			}
-			catch (UnauthorizedAccessException e) {
-				Console.WriteLine("\nChanging file associations requires Administrator privileges");
+                    Console.WriteLine("\nSet Perl file association back to default");
+                }
+                else {
+                    Console.WriteLine("\n\tPerl file association handling:");
+                    Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", "", true));
+                }
+            }
+            catch (UnauthorizedAccessException e) {
+                Console.WriteLine("\nChanging file associations requires Administrator privileges");
 
-				if (Debug)
-					Console.WriteLine(e);
-			}
-		}
+                if (Debug)
+                    Console.WriteLine(e);
+            }
+        }
 
         private static string FileRemove(string filename){
 
@@ -1103,64 +1103,64 @@ namespace BerryBrew {
             Console.Write("berrybrew perl disabled. Run 'berrybrew-refresh' to use the system perl\n");
         }
 
-		public string Options(string option="", string value="", bool quiet=false) {
+        public string Options(string option="", string value="", bool quiet=false) {
 
-			if (Debug)
-				Console.WriteLine("\noption: {0}, value: {1}\n", option, value);
+            if (Debug)
+                Console.WriteLine("\noption: {0}, value: {1}\n", option, value);
 
-			RegistryKey registry = Registry.LocalMachine.CreateSubKey(registrySubKey);
+            RegistryKey registry = Registry.LocalMachine.CreateSubKey(registrySubKey);
 
-			if (option == "") {
-				Console.WriteLine("\nOption configuration:\n");
+            if (option == "") {
+                Console.WriteLine("\nOption configuration:\n");
 
-				foreach (string opt in validOptions){
-					string optStr = String.Format("\t{0}:", opt);
-					Console.Write(optStr.PadRight(20, ' '));
+                foreach (string opt in validOptions){
+                    string optStr = String.Format("\t{0}:", opt);
+                    Console.Write(optStr.PadRight(20, ' '));
                     string optVal = (string) registry.GetValue(opt, "");
-					Console.WriteLine(optVal);
-				}
-				return "";
-			}
-			
-			if (! validOptions.Contains(option)) {
-				Console.WriteLine("\n'{0}' is an invalid option...\n", option);
-				Environment.Exit(0);
-			}
-			else {
-				if (value == ""){
-					string optStr = String.Format("\n\t{0}:", option);
+                    Console.WriteLine(optVal);
+                }
+                return "";
+            }
+            
+            if (! validOptions.Contains(option)) {
+                Console.WriteLine("\n'{0}' is an invalid option...\n", option);
+                Environment.Exit(0);
+            }
+            else {
+                if (value == ""){
+                    string optStr = String.Format("\n\t{0}:", option);
                     string optVal = (string) registry.GetValue(option, "");
 
-					if (! quiet) {
+                    if (! quiet) {
                         Console.Write(optStr.PadRight(20, ' '));
                         Console.WriteLine(optVal);
-					}
-					return optVal;
-				}
-				else {
-					try {
-						registry.SetValue(option, value);
-					}
-					catch (UnauthorizedAccessException e) {
-						Console.WriteLine("Writing to the registry requires Administrator privileges.\n");
-						if (Debug)
-							Console.WriteLine(e);
+                    }
+                    return optVal;
+                }
+                else {
+                    try {
+                        registry.SetValue(option, value);
+                    }
+                    catch (UnauthorizedAccessException e) {
+                        Console.WriteLine("Writing to the registry requires Administrator privileges.\n");
+                        if (Debug)
+                            Console.WriteLine(e);
 
-						Environment.Exit(0);
-					}
+                        Environment.Exit(0);
+                    }
 
                     string optStr = String.Format("\n\t{0}:", option);
                     string optVal = (string) registry.GetValue(option, "");
 
-					if (! quiet) {
+                    if (! quiet) {
                         Console.Write(optStr.PadRight(20, ' '));
                         Console.WriteLine(optVal);
-					}
-					return optVal;
-				}
-			}	
-			return "";
-		}
+                    }
+                    return optVal;
+                }
+            }	
+            return "";
+        }
 
         private void PathAddBerryBrew(string binPath){
 
@@ -1185,12 +1185,12 @@ namespace BerryBrew {
 
             string path = PathGet();
             List<string> newPath = perl.Paths;
-			
-			string[] entries = path.Split(new char [] {';'});
+            
+            string[] entries = path.Split(new char [] {';'});
 
-			foreach (string p in entries)
-	            newPath.Add(p);
-		
+            foreach (string p in entries)
+                newPath.Add(p);
+        
             PathSet(newPath);
         }
 
@@ -1276,23 +1276,23 @@ namespace BerryBrew {
 
             path.RemoveAll(string.IsNullOrEmpty);
 
-			string paths = string.Join(";", path);
+            string paths = string.Join(";", path);
 
             if (! paths.EndsWith(@";"))
-				paths += @";";
+                paths += @";";
 
             try {
                 const string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
-				using (RegistryKey pathKey = Registry.LocalMachine.OpenSubKey(keyName, true)){
+                using (RegistryKey pathKey = Registry.LocalMachine.OpenSubKey(keyName, true)){
 
-					pathKey.DeleteValue("Path");
+                    pathKey.DeleteValue("Path");
 
                     pathKey.SetValue(
                         "Path",
                         paths,
                         RegistryValueKind.ExpandString
                     );
-				}
+                }
 
                 SendMessageTimeout(
                     HwndBroadcast,
@@ -1412,7 +1412,7 @@ namespace BerryBrew {
                         perl.url,
                         perl.ver,
                         perl.csum,
-						perl.newest == "true" ? true : false,
+                        perl.newest == "true" ? true : false,
                         false // custom
                     )
                 );
@@ -1427,7 +1427,7 @@ namespace BerryBrew {
                         perl.url,
                         perl.ver,
                         perl.csum,
-						perl.newest == "true" ? true : false,
+                        perl.newest == "true" ? true : false,
                         true // custom
                     )
                 );
@@ -1443,7 +1443,7 @@ namespace BerryBrew {
                         perl.url,
                         perl.ver,
                         perl.csum,
-						perl.newest == "true" ? true : false,
+                        perl.newest == "true" ? true : false,
                         false, // custom
                         true,  // virtual
                         perl.perl_path.ToString(),
@@ -1727,7 +1727,7 @@ namespace BerryBrew {
                                 perlInstance.Add("csum", release.edition.portable.sha1);
                                 perlInstance.Add("ver", bbVersion.Split(new char[] {'_'}).First());
 
-								if (! perls.Contains(bbMajorVersion))
+                                if (! perls.Contains(bbMajorVersion))
                                      perlInstance.Add("newest", true);
                                 else
                                     perlInstance.Add("newest", false);                               
@@ -1751,7 +1751,7 @@ namespace BerryBrew {
                                 perlInstance.Add("csum", release.edition.zip.sha1);
                                 perlInstance.Add("ver", bbVersion.Split(new char[] {'_'}).First());
 
-								if (! perls.Contains(bbMajorVersion))
+                                if (! perls.Contains(bbMajorVersion))
                                      perlInstance.Add("newest", true);
                                 else
                                     perlInstance.Add("newest", false);                               
@@ -1767,7 +1767,7 @@ namespace BerryBrew {
                                 }
                             }
 
-							data.Add(perlInstance);
+                            data.Add(perlInstance);
 
                             Dictionary<string, object> pdlInstance = new Dictionary<string, object>();
 
@@ -1791,7 +1791,7 @@ namespace BerryBrew {
                                     );
                                 }
                                 
-								if (! perls.Contains(bbMajorVersion))
+                                if (! perls.Contains(bbMajorVersion))
                                      pdlInstance.Add("newest", true);
                                 else
                                     pdlInstance.Add("newest", false);                               
@@ -1799,7 +1799,7 @@ namespace BerryBrew {
                                 data.Add(pdlInstance);
                             }
 
-                          	perls.Add(bbMajorVersion);
+                            perls.Add(bbMajorVersion);
                         }
                     }
                 } // end build data
@@ -1876,17 +1876,17 @@ namespace BerryBrew {
                 PathRemovePerl();
                 PathAddPerl(perl);
 
-				if (switchQuick){
-	                SwitchQuick();
-				}
+                if (switchQuick){
+                    SwitchQuick();
+                }
                 
                 Console.WriteLine(
                         "\nSwitched to Perl version {0}...\n\n",
                         switchToVersion
                 );
 
-				if (!switchQuick)
-					Console.WriteLine("Run 'berrybrew-refresh' to use it.\n");
+                if (!switchQuick)
+                    Console.WriteLine("Run 'berrybrew-refresh' to use it.\n");
             }
             catch (ArgumentException){
                 Message.Print("perl_unknown_version");
@@ -2157,7 +2157,7 @@ namespace BerryBrew {
         public readonly string Url;
         public readonly string Version;
         public readonly string Sha1Checksum;
-		public readonly bool Newest;
+        public readonly bool Newest;
         public readonly bool Custom;
         public readonly bool Virtual;
         public readonly string archivePath;
@@ -2174,7 +2174,7 @@ namespace BerryBrew {
             object url, 
             object version, 
             object csum, 
-			bool newest = false,
+            bool newest = false,
             bool custom = false,
             bool virtual_install = false,
             string perl_path = "",
@@ -2195,7 +2195,7 @@ namespace BerryBrew {
             
             Name = name.ToString();
             Custom = custom;
-			Newest = newest;
+            Newest = newest;
             Virtual = virtual_install;
             File = file.ToString();
             Url = url.ToString();

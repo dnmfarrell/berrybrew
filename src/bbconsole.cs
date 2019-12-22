@@ -36,15 +36,15 @@ namespace berrybrew {
                 
             switch (args[0]){
 
-				case "associate":
+                case "associate":
                     if (args.Length > 1) {
-					    if(args[1] == "-h" || args[1] == "help")
-	                        bb.Message.Say("subcmd.associate");
-						else
-							bb.FileAssoc(args[1]);
-					}
-					bb.FileAssoc();
-					break;
+                        if(args[1] == "-h" || args[1] == "help")
+                            bb.Message.Say("subcmd.associate");
+                        else
+                            bb.FileAssoc(args[1]);
+                    }
+                    bb.FileAssoc();
+                    break;
 
                 case "available":
                     if (args.Length > 1){
@@ -302,7 +302,7 @@ namespace berrybrew {
                     break;
 
                 case "virtual":
-					if (args.Length == 1)
+                    if (args.Length == 1)
                         bb.Message.Say("virtual_command_required");
 
                     bb.PerlRegisterVirtualInstall(args[1]);

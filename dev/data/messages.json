@@ -155,7 +155,7 @@
         "",
         "    associate *    View and set Perl file association",
         "    available *    List available Strawberry Perl versions and which are installed",
-		"    list           List installed Strawberry Perl versions",
+        "    list           List installed Strawberry Perl versions",
         "    clean *        Remove all temporary berrybrew files",
         "    clone          Make a complete copy of a Perl installation",
         "    config         Add berrybrew to your PATH",
