@@ -16,6 +16,8 @@ Revision history for berrybrew
           (closes #215)
         - added Options(), and 'berrybrew options', used to get/set the
           various configuration option values (closes #216)
+        - Strawberry Perl objects now have a new "newest" attribute, to track
+          if an instance is the most recent point release of a major version
           
 1.29    2019-12-08
         - add missing closing parens on 'remove' if a Perl isn't installed

@@ -128,7 +128,7 @@ namespace BerryBrew {
             }
         }
       
-        public void Available(){
+        public void Available(bool allPerls=false){
 
             Message.Print("available_header");
 
@@ -138,9 +138,21 @@ namespace BerryBrew {
                 nameLengths.Add(perlName.Length);
 
             int maxNameLength = nameLengths.Max();
-
+			List<string> perlVersions = new List<string>();
 
             foreach (StrawberryPerl perl in _perls.Values){
+		/*
+				string[] majorVersionParts = perl.Version.Split(new char[] {'.'});
+                string majorVersion = majorVersionParts[0] + "." + majorVersionParts[1];
+                string bbMajorVersion = majorVersion + "_" + bits;
+
+                if (perlVersions.Contains(bbMajorVersion) && ! allPerls){
+					if (! PerlIsInstalled(perl) && ! perl.Custom && ! perl.Virtual)
+	                    continue;
+				}	
+
+				perlVersions.Add(bbMajorVersion);	
+			*/
                 string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
                 Console.Write("\t" + perlNameToPrint);
 
@@ -1642,8 +1654,6 @@ namespace BerryBrew {
                             string majorVersion = majorVersionParts[0] + "." + majorVersionParts[1];
                             string bbMajorVersion = majorVersion + "_" + bits;
 
-                            perls.Add(bbMajorVersion);
-
                             Dictionary<string, object> perlInstance = new Dictionary<string, object>();
 
                             if (release.edition.portable != null){
@@ -1685,6 +1695,11 @@ namespace BerryBrew {
                                 }
                             }
 
+						 	if (! perls.Contains(bbMajorVersion))
+                            	perlInstance.Add("newest", true);
+							else
+								perlInstance.Add("newest", false);
+
                             data.Add(perlInstance);
 
                             Dictionary<string, object> pdlInstance = new Dictionary<string, object>();
@@ -1708,6 +1723,13 @@ namespace BerryBrew {
                                         perlInstance["csum"]
                                     );
                                 }
+                                
+								if (! perls.Contains(bbMajorVersion))
+                                    pdlInstance.Add("newest", true);
+								else
+									pdlInstance.Add("newest", false);
+
+                            	perls.Add(bbMajorVersion);
 
                                 data.Add(pdlInstance);
                             }
@@ -2070,6 +2092,7 @@ namespace BerryBrew {
         public readonly string Url;
         public readonly string Version;
         public readonly string Sha1Checksum;
+		public readonly bool Newest;
         public readonly bool Custom;
         public readonly bool Virtual;
         public readonly string archivePath;
@@ -2086,6 +2109,7 @@ namespace BerryBrew {
             object url, 
             object version, 
             object csum, 
+			bool newest = false,
             bool custom = false,
             bool virtual_install = false,
             string perl_path = "",
@@ -2106,6 +2130,7 @@ namespace BerryBrew {
             
             Name = name.ToString();
             Custom = custom;
+			Newest = newest;
             Virtual = virtual_install;
             File = file.ToString();
             Url = url.ToString();
