@@ -1801,8 +1801,6 @@ namespace BerryBrew {
         
         public void Switch(string switchToVersion, bool switchQuick=false){
 
-			Console.WriteLine("Switch() to: {0}", switchToVersion);
-
             try {
                 StrawberryPerl perl = PerlResolveVersion(switchToVersion);
 
