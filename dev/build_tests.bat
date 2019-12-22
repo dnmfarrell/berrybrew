@@ -3,6 +3,7 @@ mkdir test
 mkdir test\data
 
 copy dev\data\*.json test\data
+copy bin\env.exe test
 
 call perl -i.bak -ne "s/berrybrew(?!\\\\test)/berrybrew\\\\test/; print" test/data/config.json
 

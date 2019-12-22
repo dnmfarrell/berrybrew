@@ -45,7 +45,7 @@ Section "-MainSection" SEC_MAIN
   File "..\bin\berrybrew-ui.exe"
   File "..\bin\ICSharpCode.SharpZipLib.dll"
   File "..\bin\Newtonsoft.Json.dll"
-;  File "..\bin\berrybrew.ico"
+  File "..\bin\env.exe"
 
   SetOutPath "$PROGRAMFILES\berrybrew"
   File "..\Changes"
@@ -208,7 +208,7 @@ Section Uninstall
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.exe"
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew-ui.exe"
   Delete "$PROGRAMFILES\berrybrew\bin\bbapi.dll"
-
+  Delete "$PROGRAMFILES\berrybrew\bin\env.exe"
   Delete "$PROGRAMFILES\berrybrew\bin\uninst.exe"
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.lnk"
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.url"

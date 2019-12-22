@@ -3,6 +3,7 @@ mkdir build
 mkdir build\data
 
 copy dev\data\*.json build\data
+copy bin\env.exe build
 
 call perl -i.bak -ne "s/berrybrew(?!\\\\build)/berrybrew\\\\build/; print" build/data/config.json
 
