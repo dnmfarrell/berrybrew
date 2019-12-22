@@ -97,15 +97,12 @@ namespace berrybrew {
                     break;
 
                 case "fetch":
-                    bool allPerls = false;
                     if (args.Length > 1){
                         if (args[1].StartsWith("h"))
                             bb.Message.Say("subcmd.fetch");
-                        else
-                            allPerls = args[1].Equals("all");
                     }
 
-                    bb.PerlUpdateAvailableList(allPerls);
+                    bb.PerlUpdateAvailableList();
                     break;
 
                 case "help":

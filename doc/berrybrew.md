@@ -127,15 +127,11 @@ Also, by default, we don't execute on custom (cloned) instances. Set
 
 #### fetch
 
-Usage:  `berrybrew fetch [all]`
+Usage:  `berrybrew fetch`
 
 Pulls the JSON list of available Strawberry Perl instances from the Strawberry
 website, and puts them into the `data/perls.json` file. Any updates will be
 available immediately with `berrybrew available`.
-
-Send in the all string as a subcommand and instead of listing the most
-recent version for every major version, we'll download every version that
-Strawberry has to offer.
 
 #### info
 

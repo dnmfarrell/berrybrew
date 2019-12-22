@@ -632,17 +632,11 @@ the corresponding object.
 
 #### PerlUpdateAvailableList
 
-    public void PerlUpdateAvailableList(bool allPerls=false)
+    public void PerlUpdateAvailableList()
 
-        argument:   allPerls
-        value:      Bool
-         
 Fetches the JSON list of Strawberry Perl instances available from
 [Strawberry's releases.json](https://strawberryperl.com/releases.json), and
 updates the internal `perls.json` available list with the updated data.
-
-If the `allPerls` bool is set to true, we will fetch all available Strawberry
-Perl listings.
 
 #### PerlUpdateAvailableListOrphans
 

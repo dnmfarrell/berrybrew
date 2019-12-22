@@ -1585,7 +1585,7 @@ namespace BerryBrew {
             bypassOrphanCheck = true;
         }
         
-        public void PerlUpdateAvailableList(bool allPerls=false){
+        public void PerlUpdateAvailableList(){
 
             Console.WriteLine("Attempting to fetch the updated Perls list...");
             
@@ -1641,9 +1641,6 @@ namespace BerryBrew {
                             string[] majorVersionParts = version.Split(new char[] {'.'});
                             string majorVersion = majorVersionParts[0] + "." + majorVersionParts[1];
                             string bbMajorVersion = majorVersion + "_" + bits;
-
-                            if (perls.Contains(bbMajorVersion) && ! allPerls)
-                                continue;
 
                             perls.Add(bbMajorVersion);
 
