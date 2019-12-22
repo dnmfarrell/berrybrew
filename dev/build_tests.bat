@@ -4,6 +4,8 @@ mkdir test\data
 
 copy dev\data\*.json test\data
 copy bin\env.exe test
+copy bin\libintl3.dll test
+copy bin\libiconv2.dll test
 
 call perl -i.bak -ne "s/berrybrew(?!\\\\test)/berrybrew\\\\test/; print" test/data/config.json
 
