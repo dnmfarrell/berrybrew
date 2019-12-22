@@ -59,10 +59,6 @@ namespace berrybrew {
                     bb.Available();
                     break;
 
-                case "list":
-                    bb.List();
-                    break;
-
                 case "currentperl":
                     Console.WriteLine(bb.PerlInUse().Name);
                     break;
@@ -176,6 +172,10 @@ namespace berrybrew {
                     if (args.Length == 1)
                         bb.Message.Say("license");
 
+                    break;
+
+                case "list":
+                    bb.List();
                     break;
 
                 case "modules":
