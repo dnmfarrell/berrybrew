@@ -41,6 +41,7 @@ The `Berrybrew` class is the base of the system.
 [JsonParse](#jsonparse)| private | Reads JSON config files
 [JsonWrite](#jsonwrite)| private | Writes out JSON configuration
 [List](#list) | **public** | Lists currently installed Perl versions
+[Options](#options) | **public** | Display or set a single option, or show them all
 [Off](#off) | **public** | Completely disables `berrybrew`
 [PathAddBerryBrew](#pathaddberrybrew)| private | Adds `berrybrew` to `PATH`
 [PathAddPerl](#pathaddperl)| private | Adds a Perl to `PATH`
@@ -383,6 +384,29 @@ new `data`.
     public void List()
     
 Displays a list of the versions of Perl that are currently installed.
+
+#### Options
+
+    public string Options(string option="", string value="")
+   
+    argument:   option
+    value:      String. The name of a valid option
+    default:    Empty string
+    
+    argument:   value
+    value:      String. The value of the option you want to set
+    default:    Empty string 
+
+Display, return and set `berrybrew`'s options.
+
+If no arguments are sent in, we'll display the entire list of options, and return
+an empty string.
+
+If the `option` arg is sent in with a valid value, we'll display and return the
+current value for that option.
+
+If both the `option` and `value` arguments are sent in, we'll set that option
+to the value, display and return the updated value.
     
 #### Off
 

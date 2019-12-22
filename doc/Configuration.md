@@ -11,14 +11,19 @@
 [download_url](#download_url)|The URL for the Strawberry release JSON file|
 [custom_exec](#custom_exec)|Include custom (cloned) instances under `berrybrew exec`|
 [windows_homedir](#windows_homedir)|Default home directory for `File::HomeDir`|
-    
+[run_mode](#run_mode)|Currently Unused/
+
 ### [Messages config](#messages-config)
 
 ### [Perls available config](#perl-config)
 
 #### Global Config
 
-Handles application wide configuration.
+Handles application wide configuration. Note that now, the defaults from the
+configuration file and are put into the Windows Registry.
+
+To access/set them, instead of in the configuration file, see
+`berrybrew options help`.
 
 File location:
 

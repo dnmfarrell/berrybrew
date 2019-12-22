@@ -205,6 +205,20 @@ namespace berrybrew {
                     bb.Off();
                     break;
 
+                case "options":
+                    if (args.Length > 1) {
+                        if (args[1].StartsWith("h"))
+                            bb.Message.Say("subcmd.options");
+                    }
+
+                    if (args.Length == 1)
+                        bb.Options();
+                    if (args.Length == 2)
+                        bb.Options(args[1]);
+                     if (args.Length == 3)
+                         bb.Options(args[1], args[2]);                   
+                    break;
+                
                 case "register":
                     if (args.Length == 1)
                         bb.Message.Say("register_ver_required");

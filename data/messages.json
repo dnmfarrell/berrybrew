@@ -162,6 +162,7 @@
         "    fetch          Update the list of Strawberry Perl instances available",
         "    install        Download, extract and install a Strawberry Perl",
         "    modules *      Export and import a module list from one Perl to install on another",
+        "    options *      Display or set a single option, or display all of them with values",
         "    off            Disable berrybrew perls (use 'switch' to re-enable)",
         "    register       Manually register a custom installation directory",
         "    remove         Uninstall a Strawberry Perl",
@@ -267,7 +268,18 @@
         "   export  Exports a list of all installed modules in the current Perl",
         "   import  Imports a previously exported module list and installs them in the current perl"
     ]
-},    
+},
+{
+    "label": "subcmd.options",
+
+    "content": [
+        "",
+        "   berrybrew 'options' usage:",
+        "",
+        "   berrybrew options [option] [value]",
+        "   With no options, we'll display all of them with their values"
+    ]
+},
 {
     "label": "subcmd.use",
 

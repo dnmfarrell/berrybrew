@@ -29,8 +29,8 @@ echo "compiling UI..."
 call csc^
     -lib:build^
     -r:bbapi.dll^
-    -r:System.Drawing^
-    -r:System.Windows.Forms^
+    -r:System.Drawing.dll^
+    -r:System.Windows.Forms.dll^
     -win32icon:inc/berrybrew.ico^
     -win32manifest:berrybrew.manifest^
     -t:winexe^

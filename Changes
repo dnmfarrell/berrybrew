@@ -3,7 +3,11 @@ Revision history for berrybrew
 1.30 UNREL
         - fix issue in UI where Switch was duplicating PATH env var
           (fixes #218)
-
+        - configuration information is now stored in the Windows Registry
+          (closes #215)
+        - added Options(), and 'berrybrew options', used to get/set the
+          various configuration option values (closes #216)
+          
 1.29    2019-12-08
         - add missing closing parens on 'remove' if a Perl isn't installed
           (fixes #196)

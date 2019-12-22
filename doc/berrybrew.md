@@ -13,6 +13,7 @@
 - [info](#info)
 - [install](#install)
 - [modules](#modules)
+- [options](#options)
 - [off](#off)
 - [register](#register)
 - [remove](#remove)
@@ -169,6 +170,20 @@ instance of Perl.
 instance of Perl that you've previously exported from. If no argument is
 sent in, we'll list the available exports you can choose to install
 from.
+
+#### options
+
+Usage:  `berrybrew options [option] [value]`
+
+Retrieve and set `berrybrew`'s options.
+
+If the `option` argument isn't supplied, we'll display the values for all
+configured options.
+
+If an `option` is sent in, we'll display the value for that single option.
+
+If both `option` and `value` are sent in, we'll set the option to the value,
+then display the updated value for that option.
         
 #### off
 

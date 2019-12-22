@@ -79,17 +79,16 @@ namespace BerryBrew {
                 "custom_exec", 
                 "run_mode"
             }; 
-       
-            BaseConfig();
 
             if (bbEnv == "test") {
-                //tempRegSubKey += "-test";
+                registrySubKey += "-test";
             }
             else if (bbEnv == "build") {
-                 //tempRegSubKey += "-build";
+                 registrySubKey += "-build";
             }
  
-             //registrySubKey = tempRegSubKey;                       
+            BaseConfig();
+
             // ensure the Perl install dir exists
 
             CheckRootDir();
@@ -140,6 +139,7 @@ namespace BerryBrew {
 
             int maxNameLength = nameLengths.Max();
 
+
             foreach (StrawberryPerl perl in _perls.Values){
                 string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
                 Console.Write("\t" + perlNameToPrint);
@@ -183,8 +183,7 @@ namespace BerryBrew {
             dynamic jsonConf = JsonParse("config");
             
             try {
-                if (Registry.LocalMachine.OpenSubKey(registrySubKey) ==
-                    null) {
+                if (Registry.LocalMachine.OpenSubKey(registrySubKey) == null) {
 
                     RegistryKey regKey =
                         Registry.LocalMachine.CreateSubKey(registrySubKey);
@@ -1039,6 +1038,59 @@ namespace BerryBrew {
             PathRemovePerl();
             Console.Write("berrybrew perl disabled. Run 'berrybrew-refresh' to use the system perl\n");
         }
+
+		public string Options(string option="", string value="") {
+
+			if (Debug)
+				Console.WriteLine("\noption: {0}, value: {1}\n", option, value);
+
+			RegistryKey registry = Registry.LocalMachine.CreateSubKey(registrySubKey);
+
+			if (option == "") {
+				Console.WriteLine("\nOption configuration:\n");
+
+				foreach (string opt in validOptions){
+					string optStr = String.Format("\t{0}:", opt);
+					Console.Write(optStr.PadRight(20, ' '));
+                    string optVal = (string) registry.GetValue(opt, "");
+					Console.WriteLine(optVal);
+				}
+				return "";
+			}
+			
+			if (! validOptions.Contains(option)) {
+				Console.WriteLine("\n'{0}' is an invalid option...\n", option);
+				Environment.Exit(0);
+			}
+			else {
+				if (value == ""){
+					string optStr = String.Format("\n\t{0}:", option);
+                    Console.Write(optStr.PadRight(20, ' '));
+                    string optVal = (string) registry.GetValue(option, "");
+                    Console.WriteLine(optVal);
+					return optVal;
+				}
+				else {
+					try {
+						registry.SetValue(option, value);
+					}
+					catch (UnauthorizedAccessException e) {
+						Console.WriteLine("Writing to the registry requires Administrator privileges.\n");
+						if (Debug)
+							Console.WriteLine(e);
+
+						Environment.Exit(0);
+					}
+
+					string optStr = String.Format("\n\t{0}:", option);
+                    Console.Write(optStr.PadRight(20, ' '));
+                    string optVal = (string) registry.GetValue(option, "");
+                    Console.WriteLine(optVal);
+					return optVal;
+				}
+			}	
+			return "";
+		}
 
         private void PathAddBerryBrew(string binPath){
 
