@@ -21,7 +21,10 @@ Revision history for berrybrew
         - 'fetch' no longer has the 'all' option, it now performs its duties
           with the 'available' command instead. All Perl versions are now
           written to the `perls.json` file (closes #219)
-          
+        - Perls that were installed previous to a new point release of a major
+          version are now not interfered with and are no longer cast as orphan
+          and registered as custom (fixes #217)
+                    
 1.29    2019-12-08
         - add missing closing parens on 'remove' if a Perl isn't installed
           (fixes #196)

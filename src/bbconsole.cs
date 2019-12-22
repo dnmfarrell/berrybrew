@@ -39,7 +39,7 @@ namespace berrybrew {
                 case "available":
                     if (args.Length > 1){
                         if (args[1].StartsWith("h"))
-                            bb.Message.Say("subcmd.fetch");
+                            bb.Message.Say("subcmd.available");
                         else if (args[1] == "all") {
                             bb.Available(true);
                             Environment.Exit(0);
