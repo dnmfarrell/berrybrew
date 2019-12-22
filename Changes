@@ -1,6 +1,15 @@
 Revision history for berrybrew
 
 1.30 UNREL
+        - updated docs to reflect ability to remove berrybrew using
+          Add/Remove Programs (closes #209)
+        - berrybrew Perls can now be managed through the System Tray Icon
+          (closes #210)
+        - remove examples/synopsis section of README, and refer to berrybrew
+          doc instead (closes #211)
+        - berrybrew-ui is now stopped if the installer senses an upgrade is
+          occurring (closes #212)
+        - added AvailableList() to the API doc (closes #213)
         - fix issue in UI where Switch was duplicating PATH env var
           (fixes #218)
         - configuration information is now stored in the Windows Registry
