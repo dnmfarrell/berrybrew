@@ -26,6 +26,8 @@ Revision history for berrybrew
           and registered as custom (fixes #217)
         - added 'env.exe' as a binary, and updated installer script and build
           tools to include it
+        - added FileAssoc() and 'berrybrew associate'. Allows managing and
+          unmanaging Perl file associations (work on #15)
           
 1.29    2019-12-08
         - add missing closing parens on 'remove' if a Perl isn't installed

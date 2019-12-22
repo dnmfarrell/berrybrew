@@ -180,6 +180,7 @@ FunctionEnd
 
 Section Uninstall
   SetOutPath $INSTDIR
+  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" associate unset'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" off'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" unconfig'
   Delete "$INSTDIR\${PRODUCT_NAME}.url"

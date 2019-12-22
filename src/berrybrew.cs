@@ -77,7 +77,9 @@ namespace BerryBrew {
                 "download_url",
                 "windows_homedir", 
                 "custom_exec", 
-                "run_mode"
+                "run_mode",
+				"file_assoc",
+				"file_assoc_old"
             }; 
 
             if (bbEnv == "test") {
@@ -749,6 +751,59 @@ namespace BerryBrew {
             return archivePath;
         }
 
+		public void FileAssoc(string action="") {
+			string plExtSubKey = @".pl";
+            string plHandlerName = "";
+
+			try {
+                RegistryKey plExtKey = Registry.ClassesRoot.CreateSubKey(plExtSubKey);
+
+				if (action == "set") {
+                    plHandlerName = (string) plExtKey.GetValue("");
+       
+					if (plHandlerName == @"berrybrewPerl") {
+						Console.WriteLine("\nberrybrew is already managing the .pl file type\n");
+						Environment.Exit(0);
+					}
+
+                    Options("file_assoc_old", plHandlerName, true);
+					plHandlerName = @"berrybrewPerl";
+					
+                    plExtKey.SetValue("", plHandlerName);
+					Options("file_assoc", plHandlerName, true);
+
+                    RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\run\command");
+                    plHandlerKey.SetValue("", binPath + @"\env.exe perl ""%1"" %*");
+					
+					Console.WriteLine("\nberrybrew is now managing the Perl file association");
+				}
+				else if (action == "unset") {
+                    string old_file_assoc = Options("file_assoc_old", "", true);
+
+					if (old_file_assoc == "") {
+						Console.WriteLine("\nDefault file association already in place");
+						Environment.Exit(0);
+					}
+
+                    plExtKey.SetValue("", old_file_assoc);
+					Options("file_assoc_old", "", true);
+					Options("file_assoc", old_file_assoc, true);
+
+					Console.WriteLine("\nSet Perl file association back to default");
+				}
+				else {
+					Console.WriteLine("\n\tPerl file association handling:");
+					Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", "", true));
+				}
+			}
+			catch (UnauthorizedAccessException e) {
+				Console.WriteLine("\nChanging file associations requires Administrator privileges");
+
+				if (Debug)
+					Console.WriteLine(e);
+			}
+		}
+
         private static string FileRemove(string filename){
 
             try {
@@ -1048,7 +1103,7 @@ namespace BerryBrew {
             Console.Write("berrybrew perl disabled. Run 'berrybrew-refresh' to use the system perl\n");
         }
 
-		public string Options(string option="", string value="") {
+		public string Options(string option="", string value="", bool quiet=false) {
 
 			if (Debug)
 				Console.WriteLine("\noption: {0}, value: {1}\n", option, value);
@@ -1074,9 +1129,12 @@ namespace BerryBrew {
 			else {
 				if (value == ""){
 					string optStr = String.Format("\n\t{0}:", option);
-                    Console.Write(optStr.PadRight(20, ' '));
                     string optVal = (string) registry.GetValue(option, "");
-                    Console.WriteLine(optVal);
+
+					if (! quiet) {
+                        Console.Write(optStr.PadRight(20, ' '));
+                        Console.WriteLine(optVal);
+					}
 					return optVal;
 				}
 				else {
@@ -1091,10 +1149,13 @@ namespace BerryBrew {
 						Environment.Exit(0);
 					}
 
-					string optStr = String.Format("\n\t{0}:", option);
-                    Console.Write(optStr.PadRight(20, ' '));
+                    string optStr = String.Format("\n\t{0}:", option);
                     string optVal = (string) registry.GetValue(option, "");
-                    Console.WriteLine(optVal);
+
+					if (! quiet) {
+                        Console.Write(optStr.PadRight(20, ' '));
+                        Console.WriteLine(optVal);
+					}
 					return optVal;
 				}
 			}	
