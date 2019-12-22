@@ -757,9 +757,9 @@ namespace BerryBrew {
 
             try {
                 RegistryKey plExtKey = Registry.ClassesRoot.CreateSubKey(plExtSubKey);
+                plHandlerName = (string) plExtKey.GetValue("");
 
                 if (action == "set") {
-                    plHandlerName = (string) plExtKey.GetValue("");
        
                     if (plHandlerName == @"berrybrewPerl") {
                         Console.WriteLine("\nberrybrew is already managing the .pl file type\n");
@@ -792,7 +792,8 @@ namespace BerryBrew {
                     Console.WriteLine("\nSet Perl file association back to default");
                 }
                 else {
-                    Console.WriteLine("\n\tPerl file association handling:");
+					Options("file_assoc", plHandlerName, true);
+                    Console.WriteLine("\nPerl file association handling:");
                     Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", "", true));
                 }
             }
