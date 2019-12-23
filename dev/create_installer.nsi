@@ -124,6 +124,7 @@ Function .oninstsuccess
 FunctionEnd
 
 Function .onInit
+    SetRegView 64
     ${nsProcess::FindProcess} "berrybrew-ui.exe" $R0
     ${If} $R0 == 0
         DetailPrint "berrybrew-ui.exe is running. Closing it down"
@@ -176,6 +177,7 @@ Function un.onUninstSuccess
 FunctionEnd
 
 Function un.onInit
+  SetRegView 64
   MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" IDYES +2
   Abort
 FunctionEnd
@@ -238,7 +240,7 @@ Section Uninstall
   RMDir "$PROGRAMFILES\berrybrew\bin"
   RMDir "$PROGRAMFILES\berrybrew"
 
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Run\BerrybrewUI"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI"
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
   DeleteRegKey HKLM "${APP_REGKEY}"
