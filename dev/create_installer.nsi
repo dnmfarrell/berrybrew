@@ -77,6 +77,9 @@ SectionEnd
 Section "Perl 5.30.1_64" SEC_INSTALL_NEWEST_PERL
 SectionEnd
 
+Section "Manage .pl file association" SEC_FILE_ASSOC
+SectionEnd
+
 Section -AdditionalIcons
   SetOutPath $INSTDIR
   WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
@@ -114,8 +117,11 @@ Function LaunchFinish
     ${EndIf}
     nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.30.1_64'
   ${EndIf}
-   
-;  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew-ui.exe"'
+
+  ${If} ${SectionIsSelected} ${SEC_FILE_ASSOC}
+    nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" associate set'
+    nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" associate'
+  ${EndIf}   
 FunctionEnd
 
 Function .oninstsuccess
