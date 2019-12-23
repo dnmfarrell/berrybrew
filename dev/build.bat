@@ -38,7 +38,8 @@ call mcs^
     -t:winexe^
     -out:build/berrybrew-ui.exe^
     src\berrybrew-ui.cs
-    
+
+copy build\berrybrew.exe build\bb.exe    
 copy bin\berrybrew-refresh.bat build\
 copy bin\ICSharpCode.SharpZipLib.dll build\
 copy bin\Newtonsoft.Json.dll build\

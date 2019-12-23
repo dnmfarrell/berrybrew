@@ -93,6 +93,10 @@ sub compile {
         "-out:bin/berrybrew-ui.exe ";        
 
     system $ui_build;        
+    
+    print "\nCopying berrybrew.exe to bb.exe...\n";
+    
+    copy 'bin/berrybrew.exe', 'bin/bb.exe' or die $!;
 }
 sub create_zip {
     print "\npackaging pre-built zipfile...\n";

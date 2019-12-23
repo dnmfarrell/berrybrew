@@ -40,6 +40,7 @@ call csc^
     -out:test/berrybrew-ui.exe^
     src\berrybrew-ui.cs
 
+copy test\berrybrew.exe test\bb.exe
 copy bin\berrybrew-refresh.bat test\
 copy bin\ICSharpCode.SharpZipLib.dll test\
 copy bin\Newtonsoft.Json.dll test\
