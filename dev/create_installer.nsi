@@ -4,6 +4,9 @@ RequestExecutionLevel admin
 !include MUI2.nsh
 !include nsProcess.nsh
 
+var perlRootDir 
+var perlRootDirSet
+
 !define PRODUCT_NAME "berrybrew"
 !define PRODUCT_VERSION "1.30"
 !define PRODUCT_PUBLISHER "Steve Bertrand"
@@ -19,6 +22,14 @@ RequestExecutionLevel admin
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "..\LICENSE"
 !insertmacro MUI_PAGE_DIRECTORY
+
+; Perl root_path directory
+!define MUI_PAGE_HEADER_SUBTEXT "Directory to store the Perl instances"
+!define MUI_DIRECTORYPAGE_TEXT_TOP "Choose a directory to store the Perl instances"
+!define MUI_DIRECTORYPAGE_VARIABLE $perlRootDir
+!define MUI_PAGE_CUSTOMFUNCTION_PRE perlRootPathSelection
+!insertmacro MUI_PAGE_DIRECTORY
+
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_COMPONENTS
 
@@ -77,6 +88,9 @@ SectionEnd
 Section "Perl 5.30.1_64" SEC_INSTALL_NEWEST_PERL
 SectionEnd
 
+Section "Run UI at startup" SEC_START_UI
+SectionEnd
+
 Section "Manage .pl file association" SEC_FILE_ASSOC
 SectionEnd
 
@@ -89,7 +103,11 @@ SectionEnd
 
 Section -Post
   WriteUninstaller "$INSTDIR\uninst.exe"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI" "$INSTDIR\bin\berrybrew-ui.exe"
+  
+  ${If} ${SectionIsSelected} ${SEC_START_UI}
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI" "$INSTDIR\bin\berrybrew-ui.exe"
+  ${EndIf}
+      
   WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$PROGRAMFILES\berrybrew\bin\berrybrew.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
@@ -99,6 +117,19 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
 SectionEnd
 
+Function perlRootPathSelection
+   ; check if the root path for Perls is already set
+   ClearErrors
+   ReadRegStr $0 HKLM "${APP_REGKEY}" "root_dir"
+   ${If} ${Errors}
+     StrCpy $perlRootDirSet "0"
+   ${Else}
+       StrCpy $perlRootDir $0
+       StrCpy $perlRootDirSet "1"
+       Abort
+   ${EndIf} 
+FunctionEnd     
+
 Function ModifyRunCheckbox
     SendMessage $mui.FinishPage.Run ${BM_SETCHECK} ${BST_CHECKED} 0
     ShowWindow $mui.FinishPage.Run 0
@@ -106,6 +137,7 @@ FunctionEnd
 
 Function LaunchFinish
   SetOutPath $INSTDIR
+   
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" register_orphans'
 
@@ -127,10 +159,21 @@ FunctionEnd
 Function .oninstsuccess
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" options-update'
   Exec '"$INSTDIR\bin\berrybrew-ui.exe"'
+  
+   ; set the root_path Perl directory location
+
+  ${If} $perlRootDirSet == "0"
+    ClearErrors
+    WriteRegStr HKLM "${APP_REGKEY}" "root_dir" $perlRootDir
+    WriteRegStr HKLM "${APP_REGKEY}" "temp_dir" "$perlRootDir\temp"
+    ${If} ${Errors}
+      MessageBox MB_OK "Error writing registry"
+    ${EndIf}      
+  ${EndIf}  
+ 
 FunctionEnd
 
-Function .onInit
-    SetRegView 64
+Function un.StopUI
     ${nsProcess::FindProcess} "berrybrew-ui.exe" $R0
     ${If} $R0 == 0
         DetailPrint "berrybrew-ui.exe is running. Closing it down"
@@ -141,6 +184,28 @@ Function .onInit
         DetailPrint "berrybrew-ui.exe was not found to be running"        
     ${EndIf}    
     ${nsProcess::Unload}
+FunctionEnd
+
+Function StopUI
+    ${nsProcess::FindProcess} "berrybrew-ui.exe" $R0
+    ${If} $R0 == 0
+        DetailPrint "berrybrew-ui.exe is running. Closing it down"
+        ${nsProcess::KillProcess} "berrybrew-ui.exe" $R0
+        DetailPrint "Waiting for berrybrew-ui.exe to close"
+        Sleep 2000  
+    ${Else}
+        DetailPrint "berrybrew-ui.exe was not found to be running"        
+    ${EndIf}    
+    ${nsProcess::Unload}
+FunctionEnd
+
+Function .onInit
+  SetRegView 64
+
+  Call StopUI
+      
+  StrCpy $perlRootDir "C:\berrybrew"
+  StrCpy $perlRootDirSet "0"
 
   StrCpy $InstDir "$PROGRAMFILES\berrybrew\"
 
@@ -156,8 +221,8 @@ Function .onInit
       true:
         nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" off'
         nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" unconfig' 
-     
-      goto end_find_file
+
+        goto end_find_file
       
     file_not_found:
   
@@ -186,6 +251,8 @@ Function un.onInit
   SetRegView 64
   MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" IDYES +2
   Abort
+  
+  Call un.StopUI
 FunctionEnd
 
 Section Uninstall
