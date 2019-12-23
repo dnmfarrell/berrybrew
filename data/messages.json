@@ -153,8 +153,9 @@
         "berrybrew <command> [subcommand] [option]",
         "",
         "",
-        "    available      List available Strawberry Perl versions and which are installed",
-		"    list           List installed Strawberry Perl versions",
+        "    associate *    View and set Perl file association",
+        "    available *    List available Strawberry Perl versions and which are installed",
+        "    list           List installed Strawberry Perl versions",
         "    clean *        Remove all temporary berrybrew files",
         "    clone          Make a complete copy of a Perl installation",
         "    config         Add berrybrew to your PATH",
@@ -221,6 +222,28 @@
     ]
 },
 {
+    "label": "subcmd.associate",
+
+    "content": [
+        "",
+        "   berrybrew 'associate' options:",
+        "",
+        "   set    '.pl' file extensions will be managed by berrybrew",
+        "",
+        "   unset  Restore the previous file association configuration"
+    ]
+},
+{
+    "label": "subcmd.available",
+
+    "content": [
+        "",
+        "   berrybrew 'available' subcommands:",
+        "",
+        "   all    List all available Perls, not just the most recent point release of each major version"
+    ]
+},
+{
     "label": "subcmd.clean",
 
     "content": [
@@ -277,6 +300,7 @@
         "   berrybrew 'options' usage:",
         "",
         "   berrybrew options [option] [value]",
+        "",
         "   With no options, we'll display all of them with their values"
     ]
 },
