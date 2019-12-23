@@ -96,16 +96,17 @@ documentation for a full explanation of all of the following commands.
 
     berrybrew <command> [subcommand] [option]
 
-    available      List available Strawberry Perl versions and which are installed
+    associate *    View and set Perl file association
+    available *    List available Strawberry Perl versions and which are installed
     list           List installed Strawberry Perl versions
     clean *        Remove all temporary berrybrew files
     clone          Make a complete copy of a Perl installation
     config         Add berrybrew to your PATH
     exec *         Run a command for every installed Strawberry Perl
     fetch          Update the list of Strawberry Perl instances available
-    info           Retrieve details about the berrybrew installation itself
     install        Download, extract and install a Strawberry Perl
     modules *      Export and import a module list from one Perl to install on another
+    options *      Display or set a single option, or display all of them with values
     off            Disable berrybrew perls (use 'switch' to re-enable)
     register       Manually register a custom installation directory
     remove         Uninstall a Strawberry Perl
@@ -117,6 +118,7 @@ documentation for a full explanation of all of the following commands.
     help           Display this help screen
     license        Show berrybrew license
     version        Displays the version
+
 
     * - view subcommand details with 'berrybrew <command> help'
 
