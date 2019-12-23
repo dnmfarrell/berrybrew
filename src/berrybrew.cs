@@ -2134,6 +2134,7 @@ namespace BerryBrew {
                 File.Copy(s, destFile, true);
             }
 
+            OptionsUpdate();
             PerlUpdateAvailableListOrphans();
             
             Console.WriteLine("\nSuccessfully upgraded berrybrew\n");

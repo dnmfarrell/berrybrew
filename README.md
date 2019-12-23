@@ -89,6 +89,8 @@ If you wish to delete the actual installation:
 
 - Remove the original download directory
 
+- Remove the `HKLM\Software\berrybrew` registry key
+
 ## Commands
 
 See the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)

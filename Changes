@@ -37,6 +37,10 @@ Revision history for berrybrew
           vars (closes #224)
         - added OptionsUpdate() and 'options-update'. Updates the registry
           configuration with any newly added config directives (closes #221)
+        - dev and test builds now reliably create and use their own registry
+          section
+        - installer now removes registry configuration on uninstall, and it
+          along with 'upgrade' make a call to 'OptionsUpdate()' (closes #225)
           
 1.29    2019-12-08
         - add missing closing parens on 'remove' if a Perl isn't installed

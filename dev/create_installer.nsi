@@ -10,6 +10,7 @@ RequestExecutionLevel admin
 !define PRODUCT_WEB_SITE "https://github.com/stevieb9/berrybrew"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\berrybrew.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
+!define APP_REGKEY "Software\berrybrew"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 
 !define MUI_ABORTWARNING
@@ -118,6 +119,7 @@ Function LaunchFinish
 FunctionEnd
 
 Function .oninstsuccess
+  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" options-update'
   Exec '"$INSTDIR\bin\berrybrew-ui.exe"'
 FunctionEnd
 
@@ -239,5 +241,6 @@ Section Uninstall
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Run\BerrybrewUI"
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
+  DeleteRegKey HKLM "${APP_REGKEY}"
   SetAutoClose true
 SectionEnd
