@@ -28,7 +28,9 @@ Revision history for berrybrew
           tools to include it
         - added FileAssoc() and 'berrybrew associate'. Allows managing and
           unmanaging Perl file associations (work on #15)
-          
+        - we now allow the managing of .pl file association; we set it so that
+          the first perl found in PATH is used (closes #15)
+                    
 1.29    2019-12-08
         - add missing closing parens on 'remove' if a Perl isn't installed
           (fixes #196)
