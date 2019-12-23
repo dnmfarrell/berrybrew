@@ -36,6 +36,16 @@ namespace berrybrew {
                 
             switch (args[0]){
 
+                case "associate":
+                    if (args.Length > 1) {
+                        if(args[1] == "-h" || args[1] == "help")
+                            bb.Message.Say("subcmd.associate");
+                        else
+                            bb.FileAssoc(args[1]);
+                    }
+                    bb.FileAssoc();
+                    break;
+
                 case "available":
                     if (args.Length > 1){
                         if (args[1].StartsWith("h"))
@@ -47,10 +57,6 @@ namespace berrybrew {
                     }
                                        
                     bb.Available();
-                    break;
-
-                case "list":
-                    bb.List();
                     break;
 
                 case "currentperl":
@@ -166,6 +172,10 @@ namespace berrybrew {
                     if (args.Length == 1)
                         bb.Message.Say("license");
 
+                    break;
+
+                case "list":
+                    bb.List();
                     break;
 
                 case "modules":
@@ -292,7 +302,7 @@ namespace berrybrew {
                     break;
 
                 case "virtual":
-					if (args.Length == 1)
+                    if (args.Length == 1)
                         bb.Message.Say("virtual_command_required");
 
                     bb.PerlRegisterVirtualInstall(args[1]);

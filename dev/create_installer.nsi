@@ -45,7 +45,8 @@ Section "-MainSection" SEC_MAIN
   File "..\bin\berrybrew-ui.exe"
   File "..\bin\ICSharpCode.SharpZipLib.dll"
   File "..\bin\Newtonsoft.Json.dll"
-;  File "..\bin\berrybrew.ico"
+  File "..\bin\env.exe"
+  File "..\bin\libiconv2.dll"
 
   SetOutPath "$PROGRAMFILES\berrybrew"
   File "..\Changes"
@@ -179,6 +180,7 @@ FunctionEnd
 
 Section Uninstall
   SetOutPath $INSTDIR
+  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" associate unset'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" off'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" unconfig'
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
@@ -208,7 +210,9 @@ Section Uninstall
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.exe"
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew-ui.exe"
   Delete "$PROGRAMFILES\berrybrew\bin\bbapi.dll"
-
+  Delete "$PROGRAMFILES\berrybrew\bin\env.exe"
+  Delete "$PROGRAMFILES\berrybrew\bin\libintl3.dll"
+  Delete "$PROGRAMFILES\berrybrew\bin\libiconv2.dll"
   Delete "$PROGRAMFILES\berrybrew\bin\uninst.exe"
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.lnk"
   Delete "$PROGRAMFILES\berrybrew\bin\berrybrew.url"

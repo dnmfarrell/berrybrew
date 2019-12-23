@@ -16,8 +16,8 @@ The `Berrybrew` class is the base of the system.
 |Method name|Available|Description|
 |---|---|---|
 [Available](#available)| **public** | Displays all available Perls
-[AvailableList](#availablelist)/ **public** / Returns a list of available Perl names
-[BaseConfig](#baseconfig)/ **private** / Initializes the registry-based configuration
+[AvailableList](#availablelist)| **public** | Returns a list of available Perl names
+[BaseConfig](#baseconfig)| **private** | Initializes the registry-based configuration
 [CheckName](#checkname)| internal | Validates the name of a custom Perl install
 [CheckRootDir](#checkrootdir)| private | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
@@ -32,6 +32,7 @@ The `Berrybrew` class is the base of the system.
 [ExportModules](#exportmodules)| **public** | Export an instaled module list from current Perl
 [Extract](#extract)| private | Extracts Perl installation zip archives
 [Fetch](#fetch)| private | Downloads the Perl installation files
+[FileAssoc](#fileassociation)| **public** | Manage .pl file associations
 [FileRemove](#fileremove)| private | Deletes a file
 [FileSystemResetAttributes](#filesystemresetattributes)| private | Defaults filesystem attrs
 [Info](#info)| **public** | Displays information about specific installation elements
@@ -284,6 +285,20 @@ Extracts a Perl instance zip archive into the Perl installation directory.
 Downloads the zip file for the version of Perl found in the StrawberryPerl
 object, and returns the directory of where it was put.
 
+#### FileAssoc
+
+    public void FileAssoc(action="")
+    
+    argument:   action
+    value:      String, "set" or "unset"
+    
+View, set or unset the file association for `.pl` Perl script files.
+
+If `action` is `set`, we'll update the association and manage it ourselves. If
+set to `unset`, we'll revert it back to the way it was prior to a `set` call.
+
+If `action` is left default, we'll display to the console the current setting.
+
 #### FileRemove
 
     private static string FileRemove(string filename)
@@ -401,7 +416,7 @@ Displays a list of the versions of Perl that are currently installed.
 
 #### Options
 
-    public string Options(string option="", string value="")
+    public string Options(string option="", string value="", bool quiet=false)
    
     argument:   option
     value:      String. The name of a valid option
@@ -411,6 +426,10 @@ Displays a list of the versions of Perl that are currently installed.
     value:      String. The value of the option you want to set
     default:    Empty string 
 
+    argument:   quiet
+    value:      Bool. Display output or not
+    default:    false
+    
 Display, return and set `berrybrew`'s options.
 
 If no arguments are sent in, we'll display the entire list of options, and return
@@ -421,7 +440,9 @@ current value for that option.
 
 If both the `option` and `value` arguments are sent in, we'll set that option
 to the value, display and return the updated value.
-    
+
+if `quiet` is set to `true`, we won't display output to the console.
+
 #### Off
 
     public void Off()

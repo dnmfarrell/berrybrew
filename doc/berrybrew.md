@@ -3,6 +3,7 @@
 ### Command List:
 
 - [debug](#debug)
+- [associate](#associate)
 - [available](#available)
 - [list](#list)
 - [clean](#clean)
@@ -35,6 +36,19 @@ Usage:  `berrybrew debug <command> [options]`
 This command preceeds all others, and can be used in conjunction with
 all other commands. Depending on the scenario, it will print out verbose
 debugging information.
+
+#### associate
+
+    berrybrew associate [option]
+
+View, set or revert `.pl` file association on the system.
+
+##### associate options
+
+    set     - Allow berrybrew to manage the association
+    unset   - Revert the association back to it was previously
+       
+If no option is sent in, we'll simply display the current association.
 
 #### available
 
