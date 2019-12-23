@@ -30,7 +30,12 @@ Revision history for berrybrew
           unmanaging Perl file associations (work on #15)
         - we now allow the managing of .pl file association; we set it so that
           the first perl found in PATH is used (closes #15)
-                    
+        - split out build scripts, so each element (bb, ui, api) each have
+          their own (this prevents building all elements all the time)
+        - dev and test builds are now identified in the class by the assembly
+          directory, and we configure things accordingly instead of using env
+          vars (closes #224)
+                                        
 1.29    2019-12-08
         - add missing closing parens on 'remove' if a Perl isn't installed
           (fixes #196)

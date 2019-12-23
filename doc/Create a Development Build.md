@@ -7,9 +7,6 @@ This is a must for testing out new features to ensure they work correctly prior
 to running the [unit test](https://github.com/stevieb9/berrybrew/blob/master/doc/Unit%20Testing.md)
 suite.
 
-**IMPORTANT**: You **must** set the `BERRYBREW_ENV` environment variable to
-`build` for the proper configuration to be loaded.
-
 Create the new development build:
 
 - run the `dev\build.bat` script, which compiles the binary and library, and

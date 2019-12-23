@@ -32,8 +32,6 @@ variables during development may break the testing routines.
 
 Clean up the Perls available lists
 
-All test files **must** set the `BERRYBREW_ENV` variable to `test`.
-
 - run `berrybrew fetch`
 - run `berrybrew available > t/data/available.txt`
 - review `t/data/custom_available.txt`. All of the Perls listed above the

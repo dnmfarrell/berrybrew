@@ -43,15 +43,13 @@ namespace BerryBrew {
         private static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
         private static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
 
-        private readonly string bbEnv = Environment.GetEnvironmentVariable("BERRYBREW_ENV");
-
         private string registrySubKey;
         
+        private string binPath = AssemblyDirectory;
         public string archivePath;
         public string installPath;
         public string rootPath;
         
-        private string binPath = AssemblyDirectory;
         private string configPath;
         private string downloadURL;
         private bool windowsHomedir;
@@ -82,11 +80,13 @@ namespace BerryBrew {
                 "file_assoc_old"
             }; 
 
-            if (bbEnv == "test") {
+            if (binPath.Contains("test")) {
+                Console.WriteLine("IN TEST MODE");
                 registrySubKey += "-test";
             }
-            else if (bbEnv == "build") {
-                 registrySubKey += "-build";
+            else if (binPath.Contains("build")) {
+                Console.WriteLine("IN DEV MODE");
+                registrySubKey += "-build";
             }
  
             BaseConfig();
@@ -792,7 +792,7 @@ namespace BerryBrew {
                     Console.WriteLine("\nSet Perl file association back to default");
                 }
                 else {
-					Options("file_assoc", plHandlerName, true);
+                    Options("file_assoc", plHandlerName, true);
                     Console.WriteLine("\nPerl file association handling:");
                     Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", "", true));
                 }
