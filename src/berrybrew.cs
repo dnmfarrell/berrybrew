@@ -199,12 +199,9 @@ namespace BerryBrew {
                     RegistryKey regKey =
                         Registry.LocalMachine.CreateSubKey(registrySubKey);
 
-                    foreach (string confKey in new string[] {
-                        "root_dir", "temp_dir", "download_url",
-                        "windows_homedir", "custom_exec", "debug"
-                    }) {
-                        Console.WriteLine("{0}: {1}", confKey,
-                            jsonConf[confKey]);
+                    foreach (string confKey in validOptions) {
+                        if (Debug)
+                            Console.WriteLine("{0}: {1}", confKey, jsonConf[confKey]);
                         regKey.SetValue(confKey, jsonConf[confKey]);
                     }
                 }
@@ -1161,6 +1158,35 @@ namespace BerryBrew {
                 }
             }	
             return "";
+        }
+
+        public void OptionsUpdate() {
+
+            dynamic jsonConf = JsonParse("config");
+            
+            try {
+                if (Registry.LocalMachine.OpenSubKey(registrySubKey) != null) {
+
+                    RegistryKey regKey =
+                        Registry.LocalMachine.CreateSubKey(registrySubKey);
+
+                    foreach (string confKey in validOptions) {
+                        if (Debug)
+                            Console.WriteLine("{0}: {1}", confKey, jsonConf[confKey]);
+                        if (! regKey.GetValueNames().Contains(confKey))
+                            Console.WriteLine("Adding {0} to the registry configuration", confKey);
+                            regKey.SetValue(confKey, jsonConf[confKey]);
+                    }
+                }
+            }
+            catch (UnauthorizedAccessException err) {
+                Console.WriteLine(
+                    "\nInitializing berrybrew requires Administrator privileges");
+                if (Debug)
+                    Console.WriteLine(err);
+
+                Environment.Exit(0);
+            }
         }
 
         private void PathAddBerryBrew(string binPath){

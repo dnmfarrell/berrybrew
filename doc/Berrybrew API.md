@@ -43,6 +43,7 @@ The `Berrybrew` class is the base of the system.
 [JsonWrite](#jsonwrite)| private | Writes out JSON configuration
 [List](#list) | **public** | Lists currently installed Perl versions
 [Options](#options) | **public** | Display or set a single option, or show them all
+[OptionsUpdate](#optionsupdate)| **public** | Update registry configuration with new directives
 [Off](#off) | **public** | Completely disables `berrybrew`
 [PathAddBerryBrew](#pathaddberrybrew)| private | Adds `berrybrew` to `PATH`
 [PathAddPerl](#pathaddperl)| private | Adds a Perl to `PATH`
@@ -443,6 +444,13 @@ to the value, display and return the updated value.
 
 if `quiet` is set to `true`, we won't display output to the console.
 
+#### OptionsUpdate
+
+    public void OptionsUpdate()
+    
+Inserts any new configuration file directives to the registry. Used for
+upgrades.
+    
 #### Off
 
     public void Off()

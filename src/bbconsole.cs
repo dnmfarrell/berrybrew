@@ -62,7 +62,7 @@ namespace berrybrew {
                 case "currentperl":
                     Console.WriteLine(bb.PerlInUse().Name);
                     break;
-                
+
                 case "clean":
                     if (args.Length > 1){
                         if (args[1].StartsWith("h"))
@@ -229,7 +229,11 @@ namespace berrybrew {
                      if (args.Length == 3)
                          bb.Options(args[1], args[2]);                   
                     break;
-                
+  
+                case "options-update":
+                    bb.OptionsUpdate();
+                    break;               
+               
                 case "register":
                     if (args.Length == 1)
                         bb.Message.Say("register_ver_required");
@@ -237,7 +241,7 @@ namespace berrybrew {
                     bb.PerlRegisterCustomInstall(args[1]);
                     break;
 
-                case "register_orphans":
+                case "register-orphans":
                     bb.PerlUpdateAvailableListOrphans();
                     break;
 

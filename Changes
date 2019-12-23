@@ -35,7 +35,9 @@ Revision history for berrybrew
         - dev and test builds are now identified in the class by the assembly
           directory, and we configure things accordingly instead of using env
           vars (closes #224)
-                                        
+        - added OptionsUpdate() and 'options-update'. Updates the registry
+          configuration with any newly added config directives (closes #221)
+          
 1.29    2019-12-08
         - add missing closing parens on 'remove' if a Perl isn't installed
           (fixes #196)

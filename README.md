@@ -297,11 +297,17 @@ Usage:
 
 Used primarily for certain unit tests.
 
-#### register_orphans
+#### register-orphans
 
 This will register all orphaned Perl instances. Used primarily during the
 self-extracting installer during an upgrade to ensure that if the `perls.json`
 file has changed, all previous Perl instances will be visible and usable.
+
+#### options-update
+
+Checks the base distribution's configuration file, and if there are any newly
+added directives, we'll insert them into the registry. Used for upgrades and
+testing.
 
 ## Original Author
 
