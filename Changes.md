@@ -41,7 +41,12 @@ configuration with any newly added config directives (closes #221)
 section
 - installer now removes registry configuration on uninstall, and it
 along with 'upgrade' make a call to 'OptionsUpdate()' (closes #225)
-          
+- installer now has option to allow managing of .pl file association
+(closes #227)
+- added ability to change Perl instance root directory in the
+installer (closes #208)
+- added "Run UI at startup" option in installer
+        
 1.29    2019-12-08
 - add missing closing parens on 'remove' if a Perl isn't installed
 (fixes #196)

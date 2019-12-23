@@ -49,7 +49,7 @@ full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 02c86447328f316130dee6e37d693b03ea30c59c`
+[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 586b722c175b6dd716db16be33948daf41e76853`
 
 ##### Git clone
 
@@ -59,7 +59,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: dd1fad54a9fdc140035524bc97eaad8c9d7bb9ba`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 4af55523e46cfee391ae7d34d6c0e5737ce740b3`
 
 After extraction:
 
@@ -85,11 +85,16 @@ the `PATH` as well.
 
 If you wish to delete the actual installation:
 
+- Stop the UI if it's running (right-click the System Tray Icon, and click `Exit`)
+
 - Remove the Perl installation root directory (by default `C:\berrybrew`) 
 
 - Remove the original download directory
 
 - Remove the `HKLM\Software\berrybrew` registry key
+
+- Remove the `HKLM\Software\Microsoft\Windows\Current Version\Run\BerrybrewUI`
+registry value
 
 ## Commands
 
@@ -158,10 +163,13 @@ Use `berrybrew fetch` to retrieve the most recent availability list from
 Strawberry Perl. If any new or changed versions are found, we'll update the
 local `perls.json` file with them.
 
-If you supply the `all` subcommand to `berrybrew fetch`, we will load all
-available Perls that Strawberry has to offer.
-
 ## Configure Root Directory
+
+If using the [installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
+to install from, you'll have the opportunity to configure this option during
+install, and nothing further is required.
+
+Otherwise, follow these directions:
 
 By default, we manage Perls out of the `C:\berrybrew` directory. To 
 change this, modify the `root_dir` value in the `data\config.json` file.
@@ -172,9 +180,16 @@ you've already installed any instances of Perl. This feature is
 incomplete, and `PATH` and other things don't get properly reset yet.
 If you choose to ignore this, follow this procedure:
 
-- run `berrybrew off`, to flush the `PATH` environment variables
+- create a new directory in the file system to house the Perl instances
 
-- edit the configuration file to reflect the new directory
+- run `berrybrew options root_dir PATH`, where `PATH` is the full path to the
+directory you'd like to store Perls in
+
+- run `berrybrew options temp_dir PATH`, where `PATH` is the full path to the
+temporary storage area. Typically, this is a directory inside of the `root_dir`
+you set above
+
+- run `berrybrew off`, to flush the `PATH` environment variables
 
 - move all Perl installations from the old path to the new one
 
@@ -232,8 +247,9 @@ be overwritten with the defaults. If you have any customizations, make a
 backup of the `data` directory before upgrade, then copy the files back
 to their original location. Note that you may have to manually add any
 new config directives into the original config files. The 
-`perls_custom.json` file used for custom Perl installations (clones) 
-will never be overwritten, and this warning does not apply for it.
+`perls_custom.json` file used for custom Perl installations (clones) and the
+`perls_virtual.json` file used for virtual Perl installations will never be
+overwritten, and this warning does not apply for them.
 
 - At this time, `berrybrew` requires Administrative privileges to
 operate correctly. This is due to the way Windows forces the System 
