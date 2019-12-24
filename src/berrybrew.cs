@@ -209,7 +209,7 @@ namespace BerryBrew {
             }
             catch (UnauthorizedAccessException err) {
                 Console.WriteLine(
-                    "\nInitializing berrybrew requires Administrator privileges");
+                    "\nBase config of berrybrew requires Administrator privileges");
                 if (Debug)
                     Console.WriteLine(err);
 
@@ -1139,17 +1139,17 @@ namespace BerryBrew {
             dynamic jsonConf = JsonParse("config");
             
             try {
-                if (Registry.LocalMachine.OpenSubKey(registrySubKey) != null) {
+                RegistryKey regKey = Registry.LocalMachine.OpenSubKey(registrySubKey, true);
 
-                    RegistryKey regKey =
-                        Registry.LocalMachine.CreateSubKey(registrySubKey);
+                string[] regValues = regKey.GetValueNames();
 
-                    foreach (string confKey in validOptions) {
-                        if (Debug)
-                            Console.WriteLine("{0}: {1}", confKey, jsonConf[confKey]);
-                        if (! regKey.GetValueNames().Contains(confKey))
-                            Console.WriteLine("Adding {0} to the registry configuration", confKey);
-                            regKey.SetValue(confKey, jsonConf[confKey]);
+                foreach (string confKey in validOptions) {
+                    if (Debug)
+                        Console.WriteLine("{0}: {1}", confKey, jsonConf[confKey]);
+
+                    if (! regValues.Contains(confKey)) {
+                        Console.WriteLine("Adding {0} to the registry configuration", confKey);
+                        regKey.SetValue(confKey, jsonConf[confKey]);
                     }
                 }
             }

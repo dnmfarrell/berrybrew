@@ -256,8 +256,8 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
-  ; SetOutPath $INSTDIR
-
+  SetOutPath $INSTDIR    
+  
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" associate unset'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" off'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" unconfig'
