@@ -287,17 +287,23 @@ object, and returns the directory of where it was put.
 
 #### FileAssoc
 
-    public void FileAssoc(action="")
+    public void FileAssoc(action="", quiet=false)
     
     argument:   action
     value:      String, "set" or "unset"
-    
+   
+    argument:   quiet
+    value:      Bool
+    default:    false
+     
 View, set or unset the file association for `.pl` Perl script files.
 
 If `action` is `set`, we'll update the association and manage it ourselves. If
 set to `unset`, we'll revert it back to the way it was prior to a `set` call.
 
 If `action` is left default, we'll display to the console the current setting.
+
+Set `quiet` to prevent the default action from displaying output.
 
 #### FileRemove
 

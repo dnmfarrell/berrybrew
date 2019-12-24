@@ -233,7 +233,7 @@ namespace BerryBrew {
             if ((string) registry.GetValue("debug", "false") == "true")
                 Debug = true;
 
-			FileAssoc();
+            FileAssoc("", true);
         }
 
         private static bool CheckName (string perlName){
@@ -750,7 +750,7 @@ namespace BerryBrew {
             return archivePath;
         }
 
-        public void FileAssoc(string action="") {
+        public void FileAssoc(string action="", bool quiet=false) {
             string plExtSubKey = @".pl";
             string plHandlerName = "";
 
@@ -792,8 +792,10 @@ namespace BerryBrew {
                 }
                 else {
                     Options("file_assoc", plHandlerName, true);
-                    Console.WriteLine("\nPerl file association handling:");
-                    Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", "", true));
+                    if (! quiet){
+                        Console.WriteLine("\nPerl file association handling:");
+                        Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", "", true));
+                    }
                 }
             }
             catch (UnauthorizedAccessException e) {
