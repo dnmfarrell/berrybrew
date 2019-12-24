@@ -2,7 +2,6 @@
 
 The perlbrew for Windows Strawberry Perl! 
 
-
 ###### [Click here to download the installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
 
 For a quick-start, jump to the [Install](#install) and [Commands](#commands)
@@ -15,6 +14,8 @@ to have Strawberry Perl installed before using `berrybrew`.
 
 Updating the list of Strawberry Perls available is as simple as running a single
 command: `berrybrew fetch`, and works at runtime.
+
+Use the **bb** command as a short hand name for **berrybrew**.
 
 There is extensive documentation available for the
 [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
