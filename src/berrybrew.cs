@@ -16,7 +16,7 @@ using System.Text.RegularExpressions;
 namespace BerryBrew {
     public class Berrybrew {
 
-        // sends a setting change message to reconfigure PATH
+        // prepares a etting change message to reconfigure PATH
 
         [DllImport("user32.dll", SetLastError = true)]
         private static extern IntPtr SendMessageTimeout(
@@ -33,15 +33,16 @@ namespace BerryBrew {
         private const int WmSettingchange = 0x001a;
         private const int SmtoAbortifhung = 0x2;
 
-        private const int MaxPerlNameLength = 25;
+        private static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
+        private static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
+
+        public List<string> validOptions;
 
         public bool Debug { set; get; }
         public bool Testing { set; get; }
 
-        public List<string> validOptions;
-
-        private static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
-        private static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
+        public readonly Message Message = new Message();
+        private readonly OrderedDictionary _perls = new OrderedDictionary();
 
         private string registrySubKey;
         
@@ -49,7 +50,6 @@ namespace BerryBrew {
         public string archivePath;
         public string installPath;
         public string rootPath;
-        
         private string configPath;
         private string downloadURL;
         private bool windowsHomedir;
@@ -57,8 +57,7 @@ namespace BerryBrew {
         private bool customExec;
         private bool bypassOrphanCheck;
 
-        public readonly Message Message = new Message();
-        private readonly OrderedDictionary _perls = new OrderedDictionary();
+        private const int MaxPerlNameLength = 25;
 
         public Berrybrew() {
 
@@ -88,7 +87,9 @@ namespace BerryBrew {
                 Console.WriteLine("IN DEV MODE");
                 registrySubKey += "-build";
             }
- 
+
+            // set initial registry configuration if it's not already done 
+
             BaseConfig();
 
             // ensure the Perl install dir exists
@@ -2213,7 +2214,6 @@ namespace BerryBrew {
             Paths = new List <string>{
                 CPath, PerlPath, PerlSitePath
             };
-
         }
     }
 }    
