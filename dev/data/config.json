@@ -6,7 +6,7 @@
     "download_url"    : "http://strawberryperl.com/releases.json",
     "custom_exec"     : "false",
     "windows_homedir" : "false",
-    "run_mode"        : "false",
+    "run_mode"        : "test",
     "file_assoc"      : "",
     "file_assoc_old"  : ""
 }

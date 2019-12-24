@@ -29,7 +29,7 @@ like `$c options windows_homedir`, qr/^\s+windows_homedir:\s+false\s+$/, "single
 like `$c options custom_exec`, qr/^\s+custom_exec:\s+false\s+$/, "single custom_exec ok";
 like `$c options run_mode`, qr/^\s+run_mode:\s+test\s+$/, "single run_mode ok";
 like `$c options file_assoc`, qr/^\s+file_assoc:\s+PerlScript$/, "single file_assoc ok";
-like `$c options file_assoc_old`, qr/^\s+file_assoc_old:\s+PerlScript$/, "single file_assoc_old ok";
+like `$c options file_assoc_old`, qr/^\s+file_assoc_old:\s+$/, "single file_assoc_old ok";
 
 like `$c options run_mode option_test`, qr/^\s+run_mode:\s+option_test\s+$/, "changing run_dir opt ok";
 like `$c options run_mode test`, qr/^\s+run_mode:\s+test\s+$/, "changing run_dir back ok";
