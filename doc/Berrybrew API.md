@@ -35,7 +35,6 @@ The `Berrybrew` class is the base of the system.
 [FileAssoc](#fileassociation)| **public** | Manage .pl file associations
 [FileRemove](#fileremove)| private | Deletes a file
 [FileSystemResetAttributes](#filesystemresetattributes)| private | Defaults filesystem attrs
-[Info](#info)| **public** | Displays information about specific installation elements
 [ImportModules](#importmodules)| **public** | Import modules into a Perl from a previously exported list
 [ImportModulesExec](#importmodulesexec)| private | Helper/executive method for `ImportModules()`
 [Install](#install)| **public** | Installs new instances of Perl
@@ -324,15 +323,6 @@ operated on back to default. This method was written specifically to ensure
 that no files were readonly, which prevented us from removing Perl
 installations.
 
-#### Info
-
-    public void Info(string want)
-    
-        argument:   want
-        value:      One of "archive_path", "bin_path", "root_path" or "install_path"
-        
-Writes to the console a string containing the required information.
-        
 #### ImportModules
 
     public void ImportModules(string version="")
