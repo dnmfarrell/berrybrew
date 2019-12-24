@@ -48,7 +48,9 @@ Revision history for berrybrew
         - added "Run UI at startup" option in installer
         - added bb.exe, a short-form for the full berrybrew command 
           (closes #226) 
-          
+        - update Configuration document with pertinent information regarding
+          the new registry configuration system (closes #222)
+                    
 1.29    2019-12-08
         - add missing closing parens on 'remove' if a Perl isn't installed
           (fixes #196)

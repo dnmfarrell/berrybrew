@@ -19,11 +19,14 @@
 
 #### Global Config
 
-Handles application wide configuration. Note that now, the defaults from the
-configuration file and are put into the Windows Registry.
+Handles application wide configuration. 
 
-To access/set them, instead of in the configuration file, see
-`berrybrew options help`.
+**Note**: The defaults from the global configuration file  are loaded on first use
+and then put into the Windows Registry. The global configuration file is not
+used after this initial import so changing any settings after your first run of
+`berrybrew` won't have any effect.
+
+To modify configuration options, please run `berrybrew options help` instead.
 
 File location:
 
@@ -55,12 +58,6 @@ Default: `C:\berrybrew\temp`
 
 Values: Any directory accessible on the system.
 
-###### strawberry_url
-
-Link to the Strawberry Perl website.
-
-Default: `http://strawberryperl.com`
-
 ###### download_url
 
 Link to the Strawberry Perl instance release JSON file.
@@ -87,6 +84,20 @@ the full-blown install does things.
 Default: `false`
 
 Values: "true", "false"
+
+##### run_mode
+
+This is a reserved option, and should not be modified by the end user.
+
+##### file_assoc
+
+This is a dynamic option used internally, and should never be modified by the
+end user.
+
+##### file_assoc_old
+
+This is a dynamic option used internally, and should never be modified by the
+end user.
 
 #### Messages Config
 
