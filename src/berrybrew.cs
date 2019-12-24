@@ -17,6 +17,9 @@ namespace BerryBrew {
     public class Berrybrew {
 
         // prepares a etting change message to reconfigure PATH
+        
+        [DllImport("shell32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
 
         [DllImport("user32.dll", SetLastError = true)]
         private static extern IntPtr SendMessageTimeout(
@@ -774,7 +777,9 @@ namespace BerryBrew {
 
                     RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\run\command");
                     plHandlerKey.SetValue("", binPath + @"\env.exe perl ""%1"" %*");
-                    
+
+                    SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero); 
+
                     Console.WriteLine("\nberrybrew is now managing the Perl file association");
                 }
                 else if (action == "unset") {
@@ -788,6 +793,8 @@ namespace BerryBrew {
                     plExtKey.SetValue("", old_file_assoc);
                     Options("file_assoc_old", "", true);
                     Options("file_assoc", old_file_assoc, true);
+
+                    SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero); 
 
                     Console.WriteLine("\nSet Perl file association back to default");
                 }
