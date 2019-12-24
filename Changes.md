@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.30 UNREL
+1.30    2019-12-24
 - updated docs to reflect ability to remove berrybrew using
 Add/Remove Programs (closes #209)
 - berrybrew Perls can now be managed through the System Tray Icon
@@ -59,7 +59,7 @@ where we shouldn't be, due to not scoping an if() statement
 (fixes #230)
 - added SHChangeNotify() to API, to send an icon refresh if the .pl
 file association changes
-                    
+
 1.29    2019-12-08
 - add missing closing parens on 'remove' if a Perl isn't installed
 (fixes #196)
