@@ -247,6 +247,17 @@
     ]
 },
 {
+    "label": "info_option_required",
+
+    "content": [
+        "\n'info' command requires an option argument to be send in. Valid options:\n",
+        "\t archive_path",
+        "\t root_path",
+        "\t install_path",
+        "\t bin_path"
+    ]
+}, 
+{
     "label": "subcmd.switch",
     
     "content": [

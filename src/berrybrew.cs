@@ -911,7 +911,38 @@ namespace BerryBrew {
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
         }
-        
+
+        public void Info(string want){
+            List <string> options = new List<string>(){"install_path", "bin_path", "root_path", "archive_path"};
+
+            if (! options.Contains(want)) {
+                Console.WriteLine("\n'{0}' is not a valid option. Valid options are:\n", want);
+                foreach (string opt in options){
+                    Console.WriteLine("\t{0}", opt);
+                }
+                Environment.Exit(0);
+            }
+
+            switch (want) {
+                case "install_path":
+                    Console.WriteLine("\n\t{0}", installPath);
+                    break;
+                case "bin_path":
+                    Console.WriteLine("\n\t{0}", binPath);
+                    break;
+                case "root_path":
+                    Console.WriteLine("\n\t{0}", rootPath);
+                    break;
+                case "archive_path":
+                    Console.WriteLine("\n\t{0}", archivePath);
+                    break;
+                default:
+                    Console.WriteLine("\nCould not fetch details for '{0}'", want);
+                    Environment.Exit(0);
+                    break;
+            }
+        }        
+
         public void Install(string version){
 
             StrawberryPerl perl = PerlResolveVersion(version);
