@@ -11,6 +11,7 @@
 - [config](#config)
 - [exec](#exec)
 - [fetch](#fetch)
+- [info](#info)
 - [install](#install)
 - [modules](#modules)
 - [options](#options)
@@ -148,6 +149,15 @@ Usage:  `berrybrew fetch`
 Pulls the JSON list of available Strawberry Perl instances from the Strawberry
 website, and puts them into the `data/perls.json` file. Any updates will be
 available immediately with `berrybrew available`.
+
+#### info
+
+Usage: `berrybrew info <option>`
+
+Retrieves and displays specific implementation and installation details
+regarding the `berrybrew` installation itself.
+
+Run `berrybrew info` to get a list of the valid options.
 
 #### install
 

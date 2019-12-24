@@ -46,7 +46,20 @@ along with 'upgrade' make a call to 'OptionsUpdate()' (closes #225)
 - added ability to change Perl instance root directory in the
 installer (closes #208)
 - added "Run UI at startup" option in installer
-        
+- added bb.exe, a short-form for the full berrybrew command 
+(closes #226) 
+- update Configuration document with pertinent information regarding
+the new registry configuration system (closes #222)
+- full documentation review and updates (closes #223)
+- installer no longer requires on "PROGRAMFILES", which allows the
+uninstaller to operate on the correct install directory (closes #228)                            
+- uninstaller now removes top-level install directory (closes #229)
+- fix issue in OptionsUpdate() where we were updating registry values
+where we shouldn't be, due to not scoping an if() statement
+(fixes #230)
+- added SHChangeNotify() to API, to send an icon refresh if the .pl
+file association changes
+                    
 1.29    2019-12-08
 - add missing closing parens on 'remove' if a Perl isn't installed
 (fixes #196)
