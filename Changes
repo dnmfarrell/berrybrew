@@ -50,7 +50,8 @@ Revision history for berrybrew
           (closes #226) 
         - update Configuration document with pertinent information regarding
           the new registry configuration system (closes #222)
-                    
+        - full documentation review and updates (closes #223)
+                            
 1.29    2019-12-08
         - add missing closing parens on 'remove' if a Perl isn't installed
           (fixes #196)
