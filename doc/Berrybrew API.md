@@ -3,8 +3,10 @@
 API source code is located in the `src/berrybrew.cs` file. It is
 standalone namespace/class code, and contains no entry points.
 
-The code for the `berrybrew.exe` binary itself resides in `src/bbconsole.cs`.
-This source file contains the `Main()` entry point.
+The code for the `berrybrew.exe` binary itself resides in `src/bbconsole.cs` and
+contains the `Main()` entry point.
+
+The code for the `berrybrewUI.exe` is in `src/berrybrew-ui.cs`.
 
 - [Berrybrew Class](#class-berrybrew)
 - [Message Class](#class-message)
@@ -32,7 +34,7 @@ The `Berrybrew` class is the base of the system.
 [ExportModules](#exportmodules)| **public** | Export an instaled module list from current Perl
 [Extract](#extract)| private | Extracts Perl installation zip archives
 [Fetch](#fetch)| private | Downloads the Perl installation files
-[FileAssoc](#fileassociation)| **public** | Manage .pl file associations
+[FileAssoc](#fileassoc)| **public** | Manage .pl file associations
 [FileRemove](#fileremove)| private | Deletes a file
 [FileSystemResetAttributes](#filesystemresetattributes)| private | Defaults filesystem attrs
 [Info](#info)| **public** | Displays information about specific installation elements
@@ -67,11 +69,11 @@ The `Berrybrew` class is the base of the system.
 [PerlUpdateAvailableListOrphans](#PerlUpdateAvailableListOrphans)| **public** | Registers any orphaned Perls after using `Fetch()`
 [ProcessCreate](#processcreate)| private | Creates and returns a Windows cmd process
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
-[SwitchQuick](#switch-quick) | private | Called by `Switch()`, sets up the new environment
+[SwitchQuick](#switchquick) | private | Called by `Switch()`, sets up the new environment
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
 [Upgrade](#upgrade)| **public** | Performs a safe `berrybrew` upgrade
 [UseCompile](#usecompile)| **public** | Staging for `UseInNewWindow()` and `UseInSameWindow()`
-[UseInNewWindow](#useninewwindow)| private | Spawns new window(s) with the selected version(s) of perl at the head of the PATH
+[UseInNewWindow](#useinnewwindow)| private | Spawns new window(s) with the selected version(s) of perl at the head of the PATH
 [UseInSameWindow](#useinsamewindow)| private | Runs a new command-interpreter with the selected version of perl at the head of the PATH (with multiple versions run serially)
 [Version](#version)| **public** | Return the version of the current `berrybrew`
 

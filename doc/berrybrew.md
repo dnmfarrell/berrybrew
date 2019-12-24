@@ -46,13 +46,13 @@ View, set or revert `.pl` file association on the system.
 ##### associate options
 
     set     - Allow berrybrew to manage the association
-    unset   - Revert the association back to it was previously
+    unset   - Revert the association back to what it was previously
        
 If no option is sent in, we'll simply display the current association.
 
 #### available
 
-    berrybrew available [command]
+    berrybrew available [option]
 
 Displays a list of available Perl versions, which includes installed and custom
 versions. A shortened example:

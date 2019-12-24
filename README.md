@@ -33,7 +33,6 @@ full list of documentation.
 - [Examples](#examples)
 - [Upgrading](#upgrading)
 - [Update Perls Available](#update-perls-available)
-- [Cloning Modules](#cloning-modules)
 - [Configure Perl Instance Directory](#configure-root-directory)
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
@@ -50,7 +49,7 @@ full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 7297bf21607bdbaa83ecb0a0d1290abc7d0057a6`
+[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 97586c44a31c35a1d1f13f50774fa3ca9faff6ae`
 
 ##### Git clone
 
@@ -60,7 +59,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 619e3d6a106c0e67febbdbb08a51d5dced3ac3d0`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 29007bf90e34b907f69f0b46b32f333d9f88d3cd`
 
 After extraction:
 
@@ -80,7 +79,10 @@ uninstaller program located in the installation directory.
 
 If you installed via any other method:
 
-First run the `berrybrew unconfig` command which removes the `PATH` environment
+First, run the `berrybrew associate unset` if you're managing the `.pl` file
+association with `berrybrew`.
+
+Then, run the `berrybrew unconfig` command which removes the `PATH` environment
 variables for any in-use Perl installation, and then removes `berrybrew` from
 the `PATH` as well.
 
@@ -96,6 +98,12 @@ If you wish to delete the actual installation:
 
 - Remove the `HKLM\Software\Microsoft\Windows\Current Version\Run\BerrybrewUI`
 registry value
+
+## Configuration
+
+See the [Configuration](https://github.com/stevieb9/berrybrew/blob/master/doc/Configuration.md)
+document, and the `options` command in the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+documentation.
 
 ## Commands
 
@@ -315,17 +323,11 @@ This feature simply fetches the Perl instance that's currently in use,
 prints out its name, and exits. It will not display anything if there's no
 Perl currently in use.
 
-Usage:
-
-    berrybrew currentperl
-
 Used primarily for certain unit tests.
 
 #### register-orphans
 
-This will register all orphaned Perl instances. Used primarily during the
-self-extracting installer during an upgrade to ensure that if the `perls.json`
-file has changed, all previous Perl instances will be visible and usable.
+This will register all orphaned Perl instances at once.
 
 #### options-update
 

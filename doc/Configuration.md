@@ -34,7 +34,7 @@ File location:
 
 Available options:
 
-###### debug
+##### debug
 
 Enables debugging output.
 
@@ -42,7 +42,7 @@ Default: `false`
 
 Values: "true" or "false"
 
-###### root_dir
+##### root_dir
 
 Directory where we'll house all of your Perl installations. 
 
@@ -50,7 +50,7 @@ Default: `C:\berrybrew`
 
 Values: Any directory accessible on the system.
 
-###### temp_dir
+##### temp_dir
 
 Directory where we store the Perl installation zip files.
 
@@ -58,13 +58,13 @@ Default: `C:\berrybrew\temp`
 
 Values: Any directory accessible on the system.
 
-###### download_url
+##### download_url
 
 Link to the Strawberry Perl instance release JSON file.
 
 Default: `http://strawberryperl.com/releases.json`
 
-###### custom_exec
+##### custom_exec
 
 Include custom (cloned) instances when using `berrybrew exec`.
 
