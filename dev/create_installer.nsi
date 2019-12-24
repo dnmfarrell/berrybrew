@@ -138,6 +138,19 @@ FunctionEnd
 
 Function LaunchFinish
   SetOutPath $INSTDIR
+   
+   ; set the root_path Perl directory location
+
+  ${If} $perlRootDirSet == "0"
+    nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" options-update'
+    ClearErrors
+    WriteRegStr HKLM "${APP_REGKEY}" "root_dir" $perlRootDir
+    WriteRegStr HKLM "${APP_REGKEY}" "temp_dir" "$perlRootDir\temp"
+    ${If} ${Errors}
+      MessageBox MB_OK "Error writing registry"
+    ${EndIf}      
+  ${EndIf}  
+  
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" register_orphans'
 
@@ -157,20 +170,7 @@ Function LaunchFinish
 FunctionEnd
 
 Function .oninstsuccess
-  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" options-update'
   Exec '"$INSTDIR\bin\berrybrew-ui.exe"'
-  
-   ; set the root_path Perl directory location
-
-  ${If} $perlRootDirSet == "0"
-    ClearErrors
-    WriteRegStr HKLM "${APP_REGKEY}" "root_dir" $perlRootDir
-    WriteRegStr HKLM "${APP_REGKEY}" "temp_dir" "$perlRootDir\temp"
-    ${If} ${Errors}
-      MessageBox MB_OK "Error writing registry"
-    ${EndIf}      
-  ${EndIf}  
- 
 FunctionEnd
 
 Function un.StopUI
@@ -256,10 +256,17 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
-  SetOutPath $INSTDIR
+  ; SetOutPath $INSTDIR
+
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" associate unset'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" off'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" unconfig'
+
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI"
+  DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
+  DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
+  DeleteRegKey HKLM "${APP_REGKEY}" 
+
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\src\berrybrew.cs"
@@ -300,9 +307,10 @@ Section Uninstall
   Delete "$SMPROGRAMS\berrybrew\Website.lnk"
   Delete "$DESKTOP\berrybrew.lnk"
   Delete "$SMPROGRAMS\berrybrew\berrybrew.lnk"
-
   RMDir "$SMPROGRAMS\berrybrew"
+
   RMDir "$INSTDIR\t\data"
+  RMDir "$INSTDIR\bin"
   RMDir "$INSTDIR\t"
   RMDir "$INSTDIR\src"
   RMDir "$INSTDIR\inc"
@@ -311,12 +319,7 @@ Section Uninstall
   RMDir "$INSTDIR\dev\data"
   RMDir "$INSTDIR\dev"
   RMDir "$INSTDIR\data"
-  RMDir "$INSTDIR\bin"
   RMDir "$INSTDIR"
-
-  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI"
-  DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
-  DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
-  DeleteRegKey HKLM "${APP_REGKEY}"
+  
   SetAutoClose true
 SectionEnd

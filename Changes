@@ -53,6 +53,8 @@ Revision history for berrybrew
         - full documentation review and updates (closes #223)
         - installer no longer requires on "PROGRAMFILES", which allows the
           uninstaller to operate on the correct install directory (closes #228)                            
+        - uninstaller now removes top-level install directory (closes #229)
+                  
 1.29    2019-12-08
         - add missing closing parens on 'remove' if a Perl isn't installed
           (fixes #196)
