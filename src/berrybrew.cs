@@ -81,7 +81,7 @@ namespace BerryBrew {
             }; 
 
             if (binPath.Contains("test")) {
-                Console.WriteLine("IN TEST MODE");
+                // Console.WriteLine("IN TEST MODE");
                 registrySubKey += "-test";
             }
             else if (binPath.Contains("build")) {
@@ -232,6 +232,8 @@ namespace BerryBrew {
 
             if ((string) registry.GetValue("debug", "false") == "true")
                 Debug = true;
+
+			FileAssoc();
         }
 
         private static bool CheckName (string perlName){
