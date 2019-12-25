@@ -1266,8 +1266,9 @@ namespace BerryBrew {
             List<string> updatedPaths = new List<string>();
 
             foreach (string pathEntry in paths){
-                if (pathEntry != binPath)
+                if (pathEntry.ToLower() != binPath.ToLower()) {
                     updatedPaths.Add(pathEntry);
+				}
             }
 
             PathSet(updatedPaths);

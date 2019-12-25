@@ -59,7 +59,10 @@ Revision history for berrybrew
           (fixes #230)
         - added SHChangeNotify() to API, to send an icon refresh if the .pl
           file association changes
-
+        - fix issue in PathRemoveBerrybrew() where if the $INSTDIR in the
+          installer had a lowercase drive letter, the PATH would not be
+          removed on uninstall (fixes #233)
+          
 1.29    2019-12-08
         - add missing closing parens on 'remove' if a Perl isn't installed
           (fixes #196)

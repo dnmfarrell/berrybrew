@@ -84,6 +84,7 @@ Section "-MainSection" SEC_MAIN
   SetOutPath "$INSTDIR\src"
   File "..\src\bbconsole.cs"
   File "..\src\berrybrew.cs"
+  File "..\src\berrybrew-ui.cs"
 SectionEnd
 
 Section "Perl 5.30.1_64" SEC_INSTALL_NEWEST_PERL
@@ -234,8 +235,8 @@ Function .onInit
         nope:
           Abort
         yep:
-          nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" off'
-          nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" unconfig'
+          nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "berrybrew" off'
+          nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "berrybrew" unconfig'
           MessageBox MB_ICONEXCLAMATION "If you need to use your previous version, run 'berrybrew off', and re-run 'config' and 'switch' on the old version."
       ${EndIf}
     
@@ -256,12 +257,10 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
-  SetOutPath $INSTDIR    
-  
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" associate unset'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" off'
-  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" unconfig'
-
+  ExecWait '"$SYSDIR\cmd.exe" /K if 1==1 "$INSTDIR\bin\berrybrew.exe" unconfig'
+  
   DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI"
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
@@ -270,6 +269,7 @@ Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\src\berrybrew.cs"
+  Delete "$INSTDIR\src\berrybrew-ui.cs"
   Delete "$INSTDIR\src\bbconsole.cs"
   Delete "$INSTDIR\LICENSE"
   Delete "$INSTDIR\inc\berrybrew.ico"
