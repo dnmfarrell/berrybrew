@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.30    2019-12-24
+1.30    2019-12-25
 - updated docs to reflect ability to remove berrybrew using
 Add/Remove Programs (closes #209)
 - berrybrew Perls can now be managed through the System Tray Icon
@@ -59,6 +59,11 @@ where we shouldn't be, due to not scoping an if() statement
 (fixes #230)
 - added SHChangeNotify() to API, to send an icon refresh if the .pl
 file association changes
+- fix issue in PathRemoveBerrybrew() where if the $INSTDIR in the
+installer had a lowercase drive letter, the PATH would not be
+removed on uninstall (fixes #233)
+- added 'force' arg to OptionsUpdate() along with `options-update-force`,
+to load all config file options into the registry (closes #232)
 
 1.29    2019-12-08
 - add missing closing parens on 'remove' if a Perl isn't installed
