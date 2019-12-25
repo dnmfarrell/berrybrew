@@ -237,7 +237,6 @@ Function .onInit
         yep:
           nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "berrybrew" off'
           nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "berrybrew" unconfig'
-          MessageBox MB_ICONEXCLAMATION "If you need to use your previous version, run 'berrybrew off', and re-run 'config' and 'switch' on the old version."
       ${EndIf}
     
     end_find_file:      
