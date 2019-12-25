@@ -1172,7 +1172,7 @@ namespace BerryBrew {
             return "";
         }
 
-        public void OptionsUpdate() {
+        public void OptionsUpdate(bool force=false) {
 
             dynamic jsonConf = JsonParse("config");
             
@@ -1185,9 +1185,15 @@ namespace BerryBrew {
                     if (Debug)
                         Console.WriteLine("{0}: {1}", confKey, jsonConf[confKey]);
 
-                    if (! regValues.Contains(confKey)) {
+                    if (force) {
                         Console.WriteLine("Adding {0} to the registry configuration", confKey);
                         regKey.SetValue(confKey, jsonConf[confKey]);
+                    }
+                    else {
+                        if (! regValues.Contains(confKey)) {
+                            Console.WriteLine("Adding {0} to the registry configuration", confKey);
+                            regKey.SetValue(confKey, jsonConf[confKey]);
+                        }
                     }
                 }
             }
@@ -1268,7 +1274,7 @@ namespace BerryBrew {
             foreach (string pathEntry in paths){
                 if (pathEntry.ToLower() != binPath.ToLower()) {
                     updatedPaths.Add(pathEntry);
-				}
+                }
             }
 
             PathSet(updatedPaths);

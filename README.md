@@ -49,7 +49,7 @@ full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 6bc088e9a7ed4daa30d7051c7f922470e506b364`
+[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: b00e3467c642e536ffebb01f89994b5bd9af544e`
 
 ##### Git clone
 
@@ -59,7 +59,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 233752aa1ad1e6bd71a43634385866c76c66c946`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 5788c9bdba84036f6721fd687fb0af2f352c0adb`
 
 After extraction:
 
@@ -335,11 +335,17 @@ Checks the base distribution's configuration file, and if there are any newly
 added directives, we'll insert them into the registry. Used for upgrades and
 testing.
 
+#### options-update-force
+
+Loads all configuration options from the configuration file into the registry.
+Be warned that this will overwrite all changes that were previously changed
+within the registry.
+
 ## Original Author
 
 David Farrell [http://perltricks.com]
 
-## This Fork Maintained By
+## Current Author 
 
 Steve Bertrand `steveb<>cpan.org`
 

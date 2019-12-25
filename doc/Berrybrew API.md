@@ -454,11 +454,18 @@ if `quiet` is set to `true`, we won't display output to the console.
 
 #### OptionsUpdate
 
-    public void OptionsUpdate()
-    
+    public void OptionsUpdate(bool force=false)
+
+        argument:   force
+        value:      Bool
+        default:    false
+            
 Inserts any new configuration file directives to the registry. Used for
 upgrades.
-    
+
+If the `force` argument is sent in as `true`, we will reload all of the 
+configuration file values into the registry.
+
 #### Off
 
     public void Off()

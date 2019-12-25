@@ -233,7 +233,11 @@ namespace berrybrew {
                 case "options-update":
                     bb.OptionsUpdate();
                     break;               
-               
+
+                case "options-update-force":
+                    bb.OptionsUpdate(true);
+                    break;                             
+
                 case "register":
                     if (args.Length == 1)
                         bb.Message.Say("register_ver_required");
