@@ -65,17 +65,6 @@
     ]
 },
 {
-    "label": "info_option_required",
-
-    "content": [
-        "\n'info' command requires an option argument to be send in. Valid options:\n",
-        "\t archive_path",
-        "\t root_path",
-        "\t install_path",
-        "\t bin_path"
-    ]
-},
-{
     "label": "install_ver_unknown",
 
     "content": [
@@ -153,8 +142,9 @@
         "berrybrew <command> [subcommand] [option]",
         "",
         "",
-        "    available      List available Strawberry Perl versions and which are installed",
-		"    list           List installed Strawberry Perl versions",
+        "    associate *    View and set Perl file association",
+        "    available *    List available Strawberry Perl versions and which are installed",
+        "    list           List installed Strawberry Perl versions",
         "    clean *        Remove all temporary berrybrew files",
         "    clone          Make a complete copy of a Perl installation",
         "    config         Add berrybrew to your PATH",
@@ -162,6 +152,7 @@
         "    fetch          Update the list of Strawberry Perl instances available",
         "    install        Download, extract and install a Strawberry Perl",
         "    modules *      Export and import a module list from one Perl to install on another",
+        "    options *      Display or set a single option, or display all of them with values",
         "    off            Disable berrybrew perls (use 'switch' to re-enable)",
         "    register       Manually register a custom installation directory",
         "    remove         Uninstall a Strawberry Perl",
@@ -220,6 +211,28 @@
     ]
 },
 {
+    "label": "subcmd.associate",
+
+    "content": [
+        "",
+        "   berrybrew 'associate' options:",
+        "",
+        "   set    '.pl' file extensions will be managed by berrybrew",
+        "",
+        "   unset  Restore the previous file association configuration"
+    ]
+},
+{
+    "label": "subcmd.available",
+
+    "content": [
+        "",
+        "   berrybrew 'available' subcommands:",
+        "",
+        "   all    List all available Perls, not just the most recent point release of each major version"
+    ]
+},
+{
     "label": "subcmd.clean",
 
     "content": [
@@ -233,6 +246,17 @@
         "   all    Clean everything"
     ]
 },
+{
+    "label": "info_option_required",
+
+    "content": [
+        "\n'info' command requires an option argument to be send in. Valid options:\n",
+        "\t archive_path",
+        "\t root_path",
+        "\t install_path",
+        "\t bin_path"
+    ]
+}, 
 {
     "label": "subcmd.switch",
     
@@ -267,7 +291,19 @@
         "   export  Exports a list of all installed modules in the current Perl",
         "   import  Imports a previously exported module list and installs them in the current perl"
     ]
-},    
+},
+{
+    "label": "subcmd.options",
+
+    "content": [
+        "",
+        "   berrybrew 'options' usage:",
+        "",
+        "   berrybrew options [option] [value]",
+        "",
+        "   With no options, we'll display all of them with their values"
+    ]
+},
 {
     "label": "subcmd.use",
 

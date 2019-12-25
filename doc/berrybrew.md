@@ -3,6 +3,7 @@
 ### Command List:
 
 - [debug](#debug)
+- [associate](#associate)
 - [available](#available)
 - [list](#list)
 - [clean](#clean)
@@ -13,6 +14,7 @@
 - [info](#info)
 - [install](#install)
 - [modules](#modules)
+- [options](#options)
 - [off](#off)
 - [register](#register)
 - [remove](#remove)
@@ -35,12 +37,25 @@ This command preceeds all others, and can be used in conjunction with
 all other commands. Depending on the scenario, it will print out verbose
 debugging information.
 
+#### associate
+
+    berrybrew associate [option]
+
+View, set or revert `.pl` file association on the system.
+
+##### associate options
+
+    set     - Allow berrybrew to manage the association
+    unset   - Revert the association back to what it was previously
+       
+If no option is sent in, we'll simply display the current association.
+
 #### available
 
-    berrybrew available
+    berrybrew available [option]
 
-Takes no options, displays a list of all available Perl versions, which
-includes installed and custom versions. A shortened example:
+Displays a list of available Perl versions, which includes installed and custom
+versions. A shortened example:
 
     The following Strawberry Perls are available:
 
@@ -53,6 +68,9 @@ includes installed and custom versions. A shortened example:
             unit_test-5.18  [custom] [installed] *
 
     * Currently using
+
+If the optional command is set to `all`, we'll list all available versions.
+Otherwise, we list only the most recent point release for each major Perl version.
 
 #### list
 
@@ -126,15 +144,11 @@ Also, by default, we don't execute on custom (cloned) instances. Set
 
 #### fetch
 
-Usage:  `berrybrew fetch [all]`
+Usage:  `berrybrew fetch`
 
 Pulls the JSON list of available Strawberry Perl instances from the Strawberry
 website, and puts them into the `data/perls.json` file. Any updates will be
 available immediately with `berrybrew available`.
-
-Send in the all string as a subcommand and instead of listing the most
-recent version for every major version, we'll download every version that
-Strawberry has to offer.
 
 #### info
 
@@ -169,6 +183,20 @@ instance of Perl.
 instance of Perl that you've previously exported from. If no argument is
 sent in, we'll list the available exports you can choose to install
 from.
+
+#### options
+
+Usage:  `berrybrew options [option] [value]`
+
+Retrieve and set `berrybrew`'s options.
+
+If the `option` argument isn't supplied, we'll display the values for all
+configured options.
+
+If an `option` is sent in, we'll display the value for that single option.
+
+If both `option` and `value` are sent in, we'll set the option to the value,
+then display the updated value for that option.
         
 #### off
 

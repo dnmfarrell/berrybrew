@@ -2,7 +2,6 @@
 
 The perlbrew for Windows Strawberry Perl! 
 
-
 ###### [Click here to download the installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
 
 For a quick-start, jump to the [Install](#install) and [Commands](#commands)
@@ -15,6 +14,8 @@ to have Strawberry Perl installed before using `berrybrew`.
 
 Updating the list of Strawberry Perls available is as simple as running a single
 command: `berrybrew fetch`, and works at runtime.
+
+Use the **bb** command as a short hand name for **berrybrew**.
 
 There is extensive documentation available for the
 [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
@@ -32,7 +33,6 @@ full list of documentation.
 - [Examples](#examples)
 - [Upgrading](#upgrading)
 - [Update Perls Available](#update-perls-available)
-- [Cloning Modules](#cloning-modules)
 - [Configure Perl Instance Directory](#configure-root-directory)
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
@@ -49,7 +49,7 @@ full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: c9a04503e24c51561c4c27355a24d732b0c5f08a`
+[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: acbae86efdc30bbb7bbdd4753daeddd1224a6d7b`
 
 ##### Git clone
 
@@ -59,7 +59,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 45e38108c84e426760a5ba777d15ec5b6503da7e`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: d173ef1aa65cff163f293cad941deab003d8efd7`
 
 After extraction:
 
@@ -73,19 +73,37 @@ installation.
 
 ## Uninstall
 
-If you used the self-extracting installer, simply run the uninstaller.
+If you used the self-extracting installer, simply run the uninstaller from
+either `Add/Remove Programs` in the Control Panel, or the `uninst.exe`
+uninstaller program located in the installation directory.
 
 If you installed via any other method:
 
-First run the `berrybrew unconfig` command which removes the `PATH` environment
+First, run the `berrybrew associate unset` if you're managing the `.pl` file
+association with `berrybrew`.
+
+Then, run the `berrybrew unconfig` command which removes the `PATH` environment
 variables for any in-use Perl installation, and then removes `berrybrew` from
 the `PATH` as well.
 
 If you wish to delete the actual installation:
 
-- remove the `C:\berrybrew` directory which contains the installation, perl
-installations and all configuration and temporary data
-- remove the original download directory
+- Stop the UI if it's running (right-click the System Tray Icon, and click `Exit`)
+
+- Remove the Perl installation root directory (by default `C:\berrybrew`) 
+
+- Remove the original download directory
+
+- Remove the `HKLM\Software\berrybrew` registry key
+
+- Remove the `HKLM\Software\Microsoft\Windows\Current Version\Run\BerrybrewUI`
+registry value
+
+## Configuration
+
+See the [Configuration](https://github.com/stevieb9/berrybrew/blob/master/doc/Configuration.md)
+document, and the `options` command in the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+documentation.
 
 ## Commands
 
@@ -94,16 +112,17 @@ documentation for a full explanation of all of the following commands.
 
     berrybrew <command> [subcommand] [option]
 
-    available      List available Strawberry Perl versions and which are installed
+    associate *    View and set Perl file association
+    available *    List available Strawberry Perl versions and which are installed
     list           List installed Strawberry Perl versions
     clean *        Remove all temporary berrybrew files
     clone          Make a complete copy of a Perl installation
     config         Add berrybrew to your PATH
     exec *         Run a command for every installed Strawberry Perl
     fetch          Update the list of Strawberry Perl instances available
-    info           Retrieve details about the berrybrew installation itself
     install        Download, extract and install a Strawberry Perl
     modules *      Export and import a module list from one Perl to install on another
+    options *      Display or set a single option, or display all of them with values
     off            Disable berrybrew perls (use 'switch' to re-enable)
     register       Manually register a custom installation directory
     remove         Uninstall a Strawberry Perl
@@ -116,186 +135,24 @@ documentation for a full explanation of all of the following commands.
     license        Show berrybrew license
     version        Displays the version
 
+
     * - view subcommand details with 'berrybrew <command> help'
 
 ## Examples
 
-List all versions of Perl that are available, installed, and currently used:
-    
-    > berrybrew available
+See the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+document for usage examples.
 
-    The following Strawberry Perls are available:
-
-        5.30.0_64
-        5.30.0_64_PDL
-        5.30.0_32
-        5.28.0_64
-        5.28.0_64_PDL
-        5.28.0_32
-        5.26.2_64
-        5.26.2_64_PDL
-        5.26.2_32
-        5.24.4_64
-        5.24.4_64_PDL
-        5.24.4_32
-        5.22.3_64
-        5.22.3_64_PDL
-        5.22.3_32
-        5.20.3_64
-        5.20.3_64_PDL
-        5.20.3_32
-        5.18.4_64
-        5.18.4_32
-        5.16.3_64
-        5.16.3_32
-        5.14.4_64
-        5.14.4_32
-        5.12.3_64
-        5.12.3_32
-        5.10.1_32       [installed]
-        5.8.9_32
-        5.24.1_64       [custom] [installed] *
-
-    * Currently using
-    
-List all currently installed versions of Perl:
-
-    > berrybrew list
-
-        5.30.0_64
-        5.30.0_64_PDL
-        5.30.0_32
-        5.28.0_64
-        5.26.2_64
-        5.10.1_32
-    
-Install a specific version:
-
-    > berrybrew install 5.30.0_64
-
-Switch to a different version (permanently):
-
-    > berrybrew switch 5.30.0_64
-
-    Switched to 5.30.0_64, run 'berrybrew-refresh' to use it.
-
-Start a new cmd.exe to use the new version:
-
-    > perl -v
-
-    This is perl 5, version 30, subversion 0 (v5.30.0) built for MSWin32-x64-multi-thread
-
-Switch to a different version (permanently) without needing a new console window:
-
-    > berrybrew switch 5.30.0_64 quick
-    
-You may run into issues running external binaries along with certain features with
-the 'quick' feature. If so, simply run `berrybrew-refresh`, or start a new terminal
-window.
-    
-Clone an installed instance (very useful for setting up a main instance,
-and cloning it into an instance named "template")
-
-    > berrybrew clone 5.30.0_64 template
-
-Uninstall a version of perl:
-
-    > berrybrew remove 5.30.0_64
-
-    Successfully removed Strawberry Perl 5.30.0_64
-
-Manage an external instance of Perl (system ActiveState for example):
-
-    > berrybrew virtual activestate
-
-    Specify the path to the perl binary: c:\strawberry\perl\bin
-
-    Specify the library path:
-
-    Specify an additional path:
-
-    Successfully registered virtual perl activestate
-
-Manually register a custom directory within the Perl installation directory
-
-    > berrybrew register my_custom_install
-
-Disable berrybrew entirely, and return to system Perl (Strawberry or 
-ActiveState), if available (re-enable with 'switch'):
-
-    > berrybrew off
-
-Temporarily use a selected version:
-
-    > berrybrew use 5.10.1_32
-
-Temporarily use a Perl version, but spawn in a new command window:
-
-    > berrybrew use --win 5.10.1_32
-
-Temporarily spawn several versions, all in new windows:
-
-    > berrybrew use --win 5.10.1_32,5.24.2_64,5.28.0_64
-
-Execute something across all perls (we do not execute on Perls that has
-'tmpl' or 'template' in the name):
-
-    > berrybrew exec prove -l
-
-    Perl-5.30.0_64
-    ==============
-    t\DidYouMean.t .. ok
-    All tests successful.
-    Files=1, Tests=5,  0 wallclock secs ( 0.06 usr +  0.00 sys =  0.06 CPU)
-    Result: PASS
-
-    Perl-5.22.3_32
-    ==============
-    t\DidYouMean.t .. ok
-    All tests successful.
-    Files=1, Tests=5,  0 wallclock secs ( 0.03 usr +  0.03 sys =  0.06 CPU)
-    Result: PASS
-
-    Perl-5.18.4_64
-    ==============
-    t\DidYouMean.t ..
-    Dubious, test returned 5 (wstat 1280, 0x500)
-    Failed 5/5 subtests
-
-    Test Summary Report
-    -------------------
-    t\DidYouMean.t (Wstat: 1280 Tests: 5 Failed: 5)
-      Failed tests:  1-5
-      Non-zero exit status: 5
-    Files=1, Tests=5,  0 wallclock secs ( 0.02 usr +  0.05 sys =  0.06 CPU)
-    Result: FAIL
-
-Execute on only a selection of installed versions:
-
-    > berrybrew exec --with 5.30.0_64,5.10.1_32 perl -e die()
-
-    Perl-5.30.0_64
-    ==============
-    Died at -e line 1.
-
-    Perl-5.10.1_32
-    ==============
-    Died at -e line 1.
-
-Remove `berrybrew` from `PATH` (useful for switching between versions of
-`berrybrew`):
-
-    > berrybrew unconfig
-    
 ## Upgrading
 
 Using the [installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
-is the best and safest way to upgrade your `berrybrew`. :w
-If the new install
-will not be in the same directory as your previous version, copy any new or
-differing configuration options in the `data\config.json` file from the old
-instance to the new one, and if you've got a `data\perls_custom.json` or a
-`data\perls_virtual.json` file, copy them over in their entirety.
+is the best and safest way to upgrade your `berrybrew`.
+
+If the new install will not be in the same directory as your previous version, 
+copy any new or differing configuration options in the `data\config.json` file
+from the old instance to the new one, and if you've got a 
+`data\perls_custom.json` or a `data\perls_virtual.json` file, copy them over in
+their entirety.
 
 The next best method is to use `berrybrew upgrade`. This requires Git to be
 installed and in your `PATH`. It will create a `backup_timestamp`
@@ -315,47 +172,13 @@ Use `berrybrew fetch` to retrieve the most recent availability list from
 Strawberry Perl. If any new or changed versions are found, we'll update the
 local `perls.json` file with them.
 
-If you supply the `all` subcommand to `berrybrew fetch`, we will load all
-available Perls that Strawberry has to offer.
-
-## Cloning Modules
-
-Currently, this is a two-phase operation, and is in beta. Here's the
-procedure. first, `berrybrew switch` to the Perl instance you want to
-export the module list for, and:
-
-    > berrybrew modules export
-
-Then, `berrybrew switch` to the Perl instance you want to import the
-exported modules into, then run `berrybrew-refresh` to reset the environment.
-
-Then, the following command will display a list of all exported module
-files from any/all Perl instances you've done an export from:
-
-    > berrybrew modules import
-    
-    re-run the command with one of the following options:
-
-    5.16.3_64    
-    
-In my case here, I've only got one export, from a `5.16.3_64` Perl
-instance. Use it (I'm currently on `5.20.3_64`):
-
-    > berrybrew modules import 5.16.3_64
-    
-NOTE: It is best to export from an older Perl and install on a newer
-one, as it can take a significant amount of time to re-install ALL
-exported modules.
-
-NOTE: You can edit the module export file (by default in `C:\berrybrew\modules\`).
-Each export file has the name of the Perl it was exported from. Just
-add and/or remove any entries you'd like. You can even create the files
-manually by hand so you have a custom, ready made template for all new
-Perl installs. There is no limit on naming convention, so you can
-literally manually create a file called `base_modules_template` for
-example.
-    
 ## Configure Root Directory
+
+If using the [installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
+to install from, you'll have the opportunity to configure this option during
+install, and nothing further is required.
+
+Otherwise, follow these directions:
 
 By default, we manage Perls out of the `C:\berrybrew` directory. To 
 change this, modify the `root_dir` value in the `data\config.json` file.
@@ -366,9 +189,16 @@ you've already installed any instances of Perl. This feature is
 incomplete, and `PATH` and other things don't get properly reset yet.
 If you choose to ignore this, follow this procedure:
 
-- run `berrybrew off`, to flush the `PATH` environment variables
+- create a new directory in the file system to house the Perl instances
 
-- edit the configuration file to reflect the new directory
+- run `berrybrew options root_dir PATH`, where `PATH` is the full path to the
+directory you'd like to store Perls in
+
+- run `berrybrew options temp_dir PATH`, where `PATH` is the full path to the
+temporary storage area. Typically, this is a directory inside of the `root_dir`
+you set above
+
+- run `berrybrew off`, to flush the `PATH` environment variables
 
 - move all Perl installations from the old path to the new one
 
@@ -384,7 +214,6 @@ If you choose to ignore this, follow this procedure:
 
 - [Mono](http://www.mono-project.com) or Visual Studio (only if 
 compiling your own version)
-
 
 ## Troubleshooting
 
@@ -427,8 +256,9 @@ be overwritten with the defaults. If you have any customizations, make a
 backup of the `data` directory before upgrade, then copy the files back
 to their original location. Note that you may have to manually add any
 new config directives into the original config files. The 
-`perls_custom.json` file used for custom Perl installations (clones) 
-will never be overwritten, and this warning does not apply for it.
+`perls_custom.json` file used for custom Perl installations (clones) and the
+`perls_virtual.json` file used for virtual Perl installations will never be
+overwritten, and this warning does not apply for them.
 
 - At this time, `berrybrew` requires Administrative privileges to
 operate correctly. This is due to the way Windows forces the System 
@@ -451,7 +281,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-    1.29
+    1.30
 
 ## Hidden Features
 
@@ -459,6 +289,11 @@ There are certain features that should only be used by developers and
 maintainers of this software. There's only a couple, so if I create
 more and/or make them more complex, I'll create a separate document
 for them.
+
+#### info
+
+Displays paths and other information regarding the `berrybrew` installation
+itself.
 
 #### test
 
@@ -488,23 +323,29 @@ This feature simply fetches the Perl instance that's currently in use,
 prints out its name, and exits. It will not display anything if there's no
 Perl currently in use.
 
-Usage:
-
-    berrybrew currentperl
-
 Used primarily for certain unit tests.
 
-#### register_orphans
+#### register-orphans
 
-This will register all orphaned Perl instances. Used primarily during the
-self-extracting installer during an upgrade to ensure that if the `perls.json`
-file has changed, all previous Perl instances will be visible and usable.
+This will register all orphaned Perl instances at once.
+
+#### options-update
+
+Checks the base distribution's configuration file, and if there are any newly
+added directives, we'll insert them into the registry. Used for upgrades and
+testing.
+
+#### options-update-force
+
+Loads all configuration options from the configuration file into the registry.
+Be warned that this will overwrite all changes that were previously changed
+within the registry.
 
 ## Original Author
 
 David Farrell [http://perltricks.com]
 
-## This Fork Maintained By
+## Current Author 
 
 Steve Bertrand `steveb<>cpan.org`
 

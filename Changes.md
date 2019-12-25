@@ -1,5 +1,70 @@
 Revision history for berrybrew
 
+1.30    2019-12-25
+- updated docs to reflect ability to remove berrybrew using
+Add/Remove Programs (closes #209)
+- berrybrew Perls can now be managed through the System Tray Icon
+(closes #210)
+- remove examples/synopsis section of README, and refer to berrybrew
+doc instead (closes #211)
+- berrybrew-ui is now stopped if the installer senses an upgrade is
+occurring (closes #212)
+- added AvailableList() to the API doc (closes #213)
+- fix issue in UI where Switch was duplicating PATH env var
+(fixes #218)
+- configuration information is now stored in the Windows Registry
+(closes #215)
+- added Options(), and 'berrybrew options', used to get/set the
+various configuration option values (closes #216)
+- Strawberry Perl objects now have a new "newest" attribute, to track
+if an instance is the most recent point release of a major version
+- 'fetch' no longer has the 'all' option, it now performs its duties
+with the 'available' command instead. All Perl versions are now
+written to the `perls.json` file (closes #219)
+- Perls that were installed previous to a new point release of a major
+version are now not interfered with and are no longer cast as orphan
+and registered as custom (fixes #217)
+- added 'env.exe' as a binary, and updated installer script and build
+tools to include it
+- added FileAssoc() and 'berrybrew associate'. Allows managing and
+unmanaging Perl file associations (work on #15)
+- we now allow the managing of .pl file association; we set it so that
+the first perl found in PATH is used (closes #15)
+- split out build scripts, so each element (bb, ui, api) each have
+their own (this prevents building all elements all the time)
+- dev and test builds are now identified in the class by the assembly
+directory, and we configure things accordingly instead of using env
+vars (closes #224)
+- added OptionsUpdate() and 'options-update'. Updates the registry
+configuration with any newly added config directives (closes #221)
+- dev and test builds now reliably create and use their own registry
+section
+- installer now removes registry configuration on uninstall, and it
+along with 'upgrade' make a call to 'OptionsUpdate()' (closes #225)
+- installer now has option to allow managing of .pl file association
+(closes #227)
+- added ability to change Perl instance root directory in the
+installer (closes #208)
+- added "Run UI at startup" option in installer
+- added bb.exe, a short-form for the full berrybrew command 
+(closes #226) 
+- update Configuration document with pertinent information regarding
+the new registry configuration system (closes #222)
+- full documentation review and updates (closes #223)
+- installer no longer requires on "PROGRAMFILES", which allows the
+uninstaller to operate on the correct install directory (closes #228)                            
+- uninstaller now removes top-level install directory (closes #229)
+- fix issue in OptionsUpdate() where we were updating registry values
+where we shouldn't be, due to not scoping an if() statement
+(fixes #230)
+- added SHChangeNotify() to API, to send an icon refresh if the .pl
+file association changes
+- fix issue in PathRemoveBerrybrew() where if the $INSTDIR in the
+installer had a lowercase drive letter, the PATH would not be
+removed on uninstall (fixes #233)
+- added 'force' arg to OptionsUpdate() along with `options-update-force`,
+to load all config file options into the registry (closes #232)
+
 1.29    2019-12-08
 - add missing closing parens on 'remove' if a Perl isn't installed
 (fixes #196)

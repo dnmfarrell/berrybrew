@@ -8,6 +8,8 @@ use POSIX ':sys_wait_h';
 use lib 't/';
 use BB;
 
+$ENV{BERRYBREW_ENV} = "test";
+
 my $c = $ENV{BBTEST_REPO}
     ? "$ENV{BBTEST_REPO}/test/berrybrew"
     : 'c:/repos/berrybrew/test/berrybrew';

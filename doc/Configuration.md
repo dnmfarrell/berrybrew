@@ -11,14 +11,22 @@
 [download_url](#download_url)|The URL for the Strawberry release JSON file|
 [custom_exec](#custom_exec)|Include custom (cloned) instances under `berrybrew exec`|
 [windows_homedir](#windows_homedir)|Default home directory for `File::HomeDir`|
-    
+[run_mode](#run_mode)|Currently Unused/
+
 ### [Messages config](#messages-config)
 
 ### [Perls available config](#perl-config)
 
 #### Global Config
 
-Handles application wide configuration.
+Handles application wide configuration. 
+
+**Note**: The defaults from the global configuration file  are loaded on first use
+and then put into the Windows Registry. The global configuration file is not
+used after this initial import so changing any settings after your first run of
+`berrybrew` won't have any effect.
+
+To modify configuration options, please run `berrybrew options help` instead.
 
 File location:
 
@@ -26,7 +34,7 @@ File location:
 
 Available options:
 
-###### debug
+##### debug
 
 Enables debugging output.
 
@@ -34,7 +42,7 @@ Default: `false`
 
 Values: "true" or "false"
 
-###### root_dir
+##### root_dir
 
 Directory where we'll house all of your Perl installations. 
 
@@ -42,7 +50,7 @@ Default: `C:\berrybrew`
 
 Values: Any directory accessible on the system.
 
-###### temp_dir
+##### temp_dir
 
 Directory where we store the Perl installation zip files.
 
@@ -50,19 +58,13 @@ Default: `C:\berrybrew\temp`
 
 Values: Any directory accessible on the system.
 
-###### strawberry_url
-
-Link to the Strawberry Perl website.
-
-Default: `http://strawberryperl.com`
-
-###### download_url
+##### download_url
 
 Link to the Strawberry Perl instance release JSON file.
 
 Default: `http://strawberryperl.com/releases.json`
 
-###### custom_exec
+##### custom_exec
 
 Include custom (cloned) instances when using `berrybrew exec`.
 
@@ -82,6 +84,20 @@ the full-blown install does things.
 Default: `false`
 
 Values: "true", "false"
+
+##### run_mode
+
+This is a reserved option, and should not be modified by the end user.
+
+##### file_assoc
+
+This is a dynamic option used internally, and should never be modified by the
+end user.
+
+##### file_assoc_old
+
+This is a dynamic option used internally, and should never be modified by the
+end user.
 
 #### Messages Config
 

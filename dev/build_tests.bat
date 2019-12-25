@@ -3,6 +3,9 @@ mkdir test
 mkdir test\data
 
 copy dev\data\*.json test\data
+copy bin\env.exe test
+copy bin\libintl3.dll test
+copy bin\libiconv2.dll test
 
 call perl -i.bak -ne "s/berrybrew(?!\\\\test)/berrybrew\\\\test/; print" test/data/config.json
 
@@ -24,6 +27,20 @@ call mcs^
     -out:test/berrybrew.exe^
     src\bbconsole.cs
 
+echo "compiling UI..."
+
+call csc^
+    -lib:build^
+    -r:bbapi.dll^
+    -r:System.Drawing.dll^
+    -r:System.Windows.Forms.dll^
+    -win32icon:inc/berrybrew.ico^
+    -win32manifest:berrybrew.manifest^
+    -t:winexe^
+    -out:test/berrybrew-ui.exe^
+    src\berrybrew-ui.cs
+
+copy test\berrybrew.exe test\bb.exe
 copy bin\berrybrew-refresh.bat test\
 copy bin\ICSharpCode.SharpZipLib.dll test\
 copy bin\Newtonsoft.Json.dll test\

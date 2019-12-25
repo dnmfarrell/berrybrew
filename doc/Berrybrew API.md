@@ -3,8 +3,10 @@
 API source code is located in the `src/berrybrew.cs` file. It is
 standalone namespace/class code, and contains no entry points.
 
-The code for the `berrybrew.exe` binary itself resides in `src/bbconsole.cs`.
-This source file contains the `Main()` entry point.
+The code for the `berrybrew.exe` binary itself resides in `src/bbconsole.cs` and
+contains the `Main()` entry point.
+
+The code for the `berrybrewUI.exe` is in `src/berrybrew-ui.cs`.
 
 - [Berrybrew Class](#class-berrybrew)
 - [Message Class](#class-message)
@@ -16,6 +18,8 @@ The `Berrybrew` class is the base of the system.
 |Method name|Available|Description|
 |---|---|---|
 [Available](#available)| **public** | Displays all available Perls
+[AvailableList](#availablelist)| **public** | Returns a list of available Perl names
+[BaseConfig](#baseconfig)| **private** | Initializes the registry-based configuration
 [CheckName](#checkname)| internal | Validates the name of a custom Perl install
 [CheckRootDir](#checkrootdir)| private | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
@@ -30,6 +34,7 @@ The `Berrybrew` class is the base of the system.
 [ExportModules](#exportmodules)| **public** | Export an instaled module list from current Perl
 [Extract](#extract)| private | Extracts Perl installation zip archives
 [Fetch](#fetch)| private | Downloads the Perl installation files
+[FileAssoc](#fileassoc)| **public** | Manage .pl file associations
 [FileRemove](#fileremove)| private | Deletes a file
 [FileSystemResetAttributes](#filesystemresetattributes)| private | Defaults filesystem attrs
 [Info](#info)| **public** | Displays information about specific installation elements
@@ -39,6 +44,8 @@ The `Berrybrew` class is the base of the system.
 [JsonParse](#jsonparse)| private | Reads JSON config files
 [JsonWrite](#jsonwrite)| private | Writes out JSON configuration
 [List](#list) | **public** | Lists currently installed Perl versions
+[Options](#options) | **public** | Display or set a single option, or show them all
+[OptionsUpdate](#optionsupdate)| **public** | Update registry configuration with new directives
 [Off](#off) | **public** | Completely disables `berrybrew`
 [PathAddBerryBrew](#pathaddberrybrew)| private | Adds `berrybrew` to `PATH`
 [PathAddPerl](#pathaddperl)| private | Adds a Perl to `PATH`
@@ -53,7 +60,7 @@ The `Berrybrew` class is the base of the system.
 [PerlGenerateObjects](#perlgenerateobjects)| private | Generates the `StrawberryPerl` class objects
 [PerlInUse](#perlinuse)| **public** | Returns the name of the Perl currently in use
 [PerlIsInstalled](#perlisinstalled)| private | Checks if a specific Perl is installed
-[PerlsInstalled](#perlsinstalled)| private | Fetches the list of Perls installed
+[PerlsInstalled](#perlsinstalled)| **public** | Fetches the list of Perls installed
 [PerlRemove](#perlremove)| **public** | Uninstalls a specific instance of Perl
 [PerlRegisterCustomInstall](#perlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
 [PerlRegisterVirtualInstall](#perlregistervirtualinstall)| **public** | Make `berrybrew` aware of external Perls
@@ -62,11 +69,11 @@ The `Berrybrew` class is the base of the system.
 [PerlUpdateAvailableListOrphans](#PerlUpdateAvailableListOrphans)| **public** | Registers any orphaned Perls after using `Fetch()`
 [ProcessCreate](#processcreate)| private | Creates and returns a Windows cmd process
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
-[SwitchQuick](#switch-quick) | private | Called by `Switch()`, sets up the new environment
+[SwitchQuick](#switchquick) | private | Called by `Switch()`, sets up the new environment
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
 [Upgrade](#upgrade)| **public** | Performs a safe `berrybrew` upgrade
 [UseCompile](#usecompile)| **public** | Staging for `UseInNewWindow()` and `UseInSameWindow()`
-[UseInNewWindow](#useninewwindow)| private | Spawns new window(s) with the selected version(s) of perl at the head of the PATH
+[UseInNewWindow](#useinnewwindow)| private | Spawns new window(s) with the selected version(s) of perl at the head of the PATH
 [UseInSameWindow](#useinsamewindow)| private | Runs a new command-interpreter with the selected version of perl at the head of the PATH (with multiple versions run serially)
 [Version](#version)| **public** | Return the version of the current `berrybrew`
 
@@ -87,12 +94,38 @@ that is displayed to the user.
 
 #### Available
 
-    public void Available()
+    public void Available(allPerls=false)
 
+        argument:   allPerls
+        value:      Bool
+        default:    false
+         
 Displays the names of the versions of Perl that are available to `berrybrew`,
 as found in `this.Perls`, where `this.Perls` is a
 `OrderedDictionary<string name, Berrybrew.StrawberryPerl>`.
 
+If `allPerls` is set to `true`, we will list all available Perls. Otherwise,
+we display only the most recent point release of each major version.
+
+#### AvailableList
+
+    public List<string> AvailableList(allPerls=false)
+        
+         argument:   allPerls
+         value:      Bool
+         default:    false   
+         
+Returns a list of strings of Perl names that are available for install.
+
+If `allPerls` is set to `true`, we will return all available Perls. Otherwise,
+we return only the most recent point release of each major version.  
+
+#### BaseConfig
+
+    private void BaseConfig()
+    
+Initializes the registry based configuraiton.
+        
 #### CheckName
 
     private static bool CheckName(string perlName)
@@ -255,6 +288,26 @@ Extracts a Perl instance zip archive into the Perl installation directory.
 Downloads the zip file for the version of Perl found in the StrawberryPerl
 object, and returns the directory of where it was put.
 
+#### FileAssoc
+
+    public void FileAssoc(action="", quiet=false)
+    
+    argument:   action
+    value:      String, "set" or "unset"
+   
+    argument:   quiet
+    value:      Bool
+    default:    false
+     
+View, set or unset the file association for `.pl` Perl script files.
+
+If `action` is `set`, we'll update the association and manage it ourselves. If
+set to `unset`, we'll revert it back to the way it was prior to a `set` call.
+
+If `action` is left default, we'll display to the console the current setting.
+
+Set `quiet` to prevent the default action from displaying output.
+
 #### FileRemove
 
     private static string FileRemove(string filename)
@@ -282,12 +335,12 @@ installations.
 #### Info
 
     public void Info(string want)
-    
+
         argument:   want
         value:      One of "archive_path", "bin_path", "root_path" or "install_path"
-        
+
 Writes to the console a string containing the required information.
-        
+
 #### ImportModules
 
     public void ImportModules(string version="")
@@ -369,7 +422,50 @@ new `data`.
     public void List()
     
 Displays a list of the versions of Perl that are currently installed.
+
+#### Options
+
+    public string Options(string option="", string value="", bool quiet=false)
+   
+    argument:   option
+    value:      String. The name of a valid option
+    default:    Empty string
     
+    argument:   value
+    value:      String. The value of the option you want to set
+    default:    Empty string 
+
+    argument:   quiet
+    value:      Bool. Display output or not
+    default:    false
+    
+Display, return and set `berrybrew`'s options.
+
+If no arguments are sent in, we'll display the entire list of options, and return
+an empty string.
+
+If the `option` arg is sent in with a valid value, we'll display and return the
+current value for that option.
+
+If both the `option` and `value` arguments are sent in, we'll set that option
+to the value, display and return the updated value.
+
+if `quiet` is set to `true`, we won't display output to the console.
+
+#### OptionsUpdate
+
+    public void OptionsUpdate(bool force=false)
+
+        argument:   force
+        value:      Bool
+        default:    false
+            
+Inserts any new configuration file directives to the registry. Used for
+upgrades.
+
+If the `force` argument is sent in as `true`, we will reload all of the 
+configuration file values into the registry.
+
 #### Off
 
     public void Off()
@@ -529,7 +625,7 @@ if it is, and `false` if not.
 
 #### PerlsInstalled
 
-    private List<StrawberryPerl> PerlsInstalled()
+    public List<StrawberryPerl> PerlsInstalled()
     
     return: A list of the Strawberry Perl objects currently installed
     
@@ -594,17 +690,11 @@ the corresponding object.
 
 #### PerlUpdateAvailableList
 
-    public void PerlUpdateAvailableList(bool allPerls=false)
+    public void PerlUpdateAvailableList()
 
-        argument:   allPerls
-        value:      Bool
-         
 Fetches the JSON list of Strawberry Perl instances available from
 [Strawberry's releases.json](https://strawberryperl.com/releases.json), and
 updates the internal `perls.json` available list with the updated data.
-
-If the `allPerls` bool is set to true, we will fetch all available Strawberry
-Perl listings.
 
 #### PerlUpdateAvailableListOrphans
 

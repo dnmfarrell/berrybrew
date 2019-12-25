@@ -25,7 +25,10 @@ tests need to update the `PATH` environment variable.
 
 ## Running the tests
 
-IMPORTANT: It is highly recommended to close all command line windows and open a
+**NOTE**: We create and use a `HKLM\Software\berrybrew-test` registry key to store
+our configuration options when running unit tests.
+
+**IMPORTANT**: It is highly recommended to close all command line windows and open a
 new one before starting the testing, as changes to the `PATH` environment
 variables during development may break the testing routines.
 

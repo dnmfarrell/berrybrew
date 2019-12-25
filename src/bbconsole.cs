@@ -19,7 +19,7 @@ namespace berrybrew {
                 Console.WriteLine("\nberrybrew debugging enabled...\n");
                 Console.WriteLine(
                     "install dir: {0}\nperl root dir: {1}\ntemp dir: {2}",
-                    bb.InstallPath, bb.RootPath, bb.ArchivePath
+                    bb.installPath, bb.rootPath, bb.archivePath
                 );
             }
 
@@ -36,18 +36,33 @@ namespace berrybrew {
                 
             switch (args[0]){
 
-                case "available":
-                    bb.Available();
+                case "associate":
+                    if (args.Length > 1) {
+                        if(args[1] == "-h" || args[1] == "help")
+                            bb.Message.Say("subcmd.associate");
+                        else
+                            bb.FileAssoc(args[1]);
+                    }
+                    bb.FileAssoc();
                     break;
 
-                case "list":
-                    bb.List();
+                case "available":
+                    if (args.Length > 1){
+                        if (args[1].StartsWith("h"))
+                            bb.Message.Say("subcmd.available");
+                        else if (args[1] == "all") {
+                            bb.Available(true);
+                            Environment.Exit(0);
+                        }
+                    }
+                                       
+                    bb.Available();
                     break;
 
                 case "currentperl":
                     Console.WriteLine(bb.PerlInUse().Name);
                     break;
-                
+
                 case "clean":
                     if (args.Length > 1){
                         if (args[1].StartsWith("h"))
@@ -97,15 +112,7 @@ namespace berrybrew {
                     break;
 
                 case "fetch":
-                    bool allPerls = false;
-                    if (args.Length > 1){
-                        if (args[1].StartsWith("h"))
-                            bb.Message.Say("subcmd.fetch");
-                        else
-                            allPerls = args[1].Equals("all");
-                    }
-
-                    bb.PerlUpdateAvailableList(allPerls);
+                    bb.PerlUpdateAvailableList();
                     break;
 
                 case "help":
@@ -141,9 +148,9 @@ namespace berrybrew {
                         bb.Message.Say("info_option_required");
 
                     bb.Info(args[1]);
-               
+
                     break;
-                
+
                 case "install":
                     if (args.Length == 1)
                         bb.Message.Say("install_ver_required");
@@ -165,6 +172,10 @@ namespace berrybrew {
                     if (args.Length == 1)
                         bb.Message.Say("license");
 
+                    break;
+
+                case "list":
+                    bb.List();
                     break;
 
                 case "modules":
@@ -205,6 +216,28 @@ namespace berrybrew {
                     bb.Off();
                     break;
 
+                case "options":
+                    if (args.Length > 1) {
+                        if (args[1].StartsWith("h"))
+                            bb.Message.Say("subcmd.options");
+                    }
+
+                    if (args.Length == 1)
+                        bb.Options();
+                    if (args.Length == 2)
+                        bb.Options(args[1]);
+                     if (args.Length == 3)
+                         bb.Options(args[1], args[2]);                   
+                    break;
+  
+                case "options-update":
+                    bb.OptionsUpdate();
+                    break;               
+
+                case "options-update-force":
+                    bb.OptionsUpdate(true);
+                    break;                             
+
                 case "register":
                     if (args.Length == 1)
                         bb.Message.Say("register_ver_required");
@@ -212,7 +245,7 @@ namespace berrybrew {
                     bb.PerlRegisterCustomInstall(args[1]);
                     break;
 
-                case "register_orphans":
+                case "register-orphans":
                     bb.PerlUpdateAvailableListOrphans();
                     break;
 
@@ -277,7 +310,7 @@ namespace berrybrew {
                     break;
 
                 case "virtual":
-					if (args.Length == 1)
+                    if (args.Length == 1)
                         bb.Message.Say("virtual_command_required");
 
                     bb.PerlRegisterVirtualInstall(args[1]);

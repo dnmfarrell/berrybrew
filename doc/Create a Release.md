@@ -20,6 +20,7 @@ version that's about to be released
 - Execute the `perl dev\release.pl` script, which:
 
     - Compile the `berrybrew.exe` binary and `bbapi.dll` API library
+    - Compile the `berrybrew-ui.exe` UI binary
     - Collect the JSON configuration files from the `dev\data` directory
     - Build the bundled zip archive, and places it into the `download/`
     directory
