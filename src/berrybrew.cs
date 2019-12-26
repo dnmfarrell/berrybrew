@@ -762,6 +762,10 @@ namespace BerryBrew {
                 RegistryKey plExtKey = Registry.ClassesRoot.CreateSubKey(plExtSubKey);
                 plHandlerName = (string) plExtKey.GetValue("");
 
+				if (plHandlerName == null) {
+					plHandlerName = "";
+				}
+
                 if (action == "set") {
        
                     if (plHandlerName == @"berrybrewPerl") {

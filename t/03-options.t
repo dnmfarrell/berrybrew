@@ -2,14 +2,31 @@ use warnings;
 use strict;
 
 use Test::More;
+use Win32::TieRegistry;
 
 $ENV{BERRYBREW_ENV} = "test";
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 
-system("assoc", ".pl=PerlScript");
+# system("assoc", ".pl=PerlScript");
 
 my $o;
+
+# issue #237
+my $pl_assoc_key = "HKEY_CLASSES_ROOT\\.pl\\";
+my $bb_key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\berrybrew-test\\";
+
+delete $Registry->{$bb_key};
+delete $Registry->{$pl_assoc_key};
+
+is $Registry->{$bb_key}, undef, "confirmed berrybrew regkey deleted";
+is $Registry->{$pl_assoc_key}, undef, "confirmed .pl assoc regkey deleted";
+
+like `$c`, qr/view subcommand/, "issue #237 fixed ok";
+
+$Registry->{$pl_assoc_key}{''} = 'PerlScript';
+is $Registry->{$pl_assoc_key}{''}, 'PerlScript', "re-added .pl assoc regkey ok";
+# end issue #237
 
 $o = `$c options`;
 
