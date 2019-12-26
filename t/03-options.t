@@ -8,7 +8,7 @@ $ENV{BERRYBREW_ENV} = "test";
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 
-# system("assoc", ".pl=PerlScript");
+system("assoc", ".pl=PerlScript");
 
 my $o;
 
@@ -27,6 +27,8 @@ like `$c`, qr/view subcommand/, "issue #237 fixed ok";
 $Registry->{$pl_assoc_key}{''} = 'PerlScript';
 is $Registry->{$pl_assoc_key}{''}, 'PerlScript', "re-added .pl assoc regkey ok";
 # end issue #237
+
+system("assoc", ".pl=PerlScript");
 
 $o = `$c options`;
 

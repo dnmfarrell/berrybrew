@@ -6,16 +6,16 @@ using System.Collections.Generic;
             
 namespace berrybrew {
     internal class Bbconsole {
-        private static void Main(string[] args){
+        private static int Main(string[] args){
 
             Berrybrew bb = new Berrybrew();
 
-            if (args.Length != 0 && args[0] == "debug"){
+            if (args.Length != 0 && args[0] == "debug") {
                 bb.Debug = true;
                 args = args.Skip(1).ToArray();
             }
 
-            if (bb.Debug){
+            if (bb.Debug) {
                 Console.WriteLine("\nberrybrew debugging enabled...\n");
                 Console.WriteLine(
                     "install dir: {0}\nperl root dir: {1}\ntemp dir: {2}",
@@ -31,239 +31,276 @@ namespace berrybrew {
 
             if (args.Length == 0){
                 bb.Message.Print("help");
-                Environment.Exit(0);
+                return 0;
             }
                 
             switch (args[0]){
 
                 case "associate":
                     if (args.Length > 1) {
-                        if(args[1] == "-h" || args[1] == "help")
-                            bb.Message.Say("subcmd.associate");
-                        else
+                        if(args[1] == "-h" || args[1] == "help") {
+                            bb.Message.Print("subcmd.associate");
+                            return 0;
+                        }
+                        else {
                             bb.FileAssoc(args[1]);
+                            return 0;
+                        }
                     }
                     bb.FileAssoc();
-                    break;
+                    return 0;
 
                 case "available":
-                    if (args.Length > 1){
-                        if (args[1].StartsWith("h"))
-                            bb.Message.Say("subcmd.available");
+                    if (args.Length > 1) {
+                        if (args[1].StartsWith("h")) {
+                            bb.Message.Print("subcmd.available");
+                            return 0;
+                        }
                         else if (args[1] == "all") {
                             bb.Available(true);
-                            Environment.Exit(0);
+                            return 0;
                         }
                     }
                                        
                     bb.Available();
-                    break;
+                    return 0;
 
                 case "currentperl":
                     Console.WriteLine(bb.PerlInUse().Name);
-                    break;
+                    return 0;
 
                 case "clean":
-                    if (args.Length > 1){
-                        if (args[1].StartsWith("h"))
-                            bb.Message.Say("subcmd.clean");
-                        else
+                    if (args.Length > 1) {
+                        if (args[1].StartsWith("h")) {
+                            bb.Message.Print("subcmd.clean");
+                            return 0;
+                        }
+                        else {
                             bb.Clean(args[1]);
-                    }
-                    else
+                            return 0;
+                        }
+                    }		
+                    else {
                         bb.Clean();
-
-                    break;
+                        return 0;
+                    }
 
                 case "clone":
-                    if (args.Length != 3)
-                        bb.Message.Say("clone_command_usage");
+                    if (args.Length != 3) {
+                        bb.Message.Print("clone_command_usage");
+                        return 0;
+                    }
 
                     bool ok = bb.Clone(args[1], args[2]);
 
-                    if (! ok)
-                        Environment.Exit(0);
+                    if (! ok) {
+                        return -1;
+                    }
 
-                    break;
+                    return 0;
 
                 case "config":
                     string cwd = Directory.GetCurrentDirectory();
 
-                    if (String.Equals(cwd, @"c:\berrybrew", StringComparison.OrdinalIgnoreCase)){
+                    if (String.Equals(cwd, @"c:\berrybrew", StringComparison.OrdinalIgnoreCase)) {
                         Console.WriteLine("\nAt this time, berrybrew can not be installed in C:\\berrybrew. Please move the directory and try again\n");
-                        Environment.Exit(0);
+                        return -1;
                     }
 
                     bb.Config();
-                    break;
+                    return 0;
 
                 case "exec":
-                    if (args.Length == 1)
-                        bb.Message.Say("exec_command_required");
+                    if (args.Length == 1) {
+                        bb.Message.Print("exec_command_required");
+                        return -1;
+                    }
 
                     args[0] = "";
 
-                    if (args[1] == "-h" || args[1] == "help")
-                        bb.Message.Say("subcmd.exec");
+                    if (args[1] == "-h" || args[1] == "help") {
+                        bb.Message.Print("subcmd.exec");
+                        return 0;
+                    }
 
                     List<String> newArgs = args.ToList();
                     newArgs.RemoveAt(0);
                     bb.ExecCompile(newArgs);
-                    break;
+                    return 0;
 
                 case "fetch":
                     bb.PerlUpdateAvailableList();
-                    break;
+                    return 0;
 
                 case "help":
                     if (args.Length == 1) {
-                        bb.Message.Say("help");
+                        bb.Message.Print("help");
+                        return 0;
                     } else {
                         switch (args[1].ToLower()) {
                             case "clean":
-                                bb.Message.Say("subcmd.clean");
-                                break;
+                                bb.Message.Print("subcmd.clean");
+                                return 0;
 
                             case "exec":
-                                bb.Message.Say("subcmd.exec");
-                                break;
+                                bb.Message.Print("subcmd.exec");
+                                return 0;
 
                             case "fetch":
-                                bb.Message.Say("subcmd.fetch");
-                                break;
+                                bb.Message.Print("subcmd.fetch");
+                                return 0;
 
                             case "use":
-                                bb.Message.Say("subcmd.use");
-                                break;
+                                bb.Message.Print("subcmd.use");
+                                return 0;
 
                             default:
-                                bb.Message.Say("help");
-                                break;
+                                bb.Message.Print("help");
+                                return 0;
                         }
                     }
-                    break;
 
                 case "info":
-                    if (args.Length == 1)
-                        bb.Message.Say("info_option_required");
+                    if (args.Length == 1) {
+                        bb.Message.Print("info_option_required");
+                        return 0;
+                    }
 
                     bb.Info(args[1]);
-
-                    break;
+                    return 0;
 
                 case "install":
-                    if (args.Length == 1)
-                        bb.Message.Say("install_ver_required");
+                    if (args.Length == 1) {
+                        bb.Message.Print("install_ver_required");
+                        return 0;
+                    }
 
                     try {
                         bb.Install(args[1]);
+                        return 0;
                     }
-
                     catch (ArgumentException error){
-                        if (bb.Debug)
+                        if (bb.Debug) {
                             Console.WriteLine(error);
+                        }
 
-                        bb.Message.Say("install_ver_unknown");
+                        bb.Message.Print("install_ver_unknown");
+                        return -1;
                     }
-
-                    break;
 
                 case "license":
-                    if (args.Length == 1)
-                        bb.Message.Say("license");
-
-                    break;
+                    if (args.Length == 1) {
+                        bb.Message.Print("license");
+                        return 0;
+                    }
+                    return 0;
 
                 case "list":
                     bb.List();
-                    break;
+                    return 0;
 
                 case "modules":
-                    if (args.Length == 1)
-                        bb.Message.Say("modules_command_required");
+                    if (args.Length == 1) {
+                        bb.Message.Print("modules_command_required");
+                        return 0;
+                    }
 
                     args[0] = "";
 
-                    if (args[1] == "-h" || args[1] == "help")
-                        bb.Message.Say("subcmd.modules");
-
-                    if (args[1] != "import" && args[1] != "export")
-                    {
+                    if (args[1] == "-h" || args[1] == "help") {
+                        bb.Message.Print("subcmd.modules");
+                        return 0;
+                    }
+                    
+                    if (args[1] != "import" && args[1] != "export") {
                         Console.WriteLine("\ninvalid option...\n");
-                        bb.Message.Say("subcmd.modules");
+                        bb.Message.Print("subcmd.modules");
+                        return 0;
                     }
                     
-                    if (args[1] == "import")
-                    {
-                        if (args.Length < 3)
-                        {
+                    if (args[1] == "import") {
+                        if (args.Length < 3) {
                             bb.ImportModules();
+                            return 0;
                         }
-                        else
-                        {
+                        else {
                             bb.ImportModules(args[2]);
+                            return 0;
                         }
                     }
 
-                    if (args[1] == "export")
-                    {
+                    if (args[1] == "export") {
                         bb.ExportModules();
+                        return 0;
                     }
                     
-                    break;
-                
+                    return 0;                
+
                 case "off":
                     bb.Off();
-                    break;
+                    return 0;
 
                 case "options":
                     if (args.Length > 1) {
-                        if (args[1].StartsWith("h"))
-                            bb.Message.Say("subcmd.options");
+                        if (args[1].StartsWith("h")) {
+                            bb.Message.Print("subcmd.options");
+                            return 0;
+                        }
                     }
-
-                    if (args.Length == 1)
+                    if (args.Length == 1) {
                         bb.Options();
-                    if (args.Length == 2)
+                        return 0;
+                    }
+                    if (args.Length == 2) {
                         bb.Options(args[1]);
-                     if (args.Length == 3)
-                         bb.Options(args[1], args[2]);                   
-                    break;
+                        return 0;
+                    }
+                    if (args.Length == 3) {
+                        bb.Options(args[1], args[2]);                   
+                        return 0;	
+                    }
+                    return 0;
   
                 case "options-update":
                     bb.OptionsUpdate();
-                    break;               
+                    return 0;
 
                 case "options-update-force":
                     bb.OptionsUpdate(true);
-                    break;                             
+                    return 0;
 
                 case "register":
-                    if (args.Length == 1)
-                        bb.Message.Say("register_ver_required");
+                    if (args.Length == 1) {
+                        bb.Message.Print("register_ver_required");
+                        return 0;
+                    }
 
                     bb.PerlRegisterCustomInstall(args[1]);
-                    break;
+                    return 0;
 
                 case "register-orphans":
                     bb.PerlUpdateAvailableListOrphans();
-                    break;
+                    return 0;
 
                 case "remove":
-                    if (args.Length == 1)
-                        bb.Message.Say("remove_ver_required");
+                    if (args.Length == 1) {
+                        bb.Message.Print("remove_ver_required");
+                        return 0;
+                    }
 
                     bb.PerlRemove(args[1]);
-                    break;
+                    return 0;
 
                 case "switch":
-                    if (args.Length == 1) 
-                        bb.Message.Say("switch_ver_required");
+                    if (args.Length == 1) {
+                        bb.Message.Print("switch_ver_required");
+                        return 0;
+                    }
 
                     if (args.Length == 2) {
-                        if (args[1].StartsWith("h"))
-                        {
-                            bb.Message.Say("subcmd.switch");
+                        if (args[1].StartsWith("h")) {
+                            bb.Message.Print("subcmd.switch");
+                            return 0;
                         }
                     }
 
@@ -273,56 +310,61 @@ namespace berrybrew {
                         switchQuick = true;
                     }
                    
-                   bb.Switch(args[1], switchQuick);
-                   break;
+                    bb.Switch(args[1], switchQuick);
+                    return 0;
 
                 case "unconfig":
                     bb.Unconfig();
-                    break;
+                    return 0;
 
                 case "upgrade":
                     bb.Upgrade();
-                    break;
+                    return 0;
                     
-                case "use": // pryrt's added feature
+                case "use":
                     if (args.Length == 1) {
-                        bb.Message.Say("use_ver_required");
+                        bb.Message.Print("use_ver_required");
+                        return 0;
                     }
                     switch(args[1].ToLower()) {
                         case "-h":
                         case "help":
                         case "-help":
                         case "--help":
-                            bb.Message.Say("subcmd.use");
-                            break;
+                            bb.Message.Print("subcmd.use");
+                            return 0;
                         case "--win":
                         case "--window":
                         case "--windowed":
-                            if(args.Length<3)
-                                bb.Message.Say("use_ver_required");
-                            else
+                            if(args.Length<3) {
+                                bb.Message.Print("use_ver_required");
+                                return 0;
+                            }
+                            else {
                                 bb.UseCompile(args[2], true);
-                            break;
+                                return 0;
+                            }
+
                         default:
                             bb.UseCompile(args[1]);
-                            break;
+                            return 0;
                     }
-                    break;
 
                 case "virtual":
-                    if (args.Length == 1)
-                        bb.Message.Say("virtual_command_required");
-
+                    if (args.Length == 1) {
+                        bb.Message.Print("virtual_command_required");
+                        return 0;
+                    }
                     bb.PerlRegisterVirtualInstall(args[1]);
-                    break;
+                    return 0;
 
                 case "version":
                     Console.WriteLine(bb.Version());
-                    break;
+                    return 0;
 
                 default:
-                    bb.Message.Say("help");
-                    break;
+                    bb.Message.Print("help");
+                    return 0;
             }
         }
     }

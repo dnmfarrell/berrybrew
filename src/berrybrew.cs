@@ -134,7 +134,7 @@ namespace BerryBrew {
             }
         }
       
-        public void Available(bool allPerls=false){
+        public int Available(bool allPerls=false){
 
             Message.Print("available_header");
 
@@ -167,6 +167,8 @@ namespace BerryBrew {
                 Console.Write("\n");
             }
             Message.Print("available_footer");
+
+            return 0;
         }
 
         public List<string> AvailableList(bool allPerls=false) {
@@ -762,9 +764,9 @@ namespace BerryBrew {
                 RegistryKey plExtKey = Registry.ClassesRoot.CreateSubKey(plExtSubKey);
                 plHandlerName = (string) plExtKey.GetValue("");
 
-				if (plHandlerName == null) {
-					plHandlerName = "";
-				}
+                if (plHandlerName == null) {
+                    plHandlerName = "";
+                }
 
                 if (action == "set") {
        
