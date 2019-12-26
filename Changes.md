@@ -1,5 +1,11 @@
 Revision history for berrybrew
 
+1.31 UNREL
+- fix issue where on first-run BaseConfig(), if the system didn't have
+a file association set for the .pl file type, we'd attempt to send
+in a null value to Options() for the file_assoc which threw an
+InvalidArgument exception (fixes #237)
+
 1.30    2019-12-25
 - updated docs to reflect ability to remove berrybrew using
 Add/Remove Programs (closes #209)
