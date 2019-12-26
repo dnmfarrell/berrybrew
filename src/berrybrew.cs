@@ -134,8 +134,7 @@ namespace BerryBrew {
             }
         }
       
-        public int Available(bool allPerls=false){
-
+        public void Available(bool allPerls=false){
             Message.Print("available_header");
 
             List<int> nameLengths = new List<int>();
@@ -167,8 +166,6 @@ namespace BerryBrew {
                 Console.Write("\n");
             }
             Message.Print("available_footer");
-
-            return 0;
         }
 
         public List<string> AvailableList(bool allPerls=false) {
@@ -449,7 +446,7 @@ namespace BerryBrew {
                 Console.WriteLine("\n'{0}' is an unknown version of Perl. Can't clone.", sourcePerlName);
                 if (Debug)
                     Console.WriteLine("\n{0}", e);
-                Environment.Exit(0);
+                Environment.Exit(-1);
             }
 
             string sourcePerlDir = sourcePerl.installPath;
@@ -2175,12 +2172,10 @@ namespace BerryBrew {
         private readonly OrderedDictionary _msgMap = new OrderedDictionary();
 
         public string Get(string label){
-
             return _msgMap[label].ToString();
         }
 
         public void Add(dynamic json){
-
             string content = null;
 
             foreach (string line in json.content)
@@ -2190,16 +2185,20 @@ namespace BerryBrew {
         }
 
         public void Print(string label){
-
             string msg = Get(label);
             Console.WriteLine(msg);
         }
 
         public void Say(string label){
-
             string msg = Get(label);
             Console.WriteLine(msg);
             Environment.Exit(0);
+        }
+
+        public void Error(string label){
+            string msg = Get(label);
+            Console.Error.WriteLine(msg);
+            Environment.Exit(-1);
         }
     }
 
