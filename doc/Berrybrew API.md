@@ -192,7 +192,7 @@ Returns `true` if any files were found/deleted, `false` if not.
 
 #### Clone
 
-    public bool Clone(string src, string dest)
+    public void Clone(string src, string dest)
 
         argument:   src
         values:     Name of an installed berrybrew Perl instance
@@ -201,12 +201,9 @@ Returns `true` if any files were found/deleted, `false` if not.
         values:     Any string name by which you want the clone to appear
                     in 'berrybrew available'
 
-        return:     bool
-
 Makes an exact copy of an existing installed Perl instance with a name of your
 choosing, and makes it available just like all others. `berrybrew available`
-will label these custom installs appropriately. Returns `true` on success,
-`false` otherwise.
+will label these custom installs appropriately. 
 
 #### Config
 
