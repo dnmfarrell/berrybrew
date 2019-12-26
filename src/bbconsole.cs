@@ -181,7 +181,7 @@ namespace berrybrew {
                         }
 
                         bb.Message.Print("install_ver_unknown");
-                        Console.Error.WriteLine("Unknown version of Perl");
+                        Console.Error.WriteLine(error);
                         Environment.Exit(-1);
                     }
 
