@@ -594,8 +594,7 @@ namespace BerryBrew {
         }
        
         private static void Exec(StrawberryPerl perl, IEnumerable<string> parameters, string sysPath, bool singleMode) {
-
-            if(! singleMode) {
+            if (! singleMode) {
                 Console.WriteLine("perl-" + perl.Name + "\n==============");
             }
 
@@ -609,6 +608,7 @@ namespace BerryBrew {
 
             startInfo.FileName = "cmd.exe";
             List<String> patchedParams = new List<String>();
+
             foreach(String param in parameters) {
                 if( param.Contains(" ")) {
                      patchedParams.Add("\"" + param + "\"");
