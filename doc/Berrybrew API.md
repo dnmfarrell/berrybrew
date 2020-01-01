@@ -228,7 +228,8 @@ variable.
         argument:   singleMode
         value:      True if running on a single Perl instance, False otherwise
 
-Called by `ExecCompile()`, sends a single Perl instance a command to execute.
+Called by `ExecCompile()`, executes a command on a single Perl instance a
+command to execute.
 
 #### ExecCompile
 
@@ -246,7 +247,7 @@ This method sends a single Perl at a time to `Exec()`, and will always skip
 any Perls that have either `tmpl` or `template` in the name.
 
 By default, we also skip over all custom (cloned) instances. To have them
-included, set `custom_exec` to `true` in the configuration file.
+included, set `custom_exec` to `true` by using `berrybrew options custom_exec true`.
 
 #### ExportModules
 
