@@ -985,6 +985,7 @@ namespace BerryBrew {
                 default:
                     Console.Error.WriteLine("\nCould not fetch details for '{0}'", want);
                     Environment.Exit(-1);
+                    break;
             }
         }        
 
@@ -2192,7 +2193,7 @@ namespace BerryBrew {
                 Console.Error.WriteLine("\n\nError upgrading berrybrew:\n");
 
                 foreach (string line in errorReport) {
-                    Console.Err.rWriteLine(line);
+                    Console.Error.WriteLine(line);
                 }
                 Environment.Exit(-1);
             }

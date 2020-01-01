@@ -6,7 +6,7 @@ using System.Collections.Generic;
             
 namespace berrybrew {
     internal class Bbconsole {
-        private static int Main(string[] args){
+        private static void Main(string[] args){
 
             Berrybrew bb = new Berrybrew();
 
@@ -49,6 +49,7 @@ namespace berrybrew {
                     }
                     bb.FileAssoc();
                     Environment.Exit(0);
+                    break;
 
                 case "available":
                     if (args.Length > 1) {
@@ -64,10 +65,12 @@ namespace berrybrew {
                                        
                     bb.Available();
                     Environment.Exit(0);
+                    break;
 
                 case "currentperl":
                     Console.WriteLine(bb.PerlInUse().Name);
                     Environment.Exit(0);
+                    break;
 
                 case "clean":
                     if (args.Length > 1) {
@@ -84,6 +87,7 @@ namespace berrybrew {
                         bb.Clean();
                         Environment.Exit(0);
                     }
+                    break;
 
                 case "clone":
                     if (args.Length != 3) {
@@ -93,6 +97,7 @@ namespace berrybrew {
 
                     bb.Clone(args[1], args[2]);
                     Environment.Exit(0);
+                    break;
 
                 case "config":
                     string cwd = Directory.GetCurrentDirectory();
@@ -104,12 +109,13 @@ namespace berrybrew {
 
                     bb.Config();
                     Environment.Exit(0);
+                    break;
 
                 case "exec":
                     if (args.Length == 1) {
                         bb.Message.Print("exec_command_required");
                         Console.Error.WriteLine("'exec' requires a command");
-                        Envoronment.Exit(-1);
+                        Environment.Exit(-1);
                     }
 
                     args[0] = "";
@@ -123,10 +129,12 @@ namespace berrybrew {
                     newArgs.RemoveAt(0);
                     bb.ExecCompile(newArgs);
                     Environment.Exit(0);
+                    break;
 
                 case "fetch":
                     bb.PerlUpdateAvailableList();
                     Environment.Exit(0);
+                    break;
 
                 case "help":
                     if (args.Length == 1) {
@@ -137,24 +145,30 @@ namespace berrybrew {
                             case "clean":
                                 bb.Message.Print("subcmd.clean");
                                 Environment.Exit(0);
+                                break;
 
                             case "exec":
                                 bb.Message.Print("subcmd.exec");
                                 Environment.Exit(0);
+                                break;
 
                             case "fetch":
                                 bb.Message.Print("subcmd.fetch");
                                 Environment.Exit(0);
+                                break;
 
                             case "use":
                                 bb.Message.Print("subcmd.use");
                                 Environment.Exit(0);
+                                break;
 
                             default:
                                 bb.Message.Print("help");
                                 Environment.Exit(0);
+                                break;
                         }
                     }
+                    break;
 
                 case "info":
                     if (args.Length == 1) {
@@ -164,6 +178,7 @@ namespace berrybrew {
 
                     bb.Info(args[1]);
                     Environment.Exit(0);
+                    break;
 
                 case "install":
                     if (args.Length == 1) {
@@ -184,6 +199,7 @@ namespace berrybrew {
                         Console.Error.WriteLine(error);
                         Environment.Exit(-1);
                     }
+                    break;
 
                 case "license":
                     if (args.Length == 1) {
@@ -191,10 +207,12 @@ namespace berrybrew {
                         Environment.Exit(0);
                     }
                     Environment.Exit(0);
+                    break;
 
                 case "list":
                     bb.List();
                     Environment.Exit(0);
+                    break;
 
                 case "modules":
                     if (args.Length == 1) {
@@ -231,11 +249,13 @@ namespace berrybrew {
                         Environment.Exit(0);
                     }
                     
-                    Environment.Exit(0)                
+                    Environment.Exit(0);
+                    break;
 
                 case "off":
                     bb.Off();
                     Environment.Exit(0);
+                    break;
 
                 case "options":
                     if (args.Length > 1) {
@@ -254,17 +274,20 @@ namespace berrybrew {
                     }
                     if (args.Length == 3) {
                         bb.Options(args[1], args[2]);                   
-                        Environment.Exit(0)	
+                        Environment.Exit(0);
                     }
                     Environment.Exit(0);
+                    break;
   
                 case "options-update":
                     bb.OptionsUpdate();
                     Environment.Exit(0);
+                    break;
 
                 case "options-update-force":
                     bb.OptionsUpdate(true);
                     Environment.Exit(0);
+                    break;
 
                 case "register":
                     if (args.Length == 1) {
@@ -274,10 +297,12 @@ namespace berrybrew {
 
                     bb.PerlRegisterCustomInstall(args[1]);
                     Environment.Exit(0);
+                    break;
 
                 case "register-orphans":
                     bb.PerlUpdateAvailableListOrphans();
                     Environment.Exit(0);
+                    break;
 
                 case "remove":
                     if (args.Length == 1) {
@@ -287,6 +312,7 @@ namespace berrybrew {
 
                     bb.PerlRemove(args[1]);
                     Environment.Exit(0);
+                    break;
 
                 case "switch":
                     if (args.Length == 1) {
@@ -309,14 +335,17 @@ namespace berrybrew {
                    
                     bb.Switch(args[1], switchQuick);
                     Environment.Exit(0);
+                    break;
 
                 case "unconfig":
                     bb.Unconfig();
                     Environment.Exit(0);
+                    break;
 
                 case "upgrade":
                     bb.Upgrade();
                     Environment.Exit(0);
+                    break;
                     
                 case "use":
                     if (args.Length == 1) {
@@ -330,6 +359,7 @@ namespace berrybrew {
                         case "--help":
                             bb.Message.Print("subcmd.use");
                             Environment.Exit(0);
+                            break;
                         case "--win":
                         case "--window":
                         case "--windowed":
@@ -341,11 +371,14 @@ namespace berrybrew {
                                 bb.UseCompile(args[2], true);
                                 Environment.Exit(0);
                             }
+                            break;
 
                         default:
                             bb.UseCompile(args[1]);
                             Environment.Exit(0);
+                            break;
                     }
+                    break;
 
                 case "virtual":
                     if (args.Length == 1) {
@@ -354,14 +387,17 @@ namespace berrybrew {
                     }
                     bb.PerlRegisterVirtualInstall(args[1]);
                     Environment.Exit(0);
+                    break;
 
                 case "version":
                     Console.WriteLine(bb.Version());
                     Environment.Exit(0);
+                    break;
 
                 default:
                     bb.Message.Print("help");
                     Environment.Exit(0);
+                    break;
             }
         }
     }
