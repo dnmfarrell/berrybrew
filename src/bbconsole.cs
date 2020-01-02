@@ -228,9 +228,9 @@ namespace berrybrew {
                     }
                     
                     if (args[1] != "import" && args[1] != "export") {
-                        Console.WriteLine("\ninvalid option...\n");
+                        Console.Error.WriteLine("\ninvalid option...\n");
                         bb.Message.Print("subcmd.modules");
-                        Environment.Exit(0);
+                        Environment.Exit(-1);
                     }
                     
                     if (args[1] == "import") {

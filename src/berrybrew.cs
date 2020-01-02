@@ -581,7 +581,7 @@ namespace BerryBrew {
                 }
             };
             process.ErrorDataReceived += (proc, line)=>{
-                if( line.Data != null) {
+                if(line.Data != null) {
                     Console.Error.WriteLine(line.Data);
                 }
             };
@@ -589,6 +589,10 @@ namespace BerryBrew {
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
+          
+            if (process.ExitCode != 0) {
+                Environment.Exit(process.ExitCode);
+            }
             
             Console.WriteLine("\nsuccessfully wrote out {0} module list file", moduleFile);
         }
@@ -962,17 +966,21 @@ namespace BerryBrew {
             process.Start();
 
             process.OutputDataReceived += (proc, line)=>{
-                if( line.Data != null) {
+                if(line.Data != null) {
                     Console.Out.WriteLine(line.Data);
                 }
             };
             process.ErrorDataReceived += (proc, line)=>{
-                if( line.Data != null) {
+                if(line.Data != null) {
                     Console.Error.WriteLine(line.Data);
                 }
             };
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
+
+            if (process.ExitCode != 0) {
+                Environment.Exit(process.ExitCode);
+            }
         }
 
         public void Info(string want) {
