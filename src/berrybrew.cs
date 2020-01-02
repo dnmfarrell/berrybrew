@@ -626,12 +626,12 @@ namespace BerryBrew {
             process.Start();
 
             process.OutputDataReceived += (proc, line)=>{
-                if( line.Data != null) {
+                if(line.Data != null) {
                     Console.Out.WriteLine(line.Data);
                 }
             };
             process.ErrorDataReceived += (proc, line)=>{
-                if( line.Data != null) {
+                if(line.Data != null) {
                     Console.Error.WriteLine(line.Data);
                 }
             };
@@ -639,13 +639,19 @@ namespace BerryBrew {
             process.BeginErrorReadLine();
             process.WaitForExit();
 
-            if (singleMode) {
-                Environment.ExitCode = process.ExitCode;
-            }
-
             if (Debug) {
                 Console.WriteLine("Perl: {0}, Exit status: {1}\n", perl.Name, process.ExitCode);
             }	
+
+            if (singleMode) {
+                Environment.ExitCode = process.ExitCode;
+            }
+            else if (process.ExitCode != 0) {
+                if (Debug) {
+                    Console.Error.WriteLine("Non-zero exit code: Perl {0} returned with exit code {1}\n", perl.Name, process.ExitCode);
+                }
+                Environment.ExitCode = process.ExitCode;
+            }
         }
 
         public void ExecCompile(List<String> parameters) {
@@ -697,6 +703,13 @@ namespace BerryBrew {
 
             foreach (StrawberryPerl perl in filteredExecWith) {
                 Exec(perl, parameters, sysPath, filteredExecWith.Count == 1);
+            }
+
+            if (Environment.ExitCode != 0) {
+                if (Debug) {
+                    Console.Error.WriteLine("ExecCompile returned non-zero status: {0}\n", Environment.ExitCode);
+                }
+                Environment.Exit(Environment.ExitCode);
             }
         }
 
