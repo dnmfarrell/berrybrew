@@ -593,7 +593,7 @@ namespace BerryBrew {
             Console.WriteLine("\nsuccessfully wrote out {0} module list file", moduleFile);
         }
        
-        private static void Exec(StrawberryPerl perl, IEnumerable<string> parameters, string sysPath, bool singleMode) {
+        private void Exec(StrawberryPerl perl, IEnumerable<string> parameters, string sysPath, bool singleMode) {
             if (! singleMode) {
                 Console.WriteLine("perl-" + perl.Name + "\n==============");
             }
@@ -642,6 +642,10 @@ namespace BerryBrew {
             if (singleMode) {
                 Environment.ExitCode = process.ExitCode;
             }
+
+            if (Debug) {
+                Console.WriteLine("Perl: {0}, Exit status: {1}\n", perl.Name, process.ExitCode);
+            }	
         }
 
         public void ExecCompile(List<String> parameters) {

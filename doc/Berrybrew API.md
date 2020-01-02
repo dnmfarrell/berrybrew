@@ -214,7 +214,7 @@ variable.
 
 #### Exec
 
-    private static void Exec(StrawberryPerl perl, List<string> parameters, string sysPath, Boolean singleMode)
+    private void Exec(StrawberryPerl perl, List<string> parameters, string sysPath, Boolean singleMode)
 
         argument:   perl
         value:      A single StrawberryPerl object
