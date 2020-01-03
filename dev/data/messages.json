@@ -116,6 +116,12 @@
     ]
 },
 {
+    "label": "error_number_required",
+    "content": [
+        "\nerror command requires an error code number argument."
+    ]
+},
+{
     "label": "exec_command_required",
     "content": [
         "\nexec command requires a command to run."

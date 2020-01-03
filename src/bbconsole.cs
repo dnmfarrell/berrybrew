@@ -111,6 +111,18 @@ namespace berrybrew {
                     Environment.Exit(0);
                     break;
 
+                case "error":
+                    if (args.Length == 1) {
+                        bb.Message.Error("error_number_required");
+                    }
+                    Console.WriteLine(
+                        "\nError Code {0}: {1}\n", 
+                        args[1], 
+                        Enum.GetName(typeof(Berrybrew.ErrorCodes), Int32.Parse(args[1]))
+                    );
+                    Environment.Exit(0);
+                    break;
+
                 case "exec":
                     if (args.Length == 1) {
                         bb.Message.Print("exec_command_required");

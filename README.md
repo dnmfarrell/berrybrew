@@ -295,6 +295,13 @@ for them.
 Displays paths and other information regarding the `berrybrew` installation
 itself.
 
+#### error
+
+Usage: `berrybrew error <ErrNum>`
+
+Translates an error code and displays the name of the error, where `ErrNum`
+is the error number.
+
 #### test
 
 This feature should only be used by developers of berrybrew.

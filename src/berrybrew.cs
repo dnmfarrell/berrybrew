@@ -39,6 +39,45 @@ namespace BerryBrew {
         private static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
         private static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
 
+        public enum ErrorCodes : int {
+            GENERIC_ERROR					= -1,
+            ADMIN_BERRYBREW_INIT			= 5,
+            ADMIN_FILE_ASSOC	 			= 10,
+            ADMIN_PATH_ERROR	 			= 15,
+            ADMIN_REGISTRY_WRITE			= 20,
+            ARCHIVE_PATH_NAME_NOT_FOUND		= 25,
+            BERRYBREW_UPGRADE_FAILED		= 30,
+            DIRECTORY_CREATE_FAILED			= 40,
+            DIRECTORY_LIST_FAILED			= 45,
+            DIRECTORY_NOT_EXIST 			= 50,
+            FILE_DELETE_FAILED				= 55,
+            FILE_DOWNLOAD_FAILED 			= 60,
+            FILE_NOT_FOUND_ERROR			= 65,
+            FILE_OPEN_FAILED 				= 70,
+            INFO_OPTION_INVALID_ERROR		= 75,
+            INFO_OPTION_NOT_FOUND_ERROR		= 80,
+            JSON_FILE_MALFORMED_ERROR		= 85,
+            JSON_INVALID_ERROR 				= 90,
+            JSON_WRITE_FAILED				= 95,
+            PERL_ARCHIVE_CHECKSUM_FAILED 	= 100,
+            PERL_CLONE_FAILED				= 105,
+            PERL_CLONE_FAILED_IO_ERROR 		= 110,
+            PERL_FILE_ASSOC_FAILED 			= 115,
+            PERL_INVALID_ERROR				= 120,
+            PERL_MIN_VER_GREATER_510 		= 125,
+            PERL_NAME_INVALID				= 130,
+            PERL_NONE_IN_USE 				= 135,
+            PERL_NONE_INSTALLED 			= 140,
+            PERL_NOT_INSTALLED				= 145,
+            PERL_REMOVE_FAILED				= 150,
+            PERL_UNKNOWN_VERSION			= 155,
+            PERL_VERSION_ALREADY_REGISTERED	= 160,
+            MODULE_IMPORT_FILE_UNAVAIL		= 165,
+            MODULE_IMPORT_SAME_VERSION_ERROR= 170,
+            MODULE_IMPORT_VERSION_REQUIRED	= 175,
+            OPTION_INVALID_ERROR			= 180
+        }
+
         public List<string> validOptions;
 
         public bool Debug { set; get; }
@@ -226,7 +265,7 @@ namespace BerryBrew {
                 if (Debug) {
                     Console.Error.WriteLine(err);
                 }
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
             }
             
             RegistryKey registry = Registry.LocalMachine.OpenSubKey(registrySubKey);
@@ -280,7 +319,7 @@ namespace BerryBrew {
                 if (Debug) {
                     Console.Error.WriteLine(err);
                 }
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.DIRECTORY_CREATE_FAILED);
             }
         }
 
@@ -356,7 +395,7 @@ namespace BerryBrew {
                 if (Debug) {
                     Console.Error.WriteLine(err);
                 }
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.FILE_DELETE_FAILED);
             }
 
             moduleListFiles = Directory.GetFiles(moduleDir);
@@ -473,7 +512,7 @@ namespace BerryBrew {
                 if (Debug) {
                     Console.Error.WriteLine("\n{0}", e);
                 }
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);
             }
 
             string sourcePerlDir = sourcePerl.installPath;
@@ -482,7 +521,7 @@ namespace BerryBrew {
 
             if (! src.Exists) {
                 Console.Error.WriteLine("\nPerl instance '{0}' isn't installed. Can't clone.", sourcePerlName);
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.PERL_NOT_INSTALLED);
             }
             
             try {
@@ -500,7 +539,7 @@ namespace BerryBrew {
 
                 if (! Directory.Exists(destPerlDir)) {
                     Console.Error.WriteLine("\nfailed to clone {0} to {1}", sourcePerlDir, destPerlDir);
-                    Environment.Exit(-1);
+                    Environment.Exit((int)ErrorCodes.PERL_CLONE_FAILED);
                 }
 
                 PerlRegisterCustomInstall(destPerlName, sourcePerl);
@@ -514,7 +553,7 @@ namespace BerryBrew {
                 if (Debug) {
                     Console.Error.WriteLine(err);
                 }
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.PERL_CLONE_FAILED_IO_ERROR);
             }
         }
 
@@ -543,12 +582,12 @@ namespace BerryBrew {
 
             if (string.IsNullOrEmpty(perl.Name)) {
                 Console.Error.WriteLine("\nno Perl is in use. Run 'berrybrew switch' to enable one before exporting a module list\n");
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.PERL_NONE_IN_USE);
             }
 
             if (perl.Name == "5.10.1_32") {
                 Console.Error.WriteLine("\nmodules command requires a Perl version greater than 5.10\n");
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.PERL_MIN_VER_GREATER_510);
             }           
             
             Process process = new Process();
@@ -742,7 +781,7 @@ namespace BerryBrew {
                     }
                     else {
                         Console.Error.WriteLine("\nCould not get the zip archive's directory name.\n");
-                        Environment.Exit(-1);
+                        Environment.Exit((int)ErrorCodes.ARCHIVE_PATH_NAME_NOT_FOUND);
                     }
 
                     using (FileStream streamWriter = File.Create(fullZipToPath)) {
@@ -769,7 +808,7 @@ namespace BerryBrew {
                 }
                 catch (WebException) {
                     Console.Error.WriteLine("\nUnable to download file. Check your Internet connection and/or the download site\n");
-                    Environment.Exit(-1);
+                    Environment.Exit((int)ErrorCodes.FILE_DOWNLOAD_FAILED);
                 }
             }
 
@@ -799,7 +838,7 @@ namespace BerryBrew {
                             }
                         }
 
-                        Environment.Exit(-1);
+                        Environment.Exit((int)ErrorCodes.PERL_ARCHIVE_CHECKSUM_FAILED);
                     }
                     else {
                         Console.WriteLine("Checksum OK");
@@ -824,7 +863,7 @@ namespace BerryBrew {
                 if (action == "set") {
                     if (plHandlerName == @"berrybrewPerl") {
                         Console.Error.WriteLine("\nberrybrew is already managing the .pl file type\n");
-                        Environment.Exit(-1);
+                        Environment.Exit((int)ErrorCodes.PERL_FILE_ASSOC_FAILED);
                     }
 
                     Options("file_assoc_old", plHandlerName, true);
@@ -846,7 +885,7 @@ namespace BerryBrew {
 
                     if (old_file_assoc == "") {
                         Console.Error.WriteLine("\nDefault file association already in place");
-                        Environment.Exit(-1);
+                        Environment.Exit((int)ErrorCodes.PERL_FILE_ASSOC_FAILED);
                     }
 
                     plExtKey.SetValue("", old_file_assoc);
@@ -872,7 +911,7 @@ namespace BerryBrew {
                 if (Debug) {
                     Console.Error.WriteLine(e);
                 }
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.ADMIN_FILE_ASSOC);
             }
         }
 
@@ -890,7 +929,7 @@ namespace BerryBrew {
 
         private static void FilesystemResetAttributes(string currentDir) {
             if (! Directory.Exists(currentDir)) {
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.DIRECTORY_NOT_EXIST);
             }
 
             string[] subDirs = Directory.GetDirectories(currentDir);
@@ -917,7 +956,7 @@ namespace BerryBrew {
 
                 if (moduleListFiles.Length == 0) {
                     Console.Error.WriteLine("\nno module lists to import from. Run 'berrybrew modules export', then re-run the import command...\n"); 
-                    Environment.Exit(-1);
+                    Environment.Exit((int)ErrorCodes.MODULE_IMPORT_FILE_UNAVAIL);
                 }
                 
                 Console.Error.WriteLine("\nre-run the command with one of the following options:\n");
@@ -930,7 +969,7 @@ namespace BerryBrew {
                 }
 
                 Console.Error.WriteLine();
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.MODULE_IMPORT_VERSION_REQUIRED);
             }
             else {
                 ImportModulesExec(version, moduleDir + version);
@@ -941,7 +980,7 @@ namespace BerryBrew {
             if (file == PerlInUse().Name) {
                 Console.Error.WriteLine("\nCan't import modules exported from the same perl version\n");
                 Console.Error.WriteLine("You're trying to use an export from version {0} and you're on {1}\n", file, arg1: PerlInUse().Name);
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.MODULE_IMPORT_SAME_VERSION_ERROR);
             }
                 
             Process process = new Process();
@@ -991,7 +1030,7 @@ namespace BerryBrew {
                 foreach (string opt in options){
                     Console.Error.WriteLine("\t{0}", opt);
                 }
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.INFO_OPTION_INVALID_ERROR);
             }
 
             switch (want) {
@@ -1009,7 +1048,7 @@ namespace BerryBrew {
                     break;
                 default:
                     Console.Error.WriteLine("\nCould not fetch details for '{0}'", want);
-                    Environment.Exit(-1);
+                    Environment.Exit((int)ErrorCodes.INFO_OPTION_NOT_FOUND_ERROR);
                     break;
             }
         }        
@@ -1055,7 +1094,7 @@ namespace BerryBrew {
                         using (StreamWriter file = new StreamWriter(@"berrybrew_error.txt", true)) {
                             file.WriteLine(error);
                         }
-                        Environment.Exit(-1);
+                        Environment.Exit((int)ErrorCodes.JSON_FILE_MALFORMED_ERROR);
                     }
                 }
             }
@@ -1065,7 +1104,7 @@ namespace BerryBrew {
                 if (Debug) {
                     Console.Error.WriteLine(err);
                 }
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.FILE_NOT_FOUND_ERROR);
             }
             return "";
         }
@@ -1081,7 +1120,7 @@ namespace BerryBrew {
                     foreach (Dictionary<string, object> existingPerl in perlList) {
                         if (perl["name"].Equals(existingPerl["name"])) {
                             Console.Error.Write("\n{0} instance is already registered...", perl["name"]);
-                            Environment.Exit(-1);
+                            Environment.Exit((int)ErrorCodes.PERL_VERSION_ALREADY_REGISTERED);
                         }
                     }
                     perlList.Add(perl);
@@ -1096,7 +1135,7 @@ namespace BerryBrew {
                     foreach (Dictionary<string, object> existingPerl in perlList) {
                         if (perl["name"].Equals(existingPerl["name"])) {
                             Console.Error.Write("\n{0} instance is already registered...", perl["name"]);
-                            Environment.Exit(-1);
+                            Environment.Exit((int)ErrorCodes.PERL_VERSION_ALREADY_REGISTERED);
                         }
                     }
                     perlList.Add(perl);
@@ -1158,7 +1197,7 @@ namespace BerryBrew {
 
             if (! installedPerls.Any()) {
                 Console.Error.Write("\nNo versions of Perl are installed.\n");
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.PERL_NONE_INSTALLED);
             }
 
             foreach (StrawberryPerl perl in installedPerls) {
@@ -1210,7 +1249,7 @@ namespace BerryBrew {
             
             if (! validOptions.Contains(option)) {
                 Console.Error.WriteLine("\n'{0}' is an invalid option...\n", option);
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.OPTION_INVALID_ERROR);
             }
             else {
                 if (value == "") {
@@ -1232,7 +1271,7 @@ namespace BerryBrew {
                         if (Debug) {
                             Console.Error.WriteLine(e);
                         }
-                        Environment.Exit(-1);
+                        Environment.Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
                     }
 
                     string optStr = String.Format("\n\t{0}:", option);
@@ -1277,7 +1316,7 @@ namespace BerryBrew {
                 if (Debug) {
                     Console.Error.WriteLine(err);
                 }
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.ADMIN_BERRYBREW_INIT);
             }
         }
 
@@ -1433,7 +1472,7 @@ namespace BerryBrew {
                 if (Debug) {
                     Console.Error.WriteLine(err);
                 }
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.ADMIN_PATH_ERROR);
             }
         }
 
@@ -1476,7 +1515,7 @@ namespace BerryBrew {
                     Console.Error.WriteLine(err);
                 }
 
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.DIRECTORY_LIST_FAILED);
             }
             
             List<string> dirs = new List<string>(Directory.GetDirectories(rootPath));
@@ -1639,12 +1678,12 @@ namespace BerryBrew {
                         if (Debug) {
                             Console.Error.WriteLine(err);
                         }
-                        Environment.Exit(-1);
+                        Environment.Exit((int)ErrorCodes.PERL_REMOVE_FAILED);
                     }
                 }
                 else {
                     Console.Error.WriteLine("Strawberry Perl " + perlVersionToRemove + " not found (are you sure it's installed?)");
-                    Environment.Exit(-1);
+                    Environment.Exit((int)ErrorCodes.PERL_REMOVE_FAILED);
                 }
 
                 if (perl.Custom) {
@@ -1686,7 +1725,7 @@ namespace BerryBrew {
                     Console.Error.WriteLine(err);
                 }
                 Console.Error.WriteLine("Unable to remove Strawberry Perl " + perlVersionToRemove + " permission was denied by System");
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.PERL_REMOVE_FAILED);
             }
         }
 
@@ -1694,12 +1733,12 @@ namespace BerryBrew {
 
             if (! Directory.Exists(rootPath + perlName)) {
                 Console.Error.WriteLine("installation directory '" + perlName + "' does not exist");
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.DIRECTORY_NOT_EXIST);
             }
 
             if (! File.Exists(rootPath + perlName + @"\perl\bin\perl.exe")) {
                 Console.Error.WriteLine("{0} is not a valid Perl installation", perlName);
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.PERL_INVALID_ERROR);
             }
 
             Dictionary<string, object> data = new Dictionary<string, object>();
@@ -1722,7 +1761,7 @@ namespace BerryBrew {
 
         public void PerlRegisterVirtualInstall(string perlName) {
             if (! CheckName(perlName)) {
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.PERL_NAME_INVALID);
             }
 
             Console.Write("\nSpecify the path to the perl binary: ");
@@ -1748,15 +1787,15 @@ namespace BerryBrew {
                     perlPath, 
                     perlName
                 );
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.PERL_INVALID_ERROR);
             }
             if (! string.IsNullOrEmpty(libPath) && ! Directory.Exists(libPath)) {
                 Console.Error.WriteLine("\n'{0}' library directory doesn't exist. Can't continue...\n", libPath);
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.DIRECTORY_NOT_EXIST);
             }
             if (! string.IsNullOrEmpty(auxPath) && ! Directory.Exists(auxPath)) {
                 Console.Error.WriteLine("\n'{0}' auxillary directory doesn't exist. Can't continue...\n", auxPath);
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.DIRECTORY_NOT_EXIST);
             }           
             
             string instanceName = rootPath + perlName;
@@ -1802,7 +1841,7 @@ namespace BerryBrew {
                     if (Debug) {
                         Console.Error.WriteLine(error);
                     }
-                    Environment.Exit(-1);
+                    Environment.Exit((int)ErrorCodes.FILE_OPEN_FAILED);
                 }
 
                 dynamic json = null;
@@ -1815,7 +1854,7 @@ namespace BerryBrew {
                     if (Debug) {
                         Console.Error.WriteLine(error);
                     }
-                    Environment.Exit(-1);
+                    Environment.Exit((int)ErrorCodes.JSON_INVALID_ERROR);
                 }
 
                 List<String> perls = new List<String>();
@@ -1948,7 +1987,7 @@ namespace BerryBrew {
                         Console.Error.WriteLine(e);
                     }
                    
-                    Environment.Exit(-1);
+                    Environment.Exit((int)ErrorCodes.JSON_WRITE_FAILED);
                 }
                 
                 Console.WriteLine("Successfully updated the available Perls list...");
@@ -2006,7 +2045,7 @@ namespace BerryBrew {
                             "Perl version {0} is not installed. Run the command:\n\n\tberrybrew install",
                             perl.Name 
                     );
-                    Environment.Exit(-1);
+                    Environment.Exit((int)ErrorCodes.PERL_NOT_INSTALLED);
                 }
 
                 PathRemovePerl();
@@ -2089,7 +2128,7 @@ namespace BerryBrew {
 
             if (! useWith.Any()) {
                 Console.Error.WriteLine("\nThe selected Perl versions you specified are not installed.\n");
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.PERL_NOT_INSTALLED);
             }
 
             string sysPath = PathGet();
@@ -2135,7 +2174,7 @@ namespace BerryBrew {
             }
             catch(Exception objException) {
                 Console.Error.WriteLine(objException);
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.GENERIC_ERROR);
             }
         }
 
@@ -2171,7 +2210,7 @@ namespace BerryBrew {
             }
             catch(Exception objException) {
                 Console.Error.WriteLine(objException);
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.GENERIC_ERROR);
             }
         }
         
@@ -2202,7 +2241,7 @@ namespace BerryBrew {
                 }
 
                 Console.Error.WriteLine("\nberrybrew is already up to date\n");
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.BERRYBREW_UPGRADE_FAILED);
             }
 
             bool error = false;
@@ -2220,7 +2259,7 @@ namespace BerryBrew {
                 foreach (string line in errorReport) {
                     Console.Error.WriteLine(line);
                 }
-                Environment.Exit(-1);
+                Environment.Exit((int)ErrorCodes.BERRYBREW_UPGRADE_FAILED);
             }
 
             string[] bakFiles = Directory.GetFiles(backupDir);
