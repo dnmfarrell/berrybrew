@@ -154,7 +154,7 @@ sub _berrybrew_version {
 
     while (<$fh>) {
 
-        if (/public string Version\(\)\{/) {
+        if (/public string Version\(\)\s+\{/) {
             $c = 1;
             next;
         }
