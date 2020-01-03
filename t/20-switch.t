@@ -4,6 +4,7 @@ use feature 'say';
 
 use lib 't/';
 use BB;
+use Capture::Tiny qw(:all);
 use IPC::Run3;
 use Test::More;
 use Win32::TieRegistry;
@@ -15,11 +16,12 @@ my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berry
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
 my $path = $Registry->{$path_key};
 
-my @run; # 0=in, 1=out, 2=err
+my ($in, $out, $err);
 my $o;
 
-eval { run3 "$c switch xx", @run; };
+$err = capture_stderr { eval { run3 "$c switch xx"; }; };
 is $? >> 8, BB::err_code('PERL_UNKNOWN_VERSION'), "exit status ok for unknown perl ver";
+like $err, qr/Unknown version of Perl/, "...and STDERR is sane";
 
 my @installed = BB::get_installed();
 my @avail = BB::get_avail();
