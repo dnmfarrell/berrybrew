@@ -3,6 +3,9 @@ package BB;
 use strict;
 use warnings;
 
+use Capture::Tiny qw(:all);
+use IPC::Run3;
+
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 
 sub get_avail {
@@ -80,5 +83,8 @@ sub err_code {
 
     return $codes{$name};
 }
-
+sub fail {
+    my ($cmd) = @_;
+   return capture_stderr { eval { run3 $cmd; }; };
+}
 1;
