@@ -3,6 +3,7 @@ use strict;
 use feature 'say';
 
 use lib 't/';
+
 use BB;
 use Capture::Tiny qw(:all);
 use IPC::Run3;
@@ -19,7 +20,7 @@ my $path = $Registry->{$path_key};
 my ($in, $out, $err);
 my $o;
 
-$err = capture_stderr { eval { run3 "$c switch xx"; }; };
+$err = BB::trap("$c switch xx");
 is $? >> 8, BB::err_code('PERL_UNKNOWN_VERSION'), "exit status ok for unknown perl ver";
 like $err, qr/Unknown version of Perl/, "...and STDERR is sane";
 
