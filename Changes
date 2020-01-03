@@ -12,7 +12,9 @@ Revision history for berrybrew
         - All paths now exit with an appropriate success or error status
           (closes #239)
         - Added 'error' command, translates error codes to their names
-        
+        - Added a display statement to inform the user that we're attempting
+          a clone 
+          
 1.30    2019-12-25
         - updated docs to reflect ability to remove berrybrew using
           Add/Remove Programs (closes #209)
