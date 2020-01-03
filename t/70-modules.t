@@ -11,15 +11,26 @@ $ENV{BERRYBREW_ENV} = "test";
 my $operation_dir = 'test';
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
-#my $c = "$ENV{BBTEST_REPO}/test/berrybrew";
 
-print "Installing Perl 5.16.3_64\n";
-my $install_ok = `$c install 5.16.3_64`;
-like $install_ok, qr/5\.16\.3_64.*installed/, "5.10.1_32 installed ok";
+my @installed = BB::get_installed;
 
-print "Installing Perl 5.10.1_32\n";
-$install_ok = `$c install 5.10.1_32`;
-like $install_ok, qr/5\.10\.1_32.*installed/, "5.10.1_32 installed ok";
+if (! grep {'5.16.3_64' eq $_} @installed) {
+    print "Installing Perl 5.16.3_64\n";
+    my $install_ok = `$c install 5.16.3_64`;
+    like $install_ok, qr/5\.16\.3_64.*installed/, "5.10.1_32 installed ok";
+}
+else {
+    print "Perl 5.16.3_64 already installed\n";
+}
+
+if (! grep {'5.10.1_32' eq $_} @installed) {
+    print "Installing Perl 5.10.1_32\n";
+    my $install_ok = `$c install 5.10.1_32`;
+    like $install_ok, qr/5\.10\.1_32.*installed/, "5.10.1_32 installed ok";
+}
+else {
+    print "Perl 5.10.1_32 already installed\n";
+}
 
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
 my $path = $Registry->{$path_key};
