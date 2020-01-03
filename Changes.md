@@ -1,11 +1,22 @@
 Revision history for berrybrew
 
 1.31 UNREL
-- fix issue where on first-run BaseConfig(), if the system didn't have
+- Fix issue where on first-run BaseConfig(), if the system didn't have
 a file association set for the .pl file type, we'd attempt to send
 in a null value to Options() for the file_assoc which threw an
 InvalidArgument exception (fixes #237)
-
+- Added bracing around all conditional and loop structures (if, else,
+foreach etc). This prevents adding additional statements that fall
+outside of the single-line approach
+- All methods and commands now exit with a proper error code
+- All paths now exit with an appropriate success or error status
+(closes #239)
+- Added 'error' command, translates error codes to their names
+- Added a display statement to inform the user that we're attempting
+a clone 
+- Install() now exits with failure and displays an error message if
+trying to install an already-installed Perl
+                    
 1.30    2019-12-25
 - updated docs to reflect ability to remove berrybrew using
 Add/Remove Programs (closes #209)
