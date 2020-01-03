@@ -3,6 +3,8 @@ use strict;
 
 use lib 't/';
 use BB;
+use Capture::Tiny qw(:all);
+use IPC::Run3;
 use Test::More;
 use Win32::TieRegistry;
 
@@ -12,9 +14,9 @@ my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berry
 my $customfile = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/data/perls_custom.json" : 'c:/repos/berrybrew/test/data/perls_custom.json';
 
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
+my $path;
 
 my $o;
-my $path;
 
 my @avail = BB::get_avail();
 my @installed = BB::get_installed();
@@ -66,14 +68,14 @@ for my $base (<$fh>){
 
 { # clone unknown
     
-    my $o = `$c clone unknown blah`;
-    like $o, qr/Can't clone/, "if a Perl isn't known, fail clone gracefully";
+    my $err = capture_stderr {  eval { run3 "$c clone unknown blah"; }; };
+    like $err, qr/Can't clone/, "if a Perl isn't known, fail clone gracefully";
 }
 
 { # clone uninstalled
 
-    my $o = `$c clone 5.20.3_64 blah`;
-    like $o, qr/installed.*Can't clone/, "if a Perl isn't installed, fail clone gracefully";
+    my $err = capture_stderr {  eval { run3 "$c clone 5.20.3_64 blah"; }; };
+    like $err, qr/installed.*Can't clone/, "if a Perl isn't installed, fail clone gracefully";
 }
 
 $o = `$c remove custom`;

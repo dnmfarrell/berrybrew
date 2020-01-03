@@ -525,6 +525,8 @@ namespace BerryBrew {
             }
             
             try {
+                Console.WriteLine("Attempting to clone {0} to {1}", sourcePerlName, destPerlName);
+
                 if (! Directory.Exists(destPerlDir)) {
                     Directory.CreateDirectory(destPerlDir);
                 }
@@ -929,7 +931,7 @@ namespace BerryBrew {
 
         private static void FilesystemResetAttributes(string currentDir) {
             if (! Directory.Exists(currentDir)) {
-				return;
+                return;
             }
 
             string[] subDirs = Directory.GetDirectories(currentDir);
@@ -1554,7 +1556,6 @@ namespace BerryBrew {
                 }
  
                 string dirBaseName = dir.Remove(0, rootPath.Length);
-				Console.WriteLine("******* {0}", dirBaseName);
                 orphans.Add(dirBaseName);
             }
 
@@ -1671,7 +1672,6 @@ namespace BerryBrew {
                         FilesystemResetAttributes(perl.installPath);
                         Directory.Delete(perl.installPath, true);
                         Console.WriteLine("Successfully removed Strawberry Perl " + perlVersionToRemove);
-                        Environment.Exit(0);
                     }
                     catch (IOException err){
                         Console.Error.WriteLine("Unable to completely remove Strawberry Perl " + perlVersionToRemove + " some files may remain");
@@ -1720,7 +1720,7 @@ namespace BerryBrew {
                 }
 
                 Message.Error("perl_unknown_version");
-				Environment.Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);
+                Environment.Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);
             }
             catch (UnauthorizedAccessException err){
                 if (Debug) {
@@ -2065,7 +2065,7 @@ namespace BerryBrew {
             }
             catch (ArgumentException) {
                 Message.Error("perl_unknown_version");
-				Environment.Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);
+                Environment.Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);
             }
         }
 
