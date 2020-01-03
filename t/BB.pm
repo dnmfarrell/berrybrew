@@ -5,6 +5,7 @@ use warnings;
 
 use Capture::Tiny qw(:all);
 use IPC::Run3;
+use Test::More;
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 
@@ -83,8 +84,10 @@ sub err_code {
 
     return $codes{$name};
 }
-sub fail {
+sub trap {
     my ($cmd) = @_;
+    $? = 0;
+    is $?, 0, "\$? reset to exit status 0 ok";
    return capture_stderr { eval { run3 $cmd; }; };
 }
 1;

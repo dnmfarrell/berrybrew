@@ -21,7 +21,7 @@ my $cloned;
 
 { # test output
     
-    my $err = BB::fail("$c use 5.xx.x_64");
+    my $err = BB::trap("$c use 5.xx.x_64");
     is $? >> 8, BB::err_code('PERL_NOT_INSTALLED'), "exit status if no Perls installed";
     like
         $err,
@@ -32,9 +32,7 @@ my $cloned;
         qr/Can't launch/,
         "complain if this perl isn't installed errmsg ok";
 
-    is undef $?, undef, "\$? reset ok";
-    
-    $err = BB::fail("$c use --win 5.xx.x_64,5.yy.y_64");
+    $err = BB::trap("$c use --win 5.xx.x_64,5.yy.y_64");
     is $? >> 8, BB::err_code('PERL_NOT_INSTALLED'), "exit status if no Perls installed";
     like
         $err,
@@ -44,12 +42,13 @@ my $cloned;
         $err,
         qr/Can't launch/,
         "complain if this perl isn't installed errmsg ok";
-   exit; 
-    $err = `$c use --win 5.10.1_32`;
+
+    $err = BB::trap("$c use --win 5.10.1_32");
+    is $? >> 8, BB::err_code('PERL_NOT_INSTALLED'), "exit status ok if use tries to use a valid but not installed Perl";
     like
         $err,
         qr/Perl version 5.10.1_32/s,
-        "complain with version if the version is valid but not installed";
+        "complain with version if the version is valid but not installed errmsg ok";
 }
 
 while(@installed < 1) {
