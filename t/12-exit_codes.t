@@ -48,7 +48,11 @@ my %err_codes = (
     MODULE_IMPORT_SAME_VERSION_ERROR=> 170,
     MODULE_IMPORT_VERSION_REQUIRED	=> 175,
     OPTION_INVALID_ERROR			=> 180,
-);    
+);
+
+for (2, 255, -5) {
+    like `$c error $_`, qr/UNDEFINED_ERROR_CODE/, "errcode $_ eq UNDEFINED_ERROR_CODE ok";
+}
 
 for (keys %err_codes) {
     like `$c error $err_codes{$_}`, qr/$err_codes{$_}:.*$_/, "errcode $err_codes{$_} eq $_ ok";

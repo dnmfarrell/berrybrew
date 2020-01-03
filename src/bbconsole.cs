@@ -115,11 +115,12 @@ namespace berrybrew {
                     if (args.Length == 1) {
                         bb.Message.Error("error_number_required");
                     }
-                    Console.WriteLine(
-                        "\nError Code {0}: {1}\n", 
-                        args[1], 
-                        Enum.GetName(typeof(Berrybrew.ErrorCodes), Int32.Parse(args[1]))
-                    );
+
+                    string errorName = Enum.GetName(typeof(Berrybrew.ErrorCodes), Int32.Parse(args[1]));
+                    if (errorName == null) {
+                        errorName = "UNDEFINED_ERROR_CODE";
+                    }
+                    Console.WriteLine("\nError Code {0}: {1}\n", args[1], errorName);
                     Environment.Exit(0);
                     break;
 
