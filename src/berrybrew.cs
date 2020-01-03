@@ -1719,6 +1719,7 @@ namespace BerryBrew {
                 }
 
                 Message.Error("perl_unknown_version");
+				Environment.Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);
             }
             catch (UnauthorizedAccessException err){
                 if (Debug) {
@@ -2063,6 +2064,7 @@ namespace BerryBrew {
             }
             catch (ArgumentException) {
                 Message.Error("perl_unknown_version");
+				Environment.Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);
             }
         }
 
@@ -2324,7 +2326,6 @@ namespace BerryBrew {
         public void Error(string label) {
             string msg = Get(label);
             Console.Error.WriteLine(msg);
-            Environment.Exit(-1);
         }
     }
 

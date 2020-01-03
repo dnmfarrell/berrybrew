@@ -1,8 +1,10 @@
 use warnings;
 use strict;
+use feature 'say';
 
 use lib 't/';
 use BB;
+use IPC::Run3;
 use Test::More;
 use Win32::TieRegistry;
 
@@ -11,11 +13,13 @@ $ENV{BERRYBREW_ENV} = "test";
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
-
 my $path = $Registry->{$path_key};
 
-my $o = `$c switch xx`;
-like $o, qr/Unknown version of Perl/, "switch to bad ver ok";
+my @run; # 0=in, 1=out, 2=err
+my $o;
+
+eval { run3 "$c switch xx", @run; };
+is $? >> 8, BB::err_code('PERL_UNKNOWN_VERSION'), "exit status ok for unknown perl ver";
 
 my @installed = BB::get_installed();
 my @avail = BB::get_avail();
