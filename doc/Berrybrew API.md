@@ -875,4 +875,13 @@ Returns the message content that corresponds with a specific message label.
 Same thing as `Message.Print`, but after printing, calls `Environment.Exit(0)`
 and terminates the application.
 
+#### Message.Error
+
+    public void Error(string label)
+    
+         argument:   label
+         value:      Name of a message label
+ 
+Prints the relevant message to `STDERR`.
+
 &copy; 2017-2019 by Steve Bertrand
