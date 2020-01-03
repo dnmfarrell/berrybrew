@@ -14,18 +14,33 @@ my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berry
 #my $c = "$ENV{BBTEST_REPO}/test/berrybrew";
 
 print "Installing Perl 5.16.3_64\n";
-
 my $install_ok = `$c install 5.16.3_64`;
+like $install_ok, qr/5\.16\.3_64.*installed/, "5.10.1_32 installed ok";
 
-like $install_ok, qr/5\.16\.3_64.*installed/, "5.16.3_64 installed ok";
+print "Installing Perl 5.10.1_32\n";
+$install_ok = `$c install 5.10.1_32`;
+like $install_ok, qr/5\.10\.1_32.*installed/, "5.10.1_32 installed ok";
 
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
 my $path = $Registry->{$path_key};
 
 {
+    `$c off`;
+
+    my $err = BB::trap("$c modules export");
+    is $? >> 8, BB::err_code('PERL_NONE_IN_USE'), "exit status ok on export if no perl in use";
+    like $err, qr/no Perl is in use/, "export errmsg ok if no perl in use";
+
+    my $o = `$c switch 5.10.1_32`;
+    like $o, qr/Switched to Perl version 5.10.1_32/, "switch to 5.10.1_32 ok";
+
+    $err = BB::trap("$c modules export");
+    is $? >> 8, BB::err_code('PERL_MIN_VER_GREATER_510'), "exit status ok on export if perl not > 5.10";
+    like $err, qr/modules command requires/, "export errmsg ok if perl < 5.10";   
+
     my $ver = '5.16.3_64';
 
-    my $o = `$c switch $ver`;
+    $o = `$c switch $ver`;
     like $o, qr/Switched to Perl version $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
