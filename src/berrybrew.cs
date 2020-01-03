@@ -929,7 +929,7 @@ namespace BerryBrew {
 
         private static void FilesystemResetAttributes(string currentDir) {
             if (! Directory.Exists(currentDir)) {
-                Environment.Exit((int)ErrorCodes.DIRECTORY_NOT_EXIST);
+				return;
             }
 
             string[] subDirs = Directory.GetDirectories(currentDir);
@@ -1554,6 +1554,7 @@ namespace BerryBrew {
                 }
  
                 string dirBaseName = dir.Remove(0, rootPath.Length);
+				Console.WriteLine("******* {0}", dirBaseName);
                 orphans.Add(dirBaseName);
             }
 
