@@ -59,6 +59,7 @@ namespace BerryBrew {
             JSON_FILE_MALFORMED_ERROR		= 85,
             JSON_INVALID_ERROR 				= 90,
             JSON_WRITE_FAILED				= 95,
+			PERL_ALREADY_INSTALLED			= 98,
             PERL_ARCHIVE_CHECKSUM_FAILED 	= 100,
             PERL_CLONE_FAILED				= 105,
             PERL_CLONE_FAILED_IO_ERROR 		= 110,
@@ -1058,6 +1059,12 @@ namespace BerryBrew {
         public void Install(string version) {
 
             StrawberryPerl perl = PerlResolveVersion(version);
+
+			if (PerlIsInstalled(perl)) {
+				Console.Error.WriteLine("Perl version {0} is already installed.");
+				Environment.Exit((int)ErrorCodes.PERL_ALREADY_INSTALLED);
+			}
+
             string archivePath = Fetch(perl);
             Extract(perl, archivePath);
 

@@ -63,6 +63,7 @@ sub err_code {
         JSON_FILE_MALFORMED_ERROR		=> 85,
         JSON_INVALID_ERROR 				=> 90,
         JSON_WRITE_FAILED				=> 95,
+        PERL_ALREADY_INSTALLED       	=> 98,
         PERL_ARCHIVE_CHECKSUM_FAILED 	=> 100,
         PERL_CLONE_FAILED				=> 105,
         PERL_CLONE_FAILED_IO_ERROR 		=> 110,
