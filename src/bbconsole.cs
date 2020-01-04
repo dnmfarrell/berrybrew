@@ -191,6 +191,11 @@ namespace berrybrew {
                     }
                     break;
 
+                case "hidden":
+                    bb.Message.Say("hidden");
+                    Environment.Exit(0);
+                    break;
+
                 case "info":
                     if (args.Length == 1) {
                         bb.Message.Print("info_option_required");

@@ -176,6 +176,29 @@
     ]
 },
 {
+    "label": "hidden",
+
+    "content": [
+
+        "",
+        "berrybrew <command> [subcommand] [option]",
+        "",
+        "",
+        "    currentperl            Print the name of the Perl currently in use",
+        "    info                   Displays directory path information about the installation",
+        "    error                  Displays the name of an exit status number",
+        "    error-codes            Displays the list of valid exit codes, one per line",
+        "    test                   Sets test platform information when running unit tests",
+        "    register-orphans       Registers all orphan Perls at once",
+        "    options-update         Adds any newly added config file directives to the Registry",
+        "    options-update-force   Reloads the entire configuration file into the Registry",
+        "    ",
+        "",
+        "",
+        "    * - view subcommand details with 'berrybrew <command> help'"
+    ]
+},   
+{
     "label": "license",
 
     "content": [

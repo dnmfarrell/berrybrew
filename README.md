@@ -41,7 +41,7 @@ full list of documentation.
 - [Caveats](#caveats)
 - [License](#license)
 - [Version](#version)
-- [Hidden Features](#hidden-features)
+- [Hidden Features](#hidden-commands)
 
 ## Install
 
@@ -283,77 +283,13 @@ operate correctly. This is due to the way Windows forces the System
 
    1.31 
 
-## Hidden Features
+## Hidden Commands
 
-There are certain features that should only be used by developers and
-maintainers of this software. There's only a couple, so if I create
-more and/or make them more complex, I'll create a separate document
-for them.
+Please see the [hidden commands](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md#hidden-commands)
+in the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+document.
 
-#### info
-
-Displays paths and other information regarding the `berrybrew` installation
-itself.
-
-#### error
-
-Usage: `berrybrew error <ErrNum>`
-
-Translates an error code and displays the name of the error, where `ErrNum`
-is the error number.
-
-#### error-codes
-
-Usage: `berrybrew error-codes`
-
-Simply prints to `STDOUT` the list of all valid error status code numbers, one
-per line.
-
-#### test
-
-This feature should only be used by developers of berrybrew.
-
-Like the `debug` feature, I've added a new `test` argument. It must
-follow `berrybrew` and preceed all further operations. To include the
-`debug` argument as well, specify it first, then include `test`, then
-your command and any options:
-
-Examples: 
-
-- Test feature only:
-
-    `berrybrew test clean ...`
-    
-- Test and Debug:
-
-    `berrybrew debug test clean ...`
-
-Currently, it's only used in the `t/99_clean.t` test to strip off
-unneeded path elements for a couple of specific tests.
-
-#### currentperl
-
-This feature simply fetches the Perl instance that's currently in use,
-prints out its name, and exits. It will not display anything if there's no
-Perl currently in use.
-
-Used primarily for certain unit tests.
-
-#### register-orphans
-
-This will register all orphaned Perl instances at once.
-
-#### options-update
-
-Checks the base distribution's configuration file, and if there are any newly
-added directives, we'll insert them into the registry. Used for upgrades and
-testing.
-
-#### options-update-force
-
-Loads all configuration options from the configuration file into the registry.
-Be warned that this will overwrite all changes that were previously changed
-within the registry.
+You can also get a list of them by running the hidden `berrybrew hidden` command.
 
 ## Original Author
 

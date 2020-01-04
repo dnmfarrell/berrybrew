@@ -20,7 +20,11 @@ Revision history for berrybrew
           code values
         - Made 'bypassOrphanCheck' object property public so we can set it
           from within the berrybrew binary ('error-codes' specifically)
-          
+        - Added 'hidden' command to berrybrew, displays all of the hidden
+          commands
+        - Moved all of the hidden command details to the berrybrew doc, and
+          left a reference to them in the README
+                              
 1.30    2019-12-25
         - updated docs to reflect ability to remove berrybrew using
           Add/Remove Programs (closes #209)
