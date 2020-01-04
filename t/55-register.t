@@ -32,14 +32,14 @@ if (! -d "$dir/empty") {
 }    
 is -d "$dir/empty", 1, "created empty installation dir ok";
 
-$err = capture_stderr { eval { run3 "$c register empty"; }; };
+$err = BB::trap("$c register empty");
 is $? >> 8, BB::err_code('PERL_INVALID_ERROR'), "registration failure if perl binary not found sets exit status ok";
 like $err, qr/empty is not a valid Perl installation/, "no registration if a perl binary not found error msg ok";
 
 rmdir "$dir/empty" or die $!;
 is -d "$dir/empty", undef, "removed empty instance ok";
 
-$err = capture_stderr { eval { run3 "$c register not_exist"; }; };
+$err = BB::trap("$c register not_exist");
 is $? >> 8, BB::err_code('DIRECTORY_NOT_EXIST'), "register failure if perl dir no exist sets exit status ok";
 like $err, qr/installation directory.*does not exist/, "won't register if dir doesn't exist errmsg ok";
 
@@ -83,7 +83,7 @@ is -f "$dir/dup/perl/bin/perl.exe", 1, "test 'dup' directory created ok";
 $o = `$c available`;
 like $o, qr/dup.*\[custom/, "registered a valid instance (dup) ok";
 
-$err = capture_stderr { eval { run3 "$c register dup"; }; };
+$err = BB::trap("$c register dup");
 is $? >> 8, BB::err_code('PERL_VERSION_ALREADY_REGISTERED'), "exit status for already registered Perl ok";
 like $err, qr/dup instance is already registered/, "don't duplicate registration errmsg ok";
 
