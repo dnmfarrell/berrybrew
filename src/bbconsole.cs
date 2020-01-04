@@ -124,6 +124,12 @@ namespace berrybrew {
                     Environment.Exit(0);
                     break;
 
+                case "error-codes":
+                    foreach (int code in Enum.GetValues(typeof(Berrybrew.ErrorCodes))) {
+                        Console.WriteLine(code);
+                    }
+                    break;
+    
                 case "exec":
                     if (args.Length == 1) {
                         bb.Message.Print("exec_command_required");

@@ -1,15 +1,20 @@
 use warnings;
 use strict;
 
+use lib 't/';
+
+use BB;
 use Test::More;
 
-if (! $ENV{BB_TEST_ERRCODES} && ! $ENV{BB_TEST_ALL}) {
-    plan skip_all => "BB_TEST_ERRCODES env var not set";
-}
+# if (! $ENV{BB_TEST_ERRCODES} && ! $ENV{BB_TEST_ALL}) {
+#     plan skip_all => "BB_TEST_ERRCODES env var not set";
+# }
 
 $ENV{BERRYBREW_ENV} = "test";
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
+
+BB::err_code('TEST');
 
 my %err_codes = (
     GENERIC_ERROR					=> -1,
@@ -31,6 +36,7 @@ my %err_codes = (
     JSON_FILE_MALFORMED_ERROR		=> 85,
     JSON_INVALID_ERROR 				=> 90,
     JSON_WRITE_FAILED				=> 95,
+    PERL_ALREADY_INSTALLED          => 98,
     PERL_ARCHIVE_CHECKSUM_FAILED 	=> 100,
     PERL_CLONE_FAILED				=> 105,
     PERL_CLONE_FAILED_IO_ERROR 		=> 110,
@@ -50,12 +56,16 @@ my %err_codes = (
     OPTION_INVALID_ERROR			=> 180,
 );
 
+my %err_nums = reverse %err_codes;
+
+my @valid_codes = split /\n/, `$c error-codes`;
+
 for (2, 255, -5) {
     like `$c error $_`, qr/UNDEFINED_ERROR_CODE/, "errcode $_ eq UNDEFINED_ERROR_CODE ok";
 }
 
-for (keys %err_codes) {
-    like `$c error $err_codes{$_}`, qr/$err_codes{$_}:.*$_/, "errcode $err_codes{$_} eq $_ ok";
+for my $n (@valid_codes) {
+    like `$c error $n`, qr/$n:.*$err_nums{$n}/, "errcode $err_nums{$n} eq $n ok";
 }
 
 done_testing();

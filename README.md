@@ -302,6 +302,13 @@ Usage: `berrybrew error <ErrNum>`
 Translates an error code and displays the name of the error, where `ErrNum`
 is the error number.
 
+#### error-codes
+
+Usage: `berrybrew error-codes`
+
+Simply prints to `STDOUT` the list of all valid error status code numbers, one
+per line.
+
 #### test
 
 This feature should only be used by developers of berrybrew.

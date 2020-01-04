@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Capture::Tiny qw(:all);
+use Data::Dumper;
 use IPC::Run3;
 use Test::More;
 
@@ -42,7 +43,9 @@ sub err_code {
     my ($name) = @_;
     
     die "err_code() requires error name\n" if ! defined $name;
-    
+
+    my @valid_codes = split /\n/, `$c error-codes`;
+
     my %codes = (
         GENERIC_ERROR					=> -1,
         ADMIN_BERRYBREW_INIT			=> 5,
@@ -83,6 +86,8 @@ sub err_code {
         OPTION_INVALID_ERROR			=> 180,   
     );        
 
+    is scalar(keys %codes), @valid_codes, "error code count ok compared to valid";
+    
     return $codes{$name};
 }
 sub trap {
