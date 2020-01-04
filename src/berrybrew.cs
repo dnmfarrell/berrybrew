@@ -83,10 +83,12 @@ namespace BerryBrew {
 
         public List<string> validOptions;
 
-        public bool Debug { set; get; }
+		// berrybrew command modifiers
+
+        public bool Debug 	{ set; get; }
         public bool Testing { set; get; }
-        public bool Trace { set; get; }
-        public bool Status { set; get; }
+        public bool Trace 	{ set; get; }
+        public bool Status 	{ set; get; }
 
         public readonly Message Message = new Message();
         private readonly OrderedDictionary _perls = new OrderedDictionary();
