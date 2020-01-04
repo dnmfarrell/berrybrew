@@ -190,6 +190,7 @@
         "    error-codes            Displays the list of valid exit codes, one per line",
         "    exit                   Test the exit routine by supplying an exit code",
         "    test                   Sets test platform information when running unit tests",
+        "    trace                  Displays the full stack trace on exit",
         "    register-orphans       Registers all orphan Perls at once",
         "    options-update         Adds any newly added config file directives to the Registry",
         "    options-update-force   Reloads the entire configuration file into the Registry",

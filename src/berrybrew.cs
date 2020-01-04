@@ -83,6 +83,7 @@ namespace BerryBrew {
 
         public bool Debug { set; get; }
         public bool Testing { set; get; }
+        public bool Trace { set; get; }
 
         public readonly Message Message = new Message();
         private readonly OrderedDictionary _perls = new OrderedDictionary();
@@ -581,7 +582,13 @@ namespace BerryBrew {
         }
        
         public void Exit(int exitCode) {
-            Console.WriteLine(exitCode);
+            if (Debug) {
+                Console.WriteLine("Exit code: {0}", exitCode);
+            }
+            if (Trace) {
+				Console.Error.WriteLine("\nStack Trace:\n");
+                Console.Error.WriteLine(Environment.StackTrace);
+            }
             Environment.Exit(exitCode);
         }
  

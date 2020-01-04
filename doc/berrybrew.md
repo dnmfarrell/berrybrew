@@ -41,6 +41,7 @@ maintainers of this software.
 - [options-update-force](#options-update-force)
 - [register-orphans](#register-orphans)
 - [test](#test)
+- [trace](#trace)
 
 ### Command Usage
 
@@ -395,5 +396,22 @@ Examples:
 
 Currently, it's only used in the `t/99_clean.t` test to strip off
 unneeded path elements for a couple of specific tests.
+
+#### trace
+
+Forces the printing of the full stack trace to `STDERR` upon program exit.
+
+Like `debug`, it needs to be the first argument, with all other command
+arguments following it. Only `debug` should preceed it.
+
+Examples: 
+
+- Trace feature only:
+
+    `berrybrew trace install 5.10.1_32`
+    
+- Trace and Debug:
+
+    `berrybrew debug trace remove 5.10.1_32`
 
 &copy; 2017-2019 by Steve Bertrand

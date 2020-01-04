@@ -26,7 +26,9 @@ Revision history for berrybrew
           left a reference to them in the README
         - Added Exit(), a wrapper for Environment.Exit(), and 'exit' command
           for testing
-                                        
+        - Added 'trace' feature. When set, we display the entire stack trace
+          to `STDERR`                                        
+          
 1.30    2019-12-25
         - updated docs to reflect ability to remove berrybrew using
           Add/Remove Programs (closes #209)
