@@ -188,6 +188,7 @@
         "    info                   Displays directory path information about the installation",
         "    error                  Displays the name of an exit status number",
         "    error-codes            Displays the list of valid exit codes, one per line",
+        "    exit                   Test the exit routine by supplying an exit code",
         "    test                   Sets test platform information when running unit tests",
         "    register-orphans       Registers all orphan Perls at once",
         "    options-update         Adds any newly added config file directives to the Registry",

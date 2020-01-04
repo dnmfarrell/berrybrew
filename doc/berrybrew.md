@@ -35,6 +35,7 @@ maintainers of this software.
 - [currentperl](#currentperl)
 - [error](#error)
 - [error-codes](#error-codes)
+- [exit](#exit)
 - [info](#info)
 - [options-update](#options-update)
 - [options-update-force](#options-update-force)
@@ -345,6 +346,12 @@ Usage: `berrybrew error-codes`
 
 Simply prints to `STDOUT` the list of all valid error status code numbers, one
 per line.
+
+#### exit
+
+Usage: `berrybrew exit 0`
+
+Tests the exit mechanism. Requires an `Int32` as an argument.
 
 #### info
 
