@@ -116,7 +116,7 @@ namespace berrybrew {
                         Console.Error.WriteLine("'exit' requires an error code integer\n");
                         Environment.Exit(-1);
                     }
-                    bb.Exit(args[1]);
+                    bb.Exit(Int32.Parse(args[1]));
                     break;
 
                 case "error":
