@@ -125,6 +125,7 @@ namespace berrybrew {
                     break;
 
                 case "error-codes":
+                    bb.bypassOrphanCheck = true;
                     foreach (int code in Enum.GetValues(typeof(Berrybrew.ErrorCodes))) {
                         Console.WriteLine(code);
                     }

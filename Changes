@@ -16,8 +16,10 @@ Revision history for berrybrew
           a clone 
         - Install() now exits with failure and displays an error message if
           trying to install an already-installed Perl
-        - added 'error-codes' hidden command, returns all valid exit status
+        - Added 'error-codes' hidden command, returns all valid exit status
           code values
+        - Made 'bypassOrphanCheck' object property public so we can set it
+          from within the berrybrew binary ('error-codes' specifically)
           
 1.30    2019-12-25
         - updated docs to reflect ability to remove berrybrew using

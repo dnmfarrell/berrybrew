@@ -86,8 +86,8 @@ sub err_code {
         OPTION_INVALID_ERROR			=> 180,   
     );        
 
-    is scalar(keys %codes), @valid_codes, "error code count ok compared to valid";
-    
+    is scalar(keys %codes), scalar(@valid_codes), "error code count ok compared to valid";
+   
     return $codes{$name};
 }
 sub trap {
