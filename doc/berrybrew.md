@@ -158,6 +158,12 @@ Also, by default, we don't execute on custom (cloned) instances. Set
 
     --with version,version,...  Run only on the listed versions
 
+##### exec exit status
+
+The exit status for the `exec` command will be that of the process that you're
+executing. If running with multiple Perls and any of them fail, the status will
+be that of the failed process, regardless if all others succeed.
+
 #### fetch
 
 Usage:  `berrybrew fetch`

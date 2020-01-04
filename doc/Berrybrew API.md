@@ -11,6 +11,16 @@ The code for the `berrybrewUI.exe` is in `src/berrybrew-ui.cs`.
 - [Berrybrew Class](#class-berrybrew)
 - [Message Class](#class-message)
 
+### Exit Status
+
+Most exit statuses will be `berrybrew` specific, except calls that shell out to
+separate processes (eg. `Exec()`). In these cases, the exit status code will
+be that of the external process, not that from within.
+
+For example, a call to `ExecCompile()` will call `Exec()` which starts one or
+more separate processes. If any of those processes fail, the status code will
+be that of the failed process (even if all other processes succeed).
+
 ## Berrybrew Class
 
 The `Berrybrew` class is the base of the system.
