@@ -48,6 +48,7 @@ sub err_code {
 
     my %codes = (
         GENERIC_ERROR					=> -1,
+        SUCCESS                         => 0,
         ADMIN_BERRYBREW_INIT			=> 5,
         ADMIN_FILE_ASSOC	 			=> 10,
         ADMIN_PATH_ERROR	 			=> 15,

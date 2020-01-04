@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
@@ -41,6 +42,7 @@ namespace BerryBrew {
 
         public enum ErrorCodes : int {
             GENERIC_ERROR					= -1,
+            SUCCESS							= 0,
             ADMIN_BERRYBREW_INIT			= 5,
             ADMIN_FILE_ASSOC	 			= 10,
             ADMIN_PATH_ERROR	 			= 15,
@@ -256,7 +258,7 @@ namespace BerryBrew {
 
                     foreach (string confKey in validOptions) {
                         if (Debug) {
-                            Console.WriteLine("{0}: {1}", confKey, jsonConf[confKey]);
+                            Console.WriteLine("DEBUG: {0}: {1}", confKey, jsonConf[confKey]);
                         }
                         regKey.SetValue(confKey, jsonConf[confKey]);
                     }
@@ -265,7 +267,7 @@ namespace BerryBrew {
             catch (UnauthorizedAccessException err) {
                 Console.Error.WriteLine("\nBase config of berrybrew requires Administrator privileges");
                 if (Debug) {
-                    Console.Error.WriteLine(err);
+                    Console.Error.WriteLine("DEBUG: {0}", err);
                 }
                 Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
             }
@@ -319,7 +321,7 @@ namespace BerryBrew {
             catch (Exception err) {
                 Console.Error.WriteLine("\nCouldn't create install dir {0}. Please create it manually and run config again", rootPath);
                 if (Debug) {
-                    Console.Error.WriteLine(err);
+                    Console.Error.WriteLine("DEBUG: {0}", err);
                 }
                 Exit((int)ErrorCodes.DIRECTORY_CREATE_FAILED);
             }
@@ -395,7 +397,7 @@ namespace BerryBrew {
             catch (Exception err) {
                 Console.Error.WriteLine("\nUnable to clean up the module list directory");
                 if (Debug) {
-                    Console.Error.WriteLine(err);
+                    Console.Error.WriteLine("DEBUG: {0}", err);
                 }
                 Exit((int)ErrorCodes.FILE_DELETE_FAILED);
             }
@@ -428,8 +430,8 @@ namespace BerryBrew {
             testDir = string.Format(@"{0}test", testDir);
 
             if (Debug) {
-                Console.WriteLine("build dir: {0}", buildDir);
-                Console.WriteLine("test dir: {0}", testDir);
+                Console.WriteLine("DEBUG: build dir: {0}", buildDir);
+                Console.WriteLine("DEBUG: test dir: {0}", testDir);
             }
             try {
                 if (Directory.Exists(buildDir)){
@@ -440,7 +442,7 @@ namespace BerryBrew {
             catch (Exception err) {
                 Console.Error.WriteLine("\nUnable to remove the build directory");
                 if (Debug) {
-                    Console.Error.WriteLine(err);
+                    Console.Error.WriteLine("DEBUG: {0}", err);
                 }
             }
 
@@ -453,7 +455,7 @@ namespace BerryBrew {
             catch (Exception err) {
                 Console.Error.WriteLine("\nUnable to remove the test directory");
                 if (Debug) {
-                    Console.Error.WriteLine(err);
+                    Console.Error.WriteLine("DEBUG: {0}", err);
                 }               
             }
 
@@ -512,7 +514,7 @@ namespace BerryBrew {
             catch (System.ArgumentException e) {
                 Console.Error.WriteLine("\n'{0}' is an unknown version of Perl. Can't clone.", sourcePerlName);
                 if (Debug) {
-                    Console.Error.WriteLine("\n{0}", e);
+                    Console.Error.WriteLine("\nDEBUG{0}", e);
                 }
                 Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);
             }
@@ -555,7 +557,7 @@ namespace BerryBrew {
                 Console.Error.WriteLine("\nClone failed due to disk I/O error... ensure the disk isn't full\n");
 
                 if (Debug) {
-                    Console.Error.WriteLine(err);
+                    Console.Error.WriteLine("DEBUG: {0}", err);
                 }
                 Exit((int)ErrorCodes.PERL_CLONE_FAILED_IO_ERROR);
             }
@@ -580,14 +582,24 @@ namespace BerryBrew {
                 Message.Print("config_complete");
             }
         }
-       
+
         public void Exit(int exitCode) {
             if (Debug) {
-                Console.WriteLine("Exit code: {0}", exitCode);
+                Console.WriteLine("DEBUG: Exit code: {0}", exitCode);
             }
+
             if (Trace) {
-				Console.Error.WriteLine("\nStack Trace:\n");
-                Console.Error.WriteLine(Environment.StackTrace);
+                Console.Error.WriteLine("\nStack Trace:");
+
+                StackTrace trace = new StackTrace();
+                StackFrame[] frames = trace.GetFrames();
+
+                foreach (StackFrame frame in frames) {
+                    MethodBase info = frame.GetMethod();
+                    Console.Error.WriteLine("\t{0}.{1}", info.ReflectedType.FullName, info.Name);
+                } 
+                string exitCodeName = Enum.GetName(typeof(Berrybrew.ErrorCodes), exitCode);
+                Console.Error.WriteLine("\nExit code:\n\t{0} - {1}", exitCode, exitCodeName);
             }
             Environment.Exit(exitCode);
         }
@@ -650,7 +662,7 @@ namespace BerryBrew {
             
             Console.WriteLine("\nsuccessfully wrote out {0} module list file", moduleFile);
         }
-       
+
         private void Exec(StrawberryPerl perl, IEnumerable<string> parameters, string sysPath, bool singleMode) {
             if (! singleMode) {
                 Console.WriteLine("perl-" + perl.Name + "\n==============");
@@ -698,7 +710,7 @@ namespace BerryBrew {
             process.WaitForExit();
 
             if (Debug) {
-                Console.WriteLine("Perl: {0}, Exit status: {1}\n", perl.Name, process.ExitCode);
+                Console.WriteLine("DEBUG: Perl: {0}, Exit status: {1}\n", perl.Name, process.ExitCode);
             }	
 
             if (singleMode) {
@@ -706,14 +718,13 @@ namespace BerryBrew {
             }
             else if (process.ExitCode != 0) {
                 if (Debug) {
-                    Console.Error.WriteLine("Non-zero exit code: Perl {0} returned with exit code {1}\n", perl.Name, process.ExitCode);
+                    Console.Error.WriteLine("DEBUG: Non-zero exit code: Perl {0} returned with exit code {1}\n", perl.Name, process.ExitCode);
                 }
                 Environment.ExitCode = process.ExitCode;
             }
         }
 
         public void ExecCompile(List<String> parameters) {
-
             List<StrawberryPerl> perlsInstalled = PerlsInstalled();
             List<StrawberryPerl> execWith = new List<StrawberryPerl>();
 
@@ -765,10 +776,12 @@ namespace BerryBrew {
 
             if (Environment.ExitCode != 0) {
                 if (Debug) {
-                    Console.Error.WriteLine("ExecCompile returned non-zero status: {0}\n", Environment.ExitCode);
+                    Console.Error.WriteLine("DEBUG: ExecCompile returned non-zero status: {0}\n", Environment.ExitCode);
                 }
                 Exit(Environment.ExitCode);
             }
+
+            Exit(0);
         }
 
         private void Extract(StrawberryPerl perl, string archivePath) {
@@ -920,11 +933,11 @@ namespace BerryBrew {
                     }
                 }
             }
-            catch (UnauthorizedAccessException e) {
+            catch (UnauthorizedAccessException err) {
                 Console.Error.WriteLine("\nChanging file associations requires Administrator privileges");
 
                 if (Debug) {
-                    Console.Error.WriteLine(e);
+                    Console.Error.WriteLine("DEBUG: {0}", err);
                 }
                 Exit((int)ErrorCodes.ADMIN_FILE_ASSOC);
             }
@@ -1090,6 +1103,7 @@ namespace BerryBrew {
             }
             
             Available();
+            Exit(0);
         }
 
         private dynamic JsonParse(string type, bool raw=false) {
@@ -1123,7 +1137,7 @@ namespace BerryBrew {
                 Console.Error.WriteLine("\n{0} file can not be found in {1}", filename, jsonFile);
 
                 if (Debug) {
-                    Console.Error.WriteLine(err);
+                    Console.Error.WriteLine("DEBUG: {0}", err);
                 }
                 Exit((int)ErrorCodes.FILE_NOT_FOUND_ERROR);
             }
@@ -1251,7 +1265,7 @@ namespace BerryBrew {
 
         public string Options(string option="", string value="", bool quiet=false) {
             if (Debug) {
-                Console.WriteLine("\noption: {0}, value: {1}\n", option, value);
+                Console.WriteLine("\nDEBUG: option: {0}, value: {1}\n", option, value);
             }
 
             RegistryKey registry = Registry.LocalMachine.CreateSubKey(registrySubKey);
@@ -1287,10 +1301,10 @@ namespace BerryBrew {
                     try {
                         registry.SetValue(option, value);
                     }
-                    catch (UnauthorizedAccessException e) {
+                    catch (UnauthorizedAccessException err) {
                         Console.Error.WriteLine("Writing to the registry requires Administrator privileges.\n");
                         if (Debug) {
-                            Console.Error.WriteLine(e);
+                            Console.Error.WriteLine("DEBUG: {0}", err);
                         }
                         Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
                     }
@@ -1318,7 +1332,7 @@ namespace BerryBrew {
 
                 foreach (string confKey in validOptions) {
                     if (Debug) {
-                        Console.WriteLine("{0}: {1}", confKey, jsonConf[confKey]);
+                        Console.WriteLine("DEBUG: {0}: {1}", confKey, jsonConf[confKey]);
                     }
                     if (force) {
                         Console.WriteLine("Adding {0} to the registry configuration", confKey);
@@ -1335,7 +1349,7 @@ namespace BerryBrew {
             catch (UnauthorizedAccessException err) {
                 Console.Error.WriteLine("\nInitializing berrybrew requires Administrator privileges");
                 if (Debug) {
-                    Console.Error.WriteLine(err);
+                    Console.Error.WriteLine("DEBUG: {0}", err);
                 }
                 Exit((int)ErrorCodes.ADMIN_BERRYBREW_INIT);
             }
@@ -1491,7 +1505,7 @@ namespace BerryBrew {
             catch(UnauthorizedAccessException err) {
                 Console.Error.WriteLine("\nAdding berrybrew to the PATH requires Administrator privilege");
                 if (Debug) {
-                    Console.Error.WriteLine(err);
+                    Console.Error.WriteLine("DEBUG: {0}", err);
                 }
                 Exit((int)ErrorCodes.ADMIN_PATH_ERROR);
             }
@@ -1532,8 +1546,8 @@ namespace BerryBrew {
             }
             catch (Exception err) {
                 if (Debug) {
-                    Console.Error.WriteLine("failure getting directories of root");
-                    Console.Error.WriteLine(err);
+                    Console.Error.WriteLine("DEBUG: failure getting directories of root");
+                    Console.Error.WriteLine("DEBUG: {0}", err);
                 }
 
                 Exit((int)ErrorCodes.DIRECTORY_LIST_FAILED);
@@ -1696,7 +1710,7 @@ namespace BerryBrew {
                         Console.Error.WriteLine("Unable to completely remove Strawberry Perl " + perlVersionToRemove + " some files may remain");
 
                         if (Debug) {
-                            Console.Error.WriteLine(err);
+                            Console.Error.WriteLine("DEBUG: {0}", err);
                         }
                         Exit((int)ErrorCodes.PERL_REMOVE_FAILED);
                     }
@@ -1735,7 +1749,7 @@ namespace BerryBrew {
             }
             catch (ArgumentException err){
                 if (Debug) {
-                    Console.Error.WriteLine(err);
+                    Console.Error.WriteLine("DEBUG: {0}", err);
                 }
 
                 Message.Error("perl_unknown_version");
@@ -1743,7 +1757,7 @@ namespace BerryBrew {
             }
             catch (UnauthorizedAccessException err){
                 if (Debug) {
-                    Console.Error.WriteLine(err);
+                    Console.Error.WriteLine("DEBUG: {0}", err);
                 }
                 Console.Error.WriteLine("Unable to remove Strawberry Perl " + perlVersionToRemove + " permission was denied by System");
                 Exit((int)ErrorCodes.PERL_REMOVE_FAILED);
@@ -1857,10 +1871,10 @@ namespace BerryBrew {
                 try {
                     jsonData = client.DownloadString(downloadURL);
                 }
-                catch (WebException error){
+                catch (WebException err){
                     Console.Error.Write("\nCan't open file {0}. Can not continue...\n", downloadURL);
                     if (Debug) {
-                        Console.Error.WriteLine(error);
+                        Console.Error.WriteLine("DEBUG: {0}", err);
                     }
                     Exit((int)ErrorCodes.FILE_OPEN_FAILED);
                 }
@@ -1870,10 +1884,10 @@ namespace BerryBrew {
                 try {
                     json = JsonConvert.DeserializeObject(jsonData);
                 }
-                catch (JsonReaderException error) {
+                catch (JsonReaderException err) {
                     Console.Error.Write("\nCan't read the JSON data. It may be invalid\n");
                     if (Debug) {
-                        Console.Error.WriteLine(error);
+                        Console.Error.WriteLine("DEBUG: {0}", err);
                     }
                     Exit((int)ErrorCodes.JSON_INVALID_ERROR);
                 }
@@ -1924,7 +1938,7 @@ namespace BerryBrew {
 
                                 if (Debug) {
                                     Console.WriteLine(
-                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
+                                        "DEBUG: {0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
                                         perlInstance["name"],
                                         perlInstance["file"],
                                         perlInstance["url"],
@@ -1950,7 +1964,7 @@ namespace BerryBrew {
 
                                 if (Debug) {
                                     Console.WriteLine(
-                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
+                                        "DEBUG: {0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
                                         perlInstance["name"],
                                         perlInstance["file"],
                                         perlInstance["url"],
@@ -1975,7 +1989,7 @@ namespace BerryBrew {
 
                                 if (Debug) {
                                     Console.WriteLine(
-                                        "{0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
+                                        "DEBUG: {0}:\n\t{1}\n\t{2}\n\t{3}\n\n",
                                         perlInstance["name"],
                                         perlInstance["file"],
                                         perlInstance["url"],
@@ -2001,11 +2015,11 @@ namespace BerryBrew {
                 try {
                     JsonWrite("perls", data, true);
                 }
-                catch (System.UnauthorizedAccessException e){
+                catch (System.UnauthorizedAccessException err){
                     Console.Error.WriteLine("\nYou need to be running with elevated prvileges to run this command\n");
                     
                     if (Debug) {
-                        Console.Error.WriteLine(e);
+                        Console.Error.WriteLine("DEBUG: {0}", err);
                     }
                    
                     Exit((int)ErrorCodes.JSON_WRITE_FAILED);
@@ -2291,13 +2305,13 @@ namespace BerryBrew {
 
                 if (! fileName.Equals(@"perls_custom.json")) {
                     if (Debug) {
-                        Console.Error.WriteLine("Not restoring the '{0}' config file.", fileName);
+                        Console.Error.WriteLine("DEBUG: Not restoring the '{0}' config file.", fileName);
                     }
                     continue;
                 }
 
                 if (Debug) {
-                    Console.WriteLine("Restoring the '{0}' config file.", fileName);
+                    Console.WriteLine("DEBUG: Restoring the '{0}' config file.", fileName);
                 }
                 string destFile = Path.Combine(configPath, fileName);
                 File.Copy(s, destFile, true);

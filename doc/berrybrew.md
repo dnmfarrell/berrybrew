@@ -399,7 +399,8 @@ unneeded path elements for a couple of specific tests.
 
 #### trace
 
-Forces the printing of the full stack trace to `STDERR` upon program exit.
+Forces the printing of the full stack trace to `STDERR` upon program exit. We
+also display the exit code, and its name.
 
 Like `debug`, it needs to be the first argument, with all other command
 arguments following it. Only `debug` should preceed it.
