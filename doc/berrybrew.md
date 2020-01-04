@@ -42,6 +42,7 @@ maintainers of this software.
 - [register-orphans](#register-orphans)
 - [test](#test)
 - [trace](#trace)
+- [status](#status)
 
 ### Command Usage
 
@@ -420,5 +421,13 @@ Examples:
 - Trace and Debug:
 
     `berrybrew debug trace remove 5.10.1_32`
+
+#### status
+
+Displays the exit code information on exit.
+
+Usage: `berrybrew status <command> [options]`.
+
+If `debug` is also used, the `status` command must follow it.
 
 &copy; 2017-2019 by Steve Bertrand

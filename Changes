@@ -28,7 +28,9 @@ Revision history for berrybrew
           for testing
         - Added 'trace' feature. When set, we display the entire stack trace
           to `STDERR`                                        
-          
+        - Added 'status' feature. Displays the exit status code and its name
+          when exiting the program
+                    
 1.30    2019-12-25
         - updated docs to reflect ability to remove berrybrew using
           Add/Remove Programs (closes #209)

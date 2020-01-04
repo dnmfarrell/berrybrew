@@ -86,6 +86,7 @@ namespace BerryBrew {
         public bool Debug { set; get; }
         public bool Testing { set; get; }
         public bool Trace { set; get; }
+        public bool Status { set; get; }
 
         public readonly Message Message = new Message();
         private readonly OrderedDictionary _perls = new OrderedDictionary();
@@ -598,12 +599,26 @@ namespace BerryBrew {
                     MethodBase info = frame.GetMethod();
                     Console.Error.WriteLine("\t{0}.{1}", info.ReflectedType.FullName, info.Name);
                 } 
+
                 string exitCodeName = Enum.GetName(typeof(Berrybrew.ErrorCodes), exitCode);
+
                 if (exitCodeName == null) {
                     exitCodeName = "EXTERNAL_PROCESS_ERROR";
                 }
+
                 Console.Error.WriteLine("\nExit code:\n\t{0} - {1}", exitCode, exitCodeName);
             }
+            
+            if (Status) {
+                string exitCodeName = Enum.GetName(typeof(Berrybrew.ErrorCodes), exitCode);
+
+                if (exitCodeName == null) {
+                    exitCodeName = "EXTERNAL_PROCESS_ERROR";
+                }
+
+                Console.Error.WriteLine("\nExit code:\n\t{0} - {1}", exitCode, exitCodeName);
+            }
+
             Environment.Exit(exitCode);
         }
  

@@ -34,6 +34,11 @@ namespace berrybrew {
                 args = args.Skip(1).ToArray();
             }
 
+            if (args.Length != 0 && args[0] == "status") {
+                bb.Status = true;
+                args = args.Skip(1).ToArray();
+            }
+
             if (args.Length == 0){
                 bb.Message.Print("help");
                 bb.Exit(0);
