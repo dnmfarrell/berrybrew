@@ -114,6 +114,7 @@ namespace berrybrew {
                 case "error":
                     if (args.Length == 1) {
                         bb.Message.Error("error_number_required");
+                        Environment.Exit(-1);
                     }
 
                     string errorName = Enum.GetName(typeof(Berrybrew.ErrorCodes), Int32.Parse(args[1]));
