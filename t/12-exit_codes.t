@@ -62,7 +62,7 @@ my %err_nums = reverse %err_codes;
 my @valid_codes = split /\n/, `$c error-codes`;
 
 for (2, 255, -5) {
-    like `$c error $_`, qr/UNDEFINED_ERROR_CODE/, "errcode $_ eq UNDEFINED_ERROR_CODE ok";
+    like `$c error $_`, qr/EXTERNAL_PROCESS_ERROR/, "errcode $_ eq EXTERNAL_PROCESS_ERROR ok";
 }
 
 for my $n (@valid_codes) {

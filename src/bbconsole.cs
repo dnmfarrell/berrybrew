@@ -130,7 +130,7 @@ namespace berrybrew {
 
                     string errorName = Enum.GetName(typeof(Berrybrew.ErrorCodes), Int32.Parse(args[1]));
                     if (errorName == null) {
-                        errorName = "UNDEFINED_ERROR_CODE";
+                        errorName = "EXTERNAL_PROCESS_ERROR";
                     }
                     Console.WriteLine("\nError Code {0}: {1}\n", args[1], errorName);
                     bb.Exit(0);

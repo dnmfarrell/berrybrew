@@ -599,6 +599,9 @@ namespace BerryBrew {
                     Console.Error.WriteLine("\t{0}.{1}", info.ReflectedType.FullName, info.Name);
                 } 
                 string exitCodeName = Enum.GetName(typeof(Berrybrew.ErrorCodes), exitCode);
+                if (exitCodeName == null) {
+                    exitCodeName = "EXTERNAL_PROCESS_ERROR";
+                }
                 Console.Error.WriteLine("\nExit code:\n\t{0} - {1}", exitCode, exitCodeName);
             }
             Environment.Exit(exitCode);
