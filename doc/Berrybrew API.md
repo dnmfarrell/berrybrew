@@ -31,6 +31,7 @@ The `Berrybrew` class is the base of the system.
 [Config](#config)| **public** | Puts `berrybrew.exe` in `PATH`
 [Exec](#exec)| private | Runs commands on all installed Perls
 [ExecCompile](#execcompile)| **public** | Staging for `Exec()`
+[Exit](#exit)| **public** | Custom wrapper for `Environment.Exit()`
 [ExportModules](#exportmodules)| **public** | Export an instaled module list from current Perl
 [Extract](#extract)| private | Extracts Perl installation zip archives
 [Fetch](#fetch)| private | Downloads the Perl installation files
@@ -249,6 +250,16 @@ any Perls that have either `tmpl` or `template` in the name.
 By default, we also skip over all custom (cloned) instances. To have them
 included, set `custom_exec` to `true` by using `berrybrew options custom_exec true`.
 
+#### Exit
+
+    public void Exit(int exitCode)
+    
+        argument:   exitCode
+        value:      Integer, the exit code to return
+        
+Simple wrapper for `Environment.Exit()` which allows for stacktrace information
+and other customization.
+
 #### ExportModules
 
     public void ExportModules()
@@ -263,7 +274,7 @@ file will be the version name of the Perl you're exporting from (eg.
     
 #### Extract
 
-    private static void Extract(StrawberryPerl perl, string tempDir)
+    private void Extract(StrawberryPerl perl, string tempDir)
 
         argument:   perl
         value:      A single instance of the StrawberryPerl class
@@ -789,7 +800,7 @@ usePerlStr.
 
 #### UseInNewWindow
 
-    private static void UseInNewWindow(StrawberryPerl perl, string sysPath, string usrPath)
+    private void UseInNewWindow(StrawberryPerl perl, string sysPath, string usrPath)
 
         argument:   perl
         value:      A single StrawberryPerl object
@@ -805,7 +816,7 @@ with that Perl listed first in the PATH inherited by the new process.
 
 #### UseInSameWindow
 
-    private static void UseInSameWindow(StrawberryPerl perl, string sysPath, string usrPath)
+    private void UseInSameWindow(StrawberryPerl perl, string sysPath, string usrPath)
 
         argument:   perl
         value:      A single StrawberryPerl object

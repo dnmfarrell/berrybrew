@@ -24,7 +24,9 @@ Revision history for berrybrew
           commands
         - Moved all of the hidden command details to the berrybrew doc, and
           left a reference to them in the README
-                              
+        - Added Exit(), a wrapper for Environment.Exit(), and 'exit' command
+          for testing
+                                        
 1.30    2019-12-25
         - updated docs to reflect ability to remove berrybrew using
           Add/Remove Programs (closes #209)

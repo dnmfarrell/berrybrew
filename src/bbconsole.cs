@@ -111,6 +111,14 @@ namespace berrybrew {
                     Environment.Exit(0);
                     break;
 
+                case "exit":
+                    if (args.Length == 1) {
+                        Console.Error.WriteLine("'exit' requires an error code integer\n");
+                        Environment.Exit(-1);
+                    }
+                    bb.Exit(args[1]);
+                    break;
+
                 case "error":
                     if (args.Length == 1) {
                         bb.Message.Error("error_number_required");
