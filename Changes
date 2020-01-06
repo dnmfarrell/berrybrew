@@ -30,7 +30,8 @@ Revision history for berrybrew
           to `STDERR`                                        
         - Added 'status' feature. Displays the exit status code and its name
           when exiting the program
-                    
+        - Zipped up NSIS directory
+                            
 1.30    2019-12-25
         - updated docs to reflect ability to remove berrybrew using
           Add/Remove Programs (closes #209)
