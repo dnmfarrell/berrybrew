@@ -430,4 +430,4 @@ Usage: `berrybrew status <command> [options]`.
 
 If `debug` is also used, the `status` command must follow it.
 
-&copy; 2017-2019 by Steve Bertrand
+&copy; 2016-2020 by Steve Bertrand

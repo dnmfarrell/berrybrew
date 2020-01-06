@@ -16,7 +16,22 @@ outside of the single-line approach
 a clone 
 - Install() now exits with failure and displays an error message if
 trying to install an already-installed Perl
-                    
+- Added 'error-codes' hidden command, returns all valid exit status
+code values
+- Made 'bypassOrphanCheck' object property public so we can set it
+from within the berrybrew binary ('error-codes' specifically)
+- Added 'hidden' command to berrybrew, displays all of the hidden
+commands
+- Moved all of the hidden command details to the berrybrew doc, and
+left a reference to them in the README
+- Added Exit(), a wrapper for Environment.Exit(), and 'exit' command
+for testing
+- Added 'trace' feature. When set, we display the entire stack trace
+to `STDERR`                                        
+- Added 'status' feature. Displays the exit status code and its name
+when exiting the program
+- Zipped up NSIS directory
+                            
 1.30    2019-12-25
 - updated docs to reflect ability to remove berrybrew using
 Add/Remove Programs (closes #209)

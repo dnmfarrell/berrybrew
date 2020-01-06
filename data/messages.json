@@ -176,14 +176,39 @@
     ]
 },
 {
+    "label": "hidden",
+
+    "content": [
+
+        "",
+        "berrybrew <command> [subcommand] [option]",
+        "",
+        "",
+        "    currentperl            Print the name of the Perl currently in use",
+        "    info                   Displays directory path information about the installation",
+        "    error                  Displays the name of an exit status number",
+        "    error-codes            Displays the list of valid exit codes, one per line",
+        "    exit                   Test the exit routine by supplying an exit code",
+        "    options-update         Adds any newly added config file directives to the Registry",
+        "    options-update-force   Reloads the entire configuration file into the Registry",
+        "    register-orphans       Registers all orphan Perls at once",
+        "    test                   Sets test platform information when running unit tests",
+        "    trace                  Displays the full stack trace and exit code on exit",
+        "    status                 Displays the exit code and its reference name on exit",
+        "    ",
+        "",
+        "",
+        "    * - view subcommand details with 'berrybrew <command> help'"
+    ]
+},   
+{
     "label": "license",
 
     "content": [
 
         "",
-        "This software is Copyright (c) 2014 by David Farrell.",
-        "",
-        "Versions in the format 'n.nn' Copyright (c) 2017 by Steve Bertrand.",
+        "Copyright (c) 2014 by David Farrell.",
+        "Copyright (c) 2016-2020 by Steve Bertrand.",
         "",
         "This is free software, licensed under:",
         "",
