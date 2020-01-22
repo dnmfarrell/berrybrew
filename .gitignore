@@ -21,6 +21,6 @@ obj/
 packages/
 *.vbs
 perl/
-.gitattributes
+#.gitattributes
 *.swp
 *~
