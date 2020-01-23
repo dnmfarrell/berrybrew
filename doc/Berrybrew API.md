@@ -29,7 +29,7 @@ The `Berrybrew` class is the base of the system.
 |---|---|---|
 [Available](#available)| **public** | Displays all available Perls
 [AvailableList](#availablelist)| **public** | Returns a list of available Perl names
-[BaseConfig](#baseconfig)| **private** | Initializes the registry-based configuration
+[BaseConfig](#baseconfig)| private | Initializes the registry-based configuration
 [CheckName](#checkname)| internal | Validates the name of a custom Perl install
 [CheckRootDir](#checkrootdir)| private | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
