@@ -1,9 +1,11 @@
 ## Compile Your Own 
 
+# Get the distribution
+
     git clone https://github.com/stevieb9/berrybrew
     cd berrybrew
     
-    # compile the API library
+# Compile the API library
 
     mcs \
         -lib:bin \
@@ -12,7 +14,7 @@
         -out:bin/bbapi.dll \
         src/berrybrew.cs
 
-    # compile the berrybrew.exe binary
+# Compile the berrybrew.exe binary
 
     mcs \
         src/bbconsole.cs
@@ -20,6 +22,8 @@
         -r:bbapi.dll \
         -out:bin/berrybrew.exe \
         -win32icon:inc/berrybrew.ico
+
+# Compile the UI
 
     csc \
         -lib:build \
