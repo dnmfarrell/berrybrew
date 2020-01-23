@@ -12,7 +12,7 @@ versions of Strawberry Perl for Windows. There is no
 [requirement](https://github.com/stevieb9/berrybrew#requirements "berrybrew requirements")
 to have Strawberry Perl installed before using `berrybrew`.
 
-you can use the **bb** command as a short hand name for **berrybrew**.
+Use the **bb** command as a short hand name for **berrybrew**.
 
 There is extensive documentation available for the
 [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
