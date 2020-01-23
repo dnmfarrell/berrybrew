@@ -6,6 +6,7 @@ use Digest::SHA qw(sha1);
 use File::Find::Rule;
 use File::Copy;
 use JSON::PP;
+use Test::More;
 
 use constant {
     INSTALLER_SCRIPT => 'dev/create_installer.nsi',
@@ -30,8 +31,50 @@ create_changes();
 update_installer_script();
 create_installer();
 update_readme();
+check_readme();
 finish();
+done_testing();
 
+sub check_readme {
+    open my $fh, '<', 'README.md' or die "Can't open README: $!";
+    my ($bb_sha, $inst_sha, $readme_ver);
+    my $ver = _berrybrew_version();
+    my $c = 0;
+
+    while (<$fh>) {
+
+        if (/^\[berrybrew\.zip/) {
+            if (/^\[berrybrew\.zip.*`SHA1:\s+(.*)`/) {
+                $bb_sha = $1;
+            }
+            like $bb_sha, qr/[A-Fa-f0-9]{40}/, "berrybrew SHA1 ok";
+        }
+       
+        if (/^\[berrybrewInstaller\.exe/) {
+            if (/^\[berrybrewInstaller\.exe.*`SHA1:\s+(.*)`/) {
+                $inst_sha = $1;
+                print(length($1));
+            }
+            like $inst_sha, qr/[A-Fa-f0-9]{40}/, "berrybrew installer SHA1 ok";
+        }
+        
+        if (/## Version/) {
+            $c++;
+            next;
+        }
+        if ($c == 1) {
+            $c++;
+            next;
+        }
+        if ($c == 2) {
+            if (/(\d+\.\d+)/) {
+                $readme_ver = $1;
+            }
+            is $readme_ver, $ver, "Version was updated ok";
+            $c++;
+        }
+    }        
+}
 sub backup_configs {
 
     if (!-d $bak_dir) {
