@@ -144,7 +144,8 @@ namespace berrybrew {
                 case "error-codes":
                     bb.bypassOrphanCheck = true;
                     foreach (int code in Enum.GetValues(typeof(Berrybrew.ErrorCodes))) {
-                        Console.WriteLine(code);
+                        string exitCodeName = Enum.GetName(typeof(Berrybrew.ErrorCodes), code);
+                        Console.WriteLine("{0} - {1}", code, exitCodeName);
                     }
                     break;
     
