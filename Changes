@@ -9,6 +9,7 @@ Revision history for berrybrew
           foreach etc). This prevents adding additional statements that fall
           outside of the single-line approach
         - All methods and commands now exit with a proper error code
+          (closes #236)
         - All paths now exit with an appropriate success or error status
           (closes #239)
         - Added 'error' command, translates error codes to their names
@@ -37,6 +38,8 @@ Revision history for berrybrew
           to Msg.Print() from Msg.Say() so that it doesn't exit the program.
           The exit was causing the UI to exit as well (fixes #243)
         - error-codes now displays the exit code number as well as its name
+        - Compress NSIS directory; Can be extracted when required to build the
+          installer
 
 1.30    2019-12-25
         - updated docs to reflect ability to remove berrybrew using
