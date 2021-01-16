@@ -32,7 +32,8 @@ Revision history for berrybrew
           when exiting the program
         - Added tests in release.pl to verify that SHA checksums and version
           information in README was updated correctly
-                                      
+        - Bumped SSL security to TLS2 for the WebClient() (fixes #248)
+
 1.30    2019-12-25
         - updated docs to reflect ability to remove berrybrew using
           Add/Remove Programs (closes #209)

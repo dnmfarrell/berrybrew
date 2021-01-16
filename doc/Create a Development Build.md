@@ -19,6 +19,9 @@ Use the new development build:
 
     `build\berrybrew.exe command [options]`
 
+- if modifying the config file, do a `berrybrew options-update-force` for the
+updated directives to be pushed up into the registry
+
 #### UI only
 
 - run the `dev\build_ui.bat` script, which compiles the UI binary. If not done

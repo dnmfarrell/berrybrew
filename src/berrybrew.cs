@@ -1884,7 +1884,9 @@ namespace BerryBrew {
         public void PerlUpdateAvailableList() {
 
             Console.WriteLine("Attempting to fetch the updated Perls list...");
-            
+
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             using (WebClient client = new WebClient()) {
                 string jsonData = null;
 
