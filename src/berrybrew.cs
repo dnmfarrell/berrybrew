@@ -137,7 +137,11 @@ namespace BerryBrew {
                 registrySubKey += "-build";
             }
 
-            // set initial registry configuration if it's not already done 
+            // set the SSL security protocol
+
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            // set initial registry configuration if it's not already done
 
             BaseConfig();
 
@@ -1884,8 +1888,6 @@ namespace BerryBrew {
         public void PerlUpdateAvailableList() {
 
             Console.WriteLine("Attempting to fetch the updated Perls list...");
-
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             using (WebClient client = new WebClient()) {
                 string jsonData = null;
