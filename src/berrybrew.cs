@@ -17,7 +17,7 @@ using System.Text.RegularExpressions;
 namespace BerryBrew {
     public class Berrybrew {
 
-        // prepares a etting change message to reconfigure PATH
+        // prepares a setting change message to reconfigure PATH
         
         [DllImport("shell32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
@@ -222,7 +222,7 @@ namespace BerryBrew {
                 }
                 Console.Write("\n");
             }
-            Message.Say("available_footer");
+            Message.Print("available_footer");
         }
 
         public List<string> AvailableList(bool allPerls=false) {
@@ -1127,7 +1127,6 @@ namespace BerryBrew {
             }
             
             Available();
-            Exit(0);
         }
 
         private dynamic JsonParse(string type, bool raw=false) {

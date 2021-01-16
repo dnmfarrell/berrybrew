@@ -136,13 +136,13 @@ public class BBUI : System.Windows.Forms.Form {
             System.Windows.Forms.MessageBox.Show("No Perl selected to install!");
             return;         
         }       
-        
+
         string perlName = perlInstallSelect.Text;
         bb.Install(perlName);
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
         DrawComponents();
-    }  
+    }
      
     private void InitializePerlSwitchButton() {
         this.perlSwitchButton = new System.Windows.Forms.Button();
@@ -215,11 +215,11 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void PerlInstallSelect_Redraw() {
         perlInstallSelect.Items.Clear();
-        
-         foreach (string perlName in bb.AvailableList()) {
-             this.perlInstallSelect.Items.Add(perlName );           
-         }       
-        
+
+        foreach (string perlName in bb.AvailableList()) {
+            this.perlInstallSelect.Items.Add(perlName );
+        }
+
          perlInstallSelect.SelectedIndex = -1;
     }
       
