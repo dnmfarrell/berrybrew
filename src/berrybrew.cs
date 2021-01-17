@@ -1113,7 +1113,7 @@ namespace BerryBrew {
             StrawberryPerl perl = PerlResolveVersion(version);
 
             if (PerlIsInstalled(perl)) {
-                Console.Error.WriteLine("Perl version {0} is already installed.");
+                Console.Error.WriteLine("Perl version {0} is already installed.", perl.Name);
                 Exit((int)ErrorCodes.PERL_ALREADY_INSTALLED);
             }
 
