@@ -325,6 +325,9 @@ set to `unset`, we'll revert it back to the way it was prior to a `set` call.
 
 If `action` is left default, we'll display to the console the current setting.
 
+If you do not have elevated administrative privileges, we return early and do
+nothing.
+
 Set `quiet` to prevent the default action from displaying output.
 
 #### FileRemove

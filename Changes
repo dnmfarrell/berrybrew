@@ -40,6 +40,8 @@ Revision history for berrybrew
         - error-codes now displays the exit code number as well as its name
         - Compress NSIS directory; Can be extracted when required to build the
           installer
+        - Prevent FileAssoc() from exiting when not running as administrator
+          (fixes #246)
 
 1.30    2019-12-25
         - updated docs to reflect ability to remove berrybrew using

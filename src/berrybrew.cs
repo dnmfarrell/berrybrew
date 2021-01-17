@@ -958,12 +958,15 @@ namespace BerryBrew {
                 }
             }
             catch (UnauthorizedAccessException err) {
-                Console.Error.WriteLine("\nChanging file associations requires Administrator privileges");
-
+                if (! quiet) {
+                    Console.Error.WriteLine("\nChanging file associations requires Administrator privileges");
+                }
                 if (Debug) {
                     Console.Error.WriteLine("DEBUG: {0}", err);
                 }
-                Exit((int)ErrorCodes.ADMIN_FILE_ASSOC);
+                /* Commented out due to issue #246
+                * Exit((int)ErrorCodes.ADMIN_FILE_ASSOC);
+                */
             }
         }
 
