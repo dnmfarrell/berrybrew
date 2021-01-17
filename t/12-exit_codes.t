@@ -59,14 +59,21 @@ my %err_codes = (
 
 my %err_nums = reverse %err_codes;
 
-my @valid_codes = split /\n/, `$c error-codes`;
+my @output = split /\n/, `$c error-codes`;
+my %ret_codes;
+
+for my $line (@output) {
+    my ($code, $err) = $line =~ /^(.*)\s+-\s+(\w+)$/;
+    $ret_codes{$code} = $err;
+}
 
 for (2, 255, -5) {
     like `$c error $_`, qr/EXTERNAL_PROCESS_ERROR/, "errcode $_ eq EXTERNAL_PROCESS_ERROR ok";
 }
 
-for my $n (@valid_codes) {
-    like `$c error $n`, qr/$n:.*$err_nums{$n}/, "errcode $err_nums{$n} eq $n ok";
+for my $n (keys %ret_codes) {
+    my $ret = `$c error $n`;
+    like $ret, qr/$n:.*$err_nums{$n}/, "errcode $err_nums{$n} eq $n ok";
 }
 
 done_testing();
