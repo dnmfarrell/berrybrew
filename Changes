@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.31 UNREL
+1.31    2021-01-21
     - Fix issue where on first-run BaseConfig(), if the system didn't have
       a file association set for the .pl file type, we'd attempt to send
       in a null value to Options() for the file_assoc which threw an
@@ -44,6 +44,7 @@ Revision history for berrybrew
       (fixes #246)
     - Fix issue where the name of the perl version wasn't being displayed
       if that version was already installed
+    - Disabled file association checkbox in installer due to issue #246)
 
 1.30    2019-12-25
     - updated docs to reflect ability to remove berrybrew using

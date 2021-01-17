@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.31 UNREL
+1.31    2021-01-21
 - Fix issue where on first-run BaseConfig(), if the system didn't have
 a file association set for the .pl file type, we'd attempt to send
 in a null value to Options() for the file_assoc which threw an
@@ -9,11 +9,12 @@ InvalidArgument exception (fixes #237)
 foreach etc). This prevents adding additional statements that fall
 outside of the single-line approach
 - All methods and commands now exit with a proper error code
+(closes #236)
 - All paths now exit with an appropriate success or error status
 (closes #239)
 - Added 'error' command, translates error codes to their names
 - Added a display statement to inform the user that we're attempting
-a clone 
+a clone
 - Install() now exits with failure and displays an error message if
 trying to install an already-installed Perl
 - Added 'error-codes' hidden command, returns all valid exit status
@@ -27,11 +28,24 @@ left a reference to them in the README
 - Added Exit(), a wrapper for Environment.Exit(), and 'exit' command
 for testing
 - Added 'trace' feature. When set, we display the entire stack trace
-to `STDERR`                                        
+to `STDERR`
 - Added 'status' feature. Displays the exit status code and its name
 when exiting the program
-- Zipped up NSIS directory
-                            
+- Added tests in release.pl to verify that SHA checksums and version
+information in README was updated correctly
+- Bumped SSL security to TLS2 for the WebClient() (fixes #248)
+- Remove Exit() from install click in UI, and modified Available()
+to Msg.Print() from Msg.Say() so that it doesn't exit the program.
+The exit was causing the UI to exit as well (fixes #243)
+- error-codes now displays the exit code number as well as its name
+- Compress NSIS directory; Can be extracted when required to build the
+installer
+- Prevent FileAssoc() from exiting when not running as administrator
+(fixes #246)
+- Fix issue where the name of the perl version wasn't being displayed
+if that version was already installed
+- Disabled file association checkbox in installer due to issue #246)
+
 1.30    2019-12-25
 - updated docs to reflect ability to remove berrybrew using
 Add/Remove Programs (closes #209)
@@ -78,13 +92,13 @@ along with 'upgrade' make a call to 'OptionsUpdate()' (closes #225)
 - added ability to change Perl instance root directory in the
 installer (closes #208)
 - added "Run UI at startup" option in installer
-- added bb.exe, a short-form for the full berrybrew command 
-(closes #226) 
+- added bb.exe, a short-form for the full berrybrew command
+(closes #226)
 - update Configuration document with pertinent information regarding
 the new registry configuration system (closes #222)
 - full documentation review and updates (closes #223)
 - installer no longer requires on "PROGRAMFILES", which allows the
-uninstaller to operate on the correct install directory (closes #228)                            
+uninstaller to operate on the correct install directory (closes #228)
 - uninstaller now removes top-level install directory (closes #229)
 - fix issue in OptionsUpdate() where we were updating registry values
 where we shouldn't be, due to not scoping an if() statement
@@ -148,7 +162,7 @@ installer script (closes #189)
 - added 'berrybrew virtual' command; allows using external perls (eg.
 installed system Active State) from within berrybrew. Useful for
 bypassing berrybrew switched perls without having to disable berrybrew
-entirely 
+entirely
 - added new 'berrybrew switch x.xx quick' argument, allows switching
 to a new perl without needing to open a new console window (some
 functionality may suffer until a new window is actually opened though)
@@ -158,7 +172,7 @@ of just a string for .Net 4.6 compliance
 just a char for .Net 4.6 compliance
 - updated dev\release.pl to create a Changes markdown file for ease
 of online viewing
-                  
+
 1.25    2019-08-30
 - fix typo in API doc (fixes #163)
 - added new testing environment variables (set in t\setup_test_env.bat)
@@ -186,7 +200,7 @@ unattended installations (closes #173)
 the wrong branch (fixes #147)
 - removed the "update dnmfarrell repo" section from README; it's been
 moved to the "create a release" doc (closes #146)
-- "Compile your own" link wasn't directing to the proper doc 
+- "Compile your own" link wasn't directing to the proper doc
 (closes #148)
 - added "dev" and "all" to the "clean" operation (closes #149)
 - added t/99_clean.t for testing the "berrybrew clean dev" feature
@@ -204,7 +218,7 @@ instructions
 - corrected issue in ExecCompile(), where if we're using --with to exec
 with only one perl instance, it wasn't filtering correctly
 - added ExportModules(), saves the current perl's module list for import
-later in a different perl (work on #150)          
+later in a different perl (work on #150)
 - added CleanModules() with new `berrybrew clean modules` to clean up
 the exported module list directory
 - added ImportModules(), ImportModulesExec(), modules export and
@@ -214,15 +228,15 @@ functionality (closes #150)
 - added new "currentperl" hidden command which displays which Perl
 is currently in use. Changed "PerlInUse()" from private to public to
 facilitate the new feature
-- bumped perls.json to include the new 5.30 Perl release          
+- bumped perls.json to include the new 5.30 Perl release
 - several other minor issues closed (mostly small doc fixes etc)
-          
+
 1.22    2018-11-05
 - clarifications and updates to the "Create a Release" doc (closes #137)
 - major, sweeping code refactoring: method privileges, exception
 handling, variable renaming to conform to C# standards etc
 - update API doc with all relevant changes due to the code refactoring
-- update PerlUpdateAvailableListOrphans() details in API doc 
+- update PerlUpdateAvailableListOrphans() details in API doc
 (closes #140)
 - added PerlsInstalled() method to API doc (closes #139)
 - added PathGetUsr() method to API doc (closes #138)
@@ -232,10 +246,10 @@ directories are now located under a "build" dir, as opposed to the
 platform from the development build one (closes #114)
 - added "developed using" section in README (closes #141)
 - add new "dev\build_tests.bat" script that the "t\test.bat" script
-calls to set up the unit test environment. We used to call 
+calls to set up the unit test environment. We used to call
 "t\build.bat", but since changing the dev build system, we needed to
 separate the functionality (fixes #143)
-          
+
 1.21    2018-11-04
 - updated CONTRIBUTING doc (closes #128)
 - moved the "Compile your own installation", "Create a dev build", and
@@ -266,7 +280,7 @@ before running tests (fixes #118)
 (closes #123)
 - fix a missed exception handling in List() when no Perls are installed
 (fixes #117)
-                  
+
 1.19    2018-11-01
 - integrated hurricup's PR#107, which includes changes required in
 preparation for berrybrew's inclusion within the Camelcade Perl5
@@ -277,14 +291,14 @@ intelliJ IDEA plugin
 - fix typo in "exec --with" section in SYNOPSIS (fixes #115)
 - added "list" command to docs (bin/API) and README (closes #111)
 - add "Uninstall" section in README (closes #106)
-         
+
 1.18    2018-02-16
 - Perls listed with "berrybrew available" are now listed in numerical,
 descending order (closes #101) (thanks @shawnlaffan for the
 report!)
 - fixed issue where the orphaned Perls that were installed prior to
 using "fetch" weren't being registered as custom correctly (required
-two calls to "fetch"). To fix, added new 
+two calls to "fetch"). To fix, added new
 PerlUpdateAvailableListOrphans()(closes #102; closes #99) (Thanks
 @pryrt for the report!)
 - added ability to fetch every single Perl version Strawberry has to
@@ -292,7 +306,7 @@ offer with the new "all" argument to "berrybrew fetch" (closes #100;
 closes #103) (thanks @pryrt for the report!)
 - fix issue where we were missing an exception if trying to register
 the same custom version of Perl more than once (fixes #104)
-          
+
 1.17    2017-10-04
 - task information displayed during install operation is now in logical
 order (fixes #95)
@@ -309,12 +323,12 @@ UseCompile() was "internal" and should be "public"
 - gracefully catch a download problem and report to the user
 (closes #63)
 - fix small typo in README (closes #89)
-- gracefully let user know that berrybrew can't be installed in 
+- gracefully let user know that berrybrew can't be installed in
 c:\berrybrew on "config" (fixes #55)
 - consolodated version info. Only hardcoded in the berrybrew.cs file.
 Removed it from messages.json, and updated release.pl script to bump
 the version in the README at release time (closes #86)
-- replaced calls, where appropriate to PathGet() instead of 
+- replaced calls, where appropriate to PathGet() instead of
 PathRemovePerl(process=false) for clarity (closes #91)
 
 1.15    2017-07-28
@@ -325,7 +339,7 @@ successful registration (closes #79)
 - use will both output each Perl specified if it's not installed, then
 warn and exit if none of the specified versions are installed
 (closes #83)
-- bumped versions of Perl in doc examples to reflect current 
+- bumped versions of Perl in doc examples to reflect current
 availability
 
 1.14    2017-07-28
@@ -351,7 +365,7 @@ installs that happened outside of berrybrew (closes #70)
 more work to be done here, but it's already much better
 - changed the bracing syntax. I dislike the opening brace on a separate
 line
-                              
+
 1.12    2017-03-31
 - fix local links in the markdown in the documentation
 - added "berrybrew fetch" (PerlUpdateAvailableList()). This function
@@ -422,7 +436,7 @@ implement backup/restore functionality
 the actual root dir of the repo
 
 1.05    2016-07-18
-- updated dev/release.pl to put default config files in place before 
+- updated dev/release.pl to put default config files in place before
 commit/zip
 - added dev/post_release.pl to restore the backups
 - 'exec' no longer will process perls with either 'tmpl' or 'template'
@@ -441,9 +455,8 @@ accidentally remove custom installs as orphans
 - added release.pl and removed release.sh
 
 1.03    2016-07-16
-- added debug support within API. Set within the data\config.json file. 
-For the API, call ``obj.Debug = bool;'', for the CLI, 
-``berrybrew debug ...''
+- added debug support within API. Set within the data\config.json file.
+For the API, call ``obj.Debug = bool;'', for the CLI, ``berrybrew debug ...''
 - major code restructuring
 - cleaned up Exec() PATH configuration (closes #10, #12 and #23)
 - removed Dir class, path info now stored in member variables
