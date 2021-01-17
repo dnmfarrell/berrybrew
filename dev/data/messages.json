@@ -136,7 +136,7 @@
 {
     "label": "perl_orphans",
     "content": [
-        "\norphaned perl installations: "
+        "\nOrphaned Perl installations:\n"
     ]
 },
 {
@@ -191,6 +191,7 @@
         "    exit                   Test the exit routine by supplying an exit code",
         "    options-update         Adds any newly added config file directives to the Registry",
         "    options-update-force   Reloads the entire configuration file into the Registry",
+        "    orphans                Display all orphaned Perl instances that aren't registered",
         "    register-orphans       Registers all orphan Perls at once",
         "    test                   Sets test platform information when running unit tests",
         "    trace                  Displays the full stack trace and exit code on exit",

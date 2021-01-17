@@ -1,7 +1,8 @@
 Revision history for berrybrew
 
 1.32 UNREL
-    -
+    - Added 'warn_orphans' config/option directive, default false. Prevents
+      the orphaned perls warning, except when 'list' is called (closes #251)
 
 1.31    2021-01-21
     - Fix issue where on first-run BaseConfig(), if the system didn't have
