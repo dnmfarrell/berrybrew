@@ -104,7 +104,7 @@ namespace BerryBrew {
         private bool windowsHomedir;
         
         private bool customExec;
-        public bool bypassOrphanCheck;
+        public bool bypassOrphanCheck = false;
 
         private const int MaxPerlNameLength = 25;
 
@@ -125,7 +125,8 @@ namespace BerryBrew {
                 "custom_exec", 
                 "run_mode",
                 "file_assoc",
-                "file_assoc_old"
+                "file_assoc_old",
+                "warn_orphans",
             }; 
 
             if (binPath.Contains("test")) {
@@ -177,15 +178,7 @@ namespace BerryBrew {
         }
 
         ~Berrybrew(){
-            List<string> orphans = PerlFindOrphans();
-
-            if (orphans.Count > 0 && ! bypassOrphanCheck) {
-                string orphanedPerls = Message.Get("perl_orphans");
-                Console.WriteLine("\nWARNING! {0}\n\n", orphanedPerls.Trim());
-                foreach (string orphan in orphans) {
-                    Console.WriteLine("  {0}", orphan);
-                }
-            }
+            OrphanedPerls();
         }
  
         public void Available(bool allPerls=false) {
@@ -298,6 +291,10 @@ namespace BerryBrew {
 
             if ((string) registry.GetValue("debug", "false") == "true") {
                 Debug = true;
+            }
+
+            if ((string) registry.GetValue("warn_orphans", "false") == "false") {
+                bypassOrphanCheck = true;
             }
 
             FileAssoc("", true);
@@ -1256,6 +1253,9 @@ namespace BerryBrew {
             List<int> nameLengths = new List<int>();
             List<StrawberryPerl> installedPerls = PerlsInstalled();
 
+            // Ensure we list orphaned Perls
+            bypassOrphanCheck = false;
+
             if (! installedPerls.Any()) {
                 Console.Error.Write("\nNo versions of Perl are installed.\n");
                 Exit((int)ErrorCodes.PERL_NONE_INSTALLED);
@@ -1378,6 +1378,17 @@ namespace BerryBrew {
                     Console.Error.WriteLine("DEBUG: {0}", err);
                 }
                 Exit((int)ErrorCodes.ADMIN_BERRYBREW_INIT);
+            }
+        }
+
+        public void OrphanedPerls() {
+            List<string> orphans = PerlFindOrphans();
+
+            if (orphans.Count > 0 && ! bypassOrphanCheck) {
+                Message.Print("perl_orphans");
+                foreach (string orphan in orphans) {
+                    Console.WriteLine("  {0}", orphan);
+                }
             }
         }
 
