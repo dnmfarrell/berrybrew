@@ -1,0 +1,305 @@
+# berrybrew
+
+The perlbrew for Windows Strawberry Perl! 
+
+###### [Click here to download the installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
+
+For a quick-start, jump to the [Install](#install) and [Commands](#commands)
+sections.
+
+`berrybrew` can download, install, remove and manage multiple concurrent
+versions of Strawberry Perl for Windows. There is no 
+[requirement](https://github.com/stevieb9/berrybrew#requirements "berrybrew requirements")
+to have Strawberry Perl installed before using `berrybrew`.
+
+Use the **bb** command as a short hand name for **berrybrew**.
+
+There is extensive documentation available for the
+[berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+application, as well as the 
+[Berrybrew API](https://github.com/stevieb9/berrybrew/blob/master/doc/Berrybrew%20API.md).
+See [SEE ALSO](https://github.com/stevieb9/berrybrew#see-also) for the
+full list of documentation.
+
+## Table of Contents
+
+- [Install](#install)
+- [Uninstall](#uninstall)
+- [Configuration](#configuration)
+- [Commands](#commands)
+- [Examples](#examples)
+- [Upgrading](#upgrading)
+- [Update Perls Available](#update-perls-available)
+- [Configure Perl Instance Directory](#configure-root-directory)
+- [Requirements](#requirements)
+- [Troubleshooting](#troubleshooting)
+- [Documentation](#see-also)
+- [Developed Using](#developed-using)
+- [Caveats](#caveats)
+- [License](#license)
+- [Version](#version)
+- [Hidden Features](#hidden-commands)
+
+## Install
+
+##### Self-installing executable
+
+The easiest and most straight forward method.
+
+[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 86162dbd4bca3dc5e8e47780a7b4e662289642bc`
+
+##### Git clone
+
+    git clone https://github.com/stevieb9/berrybrew
+    cd berrybrew
+    bin\berrybrew.exe config
+
+##### Pre-built zip archive
+
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: b17ce4c0cdad4ca8f095ebb8a44364a028dcb231`
+
+After extraction:
+
+    cd berrybrew
+    bin\berrybrew.exe config
+
+#### Compile your own
+    
+You can also [Compile your own](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
+installation.
+
+## Uninstall
+
+If you used the self-extracting installer, simply run the uninstaller from
+either `Add/Remove Programs` in the Control Panel, or the `uninst.exe`
+uninstaller program located in the installation directory.
+
+If you installed via any other method:
+
+First, run the `berrybrew associate unset` if you're managing the `.pl` file
+association with `berrybrew`.
+
+Then, run the `berrybrew unconfig` command which removes the `PATH` environment
+variables for any in-use Perl installation, and then removes `berrybrew` from
+the `PATH` as well.
+
+If you wish to delete the actual installation:
+
+- Stop the UI if it's running (right-click the System Tray Icon, and click `Exit`)
+
+- Remove the Perl installation root directory (by default `C:\berrybrew`) 
+
+- Remove the original download directory
+
+- Remove the `HKLM\Software\berrybrew` registry key
+
+- Remove the `HKLM\Software\Microsoft\Windows\Current Version\Run\BerrybrewUI`
+registry value
+
+## Configuration
+
+See the [Configuration](https://github.com/stevieb9/berrybrew/blob/master/doc/Configuration.md)
+document, and the `options` command in the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+documentation.
+
+## Commands
+
+See the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+documentation for a full explanation of all of the following commands.
+
+    berrybrew <command> [subcommand] [option]
+
+    associate *    View and set Perl file association
+    available *    List available Strawberry Perl versions and which are installed
+    list           List installed Strawberry Perl versions
+    clean *        Remove all temporary berrybrew files
+    clone          Make a complete copy of a Perl installation
+    config         Add berrybrew to your PATH
+    exec *         Run a command for every installed Strawberry Perl
+    fetch          Update the list of Strawberry Perl instances available
+    install        Download, extract and install a Strawberry Perl
+    modules *      Export and import a module list from one Perl to install on another
+    options *      Display or set a single option, or display all of them with values
+    off            Disable berrybrew perls (use 'switch' to re-enable)
+    register       Manually register a custom installation directory
+    remove         Uninstall a Strawberry Perl
+    switch *       Switch to use a different Strawberry Perl
+    unconfig       Remove berrybrew from PATH
+    upgrade        Performs a safe upgrade. Requires Git installed
+    use *          Use a specific Strawberry Perl version temporarily
+    virtual        Allow berrybrew to manage an external Perl instance
+    help           Display this help screen
+    license        Show berrybrew license
+    version        Displays the version
+
+
+    * - view subcommand details with 'berrybrew <command> help'
+
+## Examples
+
+See the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+document for usage examples.
+
+## Upgrading
+
+Using the [installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
+is the best and safest way to upgrade your `berrybrew`.
+
+If the new install will not be in the same directory as your previous version, 
+copy any new or differing configuration options in the `data\config.json` file
+from the old instance to the new one, and if you've got a 
+`data\perls_custom.json` or a `data\perls_virtual.json` file, copy them over in
+their entirety.
+
+The next best method is to use `berrybrew upgrade`. This requires Git to be
+installed and in your `PATH`. It will create a `backup_timestamp`
+directory and copy your configuration files into it.
+
+After completion, it'll copy your `perls_custom.json` file back into the `data/`
+directory. The rest of the configuration JSON files will be replaced. If you had
+any customizations within any of the other configuration files, you'll need to
+manually merge those changes back into the updated config file in `data/`.
+
+Doing a straight `git pull` will overwrite your configuration files, so
+back them up first (see [Caveats](#caveats)).
+
+## Update Perls Available
+
+Use `berrybrew fetch` to retrieve the most recent availability list from
+Strawberry Perl. If any new or changed versions are found, we'll update the
+local `perls.json` file with them.
+
+## Configure Root Directory
+
+If using the [installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
+to install from, you'll have the opportunity to configure this option during
+install, and nothing further is required.
+
+Otherwise, follow these directions:
+
+By default, we manage Perls out of the `C:\berrybrew` directory. To 
+change this, modify the `root_dir` value in the `data\config.json` file.
+Use double-backslashes (`\\`) as the path separators. 
+
+WARNING: At this time, it is highly advised not to change this after 
+you've already installed any instances of Perl. This feature is 
+incomplete, and `PATH` and other things don't get properly reset yet.
+If you choose to ignore this, follow this procedure:
+
+- create a new directory in the file system to house the Perl instances
+
+- run `berrybrew options root_dir PATH`, where `PATH` is the full path to the
+directory you'd like to store Perls in
+
+- run `berrybrew options temp_dir PATH`, where `PATH` is the full path to the
+temporary storage area. Typically, this is a directory inside of the `root_dir`
+you set above
+
+- run `berrybrew off`, to flush the `PATH` environment variables
+
+- move all Perl installations from the old path to the new one
+
+- remove the old directory
+
+- run `berrybrew switch $version` to set things back up
+
+## Requirements
+
+- .Net Framework 2.0 or higher
+
+- Windows only!
+
+- [Mono](http://www.mono-project.com) or Visual Studio (only if 
+compiling your own version)
+
+## Troubleshooting
+
+If you run into trouble installing a Perl, try clearing the berrybrew
+cached downloads by running `berrybrew clean`. 
+
+You can also enable debugging to get more verbose output on the command
+line:
+
+    berrybrew debug <command> [options] 
+
+## SEE ALSO
+
+- [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+ Full documentation for the application
+
+- [Berrybrew API](https://github.com/stevieb9/berrybrew/blob/master/doc/Berrybrew%20API.md)
+ API documentation
+
+- [Configuration](https://github.com/stevieb9/berrybrew/blob/master/doc/Configuration.md)
+ Guide to various configuration files and options
+
+- [Compile Your Own Installation](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
+ Guide to compiling `berrybrew` from source
+
+- [Create a Development Build](https://github.com/stevieb9/berrybrew/blob/master/doc/Create%20a%20Development%20Build.md)
+ Guide to creating a development build for testing new functionality
+
+- [Unit Testing](https://github.com/stevieb9/berrybrew/blob/master/doc/Unit%20Testing.md)
+ Documentation for unit testing `berrybrew`
+ 
+- [Create and Publish a Release](https://github.com/stevieb9/berrybrew/blob/master/doc/Create%20a%20Release.md)
+ Guide to creating a release, publishing it as a production install, and
+ setting up the next release branch
+
+## CAVEATS
+
+- When using `git pull` to do an upgrade, your configuration files will
+be overwritten with the defaults. If you have any customizations, make a
+backup of the `data` directory before upgrade, then copy the files back
+to their original location. Note that you may have to manually add any
+new config directives into the original config files. The 
+`perls_custom.json` file used for custom Perl installations (clones) and the
+`perls_virtual.json` file used for virtual Perl installations will never be
+overwritten, and this warning does not apply for them.
+
+- At this time, `berrybrew` requires Administrative privileges to
+operate correctly. This is due to the way Windows forces the System 
+`PATH` to take precedence over User `PATH`.
+
+## Developed Using
+
+|Software|Description|Notes|
+|---|---|---|
+|[Jetbrains Rider](https://www.jetbrains.com/rider/)|.Net IDE|Thanks to their [Open Source Licensing](https://www.jetbrains.com/buy/opensource/)
+|[Jetbrains intelliJ IDEA](https://www.jetbrains.com/idea/)|IDE for Perl coding|Freely available, also comes with the open source license|
+|[Camelcade Perl5 Plugin](https://github.com/Camelcade/Perl5-IDEA)|Perl5 Plugin for intelliJ IDEA||
+|[Devel::Camelcadedb](https://metacpan.org/pod/distribution/Devel-Camelcadedb/lib/Devel/Camelcadedb.pod)|Adds Perl5 debug support for intelliJ IDEA||
+|[Mono](https://www.mono-project.com/)|Open Source .Net Framework||
+|[Mono C# Compiler](https://www.mono-project.com/docs/about-mono/languages/csharp/)|C#|Open Source C# Compiler|
+
+## License
+
+2 Clause FreeBSD - see LICENSE
+
+## Version
+
+   1.31 
+
+## Hidden Commands
+
+Please see the [hidden commands](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md#hidden-commands)
+in the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+document.
+
+You can also get a list of them by running the hidden `berrybrew hidden` command.
+
+## Original Author
+
+David Farrell [http://perltricks.com]
+
+## Current Author 
+
+Steve Bertrand `steveb<>cpan.org`
+
+## See Also
+
+- [StrawberryPerl](http://strawberryperl.com) - Strawberry Perl for
+Windows
+
+- [Perlbrew](http://perlbrew.pl) - the original Perl version manager for
+Unix based systems.

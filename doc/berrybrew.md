@@ -27,6 +27,23 @@
 - [license](#license)
 - [version](#version)
 
+### Hidden Commands
+
+Here are [certain features](#hidden-command-list) that may be useful by the developers and
+maintainers of this software. 
+
+- [currentperl](#currentperl)
+- [error](#error)
+- [error-codes](#error-codes)
+- [exit](#exit)
+- [info](#info)
+- [options-update](#options-update)
+- [options-update-force](#options-update-force)
+- [register-orphans](#register-orphans)
+- [test](#test)
+- [trace](#trace)
+- [status](#status)
+
 ### Command Usage
 
 #### debug
@@ -141,6 +158,12 @@ Also, by default, we don't execute on custom (cloned) instances. Set
 ##### exec options:
 
     --with version,version,...  Run only on the listed versions
+
+##### exec exit status
+
+The exit status for the `exec` command will be that of the process that you're
+executing. If running with multiple Perls and any of them fail, the status will
+be that of the failed process, regardless if all others succeed.
 
 #### fetch
 
@@ -308,4 +331,103 @@ Usage:  `berrybrew version`
 Displays the current version of the `berrybrew.exe` binary and `bbapi.dll`
 library.
 
-&copy; 2017-2019 by Steve Bertrand
+### Hidden Command List
+
+#### currentperl
+
+This feature simply fetches the Perl instance that's currently in use,
+prints out its name, and exits. It will not display anything if there's no
+Perl currently in use.
+
+Used primarily for certain unit tests.
+
+#### error
+
+Usage: `berrybrew error <ErrNum>`
+
+Translates an error code and displays the name of the error, where `ErrNum`
+is the error number.
+
+#### error-codes
+
+Usage: `berrybrew error-codes`
+
+Simply prints to `STDOUT` the list of all valid error status code numbers, one
+per line.
+
+#### exit
+
+Usage: `berrybrew exit 0`
+
+Tests the exit mechanism. Requires an `Int32` as an argument.
+
+#### info
+
+Displays paths and other information regarding the `berrybrew` installation
+itself.
+
+#### options-update
+
+Checks the base distribution's configuration file, and if there are any newly
+added directives, we'll insert them into the registry. Used for upgrades and
+testing.
+
+#### options-update-force
+
+Loads all configuration options from the configuration file into the registry.
+Be warned that this will overwrite all changes that were previously changed
+within the registry.
+
+#### register-orphans
+
+This will register all orphaned Perl instances at once.
+
+#### test
+
+This feature should only be used by developers of berrybrew.
+
+Like the `debug` feature, I've added a new `test` argument. It must
+follow `berrybrew` and preceed all further operations. To include the
+`debug` argument as well, specify it first, then include `test`, then
+your command and any options:
+
+Examples: 
+
+- Test feature only:
+
+    `berrybrew test clean ...`
+    
+- Test and Debug:
+
+    `berrybrew debug test clean ...`
+
+Currently, it's only used in the `t/99_clean.t` test to strip off
+unneeded path elements for a couple of specific tests.
+
+#### trace
+
+Forces the printing of the full stack trace to `STDERR` upon program exit. We
+also display the exit code, and its name.
+
+Like `debug`, it needs to be the first argument, with all other command
+arguments following it. Only `debug` should preceed it.
+
+Examples: 
+
+- Trace feature only:
+
+    `berrybrew trace install 5.10.1_32`
+    
+- Trace and Debug:
+
+    `berrybrew debug trace remove 5.10.1_32`
+
+#### status
+
+Displays the exit code information on exit.
+
+Usage: `berrybrew status <command> [options]`.
+
+If `debug` is also used, the `status` command must follow it.
+
+&copy; 2016-2020 by Steve Bertrand

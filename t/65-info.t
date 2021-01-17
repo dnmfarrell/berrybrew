@@ -1,6 +1,9 @@
 ﻿use warnings;
 use strict;
 
+use lib 't/';
+
+use BB;
 use Test::More;
 
 $ENV{BERRYBREW_ENV} = "test";
@@ -19,7 +22,9 @@ my %valid_opts = (
 
 like `$c info`, qr/requires an option argument/, "info with no args ok";
 
-like `$c info invalid`, qr/is not a valid option/, "info with bad arg ok";
+my $err = BB::trap("$c info invalid");
+is $? >> 8, BB::err_code('INFO_OPTION_INVALID_ERROR'), "invalid info entry exit status ok";
+like $err, qr/is not a valid option/, "info with bad arg ok";
 
 for my $f (keys %valid_opts){
     my $o = `$c info $f`;

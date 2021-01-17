@@ -35,7 +35,6 @@ call mcs^
     -r:System.Drawing^
     -r:System.Windows.Forms^
     -win32icon:inc/berrybrew.ico^
-    -t:winexe^
     -out:build/berrybrew-ui.exe^
     src\berrybrew-ui.cs
 

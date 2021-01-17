@@ -10,7 +10,6 @@ copy bin\libiconv2.dll test
 call perl -i.bak -ne "s/berrybrew(?!\\\\test)/berrybrew\\\\test/; print" test/data/config.json
 
 echo "compiling dll..."
-
 call mcs^
     -lib:bin^
     -t:library^
@@ -19,7 +18,6 @@ call mcs^
     src\berrybrew.cs
 
 echo "compiling binary..."
-
 call mcs^
     -lib:test^
     -r:bbapi.dll^
@@ -27,18 +25,17 @@ call mcs^
     -out:test/berrybrew.exe^
     src\bbconsole.cs
 
-echo "compiling UI..."
-
-call csc^
-    -lib:build^
-    -r:bbapi.dll^
-    -r:System.Drawing.dll^
-    -r:System.Windows.Forms.dll^
-    -win32icon:inc/berrybrew.ico^
-    -win32manifest:berrybrew.manifest^
-    -t:winexe^
-    -out:test/berrybrew-ui.exe^
-    src\berrybrew-ui.cs
+rem echo "compiling UI..."
+rem call csc^
+rem    -lib:build^
+rem    -r:bbapi.dll^
+rem    -r:System.Drawing.dll^
+rem    -r:System.Windows.Forms.dll^
+rem    -win32icon:inc/berrybrew.ico^
+rem    -win32manifest:berrybrew.manifest^
+rem    -t:winexe^
+rem    -out:test/berrybrew-ui.exe^
+rem    src\berrybrew-ui.cs
 
 copy test\berrybrew.exe test\bb.exe
 copy bin\berrybrew-refresh.bat test\

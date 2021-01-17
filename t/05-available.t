@@ -1,17 +1,21 @@
 use warnings;
 use strict;
 
+use lib 't/';
+
+use BB;
+use IPC::Run3;
 use Test::More;
 
 $ENV{BERRYBREW_ENV} = "test";
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 
-my $v = `$c version`;
+my ($in, $list);
 
-my $list = `$c available`;
+run3 "$c available", \$in, \$list;
 
-#@avail = grep {s/\s+//g; $_ =~ /^5/} @avail;
+is $? >> 8, 0, "success exit code";
 
 $list =~ s/\[installed\]\s+\*?//g;
 

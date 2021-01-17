@@ -11,6 +11,16 @@ The code for the `berrybrewUI.exe` is in `src/berrybrew-ui.cs`.
 - [Berrybrew Class](#class-berrybrew)
 - [Message Class](#class-message)
 
+### Exit Status
+
+Most exit statuses will be `berrybrew` specific, except calls that shell out to
+separate processes (eg. `Exec()`). In these cases, the exit status code will
+be that of the external process, not that from within.
+
+For example, a call to `ExecCompile()` will call `Exec()` which starts one or
+more separate processes. If any of those processes fail, the status code will
+be that of the failed process (even if all other processes succeed).
+
 ## Berrybrew Class
 
 The `Berrybrew` class is the base of the system.
@@ -19,7 +29,7 @@ The `Berrybrew` class is the base of the system.
 |---|---|---|
 [Available](#available)| **public** | Displays all available Perls
 [AvailableList](#availablelist)| **public** | Returns a list of available Perl names
-[BaseConfig](#baseconfig)| **private** | Initializes the registry-based configuration
+[BaseConfig](#baseconfig)| private | Initializes the registry-based configuration
 [CheckName](#checkname)| internal | Validates the name of a custom Perl install
 [CheckRootDir](#checkrootdir)| private | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
@@ -31,7 +41,8 @@ The `Berrybrew` class is the base of the system.
 [Config](#config)| **public** | Puts `berrybrew.exe` in `PATH`
 [Exec](#exec)| private | Runs commands on all installed Perls
 [ExecCompile](#execcompile)| **public** | Staging for `Exec()`
-[ExportModules](#exportmodules)| **public** | Export an instaled module list from current Perl
+[Exit](#exit)| **public** | Custom wrapper for `Environment.Exit()`
+[ExportModules](#exportmodules)| **public** | Export an installed module list from current Perl
 [Extract](#extract)| private | Extracts Perl installation zip archives
 [Fetch](#fetch)| private | Downloads the Perl installation files
 [FileAssoc](#fileassoc)| **public** | Manage .pl file associations
@@ -192,7 +203,7 @@ Returns `true` if any files were found/deleted, `false` if not.
 
 #### Clone
 
-    public bool Clone(string src, string dest)
+    public void Clone(string src, string dest)
 
         argument:   src
         values:     Name of an installed berrybrew Perl instance
@@ -201,12 +212,9 @@ Returns `true` if any files were found/deleted, `false` if not.
         values:     Any string name by which you want the clone to appear
                     in 'berrybrew available'
 
-        return:     bool
-
 Makes an exact copy of an existing installed Perl instance with a name of your
 choosing, and makes it available just like all others. `berrybrew available`
-will label these custom installs appropriately. Returns `true` on success,
-`false` otherwise.
+will label these custom installs appropriately. 
 
 #### Config
 
@@ -217,7 +225,7 @@ variable.
 
 #### Exec
 
-    private static void Exec(StrawberryPerl perl, List<string> parameters, string sysPath, Boolean singleMode)
+    private void Exec(StrawberryPerl perl, List<string> parameters, string sysPath, Boolean singleMode)
 
         argument:   perl
         value:      A single StrawberryPerl object
@@ -231,7 +239,8 @@ variable.
         argument:   singleMode
         value:      True if running on a single Perl instance, False otherwise
 
-Called by `ExecCompile()`, sends a single Perl instance a command to execute.
+Called by `ExecCompile()`, executes a command on a single Perl instance a
+command to execute.
 
 #### ExecCompile
 
@@ -249,7 +258,17 @@ This method sends a single Perl at a time to `Exec()`, and will always skip
 any Perls that have either `tmpl` or `template` in the name.
 
 By default, we also skip over all custom (cloned) instances. To have them
-included, set `custom_exec` to `true` in the configuration file.
+included, set `custom_exec` to `true` by using `berrybrew options custom_exec true`.
+
+#### Exit
+
+    public void Exit(int exitCode)
+    
+        argument:   exitCode
+        value:      Integer, the exit code to return
+        
+Simple wrapper for `Environment.Exit()` which allows for stacktrace information
+and other customization.
 
 #### ExportModules
 
@@ -265,7 +284,7 @@ file will be the version name of the Perl you're exporting from (eg.
     
 #### Extract
 
-    private static void Extract(StrawberryPerl perl, string tempDir)
+    private void Extract(StrawberryPerl perl, string tempDir)
 
         argument:   perl
         value:      A single instance of the StrawberryPerl class
@@ -305,6 +324,9 @@ If `action` is `set`, we'll update the association and manage it ourselves. If
 set to `unset`, we'll revert it back to the way it was prior to a `set` call.
 
 If `action` is left default, we'll display to the console the current setting.
+
+If you do not have elevated administrative privileges, we return early and do
+nothing.
 
 Set `quiet` to prevent the default action from displaying output.
 
@@ -791,7 +813,7 @@ usePerlStr.
 
 #### UseInNewWindow
 
-    private static void UseInNewWindow(StrawberryPerl perl, string sysPath, string usrPath)
+    private void UseInNewWindow(StrawberryPerl perl, string sysPath, string usrPath)
 
         argument:   perl
         value:      A single StrawberryPerl object
@@ -807,7 +829,7 @@ with that Perl listed first in the PATH inherited by the new process.
 
 #### UseInSameWindow
 
-    private static void UseInSameWindow(StrawberryPerl perl, string sysPath, string usrPath)
+    private void UseInSameWindow(StrawberryPerl perl, string sysPath, string usrPath)
 
         argument:   perl
         value:      A single StrawberryPerl object
@@ -877,4 +899,13 @@ Returns the message content that corresponds with a specific message label.
 Same thing as `Message.Print`, but after printing, calls `Environment.Exit(0)`
 and terminates the application.
 
-&copy; 2017-2019 by Steve Bertrand
+#### Message.Error
+
+    public void Error(string label)
+    
+         argument:   label
+         value:      Name of a message label
+ 
+Prints the relevant message to `STDERR`.
+
+&copy; 2016-2020 by Steve Bertrand
