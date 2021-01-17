@@ -2350,7 +2350,7 @@ namespace BerryBrew {
         }
         
         public string Version() {
-            return @"1.31";
+            return @"1.32";
         }
     }
 

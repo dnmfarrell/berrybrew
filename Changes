@@ -1,5 +1,8 @@
 Revision history for berrybrew
 
+1.32 UNREL
+    -
+
 1.31    2021-01-21
     - Fix issue where on first-run BaseConfig(), if the system didn't have
       a file association set for the .pl file type, we'd attempt to send
