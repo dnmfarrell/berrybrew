@@ -60,6 +60,7 @@ Section "-MainSection" SEC_MAIN
   File "..\bin\Newtonsoft.Json.dll"
   File "..\bin\env.exe"
   File "..\bin\libiconv2.dll"
+  File "..\bin\libintl3.dll"
 
   SetOutPath "$INSTDIR"
   File "..\Changes"
