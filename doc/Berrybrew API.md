@@ -762,6 +762,9 @@ Builds and returns a process ready to be modified or have `Start()` called on it
 Updates `PATH` with the relevant path details in order to make this Perl
 instance the default used across the board. This is persistent until changed.
 
+If `berrybrew` is managing Perl file association, we will update the association
+with the newly switched-to version of perl (requires running as Administrator).
+
 If `switchQuick` is sent in as true, we'll update the system without requiring you
 to open a new command line window. However, some binaries and features may not work
 correctly when switching quickly.
