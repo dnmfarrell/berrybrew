@@ -915,6 +915,13 @@ namespace BerryBrew {
                         Exit((int)ErrorCodes.PERL_FILE_ASSOC_FAILED);
                     }
 
+                    StrawberryPerl perl = PerlInUse();
+
+                    if (String.IsNullOrEmpty(perl.PerlPath)) {
+                        Console.Error.WriteLine("\nNo berrybrew Perl in use, can't set file association.\n");
+                        Exit((int)ErrorCodes.PERL_NONE_IN_USE);
+                    }
+
                     Options("file_assoc_old", plHandlerName, true);
                     plHandlerName = @"berrybrewPerl";
                     
@@ -922,7 +929,7 @@ namespace BerryBrew {
                     Options("file_assoc", plHandlerName, true);
 
                     RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\run\command");
-                    plHandlerKey.SetValue("", binPath + @"\env.exe perl ""%1"" %*");
+                    plHandlerKey.SetValue("", perl.PerlPath + @"\perl.exe %1 %*");
 
                     SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero); 
 
