@@ -902,24 +902,28 @@ namespace BerryBrew {
             string plHandlerName = "";
 
             try {
+                // assoc registry key
                 RegistryKey plExtKey = Registry.ClassesRoot.CreateSubKey(plExtSubKey);
                 plHandlerName = (string) plExtKey.GetValue("");
+
+                // ftype registry key
+                RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\open\command");
 
                 if (plHandlerName == null) {
                     plHandlerName = "";
                 }
 
                 if (action == "set") {
-                    if (plHandlerName == @"berrybrewPerl") {
-                        Console.Error.WriteLine("\nberrybrew is already managing the .pl file type\n");
-                        Exit((int)ErrorCodes.PERL_FILE_ASSOC_FAILED);
-                    }
-
                     StrawberryPerl perl = PerlInUse();
 
                     if (String.IsNullOrEmpty(perl.PerlPath)) {
                         Console.Error.WriteLine("\nNo berrybrew Perl in use, can't set file association.\n");
                         Exit((int)ErrorCodes.PERL_NONE_IN_USE);
+                    }
+
+                    if (plHandlerName == @"berrybrewPerl") {
+                        plHandlerKey.SetValue("", perl.PerlPath + @"\perl.exe %1 %*");
+                        return;
                     }
 
                     Options("file_assoc_old", plHandlerName, true);
@@ -928,7 +932,6 @@ namespace BerryBrew {
                     plExtKey.SetValue("", plHandlerName);
                     Options("file_assoc", plHandlerName, true);
 
-                    RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\run\command");
                     plHandlerKey.SetValue("", perl.PerlPath + @"\perl.exe %1 %*");
 
                     SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero); 
@@ -938,11 +941,6 @@ namespace BerryBrew {
                 }
                 else if (action == "unset") {
                     string old_file_assoc = Options("file_assoc_old", "", true);
-
-                    if (old_file_assoc == "") {
-                        Console.Error.WriteLine("\nDefault file association already in place");
-                        Exit((int)ErrorCodes.PERL_FILE_ASSOC_FAILED);
-                    }
 
                     plExtKey.SetValue("", old_file_assoc);
                     Options("file_assoc_old", "", true);
@@ -2133,7 +2131,11 @@ namespace BerryBrew {
                 if (switchQuick) {
                     SwitchQuick();
                 }
-                
+            
+                if (Options("file_assoc", "", true) == "berrybrewPerl") {
+                    FileAssoc("set", true);
+                }
+
                 Console.WriteLine("\nSwitched to Perl version {0}...\n\n",switchToVersion);
 
                 if (! switchQuick) {
