@@ -11,6 +11,7 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Security;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
@@ -966,9 +967,9 @@ namespace BerryBrew {
                 if (Debug) {
                     Console.Error.WriteLine("DEBUG: {0}", err);
                 }
-                /* Commented out due to issue #246
-                * Exit((int)ErrorCodes.ADMIN_FILE_ASSOC);
-                */
+ //               /* Commented out due to issue #246
+ //               * Exit((int)ErrorCodes.ADMIN_FILE_ASSOC);
+ //               */
             }
         }
 
@@ -2142,9 +2143,23 @@ namespace BerryBrew {
                     Console.WriteLine("Run 'berrybrew-refresh' to use it.\n");
                 }
             }
+            catch (SecurityException err) {
+                Console.Error.WriteLine("\nSwitching Perls requires Administrator privileges");
+                if (Debug) {
+                    Console.Error.WriteLine("DEBUG: {0}", err);
+                }
+                Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
+            }
             catch (ArgumentException) {
                 Message.Error("perl_unknown_version");
                 Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);
+            }
+            catch (UnauthorizedAccessException err) {
+                Console.Error.WriteLine("\nSwitching Perls requires Administrator privileges");
+                if (Debug) {
+                    Console.Error.WriteLine("DEBUG: {0}", err);
+                }
+                Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
             }
         }
 

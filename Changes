@@ -6,6 +6,7 @@ Revision history for berrybrew
     - Removed 'env' requirement for managing file associations. We now
       dynamically update the ftype in the registry with the absolute path to
       the berrybrew perl currently in use (fixes #244)
+    - Switch() now updates FileAssoc() (work on #244)
 
 1.31    2021-01-21
     - Fix issue where on first-run BaseConfig(), if the system didn't have
