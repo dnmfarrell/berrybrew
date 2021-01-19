@@ -933,8 +933,6 @@ namespace BerryBrew {
                     plExtKey.SetValue("", plHandlerName);
                     Options("file_assoc", plHandlerName, true);
 
-                    plHandlerKey.SetValue("", perl.PerlPath + @"\perl.exe %1 %*");
-
                     SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero); 
 
                     Console.WriteLine("\nberrybrew is now managing the Perl file association");
