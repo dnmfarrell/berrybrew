@@ -907,9 +907,15 @@ namespace BerryBrew {
                 RegistryKey plExtKey = Registry.ClassesRoot.CreateSubKey(plExtSubKey);
                 plHandlerName = (string) plExtKey.GetValue("");
 
+                if (plHandlerName == null || plHandlerName == "") {
+                    // .pl key exists, but has no value
+                    return;
+                }
+                
                 // ftype registry key
                 RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\open\command");
 
+                Console.WriteLine("HERE");
                 if (plHandlerName == null) {
                     plHandlerName = "";
                 }
