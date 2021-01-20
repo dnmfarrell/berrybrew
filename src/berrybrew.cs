@@ -911,11 +911,10 @@ namespace BerryBrew {
                     // .pl key exists, but has no value
                     return;
                 }
-                
+
                 // ftype registry key
                 RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\open\command");
 
-                Console.WriteLine("HERE");
                 if (plHandlerName == null) {
                     plHandlerName = "";
                 }
