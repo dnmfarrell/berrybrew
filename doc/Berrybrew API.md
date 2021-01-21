@@ -69,7 +69,7 @@ The `Berrybrew` class is the base of the system.
 [PerlArchivePath](#perlarchivepath)| private | Returns the path and filename of the zip file
 [PerlFindOrphans](#perlfindorphans)| private | Locates non-registered directories in Perl root
 [PerlGenerateObjects](#perlgenerateobjects)| private | Generates the `StrawberryPerl` class objects
-[PerlInUse](#perlinuse)| **public** | Returns the name of the Perl currently in use
+[PerlInUse](#perlinuse)| **public** | Returns the object that represents Perl currently in use
 [PerlIsInstalled](#perlisinstalled)| private | Checks if a specific Perl is installed
 [PerlsInstalled](#perlsinstalled)| **public** | Fetches the list of Perls installed
 [PerlRemove](#perlremove)| **public** | Uninstalls a specific instance of Perl
@@ -762,6 +762,9 @@ Builds and returns a process ready to be modified or have `Start()` called on it
 Updates `PATH` with the relevant path details in order to make this Perl
 instance the default used across the board. This is persistent until changed.
 
+If `berrybrew` is managing Perl file association, we will update the association
+with the newly switched-to version of perl (requires running as Administrator).
+
 If `switchQuick` is sent in as true, we'll update the system without requiring you
 to open a new command line window. However, some binaries and features may not work
 correctly when switching quickly.
@@ -908,4 +911,4 @@ and terminates the application.
  
 Prints the relevant message to `STDERR`.
 
-&copy; 2016-2020 by Steve Bertrand
+&copy; 2016-2021 by Steve Bertrand

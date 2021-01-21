@@ -1,6 +1,7 @@
 use warnings;
 use strict;
 
+use Data::Dumper;
 use Test::More;
 use Win32::TieRegistry;
 
@@ -17,10 +18,10 @@ my $pl_assoc_key = "HKEY_CLASSES_ROOT\\.pl\\";
 my $bb_key = "HKEY_LOCAL_MACHINE\\SOFTWARE\\berrybrew-test\\";
 
 delete $Registry->{$bb_key};
-delete $Registry->{$pl_assoc_key};
+# delete $Registry->{$pl_assoc_key};
 
 is $Registry->{$bb_key}, undef, "confirmed berrybrew regkey deleted";
-is $Registry->{$pl_assoc_key}, undef, "confirmed .pl assoc regkey deleted";
+# is $Registry->{$pl_assoc_key}, undef, "confirmed .pl assoc regkey deleted";
 
 like `$c`, qr/view subcommand/, "issue #237 fixed ok";
 

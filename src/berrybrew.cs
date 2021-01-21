@@ -11,6 +11,7 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Security;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
@@ -902,17 +903,33 @@ namespace BerryBrew {
             string plHandlerName = "";
 
             try {
+                // assoc registry key
                 RegistryKey plExtKey = Registry.ClassesRoot.CreateSubKey(plExtSubKey);
                 plHandlerName = (string) plExtKey.GetValue("");
+
+                if (plHandlerName == null || plHandlerName == "") {
+                    // .pl key exists, but has no value
+                    return;
+                }
+
+                // ftype registry key
+                RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\open\command");
 
                 if (plHandlerName == null) {
                     plHandlerName = "";
                 }
 
                 if (action == "set") {
+                    StrawberryPerl perl = PerlInUse();
+
+                    if (String.IsNullOrEmpty(perl.PerlPath)) {
+                        Console.Error.WriteLine("\nNo berrybrew Perl in use, can't set file association.\n");
+                        Exit((int)ErrorCodes.PERL_NONE_IN_USE);
+                    }
+
                     if (plHandlerName == @"berrybrewPerl") {
-                        Console.Error.WriteLine("\nberrybrew is already managing the .pl file type\n");
-                        Exit((int)ErrorCodes.PERL_FILE_ASSOC_FAILED);
+                        plHandlerKey.SetValue("", perl.PerlPath + @"\perl.exe %1 %*");
+                        return;
                     }
 
                     Options("file_assoc_old", plHandlerName, true);
@@ -921,9 +938,6 @@ namespace BerryBrew {
                     plExtKey.SetValue("", plHandlerName);
                     Options("file_assoc", plHandlerName, true);
 
-                    RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\run\command");
-                    plHandlerKey.SetValue("", binPath + @"\env.exe perl ""%1"" %*");
-
                     SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero); 
 
                     Console.WriteLine("\nberrybrew is now managing the Perl file association");
@@ -931,11 +945,6 @@ namespace BerryBrew {
                 }
                 else if (action == "unset") {
                     string old_file_assoc = Options("file_assoc_old", "", true);
-
-                    if (old_file_assoc == "") {
-                        Console.Error.WriteLine("\nDefault file association already in place");
-                        Exit((int)ErrorCodes.PERL_FILE_ASSOC_FAILED);
-                    }
 
                     plExtKey.SetValue("", old_file_assoc);
                     Options("file_assoc_old", "", true);
@@ -961,9 +970,9 @@ namespace BerryBrew {
                 if (Debug) {
                     Console.Error.WriteLine("DEBUG: {0}", err);
                 }
-                /* Commented out due to issue #246
-                * Exit((int)ErrorCodes.ADMIN_FILE_ASSOC);
-                */
+ //               /* Commented out due to issue #246
+ //               * Exit((int)ErrorCodes.ADMIN_FILE_ASSOC);
+ //               */
             }
         }
 
@@ -2126,16 +2135,34 @@ namespace BerryBrew {
                 if (switchQuick) {
                     SwitchQuick();
                 }
-                
+            
+                if (Options("file_assoc", "", true) == "berrybrewPerl") {
+                    FileAssoc("set", true);
+                }
+
                 Console.WriteLine("\nSwitched to Perl version {0}...\n\n",switchToVersion);
 
                 if (! switchQuick) {
                     Console.WriteLine("Run 'berrybrew-refresh' to use it.\n");
                 }
             }
+            catch (SecurityException err) {
+                Console.Error.WriteLine("\nSwitching Perls requires Administrator privileges");
+                if (Debug) {
+                    Console.Error.WriteLine("DEBUG: {0}", err);
+                }
+                Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
+            }
             catch (ArgumentException) {
                 Message.Error("perl_unknown_version");
                 Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);
+            }
+            catch (UnauthorizedAccessException err) {
+                Console.Error.WriteLine("\nSwitching Perls requires Administrator privileges");
+                if (Debug) {
+                    Console.Error.WriteLine("DEBUG: {0}", err);
+                }
+                Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
             }
         }
 
