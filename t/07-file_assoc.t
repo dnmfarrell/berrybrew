@@ -23,6 +23,7 @@ like `$c options file_assoc`, qr/file_assoc:\s+Perl_program_file/, "file_assoc o
 # first pass needs set called twice... this is not needed at the CLI
 like `$c associate set`, qr/berrybrew is now managing/, "associate set ok";
 `$c associate set`;
+like `t\\data\\assoc.pl`, qr/5\.8\.9_32/, "script works, 5.8.9_32";
 like `assoc .pl`, qr/pl=berrybrewPerl/, "file assoc berrybrewPerl registered";
 like `$c options file_assoc`, qr/file_assoc:\s+berrybrewPerl/, "file_assoc option ok after set";
 like `$c options file_assoc_old`, qr/file_assoc_old:\s+Perl_program_file/, "file_assoc_old option ok after set";
@@ -33,6 +34,7 @@ like `ftype berrybrewPerl`, qr/berrybrew.*5\.8\.9_32/, "bb 5.8.9_32 ftype ok";
 `$refresh`;
 
 is `$c associate set`, '', "associate set after switch ok";
+like `t\\data\\assoc.pl`, qr/5\.10\.1_32/, "script works, 5.10.1_32";
 like `assoc .pl`, qr/pl=berrybrewPerl/, "file assoc berrybrewPerl registered after switch ok";
 like `$c options file_assoc`, qr/file_assoc:\s+berrybrewPerl/, "file_assoc option ok after switch & set";
 like `$c options file_assoc_old`, qr/file_assoc_old:\s+Perl_program_file/, "file_assoc_old option ok after switch &set";
