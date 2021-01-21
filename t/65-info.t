@@ -11,13 +11,13 @@ $ENV{BERRYBREW_ENV} = "test";
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 
 my ($bbpath) = $c =~ m|(.*)/berrybrew|;
-$bbpath =~ s|/||g;
+#$bbpath =~ s|/||g;
 
 my %valid_opts = (
-    archive_path    => 'c:\berrybrew\test\temp',
+    archive_path    => 'c:/berrybrew/test/temp',
     bin_path        => $bbpath,
     install_path    => $bbpath,
-    root_path       => 'C:\berrybrew\test',
+    root_path       => 'C:/berrybrew/test',
 );
 
 like `$c info`, qr/requires an option argument/, "info with no args ok";
@@ -33,10 +33,7 @@ for my $f (keys %valid_opts){
     $o =~ s|\\|/|g;
     $o =~ s/\/$//;
 
-    $valid_opts{$f} =~ s/\/$//;
-    $valid_opts{$f} =~ s/\\/\//g;
-
-    is lc $valid_opts{$f}, lc $o, "'$f' has proper path returned";
+    is lc $o, lc $valid_opts{$f}, "'$f' has proper path returned";
 }
 
 done_testing();
