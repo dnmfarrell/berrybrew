@@ -11,7 +11,7 @@ $ENV{BERRYBREW_ENV} = "test";
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 
 my ($bbpath) = $c =~ m|(.*)/berrybrew|;
-#$bbpath =~ s|/||g;
+$bbpath =~ s|/*||g;
 
 my %valid_opts = (
     archive_path    => 'c:/berrybrew/test/temp',
@@ -33,6 +33,8 @@ for my $f (keys %valid_opts){
     $o =~ s|\\|/|g;
     $o =~ s/\/$//;
 
+    $valid_opts{$f} =~ s|\\|/|g;
+    
     is lc $o, lc $valid_opts{$f}, "'$f' has proper path returned";
 }
 

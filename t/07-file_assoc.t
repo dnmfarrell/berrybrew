@@ -19,6 +19,9 @@ like `$c options file_assoc`, qr/file_assoc:\s+Perl_program_file/, "file_assoc o
 `$c install 5.8.9_32`;
 `$c switch 5.8.9_32`;
 
+# file_assoc_old checks
+# switch between two perls and check ftype changes for berrybrewPerl
+
 like `$c associate set`, qr/berrybrew is now managing/, "associate set ok";
 like `$c options file_assoc`, qr/file_assoc:\s+berrybrewPerl/, "file_assoc option ok after set";
 like `assoc .pl`, qr/pl=berrybrewPerl/, "file assoc berrybrewPerl registered";
