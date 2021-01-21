@@ -911,4 +911,4 @@ and terminates the application.
  
 Prints the relevant message to `STDERR`.
 
-&copy; 2016-2020 by Steve Bertrand
+&copy; 2016-2021 by Steve Bertrand
