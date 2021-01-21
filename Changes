@@ -7,7 +7,9 @@ Revision history for berrybrew
       dynamically update the ftype in the registry with the absolute path to
       the berrybrew perl currently in use (fixes #244)
     - Switch() now updates FileAssoc() (work on #244)
-
+    - Removed env.exe and related libraries from the project
+    -
+    
 1.31    2021-01-21
     - Fix issue where on first-run BaseConfig(), if the system didn't have
       a file association set for the .pl file type, we'd attempt to send
