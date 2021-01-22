@@ -8,7 +8,7 @@ var perlRootDir
 var perlRootDirSet
 
 !define PRODUCT_NAME "berrybrew"
-!define PRODUCT_VERSION ""
+!define PRODUCT_VERSION "1.32"
 !define PRODUCT_PUBLISHER "Steve Bertrand"
 !define PRODUCT_WEB_SITE "https://github.com/stevieb9/berrybrew"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\berrybrew.exe"

@@ -231,8 +231,8 @@ sub update_installer_script {
     close $fh or die $!;
 
     for (@contents){
-        if (/PRODUCT_VERSION "(\d+\.\d+)"$/) {
-            s/$1/$bb_ver/;
+        if (/(PRODUCT_VERSION ".*")$/) {
+            s/$1/PRODUCT_VERSION "$bb_ver"/;
         }
         if (/.*(5\.\d+\.\d+_64).*/){
             s/$1/$most_recent_perl_ver/;
