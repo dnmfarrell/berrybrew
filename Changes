@@ -12,7 +12,8 @@ Revision history for berrybrew
       trying to install into the ../bin/ directory (fixes #250)
     - Release script now adds the berrybrew version properly to the install script
       (fixes #254)
-      
+    - Installer aborts if trying to install the same version 
+     
 1.31    2021-01-21
     - Fix issue where on first-run BaseConfig(), if the system didn't have
       a file association set for the .pl file type, we'd attempt to send

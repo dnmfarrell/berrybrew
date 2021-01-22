@@ -217,6 +217,13 @@ Function .onInit
 
     file_found:
    
+      ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion"
+            
+      ${If} ${PRODUCT_VERSION} == $R0
+        MessageBox MB_OK "berrybrew version $R0 already installed. Aborting."
+        Abort
+      ${EndIf}
+
       MessageBox MB_ICONQUESTION|MB_YESNO "This will upgrade your existing berrybrew install. Continue?" IDYES true IDNO false
       false: 
         Abort
