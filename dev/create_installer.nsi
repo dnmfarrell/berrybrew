@@ -116,6 +116,8 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
+  
+  WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR"
 SectionEnd
 
 Function perlRootPathSelection
@@ -210,7 +212,7 @@ Function .onInit
   StrCpy $InstDir "$INSTDIR\"
 
   ; check for previously installed versions
-   
+
   IfFileExists "$INSTDIR\bin\berrybrew.exe" file_found file_not_found
 
     file_found:
@@ -253,7 +255,7 @@ Function un.onInit
   
   Call un.StopUI
 FunctionEnd
-
+  
 Section Uninstall
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" associate unset'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" off'

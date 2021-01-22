@@ -8,7 +8,8 @@ Revision history for berrybrew
       the berrybrew perl currently in use (fixes #244)
     - Switch() now updates FileAssoc() (work on #244)
     - Removed env.exe and related libraries from the project
-    -
+    - Fix issue in installer where if berrybrew is already installed, it was
+      trying to install into the ../bin/ directory (fixes #250)
     
 1.31    2021-01-21
     - Fix issue where on first-run BaseConfig(), if the system didn't have
