@@ -13,6 +13,9 @@ Revision history for berrybrew
     - Release script now adds the berrybrew version properly to the install script
       (fixes #254)
     - Installer aborts if trying to install the same version 
+    - Options() now does a significantly better job handling the registry.
+      User/Admin access to the registry has been separated and handled properly
+    -       
      
 1.31    2021-01-21
     - Fix issue where on first-run BaseConfig(), if the system didn't have

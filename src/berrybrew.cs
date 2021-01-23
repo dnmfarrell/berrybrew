@@ -1303,7 +1303,29 @@ namespace BerryBrew {
                 Console.WriteLine("\nDEBUG: option: {0}, value: {1}\n", option, value);
             }
 
-            RegistryKey registry = Registry.LocalMachine.CreateSubKey(registrySubKey);
+			RegistryKey registry = null;
+
+			try {
+	            registry = Registry.LocalMachine.OpenSubKey(registrySubKey);
+			}
+			catch (NullReferenceException e) {
+				if (Debug) {
+					Console.Error.WriteLine("\nberrybrew registry section doesn't exist:\n {0}", e);
+				}
+			}	
+
+			if (registry == null) {
+				try {
+		            registry = Registry.LocalMachine.CreateSubKey(registrySubKey);
+				}
+				catch (UnauthorizedAccessException e) {
+					Console.WriteLine("\nThe command you specified requires Administrator privileges.");
+					if (Debug) {
+						Console.Error.WriteLine("\n{0}", e);
+					}
+				}
+                Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
+			}
 
             if (option == "") {
                 Console.WriteLine("\nOption configuration:\n");
