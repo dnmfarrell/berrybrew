@@ -956,7 +956,9 @@ namespace BerryBrew {
                     Exit(0);
                 }
                 else {
-                    Options("file_assoc", plHandlerName, true);
+					if (Options("file_assoc", "", true) != plHandlerName) {
+	                    Options("file_assoc", plHandlerName, true);
+					}
                     if (! quiet) {
                         Console.WriteLine("\nPerl file association handling:");
                         Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", "", true));

@@ -15,7 +15,8 @@ Revision history for berrybrew
     - Installer aborts if trying to install the same version 
     - Options() now does a significantly better job handling the registry.
       User/Admin access to the registry has been separated and handled properly
-    -       
+    - Fix issue in FileAssoc() where an exception was raised if we were trying
+      to set 'file_assoc' to the same value that already exists      
      
 1.31    2021-01-21
     - Fix issue where on first-run BaseConfig(), if the system didn't have
