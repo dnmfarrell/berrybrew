@@ -2,6 +2,12 @@
 
 ### [Global config](#global-config)
 
+The Global Configuration file, `data\config.json` is no longer used for runtime
+operation. It's used for initial configuration at install time only. Any changes
+to the configuration file after installation will have no effect on **berrybrew**.
+
+For changing configuration options after install, see [**berrybrew options**](berrybrew.md#options).
+
 |Directive|Description|
 |---|---|   
 |[debug](#debug)|Enable/disable debugging|
