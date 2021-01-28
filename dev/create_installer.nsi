@@ -91,8 +91,7 @@ SectionEnd
 Section "Run UI at startup" SEC_START_UI
 SectionEnd
 
-Section /o "Manage .pl file association" SEC_FILE_ASSOC
-SectionIn RO
+Section "Manage .pl file association" SEC_FILE_ASSOC
 SectionEnd
 
 Section -AdditionalIcons
