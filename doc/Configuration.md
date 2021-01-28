@@ -11,7 +11,10 @@
 [download_url](#download_url)|The URL for the Strawberry release JSON file|
 [custom_exec](#custom_exec)|Include custom (cloned) instances under `berrybrew exec`|
 [windows_homedir](#windows_homedir)|Default home directory for `File::HomeDir`|
-[run_mode](#run_mode)|Currently Unused/
+[run_mode](#run_mode)|Currently Unused|
+[file_assoc](#file_assoc)|The current .pl file association handler|
+[file_assoc_old](#file_assoc_old)|The previous .pl file association handler|
+[warn_orphans](#warn_orphans)|Warn if non-Perl directories are found|
 
 ### [Messages config](#messages-config)
 
@@ -98,6 +101,11 @@ end user.
 
 This is a dynamic option used internally, and should never be modified by the
 end user.
+
+##### warn_orphans
+
+Disabled by default, enabling this option will warn if there are any directories
+within the Perl installation directory that aren't registered with `berrybrew`.
 
 #### Messages Config
 
