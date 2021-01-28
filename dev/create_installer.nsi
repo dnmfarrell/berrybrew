@@ -152,7 +152,8 @@ Function LaunchFinish
       MessageBox MB_OK "Error writing registry"
     ${EndIf}      
   ${EndIf}  
-  
+
+  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" options-update'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" register_orphans'
 

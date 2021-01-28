@@ -1319,9 +1319,9 @@ namespace BerryBrew {
 		            registry = Registry.LocalMachine.CreateSubKey(registrySubKey);
 				}
 				catch (UnauthorizedAccessException e) {
-					Console.WriteLine("\nThe command you specified requires Administrator privileges.");
+					Console.WriteLine("\nThe command you specified requires Administrator privileges.\n");
 					if (Debug) {
-						Console.Error.WriteLine("\n{0}", e);
+						Console.Error.WriteLine("DEBUG: {0}", e);
 					}
 				}
                 Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
