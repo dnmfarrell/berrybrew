@@ -35,6 +35,27 @@ check_readme();
 finish();
 done_testing();
 
+sub backup_configs {
+
+    if (!-d $bak_dir) {
+        mkdir $bak_dir or die $!;
+        print "created backup dir, $bak_dir\n";
+    }
+
+    my @files = glob "$data_dir/*";
+
+    for (@files) {
+        copy $_, $bak_dir or die $!;
+        print "copied $_ to $bak_dir\n";
+    }
+
+    @files = glob "$defaults_dir/*";
+
+    for (@files) {
+        copy $_, $data_dir or die $!;
+        print "copied $_ to $data_dir\n";
+    }
+}
 sub check_readme {
     open my $fh, '<', 'README.md' or die "Can't open README: $!";
     my ($bb_sha, $inst_sha, $readme_ver);
@@ -74,27 +95,6 @@ sub check_readme {
             $c++;
         }
     }        
-}
-sub backup_configs {
-
-    if (!-d $bak_dir) {
-        mkdir $bak_dir or die $!;
-        print "created backup dir, $bak_dir\n";
-    }
-
-    my @files = glob "$data_dir/*";
-
-    for (@files) {
-        copy $_, $bak_dir or die $!;
-        print "copied $_ to $bak_dir\n";
-    }
-
-    @files = glob "$defaults_dir/*";
-
-    for (@files) {
-        copy $_, $data_dir or die $!;
-        print "copied $_ to $data_dir\n";
-    }
 }
 sub compile {
     print "\ncompiling the berrybrew API...\n";
@@ -175,41 +175,8 @@ sub create_changes {
 sub create_installer {
     system("makensis", INSTALLER_SCRIPT);
 }
-sub _generate_shasum {
-    my ($file) = @_;
-
-    if (! defined $file){
-        die "_generate_shasum() requres a filename sent in";
-    }
-
-    print "\ncalculating SHA1 for $file...\n";
-
-    my $digest = `shasum $file`;
-    $digest = (split /\s+/, $digest)[0];
-
-    return $digest;
-}
-sub _berrybrew_version {
-    open my $fh, '<', 'src/berrybrew.cs' or die $!;
-
-    my $c = 0;
-    my $ver;
-
-    while (<$fh>) {
-
-        if (/public string Version\(\)\s+\{/) {
-            $c = 1;
-            next;
-        }
-        if ($c == 1) {
-            ($ver) = $_ =~ /(\d+\.\d+)/;
-            last;
-        }
-    }
-
-    close $fh;
-
-    return $ver;
+sub finish {
+    print "\nDone!\n";
 }
 sub update_installer_script {
     print "\nupdating installer script with version information\n";
@@ -287,6 +254,40 @@ sub update_readme {
         print $wfh $_;
     }
 }
-sub finish {
-    print "\nDone!\n";
+
+sub _generate_shasum {
+    my ($file) = @_;
+
+    if (! defined $file){
+        die "_generate_shasum() requres a filename sent in";
+    }
+
+    print "\ncalculating SHA1 for $file...\n";
+
+    my $digest = `shasum $file`;
+    $digest = (split /\s+/, $digest)[0];
+
+    return $digest;
+}
+sub _berrybrew_version {
+    open my $fh, '<', 'src/berrybrew.cs' or die $!;
+
+    my $c = 0;
+    my $ver;
+
+    while (<$fh>) {
+
+        if (/public string Version\(\)\s+\{/) {
+            $c = 1;
+            next;
+        }
+        if ($c == 1) {
+            ($ver) = $_ =~ /(\d+\.\d+)/;
+            last;
+        }
+    }
+
+    close $fh;
+
+    return $ver;
 }
