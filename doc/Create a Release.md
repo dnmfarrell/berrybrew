@@ -12,7 +12,7 @@ version that's about to be released
 `dev\data\` directory
 
 - Ensure all unit tests pass per 
-[Unit testing](doc/Unit%20Testing.md)
+[Unit testing](Unit%20Testing.md)
 
 - Execute the `perl dev\release.pl` script, which:
 
