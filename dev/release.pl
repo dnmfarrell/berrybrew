@@ -3,8 +3,9 @@ use strict;
 
 use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
 use Digest::SHA qw(sha1);
-use File::Find::Rule;
+use Dist::Mgr qw(changes_date);
 use File::Copy;
+use File::Find::Rule;
 use JSON::PP;
 use Test::More;
 
@@ -28,6 +29,7 @@ backup_configs();
 compile();
 update_perls_available();
 create_zip();
+changes_date();
 create_changes();
 update_installer_script();
 create_installer();
