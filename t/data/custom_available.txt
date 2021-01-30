@@ -1,9 +1,9 @@
 
 The following Strawberry Perls are available:
 
-    5.32.0_64
-    5.32.0_64_PDL
-    5.32.0_32
+    5.32.1_64
+    5.32.1_64_PDL
+    5.32.1_32
     5.30.3_64
     5.30.3_64_PDL
     5.30.3_32
