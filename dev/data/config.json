@@ -10,5 +10,5 @@
     "run_mode"        : "prod",
     "file_assoc"      : "",
     "file_assoc_old"  : "",
-    "warn_orphans"    : "false",
+    "warn_orphans"    : "false"
 }
