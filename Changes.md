@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.32 UNREL
+1.32    2021-01-30
 - Added 'warn_orphans' config/option directive, default false. Prevents
 the orphaned perls warning, except when 'list' is called (closes #251)
 - Removed 'env' requirement for managing file associations. We now
@@ -16,7 +16,13 @@ trying to install into the ../bin/ directory (fixes #250)
 - Options() now does a significantly better job handling the registry.
 User/Admin access to the registry has been separated and handled properly
 - Fix issue in FileAssoc() where an exception was raised if we were trying
-to set 'file_assoc' to the same value that already exists      
+to set 'file_assoc' to the same value that already exists
+- New options added to berrybrew configuration are now merged into the registry
+on an upgrade, and existing option values are not changed (fixes #257)       
+- Release process automatically updates available Perl list (closes #261)
+- Changed all documentation links from absolute to relative (closes #259)
+- Modified OpenSubKey() in Options() to allow write access
+- Changes date is now updated by release script (closes #265)
      
 1.31    2021-01-21
 - Fix issue where on first-run BaseConfig(), if the system didn't have
@@ -51,7 +57,7 @@ to `STDERR`
 when exiting the program
 - Added tests in release.pl to verify that SHA checksums and version
 information in README was updated correctly
-- Bumped SSL security to TLS2 for the WebClient() (fixes #248)
+- Bumped SSL security to TLS1.2 for the WebClient() (fixes #248)
 - Remove Exit() from install click in UI, and modified Available()
 to Msg.Print() from Msg.Say() so that it doesn't exit the program.
 The exit was causing the UI to exit as well (fixes #243)

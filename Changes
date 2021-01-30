@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.32 UNREL
+1.32    2021-01-30
     - Added 'warn_orphans' config/option directive, default false. Prevents
       the orphaned perls warning, except when 'list' is called (closes #251)
     - Removed 'env' requirement for managing file associations. We now
