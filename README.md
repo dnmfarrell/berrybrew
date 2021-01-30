@@ -2,23 +2,23 @@
 
 The perlbrew for Windows Strawberry Perl! 
 
-###### [Click here to download the installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
+###### [Click here to download the installer](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
 
 For a quick-start, jump to the [Install](#install) and [Commands](#commands)
 sections.
 
 `berrybrew` can download, install, remove and manage multiple concurrent
 versions of Strawberry Perl for Windows. There is no 
-[requirement](https://github.com/stevieb9/berrybrew#requirements "berrybrew requirements")
+[requirement](#requirements "berrybrew requirements")
 to have Strawberry Perl installed before using `berrybrew`.
 
 Use the **bb** command as a short hand name for **berrybrew**.
 
 There is extensive documentation available for the
-[berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+[berrybrew](doc/berrybrew.md)
 application, as well as the 
-[Berrybrew API](https://github.com/stevieb9/berrybrew/blob/master/doc/Berrybrew%20API.md).
-See [SEE ALSO](https://github.com/stevieb9/berrybrew#see-also) for the
+[Berrybrew API](doc/Berrybrew%20API.md).
+See [SEE ALSO](#see-also) for the
 full list of documentation.
 
 ## Table of Contents
@@ -46,7 +46,7 @@ full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: b0d888666a9217903bbaa137872ef8354f663aee`
+[berrybrewInstaller.exe](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: b0d888666a9217903bbaa137872ef8354f663aee`
 
 ##### Git clone
 
@@ -56,7 +56,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 698d0d0bc94eed14874c23481543ad81447f4442`
+[berrybrew.zip](download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 698d0d0bc94eed14874c23481543ad81447f4442`
 
 After extraction:
 
@@ -65,7 +65,7 @@ After extraction:
 
 #### Compile your own
     
-You can also [Compile your own](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
+You can also [Compile your own](doc/Compile%20Your%20Own.md)
 installation.
 
 ## Uninstall
@@ -98,13 +98,13 @@ registry value
 
 ## Configuration
 
-See the [Configuration](https://github.com/stevieb9/berrybrew/blob/master/doc/Configuration.md)
-document, and the `options` command in the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+See the [Configuration](doc/Configuration.md)
+document, and the `options` command in the [berrybrew](doc/berrybrew.md)
 documentation.
 
 ## Commands
 
-See the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+See the [berrybrew](doc/berrybrew.md)
 documentation for a full explanation of all of the following commands.
 
     berrybrew <command> [subcommand] [option]
@@ -137,12 +137,12 @@ documentation for a full explanation of all of the following commands.
 
 ## Examples
 
-See the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+See the [berrybrew](doc/berrybrew.md)
 document for usage examples.
 
 ## Upgrading
 
-Using the [installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
+Using the [installer](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
 is the best and safest way to upgrade your `berrybrew`.
 
 If the new install will not be in the same directory as your previous version, 
@@ -171,7 +171,7 @@ local `perls.json` file with them.
 
 ## Configure Root Directory
 
-If using the [installer](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
+If using the [installer](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
 to install from, you'll have the opportunity to configure this option during
 install, and nothing further is required.
 
@@ -224,25 +224,25 @@ line:
 
 ## SEE ALSO
 
-- [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+- [berrybrew](doc/berrybrew.md)
  Full documentation for the application
 
-- [Berrybrew API](https://github.com/stevieb9/berrybrew/blob/master/doc/Berrybrew%20API.md)
+- [Berrybrew API](doc/Berrybrew%20API.md)
  API documentation
 
-- [Configuration](https://github.com/stevieb9/berrybrew/blob/master/doc/Configuration.md)
+- [Configuration](doc/Configuration.md)
  Guide to various configuration files and options
 
-- [Compile Your Own Installation](https://github.com/stevieb9/berrybrew/blob/master/doc/Compile%20Your%20Own.md)
+- [Compile Your Own Installation](doc/Compile%20Your%20Own.md)
  Guide to compiling `berrybrew` from source
 
-- [Create a Development Build](https://github.com/stevieb9/berrybrew/blob/master/doc/Create%20a%20Development%20Build.md)
+- [Create a Development Build](doc/Create%20a%20Development%20Build.md)
  Guide to creating a development build for testing new functionality
 
-- [Unit Testing](https://github.com/stevieb9/berrybrew/blob/master/doc/Unit%20Testing.md)
+- [Unit Testing](doc/Unit%20Testing.md)
  Documentation for unit testing `berrybrew`
  
-- [Create and Publish a Release](https://github.com/stevieb9/berrybrew/blob/master/doc/Create%20a%20Release.md)
+- [Create and Publish a Release](doc/Create%20a%20Release.md)
  Guide to creating a release, publishing it as a production install, and
  setting up the next release branch
 
@@ -282,8 +282,8 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Hidden Commands
 
-Please see the [hidden commands](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md#hidden-commands)
-in the [berrybrew](https://github.com/stevieb9/berrybrew/blob/master/doc/berrybrew.md)
+Please see the [hidden commands](doc/berrybrew.md#hidden-commands)
+in the [berrybrew](doc/berrybrew.md)
 document.
 
 You can also get a list of them by running the hidden `berrybrew hidden` command.
