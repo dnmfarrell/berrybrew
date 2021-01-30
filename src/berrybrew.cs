@@ -1394,7 +1394,7 @@ namespace BerryBrew {
             dynamic jsonConf = JsonParse("config");
             
             try {
-                RegistryKey regKey = Registry.LocalMachine.OpenSubKey(registrySubKey);
+                RegistryKey regKey = Registry.LocalMachine.OpenSubKey(registrySubKey, true);
 
                 string[] regValues = regKey.GetValueNames();
 
@@ -1560,7 +1560,7 @@ namespace BerryBrew {
 
             try {
                 const string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
-                using (RegistryKey pathKey = Registry.LocalMachine.OpenSubKey(keyName)){
+                using (RegistryKey pathKey = Registry.LocalMachine.OpenSubKey(keyName, true)){
 
                     pathKey.DeleteValue("Path");
 

@@ -56,7 +56,7 @@ Revision history for berrybrew
       when exiting the program
     - Added tests in release.pl to verify that SHA checksums and version
       information in README was updated correctly
-    - Bumped SSL security to TLS2 for the WebClient() (fixes #248)
+    - Bumped SSL security to TLS1.2 for the WebClient() (fixes #248)
     - Remove Exit() from install click in UI, and modified Available()
       to Msg.Print() from Msg.Say() so that it doesn't exit the program.
       The exit was causing the UI to exit as well (fixes #243)
