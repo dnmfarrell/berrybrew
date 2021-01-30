@@ -46,7 +46,7 @@ full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 86162dbd4bca3dc5e8e47780a7b4e662289642bc`
+[berrybrewInstaller.exe](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: b0d888666a9217903bbaa137872ef8354f663aee`
 
 ##### Git clone
 
@@ -56,7 +56,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: b17ce4c0cdad4ca8f095ebb8a44364a028dcb231`
+[berrybrew.zip](https://github.com/stevieb9/berrybrew/blob/master/download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 698d0d0bc94eed14874c23481543ad81447f4442`
 
 After extraction:
 
@@ -278,7 +278,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-   1.31 
+   1.32 
 
 ## Hidden Commands
 

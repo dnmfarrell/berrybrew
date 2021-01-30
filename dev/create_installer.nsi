@@ -91,8 +91,7 @@ SectionEnd
 Section "Run UI at startup" SEC_START_UI
 SectionEnd
 
-Section /o "Manage .pl file association" SEC_FILE_ASSOC
-SectionIn RO
+Section "Manage .pl file association" SEC_FILE_ASSOC
 SectionEnd
 
 Section -AdditionalIcons
@@ -152,7 +151,8 @@ Function LaunchFinish
       MessageBox MB_OK "Error writing registry"
     ${EndIf}      
   ${EndIf}  
-  
+
+  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" debug options-update'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" register_orphans'
 
@@ -221,7 +221,7 @@ Function .onInit
             
       ${If} ${PRODUCT_VERSION} == $R0
         MessageBox MB_OK "berrybrew version $R0 already installed. Aborting."
-        Abort
+        ; Abort
       ${EndIf}
 
       MessageBox MB_ICONQUESTION|MB_YESNO "This will upgrade your existing berrybrew install. Continue?" IDYES true IDNO false
