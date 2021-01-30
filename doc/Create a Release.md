@@ -7,9 +7,6 @@
 - Update the `Changes` file with the current release date along side the
 version that's about to be released
 
-- Run `berrybrew fetch`, and then copy the `data\perls.json` file to the 
-`dev\data\` directory
-
 - If configuration directives have been added, removed or modified in the
 `data\config.json` that are part of the new release, copy that file to the
 `dev\data\` directory

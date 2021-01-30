@@ -26,6 +26,7 @@ my $defaults_dir = 'dev/data';
 
 backup_configs();
 compile();
+update_perls_available();
 create_zip();
 create_changes();
 update_installer_script();
@@ -177,6 +178,15 @@ sub create_installer {
 }
 sub finish {
     print "\nDone!\n";
+}
+sub update_perls_available {
+    my $out = `bin/berrybrew.exe fetch`;
+    like $out, qr/Successfully updated/, "available perls updated ok";
+   
+    is
+        eval { copy 'data/perls.json', 'dev/data/perls.json' or die "can't copy perls.json: $!"; 1 },
+        1,
+        "data/perls.json copied to dev/data ok";
 }
 sub update_installer_script {
     print "\nupdating installer script with version information\n";

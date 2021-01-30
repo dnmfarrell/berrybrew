@@ -19,7 +19,8 @@ Revision history for berrybrew
       to set 'file_assoc' to the same value that already exists
     - New options added to berrybrew configuration are now merged into the registry
       on an upgrade, and existing option values are not changed (fixes #257)       
-     
+    - Release process automatically updates available Perl list (closes #261)
+    
 1.31    2021-01-21
     - Fix issue where on first-run BaseConfig(), if the system didn't have
       a file association set for the .pl file type, we'd attempt to send
