@@ -956,12 +956,12 @@ namespace BerryBrew {
                     Exit(0);
                 }
                 else {
-					if (Options("file_assoc", "", true) != plHandlerName) {
+                    if (Options("file_assoc", "", true) != plHandlerName) {
 	                    Options("file_assoc", plHandlerName, true);
-					}
+                    }
                     if (! quiet) {
-                        Console.WriteLine("\nPerl file association handling:");
-                        Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", "", true));
+	                    Console.WriteLine("\nPerl file association handling:");
+	                    Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", "", true));
                     }
                 }
             }
@@ -1308,17 +1308,26 @@ namespace BerryBrew {
 			RegistryKey registry = null;
 
 			try {
-	            registry = Registry.LocalMachine.OpenSubKey(registrySubKey);
+	            registry = Registry.LocalMachine.OpenSubKey(registrySubKey, true);
 			}
 			catch (NullReferenceException e) {
 				if (Debug) {
 					Console.Error.WriteLine("\nberrybrew registry section doesn't exist:\n {0}", e);
 				}
-			}	
-
+			}
+			catch (System.Security.SecurityException) {
+				try {
+		            registry = Registry.LocalMachine.OpenSubKey(registrySubKey);
+				}
+                catch (NullReferenceException e) {
+                    if (Debug) {
+                        Console.Error.WriteLine("\nberrybrew registry section doesn't exist:\n {0}", e);
+                    }
+                }
+			}
 			if (registry == null) {
 				try {
-		            registry = Registry.LocalMachine.CreateSubKey(registrySubKey);
+		            registry = Registry.LocalMachine.CreateSubKey(registrySubKey, true);
 				}
 				catch (UnauthorizedAccessException e) {
 					Console.WriteLine("\nThe command you specified requires Administrator privileges.\n");
@@ -1361,7 +1370,7 @@ namespace BerryBrew {
                         registry.SetValue(option, value);
                     }
                     catch (UnauthorizedAccessException err) {
-                        Console.Error.WriteLine("Writing to the registry requires Administrator privileges.\n");
+                        Console.Error.WriteLine("Setting options in the registry requires Administrator privileges.\n");
                         if (Debug) {
                             Console.Error.WriteLine("DEBUG: {0}", err);
                         }
@@ -1385,7 +1394,7 @@ namespace BerryBrew {
             dynamic jsonConf = JsonParse("config");
             
             try {
-                RegistryKey regKey = Registry.LocalMachine.OpenSubKey(registrySubKey, true);
+                RegistryKey regKey = Registry.LocalMachine.OpenSubKey(registrySubKey);
 
                 string[] regValues = regKey.GetValueNames();
 
@@ -1551,7 +1560,7 @@ namespace BerryBrew {
 
             try {
                 const string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
-                using (RegistryKey pathKey = Registry.LocalMachine.OpenSubKey(keyName, true)){
+                using (RegistryKey pathKey = Registry.LocalMachine.OpenSubKey(keyName)){
 
                     pathKey.DeleteValue("Path");
 
