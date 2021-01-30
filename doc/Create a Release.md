@@ -4,18 +4,12 @@
 
 - `git pull` to ensure we're up-to-date
 
-- Update the `Changes` file with the current release date along side the
-version that's about to be released
-
-- Run `berrybrew fetch`, and then copy the `data\perls.json` file to the 
-`dev\data\` directory
-
 - If configuration directives have been added, removed or modified in the
 `data\config.json` that are part of the new release, copy that file to the
 `dev\data\` directory
 
 - Ensure all unit tests pass per 
-[Unit testing](https://github.com/stevieb9/berrybrew/blob/master/doc/Unit%20Testing.md)
+[Unit testing](Unit%20Testing.md)
 
 - Execute the `perl dev\release.pl` script, which:
 
@@ -30,6 +24,7 @@ version that's about to be released
     - Update the `README.md` file with the zip and installer's new SHA sum
     - Update the `README.md` file with the new version from the API's
     `Version()` method
+    - Sets the date in the Changes file for the release version      
     - Creates a Markdown version of the Changes file
     
 - If you had any custom configuration files in place before running the

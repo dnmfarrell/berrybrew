@@ -3,8 +3,9 @@ use strict;
 
 use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
 use Digest::SHA qw(sha1);
-use File::Find::Rule;
+use Dist::Mgr qw(changes_date);
 use File::Copy;
+use File::Find::Rule;
 use JSON::PP;
 use Test::More;
 
@@ -26,7 +27,9 @@ my $defaults_dir = 'dev/data';
 
 backup_configs();
 compile();
+update_perls_available();
 create_zip();
+changes_date();
 create_changes();
 update_installer_script();
 create_installer();
@@ -35,6 +38,27 @@ check_readme();
 finish();
 done_testing();
 
+sub backup_configs {
+
+    if (!-d $bak_dir) {
+        mkdir $bak_dir or die $!;
+        print "created backup dir, $bak_dir\n";
+    }
+
+    my @files = glob "$data_dir/*";
+
+    for (@files) {
+        copy $_, $bak_dir or die $!;
+        print "copied $_ to $bak_dir\n";
+    }
+
+    @files = glob "$defaults_dir/*";
+
+    for (@files) {
+        copy $_, $data_dir or die $!;
+        print "copied $_ to $data_dir\n";
+    }
+}
 sub check_readme {
     open my $fh, '<', 'README.md' or die "Can't open README: $!";
     my ($bb_sha, $inst_sha, $readme_ver);
@@ -74,27 +98,6 @@ sub check_readme {
             $c++;
         }
     }        
-}
-sub backup_configs {
-
-    if (!-d $bak_dir) {
-        mkdir $bak_dir or die $!;
-        print "created backup dir, $bak_dir\n";
-    }
-
-    my @files = glob "$data_dir/*";
-
-    for (@files) {
-        copy $_, $bak_dir or die $!;
-        print "copied $_ to $bak_dir\n";
-    }
-
-    @files = glob "$defaults_dir/*";
-
-    for (@files) {
-        copy $_, $data_dir or die $!;
-        print "copied $_ to $data_dir\n";
-    }
 }
 sub compile {
     print "\ncompiling the berrybrew API...\n";
@@ -175,41 +178,17 @@ sub create_changes {
 sub create_installer {
     system("makensis", INSTALLER_SCRIPT);
 }
-sub _generate_shasum {
-    my ($file) = @_;
-
-    if (! defined $file){
-        die "_generate_shasum() requres a filename sent in";
-    }
-
-    print "\ncalculating SHA1 for $file...\n";
-
-    my $digest = `shasum $file`;
-    $digest = (split /\s+/, $digest)[0];
-
-    return $digest;
+sub finish {
+    print "\nDone!\n";
 }
-sub _berrybrew_version {
-    open my $fh, '<', 'src/berrybrew.cs' or die $!;
-
-    my $c = 0;
-    my $ver;
-
-    while (<$fh>) {
-
-        if (/public string Version\(\)\s+\{/) {
-            $c = 1;
-            next;
-        }
-        if ($c == 1) {
-            ($ver) = $_ =~ /(\d+\.\d+)/;
-            last;
-        }
-    }
-
-    close $fh;
-
-    return $ver;
+sub update_perls_available {
+    my $out = `bin/berrybrew.exe fetch`;
+    like $out, qr/Successfully updated/, "available perls updated ok";
+   
+    is
+        eval { copy 'data/perls.json', 'dev/data/perls.json' or die "can't copy perls.json: $!"; 1 },
+        1,
+        "data/perls.json copied to dev/data ok";
 }
 sub update_installer_script {
     print "\nupdating installer script with version information\n";
@@ -231,8 +210,8 @@ sub update_installer_script {
     close $fh or die $!;
 
     for (@contents){
-        if (/PRODUCT_VERSION "(\d+\.\d+)"$/) {
-            s/$1/$bb_ver/;
+        if (/(PRODUCT_VERSION ".*")$/) {
+            s/$1/PRODUCT_VERSION "$bb_ver"/;
         }
         if (/.*(5\.\d+\.\d+_64).*/){
             s/$1/$most_recent_perl_ver/;
@@ -287,6 +266,40 @@ sub update_readme {
         print $wfh $_;
     }
 }
-sub finish {
-    print "\nDone!\n";
+
+sub _generate_shasum {
+    my ($file) = @_;
+
+    if (! defined $file){
+        die "_generate_shasum() requres a filename sent in";
+    }
+
+    print "\ncalculating SHA1 for $file...\n";
+
+    my $digest = `shasum $file`;
+    $digest = (split /\s+/, $digest)[0];
+
+    return $digest;
+}
+sub _berrybrew_version {
+    open my $fh, '<', 'src/berrybrew.cs' or die $!;
+
+    my $c = 0;
+    my $ver;
+
+    while (<$fh>) {
+
+        if (/public string Version\(\)\s+\{/) {
+            $c = 1;
+            next;
+        }
+        if ($c == 1) {
+            ($ver) = $_ =~ /(\d+\.\d+)/;
+            last;
+        }
+    }
+
+    close $fh;
+
+    return $ver;
 }

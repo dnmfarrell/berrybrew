@@ -332,6 +332,13 @@ namespace berrybrew {
                     bb.Exit(0);
                     break;
 
+                case "orphans":
+                    bb.bypassOrphanCheck = false;
+                    bb.OrphanedPerls();
+                    bb.bypassOrphanCheck = true;
+                    bb.Exit(0);
+                    break;
+
                 case "register":
                     if (args.Length == 1) {
                         bb.Message.Print("register_ver_required");

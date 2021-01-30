@@ -11,6 +11,7 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Security;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 
@@ -104,7 +105,7 @@ namespace BerryBrew {
         private bool windowsHomedir;
         
         private bool customExec;
-        public bool bypassOrphanCheck;
+        public bool bypassOrphanCheck = false;
 
         private const int MaxPerlNameLength = 25;
 
@@ -125,7 +126,8 @@ namespace BerryBrew {
                 "custom_exec", 
                 "run_mode",
                 "file_assoc",
-                "file_assoc_old"
+                "file_assoc_old",
+                "warn_orphans",
             }; 
 
             if (binPath.Contains("test")) {
@@ -177,15 +179,7 @@ namespace BerryBrew {
         }
 
         ~Berrybrew(){
-            List<string> orphans = PerlFindOrphans();
-
-            if (orphans.Count > 0 && ! bypassOrphanCheck) {
-                string orphanedPerls = Message.Get("perl_orphans");
-                Console.WriteLine("\nWARNING! {0}\n\n", orphanedPerls.Trim());
-                foreach (string orphan in orphans) {
-                    Console.WriteLine("  {0}", orphan);
-                }
-            }
+            OrphanedPerls();
         }
  
         public void Available(bool allPerls=false) {
@@ -298,6 +292,10 @@ namespace BerryBrew {
 
             if ((string) registry.GetValue("debug", "false") == "true") {
                 Debug = true;
+            }
+
+            if ((string) registry.GetValue("warn_orphans", "false") == "false") {
+                bypassOrphanCheck = true;
             }
 
             FileAssoc("", true);
@@ -905,17 +903,33 @@ namespace BerryBrew {
             string plHandlerName = "";
 
             try {
+                // assoc registry key
                 RegistryKey plExtKey = Registry.ClassesRoot.CreateSubKey(plExtSubKey);
                 plHandlerName = (string) plExtKey.GetValue("");
+
+                if (plHandlerName == null || plHandlerName == "") {
+                    // .pl key exists, but has no value
+                    return;
+                }
+
+                // ftype registry key
+                RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\open\command");
 
                 if (plHandlerName == null) {
                     plHandlerName = "";
                 }
 
                 if (action == "set") {
+                    StrawberryPerl perl = PerlInUse();
+
+                    if (String.IsNullOrEmpty(perl.PerlPath)) {
+                        Console.Error.WriteLine("\nNo berrybrew Perl in use, can't set file association.\n");
+                        Exit((int)ErrorCodes.PERL_NONE_IN_USE);
+                    }
+
                     if (plHandlerName == @"berrybrewPerl") {
-                        Console.Error.WriteLine("\nberrybrew is already managing the .pl file type\n");
-                        Exit((int)ErrorCodes.PERL_FILE_ASSOC_FAILED);
+                        plHandlerKey.SetValue("", perl.PerlPath + @"\perl.exe %1 %*");
+                        return;
                     }
 
                     Options("file_assoc_old", plHandlerName, true);
@@ -924,9 +938,6 @@ namespace BerryBrew {
                     plExtKey.SetValue("", plHandlerName);
                     Options("file_assoc", plHandlerName, true);
 
-                    RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\run\command");
-                    plHandlerKey.SetValue("", binPath + @"\env.exe perl ""%1"" %*");
-
                     SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero); 
 
                     Console.WriteLine("\nberrybrew is now managing the Perl file association");
@@ -934,11 +945,6 @@ namespace BerryBrew {
                 }
                 else if (action == "unset") {
                     string old_file_assoc = Options("file_assoc_old", "", true);
-
-                    if (old_file_assoc == "") {
-                        Console.Error.WriteLine("\nDefault file association already in place");
-                        Exit((int)ErrorCodes.PERL_FILE_ASSOC_FAILED);
-                    }
 
                     plExtKey.SetValue("", old_file_assoc);
                     Options("file_assoc_old", "", true);
@@ -950,10 +956,12 @@ namespace BerryBrew {
                     Exit(0);
                 }
                 else {
-                    Options("file_assoc", plHandlerName, true);
+                    if (Options("file_assoc", "", true) != plHandlerName) {
+	                    Options("file_assoc", plHandlerName, true);
+                    }
                     if (! quiet) {
-                        Console.WriteLine("\nPerl file association handling:");
-                        Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", "", true));
+	                    Console.WriteLine("\nPerl file association handling:");
+	                    Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", "", true));
                     }
                 }
             }
@@ -964,9 +972,9 @@ namespace BerryBrew {
                 if (Debug) {
                     Console.Error.WriteLine("DEBUG: {0}", err);
                 }
-                /* Commented out due to issue #246
-                * Exit((int)ErrorCodes.ADMIN_FILE_ASSOC);
-                */
+ //               /* Commented out due to issue #246
+ //               * Exit((int)ErrorCodes.ADMIN_FILE_ASSOC);
+ //               */
             }
         }
 
@@ -1256,6 +1264,9 @@ namespace BerryBrew {
             List<int> nameLengths = new List<int>();
             List<StrawberryPerl> installedPerls = PerlsInstalled();
 
+            // Ensure we list orphaned Perls
+            bypassOrphanCheck = false;
+
             if (! installedPerls.Any()) {
                 Console.Error.Write("\nNo versions of Perl are installed.\n");
                 Exit((int)ErrorCodes.PERL_NONE_INSTALLED);
@@ -1294,7 +1305,38 @@ namespace BerryBrew {
                 Console.WriteLine("\nDEBUG: option: {0}, value: {1}\n", option, value);
             }
 
-            RegistryKey registry = Registry.LocalMachine.CreateSubKey(registrySubKey);
+			RegistryKey registry = null;
+
+			try {
+	            registry = Registry.LocalMachine.OpenSubKey(registrySubKey, true);
+			}
+			catch (NullReferenceException e) {
+				if (Debug) {
+					Console.Error.WriteLine("\nberrybrew registry section doesn't exist:\n {0}", e);
+				}
+			}
+			catch (System.Security.SecurityException) {
+				try {
+		            registry = Registry.LocalMachine.OpenSubKey(registrySubKey);
+				}
+                catch (NullReferenceException e) {
+                    if (Debug) {
+                        Console.Error.WriteLine("\nberrybrew registry section doesn't exist:\n {0}", e);
+                    }
+                }
+			}
+			if (registry == null) {
+				try {
+		            registry = Registry.LocalMachine.CreateSubKey(registrySubKey, true);
+				}
+				catch (UnauthorizedAccessException e) {
+					Console.WriteLine("\nThe command you specified requires Administrator privileges.\n");
+					if (Debug) {
+						Console.Error.WriteLine("DEBUG: {0}", e);
+					}
+				}
+                Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
+			}
 
             if (option == "") {
                 Console.WriteLine("\nOption configuration:\n");
@@ -1328,7 +1370,7 @@ namespace BerryBrew {
                         registry.SetValue(option, value);
                     }
                     catch (UnauthorizedAccessException err) {
-                        Console.Error.WriteLine("Writing to the registry requires Administrator privileges.\n");
+                        Console.Error.WriteLine("Setting options in the registry requires Administrator privileges.\n");
                         if (Debug) {
                             Console.Error.WriteLine("DEBUG: {0}", err);
                         }
@@ -1378,6 +1420,17 @@ namespace BerryBrew {
                     Console.Error.WriteLine("DEBUG: {0}", err);
                 }
                 Exit((int)ErrorCodes.ADMIN_BERRYBREW_INIT);
+            }
+        }
+
+        public void OrphanedPerls() {
+            List<string> orphans = PerlFindOrphans();
+
+            if (orphans.Count > 0 && ! bypassOrphanCheck) {
+                Message.Print("perl_orphans");
+                foreach (string orphan in orphans) {
+                    Console.WriteLine("  {0}", orphan);
+                }
             }
         }
 
@@ -2115,16 +2168,34 @@ namespace BerryBrew {
                 if (switchQuick) {
                     SwitchQuick();
                 }
-                
+            
+                if (Options("file_assoc", "", true) == "berrybrewPerl") {
+                    FileAssoc("set", true);
+                }
+
                 Console.WriteLine("\nSwitched to Perl version {0}...\n\n",switchToVersion);
 
                 if (! switchQuick) {
                     Console.WriteLine("Run 'berrybrew-refresh' to use it.\n");
                 }
             }
+            catch (SecurityException err) {
+                Console.Error.WriteLine("\nSwitching Perls requires Administrator privileges");
+                if (Debug) {
+                    Console.Error.WriteLine("DEBUG: {0}", err);
+                }
+                Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
+            }
             catch (ArgumentException) {
                 Message.Error("perl_unknown_version");
                 Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);
+            }
+            catch (UnauthorizedAccessException err) {
+                Console.Error.WriteLine("\nSwitching Perls requires Administrator privileges");
+                if (Debug) {
+                    Console.Error.WriteLine("DEBUG: {0}", err);
+                }
+                Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
             }
         }
 
@@ -2350,7 +2421,7 @@ namespace BerryBrew {
         }
         
         public string Version() {
-            return @"1.31";
+            return @"1.32";
         }
     }
 

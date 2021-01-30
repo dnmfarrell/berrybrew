@@ -8,7 +8,7 @@ var perlRootDir
 var perlRootDirSet
 
 !define PRODUCT_NAME "berrybrew"
-!define PRODUCT_VERSION ""
+!define PRODUCT_VERSION "1.32"
 !define PRODUCT_PUBLISHER "Steve Bertrand"
 !define PRODUCT_WEB_SITE "https://github.com/stevieb9/berrybrew"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\berrybrew.exe"
@@ -58,8 +58,6 @@ Section "-MainSection" SEC_MAIN
   File "..\bin\berrybrew-ui.exe"
   File "..\bin\ICSharpCode.SharpZipLib.dll"
   File "..\bin\Newtonsoft.Json.dll"
-  File "..\bin\env.exe"
-  File "..\bin\libiconv2.dll"
 
   SetOutPath "$INSTDIR"
   File "..\Changes"
@@ -87,14 +85,13 @@ Section "-MainSection" SEC_MAIN
   File "..\src\berrybrew-ui.cs"
 SectionEnd
 
-Section "Perl 5.32.0_64" SEC_INSTALL_NEWEST_PERL
+Section "Perl 5.32.1_64" SEC_INSTALL_NEWEST_PERL
 SectionEnd
 
 Section "Run UI at startup" SEC_START_UI
 SectionEnd
 
-Section /o "Manage .pl file association" SEC_FILE_ASSOC
-SectionIn RO
+Section "Manage .pl file association" SEC_FILE_ASSOC
 SectionEnd
 
 Section -AdditionalIcons
@@ -118,6 +115,8 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
+  
+  WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR"
 SectionEnd
 
 Function perlRootPathSelection
@@ -152,17 +151,18 @@ Function LaunchFinish
       MessageBox MB_OK "Error writing registry"
     ${EndIf}      
   ${EndIf}  
-  
+
+  nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" debug options-update'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" config'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" register_orphans'
 
   ${If} ${SectionIsSelected} ${SEC_INSTALL_NEWEST_PERL}
-    ${If} ${FileExists} "$perlRootDir\5.32.0_64\perl\bin\perl.exe"
-      MessageBox MB_OK "Perl 5.32.0_64 is already installed, we'll switch to it"
+    ${If} ${FileExists} "$perlRootDir\5.32.1_64\perl\bin\perl.exe"
+      MessageBox MB_OK "Perl 5.32.1_64 is already installed, we'll switch to it"
     ${Else}
-      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" install 5.32.0_64'
+      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" install 5.32.1_64'
     ${EndIf}
-    nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.32.0_64'
+    nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.32.1_64'
   ${EndIf}
 
   ${If} ${SectionIsSelected} ${SEC_FILE_ASSOC}
@@ -212,11 +212,18 @@ Function .onInit
   StrCpy $InstDir "$INSTDIR\"
 
   ; check for previously installed versions
-   
+
   IfFileExists "$INSTDIR\bin\berrybrew.exe" file_found file_not_found
 
     file_found:
    
+      ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion"
+            
+      ${If} ${PRODUCT_VERSION} == $R0
+        MessageBox MB_OK "berrybrew version $R0 already installed. Aborting."
+        ; Abort
+      ${EndIf}
+
       MessageBox MB_ICONQUESTION|MB_YESNO "This will upgrade your existing berrybrew install. Continue?" IDYES true IDNO false
       false: 
         Abort
@@ -255,7 +262,7 @@ Function un.onInit
   
   Call un.StopUI
 FunctionEnd
-
+  
 Section Uninstall
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew" associate unset'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" off'
@@ -295,9 +302,6 @@ Section Uninstall
   Delete "$INSTDIR\bin\bb.exe"
   Delete "$INSTDIR\bin\berrybrew-ui.exe"
   Delete "$INSTDIR\bin\bbapi.dll"
-  Delete "$INSTDIR\bin\env.exe"
-  Delete "$INSTDIR\bin\libintl3.dll"
-  Delete "$INSTDIR\bin\libiconv2.dll"
   Delete "$INSTDIR\bin\uninst.exe"
   Delete "$INSTDIR\bin\berrybrew.lnk"
   Delete "$INSTDIR\bin\berrybrew.url"

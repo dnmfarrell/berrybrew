@@ -39,6 +39,7 @@ maintainers of this software.
 - [info](#info)
 - [options-update](#options-update)
 - [options-update-force](#options-update-force)
+- [orphans](#orphans)
 - [register-orphans](#register-orphans)
 - [test](#test)
 - [trace](#trace)
@@ -378,6 +379,11 @@ Loads all configuration options from the configuration file into the registry.
 Be warned that this will overwrite all changes that were previously changed
 within the registry.
 
+#### orphans
+
+Displays all orphaned Perl instances that haven't been registered with
+`berrybrew`.
+
 #### register-orphans
 
 This will register all orphaned Perl instances at once.
@@ -430,4 +436,4 @@ Usage: `berrybrew status <command> [options]`.
 
 If `debug` is also used, the `status` command must follow it.
 
-&copy; 2016-2020 by Steve Bertrand
+&copy; 2016-2021 by Steve Bertrand
