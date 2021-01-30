@@ -221,7 +221,7 @@ Function .onInit
             
       ${If} ${PRODUCT_VERSION} == $R0
         MessageBox MB_OK "berrybrew version $R0 already installed. Aborting."
-        ; Abort
+        Abort
       ${EndIf}
 
       MessageBox MB_ICONQUESTION|MB_YESNO "This will upgrade your existing berrybrew install. Continue?" IDYES true IDNO false
