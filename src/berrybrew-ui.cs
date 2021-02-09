@@ -23,11 +23,15 @@ public class BBUI : System.Windows.Forms.Form {
 
     private ComboBox perlRemoveSelect;
     private Button perlRemoveButton;
-    
+
+	private CheckBox fileAssocCheckBox;
+	private CheckBox warnOrphansCheckBox;
+	private CheckBox debugCheckBox;
+
     private System.ComponentModel.IContainer components;
 
     [STAThread]
-    static void Main() {
+   static void Main() {
         Application.Run(new BBUI());
     }
 
@@ -85,7 +89,11 @@ public class BBUI : System.Windows.Forms.Form {
         this.InitializePerlInstallButton();
 
         this.InitializePerlRemoveSelect();
-        this.InitializePerlRemoveButton();       
+        this.InitializePerlRemoveButton();
+
+		this.InitializeFileAssocCheckBox();
+		this.InitializeWarnOrphansCheckBox();
+		this.InitializeDebugCheckBox();
     }
  
     private void InitializeCurrentPerlLabel() {
@@ -117,7 +125,34 @@ public class BBUI : System.Windows.Forms.Form {
  
          this.currentPerlLabel.Text = currentPerlLabel.Text += perlInUse;       
     }
-    
+
+   	private void InitializeFileAssocCheckBox() {
+		this.fileAssocCheckBox = new System.Windows.Forms.CheckBox();
+		this.fileAssocCheckBox.Width = 200;
+		this.fileAssocCheckBox.AutoSize = true;
+		this.fileAssocCheckBox.Text = "Manage file association";
+        this.fileAssocCheckBox.Location = new System.Drawing.Point(10, 134);
+		Controls.Add(fileAssocCheckBox);
+	}
+
+   	private void InitializeWarnOrphansCheckBox() {
+		this.warnOrphansCheckBox = new System.Windows.Forms.CheckBox();
+		this.warnOrphansCheckBox.Width = 200;
+		this.warnOrphansCheckBox.AutoSize = true;
+		this.warnOrphansCheckBox.Text = "Warn on Orphans";
+        this.warnOrphansCheckBox.Location = new System.Drawing.Point(10, 154);
+		Controls.Add(warnOrphansCheckBox);
+	}
+
+   	private void InitializeDebugCheckBox() {
+		this.debugCheckBox = new System.Windows.Forms.CheckBox();
+		this.debugCheckBox.Width = 200;
+		this.debugCheckBox.AutoSize = true;
+		this.debugCheckBox.Text = "Debug";
+        this.debugCheckBox.Location = new System.Drawing.Point(10, 174);
+		Controls.Add(debugCheckBox);
+	}
+
     private void InitializePerlInstallButton() {
         this.perlInstallButton = new System.Windows.Forms.Button();
 
@@ -300,7 +335,7 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void Form1_Load(object sender, EventArgs e) {
 
-        this.ClientSize = new System.Drawing.Size(240, 150);
+        this.ClientSize = new System.Drawing.Size(270, 250);
 
         this.Controls.Add(this.perlSwitchButton);
         this.Controls.Add(this.perlSwitchSelect);
@@ -314,7 +349,7 @@ public class BBUI : System.Windows.Forms.Form {
         DrawComponents();
         
         this.Name = "BBUI";
-        this.Text = "Berrybrew UI";
+        this.Text = "Berrybrew UI v" + bb.Version();
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
         this.ShowInTaskbar = false;

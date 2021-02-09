@@ -321,8 +321,7 @@ namespace BerryBrew {
             }
 
             try {
-                Directory.CreateDirectory(rootPath);
-            }
+                Directory.CreateDirectory(rootPath); }
             catch (Exception err) {
                 Console.Error.WriteLine("\nCouldn't create install dir {0}. Please create it manually and run config again", rootPath);
                 if (Debug) {
