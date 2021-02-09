@@ -900,23 +900,15 @@ namespace BerryBrew {
 
         public void FileAssoc(string action="", bool quiet=false) {
             string plExtSubKey = @".pl";
-            string plHandlerName = "";
+            string plHandlerNameOld = "";
 
             try {
                 // assoc registry key
                 RegistryKey plExtKey = Registry.ClassesRoot.CreateSubKey(plExtSubKey);
-                plHandlerName = (string) plExtKey.GetValue("");
+                plHandlerNameOld = (string) plExtKey.GetValue("");
 
-                if (plHandlerName == null || plHandlerName == "") {
-                    // .pl key exists, but has no value
-                    return;
-                }
-
-                // ftype registry key
-                RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\open\command");
-
-                if (plHandlerName == null) {
-                    plHandlerName = "";
+                if (plHandlerNameOld == null) {
+                    plHandlerNameOld = "";
                 }
 
                 if (action == "set") {
@@ -927,14 +919,18 @@ namespace BerryBrew {
                         Exit((int)ErrorCodes.PERL_NONE_IN_USE);
                     }
 
-                    if (plHandlerName == @"berrybrewPerl") {
-                        plHandlerKey.SetValue("", perl.PerlPath + @"\perl.exe %1 %*");
+                    if (plHandlerNameOld == @"berrybrewPerl") {
+                		RegistryKey plHandlerKeyOld = Registry.ClassesRoot.CreateSubKey(plHandlerNameOld + @"\shell\open\command");
+                        plHandlerKeyOld.SetValue("", perl.PerlPath + @"\perl.exe %1 %*");
                         return;
                     }
 
-                    Options("file_assoc_old", plHandlerName, true);
-                    plHandlerName = @"berrybrewPerl";
-                    
+                    Options("file_assoc_old", plHandlerNameOld, true);
+                    string plHandlerName = @"berrybrewPerl";
+
+              		RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\open\command");
+                    plHandlerKey.SetValue("", perl.PerlPath + @"\perl.exe %1 %*");
+
                     plExtKey.SetValue("", plHandlerName);
                     Options("file_assoc", plHandlerName, true);
 
@@ -956,8 +952,8 @@ namespace BerryBrew {
                     Exit(0);
                 }
                 else {
-                    if (Options("file_assoc", "", true) != plHandlerName) {
-	                    Options("file_assoc", plHandlerName, true);
+                    if (Options("file_assoc", "", true) != plHandlerNameOld) {
+	                    Options("file_assoc", plHandlerNameOld, true);
                     }
                     if (! quiet) {
 	                    Console.WriteLine("\nPerl file association handling:");
