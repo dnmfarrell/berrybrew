@@ -132,6 +132,7 @@ public class BBUI : System.Windows.Forms.Form {
 		this.fileAssocCheckBox.AutoSize = true;
 		this.fileAssocCheckBox.Text = "Manage file association";
         this.fileAssocCheckBox.Location = new System.Drawing.Point(10, 134);
+        fileAssocCheckBox.CheckedChanged += new System.EventHandler(this.fileAssocCheckedChanged);
 		Controls.Add(fileAssocCheckBox);
 	}
 
@@ -152,6 +153,23 @@ public class BBUI : System.Windows.Forms.Form {
         this.debugCheckBox.Location = new System.Drawing.Point(10, 174);
 		Controls.Add(debugCheckBox);
 	}
+
+    private void fileAssocCheckedChanged(object Sender, EventArgs e) {
+        if (fileAssocCheckBox.Checked) {
+            if (String.IsNullOrEmpty(bb.PerlInUse().Name)) {
+                System.Windows.Forms.MessageBox.Show("No berrybrew Perl in use. Can't set file association.");
+                fileAssocCheckBox.Checked = false;
+            }
+            else {
+                Console.WriteLine("Setting file assoc");
+                bb.FileAssoc("set");
+            }
+        }
+        else {
+            Console.WriteLine("Unsetting file assoc");
+            bb.FileAssoc("unset", true);
+        }
+    }
 
     private void InitializePerlInstallButton() {
         this.perlInstallButton = new System.Windows.Forms.Button();
@@ -319,6 +337,8 @@ public class BBUI : System.Windows.Forms.Form {
     }
 
     private void trayIcon_Click(object Sender, EventArgs e) {
+        Console.WriteLine("MAximized");
+        DrawComponents();
         if (this.WindowState == FormWindowState.Minimized) {
             this.Show();
             this.WindowState = FormWindowState.Normal;
@@ -363,7 +383,7 @@ public class BBUI : System.Windows.Forms.Form {
             e.Cancel = true;
         }
     }
-    
+
     private void DrawComponents() {
         CurrentPerlLabel_Redraw();
         PerlInstallSelect_Redraw();
