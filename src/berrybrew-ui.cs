@@ -337,7 +337,6 @@ public class BBUI : System.Windows.Forms.Form {
     }
 
     private void trayIcon_Click(object Sender, EventArgs e) {
-        Console.WriteLine("MAximized");
         DrawComponents();
         if (this.WindowState == FormWindowState.Minimized) {
             this.Show();
