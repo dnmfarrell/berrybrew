@@ -447,15 +447,15 @@ Displays a list of the versions of Perl that are currently installed.
 
 #### Options
 
-    public string Options(string option="", string value="", bool quiet=false)
+    public string Options(string option=null, string value=null, bool quiet=false)
    
     argument:   option
     value:      String. The name of a valid option
-    default:    Empty string
+    default:    null
     
     argument:   value
     value:      String. The value of the option you want to set
-    default:    Empty string 
+    default:    null 
 
     argument:   quiet
     value:      Bool. Display output or not

@@ -937,7 +937,7 @@ namespace BerryBrew {
                     SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero); 
 
                     Console.WriteLine("\nberrybrew is now managing the Perl file association");
-                    Exit(0);
+                    //Exit(0);
                 }
                 else if (action == "unset") {
                     string old_file_assoc = Options("file_assoc_old", "", true);
@@ -949,7 +949,7 @@ namespace BerryBrew {
                     SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero); 
 
                     Console.WriteLine("\nSet Perl file association back to default");
-                    Exit(0);
+                    //Exit(0);
                 }
                 else {
                     if (Options("file_assoc", "", true) != plHandlerNameOld) {
@@ -1296,11 +1296,7 @@ namespace BerryBrew {
             Console.Write("berrybrew perl disabled. Run 'berrybrew-refresh' to use the system perl\n");
         }
 
-        public string Options(string option="", string value="", bool quiet=false) {
-            if (Debug) {
-                Console.WriteLine("\nDEBUG: option: {0}, value: {1}\n", option, value);
-            }
-
+        public string Options(string option=null, string value=null, bool quiet=false) {
 			RegistryKey registry = null;
 
 			try {
@@ -1334,7 +1330,7 @@ namespace BerryBrew {
                 Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
 			}
 
-            if (option == "") {
+            if (option == null) {
                 Console.WriteLine("\nOption configuration:\n");
 
                 foreach (string opt in validOptions) {
@@ -1351,7 +1347,7 @@ namespace BerryBrew {
                 Exit((int)ErrorCodes.OPTION_INVALID_ERROR);
             }
             else {
-                if (value == "") {
+                if (value == null) {
                     string optStr = String.Format("\n\t{0}:", option);
                     string optVal = (string) registry.GetValue(option, "");
 
