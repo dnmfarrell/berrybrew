@@ -590,7 +590,7 @@ namespace BerryBrew {
 
         public void Exit(int exitCode) {
             if (Debug) {
-                Console.WriteLine("DEBUG: Exit code: {0}", exitCode);
+                Console.WriteLine("\nDEBUG: Exit code: {0}", exitCode);
             }
 
             if (Trace) {
