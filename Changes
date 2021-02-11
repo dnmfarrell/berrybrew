@@ -1,7 +1,14 @@
 Revision history for berrybrew
 
 1.33 UNREL
-    -
+    - Added berrybrew version to the UI (work on #260)
+    - Fix issue where UI wasn't updating/redrawing after command line changes to
+      berrybrew/Perls
+    - Options() now defaults the two string parameters to null as opposed to
+      empty strings. This allows us to set empty string values. Previously,
+      FileAssoc() wouldn't work correctly with an empty string value
+    - UI now provides access to debug, warn_orphans, file_assoc and
+      windows_homedir options (closes #260)
 
 1.32    2021-01-30
     - Added 'warn_orphans' config/option directive, default false. Prevents

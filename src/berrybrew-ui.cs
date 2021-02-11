@@ -23,11 +23,16 @@ public class BBUI : System.Windows.Forms.Form {
 
     private ComboBox perlRemoveSelect;
     private Button perlRemoveButton;
-    
+
+	private CheckBox fileAssocCheckBox;
+	private CheckBox warnOrphansCheckBox;
+	private CheckBox debugCheckBox;
+	private CheckBox windowsHomedirCheckBox;
+
     private System.ComponentModel.IContainer components;
 
     [STAThread]
-    static void Main() {
+   static void Main() {
         Application.Run(new BBUI());
     }
 
@@ -85,7 +90,12 @@ public class BBUI : System.Windows.Forms.Form {
         this.InitializePerlInstallButton();
 
         this.InitializePerlRemoveSelect();
-        this.InitializePerlRemoveButton();       
+        this.InitializePerlRemoveButton();
+
+		this.InitializeFileAssocCheckBox();
+		this.InitializeWarnOrphansCheckBox();
+		this.InitializeDebugCheckBox();
+		this.InitializeWindowsHomedirCheckBox();
     }
  
     private void InitializeCurrentPerlLabel() {
@@ -117,7 +127,117 @@ public class BBUI : System.Windows.Forms.Form {
  
          this.currentPerlLabel.Text = currentPerlLabel.Text += perlInUse;       
     }
-    
+
+   	private void InitializeFileAssocCheckBox() {
+		this.fileAssocCheckBox = new System.Windows.Forms.CheckBox();
+		this.fileAssocCheckBox.Width = 200;
+		this.fileAssocCheckBox.AutoSize = true;
+		this.fileAssocCheckBox.Text = "Manage file association";
+        this.fileAssocCheckBox.Location = new System.Drawing.Point(10, 134);
+        this.fileAssocCheckBox.Checked = FileAssocManaged() ? true : false;
+        this.fileAssocCheckBox.CheckedChanged += new System.EventHandler(this.fileAssocCheckedChanged);
+		Controls.Add(fileAssocCheckBox);
+	}
+    private void FileAssocCheckBox_Redraw() {
+        this.fileAssocCheckBox.Checked = FileAssocManaged() ? true : false;
+    }
+    private bool FileAssocManaged() {
+        string assoc = bb.Options("file_assoc", null, true);
+        return assoc == "berrybrewPerl" ? true : false;
+    }
+    private void fileAssocCheckedChanged(object Sender, EventArgs e) {
+        if (fileAssocCheckBox.Checked) {
+            if (String.IsNullOrEmpty(bb.PerlInUse().Name)) {
+                System.Windows.Forms.MessageBox.Show("No berrybrew Perl in use. Can't set file association.");
+                fileAssocCheckBox.Checked = false;
+            }
+            else {
+                Console.WriteLine("Setting file assoc");
+                bb.FileAssoc("set");
+            }
+        }
+        else {
+            Console.WriteLine("Unsetting file assoc");
+            bb.FileAssoc("unset");
+        }
+    }
+
+   	private void InitializeWarnOrphansCheckBox() {
+		this.warnOrphansCheckBox = new System.Windows.Forms.CheckBox();
+		this.warnOrphansCheckBox.Width = 200;
+		this.warnOrphansCheckBox.AutoSize = true;
+		this.warnOrphansCheckBox.Text = "Warn on Orphans";
+        this.warnOrphansCheckBox.Checked = WarnOrphans() ? true : false;
+        this.warnOrphansCheckBox.Location = new System.Drawing.Point(10, 154);
+        this.warnOrphansCheckBox.CheckedChanged += new System.EventHandler(this.warnOrphansCheckedChanged);
+		Controls.Add(warnOrphansCheckBox);
+	}
+    private bool WarnOrphans() {
+        string assoc = bb.Options("warn_orphans", null, true);
+        return assoc == "true" ? true : false;
+    }
+    private void warnOrphansCheckedChanged(object Sender, EventArgs e) {
+        if (warnOrphansCheckBox.Checked) {
+            Console.WriteLine("Setting warn_orphans");
+            bb.Options("warn_orphans", "true", true);
+        }
+        else {
+            Console.WriteLine("Unsetting warn_orphans");
+            bb.Options("warn_orphans", "false", true);
+        }
+    }
+    private void WarnOrphansCheckBox_Redraw() {
+        this.warnOrphansCheckBox.Checked = WarnOrphans() ? true : false;
+    }
+
+    private void InitializeDebugCheckBox() {
+        this.debugCheckBox = new System.Windows.Forms.CheckBox();
+        this.debugCheckBox.Width = 200;
+        this.debugCheckBox.AutoSize = true;
+        this.debugCheckBox.Checked = bb.Options("debug", null, true) == "true" ? true : false;
+        this.debugCheckBox.Text = "Debug";
+        this.debugCheckBox.Location = new System.Drawing.Point(10, 174);
+        this.debugCheckBox.CheckedChanged += new System.EventHandler(this.debugCheckedChanged);
+        Controls.Add(debugCheckBox);
+    }
+    private void debugCheckedChanged(object Sender, EventArgs e) {
+        if (debugCheckBox.Checked) {
+            Console.WriteLine("Setting debug");
+            bb.Options("debug", "true", true);
+        }
+        else {
+            Console.WriteLine("Unsetting debug");
+            bb.Options("debug", "false", true);
+        }
+    }
+    private void DebugCheckBox_Redraw() {
+        this.debugCheckBox.Checked = bb.Options("debug", null, true) == "true" ? true : false;
+    }
+
+    private void InitializeWindowsHomedirCheckBox() {
+        this.windowsHomedirCheckBox = new System.Windows.Forms.CheckBox();
+        this.windowsHomedirCheckBox.Width = 200;
+        this.windowsHomedirCheckBox.AutoSize = true;
+        this.windowsHomedirCheckBox.Checked = bb.Options("windows_homedir", null, true) == "true" ? true : false;
+        this.windowsHomedirCheckBox.Text = "Windows Homedir";
+        this.windowsHomedirCheckBox.Location = new System.Drawing.Point(10, 194);
+        this.windowsHomedirCheckBox.CheckedChanged += new System.EventHandler(this.windowsHomedirCheckedChanged);
+        Controls.Add(windowsHomedirCheckBox);
+    }
+    private void windowsHomedirCheckedChanged(object Sender, EventArgs e) {
+        if (windowsHomedirCheckBox.Checked) {
+            Console.WriteLine("Setting windows_homedir");
+            bb.Options("windows_homedir", "true", true);
+        }
+        else {
+            Console.WriteLine("Unsetting windows_homedir");
+            bb.Options("windows_homedir", "false", true);
+        }
+    }
+    private void WindowsHomedirCheckBox_Redraw() {
+        this.windowsHomedirCheckBox.Checked = bb.Options("windows_homedir", null, true) == "true" ? true : false;
+    }
+
     private void InitializePerlInstallButton() {
         this.perlInstallButton = new System.Windows.Forms.Button();
 
@@ -284,6 +404,7 @@ public class BBUI : System.Windows.Forms.Form {
     }
 
     private void trayIcon_Click(object Sender, EventArgs e) {
+        DrawComponents();
         if (this.WindowState == FormWindowState.Minimized) {
             this.Show();
             this.WindowState = FormWindowState.Normal;
@@ -300,7 +421,7 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void Form1_Load(object sender, EventArgs e) {
 
-        this.ClientSize = new System.Drawing.Size(240, 150);
+        this.ClientSize = new System.Drawing.Size(270, 250);
 
         this.Controls.Add(this.perlSwitchButton);
         this.Controls.Add(this.perlSwitchSelect);
@@ -314,7 +435,7 @@ public class BBUI : System.Windows.Forms.Form {
         DrawComponents();
         
         this.Name = "BBUI";
-        this.Text = "Berrybrew UI";
+        this.Text = "Berrybrew UI v" + bb.Version();
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
         this.ShowInTaskbar = false;
@@ -328,11 +449,16 @@ public class BBUI : System.Windows.Forms.Form {
             e.Cancel = true;
         }
     }
-    
+
     private void DrawComponents() {
         CurrentPerlLabel_Redraw();
         PerlInstallSelect_Redraw();
         PerlSwitchSelect_Redraw();
         PerlRemoveSelect_Redraw();
+
+        FileAssocCheckBox_Redraw();
+        WarnOrphansCheckBox_Redraw();
+        DebugCheckBox_Redraw();
+        WindowsHomedirCheckBox_Redraw();
     }
 }
