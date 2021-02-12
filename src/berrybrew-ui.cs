@@ -15,6 +15,7 @@ public class BBUI : System.Windows.Forms.Form {
 
     private Label currentPerlLabel;
     private Button perlOpenButton;
+    private Button perlOffButton;
 
     private ComboBox perlSwitchSelect;
     private Button perlSwitchButton;
@@ -86,7 +87,8 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void InitializeComponents() {
         this.InitializeCurrentPerlLabel();
-//        this.InitializePerlOpenButton();
+        this.InitializePerlOpenButton();
+        this.InitializePerlOffButton();
 
         this.InitializePerlSwitchSelect();
         this.InitializePerlSwitchButton();
@@ -146,6 +148,33 @@ public class BBUI : System.Windows.Forms.Form {
         }
 
         bb.UseCompile(perlInUse, true);
+        this.WindowState = FormWindowState.Minimized;
+        this.Hide();
+        DrawComponents();
+    }
+
+    private void InitializePerlOffButton() {
+        this.perlOffButton = new System.Windows.Forms.Button();
+
+        this.perlOffButton.Location = new System.Drawing.Point(215, 10);
+        this.perlOffButton.Name = "perlOffButton";
+        this.perlOffButton.Size = new System.Drawing.Size(35, 20);
+        this.perlOffButton.TabIndex = 1;
+        this.perlOffButton.Text = "Off";
+        this.perlOffButton.UseVisualStyleBackColor = true;
+
+        this.perlOffButton.Click += new System.EventHandler(this.offPerlButton_Click);
+    }
+
+    private void offPerlButton_Click(object Sender, EventArgs e) {
+        string perlInUse = bb.PerlInUse().Name;
+
+        if (perlInUse == null) {
+            System.Windows.Forms.MessageBox.Show("No Perl currently in use!");
+            return;
+        }
+
+        bb.Off();
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
         DrawComponents();
@@ -505,7 +534,7 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void Form1_Load(object sender, EventArgs e) {
 
-        this.ClientSize = new System.Drawing.Size(270, 250);
+        this.ClientSize = new System.Drawing.Size(275, 250);
 
         if (bb.PerlInUse().Name != null) {
             this.Controls.Add(this.perlOpenButton);
@@ -542,9 +571,14 @@ public class BBUI : System.Windows.Forms.Form {
     }
 
     private void DrawComponents() {
-//        if (bb.PerlInUse().Name != null) {
-//            this.Controls.Add(this.perlOpenButton);
-//        }
+        if (bb.PerlInUse().Name != null) {
+            this.Controls.Add(this.perlOpenButton);
+            this.Controls.Add(this.perlOffButton);
+        }
+        else {
+             this.Controls.Remove(this.perlOpenButton);
+             this.Controls.Remove(this.perlOffButton);
+        }
 
         CurrentPerlLabel_Redraw();
         PerlInstallSelect_Redraw();

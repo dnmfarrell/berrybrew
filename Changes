@@ -13,6 +13,9 @@ Revision history for berrybrew
       Added BitSuffixCheck() to perform this task (closes #268)
     - UI now allows a user to use an installed Perl. We spawn a new CLI window
       from the GUI (closes #270)
+    - UI now allows user to spawn a CLI to the currently in-use Perl
+      (closes #273)
+    - UI now has an 'Off' button, allows disabling all berrybrew perls
 
 1.32    2021-01-30
     - Added 'warn_orphans' config/option directive, default false. Prevents
