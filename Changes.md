@@ -1,5 +1,22 @@
 Revision history for berrybrew
 
+1.33    2021-02-12
+- Added berrybrew version to the UI (work on #260)
+- Fix issue where UI wasn't updating/redrawing after command line changes to
+berrybrew/Perls
+- Options() now defaults the two string parameters to null as opposed to
+empty strings. This allows us to set empty string values. Previously,
+FileAssoc() wouldn't work correctly with an empty string value
+- UI now provides access to debug, warn_orphans, file_assoc and
+windows_homedir options (closes #260)
+- We will now default to 64-bit perls (ie. '_64') if the suffix is omitted.
+Added BitSuffixCheck() to perform this task (closes #268)
+- UI now allows a user to use an installed Perl. We spawn a new CLI window
+from the GUI (closes #270)
+- UI now allows user to spawn a CLI to the currently in-use Perl
+(closes #273)
+- UI now has an 'Off' button, allows disabling all berrybrew perls
+
 1.32    2021-01-30
 - Added 'warn_orphans' config/option directive, default false. Prevents
 the orphaned perls warning, except when 'list' is called (closes #251)
@@ -23,7 +40,7 @@ on an upgrade, and existing option values are not changed (fixes #257)
 - Changed all documentation links from absolute to relative (closes #259)
 - Modified OpenSubKey() in Options() to allow write access
 - Changes date is now updated by release script (closes #265)
-     
+
 1.31    2021-01-21
 - Fix issue where on first-run BaseConfig(), if the system didn't have
 a file association set for the .pl file type, we'd attempt to send
@@ -488,8 +505,8 @@ For the API, call ``obj.Debug = bool;'', for the CLI, ``berrybrew debug ...''
 - added unit test doc
 - on destruction, we now check for orphaned perl installs, and warn the user
 (closes #16)
-- StrawberryPerl objects are now only generated once, and stored within the BerryBrew
-object
+- StrawberryPerl objects are now only generated once, and stored within the
+BerryBrew object
 - removed several unused imports
 - sub command help for the commands that have sub commands
 - 'clean' removes temp files by default, but can also clean orphaned perls with

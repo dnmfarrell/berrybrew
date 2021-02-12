@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.33 UNREL
+1.33    2021-02-12
     - Added berrybrew version to the UI (work on #260)
     - Fix issue where UI wasn't updating/redrawing after command line changes to
       berrybrew/Perls

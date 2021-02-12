@@ -7,7 +7,7 @@
     "download_url"    : "https://strawberryperl.com/releases.json",
     "custom_exec"     : "false",
     "windows_homedir" : "false",
-    "run_mode"        : "test",
+    "run_mode"        : "prod",
     "file_assoc"      : "",
     "file_assoc_old"  : "",
     "warn_orphans"    : "false"
