@@ -30,6 +30,7 @@ The `Berrybrew` class is the base of the system.
 [Available](#available)| **public** | Displays all available Perls
 [AvailableList](#availablelist)| **public** | Returns a list of available Perl names
 [BaseConfig](#baseconfig)| private | Initializes the registry-based configuration
+[BitSuffixCheck](#bitsuffixcheck)| **public** | Adds the `_64` bit suffix if required to a Perl name
 [CheckName](#checkname)| internal | Validates the name of a custom Perl install
 [CheckRootDir](#checkrootdir)| private | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
@@ -135,8 +136,21 @@ we return only the most recent point release of each major version.
 
     private void BaseConfig()
     
-Initializes the registry based configuraiton.
-        
+Initializes the registry based configuration.
+
+#### BitSuffixCheck
+
+		public string BitSuffixCheck(string perl)
+
+        argument:   perlName
+        value:      Name of an available Perl
+
+        return:     The name of the Perl sent in, with the bit suffix added
+
+Checks if the name of the Perl sent in contains a bit suffix, and if not, adds
+`_64`, and returns the updated name. This allows you to omit the suffix on the
+command line when desiring a 64-bit version of Perl.
+
 #### CheckName
 
     private static bool CheckName(string perlName)
@@ -259,6 +273,8 @@ any Perls that have either `tmpl` or `template` in the name.
 
 By default, we also skip over all custom (cloned) instances. To have them
 included, set `custom_exec` to `true` by using `berrybrew options custom_exec true`.
+
+You can omit the bit suffix (eg: `_64`) if using a 64-bit Perl. We'll default to it.
 
 #### Exit
 

@@ -3,7 +3,8 @@ using System.IO;
 using System.Linq;
 using BerryBrew;
 using System.Collections.Generic;
-            
+using System.Text.RegularExpressions;
+
 namespace berrybrew {
     internal class Bbconsole {
         private static void Main(string[] args){
@@ -360,7 +361,7 @@ namespace berrybrew {
                         bb.Exit(0);
                     }
 
-                    bb.PerlRemove(args[1]);
+					bb.PerlRemove(args[1]);
                     bb.Exit(0);
                     break;
 
@@ -382,7 +383,7 @@ namespace berrybrew {
                     if (args.Length == 3 && args[2] == "quick") {
                         switchQuick = true;
                     }
-                   
+
                     bb.Switch(args[1], switchQuick);
                     bb.Exit(0);
                     break;

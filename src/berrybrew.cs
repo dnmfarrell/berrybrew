@@ -197,7 +197,7 @@ namespace BerryBrew {
                 if (! allPerls && ! perl.Newest) {
                     if (! PerlIsInstalled(perl) && ! perl.Custom && ! perl.Virtual)
                         continue;
-                }	
+                }
 
                 string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
                 Console.Write("\t" + perlNameToPrint);
@@ -246,6 +246,16 @@ namespace BerryBrew {
 
             return availablePerls;
         }
+
+		public string BitSuffixCheck(string perlName) {
+			if (Regex.Match(perlName, @"5\.\d+\.\d+").Success) {
+                if (! Regex.Match(perlName, @"_32").Success && ! Regex.Match(perlName, @"_64").Success) {
+                    return perlName + "_64";
+                }
+			}
+
+			return perlName;
+		}
 
         private void BaseConfig() {
 
@@ -766,7 +776,8 @@ namespace BerryBrew {
 
                 foreach (StrawberryPerl perl in perlsInstalled) {
                     foreach (string perlName in perls) {
-                        if (perlName.Equals(perl.Name)) {
+
+                        if (BitSuffixCheck(perlName).Equals(perl.Name)) {
                             execWith.Add(perl);
                         }
                     }
@@ -900,7 +911,7 @@ namespace BerryBrew {
 
         public void FileAssoc(string action="", bool quiet=false) {
             string plExtSubKey = @".pl";
-            string plHandlerNameOld = "";
+            string plHandlerNameOld = null;
 
             try {
                 // assoc registry key
@@ -937,27 +948,25 @@ namespace BerryBrew {
                     SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero); 
 
                     Console.WriteLine("\nberrybrew is now managing the Perl file association");
-                    //Exit(0);
                 }
                 else if (action == "unset") {
-                    string old_file_assoc = Options("file_assoc_old", "", true);
+                    string old_file_assoc = Options("file_assoc_old", null, true);
 
                     plExtKey.SetValue("", old_file_assoc);
-                    Options("file_assoc_old", "", true);
+                    Options("file_assoc_old", null, true);
                     Options("file_assoc", old_file_assoc, true);
 
                     SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero); 
 
                     Console.WriteLine("\nSet Perl file association back to default");
-                    //Exit(0);
                 }
                 else {
-                    if (Options("file_assoc", "", true) != plHandlerNameOld) {
+                    if (Options("file_assoc", null, true) != plHandlerNameOld) {
 	                    Options("file_assoc", plHandlerNameOld, true);
                     }
                     if (! quiet) {
 	                    Console.WriteLine("\nPerl file association handling:");
-	                    Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", "", true));
+	                    Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", null, true));
                     }
                 }
             }
@@ -968,14 +977,10 @@ namespace BerryBrew {
                 if (Debug) {
                     Console.Error.WriteLine("DEBUG: {0}", err);
                 }
- //               /* Commented out due to issue #246
- //               * Exit((int)ErrorCodes.ADMIN_FILE_ASSOC);
- //               */
             }
         }
 
         private static string FileRemove(string filename) {
-
             try {
                 File.Delete(filename);
             }
@@ -1003,7 +1008,6 @@ namespace BerryBrew {
         }
 
         public void ImportModules(string version="") {
-
             string moduleDir = rootPath + "modules\\";
 
             if (! Directory.Exists(moduleDir)) {
@@ -1113,7 +1117,6 @@ namespace BerryBrew {
         }        
 
         public void Install(string version) {
-
             StrawberryPerl perl = PerlResolveVersion(version);
 
             if (PerlIsInstalled(perl)) {
@@ -1137,7 +1140,6 @@ namespace BerryBrew {
         }
 
         private dynamic JsonParse(string type, bool raw=false) {
-
             string filename = string.Format("{0}.json", type);
             string jsonFile = configPath + filename;
 
@@ -1427,7 +1429,6 @@ namespace BerryBrew {
         }
 
         private void PathAddBerryBrew(string binPath) {
-
             string path = PathGet();
             List<string> newPath = new List<string>();
 
@@ -1446,7 +1447,6 @@ namespace BerryBrew {
         }
 
         private void PathAddPerl(StrawberryPerl perl) {
-
             string path = PathGet();
             List<string> newPath = perl.Paths;
             
@@ -1459,7 +1459,6 @@ namespace BerryBrew {
         }
 
         private static string PathGet() {
-
             const string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment\";
             string path = null;
             
@@ -1474,7 +1473,6 @@ namespace BerryBrew {
         }
 
         private static string PathGetUsr() {
-
             const string keyName = @"Environment\";
             string path = (string)Registry.CurrentUser.OpenSubKey(keyName).GetValue(
                 "PATH",
@@ -1485,7 +1483,6 @@ namespace BerryBrew {
         }
 
         private void PathRemoveBerrybrew() {
-
             string path = PathGet();
             List<string> paths = path.Split(new char[] {';'}).ToList();
             List<string> updatedPaths = new List<string>();
@@ -1500,7 +1497,6 @@ namespace BerryBrew {
         }
 
         private void PathRemovePerl(bool process=true) {
-
             string path = PathGet();
 
             if (path == null) {
@@ -1527,7 +1523,6 @@ namespace BerryBrew {
         }
 
         private static bool PathScan(string binPath, string target) {
-            
             var envTarget = target == "machine" ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.User;
             string paths = Environment.GetEnvironmentVariable("path", envTarget);
 
@@ -1541,7 +1536,6 @@ namespace BerryBrew {
         }
 
         private void PathSet(List<string> path){
-
             path.RemoveAll(string.IsNullOrEmpty);
 
             string paths = string.Join(";", path);
@@ -1583,7 +1577,6 @@ namespace BerryBrew {
         }
 
         private static string PerlarchivePath(StrawberryPerl perl) {
-
             string path;
 
             try {
@@ -1609,7 +1602,6 @@ namespace BerryBrew {
         }
 
         private List<string> PerlFindOrphans() {
-
             List<StrawberryPerl> perls = PerlsInstalled();
             
             try {
@@ -1667,7 +1659,6 @@ namespace BerryBrew {
         }
 
         private void PerlGenerateObjects(bool importIntoObject=false) {
-
             List<StrawberryPerl> perlObjects = new List<StrawberryPerl>();
 
             var perls = JsonParse("perls");
@@ -1733,7 +1724,6 @@ namespace BerryBrew {
         }
 
         public StrawberryPerl PerlInUse() {
-
             string path = PathGet();
             StrawberryPerl currentPerl = new StrawberryPerl();
 
@@ -1762,6 +1752,7 @@ namespace BerryBrew {
 
         public void PerlRemove(string perlVersionToRemove) {
             try {
+				perlVersionToRemove = BitSuffixCheck(perlVersionToRemove);
                 StrawberryPerl perl = PerlResolveVersion(perlVersionToRemove);
                 StrawberryPerl currentPerl = PerlInUse();
 
@@ -1836,6 +1827,7 @@ namespace BerryBrew {
         }
 
         public void PerlRegisterCustomInstall(string perlName, StrawberryPerl perlBase=new StrawberryPerl()) {
+			perlName = BitSuffixCheck(perlName);
 
             if (! Directory.Exists(rootPath + perlName)) {
                 Console.Error.WriteLine("installation directory '" + perlName + "' does not exist");
@@ -1933,7 +1925,6 @@ namespace BerryBrew {
         }
         
         public void PerlUpdateAvailableList() {
-
             Console.WriteLine("Attempting to fetch the updated Perls list...");
 
             using (WebClient client = new WebClient()) {
@@ -2103,7 +2094,6 @@ namespace BerryBrew {
         }
 
         public void PerlUpdateAvailableListOrphans() {
-
             List<string> orphans = PerlFindOrphans();
 
             foreach(var orphan in orphans) {
@@ -2113,6 +2103,7 @@ namespace BerryBrew {
         }
        
         private StrawberryPerl PerlResolveVersion(string version) {
+			version = BitSuffixCheck(version);
 
             foreach (StrawberryPerl perl in _perls.Values) {
                 if (perl.Name == version) {
@@ -2124,7 +2115,6 @@ namespace BerryBrew {
         }
         
         private static Process ProcessCreate(string cmd, bool hidden=true) {
-
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
 
@@ -2142,6 +2132,7 @@ namespace BerryBrew {
         }
         
         public void Switch(string switchToVersion, bool switchQuick=false) {
+			switchToVersion = BitSuffixCheck(switchToVersion);
 
             try {
                 StrawberryPerl perl = PerlResolveVersion(switchToVersion);
@@ -2161,7 +2152,7 @@ namespace BerryBrew {
                     SwitchQuick();
                 }
             
-                if (Options("file_assoc", "", true) == "berrybrewPerl") {
+                if (Options("file_assoc", null, true) == "berrybrewPerl") {
                     FileAssoc("set", true);
                 }
 
@@ -2227,7 +2218,6 @@ namespace BerryBrew {
         }
 
         public void UseCompile(string usePerlStr, bool newWindow = false) {
-
             List<StrawberryPerl> perlsInstalled = PerlsInstalled();
             List<StrawberryPerl> useWith = new List<StrawberryPerl>();
 
@@ -2235,9 +2225,9 @@ namespace BerryBrew {
 
             foreach (string perlName in perls) {
                 bool perlAdded = false;
-                
+
                 foreach (StrawberryPerl perl in perlsInstalled) {
-                    if (perlName.Equals(perl.Name)) {
+                    if (BitSuffixCheck(perlName).Equals(perl.Name)) {
                         useWith.Add(perl);
                         perlAdded = true;
                     }
@@ -2519,4 +2509,4 @@ namespace BerryBrew {
             };
         }
     }
-}    
+}

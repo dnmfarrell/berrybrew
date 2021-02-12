@@ -99,21 +99,21 @@ public class BBUI : System.Windows.Forms.Form {
     }
  
     private void InitializeCurrentPerlLabel() {
-            this.currentPerlLabel = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+        this.currentPerlLabel = new System.Windows.Forms.Label();
+        this.SuspendLayout();
 
-            this.currentPerlLabel.AutoSize = true;
-            this.currentPerlLabel.Location = new System.Drawing.Point(10, 10);
-            this.currentPerlLabel.Name = "currentPerlLabel";
-            this.currentPerlLabel.Size = new System.Drawing.Size(35, 35);
-            this.currentPerlLabel.TabIndex = 0;
-            this.currentPerlLabel.Font = new Font(this.Font, FontStyle.Bold);
+        this.currentPerlLabel.AutoSize = true;
+        this.currentPerlLabel.Location = new System.Drawing.Point(10, 10);
+        this.currentPerlLabel.Name = "currentPerlLabel";
+        this.currentPerlLabel.Size = new System.Drawing.Size(35, 35);
+        this.currentPerlLabel.TabIndex = 0;
+        this.currentPerlLabel.Font = new Font(this.Font, FontStyle.Bold);
 
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.currentPerlLabel);
-            this.Name = "BBUI";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+        this.ClientSize = new System.Drawing.Size(284, 261);
+        this.Controls.Add(this.currentPerlLabel);
+        this.Name = "BBUI";
+        this.ResumeLayout(false);
+        this.PerformLayout();
     }
 
     private void CurrentPerlLabel_Redraw() {
@@ -289,8 +289,7 @@ public class BBUI : System.Windows.Forms.Form {
         this.Hide();
         Application.Restart();
         Environment.Exit(0);       
-//        DrawComponents();
-    }  
+    }
       
     private void InitializePerlRemoveButton() {
         this.perlRemoveButton = new System.Windows.Forms.Button();
