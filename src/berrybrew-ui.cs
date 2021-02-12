@@ -14,10 +14,11 @@ public class BBUI : System.Windows.Forms.Form {
     private System.Windows.Forms.MenuItem rightClickExit;
 
     private Label currentPerlLabel;
-    
+    private Button perlOpenButton;
+
     private ComboBox perlSwitchSelect;
     private Button perlSwitchButton;
-    
+
     private ComboBox perlInstallSelect;
     private Button perlInstallButton;
 
@@ -85,10 +86,11 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void InitializeComponents() {
         this.InitializeCurrentPerlLabel();
-        
+//        this.InitializePerlOpenButton();
+
         this.InitializePerlSwitchSelect();
         this.InitializePerlSwitchButton();
-        
+
         this.InitializePerlInstallSelect();
         this.InitializePerlInstallButton();
 
@@ -122,13 +124,40 @@ public class BBUI : System.Windows.Forms.Form {
         this.PerformLayout();
     }
 
+    private void InitializePerlOpenButton() {
+        this.perlOpenButton = new System.Windows.Forms.Button();
+
+        this.perlOpenButton.Location = new System.Drawing.Point(169, 10);
+        this.perlOpenButton.Name = "perlOpenButton";
+        this.perlOpenButton.Size = new System.Drawing.Size(45, 20);
+        this.perlOpenButton.TabIndex = 1;
+        this.perlOpenButton.Text = "Open";
+        this.perlOpenButton.UseVisualStyleBackColor = true;
+
+        this.perlOpenButton.Click += new System.EventHandler(this.openPerlButton_Click);
+    }
+
+    private void openPerlButton_Click(object Sender, EventArgs e) {
+        string perlInUse = bb.PerlInUse().Name;
+
+        if (perlInUse == null) {
+            System.Windows.Forms.MessageBox.Show("No Perl currently in use!");
+            return;
+        }
+
+        bb.UseCompile(perlInUse, true);
+        this.WindowState = FormWindowState.Minimized;
+        this.Hide();
+        DrawComponents();
+    }
+
     private void CurrentPerlLabel_Redraw() {
          this.currentPerlLabel.Text = "Current Perl: ";
 
          string perlInUse = bb.PerlInUse().Name;
  
          if (perlInUse == null) {
-             perlInUse = "None configured";
+             perlInUse = "Not configured";
          }
  
          this.currentPerlLabel.Text = currentPerlLabel.Text += perlInUse;       
@@ -294,7 +323,7 @@ public class BBUI : System.Windows.Forms.Form {
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
         Application.Restart();
-        Environment.Exit(0);       
+        Environment.Exit(0);
     }
       
     private void InitializePerlRemoveButton() {
@@ -478,6 +507,10 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.ClientSize = new System.Drawing.Size(270, 250);
 
+        if (bb.PerlInUse().Name != null) {
+            this.Controls.Add(this.perlOpenButton);
+        }
+
         this.Controls.Add(this.perlSwitchButton);
         this.Controls.Add(this.perlSwitchSelect);
 
@@ -509,15 +542,19 @@ public class BBUI : System.Windows.Forms.Form {
     }
 
     private void DrawComponents() {
+//        if (bb.PerlInUse().Name != null) {
+//            this.Controls.Add(this.perlOpenButton);
+//        }
+
         CurrentPerlLabel_Redraw();
         PerlInstallSelect_Redraw();
         PerlSwitchSelect_Redraw();
         PerlRemoveSelect_Redraw();
         PerlUseSelect_Redraw();
 
-//        FileAssocCheckBox_Redraw();
-//        WarnOrphansCheckBox_Redraw();
-//        DebugCheckBox_Redraw();
-//        WindowsHomedirCheckBox_Redraw();
+        FileAssocCheckBox_Redraw();
+        WarnOrphansCheckBox_Redraw();
+        DebugCheckBox_Redraw();
+        WindowsHomedirCheckBox_Redraw();
     }
 }
