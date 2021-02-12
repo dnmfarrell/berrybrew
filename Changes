@@ -16,6 +16,9 @@ Revision history for berrybrew
     - UI now allows user to spawn a CLI to the currently in-use Perl
       (closes #273)
     - UI now has an 'Off' button, allows disabling all berrybrew perls
+    - When UI started new 'use' shell, it didn't have access to the %PROMPT% env
+      var, causing the full prompt from being displayed. Changed it to use $P$G
+      instead (fixes #276)
 
 1.32    2021-01-30
     - Added 'warn_orphans' config/option directive, default false. Prevents
