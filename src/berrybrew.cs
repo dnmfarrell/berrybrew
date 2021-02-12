@@ -2270,7 +2270,7 @@ namespace BerryBrew {
                 Environment.SetEnvironmentVariable("PATH", string.Join(";", newPath));
 
                 string prompt = Environment.GetEnvironmentVariable("PROMPT");
-                Environment.SetEnvironmentVariable("PROMPT", "$Lberrybrew use perl-" + perl.Name + "$G" + "$_" + prompt);
+                Environment.SetEnvironmentVariable("PROMPT", "$Lberrybrew use perl-" + perl.Name + "$G" + "$_" + "$P$G");
 
                 startInfo.FileName = "cmd.exe";
                 startInfo.Arguments = "/k TITLE berrybrew use perl-" + perl.Name;
