@@ -11,6 +11,8 @@ Revision history for berrybrew
       windows_homedir options (closes #260)
     - We will now default to 64-bit perls (ie. '_64') if the suffix is omitted.
       Added BitSuffixCheck() to perform this task (closes #268)
+    - UI now allows a user to use an installed Perl. We spawn a new CLI window
+      from the GUI (closes #270)
 
 1.32    2021-01-30
     - Added 'warn_orphans' config/option directive, default false. Prevents
