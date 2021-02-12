@@ -54,7 +54,7 @@ Execute one of the following batch calls to run all tests
 
 ### What's happening
 
-- `t\test.bat` builds berrybrew and calls `t\run_tests.pl` using your system Strawberry Perl's perl
+- `t\test.bat` builds berrybrew and calls `perl t\run_tests.pl` using your system Strawberry Perl's perl
 
     - It ensures that the `c:\berrybrew\test` directory hierarchy exists.  This directory is used for holding the test installs of at least two different strawberry perls, plus the clones and templates.  It is safe to delete the whole `c:\berrybrew\test` hierarchy after testing is complete. We remove this directory and recreate it at the beginning of each test run
     - Removes the `test\data\perls_custom.json` file if it exists at the commencement of the run
@@ -133,6 +133,9 @@ Nasty, weird things can happen if they are disabled without
 understanding what they do and why they're there.
 
 #### BB_SWITCH_TEST
+
+**Note** It appears as though this flag is no longer needed. There aren't
+any references to it, or `SwitchProcess()` in the code or tests.
 
 This flag is to inform the `Switch()` method that we're in testing, so
 it won't run the `SwitchProcess()` call. That call removes the parent

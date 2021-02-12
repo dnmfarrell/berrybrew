@@ -55,4 +55,16 @@ while(@installed < 2) {
     like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";
 }
 
+{
+    $o = `$c switch 5.16.3`;
+    like $o, qr/Switched to Perl version 5\.16\.3_64/, "switch to 5.16.3_64 without suffix ok";
+
+    $path = $Registry->{$path_key};
+    like $path, qr/C:\\berrybrew\\test\\5\.16\.3_64/, "PATH set ok for 5.16.3_64";
+
+    $o = `$c remove 5.16.3`;
+    like $o, qr/Successfully removed.*5\.16\.3_64/, "removed 5.16.3_64 without suffix ok";
+
+}
+
 done_testing();

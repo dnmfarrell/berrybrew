@@ -14,12 +14,10 @@ to have Strawberry Perl installed before using `berrybrew`.
 
 Use the **bb** command as a short hand name for **berrybrew**.
 
-There is extensive documentation available for the
-[berrybrew](doc/berrybrew.md)
-application, as well as the 
-[Berrybrew API](doc/Berrybrew%20API.md).
-See [SEE ALSO](#see-also) for the
-full list of documentation.
+There is extensive documentation available for the [berrybrew](doc/berrybrew.md)
+application, as well as the [Berrybrew API](doc/Berrybrew%20API.md).
+
+See [SEE ALSO](#see-also) for the  full list of documentation.
 
 ## Table of Contents
 
@@ -102,10 +100,15 @@ See the [Configuration](doc/Configuration.md)
 document, and the `options` command in the [berrybrew](doc/berrybrew.md)
 documentation.
 
+Several of the modifiable options are configurable through the UI.
+
 ## Commands
 
-See the [berrybrew](doc/berrybrew.md)
-documentation for a full explanation of all of the following commands.
+See the [berrybrew](doc/berrybrew.md) documentation for a full explanation of
+all of the following commands.
+
+For all commands that require the name of a Perl (eg: `install`), we will default
+to 64-bit (ie. `_64`) if this suffix is omitted.
 
     berrybrew <command> [subcommand] [option]
 
@@ -143,7 +146,8 @@ document for usage examples.
 ## Upgrading
 
 Using the [installer](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
-is the best and safest way to upgrade your `berrybrew`.
+is the best and safest way to upgrade your `berrybrew`. You can stop reading here
+if you use the installer to install `berrybrew`.
 
 If the new install will not be in the same directory as your previous version, 
 copy any new or differing configuration options in the `data\config.json` file

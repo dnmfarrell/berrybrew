@@ -149,7 +149,7 @@ Initializes the registry based configuration.
 
 Checks if the name of the Perl sent in contains a bit suffix, and if not, adds
 `_64`, and returns the updated name. This allows you to omit the suffix on the
-command line if desiring a 64-bit version of Perl.
+command line when desiring a 64-bit version of Perl.
 
 #### CheckName
 
