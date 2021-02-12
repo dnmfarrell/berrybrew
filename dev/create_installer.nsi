@@ -8,7 +8,7 @@ var perlRootDir
 var perlRootDirSet
 
 !define PRODUCT_NAME "berrybrew"
-!define PRODUCT_VERSION "1.32"
+!define PRODUCT_VERSION "1.33"
 !define PRODUCT_PUBLISHER "Steve Bertrand"
 !define PRODUCT_WEB_SITE "https://github.com/stevieb9/berrybrew"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\berrybrew.exe"
@@ -221,7 +221,7 @@ Function .onInit
             
       ${If} ${PRODUCT_VERSION} == $R0
         MessageBox MB_OK "berrybrew version $R0 already installed. Aborting."
-        ; Abort
+        Abort
       ${EndIf}
 
       MessageBox MB_ICONQUESTION|MB_YESNO "This will upgrade your existing berrybrew install. Continue?" IDYES true IDNO false

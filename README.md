@@ -14,12 +14,10 @@ to have Strawberry Perl installed before using `berrybrew`.
 
 Use the **bb** command as a short hand name for **berrybrew**.
 
-There is extensive documentation available for the
-[berrybrew](doc/berrybrew.md)
-application, as well as the 
-[Berrybrew API](doc/Berrybrew%20API.md).
-See [SEE ALSO](#see-also) for the
-full list of documentation.
+There is extensive documentation available for the [berrybrew](doc/berrybrew.md)
+application, as well as the [Berrybrew API](doc/Berrybrew%20API.md).
+
+See [SEE ALSO](#see-also) for the  full list of documentation.
 
 ## Table of Contents
 
@@ -46,7 +44,7 @@ full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: bd19fbf4e8d891a5285792693ce263c28ab444c5`
+[berrybrewInstaller.exe](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 5d4872c9f94b8db4905a4fc9c42266a8236c7e9a`
 
 ##### Git clone
 
@@ -56,7 +54,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 783c39d567b33f1cecf7e43343fb264760ecb5d4`
+[berrybrew.zip](download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: bea91cb9c2a13ee2c3991b55890d27e5e25e1f50`
 
 After extraction:
 
@@ -102,10 +100,15 @@ See the [Configuration](doc/Configuration.md)
 document, and the `options` command in the [berrybrew](doc/berrybrew.md)
 documentation.
 
+Several of the modifiable options are configurable through the UI.
+
 ## Commands
 
-See the [berrybrew](doc/berrybrew.md)
-documentation for a full explanation of all of the following commands.
+See the [berrybrew](doc/berrybrew.md) documentation for a full explanation of
+all of the following commands.
+
+For all commands that require the name of a Perl (eg: `install`), we will default
+to 64-bit (ie. `_64`) if this suffix is omitted.
 
     berrybrew <command> [subcommand] [option]
 
@@ -143,7 +146,8 @@ document for usage examples.
 ## Upgrading
 
 Using the [installer](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
-is the best and safest way to upgrade your `berrybrew`.
+is the best and safest way to upgrade your `berrybrew`. You can stop reading here
+if you use the installer to install `berrybrew`.
 
 If the new install will not be in the same directory as your previous version, 
 copy any new or differing configuration options in the `data\config.json` file
@@ -278,7 +282,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-   1.32 
+   1.33 
 
 ## Hidden Commands
 

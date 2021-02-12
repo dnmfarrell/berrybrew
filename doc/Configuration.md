@@ -8,6 +8,8 @@ to the configuration file after installation will have no effect on **berrybrew*
 
 For changing configuration options after install, see [**berrybrew options**](berrybrew.md#options).
 
+Most options are also configurable through the UI.
+
 |Directive|Description|
 |---|---|   
 |[debug](#debug)|Enable/disable debugging|

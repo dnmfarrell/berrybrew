@@ -127,7 +127,7 @@ sub compile {
     print "\ncompiling the berrybrew UI...\n";
  
     my $ui_build = "" .
-        "csc " .
+        "mcs " .
         "src/berrybrew-ui.cs " .
         "-lib:bin " .
         "-r:bbapi.dll " .
