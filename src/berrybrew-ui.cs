@@ -14,15 +14,20 @@ public class BBUI : System.Windows.Forms.Form {
     private System.Windows.Forms.MenuItem rightClickExit;
 
     private Label currentPerlLabel;
-    
+    private Button perlOpenButton;
+    private Button perlOffButton;
+
     private ComboBox perlSwitchSelect;
     private Button perlSwitchButton;
-    
+
     private ComboBox perlInstallSelect;
     private Button perlInstallButton;
 
     private ComboBox perlRemoveSelect;
     private Button perlRemoveButton;
+
+    private ComboBox perlUseSelect;
+    private Button perlUseButton;
 
 	private CheckBox fileAssocCheckBox;
 	private CheckBox warnOrphansCheckBox;
@@ -82,17 +87,22 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void InitializeComponents() {
         this.InitializeCurrentPerlLabel();
-        
+        this.InitializePerlOpenButton();
+        this.InitializePerlOffButton();
+
         this.InitializePerlSwitchSelect();
         this.InitializePerlSwitchButton();
-        
+
         this.InitializePerlInstallSelect();
         this.InitializePerlInstallButton();
 
         this.InitializePerlRemoveSelect();
         this.InitializePerlRemoveButton();
 
-		this.InitializeFileAssocCheckBox();
+        this.InitializePerlUseSelect();
+        this.InitializePerlUseButton();
+
+        this.InitializeFileAssocCheckBox();
 		this.InitializeWarnOrphansCheckBox();
 		this.InitializeDebugCheckBox();
 		this.InitializeWindowsHomedirCheckBox();
@@ -116,13 +126,67 @@ public class BBUI : System.Windows.Forms.Form {
         this.PerformLayout();
     }
 
+    private void InitializePerlOpenButton() {
+        this.perlOpenButton = new System.Windows.Forms.Button();
+
+        this.perlOpenButton.Location = new System.Drawing.Point(169, 10);
+        this.perlOpenButton.Name = "perlOpenButton";
+        this.perlOpenButton.Size = new System.Drawing.Size(45, 20);
+        this.perlOpenButton.TabIndex = 1;
+        this.perlOpenButton.Text = "Open";
+        this.perlOpenButton.UseVisualStyleBackColor = true;
+
+        this.perlOpenButton.Click += new System.EventHandler(this.openPerlButton_Click);
+    }
+
+    private void openPerlButton_Click(object Sender, EventArgs e) {
+        string perlInUse = bb.PerlInUse().Name;
+
+        if (perlInUse == null) {
+            System.Windows.Forms.MessageBox.Show("No Perl currently in use!");
+            return;
+        }
+
+        bb.UseCompile(perlInUse, true);
+        this.WindowState = FormWindowState.Minimized;
+        this.Hide();
+        DrawComponents();
+    }
+
+    private void InitializePerlOffButton() {
+        this.perlOffButton = new System.Windows.Forms.Button();
+
+        this.perlOffButton.Location = new System.Drawing.Point(215, 10);
+        this.perlOffButton.Name = "perlOffButton";
+        this.perlOffButton.Size = new System.Drawing.Size(35, 20);
+        this.perlOffButton.TabIndex = 1;
+        this.perlOffButton.Text = "Off";
+        this.perlOffButton.UseVisualStyleBackColor = true;
+
+        this.perlOffButton.Click += new System.EventHandler(this.offPerlButton_Click);
+    }
+
+    private void offPerlButton_Click(object Sender, EventArgs e) {
+        string perlInUse = bb.PerlInUse().Name;
+
+        if (perlInUse == null) {
+            System.Windows.Forms.MessageBox.Show("No Perl currently in use!");
+            return;
+        }
+
+        bb.Off();
+        this.WindowState = FormWindowState.Minimized;
+        this.Hide();
+        DrawComponents();
+    }
+
     private void CurrentPerlLabel_Redraw() {
          this.currentPerlLabel.Text = "Current Perl: ";
 
          string perlInUse = bb.PerlInUse().Name;
  
          if (perlInUse == null) {
-             perlInUse = "None configured";
+             perlInUse = "Not configured";
          }
  
          this.currentPerlLabel.Text = currentPerlLabel.Text += perlInUse;       
@@ -133,7 +197,7 @@ public class BBUI : System.Windows.Forms.Form {
 		this.fileAssocCheckBox.Width = 200;
 		this.fileAssocCheckBox.AutoSize = true;
 		this.fileAssocCheckBox.Text = "Manage file association";
-        this.fileAssocCheckBox.Location = new System.Drawing.Point(10, 134);
+        this.fileAssocCheckBox.Location = new System.Drawing.Point(10, 155);
         this.fileAssocCheckBox.Checked = FileAssocManaged() ? true : false;
         this.fileAssocCheckBox.CheckedChanged += new System.EventHandler(this.fileAssocCheckedChanged);
 		Controls.Add(fileAssocCheckBox);
@@ -166,9 +230,9 @@ public class BBUI : System.Windows.Forms.Form {
 		this.warnOrphansCheckBox = new System.Windows.Forms.CheckBox();
 		this.warnOrphansCheckBox.Width = 200;
 		this.warnOrphansCheckBox.AutoSize = true;
-		this.warnOrphansCheckBox.Text = "Warn on Orphans";
+		this.warnOrphansCheckBox.Text = "Warn on orphans";
         this.warnOrphansCheckBox.Checked = WarnOrphans() ? true : false;
-        this.warnOrphansCheckBox.Location = new System.Drawing.Point(10, 154);
+        this.warnOrphansCheckBox.Location = new System.Drawing.Point(10, 175);
         this.warnOrphansCheckBox.CheckedChanged += new System.EventHandler(this.warnOrphansCheckedChanged);
 		Controls.Add(warnOrphansCheckBox);
 	}
@@ -196,7 +260,7 @@ public class BBUI : System.Windows.Forms.Form {
         this.debugCheckBox.AutoSize = true;
         this.debugCheckBox.Checked = bb.Options("debug", null, true) == "true" ? true : false;
         this.debugCheckBox.Text = "Debug";
-        this.debugCheckBox.Location = new System.Drawing.Point(10, 174);
+        this.debugCheckBox.Location = new System.Drawing.Point(10, 195);
         this.debugCheckBox.CheckedChanged += new System.EventHandler(this.debugCheckedChanged);
         Controls.Add(debugCheckBox);
     }
@@ -219,8 +283,8 @@ public class BBUI : System.Windows.Forms.Form {
         this.windowsHomedirCheckBox.Width = 200;
         this.windowsHomedirCheckBox.AutoSize = true;
         this.windowsHomedirCheckBox.Checked = bb.Options("windows_homedir", null, true) == "true" ? true : false;
-        this.windowsHomedirCheckBox.Text = "Windows Homedir";
-        this.windowsHomedirCheckBox.Location = new System.Drawing.Point(10, 194);
+        this.windowsHomedirCheckBox.Text = "Windows homedir";
+        this.windowsHomedirCheckBox.Location = new System.Drawing.Point(10, 215);
         this.windowsHomedirCheckBox.CheckedChanged += new System.EventHandler(this.windowsHomedirCheckedChanged);
         Controls.Add(windowsHomedirCheckBox);
     }
@@ -288,13 +352,13 @@ public class BBUI : System.Windows.Forms.Form {
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
         Application.Restart();
-        Environment.Exit(0);       
+        Environment.Exit(0);
     }
       
     private void InitializePerlRemoveButton() {
         this.perlRemoveButton = new System.Windows.Forms.Button();
 
-        this.perlRemoveButton.Location = new System.Drawing.Point(139, 95);
+        this.perlRemoveButton.Location = new System.Drawing.Point(139, 125);
         this.perlRemoveButton.Name = "perlRemoveButton";
         this.perlRemoveButton.Size = new System.Drawing.Size(75, 23);
         this.perlRemoveButton.TabIndex = 1;
@@ -316,7 +380,33 @@ public class BBUI : System.Windows.Forms.Form {
         this.Hide();
         DrawComponents();
     }  
-     
+
+    private void InitializePerlUseButton() {
+        this.perlUseButton = new System.Windows.Forms.Button();
+
+        this.perlUseButton.Location = new System.Drawing.Point(139, 95);
+        this.perlUseButton.Name = "perlUseButton";
+        this.perlUseButton.Size = new System.Drawing.Size(75, 23);
+        this.perlUseButton.TabIndex = 1;
+        this.perlUseButton.Text = "Use";
+        this.perlUseButton.UseVisualStyleBackColor = true;
+
+        this.perlUseButton.Click += new System.EventHandler(this.usePerlButton_Click);
+    }
+
+    private void usePerlButton_Click(object Sender, EventArgs e) {
+        if (perlUseSelect.Text == "") {
+            System.Windows.Forms.MessageBox.Show("No Perl selected to use!");
+            return;
+        }
+
+        string perlName = perlUseSelect.Text;
+        bb.UseCompile(perlName, true);
+        this.WindowState = FormWindowState.Minimized;
+        this.Hide();
+        DrawComponents();
+    }
+
     private void InitializePerlInstallSelect() {
         this.perlInstallSelect = new System.Windows.Forms.ComboBox();
         this.perlInstallSelect.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -347,7 +437,7 @@ public class BBUI : System.Windows.Forms.Form {
         this.perlRemoveSelect.DropDownStyle = ComboBoxStyle.DropDownList;
 
         this.perlRemoveSelect.FormattingEnabled = true;
-        this.perlRemoveSelect.Location = new System.Drawing.Point(10, 95);
+        this.perlRemoveSelect.Location = new System.Drawing.Point(10, 125);
         this.perlRemoveSelect.Name = "perlRemoveSelect";
         this.perlRemoveSelect.Size = new System.Drawing.Size(121, 30);
         this.perlRemoveSelect.TabIndex = 0;
@@ -402,6 +492,30 @@ public class BBUI : System.Windows.Forms.Form {
         perlSwitchSelect.SelectedIndex = -1;
     }
 
+    private void InitializePerlUseSelect() {
+        this.perlUseSelect = new System.Windows.Forms.ComboBox();
+        this.perlUseSelect.DropDownStyle = ComboBoxStyle.DropDownList;
+
+        this.perlUseSelect.FormattingEnabled = true;
+        this.perlUseSelect.Location = new System.Drawing.Point(10, 95);
+        this.perlUseSelect.Name = "perlUseSelect";
+        this.perlUseSelect.Size = new System.Drawing.Size(121, 30);
+        this.perlUseSelect.TabIndex = 0;
+
+        foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+            this.perlUseSelect.Items.Add(perl.Name );
+        }
+    }
+
+    private void PerlUseSelect_Redraw() {
+        perlUseSelect.Items.Clear();
+
+        foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+            this.perlUseSelect.Items.Add(perl.Name );
+        }
+         perlUseSelect.SelectedIndex = -1;
+    }
+
     private void trayIcon_Click(object Sender, EventArgs e) {
         DrawComponents();
         if (this.WindowState == FormWindowState.Minimized) {
@@ -420,7 +534,11 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void Form1_Load(object sender, EventArgs e) {
 
-        this.ClientSize = new System.Drawing.Size(270, 250);
+        this.ClientSize = new System.Drawing.Size(275, 250);
+
+        if (bb.PerlInUse().Name != null) {
+            this.Controls.Add(this.perlOpenButton);
+        }
 
         this.Controls.Add(this.perlSwitchButton);
         this.Controls.Add(this.perlSwitchSelect);
@@ -430,7 +548,10 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.Controls.Add(this.perlRemoveButton);
         this.Controls.Add(this.perlRemoveSelect);
-       
+
+        this.Controls.Add(this.perlUseButton);
+        this.Controls.Add(this.perlUseSelect);
+
         DrawComponents();
         
         this.Name = "BBUI";
@@ -450,10 +571,20 @@ public class BBUI : System.Windows.Forms.Form {
     }
 
     private void DrawComponents() {
+        if (bb.PerlInUse().Name != null) {
+            this.Controls.Add(this.perlOpenButton);
+            this.Controls.Add(this.perlOffButton);
+        }
+        else {
+             this.Controls.Remove(this.perlOpenButton);
+             this.Controls.Remove(this.perlOffButton);
+        }
+
         CurrentPerlLabel_Redraw();
         PerlInstallSelect_Redraw();
         PerlSwitchSelect_Redraw();
         PerlRemoveSelect_Redraw();
+        PerlUseSelect_Redraw();
 
         FileAssocCheckBox_Redraw();
         WarnOrphansCheckBox_Redraw();

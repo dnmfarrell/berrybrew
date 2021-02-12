@@ -2114,7 +2114,7 @@ namespace BerryBrew {
             throw new ArgumentException("Unknown version: " + version);
         }
         
-        private static Process ProcessCreate(string cmd, bool hidden=true) {
+        public Process ProcessCreate(string cmd=null, bool hidden=true) {
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
 
