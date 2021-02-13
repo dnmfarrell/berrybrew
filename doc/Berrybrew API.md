@@ -6,7 +6,7 @@ standalone namespace/class code, and contains no entry points.
 The code for the `berrybrew.exe` binary itself resides in `src/bbconsole.cs` and
 contains the `Main()` entry point.
 
-The code for the `berrybrewUI.exe` is in `src/berrybrew-ui.cs`.
+The code for the `berrybrew-ui.exe` is in `src/berrybrew-ui.cs`.
 
 - [Berrybrew Class](#class-berrybrew)
 - [Message Class](#class-message)
@@ -140,7 +140,7 @@ Initializes the registry based configuration.
 
 #### BitSuffixCheck
 
-		public string BitSuffixCheck(string perl)
+    public string BitSuffixCheck(string perlName)
 
         argument:   perlName
         value:      Name of an available Perl
@@ -665,7 +665,7 @@ if it is, and `false` if not.
 
     public List<StrawberryPerl> PerlsInstalled()
     
-    return: A list of the Strawberry Perl objects currently installed
+        return: A list of the Strawberry Perl objects currently installed
     
 Fetches the list of currently installed Perl instances, and returns a list of objects.
     
@@ -881,9 +881,9 @@ Manages the importing, collection and printing of various `berrybrew` output.
 
         argument:   Deserialized JSON string
 
-    value:      {"label":"msgname","content":["msgline 1", "msgline 2"]}
-                converted to:
-                Dictionary<(string)label, (List<string>)content>
+        value:      {"label":"msgname","content":["msgline 1", "msgline 2"]}
+
+        converted to: Dictionary<(string)label, (List<string>)content>
 
 Adds a message to the structure.
 

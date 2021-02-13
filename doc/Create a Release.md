@@ -47,7 +47,7 @@ into the master branch
 
     - `git checkout master`
     - `git pull`
-    - `berrybrew version` (should be the updated version number)
+    - `bin\berrybrew version` (should be the updated version number)
 
 - Tag the new master branch as a release, and push it
 
