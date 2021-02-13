@@ -553,9 +553,18 @@ public class BBUI : System.Windows.Forms.Form {
         this.Controls.Add(this.perlUseSelect);
 
         DrawComponents();
-        
+
         this.Name = "BBUI";
-        this.Text = "Berrybrew UI v" + bb.Version();
+
+        string runMode = Environment.GetEnvironmentVariable("BB_RUN_MODE");
+
+        if (runMode == "prod") {
+            this.Text = "Berrybrew UI v" + bb.Version();
+        }
+        else if (runMode == "build") {
+            this.Text = "BB-build UI v" + bb.Version();
+        }
+
         this.WindowState = FormWindowState.Minimized;
         this.Hide();
         this.ShowInTaskbar = false;
