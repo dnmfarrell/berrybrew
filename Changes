@@ -5,7 +5,8 @@ Revision history for berrybrew
       dev/create_build_installer.nsi NSIS script
     - Build scripts now modify the 'run_mode' config file directive to 'build',
       and set BB_RUN_MODE=build env var. UI will reflect run mode in title
-    -
+    - UI refreshes after each command is completed instead of minimizing and
+      redrawing on tray icon click (closes #283)
 
 1.33    2021-02-12
     - Added berrybrew version to the UI (work on #260)
