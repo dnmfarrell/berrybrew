@@ -353,8 +353,15 @@ is the error number.
 
 Usage: `berrybrew error-codes`
 
-Simply prints to `STDOUT` the list of all valid error status code numbers, one
-per line.
+Simply prints to `STDOUT` the list of all valid error status code numbers and
+their associated error name, one pair per line.
+
+Example:
+
+    170 - MODULE_IMPORT_SAME_VERSION_ERROR
+    175 - MODULE_IMPORT_VERSION_REQUIRED
+    180 - OPTION_INVALID_ERROR
+    -1  - GENERIC_ERROR
 
 #### exit
 
