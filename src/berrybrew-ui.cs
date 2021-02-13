@@ -323,8 +323,6 @@ public class BBUI : System.Windows.Forms.Form {
 
         string perlName = perlInstallSelect.Text;
         bb.Install(perlName);
-        this.WindowState = FormWindowState.Minimized;
-        this.Hide();
         DrawComponents();
     }
      
@@ -376,10 +374,8 @@ public class BBUI : System.Windows.Forms.Form {
         
         string removePerl = perlRemoveSelect.Text;
         bb.PerlRemove(removePerl);
-        this.WindowState = FormWindowState.Minimized;
-        this.Hide();
         DrawComponents();
-    }  
+    }
 
     private void InitializePerlUseButton() {
         this.perlUseButton = new System.Windows.Forms.Button();
@@ -402,8 +398,6 @@ public class BBUI : System.Windows.Forms.Form {
 
         string perlName = perlUseSelect.Text;
         bb.UseCompile(perlName, true);
-        this.WindowState = FormWindowState.Minimized;
-        this.Hide();
         DrawComponents();
     }
 
@@ -518,6 +512,7 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void trayIcon_Click(object Sender, EventArgs e) {
         DrawComponents();
+
         if (this.WindowState == FormWindowState.Minimized) {
             this.Show();
             this.WindowState = FormWindowState.Normal;
