@@ -140,6 +140,7 @@ public class BBUI : System.Windows.Forms.Form {
     }
 
     private void openPerlButton_Click(object Sender, EventArgs e) {
+        // MessageBox.Show(((Button)Sender).Name + " was pressed!");
         string perlInUse = bb.PerlInUse().Name;
 
         if (perlInUse == null) {
