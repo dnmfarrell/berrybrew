@@ -10,6 +10,7 @@ Revision history for berrybrew
     - Added 'Fetch' button in UI to fetch the latest available Perls
       (closes #286)
     - Fix 'Hidden Features' link in Unit Test document (fixes #290)
+    - Fix broken path to test directory in Unit Test doc (fixes #291)
 
 1.33    2021-02-12
     - Added berrybrew version to the UI (work on #260)

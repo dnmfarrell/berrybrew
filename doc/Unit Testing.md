@@ -61,7 +61,7 @@ Execute one of the following batch calls to run all tests
     - It changes the `test\data\config.json` file to reference `c:\berrybrew\test` instead of `c:\berrybrew`
     - It calls `t\setup_test_env.bat` to set the BBTEST_PERLROOT and BBTEST_REPO environment variables.  As described above, BBTEST_PERLROOT is used for generating a valid path that includes your already-installed system perl.  BBTEST_REPO defaults to the current directory when runing the test suite (which, per above, should be the root of the `berrybrew` repository)
     - If there are any command-line options given to `t\test.bat`, it will pass them on to `t\run_tests.pl`
-    - Builds the software, and locates it into a newly-created `c:\repos\test` directory
+    - Builds the software, and locates it into a newly-created `c:\repos\berrybrew\test` directory
     
 - `t\run_tests.pl` prepends `%PATH%` with the Strawberry Perl's paths, and then it executes `prove t\*.t`
     - the `--stopfirstfail` (aka `--sff`) will cause it to `prove $_` individually for each test in `t\*.t`, and stop after the first test file that has a failing test.
