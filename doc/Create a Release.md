@@ -1,3 +1,9 @@
+# Sections
+
+- [Create and Publish a New Release](#create-and-publish-a-new-release)
+- [Prepare a Branch for Next Release](#prepare-a-branch-for-the-next-release-cycle)
+- [Updating the Next Release](#updates-for-the-next-release)
+
 ## Create and Publish a New Release
 
 - `git checkout` the branch that's to be merged into `master`

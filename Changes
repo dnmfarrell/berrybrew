@@ -11,6 +11,7 @@ Revision history for berrybrew
       (closes #286)
     - Fix 'Hidden Features' link in Unit Test document (fixes #290)
     - Fix broken path to test directory in Unit Test doc (fixes #291)
+    - Add section index for Unit Test and Create a Release docs (closes #289)
 
 1.33    2021-02-12
     - Added berrybrew version to the UI (work on #260)

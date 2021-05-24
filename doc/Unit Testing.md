@@ -1,5 +1,14 @@
 # Berrybrew Unit Testing
 
+## Sections
+
+- [Prerequisites](#prerequisites)
+- [Running the Tests](#running-the-tests)
+- [What's Happening](#whats-happening)
+- [Running Individual Tests](#running-individual-tests)
+- [Build Test Environment Without Running Tests](#build-a-test-environment-without-running-tests)
+- [Environment Variables](#environment-variables)
+
 Unit tests are written in Perl.
 
 See [Hidden Features](../README.md#hidden-commands) for the `test` argument to
