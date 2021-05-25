@@ -1,4 +1,5 @@
 ﻿using BerryBrew;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,11 +25,14 @@ public class BBUI : System.Windows.Forms.Form {
     private ComboBox perlInstallSelect;
     private Button perlInstallButton;
 
+    private ComboBox perlUseSelect;
+    private Button perlUseButton;
+
     private ComboBox perlRemoveSelect;
     private Button perlRemoveButton;
 
-    private ComboBox perlUseSelect;
-    private Button perlUseButton;
+    private ComboBox perlCloneSelect;
+    private Button perlCloneButton;
 
     private Button perlFetchButton;
 
@@ -99,11 +103,14 @@ public class BBUI : System.Windows.Forms.Form {
         this.InitializePerlInstallSelect();
         this.InitializePerlInstallButton();
 
+        this.InitializePerlUseSelect();
+        this.InitializePerlUseButton();
+
         this.InitializePerlRemoveSelect();
         this.InitializePerlRemoveButton();
 
-        this.InitializePerlUseSelect();
-        this.InitializePerlUseButton();
+        this.InitializePerlCloneSelect();
+        this.InitializePerlCloneButton();
 
         this.InitializePerlFetchButton();
 
@@ -203,7 +210,7 @@ public class BBUI : System.Windows.Forms.Form {
 		this.fileAssocCheckBox.Width = 200;
 		this.fileAssocCheckBox.AutoSize = true;
 		this.fileAssocCheckBox.Text = "Manage file association";
-        this.fileAssocCheckBox.Location = new System.Drawing.Point(10, 245);
+        this.fileAssocCheckBox.Location = new System.Drawing.Point(10, 255);
         this.fileAssocCheckBox.Checked = FileAssocManaged() ? true : false;
         this.fileAssocCheckBox.CheckedChanged += new System.EventHandler(this.fileAssocCheckedChanged);
 		Controls.Add(fileAssocCheckBox);
@@ -238,7 +245,7 @@ public class BBUI : System.Windows.Forms.Form {
 		this.warnOrphansCheckBox.AutoSize = true;
 		this.warnOrphansCheckBox.Text = "Warn on orphans";
         this.warnOrphansCheckBox.Checked = WarnOrphans() ? true : false;
-        this.warnOrphansCheckBox.Location = new System.Drawing.Point(10, 185);
+        this.warnOrphansCheckBox.Location = new System.Drawing.Point(10, 275);
         this.warnOrphansCheckBox.CheckedChanged += new System.EventHandler(this.warnOrphansCheckedChanged);
 		Controls.Add(warnOrphansCheckBox);
 	}
@@ -266,7 +273,7 @@ public class BBUI : System.Windows.Forms.Form {
         this.debugCheckBox.AutoSize = true;
         this.debugCheckBox.Checked = bb.Options("debug", null, true) == "true" ? true : false;
         this.debugCheckBox.Text = "Debug";
-        this.debugCheckBox.Location = new System.Drawing.Point(10, 205);
+        this.debugCheckBox.Location = new System.Drawing.Point(10, 215);
         this.debugCheckBox.CheckedChanged += new System.EventHandler(this.debugCheckedChanged);
         Controls.Add(debugCheckBox);
     }
@@ -290,7 +297,7 @@ public class BBUI : System.Windows.Forms.Form {
         this.windowsHomedirCheckBox.AutoSize = true;
         this.windowsHomedirCheckBox.Checked = bb.Options("windows_homedir", null, true) == "true" ? true : false;
         this.windowsHomedirCheckBox.Text = "Windows homedir";
-        this.windowsHomedirCheckBox.Location = new System.Drawing.Point(10, 225);
+        this.windowsHomedirCheckBox.Location = new System.Drawing.Point(10, 235);
         this.windowsHomedirCheckBox.CheckedChanged += new System.EventHandler(this.windowsHomedirCheckedChanged);
         Controls.Add(windowsHomedirCheckBox);
     }
@@ -407,10 +414,43 @@ public class BBUI : System.Windows.Forms.Form {
         DrawComponents();
     }
 
+	private void InitializePerlCloneButton() {
+        this.perlCloneButton = new System.Windows.Forms.Button();
+
+        this.perlCloneButton.Location = new System.Drawing.Point(139, 155);
+        this.perlCloneButton.Name = "perlCloneButton";
+        this.perlCloneButton.Size = new System.Drawing.Size(75, 23);
+        this.perlCloneButton.TabIndex = 1;
+        this.perlCloneButton.Text = "Clone";
+        this.perlCloneButton.UseVisualStyleBackColor = true;
+
+        this.perlCloneButton.Click += new System.EventHandler(this.clonePerlButton_Click);
+    }
+
+    private void clonePerlButton_Click(object Sender, EventArgs e) {
+        if (perlCloneSelect.Text == "") {
+            System.Windows.Forms.MessageBox.Show("No Perl selected to clone!");
+            return;
+        }
+
+        string clonePerl = perlCloneSelect.Text;
+		string clonePerlName = Microsoft.VisualBasic.Interaction.InputBox(
+			"Name of cloned Perl",
+			"berrybrew Clone",
+			"",
+			150,
+			150
+		);
+
+		bb.Clone(clonePerl, clonePerlName);
+        DrawComponents();
+		MessageBox.Show(String.Format("Successfully cloned Perl {0} to {1}", clonePerl, clonePerlName));
+    }
+
     private void InitializePerlFetchButton() {
         this.perlFetchButton = new System.Windows.Forms.Button();
 
-        this.perlFetchButton.Location = new System.Drawing.Point(10, 155);
+        this.perlFetchButton.Location = new System.Drawing.Point(10, 185);
         this.perlFetchButton.Name = "perlFetchButton";
         this.perlFetchButton.Size = new System.Drawing.Size(75, 23);
         this.perlFetchButton.TabIndex = 1;
@@ -450,32 +490,7 @@ public class BBUI : System.Windows.Forms.Form {
 
          perlInstallSelect.SelectedIndex = -1;
     }
-      
-    private void InitializePerlRemoveSelect() {
-        this.perlRemoveSelect = new System.Windows.Forms.ComboBox();
-        this.perlRemoveSelect.DropDownStyle = ComboBoxStyle.DropDownList;
 
-        this.perlRemoveSelect.FormattingEnabled = true;
-        this.perlRemoveSelect.Location = new System.Drawing.Point(10, 125);
-        this.perlRemoveSelect.Name = "perlRemoveSelect";
-        this.perlRemoveSelect.Size = new System.Drawing.Size(121, 30);
-        this.perlRemoveSelect.TabIndex = 0;
-
-        foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
-            this.perlRemoveSelect.Items.Add(perl.Name);           
-        }
-    }
-
-    private void PerlRemoveSelect_Redraw() {
-        perlRemoveSelect.Items.Clear();
-        
-         foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
-             this.perlRemoveSelect.Items.Add(perl.Name);           
-         }       
-        
-         perlRemoveSelect.SelectedIndex = -1;
-    }
-     
     private void InitializePerlSwitchSelect() {
         this.perlSwitchSelect = new System.Windows.Forms.ComboBox();
         this.perlSwitchSelect.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -535,6 +550,56 @@ public class BBUI : System.Windows.Forms.Form {
          perlUseSelect.SelectedIndex = -1;
     }
 
+    private void InitializePerlRemoveSelect() {
+        this.perlRemoveSelect = new System.Windows.Forms.ComboBox();
+        this.perlRemoveSelect.DropDownStyle = ComboBoxStyle.DropDownList;
+
+        this.perlRemoveSelect.FormattingEnabled = true;
+        this.perlRemoveSelect.Location = new System.Drawing.Point(10, 125);
+        this.perlRemoveSelect.Name = "perlRemoveSelect";
+        this.perlRemoveSelect.Size = new System.Drawing.Size(121, 30);
+        this.perlRemoveSelect.TabIndex = 0;
+
+        foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+            this.perlRemoveSelect.Items.Add(perl.Name);
+        }
+    }
+
+    private void PerlRemoveSelect_Redraw() {
+        perlRemoveSelect.Items.Clear();
+
+         foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+             this.perlRemoveSelect.Items.Add(perl.Name);
+         }
+
+         perlRemoveSelect.SelectedIndex = -1;
+    }
+
+    private void InitializePerlCloneSelect() {
+        this.perlCloneSelect = new System.Windows.Forms.ComboBox();
+        this.perlCloneSelect.DropDownStyle = ComboBoxStyle.DropDownList;
+
+        this.perlCloneSelect.FormattingEnabled = true;
+        this.perlCloneSelect.Location = new System.Drawing.Point(10, 155);
+        this.perlCloneSelect.Name = "perlCloneSelect";
+        this.perlCloneSelect.Size = new System.Drawing.Size(121, 30);
+        this.perlCloneSelect.TabIndex = 0;
+
+        foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+            this.perlCloneSelect.Items.Add(perl.Name);
+        }
+    }
+
+    private void PerlCloneSelect_Redraw() {
+        perlCloneSelect.Items.Clear();
+
+         foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+             this.perlCloneSelect.Items.Add(perl.Name);
+         }
+
+         perlCloneSelect.SelectedIndex = -1;
+    }
+
     private void trayIcon_Click(object Sender, EventArgs e) {
         DrawComponents();
 
@@ -554,7 +619,7 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void Form1_Load(object sender, EventArgs e) {
 
-        this.ClientSize = new System.Drawing.Size(275, 275);
+        this.ClientSize = new System.Drawing.Size(275, 305);
 
         if (bb.PerlInUse().Name != null) {
             this.Controls.Add(this.perlOpenButton);
@@ -571,6 +636,9 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.Controls.Add(this.perlRemoveButton);
         this.Controls.Add(this.perlRemoveSelect);
+
+        this.Controls.Add(this.perlCloneButton);
+        this.Controls.Add(this.perlCloneSelect);
 
 		this.Controls.Add(this.perlFetchButton);
 
@@ -614,8 +682,9 @@ public class BBUI : System.Windows.Forms.Form {
         CurrentPerlLabel_Redraw();
         PerlInstallSelect_Redraw();
         PerlSwitchSelect_Redraw();
-        PerlRemoveSelect_Redraw();
         PerlUseSelect_Redraw();
+        PerlRemoveSelect_Redraw();
+        PerlCloneSelect_Redraw();
 
         FileAssocCheckBox_Redraw();
         WarnOrphansCheckBox_Redraw();

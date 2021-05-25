@@ -131,6 +131,7 @@ sub compile {
         "src/berrybrew-ui.cs " .
         "-lib:bin " .
         "-r:bbapi.dll " .
+        "-r:Microsoft.VisualBasic.dll" .
         "-r:System.Drawing.dll " .
         "-r:System.Windows.Forms.dll " .
         "-win32icon:inc/berrybrew.ico " .

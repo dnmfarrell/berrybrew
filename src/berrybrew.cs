@@ -566,7 +566,6 @@ namespace BerryBrew {
                 PerlRegisterCustomInstall(destPerlName, sourcePerl);
 
                 Console.WriteLine("\nSuccessfully installed custom perl '{0}'", destPerlName);
-                Exit(0);
             }
             catch (IOException err) {
                 Console.Error.WriteLine("\nClone failed due to disk I/O error... ensure the disk isn't full\n");
@@ -1719,7 +1718,9 @@ namespace BerryBrew {
             }
 
             foreach (StrawberryPerl perl in perlObjects) {
-                _perls.Add(perl.Name, perl);
+                if (! _perls.Contains(perl.Name)) {
+					_perls.Add(perl.Name, perl);
+				}
             }
         }
 
@@ -1747,6 +1748,7 @@ namespace BerryBrew {
         }
 
         public List<StrawberryPerl> PerlsInstalled() {
+			PerlGenerateObjects(true);
             return _perls.Values.Cast<StrawberryPerl>().Where(PerlIsInstalled).ToList();
         }
 

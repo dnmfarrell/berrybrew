@@ -17,6 +17,7 @@ call csc^
     -r:bbapi.dll^
     -r:System.Drawing.dll^
     -r:System.Windows.Forms.dll^
+    -r:Microsoft.VisualBasic.dll^
     -win32icon:inc/berrybrew.ico^
     -win32manifest:berrybrew.manifest^
     -out:build/berrybrew-ui.exe^
