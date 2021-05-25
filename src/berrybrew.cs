@@ -2405,7 +2405,7 @@ namespace BerryBrew {
         }
         
         public string Version() {
-            return @"1.34";
+            return @"1.35";
         }
     }
 
