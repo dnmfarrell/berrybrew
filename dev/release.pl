@@ -28,9 +28,9 @@ my $defaults_dir = 'dev/data';
 backup_configs();
 compile();
 update_perls_available();
-create_zip();
 changes_date();
 create_changes();
+create_zip();
 update_installer_script();
 create_installer();
 update_readme();
@@ -131,6 +131,7 @@ sub compile {
         "src/berrybrew-ui.cs " .
         "-lib:bin " .
         "-r:bbapi.dll " .
+        "-r:Microsoft.VisualBasic.dll " .
         "-r:System.Drawing.dll " .
         "-r:System.Windows.Forms.dll " .
         "-win32icon:inc/berrybrew.ico " .

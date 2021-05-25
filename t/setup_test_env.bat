@@ -13,8 +13,9 @@ IF DEFINED BBTEST_PERLROOT GOTO KnownStrawberryRoot
 echo FindSystemStrawberry: Check PATH for perl.exe
 ( perl -v > NUL 2>&1 ) || GOTO GuessPerlLocation
 echo FindSystemStrawberry: Found perl.exe in PATH: Use that perl to populate BBTEST_PERLROOT
-FOR /F "usebackq delims=" %%a IN ( `perl -e "($p=$^X) =~ s{perl\\bin\\perl(?:.exe)?}{}; print $p"` ) DO (
-    rem echo result="%%a"
+FOR /F "usebackq delims=" %%a IN ( `perl -e "($p=$^X) =~ s/perl\\\\bin\\\\perl(?:.exe)?//; print $p"` ) DO (
+    echo result="%%a"
+    IF "%%a" == "perl" (GOTO GuessPerlLocation)
     SET BBTEST_PERLROOT=%%a
 )
 GOTO KnownStrawberryRoot

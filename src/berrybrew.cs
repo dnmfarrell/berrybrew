@@ -566,7 +566,6 @@ namespace BerryBrew {
                 PerlRegisterCustomInstall(destPerlName, sourcePerl);
 
                 Console.WriteLine("\nSuccessfully installed custom perl '{0}'", destPerlName);
-                Exit(0);
             }
             catch (IOException err) {
                 Console.Error.WriteLine("\nClone failed due to disk I/O error... ensure the disk isn't full\n");
@@ -932,7 +931,7 @@ namespace BerryBrew {
 
                     if (plHandlerNameOld == @"berrybrewPerl") {
                 		RegistryKey plHandlerKeyOld = Registry.ClassesRoot.CreateSubKey(plHandlerNameOld + @"\shell\open\command");
-                        plHandlerKeyOld.SetValue("", perl.PerlPath + @"\perl.exe %1 %*");
+                        plHandlerKeyOld.SetValue("", perl.PerlPath + "\\perl.exe \"%1\" \"%*\"");
                         return;
                     }
 
@@ -940,7 +939,7 @@ namespace BerryBrew {
                     string plHandlerName = @"berrybrewPerl";
 
               		RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\open\command");
-                    plHandlerKey.SetValue("", perl.PerlPath + @"\perl.exe %1 %*");
+                    plHandlerKey.SetValue("", perl.PerlPath + "\\perl.exe \"%1\" \"%*\"");
 
                     plExtKey.SetValue("", plHandlerName);
                     Options("file_assoc", plHandlerName, true);
@@ -1719,7 +1718,9 @@ namespace BerryBrew {
             }
 
             foreach (StrawberryPerl perl in perlObjects) {
-                _perls.Add(perl.Name, perl);
+                if (! _perls.Contains(perl.Name)) {
+					_perls.Add(perl.Name, perl);
+				}
             }
         }
 
@@ -1747,6 +1748,7 @@ namespace BerryBrew {
         }
 
         public List<StrawberryPerl> PerlsInstalled() {
+			PerlGenerateObjects(true);
             return _perls.Values.Cast<StrawberryPerl>().Where(PerlIsInstalled).ToList();
         }
 
@@ -2403,7 +2405,7 @@ namespace BerryBrew {
         }
         
         public string Version() {
-            return @"1.33";
+            return @"1.34";
         }
     }
 

@@ -7,13 +7,13 @@ RequestExecutionLevel admin
 var perlRootDir 
 var perlRootDirSet
 
-!define PRODUCT_NAME "berrybrew"
+!define PRODUCT_NAME "berrybrew-build"
 !define PRODUCT_VERSION "1.34"
 !define PRODUCT_PUBLISHER "Steve Bertrand"
 !define PRODUCT_WEB_SITE "https://github.com/stevieb9/berrybrew"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\berrybrew.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
-!define APP_REGKEY "Software\berrybrew"
+!define APP_REGKEY "Software\berrybrew-build"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 
 !define MUI_ABORTWARNING
@@ -42,8 +42,8 @@ var perlRootDirSet
 !insertmacro MUI_LANGUAGE "English"
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "..\download\berrybrewInstaller.exe"
-InstallDir "$PROGRAMFILES\berrybrew\"
+OutFile "..\build\berrybrewInstaller.exe"
+InstallDir "$PROGRAMFILES\berrybrew\build"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
@@ -51,38 +51,20 @@ ShowUnInstDetails show
 Section "-MainSection" SEC_MAIN
   SetOverwrite try
   SetOutPath "$INSTDIR\bin"
-  File "..\bin\berrybrew-refresh.bat"
-  File "..\bin\bbapi.dll"
-  File "..\bin\berrybrew.exe"
-  File "..\bin\bb.exe"
-  File "..\bin\berrybrew-ui.exe"
-  File "..\bin\ICSharpCode.SharpZipLib.dll"
-  File "..\bin\Newtonsoft.Json.dll"
+  File "..\build\berrybrew-refresh.bat"
+  File "..\build\bbapi.dll"
+  File "..\build\berrybrew.exe"
+  File "..\build\bb.exe"
+  File "..\build\berrybrew-ui.exe"
+  File "..\build\ICSharpCode.SharpZipLib.dll"
+  File "..\build\Newtonsoft.Json.dll"
 
-  SetOutPath "$INSTDIR"
-  File "..\Changes"
-  File "..\Changes.md"
-  File "..\CONTRIBUTING.md"
   SetOutPath "$INSTDIR\data"
-  File "..\data\config.json"
-  File "..\data\messages.json"
-  File "..\data\perls.json"
-  SetOutPath "$INSTDIR\doc"
-  File "..\doc\Berrybrew API.md"
-  File "..\doc\berrybrew.md"
-  File "..\doc\Compile Your Own.md"
-  File "..\doc\Configuration.md"
-  File "..\doc\Create a Development Build.md"
-  File "..\doc\Create a Release.md"
-  File "..\doc\Unit Testing.md"
+  File "..\build\data\config.json"
+  File "..\build\data\messages.json"
+  File "..\build\data\perls.json"
   SetOutPath "$INSTDIR\inc"
   File "..\inc\berrybrew.ico"
-  SetOutPath "$INSTDIR"
-  File "..\LICENSE"
-  SetOutPath "$INSTDIR\src"
-  File "..\src\bbconsole.cs"
-  File "..\src\berrybrew.cs"
-  File "..\src\berrybrew-ui.cs"
 SectionEnd
 
 Section "Perl 5.32.1_64" SEC_INSTALL_NEWEST_PERL
@@ -105,9 +87,9 @@ Section -Post
   WriteUninstaller "$INSTDIR\uninst.exe"
   
   ${If} ${SectionIsSelected} ${SEC_START_UI}
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI" "$INSTDIR\bin\berrybrew-ui.exe"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI-build" "$INSTDIR\bin\berrybrew-ui.exe"
   ${EndIf}
-      
+
   WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\bin\berrybrew.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
@@ -206,7 +188,7 @@ Function .onInit
 
   Call StopUI
       
-  StrCpy $perlRootDir "C:\berrybrew"
+  StrCpy $perlRootDir "C:\berrybrew\build"
   StrCpy $perlRootDirSet "0"
 
   StrCpy $InstDir "$INSTDIR\"
@@ -219,10 +201,10 @@ Function .onInit
    
       ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion"
             
-      ${If} ${PRODUCT_VERSION} == $R0
-        MessageBox MB_OK "berrybrew version $R0 already installed. Aborting."
-        Abort
-      ${EndIf}
+;      ${If} ${PRODUCT_VERSION} == $R0
+;        MessageBox MB_OK "berrybrew version $R0 already installed. Aborting."
+;        Abort
+;      ${EndIf}
 
       MessageBox MB_ICONQUESTION|MB_YESNO "This will upgrade your existing berrybrew install. Continue?" IDYES true IDNO false
       false: 
@@ -268,33 +250,17 @@ Section Uninstall
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" off'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" unconfig'
   
-  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI-build"
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
   DeleteRegKey HKLM "${APP_REGKEY}" 
 
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
-  Delete "$INSTDIR\src\berrybrew.cs"
-  Delete "$INSTDIR\src\berrybrew-ui.cs"
-  Delete "$INSTDIR\src\bbconsole.cs"
-  Delete "$INSTDIR\LICENSE"
   Delete "$INSTDIR\inc\berrybrew.ico"
-  Delete "$INSTDIR\doc\Unit Testing.md"
-  Delete "$INSTDIR\doc\Create a Release.md"
-  Delete "$INSTDIR\doc\Create a Development Build.md"
-  Delete "$INSTDIR\doc\Configuration.md"
-  Delete "$INSTDIR\doc\Compile Your Own.md"
-  Delete "$INSTDIR\doc\berrybrew.md"
-  Delete "$INSTDIR\doc\Berrybrew API.md"
   Delete "$INSTDIR\data\perls.json"
-  Delete "$INSTDIR\data\perls_custom.json"
-  Delete "$INSTDIR\data\perls_virtual.json"
   Delete "$INSTDIR\data\messages.json"
   Delete "$INSTDIR\data\config.json"
-  Delete "$INSTDIR\CONTRIBUTING.md"
-  Delete "$INSTDIR\Changes.md"
-  Delete "$INSTDIR\Changes"
   Delete "$INSTDIR\bin\berrybrew-refresh.bat"
   Delete "$INSTDIR\bin\Newtonsoft.Json.dll"
   Delete "$INSTDIR\bin\ICSharpCode.SharpZipLib.dll"
@@ -313,16 +279,8 @@ Section Uninstall
   Delete "$SMPROGRAMS\berrybrew\berrybrew.lnk"
   RMDir "$SMPROGRAMS\berrybrew"
 
-  RMDir "$INSTDIR\t\data"
   RMDir "$INSTDIR\bin"
-  RMDir "$INSTDIR\t"
-  RMDir "$INSTDIR\src"
   RMDir "$INSTDIR\inc"
-  RMDir "$INSTDIR\download"
-  RMDir "$INSTDIR\doc"
-  RMDir "$INSTDIR\dev\data"
-  RMDir "$INSTDIR\dev"
-  RMDir "$INSTDIR\data"
   RMDir "$INSTDIR"
   
   SetAutoClose true
