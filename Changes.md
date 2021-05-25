@@ -1,5 +1,32 @@
 Revision history for berrybrew
 
+1.34    2021-05-25
+- Added dev/build_installer.pl; builds a development installer using the
+dev/create_build_installer.nsi NSIS script
+- Build scripts now modify the 'run_mode' config option directive to 'build',
+and set BB_RUN_MODE=build env var. UI will reflect run mode in title
+- Test scripts now set run_mode config option to 'test'
+- UI refreshes after each command is completed instead of minimizing and
+redrawing on tray icon click (closes #283)
+- Added 'Fetch' button in UI to fetch the latest available Perls
+(closes #286)
+- Fix 'Hidden Features' link in Unit Test document (fixes #290)
+- Fix broken path to test directory in Unit Test doc (fixes #291)
+- Add section index for Unit Test and Create a Release docs (closes #289)
+- Clarify documentation on 'exec' command (closes #242)
+- Fix process order in release script (create Changes markdown before
+creating zip file) (fixes #288)
+- PerlGenerateObjects() now checks if OrderedDictionary perlName key exists
+before compiling the list (work on #281)
+- PerlsInstalled() now calls PerlGenerateObjects() to regenerate the list
+of installed Perls, so that the UI can be refreshed without needing a new
+instance of berrybrew (work on #281)
+- Added 'clone' functionality to the UI (closes #281)
+- Fix issue where if berrybrew is managing file association, running a
+script without preceeding it with "perl" would fail if the directory path
+had a space in its name (fixes #285)
+- Minor corrections in escaping backslashes in test setup/configuration
+
 1.33    2021-02-12
 - Added berrybrew version to the UI (work on #260)
 - Fix issue where UI wasn't updating/redrawing after command line changes to

@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.34 UNREL
+1.34    2021-05-25
     - Added dev/build_installer.pl; builds a development installer using the
       dev/create_build_installer.nsi NSIS script
     - Build scripts now modify the 'run_mode' config option directive to 'build',
