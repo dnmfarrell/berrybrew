@@ -3,8 +3,9 @@ Revision history for berrybrew
 1.34 UNREL
     - Added dev/build_installer.pl; builds a development installer using the
       dev/create_build_installer.nsi NSIS script
-    - Build scripts now modify the 'run_mode' config file directive to 'build',
+    - Build scripts now modify the 'run_mode' config option directive to 'build',
       and set BB_RUN_MODE=build env var. UI will reflect run mode in title
+    - Test scripts now set run_mode config option to 'test'
     - UI refreshes after each command is completed instead of minimizing and
       redrawing on tray icon click (closes #283)
     - Added 'Fetch' button in UI to fetch the latest available Perls
@@ -24,6 +25,7 @@ Revision history for berrybrew
     - Fix issue where if berrybrew is managing file association, running a
       script without preceeding it with "perl" would fail if the directory path
       had a space in its name (fixes #285)
+    - Minor corrections in escaping backslashes in test setup/configuration
 
 1.33    2021-02-12
     - Added berrybrew version to the UI (work on #260)
