@@ -931,7 +931,7 @@ namespace BerryBrew {
 
                     if (plHandlerNameOld == @"berrybrewPerl") {
                 		RegistryKey plHandlerKeyOld = Registry.ClassesRoot.CreateSubKey(plHandlerNameOld + @"\shell\open\command");
-                        plHandlerKeyOld.SetValue("", perl.PerlPath + @"\perl.exe %1 %*");
+                        plHandlerKeyOld.SetValue("", perl.PerlPath + "perl.exe \"%1\" \"%*\"");
                         return;
                     }
 
@@ -939,7 +939,7 @@ namespace BerryBrew {
                     string plHandlerName = @"berrybrewPerl";
 
               		RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\open\command");
-                    plHandlerKey.SetValue("", perl.PerlPath + @"\perl.exe %1 %*");
+                    plHandlerKey.SetValue("", perl.PerlPath + "perl.exe \"%1\" \"%*\"");
 
                     plExtKey.SetValue("", plHandlerName);
                     Options("file_assoc", plHandlerName, true);

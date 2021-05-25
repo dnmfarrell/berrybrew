@@ -21,6 +21,9 @@ Revision history for berrybrew
       of installed Perls, so that the UI can be refreshed without needing a new
       instance of berrybrew (work on #281)
     - Added 'clone' functionality to the UI (closes #281)
+    - Fix issue where if berrybrew is managing file association, running a
+      script without preceeding it with "perl" would fail if the directory path
+      had a space in its name (fixes #285)
 
 1.33    2021-02-12
     - Added berrybrew version to the UI (work on #260)
