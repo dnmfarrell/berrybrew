@@ -13,6 +13,8 @@ Revision history for berrybrew
     - Fix broken path to test directory in Unit Test doc (fixes #291)
     - Add section index for Unit Test and Create a Release docs (closes #289)
     - Clarify documentation on 'exec' command (closes #242)
+    - Fix process order in release script (create Changes markdown before
+      creating zip file) (fixes #288)
 
 1.33    2021-02-12
     - Added berrybrew version to the UI (work on #260)
