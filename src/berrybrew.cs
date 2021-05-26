@@ -249,9 +249,9 @@ namespace BerryBrew {
 
 		public string BitSuffixCheck(string perlName) {
 			if (Regex.Match(perlName, @"5\.\d+\.\d+").Success) {
-                if (! Regex.Match(perlName, @"_32").Success && ! Regex.Match(perlName, @"_64").Success) {
-                    return perlName + "_64";
-                }
+				if (! Regex.Match(perlName, @"_32").Success && ! Regex.Match(perlName, @"_64").Success) {
+					return perlName + "_64";
+				}
 			}
 
 			return perlName;
