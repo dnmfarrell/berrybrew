@@ -36,10 +36,10 @@ public class BBUI : System.Windows.Forms.Form {
 
     private Button perlFetchButton;
 
-	private CheckBox fileAssocCheckBox;
-	private CheckBox warnOrphansCheckBox;
-	private CheckBox debugCheckBox;
-	private CheckBox windowsHomedirCheckBox;
+    private CheckBox fileAssocCheckBox;
+    private CheckBox warnOrphansCheckBox;
+    private CheckBox debugCheckBox;
+    private CheckBox windowsHomedirCheckBox;
 
     private System.ComponentModel.IContainer components;
 
@@ -115,9 +115,9 @@ public class BBUI : System.Windows.Forms.Form {
         this.InitializePerlFetchButton();
 
         this.InitializeFileAssocCheckBox();
-		this.InitializeWarnOrphansCheckBox();
-		this.InitializeDebugCheckBox();
-		this.InitializeWindowsHomedirCheckBox();
+        this.InitializeWarnOrphansCheckBox();
+        this.InitializeDebugCheckBox();
+        this.InitializeWindowsHomedirCheckBox();
     }
  
     private void InitializeCurrentPerlLabel() {
@@ -205,16 +205,16 @@ public class BBUI : System.Windows.Forms.Form {
          this.currentPerlLabel.Text = currentPerlLabel.Text += perlInUse;       
     }
 
-   	private void InitializeFileAssocCheckBox() {
-		this.fileAssocCheckBox = new System.Windows.Forms.CheckBox();
-		this.fileAssocCheckBox.Width = 200;
-		this.fileAssocCheckBox.AutoSize = true;
-		this.fileAssocCheckBox.Text = "Manage file association";
+    private void InitializeFileAssocCheckBox() {
+        this.fileAssocCheckBox = new System.Windows.Forms.CheckBox();
+        this.fileAssocCheckBox.Width = 200;
+        this.fileAssocCheckBox.AutoSize = true;
+        this.fileAssocCheckBox.Text = "Manage file association";
         this.fileAssocCheckBox.Location = new System.Drawing.Point(10, 255);
         this.fileAssocCheckBox.Checked = FileAssocManaged() ? true : false;
         this.fileAssocCheckBox.CheckedChanged += new System.EventHandler(this.fileAssocCheckedChanged);
-		Controls.Add(fileAssocCheckBox);
-	}
+        Controls.Add(fileAssocCheckBox);
+    }
     private void FileAssocCheckBox_Redraw() {
         this.fileAssocCheckBox.Checked = FileAssocManaged() ? true : false;
     }
@@ -239,16 +239,16 @@ public class BBUI : System.Windows.Forms.Form {
         }
     }
 
-   	private void InitializeWarnOrphansCheckBox() {
-		this.warnOrphansCheckBox = new System.Windows.Forms.CheckBox();
-		this.warnOrphansCheckBox.Width = 200;
-		this.warnOrphansCheckBox.AutoSize = true;
-		this.warnOrphansCheckBox.Text = "Warn on orphans";
+    private void InitializeWarnOrphansCheckBox() {
+        this.warnOrphansCheckBox = new System.Windows.Forms.CheckBox();
+        this.warnOrphansCheckBox.Width = 200;
+        this.warnOrphansCheckBox.AutoSize = true;
+        this.warnOrphansCheckBox.Text = "Warn on orphans";
         this.warnOrphansCheckBox.Checked = WarnOrphans() ? true : false;
         this.warnOrphansCheckBox.Location = new System.Drawing.Point(10, 275);
         this.warnOrphansCheckBox.CheckedChanged += new System.EventHandler(this.warnOrphansCheckedChanged);
-		Controls.Add(warnOrphansCheckBox);
-	}
+        Controls.Add(warnOrphansCheckBox);
+    }
     private bool WarnOrphans() {
         string assoc = bb.Options("warn_orphans", null, true);
         return assoc == "true" ? true : false;
@@ -414,7 +414,7 @@ public class BBUI : System.Windows.Forms.Form {
         DrawComponents();
     }
 
-	private void InitializePerlCloneButton() {
+    private void InitializePerlCloneButton() {
         this.perlCloneButton = new System.Windows.Forms.Button();
 
         this.perlCloneButton.Location = new System.Drawing.Point(139, 155);
@@ -434,17 +434,17 @@ public class BBUI : System.Windows.Forms.Form {
         }
 
         string clonePerl = perlCloneSelect.Text;
-		string clonePerlName = Microsoft.VisualBasic.Interaction.InputBox(
-			"Name of cloned Perl",
-			"berrybrew Clone",
-			"",
-			150,
-			150
-		);
+        string clonePerlName = Microsoft.VisualBasic.Interaction.InputBox(
+            "Name of cloned Perl",
+            "berrybrew Clone",
+            "",
+            150,
+            150
+        );
 
-		bb.Clone(clonePerl, clonePerlName);
+        bb.Clone(clonePerl, clonePerlName);
         DrawComponents();
-		MessageBox.Show(String.Format("Successfully cloned Perl {0} to {1}", clonePerl, clonePerlName));
+        MessageBox.Show(String.Format("Successfully cloned Perl {0} to {1}", clonePerl, clonePerlName));
     }
 
     private void InitializePerlFetchButton() {
@@ -460,10 +460,10 @@ public class BBUI : System.Windows.Forms.Form {
         this.perlFetchButton.Click += new System.EventHandler(this.fetchPerlButton_Click);
     }
 
-	private void fetchPerlButton_Click(object Sender, EventArgs e) {
-		bb.PerlUpdateAvailableList();
+    private void fetchPerlButton_Click(object Sender, EventArgs e) {
+        bb.PerlUpdateAvailableList();
         DrawComponents();
-		MessageBox.Show("Successfully updated the list of available Perls.", "berrybrew fetch");
+        MessageBox.Show("Successfully updated the list of available Perls.", "berrybrew fetch");
     }
 
     private void InitializePerlInstallSelect() {
@@ -640,7 +640,7 @@ public class BBUI : System.Windows.Forms.Form {
         this.Controls.Add(this.perlCloneButton);
         this.Controls.Add(this.perlCloneSelect);
 
-		this.Controls.Add(this.perlFetchButton);
+        this.Controls.Add(this.perlFetchButton);
 
         DrawComponents();
 

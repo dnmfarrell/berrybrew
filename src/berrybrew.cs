@@ -84,7 +84,7 @@ namespace BerryBrew {
 
         public List<string> validOptions;
 
-		// berrybrew command modifiers
+        // berrybrew command modifiers
 
         public bool Debug   { set; get; }
         public bool Testing { set; get; }
@@ -181,7 +181,7 @@ namespace BerryBrew {
         ~Berrybrew(){
             OrphanedPerls();
         }
- 
+
         public void Available(bool allPerls=false) {
             Message.Print("available_header");
 
@@ -195,8 +195,9 @@ namespace BerryBrew {
 
             foreach (StrawberryPerl perl in _perls.Values) {
                 if (! allPerls && ! perl.Newest) {
-                    if (! PerlIsInstalled(perl) && ! perl.Custom && ! perl.Virtual)
+                    if (! PerlIsInstalled(perl) && ! perl.Custom && ! perl.Virtual) {
                         continue;
+                    }
                 }
 
                 string perlNameToPrint = perl.Name + new String(' ', (maxNameLength - perl.Name.Length) + 2);
@@ -247,15 +248,15 @@ namespace BerryBrew {
             return availablePerls;
         }
 
-		public string BitSuffixCheck(string perlName) {
-			if (Regex.Match(perlName, @"5\.\d+\.\d+").Success) {
-				if (! Regex.Match(perlName, @"_32").Success && ! Regex.Match(perlName, @"_64").Success) {
-					return perlName + "_64";
-				}
-			}
+        public string BitSuffixCheck(string perlName) {
+            if (Regex.Match(perlName, @"5\.\d+\.\d+").Success) {
+                if (! Regex.Match(perlName, @"_32").Success && ! Regex.Match(perlName, @"_64").Success) {
+                    return perlName + "_64";
+                }
+            }
 
-			return perlName;
-		}
+            return perlName;
+        }
 
         private void BaseConfig() {
 
@@ -332,7 +333,7 @@ namespace BerryBrew {
 
             try {
                 Directory.CreateDirectory(rootPath);
-			}
+            }
             catch (Exception err) {
                 Console.Error.WriteLine("\nCouldn't create install dir {0}. Please create it manually and run config again", rootPath);
                 if (Debug) {
@@ -930,7 +931,7 @@ namespace BerryBrew {
                     }
 
                     if (plHandlerNameOld == @"berrybrewPerl") {
-                		RegistryKey plHandlerKeyOld = Registry.ClassesRoot.CreateSubKey(plHandlerNameOld + @"\shell\open\command");
+                        RegistryKey plHandlerKeyOld = Registry.ClassesRoot.CreateSubKey(plHandlerNameOld + @"\shell\open\command");
                         plHandlerKeyOld.SetValue("", perl.PerlPath + "\\perl.exe \"%1\" \"%*\"");
                         return;
                     }
@@ -938,7 +939,7 @@ namespace BerryBrew {
                     Options("file_assoc_old", plHandlerNameOld, true);
                     string plHandlerName = @"berrybrewPerl";
 
-              		RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\open\command");
+                    RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\open\command");
                     plHandlerKey.SetValue("", perl.PerlPath + "\\perl.exe \"%1\" \"%*\"");
 
                     plExtKey.SetValue("", plHandlerName);
@@ -961,11 +962,11 @@ namespace BerryBrew {
                 }
                 else {
                     if (Options("file_assoc", null, true) != plHandlerNameOld) {
-	                    Options("file_assoc", plHandlerNameOld, true);
+                        Options("file_assoc", plHandlerNameOld, true);
                     }
                     if (! quiet) {
-	                    Console.WriteLine("\nPerl file association handling:");
-	                    Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", null, true));
+                        Console.WriteLine("\nPerl file association handling:");
+                        Console.WriteLine("\n\tHandler:\t{0}", Options("file_assoc", null, true));
                     }
                 }
             }
@@ -1298,38 +1299,38 @@ namespace BerryBrew {
         }
 
         public string Options(string option=null, string value=null, bool quiet=false) {
-			RegistryKey registry = null;
+            RegistryKey registry = null;
 
-			try {
-	            registry = Registry.LocalMachine.OpenSubKey(registrySubKey, true);
-			}
-			catch (NullReferenceException e) {
-				if (Debug) {
-					Console.Error.WriteLine("\nberrybrew registry section doesn't exist:\n {0}", e);
-				}
-			}
-			catch (System.Security.SecurityException) {
-				try {
-		            registry = Registry.LocalMachine.OpenSubKey(registrySubKey);
-				}
+            try {
+                registry = Registry.LocalMachine.OpenSubKey(registrySubKey, true);
+            }
+            catch (NullReferenceException e) {
+                if (Debug) {
+                    Console.Error.WriteLine("\nberrybrew registry section doesn't exist:\n {0}", e);
+                }
+            }
+            catch (System.Security.SecurityException) {
+                try {
+                    registry = Registry.LocalMachine.OpenSubKey(registrySubKey);
+                }
                 catch (NullReferenceException e) {
                     if (Debug) {
                         Console.Error.WriteLine("\nberrybrew registry section doesn't exist:\n {0}", e);
                     }
                 }
-			}
-			if (registry == null) {
-				try {
-		            registry = Registry.LocalMachine.CreateSubKey(registrySubKey, true);
-				}
-				catch (UnauthorizedAccessException e) {
-					Console.WriteLine("\nThe command you specified requires Administrator privileges.\n");
-					if (Debug) {
-						Console.Error.WriteLine("DEBUG: {0}", e);
-					}
-				}
+            }
+            if (registry == null) {
+                try {
+                    registry = Registry.LocalMachine.CreateSubKey(registrySubKey, true);
+                }
+                catch (UnauthorizedAccessException e) {
+                    Console.WriteLine("\nThe command you specified requires Administrator privileges.\n");
+                    if (Debug) {
+                        Console.Error.WriteLine("DEBUG: {0}", e);
+                    }
+                }
                 Exit((int)ErrorCodes.ADMIN_REGISTRY_WRITE);
-			}
+            }
 
             if (option == null) {
                 Console.WriteLine("\nOption configuration:\n");
@@ -1719,8 +1720,8 @@ namespace BerryBrew {
 
             foreach (StrawberryPerl perl in perlObjects) {
                 if (! _perls.Contains(perl.Name)) {
-					_perls.Add(perl.Name, perl);
-				}
+                    _perls.Add(perl.Name, perl);
+                }
             }
         }
 
@@ -1748,13 +1749,13 @@ namespace BerryBrew {
         }
 
         public List<StrawberryPerl> PerlsInstalled() {
-			PerlGenerateObjects(true);
+            PerlGenerateObjects(true);
             return _perls.Values.Cast<StrawberryPerl>().Where(PerlIsInstalled).ToList();
         }
 
         public void PerlRemove(string perlVersionToRemove) {
             try {
-				perlVersionToRemove = BitSuffixCheck(perlVersionToRemove);
+                perlVersionToRemove = BitSuffixCheck(perlVersionToRemove);
                 StrawberryPerl perl = PerlResolveVersion(perlVersionToRemove);
                 StrawberryPerl currentPerl = PerlInUse();
 
@@ -1829,7 +1830,7 @@ namespace BerryBrew {
         }
 
         public void PerlRegisterCustomInstall(string perlName, StrawberryPerl perlBase=new StrawberryPerl()) {
-			perlName = BitSuffixCheck(perlName);
+            perlName = BitSuffixCheck(perlName);
 
             if (! Directory.Exists(rootPath + perlName)) {
                 Console.Error.WriteLine("installation directory '" + perlName + "' does not exist");
@@ -2105,7 +2106,7 @@ namespace BerryBrew {
         }
        
         private StrawberryPerl PerlResolveVersion(string version) {
-			version = BitSuffixCheck(version);
+            version = BitSuffixCheck(version);
 
             foreach (StrawberryPerl perl in _perls.Values) {
                 if (perl.Name == version) {
@@ -2134,7 +2135,7 @@ namespace BerryBrew {
         }
         
         public void Switch(string switchToVersion, bool switchQuick=false) {
-			switchToVersion = BitSuffixCheck(switchToVersion);
+            switchToVersion = BitSuffixCheck(switchToVersion);
 
             try {
                 StrawberryPerl perl = PerlResolveVersion(switchToVersion);

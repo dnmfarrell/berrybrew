@@ -361,7 +361,7 @@ namespace berrybrew {
                         bb.Exit(0);
                     }
 
-					bb.PerlRemove(args[1]);
+                    bb.PerlRemove(args[1]);
                     bb.Exit(0);
                     break;
 
