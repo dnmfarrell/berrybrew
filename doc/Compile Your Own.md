@@ -25,11 +25,12 @@
 
 ### Compile the UI
 
-    csc \
+    mcs \
         -lib:build \
         -r:bbapi.dll \
         -r:System.Drawing \
         -r:System.Windows.Forms \
+        -r:Microsoft.Visualbasic.dll \
         -win32icon:inc/berrybrew.ico \
         -win32manifest:berrybrew.manifest \
         -t:winexe \
