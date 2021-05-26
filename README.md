@@ -169,9 +169,9 @@ back them up first (see [Caveats](#caveats)).
 
 ## Update Perls Available
 
-Use `berrybrew fetch` to retrieve the most recent availability list from
-Strawberry Perl. If any new or changed versions are found, we'll update the
-local `perls.json` file with them.
+Use the `Fetch` button in the UI, or, at the command line, use `berrybrew fetch`
+to retrieve the most recent availability list from Strawberry Perl. If any new or
+changed versions are found, we'll update the local `perls.json` file with them.
 
 ## Configure Root Directory
 
