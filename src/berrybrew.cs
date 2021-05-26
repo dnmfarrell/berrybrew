@@ -249,7 +249,6 @@ namespace BerryBrew {
         }
 
         private void BaseConfig() {
-
             dynamic jsonConf = JsonParse("config");
             
             try {
