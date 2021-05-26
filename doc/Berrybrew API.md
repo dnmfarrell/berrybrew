@@ -96,10 +96,11 @@ that is displayed to the user.
 
 |Method name|Available|Description|
 |---|---|---|
-[Message.Add](#Message.Add)| **public** | Adds a new message to the collection
-[Message.Get](#Message.Get)| **public** | Fetches the content of a specific message
-[Message.Print](#Message.Print)| **public** | Prints the content of a specific message
-[Message.Say](#Message.Say)| **public** | Same as `Print()`, but terminates
+[Message.Add](#messageadd)| **public** | Adds a new message to the collection
+[Message.Get](#messageget)| **public** | Fetches the content of a specific message
+[Message.Print](#messageprint)| **public** | Prints the content of a specific message
+[Message.Say](#messagesay)| **public** | Same as `Print()`, but terminates
+[Message.Error](#messageerror)| **public** | Same as `Print()`, but writes to `STDERR` instead of `STDOUT`
 
 
 ## Class Berrybrew
@@ -925,6 +926,6 @@ and terminates the application.
          argument:   label
          value:      Name of a message label
  
-Prints the relevant message to `STDERR`.
+Prints the relevant message to `STDERR` as opposed to `STDOUT`.
 
 &copy; 2016-2021 by Steve Bertrand
