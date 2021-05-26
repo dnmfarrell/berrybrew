@@ -18,7 +18,7 @@ If Mono is installed:
 
 Then:
 
-- Create and send a Pull Request
+- Create and send a Pull Request against the current vX.XX branch
 - Wait for review
 
 What we do as the authors/maintainers:
