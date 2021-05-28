@@ -8,6 +8,8 @@ $ENV{BERRYBREW_ENV} = "test";
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 my $refresh = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew-refresh.bat" : 'c:/repos/berrybrew/test/berrybrew-refresh.bat';
 
+like `$c assoc`, qr/Perl file association handling/, "'assoc' works as an alias for 'associate' command";
+
 like `assoc .pl=Perl_program_file`, qr/\.pl=Perl_program_file/, "assoc set to Perl_program_file";
 like 
     `ftype Perl_program_file=C:\\Strawberry\\perl\\bin\\perl.exe %1 %*`,
