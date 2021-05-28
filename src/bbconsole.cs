@@ -47,6 +47,22 @@ namespace berrybrew {
                 
             switch (args[0]){
 
+                case "assoc":
+                    if (args.Length > 1) {
+                        if(args[1] == "-h" || args[1] == "help") {
+                            bb.Message.Print("subcmd.associate");
+                            bb.Exit(0);
+                        }
+                        else {
+                            bb.FileAssoc(args[1]);
+                            bb.Exit(0);
+                        }
+                    }
+                    bb.FileAssoc();
+                    bb.Exit(0);
+                    break;
+
+
                 case "associate":
                     if (args.Length > 1) {
                         if(args[1] == "-h" || args[1] == "help") {

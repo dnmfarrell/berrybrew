@@ -1,7 +1,7 @@
 Revision history for berrybrew
 
 1.35 UNREL
-    -
+    - Add 'assoc' short hand alias for the 'associate' command (closes #294)
 
 1.34    2021-05-25
     - Added dev/build_installer.pl; builds a development installer using the

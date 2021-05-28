@@ -61,6 +61,8 @@ debugging information.
 
 View, set or revert `.pl` file association on the system.
 
+Note that you can use `assoc` as a short hand alias for `associate`.
+
 ##### associate options
 
     set     - Allow berrybrew to manage the association
