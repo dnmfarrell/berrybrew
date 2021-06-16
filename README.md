@@ -89,10 +89,11 @@ If you wish to delete the actual installation:
 
 - Remove the original download directory
 
-- Remove the `HKLM\Software\berrybrew` registry key
+- Remove the `Computer\HKEY_LOCAL_MACHINE\SOFTWARE\berrybrew` registry key
 
-- Remove the `HKLM\Software\Microsoft\Windows\Current Version\Run\BerrybrewUI`
-registry value
+- If you've installed the UI, remove the 
+`Computer\HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\Current Version\Run\BerrybrewUI`
+  registry value
 
 ## Configuration
 
