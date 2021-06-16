@@ -1534,18 +1534,24 @@ namespace BerryBrew {
             return false;
         }
 
-        private void PathSet(List<string> path){
+        private void PathSet(List<string> path)
+        {
             path.RemoveAll(string.IsNullOrEmpty);
 
             string paths = string.Join(";", path);
 
-            if (! paths.EndsWith(@";")) {
+            if (!paths.EndsWith(@";"))
+            {
                 paths += @";";
             }
 
-            try {
-                const string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
-                using (RegistryKey pathKey = Registry.LocalMachine.OpenSubKey(keyName, true)){
+            try
+            {
+                const string keyName =
+                    @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
+                using (RegistryKey pathKey =
+                    Registry.LocalMachine.OpenSubKey(keyName, true))
+                {
 
                     pathKey.DeleteValue("Path");
 
@@ -1566,14 +1572,25 @@ namespace BerryBrew {
                     IntPtr.Zero
                 );
             }
-            catch(UnauthorizedAccessException err) {
-                Console.Error.WriteLine("\nAdding berrybrew to the PATH requires Administrator privilege");
-                if (Debug) {
-                    Console.Error.WriteLine("DEBUG: {0}", err);
+            catch (Exception err)
+            {
+                if (err is UnauthorizedAccessException ||
+                    err is SecurityException)
+                {
+                    Console.Error.WriteLine(
+                        "\nModifying the PATH environment variable requires Administrator privilege");
+                    if (Debug)
+                    {
+                        Console.Error.WriteLine("DEBUG: {0}", err);
+                    }
+
+                    Exit((int) ErrorCodes.ADMIN_PATH_ERROR);
                 }
-                Exit((int)ErrorCodes.ADMIN_PATH_ERROR);
+
+                throw;
             }
         }
+        
 
         private static string PerlarchivePath(StrawberryPerl perl) {
             string path;
