@@ -4,7 +4,9 @@ Revision history for berrybrew
     - Add 'assoc' short hand alias for the 'associate' command (closes #294)
     - In BitSuffixCheck() we now anchor the perl version to ensure the user is
       specifying a legitimate version as opposed to a custom one (closes #271)
-
+    - `berrybrew off` registry security violation when run with a non-admin
+       user is now handled properly (fixes #299)
+       
 1.34    2021-05-25
     - Added dev/build_installer.pl; builds a development installer using the
       dev/create_build_installer.nsi NSIS script
