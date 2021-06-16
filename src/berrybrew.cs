@@ -1534,24 +1534,19 @@ namespace BerryBrew {
             return false;
         }
 
-        private void PathSet(List<string> path)
-        {
+        private void PathSet(List<string> path)  {
             path.RemoveAll(string.IsNullOrEmpty);
 
             string paths = string.Join(";", path);
 
-            if (!paths.EndsWith(@";"))
-            {
+            if (!paths.EndsWith(@";"))  {
                 paths += @";";
             }
 
-            try
-            {
+            try  {
                 const string keyName =
                     @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
-                using (RegistryKey pathKey =
-                    Registry.LocalMachine.OpenSubKey(keyName, true))
-                {
+                using (RegistryKey pathKey = Registry.LocalMachine.OpenSubKey(keyName, true)) {
 
                     pathKey.DeleteValue("Path");
 
@@ -1572,26 +1567,19 @@ namespace BerryBrew {
                     IntPtr.Zero
                 );
             }
-            catch (Exception err)
-            {
-                if (err is UnauthorizedAccessException ||
-                    err is SecurityException)
-                {
-                    Console.Error.WriteLine(
-                        "\nModifying the PATH environment variable requires Administrator privilege");
-                    if (Debug)
-                    {
+            catch (Exception err) {
+                if (err is UnauthorizedAccessException || err is SecurityException) {
+                    Console.Error.WriteLine("\nModifying the PATH environment variable requires Administrator privilege");
+                    if (Debug) {
                         Console.Error.WriteLine("DEBUG: {0}", err);
                     }
 
                     Exit((int) ErrorCodes.ADMIN_PATH_ERROR);
                 }
-
                 throw;
             }
         }
         
-
         private static string PerlarchivePath(StrawberryPerl perl) {
             string path;
 
