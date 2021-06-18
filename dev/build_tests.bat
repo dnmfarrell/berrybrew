@@ -7,7 +7,7 @@ mkdir test\data
 
 copy dev\data\*.json test\data
 
-call perl -i.bak -ne "s/berrybrew(?!\\+test)/berrybrew\/test/; print" test/data/config.json
+call perl -i.bak -ne "my $bs=chr(92); s/berrybrew(?!\\+test)/berrybrew${bs}${bs}test/; print" test/data/config.json
 call perl -i.bak -ne "s/\"run_mode\"\s+:\s+\"prod\"/\"run_mode\"\t\t  : \"test\"/; print" test/data/config.json
 
 echo "compiling dll..."
