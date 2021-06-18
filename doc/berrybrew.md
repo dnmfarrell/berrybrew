@@ -20,7 +20,6 @@
 - [remove](#remove)
 - [switch](#switch)
 - [unconfig](#unconfig)
-- [upgrade](#upgrade)
 - [use](#use)
 - [virtual](#virtual)
 - [help](#help)
@@ -267,17 +266,6 @@ may not work correctly using this method. If you have problems, simply run
 Usage:  `berrybrew unconfig`
 
 Removes berrybrew's binary directory from the `PATH` environment variable.
-
-#### upgrade
-
-Usage:  `berrybrew upgrade`
-
-Creates a `backup_timestamp` backup directory in the repository root directory,
-copies the live configuration files from `data` directory, performs a
-`git pull`. All configuration files less the `perls_custom.json` file are
-overwritten with any new changes. It is up to the user to manually merge in any
-custom changes to the other configuration files from the backups into the new
-files in `data/`.
 
 #### use
 

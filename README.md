@@ -26,7 +26,6 @@ See [SEE ALSO](#see-also) for the  full list of documentation.
 - [Configuration](#configuration)
 - [Commands](#commands)
 - [Examples](#examples)
-- [Upgrading](#upgrading)
 - [Update Perls Available](#update-perls-available)
 - [Configure Perl Instance Directory](#configure-root-directory)
 - [Requirements](#requirements)
@@ -129,7 +128,6 @@ to 64-bit (ie. `_64`) if this suffix is omitted.
     remove         Uninstall a Strawberry Perl
     switch *       Switch to use a different Strawberry Perl
     unconfig       Remove berrybrew from PATH
-    upgrade        Performs a safe upgrade. Requires Git installed
     use *          Use a specific Strawberry Perl version temporarily
     virtual        Allow berrybrew to manage an external Perl instance
     help           Display this help screen
@@ -149,21 +147,6 @@ document for usage examples.
 Using the [installer](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
 is the best and safest way to upgrade your `berrybrew`. You can stop reading here
 if you use the installer to install `berrybrew`.
-
-If the new install will not be in the same directory as your previous version, 
-copy any new or differing configuration options in the `data\config.json` file
-from the old instance to the new one, and if you've got a 
-`data\perls_custom.json` or a `data\perls_virtual.json` file, copy them over in
-their entirety.
-
-The next best method is to use `berrybrew upgrade`. This requires Git to be
-installed and in your `PATH`. It will create a `backup_timestamp`
-directory and copy your configuration files into it.
-
-After completion, it'll copy your `perls_custom.json` file back into the `data/`
-directory. The rest of the configuration JSON files will be replaced. If you had
-any customizations within any of the other configuration files, you'll need to
-manually merge those changes back into the updated config file in `data/`.
 
 Doing a straight `git pull` will overwrite your configuration files, so
 back them up first (see [Caveats](#caveats)).

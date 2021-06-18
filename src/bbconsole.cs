@@ -409,11 +409,12 @@ namespace berrybrew {
                     bb.Exit(0);
                     break;
 
+/* Disabled 20210616 due to issue #295
                 case "upgrade":
                     bb.Upgrade();
                     bb.Exit(0);
                     break;
-                    
+*/                    
                 case "use":
                     if (args.Length == 1) {
                         bb.Message.Print("use_ver_required");

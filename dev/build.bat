@@ -4,7 +4,7 @@ mkdir build\data
 
 copy dev\data\*.json build\data
 
-call perl -i.bak -ne "s/berrybrew(?!\\\\build)/berrybrew\\\\\\\\build/; print" build/data/config.json
+call perl -i.bak -ne "s/berrybrew(?!\\build)/berrybrew\\\\build/; print" build/data/config.json
 call perl -i.bak -ne "s/\"run_mode\"\s+:\s+\"prod\"/\"run_mode\"\t\t  : \"build\"/; print" build/data/config.json
 
 echo "compiling dll..."
