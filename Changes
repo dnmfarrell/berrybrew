@@ -16,7 +16,10 @@ Revision history for berrybrew
     - Added BB::check_test_platform(). All tests call it and gracefully exit
       with a warning that dev\build_tests.bat needs to be run if the test build
       directories are missing
-                 
+    - Fix quoting issue in argument parameter when setting file association
+      string. This was causing an empty argument when none were sent in, and
+      only a single one when multiple were sent in (fixes #303)
+                       
 1.34    2021-05-25
     - Added dev/build_installer.pl; builds a development installer using the
       dev/create_build_installer.nsi NSIS script

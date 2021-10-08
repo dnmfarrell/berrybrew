@@ -3,10 +3,10 @@ use strict;
 
 use FindBin qw($RealBin);
 use lib $RealBin;
-use BB;
+#use BB;
 use Test::More;
 
-BB::check_test_platform();
+#BB::check_test_platform();
 
 $ENV{BERRYBREW_ENV} = "test";
 
@@ -46,6 +46,11 @@ like `assoc .pl`, qr/pl=berrybrewPerl/, "file assoc berrybrewPerl registered aft
 like `$c options file_assoc`, qr/file_assoc:\s+berrybrewPerl/, "file_assoc option ok after switch & set";
 like `$c options file_assoc_old`, qr/file_assoc_old:\s+Perl_program_file/, "file_assoc_old option ok after switch &set";
 like `ftype berrybrewPerl`, qr/berrybrew.*5\.10\.1_32/, "bb 5.10.1_32 ftype ok";
+
+# Issue 303: assoc string causes incorrect argument passing
+is `t\\data\\assoc_no_arguments.pl`, 1, "assoc with no args ok";
+is `t\\data\\assoc_arguments.pl 1 2 3`, 3, "assoc with args ok";
+# End Issue 303
 
 like `$c associate unset`, qr/Set Perl file assoc/, "associste unset ok";
 like `$c options file_assoc`, qr/file_assoc:\s+Perl_program_file/, "file_assoc option ok after unset";
