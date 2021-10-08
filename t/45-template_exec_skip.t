@@ -2,8 +2,12 @@ use warnings;
 use strict;
 
 use Test::More;
-use lib 't/';
+
+use FindBin qw($RealBin);
+use lib $RealBin;
 use BB;
+
+BB::check_test_platform();
 
 $ENV{BERRYBREW_ENV} = "test";
 

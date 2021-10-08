@@ -13,6 +13,9 @@ Revision history for berrybrew
     - Finally fixed the double-backslash regex replacement issue we were having
       in the unit test suite setup scripts
     - Fix typo in CleanModules() section of API doc (fixes #302)
+    - Added BB::check_test_platform(). All tests call it and gracefully exit
+      with a warning that dev\build_tests.bat needs to be run if the test build
+      directories are missing
                  
 1.34    2021-05-25
     - Added dev/build_installer.pl; builds a development installer using the

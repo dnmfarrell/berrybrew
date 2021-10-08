@@ -1,7 +1,12 @@
 use warnings;
 use strict;
 
+use FindBin qw($RealBin);
+use lib $RealBin;
+use BB;
 use Test::More;
+
+BB::check_test_platform();
 
 $ENV{BERRYBREW_ENV} = "test";
 

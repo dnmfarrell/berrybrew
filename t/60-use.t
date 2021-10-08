@@ -1,13 +1,16 @@
 use warnings;
 use strict;
 
-use lib 't/';
-
+use FindBin qw($RealBin);
+use lib $RealBin;
 use BB;
+
 use IPC::Open3;
 use POSIX ':sys_wait_h';
 use Symbol 'gensym';
 use Test::More;
+
+BB::check_test_platform();
 
 $ENV{BERRYBREW_ENV} = "test";
 

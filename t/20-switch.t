@@ -2,13 +2,16 @@ use warnings;
 use strict;
 use feature 'say';
 
-use lib 't/';
-
+use FindBin qw($RealBin);
+use lib $RealBin;
 use BB;
+
 use Capture::Tiny qw(:all);
 use IPC::Run3;
 use Test::More;
 use Win32::TieRegistry;
+
+BB::check_test_platform();
 
 $ENV{BERRYBREW_ENV} = "test";
 

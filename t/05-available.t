@@ -3,9 +3,13 @@ use strict;
 
 use lib 't/';
 
+use FindBin qw($RealBin);
 use BB;
+
 use IPC::Run3;
 use Test::More;
+
+BB::check_test_platform();
 
 $ENV{BERRYBREW_ENV} = "test";
 

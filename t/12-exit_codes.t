@@ -1,14 +1,17 @@
 use warnings;
 use strict;
 
-use lib 't/';
-
+use FindBin qw($RealBin);
+use lib $RealBin;
 use BB;
+
 use Test::More;
 
 # if (! $ENV{BB_TEST_ERRCODES} && ! $ENV{BB_TEST_ALL}) {
 #     plan skip_all => "BB_TEST_ERRCODES env var not set";
 # }
+
+BB::check_test_platform();
 
 $ENV{BERRYBREW_ENV} = "test";
 
