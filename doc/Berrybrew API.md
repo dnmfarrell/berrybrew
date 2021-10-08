@@ -193,7 +193,7 @@ has been run, or `false` otherwise.
 
 #### CleanModules
 
-    private bool CleanDev()
+    private bool CleanModules()
     
 Removes the directory that we store exported module list files into.    
 
