@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.35 UNREL
+1.35    2021-10-08
     - Add 'assoc' short hand alias for the 'associate' command (closes #294)
     - In BitSuffixCheck() we now anchor the perl version to ensure the user is
       specifying a legitimate version as opposed to a custom one (closes #271)
