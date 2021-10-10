@@ -2,7 +2,8 @@ Revision history for berrybrew
 
 1.36 UNREL
     - Modify exit code test script to get exit code list from the BB test object
-
+    - Add note on how to get exit command output to STDOUT in berrybrew doc
+    
 1.35    2021-10-08
     - Add 'assoc' short hand alias for the 'associate' command (closes #294)
     - In BitSuffixCheck() we now anchor the perl version to ensure the user is
