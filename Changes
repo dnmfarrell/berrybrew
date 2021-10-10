@@ -1,5 +1,8 @@
 Revision history for berrybrew
 
+1.36 UNREL
+    -
+
 1.35    2021-10-08
     - Add 'assoc' short hand alias for the 'associate' command (closes #294)
     - In BitSuffixCheck() we now anchor the perl version to ensure the user is
@@ -19,7 +22,7 @@ Revision history for berrybrew
     - Fix quoting issue in argument parameter when setting file association
       string. This was causing an empty argument when none were sent in, and
       only a single one when multiple were sent in (fixes #303)
-                       
+
 1.34    2021-05-25
     - Added dev/build_installer.pl; builds a development installer using the
       dev/create_build_installer.nsi NSIS script
@@ -79,13 +82,13 @@ Revision history for berrybrew
       trying to install into the ../bin/ directory (fixes #250)
     - Release script now adds the berrybrew version properly to the install script
       (fixes #254)
-    - Installer aborts if trying to install the same version 
+    - Installer aborts if trying to install the same version
     - Options() now does a significantly better job handling the registry.
       User/Admin access to the registry has been separated and handled properly
     - Fix issue in FileAssoc() where an exception was raised if we were trying
       to set 'file_assoc' to the same value that already exists
     - New options added to berrybrew configuration are now merged into the registry
-      on an upgrade, and existing option values are not changed (fixes #257)       
+      on an upgrade, and existing option values are not changed (fixes #257)
     - Release process automatically updates available Perl list (closes #261)
     - Changed all documentation links from absolute to relative (closes #259)
     - Modified OpenSubKey() in Options() to allow write access
@@ -503,7 +506,7 @@ Revision history for berrybrew
     - PerlFindOrphans() now ignores the '.cpanm' directory
     - version now hardcoded in the library
 
-1.07    2016-11-11 
+1.07    2016-11-11
     - fix issue where 5.22.2_32 wasn't downloading the portable zip file
       thereby the checksum didn't match (reported by 'atcroft') (fixes #53)
     - test updates/fixes
