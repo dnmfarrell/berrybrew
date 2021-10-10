@@ -47,6 +47,22 @@ namespace berrybrew {
                 
             switch (args[0]){
 
+                case "assoc":
+                    if (args.Length > 1) {
+                        if(args[1] == "-h" || args[1] == "help") {
+                            bb.Message.Print("subcmd.associate");
+                            bb.Exit(0);
+                        }
+                        else {
+                            bb.FileAssoc(args[1]);
+                            bb.Exit(0);
+                        }
+                    }
+                    bb.FileAssoc();
+                    bb.Exit(0);
+                    break;
+
+
                 case "associate":
                     if (args.Length > 1) {
                         if(args[1] == "-h" || args[1] == "help") {
@@ -91,7 +107,7 @@ namespace berrybrew {
                         else {
                             bb.Clean(args[1]);
                         }
-                    }		
+                    }
                     else {
                         bb.Clean();
                         bb.Exit(0);
@@ -361,7 +377,7 @@ namespace berrybrew {
                         bb.Exit(0);
                     }
 
-					bb.PerlRemove(args[1]);
+                    bb.PerlRemove(args[1]);
                     bb.Exit(0);
                     break;
 
@@ -393,11 +409,12 @@ namespace berrybrew {
                     bb.Exit(0);
                     break;
 
+/* Disabled 20210616 due to issue #295
                 case "upgrade":
                     bb.Upgrade();
                     bb.Exit(0);
                     break;
-                    
+*/                    
                 case "use":
                     if (args.Length == 1) {
                         bb.Message.Print("use_ver_required");

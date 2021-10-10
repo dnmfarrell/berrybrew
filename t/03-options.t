@@ -1,9 +1,15 @@
 use warnings;
 use strict;
 
+use FindBin qw($RealBin);
+use lib $RealBin;
+use BB;
+
 use Data::Dumper;
 use Test::More;
 use Win32::TieRegistry;
+
+BB::check_test_platform();
 
 $ENV{BERRYBREW_ENV} = "test";
 

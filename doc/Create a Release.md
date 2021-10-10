@@ -6,6 +6,9 @@
 
 ## Create and Publish a New Release
 
+- Check David Farrell's repo for issues (dnmfarrell/berrybrew), and fix if 
+necessary
+  
 - `git checkout` the branch that's to be merged into `master`
 
 - `git pull` to ensure we're up-to-date
@@ -67,7 +70,9 @@ into the master branch
     - `git remote add stevieb9 https://github.com/stevieb9/berrybrew`
     - `git pull stevieb9 master`
     - `git push`
-    
+
+- Close off any issues in David's dnmfarrell/berrybrew repository
+  
 - Delete the merged branch in Github
     
 ## Prepare a Branch for the Next Release Cycle

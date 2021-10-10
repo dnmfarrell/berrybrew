@@ -1,5 +1,25 @@
 Revision history for berrybrew
 
+1.35    2021-10-08
+    - Add 'assoc' short hand alias for the 'associate' command (closes #294)
+    - In BitSuffixCheck() we now anchor the perl version to ensure the user is
+      specifying a legitimate version as opposed to a custom one (closes #271)
+    - `berrybrew off` registry security violation when run with a non-admin
+       user is now handled properly (fixes #299)
+    - Updated registry path information in uninstall doc section of README
+      (fixes #298)
+    - Removed 'upgrade' command. We now use only the installer or git to
+      upgrade berrybrew (closes #295, closes #296)
+    - Finally fixed the double-backslash regex replacement issue we were having
+      in the unit test suite setup scripts
+    - Fix typo in CleanModules() section of API doc (fixes #302)
+    - Added BB::check_test_platform(). All tests call it and gracefully exit
+      with a warning that dev\build_tests.bat needs to be run if the test build
+      directories are missing
+    - Fix quoting issue in argument parameter when setting file association
+      string. This was causing an empty argument when none were sent in, and
+      only a single one when multiple were sent in (fixes #303)
+                       
 1.34    2021-05-25
     - Added dev/build_installer.pl; builds a development installer using the
       dev/create_build_installer.nsi NSIS script

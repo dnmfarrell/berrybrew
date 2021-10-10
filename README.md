@@ -26,7 +26,6 @@ See [SEE ALSO](#see-also) for the  full list of documentation.
 - [Configuration](#configuration)
 - [Commands](#commands)
 - [Examples](#examples)
-- [Upgrading](#upgrading)
 - [Update Perls Available](#update-perls-available)
 - [Configure Perl Instance Directory](#configure-root-directory)
 - [Requirements](#requirements)
@@ -44,7 +43,7 @@ See [SEE ALSO](#see-also) for the  full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: b5a1415952003b73b872030d26fd96138ee0f4b0`
+[berrybrewInstaller.exe](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 816223a6ba4fd234e1926393072ebb97424ca53c`
 
 ##### Git clone
 
@@ -54,7 +53,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 8a66f9e4eb6f0da90696ecfbcfe41f9fa58aa291`
+[berrybrew.zip](download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 0ebc2afa31e71a6c6b64c734e0d0e3f989b6076d`
 
 After extraction:
 
@@ -89,10 +88,11 @@ If you wish to delete the actual installation:
 
 - Remove the original download directory
 
-- Remove the `HKLM\Software\berrybrew` registry key
+- Remove the `Computer\HKEY_LOCAL_MACHINE\SOFTWARE\berrybrew` registry key
 
-- Remove the `HKLM\Software\Microsoft\Windows\Current Version\Run\BerrybrewUI`
-registry value
+- If you've installed the UI, remove the 
+`Computer\HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\Current Version\Run\BerrybrewUI`
+  registry value
 
 ## Configuration
 
@@ -128,7 +128,6 @@ to 64-bit (ie. `_64`) if this suffix is omitted.
     remove         Uninstall a Strawberry Perl
     switch *       Switch to use a different Strawberry Perl
     unconfig       Remove berrybrew from PATH
-    upgrade        Performs a safe upgrade. Requires Git installed
     use *          Use a specific Strawberry Perl version temporarily
     virtual        Allow berrybrew to manage an external Perl instance
     help           Display this help screen
@@ -149,29 +148,14 @@ Using the [installer](download/berrybrewInstaller.exe?raw=true "berrybrew MSI in
 is the best and safest way to upgrade your `berrybrew`. You can stop reading here
 if you use the installer to install `berrybrew`.
 
-If the new install will not be in the same directory as your previous version, 
-copy any new or differing configuration options in the `data\config.json` file
-from the old instance to the new one, and if you've got a 
-`data\perls_custom.json` or a `data\perls_virtual.json` file, copy them over in
-their entirety.
-
-The next best method is to use `berrybrew upgrade`. This requires Git to be
-installed and in your `PATH`. It will create a `backup_timestamp`
-directory and copy your configuration files into it.
-
-After completion, it'll copy your `perls_custom.json` file back into the `data/`
-directory. The rest of the configuration JSON files will be replaced. If you had
-any customizations within any of the other configuration files, you'll need to
-manually merge those changes back into the updated config file in `data/`.
-
 Doing a straight `git pull` will overwrite your configuration files, so
 back them up first (see [Caveats](#caveats)).
 
 ## Update Perls Available
 
-Use `berrybrew fetch` to retrieve the most recent availability list from
-Strawberry Perl. If any new or changed versions are found, we'll update the
-local `perls.json` file with them.
+Use the `Fetch` button in the UI, or, at the command line, use `berrybrew fetch`
+to retrieve the most recent availability list from Strawberry Perl. If any new or
+changed versions are found, we'll update the local `perls.json` file with them.
 
 ## Configure Root Directory
 
@@ -282,7 +266,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-   1.34 
+   1.35 
 
 ## Hidden Commands
 

@@ -8,8 +8,16 @@ use Data::Dumper;
 use IPC::Run3;
 use Test::More;
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
+$ENV{BERRYBREW_ENV} = "test";
 
+my $c = exists $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
+my $test_repo = exists $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/$ENV{BERRYBREW_ENV}" : 'c:/repos/berrybrew/test';
+
+sub check_test_platform {
+    if (! -e $test_repo && ! -e 'c:/repos/berrybrew/test') {
+        die "\nCan't continue, test platform not set up... run dev/build_tests.bat\n";
+    }
+}
 sub get_avail {
     # returns a list of available strawberry perls that are _not_ already installed
     my $list = `$c available`;

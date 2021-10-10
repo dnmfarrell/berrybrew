@@ -164,7 +164,6 @@
         "    remove         Uninstall a Strawberry Perl",
         "    switch *       Switch to use a different Strawberry Perl",
         "    unconfig       Remove berrybrew from PATH",
-        "    upgrade        Performs a safe upgrade. Requires Git installed",
         "    use *          Use a specific Strawberry Perl version temporarily",
         "    virtual        Allow berrybrew to manage an external Perl instance",
         "    help           Display this help screen",

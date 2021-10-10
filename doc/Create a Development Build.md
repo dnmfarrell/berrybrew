@@ -1,4 +1,12 @@
-## Create a Development Build
+# Create a Development Build
+
+## Sections
+
+- [Full Build Except Installer](#create-the-new-development-build)
+- [Full Build With Installer](#installer)
+- [UI Only](#ui-only)
+- [Binary Only](#berrybrew-binary-only)
+- [API Only](#api-only)
 
 During development, it's handy to be able to ensure the code builds and works
 correctly without overwriting the currently-installed production installation.
@@ -6,7 +14,7 @@ correctly without overwriting the currently-installed production installation.
 This is a must for testing out new features to ensure they work correctly prior
 to running the [unit test](Unit%20Testing.md) suite.
 
-Create the new development build:
+#### Create the new development build:
 
 - Run the `dev\build.bat` script, which compiles the binary, library and UI and
 places the new build within a newly-created `build` directory within your
