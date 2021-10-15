@@ -2278,8 +2278,9 @@ namespace BerryBrew {
                 string prompt = Environment.GetEnvironmentVariable("PROMPT");
                 Environment.SetEnvironmentVariable("PROMPT", "$Lberrybrew use perl-" + perl.Name + "$G" + "$_" + "$P$G");
 
-                startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = "/k TITLE berrybrew use perl-" + perl.Name;
+                startInfo.FileName = "powershell.exe";
+//                startInfo.Arguments = "/k TITLE berrybrew use perl-" + perl.Name;
+				startInfo.Arguments = "-NoExit -Command \"& {$host.ui.RawUI.WindowTitle='berrybrew use perl-'}\"";
                 process.StartInfo = startInfo;
                 process.StartInfo.RedirectStandardOutput = false;
                 process.StartInfo.RedirectStandardError = false;
