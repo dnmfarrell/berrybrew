@@ -87,7 +87,8 @@ like
     qr/\0myclone\0/,
     'verifying myclone exists';
 
-{   # testing single 'berrybrew use' inside the same "window"
+# testing single 'berrybrew use' inside the same "window"
+{   
     my $name = 'berrybrew use myclone';
     my $pid
         = open3( my $pinn, my $pout, my $perr = gensym, $c, 'use', 'myclone');
@@ -126,7 +127,8 @@ like
     }
 }
 
-{   # testing multiple 'berrybrew use' versions inside the same "window"
+# testing multiple 'berrybrew use' versions inside the same "window"
+{   
     my $name = "berrybrew use $cloned,myclone";
     my $pid = open3(
         my $pinn, my $pout, my $perr = gensym,
@@ -177,7 +179,8 @@ like
     }
 }
 
-{   # testing single 'berrybrew use' versions in separate window;
+# testing single 'berrybrew use' versions in separate window;
+{   
     #   cannot (conveniently) send commands to the spawned window,
     #   so just check that the parent process gets the PID when
     #   BBTEST_SHOW_PID is set
@@ -215,7 +218,54 @@ like
     is $count, scalar @matches, "$name: kill one window";
 }
 
-{   # testing multiple 'berrybrew use' versions in separate windows;
+# testing single 'berrybrew use' versions in separate window (Powershell)
+{
+    #   cannot (conveniently) send commands to the spawned window,
+    #   so just check that the parent process gets the PID when
+    #   BBTEST_SHOW_PID is set
+   
+    my $powershell_option = `$c options shell powershell`;
+    like `$c options shell`, qr/powershell/, "powershell is set ok";
+    
+    my $name = "berrybrew use --win myclone";
+    local $ENV{BBTEST_SHOW_PID} = 1;
+    my $pid = open3(
+        my $pinn, my $pout, my $perr = gensym, $c,
+        'use', '--win', join(',', 'myclone')
+    );
+
+    my $t0 = time;
+    while ( (time() - $t0) < 10 ) { # wait no more than 10s
+        my $kid = waitpid($pid, WNOHANG);
+        note "waitpid($pid)=$kid";
+        last unless $kid < 0;
+        sleep(1);
+    }
+    my $xout = join '', <$pout>;
+    my $xerr = join '', <$perr>;
+
+    diag "`$name` resulted in STDERR=\"$xerr\"\n" if $xerr;
+    is $xerr, '', "$name: STDERR should be empty";
+
+    my @matches
+        = $xout =~ /: spawned in new command window, with PID=(\d+)/gims;
+
+    is scalar @matches, 1 , "$name: spawn powershell one window";
+    my $count = 0;
+    for(@matches) {
+        # wait a half-second before killing each window # was: sleep(1);
+        select undef, undef, undef, 0.5;
+        note "kill PID#$_\n";
+        $count += kill KILL => $_;
+    }
+    is $count, scalar @matches, "$name: kill powershell one window";
+
+    $powershell_option = `$c options shell cmd`;
+    like `$c options shell`, qr/cmd/, "cmd is set ok";   
+}
+
+# testing multiple 'berrybrew use' versions in separate windows;
+{   
     #   cannot (conveniently) send commands to the spawned windows,
     #   so just check that the parent process gets the PID when
     #   BBTEST_SHOW_PID is set

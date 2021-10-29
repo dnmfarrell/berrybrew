@@ -121,12 +121,14 @@ namespace BerryBrew {
                 "debug",
                 "root_dir",
                 "temp_dir",
+				"strawberry_url",
                 "download_url",
                 "windows_homedir",
                 "custom_exec",
                 "run_mode",
                 "file_assoc",
                 "file_assoc_old",
+				"shell",
                 "warn_orphans",
             };
 
@@ -2278,9 +2280,18 @@ namespace BerryBrew {
                 string prompt = Environment.GetEnvironmentVariable("PROMPT");
                 Environment.SetEnvironmentVariable("PROMPT", "$Lberrybrew use perl-" + perl.Name + "$G" + "$_" + "$P$G");
 
-                startInfo.FileName = "powershell.exe";
-//                startInfo.Arguments = "/k TITLE berrybrew use perl-" + perl.Name;
-				startInfo.Arguments = "-NoExit -Command \"& {$host.ui.RawUI.WindowTitle='berrybrew use perl-'}\"";
+				if (Options("shell", null, true) == "powershell") {
+					// Spawn with Powershell
+                    string args = "-NoExit -Command \"& {$host.ui.RawUI.WindowTitle='berrybrew use perl-" + perl.Name + "'}\"";
+                    startInfo.Arguments = args; 
+	                startInfo.FileName = "powershell.exe";
+				}
+				else {
+					// Spawn with cmd
+	                startInfo.Arguments = "/k TITLE berrybrew use perl-" + perl.Name;
+	                startInfo.FileName = "cmd.exe";
+				}
+
                 process.StartInfo = startInfo;
                 process.StartInfo.RedirectStandardOutput = false;
                 process.StartInfo.RedirectStandardError = false;

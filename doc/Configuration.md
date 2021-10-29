@@ -20,6 +20,7 @@ Most options are also configurable through the UI.
 [custom_exec](#custom_exec)|Include custom (cloned) instances under `berrybrew exec`|
 [windows_homedir](#windows_homedir)|Default home directory for `File::HomeDir`|
 [run_mode](#run_mode)|Currently Unused|
+[shell](#shell)|Shell to run when 'use'ing a Perl|
 [file_assoc](#file_assoc)|The current .pl file association handler|
 [file_assoc_old](#file_assoc_old)|The previous .pl file association handler|
 [warn_orphans](#warn_orphans)|Warn if non-Perl directories are found|
@@ -99,6 +100,11 @@ Values: "true", "false"
 ##### run_mode
 
 This is a reserved option, and should not be modified by the end user.
+
+##### shell
+
+The shell to deploy when `berrybrew use` is executed. Valid options are `cmd`
+and `powershell`.
 
 ##### file_assoc
 

@@ -10,5 +10,6 @@
     "run_mode"        : "prod",
     "file_assoc"      : "",
     "file_assoc_old"  : "",
+    "shell"           : "cmd",
     "warn_orphans"    : "false"
 }
