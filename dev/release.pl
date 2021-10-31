@@ -61,7 +61,7 @@ sub backup_configs {
 }
 sub check_readme {
     open my $fh, '<', 'README.md' or die "Can't open README: $!";
-    my ($bb_sha, $inst_sha, $readme_ver);
+    my ($zip_sha, $inst_sha, $readme_ver);
     my $ver = _berrybrew_version();
     my $c = 0;
 
@@ -69,9 +69,11 @@ sub check_readme {
 
         if (/^\[berrybrew\.zip/) {
             if (/^\[berrybrew\.zip.*`SHA1:\s+(.*)`/) {
-                $bb_sha = $1;
+                $zip_sha = $1;
             }
-            like $bb_sha, qr/[A-Fa-f0-9]{40}/, "berrybrew SHA1 ok";
+            like $zip_sha, qr/[A-Fa-f0-9]{40}/, "berrybrew zip archive SHA1 is a checksum ok";
+            my $actual_zip_sha = _generate_shasum(ZIP_FILE);
+            is $zip_sha, $actual_zip_sha, "...and the README has the correct checksum for the zip file";
         }
        
         if (/^\[berrybrewInstaller\.exe/) {
@@ -79,9 +81,10 @@ sub check_readme {
                 $inst_sha = $1;
                 print(length($1));
             }
-            like $inst_sha, qr/[A-Fa-f0-9]{40}/, "berrybrew installer SHA1 ok";
+            like $inst_sha, qr/[A-Fa-f0-9]{40}/, "berrybrew installer SHA1 is a checksum ok";
+            my $actual_inst_sha = _generate_shasum(EXE_FILE);
+            is $inst_sha, $actual_inst_sha, "...and the README has the correct checksum for the installer";
         }
-        
         if (/## Version/) {
             $c++;
             next;

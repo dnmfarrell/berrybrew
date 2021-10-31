@@ -13,9 +13,14 @@ $ENV{BERRYBREW_ENV} = "test";
 my $c = exists $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
 my $test_repo = exists $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/$ENV{BERRYBREW_ENV}" : 'c:/repos/berrybrew/test';
 
+my %error_codes = error_codes();
+
 sub check_test_platform {
     if (! -e $test_repo && ! -e 'c:/repos/berrybrew/test') {
         die "\nCan't continue, test platform not set up... run dev/build_tests.bat\n";
+    }
+    if ($ENV{PATH} =~ /berrybrew/) {
+        die "\nCan't continue, 'berrybrew' is in your path. Please run 'off' on the configured berrybrew instance\n";
     }
 }
 sub get_avail {
@@ -47,13 +52,7 @@ sub get_installed {
 
     return @installed;
 }
-sub err_code {
-    my ($name) = @_;
-    
-    die "err_code() requires error name\n" if ! defined $name;
-
-    my @valid_codes = split /\n/, `$c error-codes`;
-
+sub error_codes {
     my %codes = (
         GENERIC_ERROR					=> -1,
         SUCCESS                         => 0,
@@ -95,9 +94,16 @@ sub err_code {
         OPTION_INVALID_ERROR			=> 180,   
     );        
 
-    is scalar(keys %codes), scalar(@valid_codes), "error code count ok compared to valid";
-   
-    return $codes{$name};
+    return %codes;
+}
+sub err_code {
+    my ($name) = @_;
+    
+    die "err_code() requires error name\n" if ! defined $name;
+
+    my @valid_codes = split /\n/, `$c error-codes`;
+    is scalar(keys %error_codes), scalar(@valid_codes), "error code count ok compared to valid";
+    return $error_codes{$name};
 }
 sub trap {
     my ($cmd) = @_;
@@ -105,4 +111,5 @@ sub trap {
     is $?, 0, "\$? reset to exit status 0 ok";
    return capture_stderr { eval { run3 $cmd; }; };
 }
+
 1;

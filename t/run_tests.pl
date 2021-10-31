@@ -1,6 +1,11 @@
 use warnings;
 use strict;
 
+use lib 't/';
+use BB;
+
+BB::check_test_platform();
+
 die "You must set \$ENV{BBTEST_PERLROOT} before running $0\n" unless exists $ENV{BBTEST_PERLROOT};
 
 my $sff = (@ARGV && (($ARGV[0] eq '--stopfirstfail')||($ARGV[0] eq '--sff')));

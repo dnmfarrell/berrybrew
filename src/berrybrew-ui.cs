@@ -39,6 +39,7 @@ public class BBUI : System.Windows.Forms.Form {
     private CheckBox fileAssocCheckBox;
     private CheckBox warnOrphansCheckBox;
     private CheckBox debugCheckBox;
+    private CheckBox powershellCheckBox;
     private CheckBox windowsHomedirCheckBox;
 
     private System.ComponentModel.IContainer components;
@@ -116,6 +117,7 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.InitializeFileAssocCheckBox();
         this.InitializeWarnOrphansCheckBox();
+        this.InitializeUsePowershellCheckbox();
         this.InitializeDebugCheckBox();
         this.InitializeWindowsHomedirCheckBox();
     }
@@ -291,13 +293,37 @@ public class BBUI : System.Windows.Forms.Form {
         this.debugCheckBox.Checked = bb.Options("debug", null, true) == "true" ? true : false;
     }
 
+    private void InitializeUsePowershellCheckbox() {
+        this.powershellCheckBox = new System.Windows.Forms.CheckBox();
+        this.powershellCheckBox.Width = 200;
+        this.powershellCheckBox.AutoSize = true;
+        this.powershellCheckBox.Checked = bb.Options("shell", null, true) == "powershell" ? true : false;
+        this.powershellCheckBox.Text = "Use Powershell";
+        this.powershellCheckBox.Location = new System.Drawing.Point(10, 235);
+        this.powershellCheckBox.CheckedChanged += new System.EventHandler(this.powershellCheckedChanged);
+        Controls.Add(powershellCheckBox);
+    }
+    private void powershellCheckedChanged(object Sender, EventArgs e) {
+        if (powershellCheckBox.Checked) {
+            Console.WriteLine("Setting powershell");
+            bb.Options("shell", "powershell", true);
+        }
+        else {
+            Console.WriteLine("Unsetting powershell");
+            bb.Options("shell", "cmd", true);
+        }
+    }
+    private void PowershellCheckBox_Redraw() {
+        this.powershellCheckBox.Checked = bb.Options("shell", null, true) == "powershell" ? true : false;
+    }
+
     private void InitializeWindowsHomedirCheckBox() {
         this.windowsHomedirCheckBox = new System.Windows.Forms.CheckBox();
         this.windowsHomedirCheckBox.Width = 200;
         this.windowsHomedirCheckBox.AutoSize = true;
         this.windowsHomedirCheckBox.Checked = bb.Options("windows_homedir", null, true) == "true" ? true : false;
         this.windowsHomedirCheckBox.Text = "Windows homedir";
-        this.windowsHomedirCheckBox.Location = new System.Drawing.Point(10, 235);
+        this.windowsHomedirCheckBox.Location = new System.Drawing.Point(10, 295);
         this.windowsHomedirCheckBox.CheckedChanged += new System.EventHandler(this.windowsHomedirCheckedChanged);
         Controls.Add(windowsHomedirCheckBox);
     }
@@ -619,7 +645,7 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void Form1_Load(object sender, EventArgs e) {
 
-        this.ClientSize = new System.Drawing.Size(275, 305);
+        this.ClientSize = new System.Drawing.Size(265, 325);
 
         if (bb.PerlInUse().Name != null) {
             this.Controls.Add(this.perlOpenButton);
@@ -646,7 +672,7 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.Name = "BBUI";
 
-        string runMode = Environment.GetEnvironmentVariable("BB_RUN_MODE");
+        string runMode = bb.Options("run_mode");
 
         if (runMode == "prod" || runMode == null) {
             this.Text = "Berrybrew UI v" + bb.Version();
@@ -689,6 +715,7 @@ public class BBUI : System.Windows.Forms.Form {
         FileAssocCheckBox_Redraw();
         WarnOrphansCheckBox_Redraw();
         DebugCheckBox_Redraw();
+        PowershellCheckBox_Redraw();
         WindowsHomedirCheckBox_Redraw();
     }
 }

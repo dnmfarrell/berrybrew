@@ -359,6 +359,11 @@ Usage: `berrybrew exit 0`
 
 Tests the exit mechanism. Requires an `Int32` as an argument.
 
+To get the error name displayed, run the command with the `status` command:
+
+```
+  berrybrew status exit -5
+```
 #### info
 
 Displays paths and other information regarding the `berrybrew` installation
