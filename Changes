@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.36 UNREL
+1.36    2021-10-31
     - Modify exit code test script to get exit code list from the BB test object
     - Add note on how to get exit command output to STDOUT in berrybrew doc
     - Add ability to use Powershell when using a Perl (closes #245)
@@ -9,7 +9,10 @@ Revision history for berrybrew
     - Add check in BB::check_test_platform() to ensure that no berrybrew perls
       are already configured before executing tests. Added call to it in
       t\run_tests.pl (closes #308)
-              
+    - Added check in release script check_readme() to actually compare the SHA1
+      checksums in the README to the actual checksums of the installer and zip
+      archives (closes #307)
+                    
 1.35    2021-10-08
     - Add 'assoc' short hand alias for the 'associate' command (closes #294)
     - In BitSuffixCheck() we now anchor the perl version to ensure the user is

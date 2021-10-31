@@ -1,5 +1,18 @@
 Revision history for berrybrew
 
+1.36    2021-10-31
+- Modify exit code test script to get exit code list from the BB test object
+- Add note on how to get exit command output to STDOUT in berrybrew doc
+- Add ability to use Powershell when using a Perl (closes #245)
+- For displaying the version in the UI, we now get the run mode from 
+bb.Options() as opposed to an environment variable
+- Add check in BB::check_test_platform() to ensure that no berrybrew perls
+are already configured before executing tests. Added call to it in
+t\run_tests.pl (closes #308)
+- Added check in release script check_readme() to actually compare the SHA1
+checksums in the README to the actual checksums of the installer and zip
+archives (closes #307)
+                    
 1.35    2021-10-08
 - Add 'assoc' short hand alias for the 'associate' command (closes #294)
 - In BitSuffixCheck() we now anchor the perl version to ensure the user is
@@ -19,7 +32,7 @@ directories are missing
 - Fix quoting issue in argument parameter when setting file association
 string. This was causing an empty argument when none were sent in, and
 only a single one when multiple were sent in (fixes #303)
-                       
+
 1.34    2021-05-25
 - Added dev/build_installer.pl; builds a development installer using the
 dev/create_build_installer.nsi NSIS script
@@ -79,13 +92,13 @@ the berrybrew perl currently in use (fixes #244)
 trying to install into the ../bin/ directory (fixes #250)
 - Release script now adds the berrybrew version properly to the install script
 (fixes #254)
-- Installer aborts if trying to install the same version 
+- Installer aborts if trying to install the same version
 - Options() now does a significantly better job handling the registry.
 User/Admin access to the registry has been separated and handled properly
 - Fix issue in FileAssoc() where an exception was raised if we were trying
 to set 'file_assoc' to the same value that already exists
 - New options added to berrybrew configuration are now merged into the registry
-on an upgrade, and existing option values are not changed (fixes #257)       
+on an upgrade, and existing option values are not changed (fixes #257)
 - Release process automatically updates available Perl list (closes #261)
 - Changed all documentation links from absolute to relative (closes #259)
 - Modified OpenSubKey() in Options() to allow write access
@@ -503,7 +516,7 @@ decided on the CLI command name yet)
 - PerlFindOrphans() now ignores the '.cpanm' directory
 - version now hardcoded in the library
 
-1.07    2016-11-11 
+1.07    2016-11-11
 - fix issue where 5.22.2_32 wasn't downloading the portable zip file
 thereby the checksum didn't match (reported by 'atcroft') (fixes #53)
 - test updates/fixes
