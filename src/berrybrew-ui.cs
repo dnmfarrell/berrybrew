@@ -645,7 +645,7 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void Form1_Load(object sender, EventArgs e) {
 
-        this.ClientSize = new System.Drawing.Size(255, 325);
+        this.ClientSize = new System.Drawing.Size(265, 325);
 
         if (bb.PerlInUse().Name != null) {
             this.Controls.Add(this.perlOpenButton);
@@ -672,7 +672,7 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.Name = "BBUI";
 
-        string runMode = Environment.GetEnvironmentVariable("BB_RUN_MODE");
+        string runMode = bb.Options("run_mode");
 
         if (runMode == "prod" || runMode == null) {
             this.Text = "Berrybrew UI v" + bb.Version();
