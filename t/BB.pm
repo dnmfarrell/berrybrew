@@ -19,6 +19,9 @@ sub check_test_platform {
     if (! -e $test_repo && ! -e 'c:/repos/berrybrew/test') {
         die "\nCan't continue, test platform not set up... run dev/build_tests.bat\n";
     }
+    if ($ENV{PATH} =~ /berrybrew/) {
+        die "\nCan't continue, 'berrybrew' is in your path. Please run 'off' on the configured berrybrew instance\n";
+    }
 }
 sub get_avail {
     # returns a list of available strawberry perls that are _not_ already installed

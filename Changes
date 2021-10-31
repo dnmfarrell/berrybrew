@@ -6,7 +6,10 @@ Revision history for berrybrew
     - Add ability to use Powershell when using a Perl (closes #245)
     - For displaying the version in the UI, we now get the run mode from 
       bb.Options() as opposed to an environment variable
-        
+    - Add check in BB::check_test_platform() to ensure that no berrybrew perls
+      are already configured before executing tests. Added call to it in
+      t\run_tests.pl (closes #308)
+              
 1.35    2021-10-08
     - Add 'assoc' short hand alias for the 'associate' command (closes #294)
     - In BitSuffixCheck() we now anchor the perl version to ensure the user is
