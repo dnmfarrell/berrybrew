@@ -1,7 +1,8 @@
 Revision history for berrybrew
 
 1.37 UNREL
-    -
+    - When launching an instance with Powershell, we now change into the user's
+      home directory
 
 1.36    2021-10-31
     - Modify exit code test script to get exit code list from the BB test object
