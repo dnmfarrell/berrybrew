@@ -599,6 +599,21 @@ namespace BerryBrew {
             }
         }
 
+		public void Download(string versionString) {
+			List<string> available = AvailableList(false);
+
+			if (versionString == "all") {
+                foreach (string version in available) {
+                    StrawberryPerl perl = PerlResolveVersion(version);
+                    Fetch(perl);
+                }
+			}
+			else {
+                StrawberryPerl perl = PerlResolveVersion(versionString);
+				Fetch(perl);
+			}
+		}
+
         public void Exit(int exitCode) {
             if (Debug) {
                 Console.WriteLine("\nDEBUG: Exit code: {0}", exitCode);
