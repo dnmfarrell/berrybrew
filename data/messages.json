@@ -185,6 +185,7 @@
         "",
         "    currentperl            Print the name of the Perl currently in use",
         "    info                   Displays directory path information about the installation",
+        "    download               Download a single or all versions of perl", 
         "    error                  Displays the name of an exit status number",
         "    error-codes            Displays the list of valid exit codes, one per line",
         "    exit                   Test the exit routine by supplying an exit code",

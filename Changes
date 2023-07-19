@@ -3,7 +3,9 @@ Revision history for berrybrew
 1.37 UNREL
     - When launching an instance with Powershell, we now change into the user's
       home directory
-
+    - Added 'download' command (with Download() API method). Downloads one, or
+      all version(s) of Strawberry Perl portable
+      
 1.36    2021-10-31
     - Modify exit code test script to get exit code list from the BB test object
     - Add note on how to get exit command output to STDOUT in berrybrew doc
