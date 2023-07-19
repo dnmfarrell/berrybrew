@@ -136,6 +136,16 @@ namespace berrybrew {
                     bb.Exit(0);
                     break;
 
+                case "download":
+                    if (args.Length == 1) {
+                        Console.Error.WriteLine("'download' requires a version or the 'all' argument\n");
+                        bb.Exit(-1);
+                    }
+                    
+                    bb.Download(args[1]);
+                    bb.Exit(0);
+                    break;
+                    
                 case "exit":
                     if (args.Length == 1) {
                         Console.Error.WriteLine("'exit' requires an error code integer\n");
