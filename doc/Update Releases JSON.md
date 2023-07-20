@@ -47,7 +47,3 @@ The data you need will be printed to `STDOUT` as a list of JSON objects.
 Copy just the JSON objects (leave out the surrounding list brackets) to the
 clipboard, and paste them as the first item in the list in the `releases.json`
 file in the `StrawberryPerl/strawberryperl.com` repository.
-
-## Execute the JSON to HTML translator
-
-In the `StrawberryPerl/strawberryperl.com` repo, run the `

@@ -72,7 +72,7 @@ for my $file (bsd_glob("$dir/*.zip"), bsd_glob("$dir/*.msi")) {
             "sha1"   => digest_file_hex("SHA1", $file),
             "sha256" => digest_file_hex("SHA256", $file),
             "size"   => -s $file,
-            "url"    => "https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/$tag/$ver/$basename",
+            "url"    => "https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/$tag/$basename",
         };
     }
     else {
