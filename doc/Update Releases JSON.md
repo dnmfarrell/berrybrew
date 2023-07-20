@@ -38,7 +38,7 @@ arg.
 ## Run the `dev/generate_github_releases_json.pl` script with the new directory
 and the release tag as arguments:
 
-    generate_github_releases.json.pl --dir ~/scratch/github SP_5380_5361 --tag SP_5380_5361
+    perl dev\generate_github_releases_json.pl --dir ~/scratch/github SP_5380_5361 --tag SP_5380_5361
 
 The data you need will be printed to `STDOUT` as a list of JSON objects.
 
