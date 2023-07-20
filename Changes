@@ -1,5 +1,7 @@
 Revision history for berrybrew
 
+1.38 UNREL
+
 1.37    2023-07-20
     - When launching an instance with Powershell, we now change into the user's
       home directory
@@ -14,7 +16,7 @@ Revision history for berrybrew
     - Modify exit code test script to get exit code list from the BB test object
     - Add note on how to get exit command output to STDOUT in berrybrew doc
     - Add ability to use Powershell when using a Perl (closes #245)
-    - For displaying the version in the UI, we now get the run mode from 
+    - For displaying the version in the UI, we now get the run mode from
       bb.Options() as opposed to an environment variable
     - Add check in BB::check_test_platform() to ensure that no berrybrew perls
       are already configured before executing tests. Added call to it in
@@ -22,7 +24,7 @@ Revision history for berrybrew
     - Added check in release script check_readme() to actually compare the SHA1
       checksums in the README to the actual checksums of the installer and zip
       archives (closes #307)
-                    
+
 1.35    2021-10-08
     - Add 'assoc' short hand alias for the 'associate' command (closes #294)
     - In BitSuffixCheck() we now anchor the perl version to ensure the user is

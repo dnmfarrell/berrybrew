@@ -2298,7 +2298,7 @@ namespace BerryBrew {
 				if (Options("shell", null, true) == "powershell") {
 					// Spawn with Powershell
                     string args = "-NoExit -Command \"& {$host.ui.RawUI.WindowTitle='berrybrew use perl-" + perl.Name + "'}; cd $home\"";
-                    startInfo.Arguments = args; 
+                    startInfo.Arguments = args;
 	                startInfo.FileName = "powershell.exe";
 				}
 				else {
@@ -2436,7 +2436,7 @@ namespace BerryBrew {
         }
 
         public string Version() {
-            return @"1.37";
+            return @"1.38";
         }
     }
 
