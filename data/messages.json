@@ -1,365 +1,366 @@
 ﻿[
-{
+  {
     "label": "unconfig",
 
     "content": [
-        "\nRemoved Berrybrew from PATH"
+      "\nRemoved Berrybrew from PATH"
     ]
-},
-{
+  },
+  {
     "label": "available_header",
 
     "content": [
-        "\nThe following Strawberry Perls are available:"
+      "\nThe following Strawberry Perls are available:"
     ]
-},
-{
+  },
+  {
     "label": "available_footer",
 
     "content": [
-        "\n* Currently using"
+      "\n* Currently using"
     ]
-},
-{
+  },
+  {
     "label": "config_intro",
 
     "content": [
-        "\nThis is berrybrew, version "
+      "\nThis is berrybrew, version "
     ]
-},
-{
+  },
+  {
     "label": "clone_command_usage",
 
     "content": [
-        "",
-        "    Usage: berrybrew clone <orig_perl_name> <new_perl_name>"
+      "",
+      "    Usage: berrybrew clone <orig_perl_name> <new_perl_name>"
     ]
-},
-{
+  },
+  {
     "label": "config_success",
 
     "content": [
-        "\nberrybrew was successfully added to PATH, start a new terminal to use it."
+      "\nberrybrew was successfully added to PATH, start a new terminal to use it."
     ]
-},
-{
+  },
+  {
     "label": "config_failure",
 
     "content": [
-        "\nError adding berrybrew to PATH"
+      "\nError adding berrybrew to PATH"
     ]
-},
-{
+  },
+  {
     "label": "config_complete",
 
     "content": [
-        "\nberrybrew is already configured on this system."
+      "\nberrybrew is already configured on this system."
     ]
-},
-{
+  },
+  {
     "label": "install_ver_required",
 
     "content": [
-        "\ninstall command requires a version argument\n",
-        "Use the available command to see what versions of Strawberry Perl are available"
+      "\ninstall command requires a version argument\n",
+      "Use the available command to see what versions of Strawberry Perl are available"
     ]
-},
-{
+  },
+  {
     "label": "install_ver_unknown",
 
     "content": [
-        "\nUnknown version of Perl\n",
-        "Use the available command to see what versions of Strawberry Perl are available"
+      "\nUnknown version of Perl\n",
+      "Use the available command to see what versions of Strawberry Perl are available"
     ]
-},
-{
+  },
+  {
     "label": "modules_command_required",
-    
+
     "content": [
-        "\nmodules command requires a sub option. Run 'berrybrew modules help' for details"
+      "\nmodules command requires a sub option. Run 'berrybrew modules help' for details"
     ]
-},
-{    
+  },
+  {
     "label": "virtual_command_required",
 
     "content": [
-        "\nvirtual command requires a name for the virtual instance."
+      "\nvirtual command requires a name for the virtual instance."
     ]
-},
-{
+  },
+  {
     "label": "register_ver_required",
 
     "content": [
-        "\nregister command requires a directory as an argument."
+      "\nregister command requires a directory as an argument."
     ]
-},
+  },
 
-{
+  {
     "label": "switch_ver_required",
     "content": [
-        "\nswitch command requires a version argument.",
-        "Use the available command to see what versions of Strawberry Perl are available"
+      "\nswitch command requires a version argument.",
+      "Use the available command to see what versions of Strawberry Perl are available"
     ]
-},
-{
+  },
+  {
     "label": "remove_ver_required",
     "content": [
-        "\nremove command requires a version argument.",
-        "Use the available command to see what versions of Strawberry Perl are available"
+      "\nremove command requires a version argument.",
+      "Use the available command to see what versions of Strawberry Perl are available"
     ]
-},
-{
+  },
+  {
     "label": "use_ver_required",
     "content": [
-        "\nuse command requires a version argument.",
-        "Use the available command to see what versions of Strawberry Perl are available"
+      "\nuse command requires a version argument.",
+      "Use the available command to see what versions of Strawberry Perl are available"
     ]
-},
-{
+  },
+  {
     "label": "error_number_required",
     "content": [
-        "\nerror command requires an error code number argument."
+      "\nerror command requires an error code number argument."
     ]
-},
-{
+  },
+  {
     "label": "exec_command_required",
     "content": [
-        "\nexec command requires a command to run."
+      "\nexec command requires a command to run."
     ]
-},
-{
+  },
+  {
     "label": "perl_unknown_version",
     "content": [
-        "\nUnknown version of Perl. Use the available command to see what versions of Strawberry Perl are available"
+      "\nUnknown version of Perl. Use the available command to see what versions of Strawberry Perl are available"
     ]
-},
-{
+  },
+  {
     "label": "perl_orphans",
     "content": [
-        "\nOrphaned Perl installations:\n"
+      "\nOrphaned Perl installations:\n"
     ]
-},
-{
+  },
+  {
     "label": "help",
 
     "content": [
 
-        "",
-        "berrybrew <command> [subcommand] [option]",
-        "",
-        "",
-        "    associate *    View and set Perl file association",
-        "    available *    List available Strawberry Perl versions and which are installed",
-        "    list           List installed Strawberry Perl versions",
-        "    clean *        Remove all temporary berrybrew files",
-        "    clone          Make a complete copy of a Perl installation",
-        "    config         Add berrybrew to your PATH",
-        "    exec *         Run a command for every installed Strawberry Perl",
-        "    fetch          Update the list of Strawberry Perl instances available",
-        "    install        Download, extract and install a Strawberry Perl",
-        "    modules *      Export and import a module list from one Perl to install on another",
-        "    options *      Display or set a single option, or display all of them with values",
-        "    off            Disable berrybrew perls (use 'switch' to re-enable)",
-        "    register       Manually register a custom installation directory",
-        "    remove         Uninstall a Strawberry Perl",
-        "    switch *       Switch to use a different Strawberry Perl",
-        "    unconfig       Remove berrybrew from PATH",
-        "    use *          Use a specific Strawberry Perl version temporarily",
-        "    virtual        Allow berrybrew to manage an external Perl instance",
-        "    help           Display this help screen",
-        "    license        Show berrybrew license",
-        "    version        Displays the version",
-        "",
-        "",
-        "    * - view subcommand details with 'berrybrew <command> help'"
+      "",
+      "berrybrew <command> [subcommand] [option]",
+      "",
+      "",
+      "    associate *    View and set Perl file association",
+      "    available *    List available Strawberry Perl versions and which are installed",
+      "    list           List installed Strawberry Perl versions",
+      "    clean *        Remove all temporary berrybrew files",
+      "    clone          Make a complete copy of a Perl installation",
+      "    config         Add berrybrew to your PATH",
+      "    exec *         Run a command for every installed Strawberry Perl",
+      "    fetch          Update the list of Strawberry Perl instances available",
+      "    hidden         Display the list of hidden/development commands",
+      "    install        Download, extract and install a Strawberry Perl",
+      "    modules *      Export and import a module list from one Perl to install on another",
+      "    options *      Display or set a single option, or display all of them with values",
+      "    off            Disable berrybrew perls (use 'switch' to re-enable)",
+      "    register       Manually register a custom installation directory",
+      "    remove         Uninstall a Strawberry Perl",
+      "    switch *       Switch to use a different Strawberry Perl",
+      "    unconfig       Remove berrybrew from PATH",
+      "    use *          Use a specific Strawberry Perl version temporarily",
+      "    virtual        Allow berrybrew to manage an external Perl instance",
+      "    help           Display this help screen",
+      "    license        Show berrybrew license",
+      "    version        Displays the version",
+      "",
+      "",
+      "    * - view subcommand details with 'berrybrew <command> help'"
     ]
-},
-{
+  },
+  {
     "label": "hidden",
 
     "content": [
 
-        "",
-        "berrybrew <command> [subcommand] [option]",
-        "",
-        "",
-        "    currentperl            Print the name of the Perl currently in use",
-        "    info                   Displays directory path information about the installation",
-        "    download               Download a single or all versions of perl", 
-        "    error                  Displays the name of an exit status number",
-        "    error-codes            Displays the list of valid exit codes, one per line",
-        "    exit                   Test the exit routine by supplying an exit code",
-        "    options-update         Adds any newly added config file directives to the Registry",
-        "    options-update-force   Reloads the entire configuration file into the Registry",
-        "    orphans                Display all orphaned Perl instances that aren't registered",
-        "    register-orphans       Registers all orphan Perls at once",
-        "    test                   Sets test platform information when running unit tests",
-        "    trace                  Displays the full stack trace and exit code on exit",
-        "    status                 Displays the exit code and its reference name on exit",
-        "    ",
-        "",
-        "",
-        "    * - view subcommand details with 'berrybrew <command> help'"
+      "",
+      "berrybrew <command> [subcommand] [option]",
+      "",
+      "",
+      "    currentperl            Print the name of the Perl currently in use",
+      "    info                   Displays directory path information about the installation",
+      "    download               Download a single or all versions of perl",
+      "    error                  Displays the name of an exit status number",
+      "    error-codes            Displays the list of valid exit codes, one per line",
+      "    exit                   Test the exit routine by supplying an exit code",
+      "    options-update         Adds any newly added config file directives to the Registry",
+      "    options-update-force   Reloads the entire configuration file into the Registry",
+      "    orphans                Display all orphaned Perl instances that aren't registered",
+      "    register-orphans       Registers all orphan Perls at once",
+      "    test                   Sets test platform information when running unit tests",
+      "    trace                  Displays the full stack trace and exit code on exit",
+      "    status                 Displays the exit code and its reference name on exit",
+      "    ",
+      "",
+      "",
+      "    * - view subcommand details with 'berrybrew <command> help'"
     ]
-},   
-{
+  },
+  {
     "label": "license",
 
     "content": [
 
-        "",
-        "Copyright (c) 2014 by David Farrell.",
-        "Copyright (c) 2016-2021 by Steve Bertrand.",
-        "",
-        "This is free software, licensed under:",
-        "",
-        "  The (two-clause) FreeBSD License",
-        "",
-        "The FreeBSD License",
-        "",
-        "Redistribution and use in source and binary forms, with or without",
-        "modification, are permitted provided that the following conditions are",
-        "met:",
-        "",
-        "  1. Redistributions of source code must retain the above copyright",
-        "     notice, this list of conditions and the following disclaimer.",
-        "",
-        "  2. Redistributions in binary form must reproduce the above copyright",
-        "     notice, this list of conditions and the following disclaimer in the",
-        "     documentation and/or other materials provided with the",
-        "     distribution.",
-        "",
-        "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS",
-        "``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT",
-        "LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR",
-        "A PARTICULAR PURPOSE ARE DISCLAIMED.IN NO EVENT SHALL THE COPYRIGHT",
-        "HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,",
-        "SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES(INCLUDING, BUT NOT",
-        "LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,",
-        "DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY",
-        "THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT",
-        "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE",
-        "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+      "",
+      "Copyright (c) 2014 by David Farrell.",
+      "Copyright (c) 2016-2021 by Steve Bertrand.",
+      "",
+      "This is free software, licensed under:",
+      "",
+      "  The (two-clause) FreeBSD License",
+      "",
+      "The FreeBSD License",
+      "",
+      "Redistribution and use in source and binary forms, with or without",
+      "modification, are permitted provided that the following conditions are",
+      "met:",
+      "",
+      "  1. Redistributions of source code must retain the above copyright",
+      "     notice, this list of conditions and the following disclaimer.",
+      "",
+      "  2. Redistributions in binary form must reproduce the above copyright",
+      "     notice, this list of conditions and the following disclaimer in the",
+      "     documentation and/or other materials provided with the",
+      "     distribution.",
+      "",
+      "THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS",
+      "``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT",
+      "LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR",
+      "A PARTICULAR PURPOSE ARE DISCLAIMED.IN NO EVENT SHALL THE COPYRIGHT",
+      "HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,",
+      "SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES(INCLUDING, BUT NOT",
+      "LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,",
+      "DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY",
+      "THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT",
+      "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE",
+      "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
     ]
-},
-{
+  },
+  {
     "label": "subcmd.associate",
 
     "content": [
-        "",
-        "   berrybrew 'associate' options:",
-        "",
-        "   set    '.pl' file extensions will be managed by berrybrew",
-        "",
-        "   unset  Restore the previous file association configuration"
+      "",
+      "   berrybrew 'associate' options:",
+      "",
+      "   set    '.pl' file extensions will be managed by berrybrew",
+      "",
+      "   unset  Restore the previous file association configuration"
     ]
-},
-{
+  },
+  {
     "label": "subcmd.available",
 
     "content": [
-        "",
-        "   berrybrew 'available' subcommands:",
-        "",
-        "   all    List all available Perls, not just the most recent point release of each major version"
+      "",
+      "   berrybrew 'available' subcommands:",
+      "",
+      "   all    List all available Perls, not just the most recent point release of each major version"
     ]
-},
-{
+  },
+  {
     "label": "subcmd.clean",
 
     "content": [
-        "",
-        "   berrybrew 'clean' subcommands:",
-        "",
-        "   temp   Removes all downloaded Perl installation files",
-        "   orphan Deletes all orphaned Perl installations",
-        "   module Deletes the exported module list directory",
-        "   dev    Deletes all files/directories related to berrybrew development",
-        "   all    Clean everything"
+      "",
+      "   berrybrew 'clean' subcommands:",
+      "",
+      "   temp   Removes all downloaded Perl installation files",
+      "   orphan Deletes all orphaned Perl installations",
+      "   module Deletes the exported module list directory",
+      "   dev    Deletes all files/directories related to berrybrew development",
+      "   all    Clean everything"
     ]
-},
-{
+  },
+  {
     "label": "info_option_required",
 
     "content": [
-        "\n'info' command requires an option argument to be send in. Valid options:\n",
-        "\t archive_path",
-        "\t root_path",
-        "\t install_path",
-        "\t bin_path"
+      "\n'info' command requires an option argument to be send in. Valid options:\n",
+      "\t archive_path",
+      "\t root_path",
+      "\t install_path",
+      "\t bin_path"
     ]
-}, 
-{
+  },
+  {
     "label": "subcmd.switch",
-    
+
     "content": [
-        "",
-        "  berrybrew 'switch' subcommands:",
-        "",
-        "  <version> [quick]",
-        "",
-        "  Adding the 'quick' parameter, we'll switch to the new Perl without needing a new console. Binaries and other features may not work correctly."
+      "",
+      "  berrybrew 'switch' subcommands:",
+      "",
+      "  <version> [quick]",
+      "",
+      "  Adding the 'quick' parameter, we'll switch to the new Perl without needing a new console. Binaries and other features may not work correctly."
     ]
-},
-{
+  },
+  {
     "label": "subcmd.exec",
 
     "content": [
-        "",
-        "   berrybrew 'exec' subcommands:",
-        "",
-        "   --with perlver,perlver <command>",
-        "",
-        "   Execute a command across only select versions of Perl"
+      "",
+      "   berrybrew 'exec' subcommands:",
+      "",
+      "   --with perlver,perlver <command>",
+      "",
+      "   Execute a command across only select versions of Perl"
     ]
-},
-{
+  },
+  {
     "label": "subcmd.modules",
-    
+
     "content": [
-        "",
-        "   berrybrew 'modules' subcommands:",
-        "",
-        "   export  Exports a list of all installed modules in the current Perl",
-        "   import  Imports a previously exported module list and installs them in the current perl"
+      "",
+      "   berrybrew 'modules' subcommands:",
+      "",
+      "   export  Exports a list of all installed modules in the current Perl",
+      "   import  Imports a previously exported module list and installs them in the current perl"
     ]
-},
-{
+  },
+  {
     "label": "subcmd.options",
 
     "content": [
-        "",
-        "   berrybrew 'options' usage:",
-        "",
-        "   berrybrew options [option] [value]",
-        "",
-        "   With no options, we'll display all of them with their values"
+      "",
+      "   berrybrew 'options' usage:",
+      "",
+      "   berrybrew options [option] [value]",
+      "",
+      "   With no options, we'll display all of them with their values"
     ]
-},
-{
+  },
+  {
     "label": "subcmd.use",
 
     "content": [
-        "",
-        "   berrybrew 'use' subcommands:",
-        "",
-        "   perlver,perlver",
-        "",
-        "      Use the given version (or versions) of Perl temporarily,",
-        "      inside your original command window, by putting the selected",
-        "      Perl version at the start of your path.",
-        "      When done with a given version, type exit to leave that",
-        "      version's environment, and either move on to the next version,",
-        "      or return to your original environment if there are no more",
-        "      selected versions to use",
-        "",
-        "   --win perlver,perlver",
-        "   --window perlver,perlver",
-        "   --windowed perlver,perlver",
-        "",
-        "      Use the given version (or versions) of Perl temporarily,",
-        "      with each new version spawning its own command window.",
-        "      When done with a given version, type exit to close that window."
+      "",
+      "   berrybrew 'use' subcommands:",
+      "",
+      "   perlver,perlver",
+      "",
+      "      Use the given version (or versions) of Perl temporarily,",
+      "      inside your original command window, by putting the selected",
+      "      Perl version at the start of your path.",
+      "      When done with a given version, type exit to leave that",
+      "      version's environment, and either move on to the next version,",
+      "      or return to your original environment if there are no more",
+      "      selected versions to use",
+      "",
+      "   --win perlver,perlver",
+      "   --window perlver,perlver",
+      "   --windowed perlver,perlver",
+      "",
+      "      Use the given version (or versions) of Perl temporarily,",
+      "      with each new version spawning its own command window.",
+      "      When done with a given version, type exit to close that window."
     ]
   }
 ]

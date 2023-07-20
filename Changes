@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.37 UNREL
+1.37    2023-07-20
     - When launching an instance with Powershell, we now change into the user's
       home directory
     - Added 'download' command (with Download() API method). Downloads one, or
