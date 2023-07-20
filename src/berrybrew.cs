@@ -1132,7 +1132,18 @@ namespace BerryBrew {
         }
 
         public void Install(string version) {
-            StrawberryPerl perl = PerlResolveVersion(version);
+            StrawberryPerl perl = new StrawberryPerl();
+
+			try {
+	            perl = PerlResolveVersion(version);
+			}
+            catch (System.ArgumentException err) {
+                Console.Error.WriteLine("\n'{0}' is an unknown version of Perl. Can't install.", version);
+                if (Debug) {
+                    Console.Error.WriteLine("\nDEBUG{0}", err);
+                }
+                Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);
+            }
 
             if (PerlIsInstalled(perl)) {
                 Console.Error.WriteLine("Perl version {0} is already installed.", perl.Name);
@@ -2133,7 +2144,7 @@ namespace BerryBrew {
                     return perl;
                 }
             }
-
+            
             throw new ArgumentException("Unknown version: " + version);
         }
 
