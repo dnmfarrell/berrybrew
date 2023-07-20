@@ -2,6 +2,13 @@
 
 The perlbrew for Windows Strawberry Perl! 
 
+**NOTE: USING 5.36 and 5.38** To use the new `5.36` and `5.38` versions, you must update the URL
+we use to download the `releases.json` file:
+
+    berrybrew options download_url https://raw.githubusercontent.com/stevieb9/strawberryperl.com/gh-pages/releases.json
+
+...then run `berrybrew fetch` and `berrybrew install <version>` as usual.
+
 ###### [Click here to download the installer](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
 
 For a quick-start, jump to the [Install](#install) and [Commands](#commands)
