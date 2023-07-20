@@ -9,7 +9,7 @@ we use to download the `releases.json` file:
 
 ...then run `berrybrew fetch` and `berrybrew install <version>` as usual.
 
-###### [Click here to download the installer](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
+### [Click here to download the installer](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
 
 For a quick-start, jump to the [Install](#install) and [Commands](#commands)
 sections.
