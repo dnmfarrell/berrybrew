@@ -285,7 +285,7 @@ You can also get a list of them by running the hidden `berrybrew hidden` command
 
 ## Original Author
 
-David Farrell [http://perltricks.com]
+David Farrell
 
 ## Current Author 
 

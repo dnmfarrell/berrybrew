@@ -1,6 +1,8 @@
 Revision history for berrybrew
 
 1.38 UNREL
+    - Remove the perltricks.com link (fixes #313)
+    -
 
 1.37    2023-07-20
     - When launching an instance with Powershell, we now change into the user's
