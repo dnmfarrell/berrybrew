@@ -1,6 +1,10 @@
 
 The following Strawberry Perls are available:
 
+	5.38.0_64
+	5.38.0_64_PDL  
+	5.36.1_64      
+	5.36.1_64_PDL  
     5.32.1_64
     5.32.1_64_PDL
     5.32.1_32
