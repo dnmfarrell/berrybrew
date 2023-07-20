@@ -40,6 +40,7 @@ The `Berrybrew` class is the base of the system.
 [CleanTemp](#cleantemp)| private | Removes temporary files
 [Clone](#clone)| **public** | Copies an installed Perl to a new name
 [Config](#config)| **public** | Puts `berrybrew.exe` in `PATH`
+[Download](#download)| **public** | Downloads one or all available versions of portable Strawberry Perls
 [Exec](#exec)| private | Runs commands on all installed Perls
 [ExecCompile](#execcompile)| **public** | Staging for `Exec()`
 [Exit](#exit)| **public** | Custom wrapper for `Environment.Exit()`
@@ -237,6 +238,16 @@ will label these custom installs appropriately.
 
 Adds the path to the `berrybrew.exe` executable into the `PATH` environment
 variable.
+
+#### Download
+
+    public void Download(string versionString)
+
+        argument:   versionString
+        value:      A Strawberry Perl version string, or "all"
+
+Downloads an individual Strawberry Perl given a version number, or if "all" is sent in, we'll download
+all perl versions (most recent point release of each major release only).
 
 #### Exec
 

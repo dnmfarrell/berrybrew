@@ -2,6 +2,13 @@
 
 The perlbrew for Windows Strawberry Perl! 
 
+**NOTE: USING 5.36 and 5.38** To use the new `5.36` and `5.38` versions, you must update the URL
+we use to download the `releases.json` file:
+
+    berrybrew options download_url https://raw.githubusercontent.com/stevieb9/strawberryperl.com/gh-pages/releases.json
+
+...then run `berrybrew fetch` and `berrybrew install <version>` as usual.
+
 ###### [Click here to download the installer](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer")
 
 For a quick-start, jump to the [Install](#install) and [Commands](#commands)
@@ -43,7 +50,7 @@ See [SEE ALSO](#see-also) for the  full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 8be6299ea692c25aafbcd2e52035c37406a8cc39`
+[berrybrewInstaller.exe](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 4cbdf565ddb275552528e1d1e4fca84f81403901`
 
 ##### Git clone
 
@@ -53,7 +60,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: f03d1e07cf49b50af170188ee3cfa2142c501322`
+[berrybrew.zip](download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 24ef9b0d29077bc6be5a829576421d55efd665a7`
 
 After extraction:
 
@@ -266,7 +273,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## Version
 
-   1.36 
+   1.37 
 
 ## Hidden Commands
 

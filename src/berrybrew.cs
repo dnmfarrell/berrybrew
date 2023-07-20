@@ -599,6 +599,21 @@ namespace BerryBrew {
             }
         }
 
+		public void Download(string versionString) {
+			List<string> available = AvailableList(false);
+
+			if (versionString == "all") {
+                foreach (string version in available) {
+                    StrawberryPerl perl = PerlResolveVersion(version);
+                    Fetch(perl);
+                }
+			}
+			else {
+                StrawberryPerl perl = PerlResolveVersion(versionString);
+				Fetch(perl);
+			}
+		}
+
         public void Exit(int exitCode) {
             if (Debug) {
                 Console.WriteLine("\nDEBUG: Exit code: {0}", exitCode);
@@ -2282,7 +2297,7 @@ namespace BerryBrew {
 
 				if (Options("shell", null, true) == "powershell") {
 					// Spawn with Powershell
-                    string args = "-NoExit -Command \"& {$host.ui.RawUI.WindowTitle='berrybrew use perl-" + perl.Name + "'}\"";
+                    string args = "-NoExit -Command \"& {$host.ui.RawUI.WindowTitle='berrybrew use perl-" + perl.Name + "'}; cd $home\"";
                     startInfo.Arguments = args; 
 	                startInfo.FileName = "powershell.exe";
 				}
@@ -2421,7 +2436,7 @@ namespace BerryBrew {
         }
 
         public string Version() {
-            return @"1.36";
+            return @"1.37";
         }
     }
 

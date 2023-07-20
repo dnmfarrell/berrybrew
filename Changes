@@ -1,5 +1,15 @@
 Revision history for berrybrew
 
+1.37    2023-07-20
+    - When launching an instance with Powershell, we now change into the user's
+      home directory
+    - Added 'download' command (with Download() API method). Downloads one, or
+      all version(s) of Strawberry Perl portable
+    - Added `dev/generate_github_releases_json.pl` as a helper to keep the
+      perl version's `releases.json` file up-to-date
+    - Added "Update Releases JSON.md" documentation to help with the releases
+      update process
+
 1.36    2021-10-31
     - Modify exit code test script to get exit code list from the BB test object
     - Add note on how to get exit command output to STDOUT in berrybrew doc

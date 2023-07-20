@@ -32,6 +32,7 @@ Here are [certain features](#hidden-command-list) that may be useful by the deve
 maintainers of this software. 
 
 - [currentperl](#currentperl)
+- [download](#download)
 - [error](#error)
 - [error-codes](#error-codes)
 - [exit](#exit)
@@ -331,6 +332,13 @@ prints out its name, and exits. It will not display anything if there's no
 Perl currently in use.
 
 Used primarily for certain unit tests.
+
+#### download
+
+If a single perl version is sent in as an argument, we'll download that
+particular version. If `all` is sent in, we'll download all available
+perl versions (limited to the most recent point release of each major
+release).
 
 #### error
 

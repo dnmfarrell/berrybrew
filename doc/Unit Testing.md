@@ -41,13 +41,22 @@ our configuration options when running unit tests.
 new one before starting the testing, as changes to the `PATH` environment
 variables during development may break the testing routines.
 
+Clean the test and development environment
+
+- run `bin\berrybrew clean dev`
+ 
+Create a development build
+
+- run `dev\build.bat`
+ 
 Clean up the Perls available lists
 
-- run `berrybrew fetch`
-- run `berrybrew available > t/data/available.txt`
+- run `build\berrybrew fetch`
+- if it's changed, copy `build\data\perls.json` to `dev\data\perls.json`
+- run `build\berrybrew available > t/data/available.txt`
 - review `t/data/custom_available.txt`. All of the Perls listed above the
 `[installed]` ones need to be replaced with the updated versions from
-`berrybrew available`. Simply remove them all, and paste in the new list,
+`build\berrybrew available`. Simply remove them all, and paste in the new list,
 leaving the existing `[installed]` ones in place
 
 Execute one of the following batch calls to run all tests
@@ -60,6 +69,12 @@ Execute one of the following batch calls to run all tests
 
         t\test.bat --stopfirstfail
         t\test.bat --sff                &rem same as --stopfirstfail: harder to remember, but easier to type
+
+**NOTE**: If you get a `berrybrew is already in your path`, run:
+
+    build\bb off
+    test\bb off
+    bb off
 
 ### What's happening
 
