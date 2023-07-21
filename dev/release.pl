@@ -35,7 +35,10 @@ update_installer_script();
 create_installer();
 update_readme();
 check_readme();
+update_license();
+check_license();
 finish();
+
 done_testing();
 
 sub backup_configs {
@@ -58,6 +61,25 @@ sub backup_configs {
         copy $_, $data_dir or die $!;
         print "copied $_ to $data_dir\n";
     }
+}
+sub check_license {
+    open my $fh, '<', 'LICENSE' or die "Can't open LICENSE: $!";
+
+    my ($current_year) = (localtime)[5];
+    $current_year += 1900;
+   
+    my $year_found = 0;
+    
+    while (<$fh>) {
+        if (/^Copyright \(c\) 2016-(\d{4}) by Steve Bertrand/) {
+            my $license_year = $1;
+            is $license_year, $current_year, "LICENSE copyright year updated ok";
+            $year_found = 1;
+            last;
+        }
+    }
+
+    is $year_found, 1, "Found and changed the copyright year in LICENSE ok";
 }
 sub check_readme {
     open my $fh, '<', 'README.md' or die "Can't open README: $!";
@@ -270,7 +292,36 @@ sub update_readme {
         print $wfh $_;
     }
 }
+sub update_license {
+    print "\nupdating LICENSE with new Copyright year...\n";
 
+    open my $fh, '<', 'LICENSE' or die $!;
+    my @contents = <$fh>;
+    close $fh or die $!;
+
+    my ($current_year) = (localtime)[5];
+    $current_year += 1900;
+   
+    my $changed = 0;
+    
+    for (@contents) {
+        if (/^Copyright \(c\) 2016-(\d{4}) by Steve Bertrand/) {
+            my $license_year = $1;
+            if ($license_year != $current_year) {
+                $changed = 1;
+                s/$license_year/$current_year/;
+            }
+        }
+    }
+
+    if ($changed) {
+        open my $wfh, '>', 'LICENSE' or die $!;
+
+        for (@contents) {
+            print $wfh $_;
+        }
+    } 
+}
 sub _generate_shasum {
     my ($file) = @_;
 

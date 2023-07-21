@@ -1,5 +1,37 @@
 [
   {
+    "name": "5.38.0_64",
+    "url": "https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/SP_5380_5361/strawberry-perl-5.38.0.1-64bit-portable.zip",
+    "file": "strawberry-perl-5.38.0.1-64bit-portable.zip",
+    "csum": "987c870cc2401e481e3ddbdd1462d2a52da34187",
+    "ver": "5.38.0",
+    "newest": true
+  },
+  {
+    "name": "5.38.0_64_PDL",
+    "url": "https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/SP_5380_5361/strawberry-perl-5.38.0.1-64bit-PDL.zip",
+    "file": "strawberry-perl-5.38.0.1-64bit-PDL.zip",
+    "csum": "e6cc344cc48d4f97b1c067741c998c911f66a668",
+    "ver": "5.38.0",
+    "newest": true
+  },
+  {
+    "name": "5.36.1_64",
+    "url": "https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/SP_5380_5361/strawberry-perl-5.36.1.1-64bit-portable.zip",
+    "file": "strawberry-perl-5.36.1.1-64bit-portable.zip",
+    "csum": "480059a7aa336eb777ef578bcb8b3b9cce973a91",
+    "ver": "5.36.1",
+    "newest": true
+  },
+  {
+    "name": "5.36.1_64_PDL",
+    "url": "https://github.com/StrawberryPerl/Perl-Dist-Strawberry/releases/download/SP_5380_5361/strawberry-perl-5.36.1.1-64bit-PDL.zip",
+    "file": "strawberry-perl-5.36.1.1-64bit-PDL.zip",
+    "csum": "b3b966fc1768ac0017ddc054c59b5ae9efa97dfc",
+    "ver": "5.36.1",
+    "newest": true
+  },
+  {
     "name": "5.32.1_64",
     "url": "https://strawberryperl.com/download/5.32.1.1/strawberry-perl-5.32.1.1-64bit-portable.zip",
     "file": "strawberry-perl-5.32.1.1-64bit-portable.zip",

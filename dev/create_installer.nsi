@@ -8,7 +8,7 @@ var perlRootDir
 var perlRootDirSet
 
 !define PRODUCT_NAME "berrybrew"
-!define PRODUCT_VERSION "1.37"
+!define PRODUCT_VERSION "1.38"
 !define PRODUCT_PUBLISHER "Steve Bertrand"
 !define PRODUCT_WEB_SITE "https://github.com/stevieb9/berrybrew"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\berrybrew.exe"
@@ -85,7 +85,7 @@ Section "-MainSection" SEC_MAIN
   File "..\src\berrybrew-ui.cs"
 SectionEnd
 
-Section "Perl 5.32.1_64" SEC_INSTALL_NEWEST_PERL
+Section "Perl 5.38.0_64" SEC_INSTALL_NEWEST_PERL
 SectionEnd
 
 Section "Run UI at startup" SEC_START_UI
@@ -157,12 +157,12 @@ Function LaunchFinish
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" register_orphans'
 
   ${If} ${SectionIsSelected} ${SEC_INSTALL_NEWEST_PERL}
-    ${If} ${FileExists} "$perlRootDir\5.32.1_64\perl\bin\perl.exe"
-      MessageBox MB_OK "Perl 5.32.1_64 is already installed, we'll switch to it"
+    ${If} ${FileExists} "$perlRootDir\5.38.0_64\perl\bin\perl.exe"
+      MessageBox MB_OK "Perl 5.38.0_64 is already installed, we'll switch to it"
     ${Else}
-      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" install 5.32.1_64'
+      ExecWait '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" install 5.38.0_64'
     ${EndIf}
-    nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.32.1_64'
+    nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" switch 5.38.0_64'
   ${EndIf}
 
   ${If} ${SectionIsSelected} ${SEC_FILE_ASSOC}

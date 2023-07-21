@@ -74,6 +74,7 @@ namespace BerryBrew {
             PERL_NONE_INSTALLED             = 140,
             PERL_NOT_INSTALLED              = 145,
             PERL_REMOVE_FAILED              = 150,
+            PERL_TEMP_INSTANCE_NOT_ALLOWED  = 153,
             PERL_UNKNOWN_VERSION            = 155,
             PERL_VERSION_ALREADY_REGISTERED = 160,
             MODULE_IMPORT_FILE_UNAVAIL      = 165,
@@ -121,14 +122,14 @@ namespace BerryBrew {
                 "debug",
                 "root_dir",
                 "temp_dir",
-				"strawberry_url",
+                "strawberry_url",
                 "download_url",
                 "windows_homedir",
                 "custom_exec",
                 "run_mode",
                 "file_assoc",
                 "file_assoc_old",
-				"shell",
+                "shell",
                 "warn_orphans",
             };
 
@@ -599,20 +600,20 @@ namespace BerryBrew {
             }
         }
 
-		public void Download(string versionString) {
-			List<string> available = AvailableList(false);
+        public void Download(string versionString) {
+            List<string> available = AvailableList(false);
 
-			if (versionString == "all") {
+            if (versionString == "all") {
                 foreach (string version in available) {
                     StrawberryPerl perl = PerlResolveVersion(version);
                     Fetch(perl);
                 }
-			}
-			else {
+            }
+            else {
                 StrawberryPerl perl = PerlResolveVersion(versionString);
-				Fetch(perl);
-			}
-		}
+                Fetch(perl);
+            }
+        }
 
         public void Exit(int exitCode) {
             if (Debug) {
@@ -653,6 +654,16 @@ namespace BerryBrew {
         }
 
         public void ExportModules() {
+            // Check if we're 'use'-ing a temporary instance. We don't allow
+            // module exports within one.
+
+            string usingTempInstance = Environment.GetEnvironmentVariable("BERRYBREW_TEMP_USE");
+
+            if (usingTempInstance == "true") {
+                Console.WriteLine("\nExporting modules is not allowed from a temp ('use') perl instance\n\n");
+                Exit((int)ErrorCodes.PERL_TEMP_INSTANCE_NOT_ALLOWED);
+            }
+
             StrawberryPerl perl = PerlInUse();
 
             if (string.IsNullOrEmpty(perl.Name)) {
@@ -661,7 +672,7 @@ namespace BerryBrew {
             }
 
             if (perl.Name == "5.10.1_32") {
-                Console.Error.WriteLine("\nmodules command requires a Perl version greater than 5.10\n");
+                Console.Error.WriteLine("\nmodules command requires a Perl version greater than 5.10");
                 Exit((int)ErrorCodes.PERL_MIN_VER_GREATER_510);
             }
 
@@ -1132,7 +1143,18 @@ namespace BerryBrew {
         }
 
         public void Install(string version) {
-            StrawberryPerl perl = PerlResolveVersion(version);
+            StrawberryPerl perl = new StrawberryPerl();
+
+            try {
+                perl = PerlResolveVersion(version);
+            }
+            catch (System.ArgumentException err) {
+                Console.Error.WriteLine("\n'{0}' is an unknown version of Perl. Can't install.", version);
+                if (Debug) {
+                    Console.Error.WriteLine("\nDEBUG{0}", err);
+                }
+                Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);
+            }
 
             if (PerlIsInstalled(perl)) {
                 Console.Error.WriteLine("Perl version {0} is already installed.", perl.Name);
@@ -1747,6 +1769,7 @@ namespace BerryBrew {
 
         public StrawberryPerl PerlInUse() {
             string path = PathGet();
+
             StrawberryPerl currentPerl = new StrawberryPerl();
 
             if (path != null) {
@@ -2290,22 +2313,24 @@ namespace BerryBrew {
                 var newPath = perl.Paths;
                 newPath.AddRange(Environment.ExpandEnvironmentVariables(sysPath).Split(new char[] {';'}).ToList());
                 newPath.AddRange(Environment.ExpandEnvironmentVariables(usrPath).Split(new char[] {';'}).ToList());
+
                 Environment.SetEnvironmentVariable("PATH", string.Join(";", newPath));
+                Environment.SetEnvironmentVariable("BERRYBREW_TEMP_USE", "true");
 
                 string prompt = Environment.GetEnvironmentVariable("PROMPT");
                 Environment.SetEnvironmentVariable("PROMPT", "$Lberrybrew use perl-" + perl.Name + "$G" + "$_" + "$P$G");
 
-				if (Options("shell", null, true) == "powershell") {
-					// Spawn with Powershell
+                if (Options("shell", null, true) == "powershell") {
+                    // Spawn with Powershell
                     string args = "-NoExit -Command \"& {$host.ui.RawUI.WindowTitle='berrybrew use perl-" + perl.Name + "'}; cd $home\"";
-                    startInfo.Arguments = args; 
-	                startInfo.FileName = "powershell.exe";
-				}
-				else {
-					// Spawn with cmd
-	                startInfo.Arguments = "/k TITLE berrybrew use perl-" + perl.Name;
-	                startInfo.FileName = "cmd.exe";
-				}
+                    startInfo.Arguments = args;
+                    startInfo.FileName = "powershell.exe";
+                }
+                else {
+                    // Spawn with cmd
+                    startInfo.Arguments = "/k TITLE berrybrew use perl-" + perl.Name;
+                    startInfo.FileName = "cmd.exe";
+                }
 
                 process.StartInfo = startInfo;
                 process.StartInfo.RedirectStandardOutput = false;
@@ -2328,6 +2353,7 @@ namespace BerryBrew {
 
         private void UseInSameWindow(StrawberryPerl perl, string sysPath, string usrPath) {
             Console.WriteLine("perl-" + perl.Name + "\n==============");
+            Environment.SetEnvironmentVariable("BERRYBREW_TEMP_USE", "true");
 
             try {
                 Process process = new Process {StartInfo = {WindowStyle = ProcessWindowStyle.Hidden}};
@@ -2436,7 +2462,7 @@ namespace BerryBrew {
         }
 
         public string Version() {
-            return @"1.37";
+            return @"1.38";
         }
     }
 

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 public class BBUI : System.Windows.Forms.Form {
     private Berrybrew bb = new Berrybrew();
-    
+
     private System.Windows.Forms.NotifyIcon trayIcon;
     private System.Windows.Forms.ContextMenu contextMenu;
     private System.Windows.Forms.MenuItem rightClickExit;
@@ -66,10 +66,10 @@ public class BBUI : System.Windows.Forms.Form {
         this.Text = "berrybrew UI";
 
         this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
-        
+
         string iconPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
         string iconFile = System.IO.Directory.GetParent(iconPath) + @"\inc\berrybrew.ico";
-        
+
         trayIcon.Icon = new Icon(iconFile);
         trayIcon.ContextMenu = this.contextMenu;
         trayIcon.Text = "berrybrew UI";
@@ -121,7 +121,7 @@ public class BBUI : System.Windows.Forms.Form {
         this.InitializeDebugCheckBox();
         this.InitializeWindowsHomedirCheckBox();
     }
- 
+
     private void InitializeCurrentPerlLabel() {
         this.currentPerlLabel = new System.Windows.Forms.Label();
         this.SuspendLayout();
@@ -199,12 +199,12 @@ public class BBUI : System.Windows.Forms.Form {
          this.currentPerlLabel.Text = "Current Perl: ";
 
          string perlInUse = bb.PerlInUse().Name;
- 
+
          if (perlInUse == null) {
              perlInUse = "Not configured";
          }
- 
-         this.currentPerlLabel.Text = currentPerlLabel.Text += perlInUse;       
+
+         this.currentPerlLabel.Text = currentPerlLabel.Text += perlInUse;
     }
 
     private void InitializeFileAssocCheckBox() {
@@ -353,18 +353,18 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.perlInstallButton.Click += new System.EventHandler(this.installPerlButton_Click);
     }
-    
+
     private void installPerlButton_Click(object Sender, EventArgs e) {
         if (perlInstallSelect.Text == "") {
             System.Windows.Forms.MessageBox.Show("No Perl selected to install!");
-            return;         
-        }       
+            return;
+        }
 
         string perlName = perlInstallSelect.Text;
         bb.Install(perlName);
         DrawComponents();
     }
-     
+
     private void InitializePerlSwitchButton() {
         this.perlSwitchButton = new System.Windows.Forms.Button();
 
@@ -377,13 +377,13 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.perlSwitchButton.Click += new System.EventHandler(this.switchPerlButton_Click);
     }
- 
+
     private void switchPerlButton_Click(object Sender, EventArgs e) {
         if (perlSwitchSelect.Text == "") {
             System.Windows.Forms.MessageBox.Show("No Perl selected to switch to!");
-            return;         
+            return;
         }
-        
+
         string newPerl = perlSwitchSelect.Text;
         bb.Switch(newPerl);
         this.WindowState = FormWindowState.Minimized;
@@ -428,13 +428,13 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.perlRemoveButton.Click += new System.EventHandler(this.removePerlButton_Click);
     }
- 
+
     private void removePerlButton_Click(object Sender, EventArgs e) {
         if (perlRemoveSelect.Text == "") {
             System.Windows.Forms.MessageBox.Show("No Perl selected to remove!");
-            return;         
+            return;
         }
-        
+
         string removePerl = perlRemoveSelect.Text;
         bb.PerlRemove(removePerl);
         DrawComponents();
@@ -503,7 +503,7 @@ public class BBUI : System.Windows.Forms.Form {
         this.perlInstallSelect.TabIndex = 0;
 
         foreach (string perlName in bb.AvailableList()) {
-            this.perlInstallSelect.Items.Add(perlName );           
+            this.perlInstallSelect.Items.Add(perlName );
         }
     }
 
@@ -528,25 +528,25 @@ public class BBUI : System.Windows.Forms.Form {
         this.perlSwitchSelect.TabIndex = 0;
 
         string perlInUse = bb.PerlInUse().Name;
-        
+
         foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
             if (perl.Name == perlInUse)
                 continue;
-            
-            this.perlSwitchSelect.Items.Add(perl.Name );           
+
+            this.perlSwitchSelect.Items.Add(perl.Name );
         }
     }
- 
+
     private void PerlSwitchSelect_Redraw() {
         perlSwitchSelect.Items.Clear();
-        
+
         string perlInUse = bb.PerlInUse().Name;
-        
+
         foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
             if (perl.Name == perlInUse)
                 continue;
-            
-            this.perlSwitchSelect.Items.Add(perl.Name );           
+
+            this.perlSwitchSelect.Items.Add(perl.Name );
         }
 
         perlSwitchSelect.SelectedIndex = -1;
@@ -638,7 +638,7 @@ public class BBUI : System.Windows.Forms.Form {
             this.Hide();
         }
     }
-    
+
     private void rightClickExit_Click(object Sender, EventArgs e) {
         this.Close();
     }
@@ -685,8 +685,8 @@ public class BBUI : System.Windows.Forms.Form {
         this.Hide();
         this.ShowInTaskbar = false;
         this.ResumeLayout(false);
-    }    
-   
+    }
+
     private void Form1_FormClosing(Object sender, FormClosingEventArgs e) {
         if (! new StackTrace().GetFrames().Any(x => x.GetMethod().Name == "Close")){
             this.Hide();
