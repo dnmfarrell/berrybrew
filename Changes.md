@@ -11,8 +11,7 @@ don't allow exporting modules in a temp instance (by using
 BERRYBREW_TEMP_INSTANCE env var) (Fixes #312)
 - dev\release.pl release script now updates Copyright year in license file
 (closes #314)
-- 
-    
+
 1.37    2023-07-20
 - When launching an instance with Powershell, we now change into the user's
 home directory
