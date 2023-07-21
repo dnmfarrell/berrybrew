@@ -17,12 +17,12 @@ my @avail = BB::get_avail();
 
 my $pre_installed = BB::get_installed();
 
-note "\nInstalling $avail[-1]\n";
-`$c install $avail[-1]`;
-
 my $unknown_err = BB::trap("$c install 9.10.11");
 is $? >> 8, BB::err_code('PERL_UNKNOWN_VERSION'), "if unknown version, exit ok";
-like $err, qr/unknown version/, "...and error message is ok";
+like $unknown_err, qr/unknown version/, "...and error message is ok";
+
+note "\nInstalling $avail[-1]\n";
+`$c install $avail[-1]`;
 
 my $err = BB::trap("$c install $avail[-1]");
 is $? >> 8, BB::err_code('PERL_ALREADY_INSTALLED'), "if perl is installed, exit status ok";
