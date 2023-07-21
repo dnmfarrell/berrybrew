@@ -44,7 +44,7 @@ namespace berrybrew {
                 bb.Message.Print("help");
                 bb.Exit(0);
             }
-                
+
             switch (args[0]){
 
                 case "assoc":
@@ -89,7 +89,7 @@ namespace berrybrew {
                             bb.Exit(0);
                         }
                     }
-                                       
+
                     bb.Available();
                     bb.Exit(0);
                     break;
@@ -141,11 +141,11 @@ namespace berrybrew {
                         Console.Error.WriteLine("'download' requires a version or the 'all' argument\n");
                         bb.Exit(-1);
                     }
-                    
+
                     bb.Download(args[1]);
                     bb.Exit(0);
                     break;
-                    
+
                 case "exit":
                     if (args.Length == 1) {
                         Console.Error.WriteLine("'exit' requires an error code integer\n");
@@ -175,7 +175,7 @@ namespace berrybrew {
                         Console.WriteLine("{0} - {1}", code, exitCodeName);
                     }
                     break;
-    
+
                 case "exec":
                     if (args.Length == 1) {
                         bb.Message.Print("exec_command_required");
@@ -296,13 +296,13 @@ namespace berrybrew {
                         bb.Message.Print("subcmd.modules");
                         bb.Exit(0);
                     }
-                    
+
                     if (args[1] != "import" && args[1] != "export") {
                         Console.Error.WriteLine("\ninvalid option...\n");
                         bb.Message.Print("subcmd.modules");
                         bb.Exit(-1);
                     }
-                    
+
                     if (args[1] == "import") {
                         if (args.Length < 3) {
                             bb.ImportModules();
@@ -318,7 +318,7 @@ namespace berrybrew {
                         bb.ExportModules();
                         bb.Exit(0);
                     }
-                    
+
                     bb.Exit(0);
                     break;
 
@@ -343,12 +343,12 @@ namespace berrybrew {
                         bb.Exit(0);
                     }
                     if (args.Length == 3) {
-                        bb.Options(args[1], args[2]);                   
+                        bb.Options(args[1], args[2]);
                         bb.Exit(0);
                     }
                     bb.Exit(0);
                     break;
-  
+
                 case "options-update":
                     bb.OptionsUpdate();
                     bb.Exit(0);
@@ -405,7 +405,7 @@ namespace berrybrew {
                     }
 
                     bool switchQuick = false;
-                    
+
                     if (args.Length == 3 && args[2] == "quick") {
                         switchQuick = true;
                     }
@@ -424,7 +424,7 @@ namespace berrybrew {
                     bb.Upgrade();
                     bb.Exit(0);
                     break;
-*/                    
+*/
                 case "use":
                     if (args.Length == 1) {
                         bb.Message.Print("use_ver_required");
