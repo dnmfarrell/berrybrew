@@ -5,7 +5,9 @@ Revision history for berrybrew
     - Fix uncaught exception when trying to install with an invalid Perl version
       Fixes #316)
     - Added updated perls.json file that includes 5.36 and 5.38
-    - 
+    - Fix issue where `berrybrew use` was exporting wrong module list. We now
+      don't allow exporting modules in a temp instance (by using
+      BERRYBREW_TEMP_INSTANCE env var) (Fixes #312)
     
 1.37    2023-07-20
     - When launching an instance with Powershell, we now change into the user's
