@@ -122,14 +122,14 @@ namespace BerryBrew {
                 "debug",
                 "root_dir",
                 "temp_dir",
-				"strawberry_url",
+                "strawberry_url",
                 "download_url",
                 "windows_homedir",
                 "custom_exec",
                 "run_mode",
                 "file_assoc",
                 "file_assoc_old",
-				"shell",
+                "shell",
                 "warn_orphans",
             };
 
@@ -600,20 +600,20 @@ namespace BerryBrew {
             }
         }
 
-		public void Download(string versionString) {
-			List<string> available = AvailableList(false);
+        public void Download(string versionString) {
+            List<string> available = AvailableList(false);
 
-			if (versionString == "all") {
+            if (versionString == "all") {
                 foreach (string version in available) {
                     StrawberryPerl perl = PerlResolveVersion(version);
                     Fetch(perl);
                 }
-			}
-			else {
+            }
+            else {
                 StrawberryPerl perl = PerlResolveVersion(versionString);
-				Fetch(perl);
-			}
-		}
+                Fetch(perl);
+            }
+        }
 
         public void Exit(int exitCode) {
             if (Debug) {
@@ -1145,9 +1145,9 @@ namespace BerryBrew {
         public void Install(string version) {
             StrawberryPerl perl = new StrawberryPerl();
 
-			try {
-	            perl = PerlResolveVersion(version);
-			}
+            try {
+                perl = PerlResolveVersion(version);
+            }
             catch (System.ArgumentException err) {
                 Console.Error.WriteLine("\n'{0}' is an unknown version of Perl. Can't install.", version);
                 if (Debug) {
@@ -1769,8 +1769,8 @@ namespace BerryBrew {
 
         public StrawberryPerl PerlInUse() {
             string path = PathGet();
-            
-			StrawberryPerl currentPerl = new StrawberryPerl();
+
+            StrawberryPerl currentPerl = new StrawberryPerl();
 
             if (path != null) {
                 string[] paths = path.Split(new char[] {';'});
@@ -2156,7 +2156,7 @@ namespace BerryBrew {
                     return perl;
                 }
             }
-            
+
             throw new ArgumentException("Unknown version: " + version);
         }
 
@@ -2315,22 +2315,22 @@ namespace BerryBrew {
                 newPath.AddRange(Environment.ExpandEnvironmentVariables(usrPath).Split(new char[] {';'}).ToList());
 
                 Environment.SetEnvironmentVariable("PATH", string.Join(";", newPath));
-				Environment.SetEnvironmentVariable("BERRYBREW_TEMP_USE", "true");
+                Environment.SetEnvironmentVariable("BERRYBREW_TEMP_USE", "true");
 
                 string prompt = Environment.GetEnvironmentVariable("PROMPT");
                 Environment.SetEnvironmentVariable("PROMPT", "$Lberrybrew use perl-" + perl.Name + "$G" + "$_" + "$P$G");
 
-				if (Options("shell", null, true) == "powershell") {
-					// Spawn with Powershell
+                if (Options("shell", null, true) == "powershell") {
+                    // Spawn with Powershell
                     string args = "-NoExit -Command \"& {$host.ui.RawUI.WindowTitle='berrybrew use perl-" + perl.Name + "'}; cd $home\"";
                     startInfo.Arguments = args;
-	                startInfo.FileName = "powershell.exe";
-				}
-				else {
-					// Spawn with cmd
-	                startInfo.Arguments = "/k TITLE berrybrew use perl-" + perl.Name;
-	                startInfo.FileName = "cmd.exe";
-				}
+                    startInfo.FileName = "powershell.exe";
+                }
+                else {
+                    // Spawn with cmd
+                    startInfo.Arguments = "/k TITLE berrybrew use perl-" + perl.Name;
+                    startInfo.FileName = "cmd.exe";
+                }
 
                 process.StartInfo = startInfo;
                 process.StartInfo.RedirectStandardOutput = false;
@@ -2353,7 +2353,7 @@ namespace BerryBrew {
 
         private void UseInSameWindow(StrawberryPerl perl, string sysPath, string usrPath) {
             Console.WriteLine("perl-" + perl.Name + "\n==============");
-			Environment.SetEnvironmentVariable("BERRYBREW_TEMP_USE", "true");
+            Environment.SetEnvironmentVariable("BERRYBREW_TEMP_USE", "true");
 
             try {
                 Process process = new Process {StartInfo = {WindowStyle = ProcessWindowStyle.Hidden}};
@@ -2361,8 +2361,8 @@ namespace BerryBrew {
                 var newPath = perl.Paths;
                 newPath.AddRange(Environment.ExpandEnvironmentVariables(sysPath).Split(new char[] {';'}).ToList());
                 newPath.AddRange(Environment.ExpandEnvironmentVariables(usrPath).Split(new char[] {';'}).ToList());
-                
-				Environment.SetEnvironmentVariable("PATH", string.Join(";", newPath));
+
+                Environment.SetEnvironmentVariable("PATH", string.Join(";", newPath));
 
                 string prompt = Environment.GetEnvironmentVariable("PROMPT");
                 Environment.SetEnvironmentVariable("PROMPT", "$_" + "$Lberrybrew use " + perl.Name + "$G: run \"exit\" leave this environment$_"+prompt);
