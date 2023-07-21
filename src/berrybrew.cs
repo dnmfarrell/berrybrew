@@ -654,15 +654,15 @@ namespace BerryBrew {
         }
 
         public void ExportModules() {
-			// Check if we're 'use'-ing a temporary instance. We don't allow
-			// module exports within one.
+            // Check if we're 'use'-ing a temporary instance. We don't allow
+            // module exports within one.
 
-			string usingTempInstance = Environment.GetEnvironmentVariable("BERRYBREW_TEMP_USE");
+            string usingTempInstance = Environment.GetEnvironmentVariable("BERRYBREW_TEMP_USE");
 
-			if (usingTempInstance == "true") {
-				Console.WriteLine("\nExporting modules is not allowed from a temp ('use') perl instance\n\n");
+            if (usingTempInstance == "true") {
+                Console.WriteLine("\nExporting modules is not allowed from a temp ('use') perl instance\n\n");
                 Exit((int)ErrorCodes.PERL_TEMP_INSTANCE_NOT_ALLOWED);
-			}
+            }
 
             StrawberryPerl perl = PerlInUse();
 
