@@ -241,6 +241,12 @@ line:
  Guide to creating a release, publishing it as a production install, and
  setting up the next release branch
 
+- [Update releases.json](doc/Update%20Releases%20JSON.md)
+ For the time being, Strawberry Perl is using a Github hosted `releases.json`
+ file. This is the quasi process I've been using to keep it maintained so
+ `berrybrew` is able to use the most recent versions until the Strawberry
+ website is back under administrative control.
+
 ## CAVEATS
 
 - When using `git pull` to do an upgrade, your configuration files will
