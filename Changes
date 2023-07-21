@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.38 UNREL
+1.38    2023-07-21
     - Remove the perltricks.com link from David Farrell acknowledgement
       (fixes #313)
     - Properly handle thrown exception when trying to install with an invalid
