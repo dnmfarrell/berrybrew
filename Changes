@@ -4,9 +4,9 @@ Revision history for berrybrew
 
 1.38    2023-07-21
     - Remove the perltricks.com link from David Farrell acknowledgement
-      (fixes #313)
+      (Fixes #313)
     - Properly handle thrown exception when trying to install with an invalid
-      Perl version Fixes #316)
+      Perl version (Fixes #316)
     - Added updated perls.json file that includes 5.36 and 5.38
     - Fix issue where `berrybrew use` was exporting wrong module list. We now
       don't allow exporting modules in a temp instance (by using
