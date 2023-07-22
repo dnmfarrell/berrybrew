@@ -10,12 +10,16 @@ use version;
 use Capture::Tiny qw(:all);
 use Data::Dumper;
 use Dist::Mgr qw(changes_bump);
+use Hook::Output::Tiny;
+
+my $trap = Hook::Output::Tiny->new;
 
 my $new_version = calculate_new_version();
 
 checkout_master_branch();
+`git checkout release_cycle`; exit;
+
 pull_master_branch();
-`git checkout release_cycle`;
 create_version_branch($new_version);
 changes_bump($new_version);
 update_version($new_version);
@@ -31,11 +35,14 @@ sub checkout_master_branch {
 #        `git checkout master`;
 #    };
 #
-    my $output = `git checkout master`;
-    print ">$output<\n";
 
+    $trap->hook;
+    `git checkout master`;
+    $trap->unhook;
+
+    print ">$_<\n" for $trap->stderr;
     if ($output !~ /Switched to branch 'master'/) {
-        die "Couldn't switch to master branch";
+        warn "Couldn't switch to master branch";
     }
 }
 sub commit_version_branch {
