@@ -269,7 +269,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## License
 
-2 Clause FreeBSD - see LICENSE
+2 Clause FreeBSD - see [LICENSE](/LICENSE).
 
 ## Version
 
