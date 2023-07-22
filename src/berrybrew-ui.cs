@@ -679,7 +679,7 @@ public class BBUI : System.Windows.Forms.Form {
             this.Text = "Berrybrew UI v" + bb.Version();
         }
         else if (runMode == "staging") {
-            this.Text = "BB-DEVELOPMENT UI v" + bb.Version();
+            this.Text = "BB-DEV UI v" + bb.Version();
         }
 
         this.WindowState = FormWindowState.Minimized;

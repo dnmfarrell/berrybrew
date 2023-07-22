@@ -31,11 +31,13 @@ updated directives to be pushed up into the registry
 
 #### Development installer build 
 
-- Run `perl dev\build_staging_installer.pl`. This will run the complete `dev\build_staging.bat`
-script mentioned above, and then create an installer with a minimized installation, and
-place it into the repo's `staging` directory. The installer will install into
-the `%PROGRAM_FILES%/berrybrew/staging` directory. We use the 
-`dev\create_staging_installer.nsi` NSIS installer script.
+- Run `dev\build_staging_installer.bat`. This will run the complete
+`dev\build_staging.bat` script mentioned above, and then create an installer
+with a minimized installation, and place it into the repo's `staging` directory. 
+ 
+The installer will install into the `%PROGRAM_FILES%/berrybrew/staging`
+directory. We use the `dev\create_staging_installer.nsi` NSIS installer script
+to configure the actual installation binary.
 
 **NOTE**: When running under the development/staging build, Perl installations
 and `berrybrew`'s temporary directory are stored within a newly created `staging`
