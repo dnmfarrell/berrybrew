@@ -15,7 +15,7 @@ my $staging_dir = 'c:/berrybrew/staging';
 
 my $o = `$c test clean dev`;
 
-like $o, qr/removed the staging and test directories/, "clean dev ok";
+like $o, qr/removed the staging and testing directories/, "clean dev ok";
 isnt -e $test_dir, 1, "clean dev: test dir gone";
 isnt -e $staging_dir, 1, "clean dev: staging dir gone";
 
