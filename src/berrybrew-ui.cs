@@ -56,7 +56,8 @@ public class BBUI : System.Windows.Forms.Form {
         this.rightClickExit = new System.Windows.Forms.MenuItem();
 
         this.contextMenu.MenuItems.AddRange(
-                    new System.Windows.Forms.MenuItem[] { this.rightClickExit });
+            new System.Windows.Forms.MenuItem[] { this.rightClickExit }
+        );
 
         this.rightClickExit.Index = 0;
         this.rightClickExit.Text = "Exit";
