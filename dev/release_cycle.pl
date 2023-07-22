@@ -28,14 +28,17 @@ sub calculate_new_version {
     return sprintf("%.2f", $version_current + '0.01');
 }
 sub checkout_master_branch {
-    $trap->hook('stderr');
-    `git checkout master`;
-    $trap->unhook;
-    my @stderr = $trap->stderr;
+    my @warnings;
 
-    print Dumper \@stderr;
-    exit;
-    if (! grep { $_ =~ /Switched to branch 'master'/ } $trap->stderr) {
+    local $SIG{__WARN__} = sub {
+        push @warnings, shift;
+    };
+
+    `git checkout master`;
+
+    print Dumper \@warnings;
+
+    if (! grep { $_ =~ /Switched to branch 'master'/ } @warnings) {
         die "Couldn't switch to master branch";
     }
 }
