@@ -37,6 +37,8 @@ update_readme();
 check_readme();
 update_license();
 check_license();
+update_contributing();
+check_contributing();
 finish();
 
 done_testing();
@@ -61,6 +63,29 @@ sub backup_configs {
         copy $_, $data_dir or die $!;
         print "copied $_ to $data_dir\n";
     }
+}
+sub check_contributing {
+    open my $fh, '<', 'CONTRIBUTINGmd' or die "Can't open CONTRIBUTING.md: $!";
+
+    my ($current_year) = (localtime)[5];
+    $current_year += 1900;
+
+    my $year_found = 0;
+
+    while (<$fh>) {
+        if (/^.*2016-(\d{4}) by Steve Bertrand/) {
+            my $copyright_year = $1;
+            is
+                $copyright_year,
+                $current_year,
+                "CONTRIBUTING.md copyright year updated ok";
+
+            $year_found = 1;
+            last;
+        }
+    }
+
+    is $year_found, 1, "Found and changed the copyright year in CONTRIBUTING.md ok";
 }
 sub check_license {
     open my $fh, '<', 'LICENSE' or die "Can't open LICENSE: $!";
@@ -251,6 +276,36 @@ sub update_installer_script {
     }
 
     close $wfh;
+}
+sub update_contributing {
+    print "\nupdating CONTRIBUTING.md with new Copyright year...\n";
+
+    open my $fh, '<', 'CONTRIBUTING.md' or die $!;
+    my @contents = <$fh>;
+    close $fh or die $!;
+
+    my ($current_year) = (localtime)[5];
+    $current_year += 1900;
+
+    my $changed = 0;
+
+    for (@contents) {
+        if (/^.*2016-(\d{4}) by Steve Bertrand/) {
+            my $copyright_year = $1;
+            if ($copyright_year != $current_year) {
+                $changed = 1;
+                s/$copyright_year/$current_year/;
+            }
+        }
+    }
+
+    if ($changed) {
+        open my $wfh, '>', 'CONTRIBUTING.md' or die $!;
+
+        for (@contents) {
+            print $wfh $_;
+        }
+    }
 }
 sub update_readme {
     print "\nupdating README with new SHA1 sums and version...\n";
