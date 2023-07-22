@@ -31,7 +31,7 @@ updated directives to be pushed up into the registry
 
 #### UI only
 
-- Run the `dev\build_ui.bat` script, which compiles the UI binary. If not done
+- Run the `dev\build_staging_ui.bat` script, which compiles the UI binary. If not done
 previously, you need to run `dev\build_staging.bat` to build the API library first.
 
 - Run the `build\berrybrew-ui.exe` to start the UI. Note that when using the
@@ -40,7 +40,7 @@ window as opposed to a GUI app so that you can see the debugging output
 
 #### berrybrew binary only
 
-- Run the `dev\build_bb.bat` script
+- Run the `dev\build_staging_bb.bat` script
 
 #### API only
 
@@ -48,7 +48,7 @@ window as opposed to a GUI app so that you can see the debugging output
 
 #### Installer
 
-- Run `perl dev\build_installer.pl`. This will run the complete `dev\build_staging.bat` script
+- Run `perl dev\build_staging_installer.pl`. This will run the complete `dev\build_staging.bat` script
 mentioned above, and then create an installer with a minimized installation, and
 place it into the repo's `build/` directory. The installer will install into 
 the `%PROGRAM_FILES%/berrybrew/build` directory. We use the `dev\create_staging_installer.nsi`

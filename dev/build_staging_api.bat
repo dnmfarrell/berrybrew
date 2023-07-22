@@ -1,6 +1,6 @@
 @echo off
 
-set BB_RUN_MODE=build
+set BB_RUN_MODE=staging
 
 mkdir staging
 mkdir staging\data
