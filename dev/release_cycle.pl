@@ -15,14 +15,13 @@ my $new_version = calculate_new_version();
 
 checkout_master_branch();
 pull_master_branch();
-
-`git checkout release_cycle`; exit;
-
 create_version_branch($new_version);
 changes_bump($new_version);
 update_version($new_version);
 commit_version_branch($new_version);
 push_version_branch($new_version);
+
+`git checkout release_cycle`; exit;
 
 sub calculate_new_version {
     my $version_current = _fetch_current_version();
@@ -30,7 +29,7 @@ sub calculate_new_version {
 }
 sub checkout_master_branch {
     my $output = capture_merged {
-        `git checkout master`;
+        system('git checkout master');
     };
 
     if ($output !~ /Switched to branch 'master'/) {
@@ -39,7 +38,15 @@ sub checkout_master_branch {
 }
 sub commit_version_branch {
     my ($bb_ver) = @_;
-    my $output = `git commit -am "Bumped to ver $bb_ver"`;
+
+    my $output = capture_merged {
+        system(
+            'git',
+            'commit',
+            '-am',
+            "Bumped to ver $bb_ver"
+        );
+    };
 
     if ($output !~ /changed/) {
         die "Failed to commit changes to new branch"
@@ -48,7 +55,9 @@ sub commit_version_branch {
 sub create_version_branch {
     my ($new_version) = @_;
 
-    my $output = `git checkout -b v$new_version`;
+    my $output = capture_merged {
+        system('git', 'checkout', '-b', "v$new_version");
+    };
 
     if ($output !~ /Switched to a new branch 'v$new_version'/) {
         die "Couldn't create the new 'v$new_version' branch";
@@ -59,14 +68,22 @@ sub pull_master_branch {
         system('git pull');
     };
 
-    print ">$output<\n";
     if ($output !~ /origin\/master/ && $output !~ /Already up to date/) {
-        warn "Couldn't pull from master branch" ;
+        die "Couldn't pull from master branch" ;
     }
 }
 sub push_version_branch {
     my ($new_version) = @_;
-    my $output = `git push -u origin v$new_version`;
+
+    my $output = capture_merged {
+        system(
+            'git',
+            'push',
+            '-u',
+            'origin',
+            "v$new_version"
+        );
+    };
 
     print "$output\n";
 
