@@ -2,7 +2,7 @@ use warnings;
 use strict;
 
 use constant {
-    INSTALLER_SCRIPT => 'dev/create_build_installer.nsi',
+    INSTALLER_SCRIPT => 'dev/create_staging_installer.nsi',
 };
 
 if (! grep { -x "$_/makensis.exe" } split /;/, $ENV{PATH}){

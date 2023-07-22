@@ -51,7 +51,7 @@ window as opposed to a GUI app so that you can see the debugging output
 - Run `perl dev\build_installer.pl`. This will run the complete `dev\build.bat` script
 mentioned above, and then create an installer with a minimized installation, and
 place it into the repo's `build/` directory. The installer will install into 
-the `%PROGRAM_FILES%/berrybrew/build` directory. We use the `dev\create_build_installer.nsi`
+the `%PROGRAM_FILES%/berrybrew/build` directory. We use the `dev\create_staging_installer.nsi`
 NSIS installer script.
 
 **NOTE**: When running under the development build, Perl installations and
