@@ -77,26 +77,17 @@ into the master branch
     
 ## Prepare a Branch for the Next Release Cycle
 
-- Check out the updated `master` branch: `git checkout master`
+Execute `perl dev/release_cycle.pl`, which will:
 
-- Ensure it's up-to-date: `git pull`
+  - Check out the `master` branch
+  - `git pull` to ensure it's up-to-date
+  - Locally create a new branch named vX.XX (where X.XX is the bumped version
+  number)
+  - Updates the version in the `Version()` method in `src\berrybrew.cs` file
+  - Updates the `Changes` file with a new version section
+  - Commits the changes
+  - Pushes the new branch
 
-- Locally, create a new branch: `git checkout -b vx.xx`
-
-- Update the `Version()` method in `src\berrybrew.cs` file with the new version
-
-- Add the following to the `Changes` file:
-
-    - `x.xx UNREL`
-   
-- Commit the changes:
-
-    - `git commit -a -m "bumped to ver x.xx`    
-
-- Push the new branch to Github: 
-
-    - `git push -u origin vx.xx` 
-    
 ## Updates for the Next Release
 
 - Check out the version branch: `git checkout vx.xx`    

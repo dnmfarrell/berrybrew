@@ -1,6 +1,8 @@
 use warnings;
 use strict;
 
+# This script prepares a complete release of berrybrew
+
 use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
 use Digest::SHA qw(sha1);
 use Dist::Mgr qw(changes_date);
