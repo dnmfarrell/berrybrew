@@ -85,9 +85,9 @@ sub push_version_branch {
         );
     };
 
-    print "$output\n";
-
-    warn "NO push CHECKS in push_version_branch()!!";
+    if ($output !~ /Create a pull request for 'v$new_version'/) {
+        die "Couldn't push branch v$new_version";
+    }
 }
 sub update_version {
     my ($new_version) = @_;
