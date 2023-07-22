@@ -13,6 +13,8 @@ Revision history for berrybrew
       This is just for consistency of all the other staging build scripts being
       batch files
     - Rename `dev/post_release.pl` to `dev/release_post.pl`
+    - Add new `dev/release_cycle.pl` script, automates the preparation of the
+      next version's development branch (closes #266)
 
 1.38    2023-07-21
     - Remove the perltricks.com link from David Farrell acknowledgement
