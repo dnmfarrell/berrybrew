@@ -21,10 +21,9 @@ update_version($new_version);
 commit_version_branch($new_version);
 push_version_branch($new_version);
 
-`git checkout release_cycle`; exit;
-
 sub calculate_new_version {
     my $version_current = _fetch_current_version();
+    print "Calculating next version beyond $version_current\n";
     return sprintf("%.2f", $version_current + '0.01');
 }
 sub checkout_master_branch {
@@ -35,6 +34,8 @@ sub checkout_master_branch {
     if ($output !~ /Switched to branch 'master'/) {
         die "Couldn't switch to master branch";
     }
+
+    print "Checked out master branch\n";
 }
 sub commit_version_branch {
     my ($bb_ver) = @_;
@@ -51,6 +52,8 @@ sub commit_version_branch {
     if ($output !~ /changed/) {
         die "Failed to commit changes to new branch"
     }
+
+    print "Committed new $bb_ver branch\n";
 }
 sub create_version_branch {
     my ($new_version) = @_;
@@ -62,6 +65,8 @@ sub create_version_branch {
     if ($output !~ /Switched to a new branch 'v$new_version'/) {
         die "Couldn't create the new 'v$new_version' branch";
     }
+
+    print "Created new v$new_version branch\n";
 }
 sub pull_master_branch {
     my $output = capture_merged {
@@ -71,6 +76,8 @@ sub pull_master_branch {
     if ($output !~ /origin\/master/ && $output !~ /Already up to date/) {
         die "Couldn't pull from master branch" ;
     }
+
+    print "Pulled updates from master branch\n";
 }
 sub push_version_branch {
     my ($new_version) = @_;
@@ -88,10 +95,13 @@ sub push_version_branch {
     if ($output !~ /Create a pull request for 'v$new_version'/) {
         die "Couldn't push branch v$new_version";
     }
+
+    print "Pushed new v$new_version branch\n";
 }
 sub update_version {
     my ($new_version) = @_;
     _update_src_version(_fetch_current_version(), $new_version);
+    print "Updated Version() in library to $new_version\n";
 }
 
 sub _fetch_current_version {
