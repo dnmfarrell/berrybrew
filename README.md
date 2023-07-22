@@ -32,11 +32,11 @@ documentation.
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
 - [Documentation](#other-documentation)
+- [Hidden Commands](#hidden-commands)
 - [Developed Using](#developed-using)
 - [Caveats](#caveats)
 - [License](#license)
 - [Version](#version)
-- [Hidden Features](#hidden-commands)
 
 ## Install
 
@@ -241,6 +241,14 @@ line:
  `berrybrew` is able to use the most recent versions until the Strawberry
  website is back under administrative control.
 
+## Hidden Commands
+
+Please see the [hidden commands](doc/berrybrew.md#hidden-commands)
+in the [berrybrew](doc/berrybrew.md)
+document.
+
+You can also get a list of them by running the hidden `berrybrew hidden` command.
+
 ## CAVEATS
 
 - When using `git pull` to do an upgrade, your configuration files will
@@ -271,18 +279,6 @@ operate correctly. This is due to the way Windows forces the System
 
 2 Clause FreeBSD - see [LICENSE](/LICENSE).
 
-## Version
-
-   1.38 
-
-## Hidden Commands
-
-Please see the [hidden commands](doc/berrybrew.md#hidden-commands)
-in the [berrybrew](doc/berrybrew.md)
-document.
-
-You can also get a list of them by running the hidden `berrybrew hidden` command.
-
 ## Original Author
 
 David Farrell
@@ -298,3 +294,7 @@ Windows
 
 - [Perlbrew](http://perlbrew.pl) - the original Perl version manager for
 Unix based systems.
+
+## Version
+
+1.38 
