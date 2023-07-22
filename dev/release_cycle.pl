@@ -30,7 +30,7 @@ sub checkout_master_branch {
         `git checkout master`;
     };
 
-    print $output;
+    #print $output;
 
     if ($output !~ /Switched to branch 'master'/) {
         die "Couldn't switch to master branch";
