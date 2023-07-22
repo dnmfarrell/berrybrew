@@ -7,13 +7,13 @@ RequestExecutionLevel admin
 var perlRootDir 
 var perlRootDirSet
 
-!define PRODUCT_NAME "berrybrew-build"
-!define PRODUCT_VERSION "1.35"
+!define PRODUCT_NAME "berrybrew-staging"
+!define PRODUCT_VERSION "1.39"
 !define PRODUCT_PUBLISHER "Steve Bertrand"
 !define PRODUCT_WEB_SITE "https://github.com/stevieb9/berrybrew"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\berrybrew.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
-!define APP_REGKEY "Software\berrybrew-build"
+!define APP_REGKEY "Software\berrybrew-staging"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 
 !define MUI_ABORTWARNING
@@ -42,8 +42,8 @@ var perlRootDirSet
 !insertmacro MUI_LANGUAGE "English"
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "..\build\berrybrewInstaller.exe"
-InstallDir "$PROGRAMFILES\berrybrew\build"
+OutFile "..\staging\berrybrewInstaller.exe"
+InstallDir "$PROGRAMFILES\berrybrew\staging"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
@@ -51,18 +51,18 @@ ShowUnInstDetails show
 Section "-MainSection" SEC_MAIN
   SetOverwrite try
   SetOutPath "$INSTDIR\bin"
-  File "..\build\berrybrew-refresh.bat"
-  File "..\build\bbapi.dll"
-  File "..\build\berrybrew.exe"
-  File "..\build\bb.exe"
-  File "..\build\berrybrew-ui.exe"
-  File "..\build\ICSharpCode.SharpZipLib.dll"
-  File "..\build\Newtonsoft.Json.dll"
+  File "..\staging\berrybrew-refresh.bat"
+  File "..\staging\bbapi.dll"
+  File "..\staging\berrybrew.exe"
+  File "..\staging\bb.exe"
+  File "..\staging\berrybrew-ui.exe"
+  File "..\staging\ICSharpCode.SharpZipLib.dll"
+  File "..\staging\Newtonsoft.Json.dll"
 
   SetOutPath "$INSTDIR\data"
-  File "..\build\data\config.json"
-  File "..\build\data\messages.json"
-  File "..\build\data\perls.json"
+  File "..\staging\data\config.json"
+  File "..\staging\data\messages.json"
+  File "..\staging\data\perls.json"
   SetOutPath "$INSTDIR\inc"
   File "..\inc\berrybrew.ico"
 SectionEnd
@@ -87,7 +87,7 @@ Section -Post
   WriteUninstaller "$INSTDIR\uninst.exe"
   
   ${If} ${SectionIsSelected} ${SEC_START_UI}
-    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI-build" "$INSTDIR\bin\berrybrew-ui.exe"
+    WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI-staging" "$INSTDIR\bin\berrybrew-ui.exe"
   ${EndIf}
 
   WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\bin\berrybrew.exe"
@@ -188,7 +188,7 @@ Function .onInit
 
   Call StopUI
       
-  StrCpy $perlRootDir "C:\berrybrew\build"
+  StrCpy $perlRootDir "C:\berrybrew\staging"
   StrCpy $perlRootDirSet "0"
 
   StrCpy $InstDir "$INSTDIR\"
@@ -250,7 +250,7 @@ Section Uninstall
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" off'
   nsExec::Exec '"$SYSDIR\cmd.exe" /C if 1==1 "$INSTDIR\bin\berrybrew.exe" unconfig'
   
-  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI-build"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "BerrybrewUI-staging"
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
   DeleteRegKey HKLM "${PRODUCT_DIR_REGKEY}"
   DeleteRegKey HKLM "${APP_REGKEY}" 

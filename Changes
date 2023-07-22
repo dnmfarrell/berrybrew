@@ -9,7 +9,10 @@ Revision history for berrybrew
       'test' is now 'testing'. Refactored/renamed all scripts, registry and
       config elements, all references in documentation, test files etc. (Closes
       #319)
-      
+    - Create build_staging_installer.bat which wraps the original Perl script.
+      This is just for consistency of all the other staging build scripts being
+      batch files
+    -       
 1.38    2023-07-21
     - Remove the perltricks.com link from David Farrell acknowledgement
       (Fixes #313)
