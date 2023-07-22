@@ -446,7 +446,7 @@ namespace BerryBrew {
             }
 
             stagingDir += @"staging";
-            testingDir = string.Format(@"{0}testing", testDir);
+            testingDir = string.Format(@"{0}testing", testingDir);
 
             if (Debug) {
                 Console.WriteLine("DEBUG: staging dir: {0}", stagingDir);
