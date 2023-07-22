@@ -227,11 +227,9 @@ namespace BerryBrew {
             List<string> availablePerls = new List<string>();
 
             foreach (StrawberryPerl perl in _perls.Values) {
-
                 if (! allPerls && ! perl.Newest) {
                     continue;
                 }
-
                 if (PerlIsInstalled(perl)) {
                     continue;
                 }
@@ -738,8 +736,8 @@ namespace BerryBrew {
             startInfo.FileName = "cmd.exe";
             List<String> patchedParams = new List<String>();
 
-            foreach(String param in parameters) {
-                if( param.Contains(" ")) {
+            foreach (String param in parameters) {
+                if ( param.Contains(" ")) {
                      patchedParams.Add("\"" + param + "\"");
                 }
                 else {
@@ -755,12 +753,12 @@ namespace BerryBrew {
             process.Start();
 
             process.OutputDataReceived += (proc, line)=>{
-                if(line.Data != null) {
+                if (line.Data != null) {
                     Console.Out.WriteLine(line.Data);
                 }
             };
             process.ErrorDataReceived += (proc, line)=>{
-                if(line.Data != null) {
+                if (line.Data != null) {
                     Console.Error.WriteLine(line.Data);
                 }
             };
