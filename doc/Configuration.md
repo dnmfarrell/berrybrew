@@ -11,7 +11,7 @@ For changing configuration options after install, see [**berrybrew options**](be
 Most options are also configurable through the UI.
 
 |Directive|Description|
-|---|---|   
+|---|--|   
 |[debug](#debug)|Enable/disable debugging|
 [root_dir](#root_dir)|Location of the Perl installations|
 [temp_dir](#temp_dir)|Location of `berrybrew` temporary files|
@@ -19,7 +19,7 @@ Most options are also configurable through the UI.
 [download_url](#download_url)|The URL for the Strawberry release JSON file|
 [custom_exec](#custom_exec)|Include custom (cloned) instances under `berrybrew exec`|
 [windows_homedir](#windows_homedir)|Default home directory for `File::HomeDir`|
-[run_mode](#run_mode)|Currently Unused|
+[run_mode](#run_mode)|Used to identify prod, build or test|
 [shell](#shell)|Shell to run when 'use'ing a Perl|
 [file_assoc](#file_assoc)|The current .pl file association handler|
 [file_assoc_old](#file_assoc_old)|The previous .pl file association handler|
@@ -99,7 +99,11 @@ Values: "true", "false"
 
 ##### run_mode
 
-This is a reserved option, and should not be modified by the end user.
+This option is used by the system to idenfity whether it's running in `prod`,
+`build (aka dev)` or `test` mode. Currently, it's used by the UI so the user
+knows which environment they're running in.
+
+It should not be modified by the end user.
 
 ##### shell
 

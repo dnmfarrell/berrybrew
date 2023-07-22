@@ -2,11 +2,11 @@
 
 ## Sections
 
-- [Full Build Except Installer](#create-the-new-development-build)
-- [Full Build With Installer](#installer)
-- [UI Only](#ui-only)
+- [Full Build (Except Installer)](#development-environment-build)
+- [Full Build (With Installer)](#development-installer-build)
 - [Binary Only](#berrybrew-binary-only)
 - [API Only](#api-only)
+- [UI Only](#ui-only)
 
 During development, it's handy to be able to ensure the code builds and works
 correctly without overwriting the currently-installed production installation.
@@ -14,7 +14,7 @@ correctly without overwriting the currently-installed production installation.
 This is a must for testing out new features to ensure they work correctly prior
 to running the [unit test](Unit%20Testing.md) suite.
 
-#### Create the new development build:
+#### Development environment build:
 
 - Run the `dev\build_staging.bat` script, which compiles the binary, library and UI and
 places the new build within a newly-created `build` directory within your
@@ -29,14 +29,18 @@ Use the new development build:
 - If modifying the config file, do a `berrybrew options-update-force` for the
 updated directives to be pushed up into the registry
 
-#### UI only
+#### Development installer build 
 
-- Run the `dev\build_staging_ui.bat` script, which compiles the UI binary. If not done
-previously, you need to run `dev\build_staging.bat` to build the API library first.
+- Run `perl dev\build_staging_installer.pl`. This will run the complete `dev\build_staging.bat` script
+  mentioned above, and then create an installer with a minimized installation, and
+  place it into the repo's `staging` directory. The installer will install into
+  the `%PROGRAM_FILES%/berrybrew/staging` directory. We use the 
+  `dev\create_staging_installer.nsi` NSIS installer script.
 
-- Run the `build\berrybrew-ui.exe` to start the UI. Note that when using the
-dev build script for the UI directly, the UI will run out of the command line
-window as opposed to a GUI app so that you can see the debugging output
+**NOTE**: When running under the development/staging build, Perl installations
+and `berrybrew`'s temporary directory are stored within a newly created `staging`
+directory underneath of `berrybrew`'s default directory (defaults to
+`C:\berrybrew`)
 
 #### berrybrew binary only
 
@@ -46,15 +50,11 @@ window as opposed to a GUI app so that you can see the debugging output
 
 - Run the `dev\build_staging_api.bat` script
 
-#### Installer
+#### UI only
 
-- Run `perl dev\build_staging_installer.pl`. This will run the complete `dev\build_staging.bat` script
-mentioned above, and then create an installer with a minimized installation, and
-place it into the repo's `build/` directory. The installer will install into 
-the `%PROGRAM_FILES%/berrybrew/build` directory. We use the `dev\create_staging_installer.nsi`
-NSIS installer script.
+- Run the `dev\build_staging_ui.bat` script, which compiles the UI binary. If not done
+  previously, you need to run `dev\build_staging.bat` to build the API library first.
 
-**NOTE**: When running under the development build, Perl installations and
-`berrybrew`'s temporary directory are stored within a newly created `build`
-directory underneath of `berrybrew`'s default directory (defaults to 
-`C:\berrybrew`) 
+- Run the `staging\berrybrew-ui.exe` to start the UI. Note that when using the
+  dev build script for the UI directly, the UI will run out of the command line
+  window as opposed to a GUI app so that you can see the debugging output
