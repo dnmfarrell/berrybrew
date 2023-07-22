@@ -31,22 +31,13 @@ sub calculate_new_version {
     return sprintf("%.2f", $version_current + '0.01');
 }
 sub checkout_master_branch {
-#    my $output = capture_merged {
-#        `git checkout master`;
-#    };
-#
+    my $output = capture_merged {
+        `git checkout master`;
+    };
 
-    $trap->hook;
-    `git checkout master`;
-    $trap->unhook;
-
-    my @stderr = $trap->stderr;
-    my @stdout = $trap->stdout;
-    print Dumper \@stdout;
-
-#    if (! grep { $_ =~ /Switched to branch 'master'/ } $trap->stderr) {
-#        warn "Couldn't switch to master branch";
-#    }
+    if ($output !~ /Switched to branch 'master'/) {
+        warn "Couldn't switch to master branch";
+    }
 }
 sub commit_version_branch {
     my ($bb_ver) = @_;
