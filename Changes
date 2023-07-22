@@ -12,7 +12,8 @@ Revision history for berrybrew
     - Create build_staging_installer.bat which wraps the original Perl script.
       This is just for consistency of all the other staging build scripts being
       batch files
-    -       
+    - Rename `dev/post_release.pl` to `dev/release_post.pl`
+
 1.38    2023-07-21
     - Remove the perltricks.com link from David Farrell acknowledgement
       (Fixes #313)
