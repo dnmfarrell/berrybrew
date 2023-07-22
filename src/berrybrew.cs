@@ -133,13 +133,16 @@ namespace BerryBrew {
                 "warn_orphans",
             };
 
-            if (binPath.Contains("test")) {
+            // We need to change the configuration registry key names based on
+            // the actual environment we're operating in outside of production
+
+            if (binPath.Contains("testing")) {
                 // Console.WriteLine("IN TEST MODE");
-                registrySubKey += "-test";
+                registrySubKey += "-testing";
             }
-            else if (binPath.Contains("build")) {
+            else if (binPath.Contains("staging")) {
                 Console.WriteLine("IN DEV MODE");
-                registrySubKey += "-build";
+                registrySubKey += "-staging";
             }
 
             // set the SSL security protocol
@@ -358,7 +361,7 @@ namespace BerryBrew {
                     cleansed = CleanDev();
                     Console.WriteLine(
                         cleansed
-                        ? "\nremoved the build and test directories"
+                        ? "\nremoved the staging and testing directories"
                         : "\nan error has occured removing dev directories"
                     );
                     break;
@@ -432,54 +435,54 @@ namespace BerryBrew {
 
         private bool CleanDev() {
 
-            string buildDir = rootPath;
-            string testDir = rootPath;
+            string stagingDir = rootPath;
+            string testingDir = rootPath;
 
             if (Testing) {
-                buildDir = buildDir.Replace("\\build", "");
-                testDir = testDir.Replace("\\build", "");
-                buildDir = buildDir.Replace("\\test", "");
-                testDir = testDir.Replace("\\test", "");
+                stagingDir = stagingDir.Replace("\\staging", "");
+                testingDir = testingDir.Replace("\\staging", "");
+                stagingDir = stagingDir.Replace("\\testing", "");
+                testingDir = testingDir.Replace("\\testing", "");
             }
 
-            buildDir += @"build";
-            testDir = string.Format(@"{0}test", testDir);
+            stagingDir += @"staging";
+            testingDir = string.Format(@"{0}testing", testDir);
 
             if (Debug) {
-                Console.WriteLine("DEBUG: build dir: {0}", buildDir);
-                Console.WriteLine("DEBUG: test dir: {0}", testDir);
+                Console.WriteLine("DEBUG: staging dir: {0}", stagingDir);
+                Console.WriteLine("DEBUG: testing dir: {0}", testingDir);
             }
             try {
-                if (Directory.Exists(buildDir)){
-                    FilesystemResetAttributes(buildDir);
-                    Directory.Delete(buildDir, true);
+                if (Directory.Exists(stagingDir)){
+                    FilesystemResetAttributes(stagingDir);
+                    Directory.Delete(stagingDir, true);
                 }
             }
             catch (Exception err) {
-                Console.Error.WriteLine("\nUnable to remove the build directory");
+                Console.Error.WriteLine("\nUnable to remove the staging directory");
                 if (Debug) {
                     Console.Error.WriteLine("DEBUG: {0}", err);
                 }
             }
 
             try {
-                if (Directory.Exists(testDir)) {
-                    FilesystemResetAttributes(testDir);
-                    Directory.Delete(testDir, true);
+                if (Directory.Exists(testingDir)) {
+                    FilesystemResetAttributes(testingDir);
+                    Directory.Delete(testingDir, true);
                 }
             }
             catch (Exception err) {
-                Console.Error.WriteLine("\nUnable to remove the test directory");
+                Console.Error.WriteLine("\nUnable to remove the testing directory");
                 if (Debug) {
                     Console.Error.WriteLine("DEBUG: {0}", err);
                 }
             }
 
-            if (Directory.Exists(buildDir)) {
+            if (Directory.Exists(stagingDir)) {
                 return false;
             }
 
-            if (Directory.Exists(testDir)) {
+            if (Directory.Exists(testingDir)) {
                 return false;
             }
 
@@ -1676,12 +1679,12 @@ namespace BerryBrew {
                 }
               
 				// testing directory
-                if (Regex.Match(dir, @"\\test$").Success) {
+                if (Regex.Match(dir, @"\\testing$").Success) {
                     continue;
                 }
 
-                // dev build directory
-                if (Regex.Match(dir, @"\\build$").Success) {
+                // dev staging directory
+                if (Regex.Match(dir, @"\\staging$").Success) {
                     continue;
                 }
 
@@ -2345,7 +2348,7 @@ namespace BerryBrew {
                     spawned += ", with PID=" + process.Id;
                 }
                 Console.WriteLine(spawned);
-                // possible test syntax: (build\berrybrew use 5.12,5.12.3_32) | perl -e "@pid = grep s/^^berrybrew use.*: spawned in new command-window, with PID=(\d+)\s*$/$1/, <STDIN>; sleep(2); print $_,$/ for @pid; sleep(2); kill 9, $_ for @pid"
+                // possible test syntax: (staging\berrybrew use 5.12,5.12.3_32) | perl -e "@pid = grep s/^^berrybrew use.*: spawned in new command-window, with PID=(\d+)\s*$/$1/, <STDIN>; sleep(2); print $_,$/ for @pid; sleep(2); kill 9, $_ for @pid"
             }
             catch(Exception objException) {
                 Console.Error.WriteLine(objException);
