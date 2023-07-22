@@ -16,7 +16,7 @@ to running the [unit test](Unit%20Testing.md) suite.
 
 #### Create the new development build:
 
-- Run the `dev\build.bat` script, which compiles the binary, library and UI and
+- Run the `dev\build_staging.bat` script, which compiles the binary, library and UI and
 places the new build within a newly-created `build` directory within your
 repository directory
 
@@ -32,7 +32,7 @@ updated directives to be pushed up into the registry
 #### UI only
 
 - Run the `dev\build_ui.bat` script, which compiles the UI binary. If not done
-previously, you need to run `dev\build.bat` to build the API library first.
+previously, you need to run `dev\build_staging.bat` to build the API library first.
 
 - Run the `build\berrybrew-ui.exe` to start the UI. Note that when using the
 dev build script for the UI directly, the UI will run out of the command line
@@ -48,7 +48,7 @@ window as opposed to a GUI app so that you can see the debugging output
 
 #### Installer
 
-- Run `perl dev\build_installer.pl`. This will run the complete `dev\build.bat` script
+- Run `perl dev\build_installer.pl`. This will run the complete `dev\build_staging.bat` script
 mentioned above, and then create an installer with a minimized installation, and
 place it into the repo's `build/` directory. The installer will install into 
 the `%PROGRAM_FILES%/berrybrew/build` directory. We use the `dev\create_staging_installer.nsi`

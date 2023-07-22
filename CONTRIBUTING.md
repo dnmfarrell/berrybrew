@@ -13,7 +13,7 @@ through the fork/PR process.
 
 If Mono is installed:
 
-- Build the new `dll`, `exe` and `ui` using the `dev\build.bat` script
+- Build the new `dll`, `exe` and `ui` using the `dev\build_staging.bat` script
 - Ensure the changes work by calling `berrybrew` in the `build` directory: `build\berrybrew <cmd> [opts]`
 
 Then:
@@ -25,7 +25,7 @@ What we do as the authors/maintainers:
 
 - Create a new branch off of the current vX.XX branch, appropriately named for the changes we're making
 - Make the changes
-- Build the new `dll`, `exe`  and `ui` using the `dev\build.bat` script
+- Build the new `dll`, `exe`  and `ui` using the `dev\build_staging.bat` script
 - Ensure the changes work by calling `berrybrew` in the `build` directory: `build\berrybrew <cmd> [opts]`
 - Ensure that the appropriate documentation has been updated
 - Ensure that any functionality/API/runtime changes have explicit unit tests written

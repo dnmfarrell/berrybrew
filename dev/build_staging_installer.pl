@@ -15,7 +15,7 @@ create_installer();
 finish();
 
 sub build {
-    system("dev\\build.bat");
+    system("dev\\build_staging.bat");
 }
 sub update_installer_script {
     print "\nupdating installer script with version information\n";

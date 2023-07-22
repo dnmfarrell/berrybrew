@@ -47,7 +47,7 @@ Clean the test and development environment
  
 Create a development build
 
-- run `dev\build.bat`
+- run `dev\build_staging.bat`
  
 Clean up the Perls available lists
 
