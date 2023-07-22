@@ -1580,8 +1580,8 @@ namespace BerryBrew {
             }
 
             try  {
-                const string keyName =
-                    @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
+                const string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
+
                 using (RegistryKey pathKey = Registry.LocalMachine.OpenSubKey(keyName, true)) {
 
                     pathKey.DeleteValue("Path");
@@ -1669,25 +1669,29 @@ namespace BerryBrew {
                 if (dir == archivePath) {
                     continue;
                 }
-
-                // testing directory
+                
+				// valid perl instance directory
+				if (perlInstallations.Contains(dir)) {
+                    continue;
+                }
+              
+				// testing directory
                 if (Regex.Match(dir, @"\\test$").Success) {
                     continue;
                 }
+
                 // dev build directory
                 if (Regex.Match(dir, @"\\build$").Success) {
                     continue;
                 }
+
                 // module list directory
                 if (Regex.Match(dir, @"\\modules$").Success) {
                     continue;
                 }
+
                 // cpanm storage directory
                 if (Regex.Match(dir, @".cpanm").Success) {
-                    continue;
-                }
-                // valid perl instance directory
-                if (perlInstallations.Contains(dir)) {
                     continue;
                 }
 
@@ -1700,10 +1704,10 @@ namespace BerryBrew {
 
         private void PerlGenerateObjects(bool importIntoObject=false) {
             List<StrawberryPerl> perlObjects = new List<StrawberryPerl>();
-
-            var perls = JsonParse("perls");
-            var customPerls = JsonParse("perls_custom");
-            var virtualPerls = JsonParse("perls_virtual");
+            
+			var perls			= JsonParse("perls");
+            var customPerls 	= JsonParse("perls_custom");
+            var virtualPerls	= JsonParse("perls_virtual");
 
             foreach (var perl in perls) {
                 perlObjects.Add(
