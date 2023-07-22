@@ -15,6 +15,7 @@ my $new_version = calculate_new_version();
 
 checkout_master_branch();
 pull_master_branch();
+`git checkout release_cycle`;
 create_version_branch($new_version);
 changes_bump($new_version);
 update_version($new_version);
@@ -26,11 +27,12 @@ sub calculate_new_version {
     return sprintf("%.2f", $version_current + '0.01');
 }
 sub checkout_master_branch {
-    my $output = capture_merged {
-        `git checkout master`;
-    };
-
-    #print $output;
+#    my $output = capture_merged {
+#        `git checkout master`;
+#    };
+#
+    my $output = `git checkout master`;
+    print ">$output<\n";
 
     if ($output !~ /Switched to branch 'master'/) {
         die "Couldn't switch to master branch";
@@ -56,6 +58,7 @@ sub create_version_branch {
 sub pull_master_branch {
     my $output = `git pull`;
 
+    print ">$output<\n";
     if ($output !~ /origin\/master/ || $output !~ /Already up to date/) {
         die "Coudn't pull from master branch" ;
     }
