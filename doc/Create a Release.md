@@ -37,7 +37,7 @@ necessary
     - Creates a Markdown version of the Changes file
     
 - If you had any custom configuration files in place before running the
-`dev\release.pl` script, run `perl dev\post_release.pl` to put them back to
+`dev\release.pl` script, run `perl dev\release_post.pl` to put them back to
 their proper location
 
 - On a clean platform, run the self-extracting installer from the `download/`
