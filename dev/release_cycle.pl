@@ -7,11 +7,9 @@ use version;
 
 # See "doc/Create a Release.md" for details
 
+use Capture::Tiny qw(:all);
 use Data::Dumper;
 use Dist::Mgr qw(changes_bump);
-use Hook::Output::Tiny;
-
-my $trap = Hook::Output::Tiny->new;
 
 my $new_version = calculate_new_version();
 
@@ -28,17 +26,13 @@ sub calculate_new_version {
     return sprintf("%.2f", $version_current + '0.01');
 }
 sub checkout_master_branch {
-    my @warnings;
-
-    local $SIG{__WARN__} = sub {
-        push @warnings, shift;
+    my $output = capture_merged {
+        `git checkout master`;
     };
 
-    `git checkout master`;
+    print $output;
 
-    print Dumper \@warnings;
-
-    if (! grep { $_ =~ /Switched to branch 'master'/ } @warnings) {
+    if ($output !~ /Switched to branch 'master'/) {
         die "Couldn't switch to master branch";
     }
 }
