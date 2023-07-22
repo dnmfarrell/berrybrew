@@ -1,6 +1,8 @@
 Revision history for berrybrew
 
 1.39 UNREL
+    - Code cleanup, minor reorganization for more efficient short-circuits
+    - Rename "See Also" in the README to "Other Documentation"
 
 1.38    2023-07-21
     - Remove the perltricks.com link from David Farrell acknowledgement

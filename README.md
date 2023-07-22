@@ -17,7 +17,8 @@ Use the **bb** command as a short hand name for **berrybrew**.
 There is extensive documentation available for the [berrybrew](doc/berrybrew.md)
 application, as well as the [Berrybrew API](doc/Berrybrew%20API.md).
 
-See [SEE ALSO](#see-also) for the  full list of documentation.
+See [Other Documentation](#other-documentation) for the  full list of
+documentation.
 
 ## Table of Contents
 
@@ -210,7 +211,7 @@ line:
 
     berrybrew debug <command> [options] 
 
-## SEE ALSO
+## Other Documentation 
 
 - [berrybrew](doc/berrybrew.md)
  Full documentation for the application
