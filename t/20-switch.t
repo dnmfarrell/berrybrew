@@ -13,9 +13,9 @@ use Win32::TieRegistry;
 
 BB::check_test_platform();
 
-$ENV{BERRYBREW_ENV} = "test";
+$ENV{BERRYBREW_ENV} = "testing";
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
 
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
 my $path = $Registry->{$path_key};
@@ -45,7 +45,7 @@ while(@installed < 2) {
     like $o, qr/Switched to Perl version $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
-    like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";
+    like $path, qr/C:\\berrybrew\\testing\\$ver/, "PATH set ok for $ver";
 }
 
 {
@@ -55,7 +55,7 @@ while(@installed < 2) {
     like $o, qr/Switched to Perl version $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
-    like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";
+    like $path, qr/C:\\berrybrew\\testing\\$ver/, "PATH set ok for $ver";
 }
 
 {
@@ -63,7 +63,7 @@ while(@installed < 2) {
     like $o, qr/Switched to Perl version 5\.16\.3_64/, "switch to 5.16.3_64 without suffix ok";
 
     $path = $Registry->{$path_key};
-    like $path, qr/C:\\berrybrew\\test\\5\.16\.3_64/, "PATH set ok for 5.16.3_64";
+    like $path, qr/C:\\berrybrew\\testing\\5\.16\.3_64/, "PATH set ok for 5.16.3_64";
 
     $o = `$c remove 5.16.3`;
     like $o, qr/Successfully removed.*5\.16\.3_64/, "removed 5.16.3_64 without suffix ok";

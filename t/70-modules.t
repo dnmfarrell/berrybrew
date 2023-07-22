@@ -10,11 +10,11 @@ use Win32::TieRegistry;
 
 BB::check_test_platform();
 
-$ENV{BERRYBREW_ENV} = "test";
+$ENV{BERRYBREW_ENV} = "testing";
 
-my $operation_dir = 'test';
+my $operation_dir = 'testing';
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
 
 my @installed = BB::get_installed;
 
@@ -73,7 +73,7 @@ my $path = $Registry->{$path_key};
     if ($o =~ /(C:.*?)\s/) {
         my $file = $1;
         is -e $file, 1, "module list file created ok";
-        like $file, qr/^C:\\berrybrew\\test\\modules\\5\.16\.3_64$/, "filename for module list ok";
+        like $file, qr/^C:\\berrybrew\\testing\\modules\\5\.16\.3_64$/, "filename for module list ok";
 
         open my $fh, '<', $file or die "can't open the $file module list file!: $!";
         my %file_hash;
@@ -99,7 +99,7 @@ my $path = $Registry->{$path_key};
     like $o, qr/berrybrew perl disabled/, "off ok";
 
     my $path = $Registry->{$path_key};
-    unlike $path, qr/^C:\\berrybrew\\test/, "PATH set ok for 'off'";
+    unlike $path, qr/^C:\\berrybrew\\testing/, "PATH set ok for 'off'";
     unlike $path, qr/^C:\\berrybrew\\build/, "PATH set ok for 'off'";
 }
 

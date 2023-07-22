@@ -34,8 +34,8 @@ tests need to update the `PATH` environment variable.
 
 ## Running the tests
 
-**NOTE**: We create and use a `HKLM\Software\berrybrew-test` registry key to store
-our configuration options when running unit tests.
+**NOTE**: We create and use a `HKLM\Software\berrybrew-testing` registry key to
+store our configuration options when running unit tests.
 
 **IMPORTANT**: It is highly recommended to close all command line windows and open a
 new one before starting the testing, as changes to the `PATH` environment
@@ -92,8 +92,11 @@ Execute one of the following batch calls to run all tests
 
 ### Running Individual Tests
 
-After running `t\test.bat` (or `dev\build_tests.bat` which allows you to build
-the test platform without first running tests) (to ensure `berrybrew is built`, and the test environment is initialized), you can go back and re-run individual tests (for example, for digging into specific failing tests without spending the time of the whole test suite).
+After running `t\test.bat` (or `dev\build_testing.bat` which allows you to build
+the test platform without first running tests) (to ensure `berrybrew is built`,
+and the test environment is initialized), you can go back and re-run individual
+tests (for example, for digging into specific failing tests without spending the
+time of the whole test suite).
 
 - You may run without test harness: it's more verbose while running (`Test::More::note()` messages in the .t file _will_ print), but doesn't give the end-of-file summary:
 
@@ -139,9 +142,9 @@ the test platform without first running tests) (to ensure `berrybrew is built`, 
 This can be handy for certain cleanup routines (for example, if test
 cleanup fails and the test env gets removed).
 
-    dev\build_tests.bat
+    dev\build_testing.bat
     
-The test binary now resides at `test\berrybrew.exe`.
+The test binary now resides at `testing\berrybrew.exe`.
            
 ## Environment Variables
 

@@ -8,16 +8,16 @@ use Data::Dumper;
 use IPC::Run3;
 use Test::More;
 
-$ENV{BERRYBREW_ENV} = "test";
+$ENV{BERRYBREW_ENV} = "testing";
 
-my $c = exists $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
-my $test_repo = exists $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/$ENV{BERRYBREW_ENV}" : 'c:/repos/berrybrew/test';
+my $c = exists $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
+my $test_repo = exists $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/$ENV{BERRYBREW_ENV}" : 'c:/repos/berrybrew/testing';
 
 my %error_codes = error_codes();
 
 sub check_test_platform {
-    if (! -e $test_repo && ! -e 'c:/repos/berrybrew/test') {
-        die "\nCan't continue, test platform not set up... run dev/build_tests.bat\n";
+    if (! -e $test_repo && ! -e 'c:/repos/berrybrew/testing') {
+        die "\nCan't continue, testing platform not set up... run dev/build_testing.bat\n";
     }
     if ($ENV{PATH} =~ /berrybrew/) {
         die "\nCan't continue, 'berrybrew' is in your path. Please run 'off' on the configured berrybrew instance\n";

@@ -5,22 +5,22 @@ use File::Path qw(rmtree);
 use Test::More;
 use Win32::TieRegistry;
 
-$ENV{BERRYBREW_ENV} = "test";
+$ENV{BERRYBREW_ENV} = "testing";
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
 
-my $regkey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\berrybrew-test\\";
-my $test_dir = 'c:/berrybrew/test';
-my $build_dir = 'c:/berrybrew/build';
+my $regkey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\berrybrew-testing\\";
+my $test_dir = 'c:/berrybrew/testing';
+my $staging_dir = 'c:/berrybrew/staging';
 
 my $o = `$c test clean dev`;
 
-like $o, qr/removed the build and test directories/, "clean dev ok";
+like $o, qr/removed the staging and test directories/, "clean dev ok";
 isnt -e $test_dir, 1, "clean dev: test dir gone";
-isnt -e $build_dir, 1, "clean dev: build dir gone";
+isnt -e $staging_dir, 1, "clean dev: staging dir gone";
 
-rmtree "$ENV{BBTEST_REPO}/test" or die $!;
-isnt -e "$ENV{BBTEST_REPO}/test", 1, "test build directory removed ok";
+rmtree "$ENV{BBTEST_REPO}/testing" or die $!;
+isnt -e "$ENV{BBTEST_REPO}/testing", 1, "testing directory removed ok";
 
 # clean registry
 
