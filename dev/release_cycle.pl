@@ -60,7 +60,7 @@ sub pull_master_branch {
     };
 
     print ">$output<\n";
-    if ($output !~ /origin\/master/ || $output !~ /Already up to date/) {
+    if ($output !~ /origin\/master/ && $output !~ /Already up to date/) {
         warn "Couldn't pull from master branch" ;
     }
 }
