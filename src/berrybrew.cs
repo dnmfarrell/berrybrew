@@ -227,11 +227,9 @@ namespace BerryBrew {
             List<string> availablePerls = new List<string>();
 
             foreach (StrawberryPerl perl in _perls.Values) {
-
                 if (! allPerls && ! perl.Newest) {
                     continue;
                 }
-
                 if (PerlIsInstalled(perl)) {
                     continue;
                 }
@@ -738,8 +736,8 @@ namespace BerryBrew {
             startInfo.FileName = "cmd.exe";
             List<String> patchedParams = new List<String>();
 
-            foreach(String param in parameters) {
-                if( param.Contains(" ")) {
+            foreach (String param in parameters) {
+                if ( param.Contains(" ")) {
                      patchedParams.Add("\"" + param + "\"");
                 }
                 else {
@@ -755,12 +753,12 @@ namespace BerryBrew {
             process.Start();
 
             process.OutputDataReceived += (proc, line)=>{
-                if(line.Data != null) {
+                if (line.Data != null) {
                     Console.Out.WriteLine(line.Data);
                 }
             };
             process.ErrorDataReceived += (proc, line)=>{
-                if(line.Data != null) {
+                if (line.Data != null) {
                     Console.Error.WriteLine(line.Data);
                 }
             };
@@ -1582,8 +1580,8 @@ namespace BerryBrew {
             }
 
             try  {
-                const string keyName =
-                    @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
+                const string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
+
                 using (RegistryKey pathKey = Registry.LocalMachine.OpenSubKey(keyName, true)) {
 
                     pathKey.DeleteValue("Path");
@@ -1671,25 +1669,29 @@ namespace BerryBrew {
                 if (dir == archivePath) {
                     continue;
                 }
-
-                // testing directory
+                
+				// valid perl instance directory
+				if (perlInstallations.Contains(dir)) {
+                    continue;
+                }
+              
+				// testing directory
                 if (Regex.Match(dir, @"\\test$").Success) {
                     continue;
                 }
+
                 // dev build directory
                 if (Regex.Match(dir, @"\\build$").Success) {
                     continue;
                 }
+
                 // module list directory
                 if (Regex.Match(dir, @"\\modules$").Success) {
                     continue;
                 }
+
                 // cpanm storage directory
                 if (Regex.Match(dir, @".cpanm").Success) {
-                    continue;
-                }
-                // valid perl instance directory
-                if (perlInstallations.Contains(dir)) {
                     continue;
                 }
 
@@ -1702,10 +1704,10 @@ namespace BerryBrew {
 
         private void PerlGenerateObjects(bool importIntoObject=false) {
             List<StrawberryPerl> perlObjects = new List<StrawberryPerl>();
-
-            var perls = JsonParse("perls");
-            var customPerls = JsonParse("perls_custom");
-            var virtualPerls = JsonParse("perls_virtual");
+            
+			var perls			= JsonParse("perls");
+            var customPerls 	= JsonParse("perls_custom");
+            var virtualPerls	= JsonParse("perls_virtual");
 
             foreach (var perl in perls) {
                 perlObjects.Add(
@@ -1887,12 +1889,12 @@ namespace BerryBrew {
 
             Dictionary<string, object> data = new Dictionary<string, object>();
 
-            data["name"] = perlName;
-            data["custom"] = perlBase.Custom;
-            data["file"] = perlBase.File;
-            data["url"] = perlBase.Url;
-            data["ver"] = perlBase.Version;
-            data["csum"] = perlBase.Sha1Checksum;
+            data["name"] 	= perlName;
+            data["custom"] 	= perlBase.Custom;
+            data["file"] 	= perlBase.File;
+            data["url"] 	= perlBase.Url;
+            data["ver"] 	= perlBase.Version;
+            data["csum"] 	= perlBase.Sha1Checksum;
 
             List<Dictionary<string, object>> perlList = new List<Dictionary<string, object>> {data};
 
@@ -1950,16 +1952,16 @@ namespace BerryBrew {
 
             Dictionary<string, object> data = new Dictionary<string, object>();
 
-            data["name"] = perlName;
-            data["custom"] = false;
-            data["virtual"] = true;
-            data["file"] = "";
-            data["url"] = "";
-            data["ver"] = "";
-            data["csum"] = "";
-            data["perl_path"] = perlPath;
-            data["lib_path"] = libPath;
-            data["aux_path"] = auxPath;
+            data["name"] 		= perlName;
+            data["custom"] 		= false;
+            data["virtual"] 	= true;
+            data["file"] 		= "";
+            data["url"] 		= "";
+            data["ver"] 		= "";
+            data["csum"] 		= "";
+            data["perl_path"]	= perlPath;
+            data["lib_path"] 	= libPath;
+            data["aux_path"] 	= auxPath;
 
             List<Dictionary<string, object>> virtualPerlList = new List<Dictionary<string, object>> {data};
 
