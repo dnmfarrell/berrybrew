@@ -31,7 +31,7 @@ documentation.
 - [Configure Perl Instance Directory](#configure-root-directory)
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
-- [Documentation](#see-also)
+- [Documentation](#other-documentation)
 - [Developed Using](#developed-using)
 - [Caveats](#caveats)
 - [License](#license)
