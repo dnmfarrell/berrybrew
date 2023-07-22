@@ -5,7 +5,11 @@ Revision history for berrybrew
     - Rename "See Also" in the README to "Other Documentation"
     - Release script (dev/release.pl) now updates Copyright year in
       `CONTRIBUTING.md`
-
+    - Completely renamed the various environments. 'build' is now 'staging', and
+      'test' is now 'testing'. Refactored/renamed all scripts, registry and
+      config elements, all references in documentation, test files etc. (Closes
+      #319)
+      
 1.38    2023-07-21
     - Remove the perltricks.com link from David Farrell acknowledgement
       (Fixes #313)
