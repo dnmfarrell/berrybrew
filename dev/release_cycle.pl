@@ -9,6 +9,9 @@ use version;
 
 use Data::Dumper;
 use Dist::Mgr qw(changes_bump);
+use Hook::Output::Tiny;
+
+my $trap = Hook::Output::Tiny->new;
 
 my $new_version = calculate_new_version();
 
@@ -25,7 +28,10 @@ sub calculate_new_version {
     return sprintf("%.2f", $version_current + '0.01');
 }
 sub checkout_master_branch {
+    #$trap->hook('stderr');
     my $output = `git checkout master`;
+
+    print ">$output<\n";
 
     if ($output !~ /Switched to branch 'master'/) {
         die "Couldn't switch to master branch";
