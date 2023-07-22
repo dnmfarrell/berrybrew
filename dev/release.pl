@@ -21,9 +21,9 @@ if (! grep { -x "$_/makensis.exe" } split /;/, $ENV{PATH}){
     die "makensis.exe not found, check your PATH. Can't build installer...";
 }
 
-my $data_dir = 'data';
-my $bak_dir = 'bak';
-my $defaults_dir = 'dev/data';
+my $data_dir        = 'data';
+my $bak_dir         = 'bak';
+my $defaults_dir    = 'dev/data';
 
 backup_configs();
 compile();
