@@ -1887,12 +1887,12 @@ namespace BerryBrew {
 
             Dictionary<string, object> data = new Dictionary<string, object>();
 
-            data["name"] = perlName;
-            data["custom"] = perlBase.Custom;
-            data["file"] = perlBase.File;
-            data["url"] = perlBase.Url;
-            data["ver"] = perlBase.Version;
-            data["csum"] = perlBase.Sha1Checksum;
+            data["name"] 	= perlName;
+            data["custom"] 	= perlBase.Custom;
+            data["file"] 	= perlBase.File;
+            data["url"] 	= perlBase.Url;
+            data["ver"] 	= perlBase.Version;
+            data["csum"] 	= perlBase.Sha1Checksum;
 
             List<Dictionary<string, object>> perlList = new List<Dictionary<string, object>> {data};
 
@@ -1950,16 +1950,16 @@ namespace BerryBrew {
 
             Dictionary<string, object> data = new Dictionary<string, object>();
 
-            data["name"] = perlName;
-            data["custom"] = false;
-            data["virtual"] = true;
-            data["file"] = "";
-            data["url"] = "";
-            data["ver"] = "";
-            data["csum"] = "";
-            data["perl_path"] = perlPath;
-            data["lib_path"] = libPath;
-            data["aux_path"] = auxPath;
+            data["name"] 		= perlName;
+            data["custom"] 		= false;
+            data["virtual"] 	= true;
+            data["file"] 		= "";
+            data["url"] 		= "";
+            data["ver"] 		= "";
+            data["csum"] 		= "";
+            data["perl_path"]	= perlPath;
+            data["lib_path"] 	= libPath;
+            data["aux_path"] 	= auxPath;
 
             List<Dictionary<string, object>> virtualPerlList = new List<Dictionary<string, object>> {data};
 
