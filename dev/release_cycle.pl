@@ -41,7 +41,7 @@ sub checkout_master_branch {
     $trap->unhook;
 
     print ">$_<\n" for $trap->stderr;
-    if ($output !~ /Switched to branch 'master'/) {
+    if (! grep { $_ =~ /Switched to branch 'master'/ } $trap->stderr) {
         warn "Couldn't switch to master branch";
     }
 }
