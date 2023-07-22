@@ -5,6 +5,8 @@ use version;
 # This script cycles version numbers and the Changes file after a
 # release has been performed, and prepares the next version branch
 
+# See "doc/Create a Release.md" for details
+
 use Data::Dumper;
 use Dist::Mgr qw(changes_bump);
 
