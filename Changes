@@ -19,7 +19,7 @@ Revision history for berrybrew
     - Fix issue where `berrybrew use` was exporting wrong module list. We now
       don't allow exporting modules in a temp instance (by using
       BERRYBREW_TEMP_INSTANCE env var) (Fixes #312)
-    - dev\release.pl release script now updates Copyright year in license file
+    - dev\release.pl release script now updates Copyright year in LICENSE file
       (closes #314)
 
 1.37    2023-07-20
