@@ -10,7 +10,7 @@ use JSON::PP;
 use Test::More;
 
 use constant {
-    INSTALLER_SCRIPT => 'dev/create_installer.nsi',
+    INSTALLER_SCRIPT => 'dev/create_prod_installer.nsi',
     EXE_FILE         => 'download/berrybrewInstaller.exe',
     ZIP_FILE         => 'download/berrybrew.zip',
 };
@@ -32,7 +32,7 @@ changes_date();
 create_changes();
 create_zip();
 update_installer_script();
-create_installer();
+create_prod_installer();
 update_readme();
 check_readme();
 update_license();
@@ -226,7 +226,7 @@ sub create_changes {
         print $changes_md_wfh $_;
     }
 }
-sub create_installer {
+sub create_prod_installer {
     system("makensis", INSTALLER_SCRIPT);
 }
 sub finish {
