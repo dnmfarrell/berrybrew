@@ -27,7 +27,7 @@ sub calculate_new_version {
 sub checkout_master_branch {
     my $output = `git checkout master`;
 
-    if ($output !~ /switched to branch 'master'/) {
+    if ($output !~ /Switched to branch 'master'/) {
         die "Couldn't switch to master branch";
     }
 }
