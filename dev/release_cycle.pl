@@ -10,16 +10,14 @@ use version;
 use Capture::Tiny qw(:all);
 use Data::Dumper;
 use Dist::Mgr qw(changes_bump);
-use Hook::Output::Tiny;
-
-my $trap = Hook::Output::Tiny->new;
 
 my $new_version = calculate_new_version();
 
 checkout_master_branch();
+pull_master_branch();
+
 `git checkout release_cycle`; exit;
 
-pull_master_branch();
 create_version_branch($new_version);
 changes_bump($new_version);
 update_version($new_version);
@@ -36,7 +34,7 @@ sub checkout_master_branch {
     };
 
     if ($output !~ /Switched to branch 'master'/) {
-        warn "Couldn't switch to master branch";
+        die "Couldn't switch to master branch";
     }
 }
 sub commit_version_branch {
@@ -57,9 +55,10 @@ sub create_version_branch {
     }
 }
 sub pull_master_branch {
-    my $output = `git pull`;
+    my $output = capture_merged {
+        `git pull`;
+    };
 
-    print ">$output<\n";
     if ($output !~ /origin\/master/ || $output !~ /Already up to date/) {
         die "Coudn't pull from master branch" ;
     }
