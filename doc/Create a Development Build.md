@@ -44,7 +44,7 @@ window as opposed to a GUI app so that you can see the debugging output
 
 #### API only
 
-- Run the `dev\build_api.bat` script
+- Run the `dev\build_staging_api.bat` script
 
 #### Installer
 
