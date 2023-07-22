@@ -59,7 +59,7 @@ sub pull_master_branch {
         `git pull`;
     };
 
-    print "$output<\n";
+    print ">$output<\n";
     if ($output !~ /origin\/master/ || $output !~ /Already up to date/) {
         warn "Couldn't pull from master branch" ;
     }
