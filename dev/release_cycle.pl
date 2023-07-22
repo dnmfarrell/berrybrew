@@ -55,11 +55,8 @@ sub create_version_branch {
     }
 }
 sub pull_master_branch {
-    my $x = `git pull`;
-    print "-----$x----\n";
-
     my $output = capture_merged {
-        `git pull`;
+        system('git pull');
     };
 
     print ">$output<\n";
