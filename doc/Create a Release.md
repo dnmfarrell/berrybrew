@@ -1,5 +1,8 @@
 # Sections
 
+The first two sections deal with publishing a release, then staging things up
+for the next development cycle. Follow each section, in order very carefully.
+
 - [Create and Publish a New Release](#create-and-publish-a-new-release)
 - [Prepare a Branch for Next Release](#prepare-a-branch-for-the-next-release-cycle)
 - [Updating the Next Release](#updates-for-the-next-release)
