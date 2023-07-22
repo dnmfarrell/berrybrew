@@ -31,7 +31,10 @@ sub checkout_master_branch {
     $trap->hook('stderr');
     `git checkout master`;
     $trap->unhook;
+    my @stderr = $trap->stderr;
 
+    print Dumper \@stderr;
+    exit;
     if (! grep { $_ =~ /Switched to branch 'master'/ } $trap->stderr) {
         die "Couldn't switch to master branch";
     }
