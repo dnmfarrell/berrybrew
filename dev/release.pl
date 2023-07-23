@@ -159,7 +159,7 @@ sub compile {
         "src/messaging.cs " .
         "-lib:staging " .
         "-t:library " .
-        "-out:staging/bbmessaging.dll";
+        "-out:bin/bbmessaging.dll";
    
     system $msg_build;
     
@@ -183,8 +183,8 @@ sub compile {
         "mcs " .
         "src/bbconsole.cs " .
         "-lib:bin  " .
-        "-r:bbapi.dll  " .
         "-out:bin/berrybrew.exe " .
+        "-r:bbapi.dll  " .
         "-win32icon:inc/berrybrew.ico";
 
     system $bin_build;
@@ -195,14 +195,14 @@ sub compile {
         "mcs " .
         "src/berrybrew-ui.cs " .
         "-lib:bin " .
+        "-t:winexe " .
+        "-out:bin/berrybrew-ui.exe " .
         "-r:bbapi.dll " .
         "-r:Microsoft.VisualBasic.dll " .
         "-r:System.Drawing.dll " .
         "-r:System.Windows.Forms.dll " .
         "-win32icon:inc/berrybrew.ico " .
-        "-t:winexe " .
-        "-win32manifest:berrybrew.manifest " .
-        "-out:bin/berrybrew-ui.exe ";        
+        "-win32manifest:berrybrew.manifest";
 
     system $ui_build;        
     
