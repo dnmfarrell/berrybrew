@@ -1,3 +1,4 @@
+using BerryBrew.Messaging;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -2468,41 +2469,6 @@ namespace BerryBrew {
 
         public string Version() {
             return @"1.39";
-        }
-    }
-
-    public class Message {
-
-        private readonly OrderedDictionary _msgMap = new OrderedDictionary();
-
-        public string Get(string label) {
-            return _msgMap[label].ToString();
-        }
-
-        public void Add(dynamic json) {
-            string content = null;
-
-            foreach (string line in json.content) {
-                content += String.Format("{0}\n", line);
-            }
-
-            _msgMap.Add(json.label.ToString(), content);
-        }
-
-        public void Print(string label) {
-            string msg = Get(label);
-            Console.WriteLine(msg);
-        }
-
-        public void Say(string label) {
-            string msg = Get(label);
-            Console.WriteLine(msg);
-            Environment.Exit(0);
-        }
-
-        public void Error(string label) {
-            string msg = Get(label);
-            Console.Error.WriteLine(msg);
         }
     }
 

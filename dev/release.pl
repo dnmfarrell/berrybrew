@@ -152,15 +152,28 @@ sub check_readme {
     }        
 }
 sub compile {
-    print "\ncompiling the berrybrew API...\n";
+    print "\ncompiling berrybrew Messaging dll...\n";
+
+    my $msg_build = "" .
+        "mcs " .
+        "src/messaging.cs " .
+        "-lib:staging " .
+        "-t:library " .
+        "-out:staging/bbmessaging.dll";
+   
+    system $msg_build;
+    
+    print "\ncompiling the berrybrew core API dll...\n";
 
     my $api_build = "" .
         "mcs " .
         "src/berrybrew.cs " .
         "-lib:bin " .
         "-t:library " .
-        "-r:Newtonsoft.Json.dll,ICSharpCode.SharpZipLib.dll " .
-        "-out:bin/bbapi.dll";
+        "-out:bin/bbapi.dll " .
+        "-r:bbmessaging.dll " .
+        "-r:Newtonsoft.Json.dll " .
+        "-r:ICSharpCode.SharpZipLib.dll";
 
     system $api_build;
 
