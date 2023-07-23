@@ -222,18 +222,21 @@ line:
 - [Configuration](doc/Configuration.md)
  Guide to various configuration files and options
 
+- [Add a New Class](doc/Add%20a%20New%20Class.md) 
+ Explains the process of creating and adding a new class
+ 
 - [Compile Your Own Installation](doc/Compile%20Your%20Own.md)
  Guide to compiling `berrybrew` from source
 
 - [Create a Development Build](doc/Create%20a%20Development%20Build.md)
  Guide to creating a development build for testing new functionality
 
+- [Create and Publish a Release](doc/Create%20a%20Release.md)
+  Guide to creating a release, publishing it as a production install, and
+  setting up the next release branch
+
 - [Unit Testing](doc/Unit%20Testing.md)
  Documentation for unit testing `berrybrew`
- 
-- [Create and Publish a Release](doc/Create%20a%20Release.md)
- Guide to creating a release, publishing it as a production install, and
- setting up the next release branch
 
 - [Update releases.json](doc/Update%20Releases%20JSON.md)
  For the time being, Strawberry Perl is using a Github hosted `releases.json`
