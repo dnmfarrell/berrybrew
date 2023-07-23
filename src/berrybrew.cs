@@ -115,9 +115,9 @@ namespace BerryBrew {
 
             // Initialize configuration
 
-            installPath = Regex.Replace(binPath, @"bin", "");
-            configPath = installPath + @"/data/";
-            registrySubKey = @"SOFTWARE\berrybrew";
+            installPath 	= Regex.Replace(binPath, @"bin", "");
+            configPath 		= installPath + @"/data/";
+            registrySubKey 	= @"SOFTWARE\berrybrew";
 
             validOptions = new List<string>{
                 "debug",
