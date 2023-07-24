@@ -18,6 +18,7 @@ call mcs^
     src\berrybrew.cs^
     src\pathoperations.cs^
     src\perlinstance.cs^
+    src\perloperations.cs^
     src\messaging.cs^
     -lib:staging^
     -t:library^
@@ -38,9 +39,11 @@ echo "compiling UI..."
 
 call mcs^
     src\berrybrew-ui.cs^
+    src\perloperations.cs^
     -lib:staging^
     -out:staging/berrybrew-ui.exe^
     -r:bbapi.dll^
+    -r:Newtonsoft.Json.dll^
     -r:System.Drawing^
     -r:System.Windows.Forms^
     -r:Microsoft.VisualBasic.dll^

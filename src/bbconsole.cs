@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using BerryBrew;
 using BerryBrew.Messaging;
+using BerryBrew.PerlOperations;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -96,7 +97,7 @@ namespace berrybrew {
                     break;
 
                 case "currentperl":
-                    Console.WriteLine(bb.PerlInUse().Name);
+                    Console.WriteLine(bb.PerlOp.PerlInUse().Name);
                     bb.Exit(0);
                     break;
 
@@ -198,7 +199,7 @@ namespace berrybrew {
                     break;
 
                 case "fetch":
-                    bb.PerlUpdateAvailableList();
+                    bb.PerlOp.PerlUpdateAvailableList();
                     bb.Exit(0);
                     break;
 
@@ -373,12 +374,12 @@ namespace berrybrew {
                         bb.Exit(0);
                     }
 
-                    bb.PerlRegisterCustomInstall(args[1]);
+                    bb.PerlOp.PerlRegisterCustomInstall(args[1]);
                     bb.Exit(0);
                     break;
 
                 case "register-orphans":
-                    bb.PerlUpdateAvailableListOrphans();
+                    bb.PerlOp.PerlUpdateAvailableListOrphans();
                     bb.Exit(0);
                     break;
 
@@ -388,7 +389,7 @@ namespace berrybrew {
                         bb.Exit(0);
                     }
 
-                    bb.PerlRemove(args[1]);
+                    bb.PerlOp.PerlRemove(args[1]);
                     bb.Exit(0);
                     break;
 
@@ -458,7 +459,7 @@ namespace berrybrew {
                         bb.Message.Print("virtual_command_required");
                         bb.Exit(0);
                     }
-                    bb.PerlRegisterVirtualInstall(args[1]);
+                    bb.PerlOp.PerlRegisterVirtualInstall(args[1]);
                     bb.Exit(0);
                     break;
 

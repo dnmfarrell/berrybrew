@@ -44,7 +44,7 @@ namespace BerryBrew.PathOperations {
             PathSet(newPath);
         }
 
-        internal static string PathGet() {
+        public static string PathGet() {
             const string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment\";
             string path = null;
 
@@ -68,7 +68,7 @@ namespace BerryBrew.PathOperations {
             return path;
         }
 
-        internal void PathRemoveBerrybrew(string binPath) {
+        public void PathRemoveBerrybrew(string binPath) {
             string path = PathGet();
             List<string> paths = path.Split(new char[] {';'}).ToList();
             List<string> updatedPaths = new List<string>();
@@ -82,7 +82,7 @@ namespace BerryBrew.PathOperations {
             PathSet(updatedPaths);
         }
 
-        internal void PathRemovePerl(OrderedDictionary _perls, bool process=true) {
+        public void PathRemovePerl(OrderedDictionary _perls, bool process=true) {
             string path = PathGet();
 
             if (path == null) {

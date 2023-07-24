@@ -157,7 +157,7 @@ public class BBUI : System.Windows.Forms.Form {
 
     private void openPerlButton_Click(object Sender, EventArgs e) {
         // MessageBox.Show(((Button)Sender).Name + " was pressed!");
-        string perlInUse = bb.PerlInUse().Name;
+        string perlInUse = bb.PerlOp.PerlInUse().Name;
 
         if (perlInUse == null) {
             System.Windows.Forms.MessageBox.Show("No Perl currently in use!");
@@ -184,7 +184,7 @@ public class BBUI : System.Windows.Forms.Form {
     }
 
     private void offPerlButton_Click(object Sender, EventArgs e) {
-        string perlInUse = bb.PerlInUse().Name;
+        string perlInUse = bb.PerlOp.PerlInUse().Name;
 
         if (perlInUse == null) {
             System.Windows.Forms.MessageBox.Show("No Perl currently in use!");
@@ -200,7 +200,7 @@ public class BBUI : System.Windows.Forms.Form {
     private void CurrentPerlLabel_Redraw() {
          this.currentPerlLabel.Text = "Current Perl: ";
 
-         string perlInUse = bb.PerlInUse().Name;
+         string perlInUse = bb.PerlOp.PerlInUse().Name;
 
          if (perlInUse == null) {
              perlInUse = "Not configured";
@@ -228,7 +228,7 @@ public class BBUI : System.Windows.Forms.Form {
     }
     private void fileAssocCheckedChanged(object Sender, EventArgs e) {
         if (fileAssocCheckBox.Checked) {
-            if (String.IsNullOrEmpty(bb.PerlInUse().Name)) {
+            if (String.IsNullOrEmpty(bb.PerlOp.PerlInUse().Name)) {
                 System.Windows.Forms.MessageBox.Show("No berrybrew Perl in use. Can't set file association.");
                 fileAssocCheckBox.Checked = false;
             }
@@ -438,7 +438,7 @@ public class BBUI : System.Windows.Forms.Form {
         }
 
         string removePerl = perlRemoveSelect.Text;
-        bb.PerlRemove(removePerl);
+        bb.PerlOp.PerlRemove(removePerl);
         DrawComponents();
     }
 
@@ -489,7 +489,7 @@ public class BBUI : System.Windows.Forms.Form {
     }
 
     private void fetchPerlButton_Click(object Sender, EventArgs e) {
-        bb.PerlUpdateAvailableList();
+        bb.PerlOp.PerlUpdateAvailableList();
         DrawComponents();
         MessageBox.Show("Successfully updated the list of available Perls.", "berrybrew fetch");
     }
@@ -529,9 +529,9 @@ public class BBUI : System.Windows.Forms.Form {
         this.perlSwitchSelect.Size = new System.Drawing.Size(121, 30);
         this.perlSwitchSelect.TabIndex = 0;
 
-        string perlInUse = bb.PerlInUse().Name;
+        string perlInUse = bb.PerlOp.PerlInUse().Name;
 
-        foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+        foreach (StrawberryPerl perl in bb.PerlOp.PerlsInstalled()) {
             if (perl.Name == perlInUse)
                 continue;
 
@@ -542,9 +542,9 @@ public class BBUI : System.Windows.Forms.Form {
     private void PerlSwitchSelect_Redraw() {
         perlSwitchSelect.Items.Clear();
 
-        string perlInUse = bb.PerlInUse().Name;
+        string perlInUse = bb.PerlOp.PerlInUse().Name;
 
-        foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+        foreach (StrawberryPerl perl in bb.PerlOp.PerlsInstalled()) {
             if (perl.Name == perlInUse)
                 continue;
 
@@ -564,7 +564,7 @@ public class BBUI : System.Windows.Forms.Form {
         this.perlUseSelect.Size = new System.Drawing.Size(121, 30);
         this.perlUseSelect.TabIndex = 0;
 
-        foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+        foreach (StrawberryPerl perl in bb.PerlOp.PerlsInstalled()) {
             this.perlUseSelect.Items.Add(perl.Name );
         }
     }
@@ -572,7 +572,7 @@ public class BBUI : System.Windows.Forms.Form {
     private void PerlUseSelect_Redraw() {
         perlUseSelect.Items.Clear();
 
-        foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+        foreach (StrawberryPerl perl in bb.PerlOp.PerlsInstalled()) {
             this.perlUseSelect.Items.Add(perl.Name );
         }
          perlUseSelect.SelectedIndex = -1;
@@ -588,7 +588,7 @@ public class BBUI : System.Windows.Forms.Form {
         this.perlRemoveSelect.Size = new System.Drawing.Size(121, 30);
         this.perlRemoveSelect.TabIndex = 0;
 
-        foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+        foreach (StrawberryPerl perl in bb.PerlOp.PerlsInstalled()) {
             this.perlRemoveSelect.Items.Add(perl.Name);
         }
     }
@@ -596,7 +596,7 @@ public class BBUI : System.Windows.Forms.Form {
     private void PerlRemoveSelect_Redraw() {
         perlRemoveSelect.Items.Clear();
 
-         foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+         foreach (StrawberryPerl perl in bb.PerlOp.PerlsInstalled()) {
              this.perlRemoveSelect.Items.Add(perl.Name);
          }
 
@@ -613,7 +613,7 @@ public class BBUI : System.Windows.Forms.Form {
         this.perlCloneSelect.Size = new System.Drawing.Size(121, 30);
         this.perlCloneSelect.TabIndex = 0;
 
-        foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+        foreach (StrawberryPerl perl in bb.PerlOp.PerlsInstalled()) {
             this.perlCloneSelect.Items.Add(perl.Name);
         }
     }
@@ -621,7 +621,7 @@ public class BBUI : System.Windows.Forms.Form {
     private void PerlCloneSelect_Redraw() {
         perlCloneSelect.Items.Clear();
 
-         foreach (StrawberryPerl perl in bb.PerlsInstalled()) {
+         foreach (StrawberryPerl perl in bb.PerlOp.PerlsInstalled()) {
              this.perlCloneSelect.Items.Add(perl.Name);
          }
 
@@ -649,7 +649,7 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.ClientSize = new System.Drawing.Size(265, 325);
 
-        if (bb.PerlInUse().Name != null) {
+        if (bb.PerlOp.PerlInUse().Name != null) {
             this.Controls.Add(this.perlOpenButton);
         }
 
@@ -698,7 +698,7 @@ public class BBUI : System.Windows.Forms.Form {
     }
 
     private void DrawComponents() {
-        if (bb.PerlInUse().Name != null) {
+        if (bb.PerlOp.PerlInUse().Name != null) {
             this.Controls.Add(this.perlOpenButton);
             this.Controls.Add(this.perlOffButton);
         }
