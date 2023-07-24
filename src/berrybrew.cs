@@ -95,8 +95,14 @@ namespace BerryBrew {
         public bool Trace   { set; get; }
         public bool Status  { set; get; }
 
+		// related class objects
+
 		public PathOp PathOp = null;
+		public PerlOp PerlOp = new PerlOp();
         public readonly Message Message = new Message();
+
+		// Strawberry Perl instance container
+		
         private readonly OrderedDictionary _perls = new OrderedDictionary();
 
         private string registrySubKey;
@@ -116,7 +122,10 @@ namespace BerryBrew {
 
         public Berrybrew() {
 
+			// related object instantiations
+
 			PathOp = new PathOp(this);
+
             // Initialize configuration
 
             installPath 	= Regex.Replace(binPath, @"bin", "");
@@ -893,7 +902,7 @@ namespace BerryBrew {
 
         private string Fetch(StrawberryPerl perl) {
             WebClient webClient = new WebClient();
-            string archivePath = PerlarchivePath(perl);
+            string archivePath = PerlArchivePath(perl);
 
             if (! File.Exists(archivePath)) {
                 try {
@@ -1471,7 +1480,7 @@ namespace BerryBrew {
             }
         }
 
-       private static string PerlarchivePath(StrawberryPerl perl) {
+       private static string PerlArchivePath(StrawberryPerl perl) {
             string path;
 
             try {
