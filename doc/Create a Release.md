@@ -25,7 +25,6 @@ necessary
 
 - Execute the `perl dev\release.pl` script, which:
 
-    - Compile the `bbmessaging.dll` Messaging library
     - Compile the `bbapi.dll` API library
     - Compile the `berrybrew.exe` binary
     - Compile the `berrybrew-ui.exe` UI binary
