@@ -15,7 +15,13 @@ Revision history for berrybrew
     - Rename `dev/post_release.pl` to `dev/release_post.pl`
     - Add new `dev/release_cycle.pl` script, automates the preparation of the
       next version's development branch (closes #266)
-
+    - Moved `Message` class to its own `messaging.cs` source file with the
+      namespace `BerryBrew.Messaging` (work on #184)
+    - Moved `StrawberryPerl` struct to its own `perlinstance.cs` source file
+      with the namespace `BerryBrew.PerlInstance` (work on #184)     
+    - Removed the deprecated `berrybrew upgrade` command along with its
+      corresponding `Upgrade()` method in the API
+    -      
 1.38    2023-07-21
     - Remove the perltricks.com link from David Farrell acknowledgement
       (Fixes #313)
