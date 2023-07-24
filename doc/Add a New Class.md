@@ -36,8 +36,10 @@ directly, you'll need to add a `using` statement to **src/berrybrew.cs** or
 
 ### Update the `build_staging.pl` script
 
-Pretty much the same as [Update the 'Compile Your Own'](#update-the-compile-your-own-doc)
-section above.
+Add a reference to the new source file in the relevant builds (API and if
+needed binary and UI).
+
+Example, add `src\imaging.cs^`.
 
 ### Update the release build script
 
@@ -46,8 +48,8 @@ section above.
 
 ### Update the 'Compile Your Own' doc
 
-Add a reference to the new source file in the "Compile the API library"
-section, eg. `src\imaging.cs^`.
+Pretty much the same as [Update the 'build_staging.pl'](#update-the-build_stagingpl-script)
+section above.
 
 ### Update the Berrybrew API doc
 

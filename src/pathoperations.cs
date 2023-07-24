@@ -6,13 +6,12 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using System.Security;
 
 namespace BerryBrew.PathOperations {
     public class PathOp {
         private Berrybrew bb = null;
+
         public PathOp(Berrybrew bb) { }
 
         internal void PathAddBerryBrew(string binPath) {

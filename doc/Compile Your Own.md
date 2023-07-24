@@ -10,6 +10,7 @@
     mcs^
         src\berrybrew.cs^
         src\messaging.cs^
+        src\pathoperations.cs^
         src\perlinstance.cs^
         -lib:bin^
         -t:library^

@@ -10,11 +10,12 @@ contains the `Main()` entry point.
 
 The code for the `berrybrew-ui.exe` is in `src/berrybrew-ui.cs`.
 
-|Class|File|Namespace|
-|---|---|---|
-[Berrybrew](#class-berrybrew) | src/**berrybrew.cs** | BerryBrew
-[Message](#class-message) | src/**messaging.cs** | BerryBrew.Messaging
-[StrawberryPerl](#struct-strawberryperl) | src/**perlinstance.cs** | BerryBrew.PerlInstance
+|Class|File|Namespace|Description
+|---|---|---|---|
+[Berrybrew](#class-berrybrew) | src/**berrybrew.cs** | BerryBrew | Core API
+[Message](#class-message) | src/**messaging.cs** | BerryBrew.Messaging | Content for all output
+[StrawberryPerl](#struct-strawberryperl) | src/**perlinstance.cs** | BerryBrew.PerlInstance | Perl instance container
+[PathOp](#class-PathOp) | src/**pathoperations.cs** | BerryBrew.PathOperations | Environment path management
 
 ### Exit Status
 
@@ -65,14 +66,6 @@ The `Berrybrew` class is the base of the system.
 [Options](#options) | **public** | Display or set a single option, or show them all
 [OptionsUpdate](#optionsupdate)| **public** | Update registry configuration with new directives
 [Off](#off) | **public** | Completely disables `berrybrew`
-[PathAddBerryBrew](#pathaddberrybrew)| private | Adds `berrybrew` to `PATH`
-[PathAddPerl](#pathaddperl)| private | Adds a Perl to `PATH`
-[PathGet](#pathget)| private | Retrieves the Machine `PATH`
-[PathGetUsr](#pathgetusr)| private | Get the currently logged in user's `PATH` environment variable
-[PathRemoveBerrybrew](#pathremoveberrybrew)| private | Removes berrybrew from `PATH`
-[PathRemovePerl](#pathremoveperl)| private | Removes specified Perl from `PATH`
-[PathScan](#pathscan)| private | Checks `PATH` for a specific binary file
-[PathSet](#pathset)| private | Writes all `PATH` changes to the registry
 [PerlArchivePath](#perlarchivepath)| private | Returns the path and filename of the zip file
 [PerlFindOrphans](#perlfindorphans)| private | Locates non-registered directories in Perl root
 [PerlGenerateObjects](#perlgenerateobjects)| private | Generates the `StrawberryPerl` class objects
@@ -102,11 +95,11 @@ that is displayed to the user.
 
 |Method name|Available|Description|
 |---|---|---|
-[Message.Add](#messageadd)| **public** | Adds a new message to the collection
-[Message.Get](#messageget)| **public** | Fetches the content of a specific message
-[Message.Print](#messageprint)| **public** | Prints the content of a specific message
-[Message.Say](#messagesay)| **public** | Same as `Print()`, but terminates
-[Message.Error](#messageerror)| **public** | Same as `Print()`, but writes to `STDERR` instead of `STDOUT`
+[Add](#messageadd)| **public** | Adds a new message to the collection
+[Get](#messageget)| **public** | Fetches the content of a specific message
+[Print](#messageprint)| **public** | Prints the content of a specific message
+[Say](#messagesay)| **public** | Same as `Print()`, but terminates
+[Error](#messageerror)| **public** | Same as `Print()`, but writes to `STDERR` instead of `STDOUT`
 
 
 ## Class Berrybrew
@@ -529,99 +522,6 @@ Disabled all `berrybrew` managed Perls, by removing them from `PATH`
 environment variables. This will return you to a system Strawberry or
 ActiveState system installed Perl.
 
-#### PathAddBerryBrew
-
-    private void PathAddBerryBrew(string binPath)
-
-        argument:   binPath
-        value:      Full path to the directory the berrybrew.exe binary resides in
-
-Called by `Config()`, this enables `berrybrew` to be called from the command
-line without having to specify the full path to the executable.
-
-#### PathAddPerl
-
-    private void PathAddPerl(StrawberryPerl perl)
-
-        argument:   perl
-        value:      Single instance of the StrawberryPerl class
-
-Sets the `PATH` environment variables up to ensure the version of Perl
-housed in the `perl` object will be used on the system.
-
-#### PathGet
-
-    private static string PathGet()
-
-        return:     String containing the machine's PATH data
-
-Using the registry, retrieves the current Machine (System) `PATH` environment
-variable. Using the registry ensures we have the most current data, even if
-the current shell has not yet been updated.
-
-Does not expand any variable-based `PATH` entries on extraction.
-
-#### PathGetUsr
-
-    private static string PathGetUsr()
-    
-    return: String containing the currently logged in user's PATH environment variable
-    
-Fetches and returns a string containing the currently logged in user's `PATH`
-environment variable.    
-
-Does not expand any variable-based `PATH` entries on extraction.
-
-#### PathRemoveBerrybrew
-
-    private void PathRemoveBerrybrew()
-
-Removes berrybrew binary directory from `PATH`.
-
-#### PathRemovePerl
-
-    private void PathRemovePerl(bool process=true)
-
-        argument:   process
-        value:      bool
-        default:    false
-        purpose:    Action a PathSet()
-
-Removes any and all Perl instances from the `PATH` environment variable.
-If `process` is set to `true` (default), we'll execute the removal via
-`PathSet()`. 
-
-#### PathScan
-
-    private static bool PathScan(string binPath, string target)
-
-        argument:   binPath
-        value:      string that contains the path to check against 
-
-        argument:   target
-        value:      "machine" or "user"
-
-        return:     true if found, false if not
-
-Looks through either the Machine or User `PATH` environment variables,
-searching for the binary name. Returns `true` on success, `false` otherwise.
-
-#### PathSet
-
-    private void PathSet(List<string> paths)
-
-        argument:   paths
-        value:      List of strings, each string contains a PATH entry
-                    (less the semi-colon)
-
-Builds the semi-colon separated `PATH` string from the list, and inserts it
-into the Machine's `PATH` section in the registry. We then send a broadcast
-message to the system to advise of the change.
-
-We use this manual method as opposed to C# methods, because we change the
-registry value from a `REG_SZ` type to `REG_EXPAND_SZ` type so that we can
-preserve and insert variable-based `PATH` entries.
-
 #### PerlArchivePath
 
     private static string PerlArchivePath(StrawberryPerl perl)
@@ -953,5 +853,114 @@ Perl instance.
 
 Its source file is `src/perlinstance.cs` and its namespace is
 `BerryBrew.PerlInstance`.
+
+## Class PathOp
+
+Manages all activity and functionality related to the environment paths.
+
+|Method name|Available|Description|
+|---|---|---|
+[PathAddBerryBrew](#pathoppathaddberrybrew)| private | Adds `berrybrew` to `PATH`
+[PathAddPerl](#pathoppathaddperl)| private | Adds a Perl to `PATH`
+[PathGet](#pathoppathget)| private | Retrieves the Machine `PATH`
+[PathGetUsr](#pathoppathgetusr)| private | Get the currently logged in user's `PATH` environment variable
+[PathRemoveBerrybrew](#pathoppathremoveberrybrew)| private | Removes berrybrew from `PATH`
+[PathRemovePerl](#pathoppathremoveperl)| private | Removes specified Perl from `PATH`
+[PathScan](#pathoppathscan)| private | Checks `PATH` for a specific binary file
+[PathSet](#pathopathset)| private | Writes all `PATH` changes to the registry
+
+
+#### PathOp.PathAddBerryBrew
+
+    private void PathAddBerryBrew(string binPath)
+
+        argument:   binPath
+        value:      Full path to the directory the berrybrew.exe binary resides in
+
+Called by `Config()`, this enables `berrybrew` to be called from the command
+line without having to specify the full path to the executable.
+
+#### PathOp.PathAddPerl
+
+    private void PathAddPerl(StrawberryPerl perl)
+
+        argument:   perl
+        value:      Single instance of the StrawberryPerl class
+
+Sets the `PATH` environment variables up to ensure the version of Perl
+housed in the `perl` object will be used on the system.
+
+#### PathOp.PathGet
+
+    private static string PathGet()
+
+        return:     String containing the machine's PATH data
+
+Using the registry, retrieves the current Machine (System) `PATH` environment
+variable. Using the registry ensures we have the most current data, even if
+the current shell has not yet been updated.
+
+Does not expand any variable-based `PATH` entries on extraction.
+
+#### PathOp.PathGetUsr
+
+    private static string PathGetUsr()
+    
+    return: String containing the currently logged in user's PATH environment variable
+
+Fetches and returns a string containing the currently logged in user's `PATH`
+environment variable.
+
+Does not expand any variable-based `PATH` entries on extraction.
+
+#### PathOp.PathRemoveBerrybrew
+
+    private void PathRemoveBerrybrew()
+
+Removes berrybrew binary directory from `PATH`.
+
+#### PathOp.PathRemovePerl
+
+    private void PathRemovePerl(bool process=true)
+
+        argument:   process
+        value:      bool
+        default:    false
+        purpose:    Action a PathSet()
+
+Removes any and all Perl instances from the `PATH` environment variable.
+If `process` is set to `true` (default), we'll execute the removal via
+`PathSet()`.
+
+#### PathOp.PathScan
+
+    private static bool PathScan(string binPath, string target)
+
+        argument:   binPath
+        value:      string that contains the path to check against 
+
+        argument:   target
+        value:      "machine" or "user"
+
+        return:     true if found, false if not
+
+Looks through either the Machine or User `PATH` environment variables,
+searching for the binary name. Returns `true` on success, `false` otherwise.
+
+#### PathOp.PathSet
+
+    private void PathSet(List<string> paths)
+
+        argument:   paths
+        value:      List of strings, each string contains a PATH entry
+                    (less the semi-colon)
+
+Builds the semi-colon separated `PATH` string from the list, and inserts it
+into the Machine's `PATH` section in the registry. We then send a broadcast
+message to the system to advise of the change.
+
+We use this manual method as opposed to C# methods, because we change the
+registry value from a `REG_SZ` type to `REG_EXPAND_SZ` type so that we can
+preserve and insert variable-based `PATH` entries.
 
 &copy; 2016-2021 by Steve Bertrand
