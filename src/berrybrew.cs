@@ -1,4 +1,5 @@
 using BerryBrew.Messaging;
+using BerryBrew.PathOperations;
 using BerryBrew.PerlInstance;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Win32;
@@ -26,7 +27,7 @@ namespace BerryBrew {
         public static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
 
         [DllImport("user32.dll", SetLastError = true)]
-        private static extern IntPtr SendMessageTimeout(
+        public static extern IntPtr SendMessageTimeout(
             IntPtr hWnd,
             int msg,
             IntPtr wParam,
@@ -36,9 +37,9 @@ namespace BerryBrew {
             IntPtr
             lpdwResult
         );
-        private static readonly IntPtr HwndBroadcast = new IntPtr(0xffff);
-        private const int WmSettingchange = 0x001a;
-        private const int SmtoAbortifhung = 0x2;
+        internal static readonly IntPtr HwndBroadcast = new IntPtr(0xffff);
+        internal const int WmSettingchange = 0x001a;
+        internal const int SmtoAbortifhung = 0x2;
 
         private static readonly string AssemblyPath = Assembly.GetExecutingAssembly().Location;
         private static readonly string AssemblyDirectory = Path.GetDirectoryName(AssemblyPath);
@@ -94,6 +95,7 @@ namespace BerryBrew {
         public bool Trace   { set; get; }
         public bool Status  { set; get; }
 
+		public PathOp PathOp = null;
         public readonly Message Message = new Message();
         private readonly OrderedDictionary _perls = new OrderedDictionary();
 
@@ -114,6 +116,7 @@ namespace BerryBrew {
 
         public Berrybrew() {
 
+			PathOp = new PathOp(this);
             // Initialize configuration
 
             installPath 	= Regex.Replace(binPath, @"bin", "");
@@ -591,10 +594,10 @@ namespace BerryBrew {
 
             Console.WriteLine("\n{0}{1}", configIntro, Version());
 
-            if (! PathScan(binPath, "machine")) {
-                PathAddBerryBrew(binPath);
+            if (! PathOp.PathScan(binPath, "machine")) {
+                PathOp.PathAddBerryBrew(binPath);
 
-                Message.Print(PathScan(binPath, "machine")
+                Message.Print(PathOp.PathScan(binPath, "machine")
                     ? "config_success"
                     : "config_failure");
             }
@@ -817,7 +820,7 @@ namespace BerryBrew {
                 execWith = perlsInstalled;
             }
 
-            string sysPath = PathGet();
+            string sysPath = PathOp.PathGet();
 
             List<StrawberryPerl> filteredExecWith = new List<StrawberryPerl>();
 
@@ -1334,7 +1337,7 @@ namespace BerryBrew {
         }
 
         public void Off() {
-            PathRemovePerl();
+            PathOp.PathRemovePerl(_perls);
             Console.Write("berrybrew perl disabled. Run 'berrybrew-refresh' to use the system perl\n");
         }
 
@@ -1468,160 +1471,7 @@ namespace BerryBrew {
             }
         }
 
-        private void PathAddBerryBrew(string binPath) {
-            string path = PathGet();
-            List<string> newPath = new List<string>();
-
-            if (path == null) {
-                newPath.Add(binPath);
-            }
-            else {
-                if (path[path.Length - 1] == ';') {
-                    path = path.Substring(0, path.Length - 1);
-                }
-
-                newPath.Add(binPath);
-                newPath.Add(path);
-            }
-            PathSet(newPath);
-        }
-
-        private void PathAddPerl(StrawberryPerl perl) {
-            string path = PathGet();
-            List<string> newPath = perl.Paths;
-
-            string[] entries = path.Split(new char [] {';'});
-
-            foreach (string p in entries) {
-                newPath.Add(p);
-            }
-            PathSet(newPath);
-        }
-
-        private static string PathGet() {
-            const string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment\";
-            string path = null;
-
-            if (Registry.LocalMachine != null) {
-                path = (string) Registry.LocalMachine.OpenSubKey(keyName).GetValue(
-                    "Path",
-                    "",
-                    RegistryValueOptions.DoNotExpandEnvironmentNames
-                );
-            }
-            return path;
-        }
-
-        private static string PathGetUsr() {
-            const string keyName = @"Environment\";
-            string path = (string)Registry.CurrentUser.OpenSubKey(keyName).GetValue(
-                "PATH",
-                "",
-                RegistryValueOptions.DoNotExpandEnvironmentNames
-            );
-            return path;
-        }
-
-        private void PathRemoveBerrybrew() {
-            string path = PathGet();
-            List<string> paths = path.Split(new char[] {';'}).ToList();
-            List<string> updatedPaths = new List<string>();
-
-            foreach (string pathEntry in paths) {
-                if (pathEntry.ToLower() != binPath.ToLower()) {
-                    updatedPaths.Add(pathEntry);
-                }
-            }
-
-            PathSet(updatedPaths);
-        }
-
-        private void PathRemovePerl(bool process=true) {
-            string path = PathGet();
-
-            if (path == null) {
-                return;
-            }
-
-            var paths = path.Split(new char[] {';'}).ToList();
-
-            foreach (StrawberryPerl perl in _perls.Values) {
-                for (var i = 0; i < paths.Count; i++) {
-                    if (paths[i] == perl.PerlPath
-                        || paths[i] == perl.CPath
-                        || paths[i] == perl.PerlSitePath){
-                        paths[i] = "";
-                    }
-                }
-            }
-
-            paths.RemoveAll(string.IsNullOrEmpty);
-
-            if (process) {
-                PathSet(paths);
-            }
-        }
-
-        private static bool PathScan(string binPath, string target) {
-            var envTarget = target == "machine" ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.User;
-            string paths = Environment.GetEnvironmentVariable("path", envTarget);
-
-            foreach (string path in paths.Split(new char[]{';'})) {
-                if (path == binPath) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private void PathSet(List<string> path)  {
-            path.RemoveAll(string.IsNullOrEmpty);
-
-            string paths = string.Join(";", path);
-
-            if (!paths.EndsWith(@";"))  {
-                paths += @";";
-            }
-
-            try  {
-                const string keyName = @"SYSTEM\CurrentControlSet\Control\Session Manager\Environment";
-
-                using (RegistryKey pathKey = Registry.LocalMachine.OpenSubKey(keyName, true)) {
-
-                    pathKey.DeleteValue("Path");
-
-                    pathKey.SetValue(
-                        "Path",
-                        paths,
-                        RegistryValueKind.ExpandString
-                    );
-                }
-
-                SendMessageTimeout(
-                    HwndBroadcast,
-                    WmSettingchange,
-                    IntPtr.Zero,
-                    "Environment",
-                    SmtoAbortifhung,
-                    100,
-                    IntPtr.Zero
-                );
-            }
-            catch (Exception err) {
-                if (err is UnauthorizedAccessException || err is SecurityException) {
-                    Console.Error.WriteLine("\nModifying the PATH environment variable requires Administrator privilege");
-                    if (Debug) {
-                        Console.Error.WriteLine("DEBUG: {0}", err);
-                    }
-
-                    Exit((int) ErrorCodes.ADMIN_PATH_ERROR);
-                }
-                throw;
-            }
-        }
-
-        private static string PerlarchivePath(StrawberryPerl perl) {
+       private static string PerlarchivePath(StrawberryPerl perl) {
             string path;
 
             try {
@@ -1775,7 +1625,7 @@ namespace BerryBrew {
         }
 
         public StrawberryPerl PerlInUse() {
-            string path = PathGet();
+            string path = PathOp.PathGet();
 
             StrawberryPerl currentPerl = new StrawberryPerl();
 
@@ -1811,7 +1661,7 @@ namespace BerryBrew {
 
                 if (perl.Name == currentPerl.Name) {
                     Console.WriteLine("Removing Perl " + perlVersionToRemove + " from PATH");
-                    PathRemovePerl();
+                    PathOp.PathRemovePerl(_perls);
                 }
 
                 if (Directory.Exists(perl.installPath)) {
@@ -2198,8 +2048,8 @@ namespace BerryBrew {
                     Exit((int)ErrorCodes.PERL_NOT_INSTALLED);
                 }
 
-                PathRemovePerl();
-                PathAddPerl(perl);
+                PathOp.PathRemovePerl(_perls);
+                PathOp.PathAddPerl(perl);
 
                 if (switchQuick) {
                     SwitchQuick();
@@ -2255,7 +2105,7 @@ namespace BerryBrew {
             replacement.StartInfo.FileName = "cmd.exe";
             replacement.StartInfo.WorkingDirectory = cwd;
             replacement.StartInfo.EnvironmentVariables.Remove("PATH");
-            replacement.StartInfo.EnvironmentVariables.Add("PATH", PathGet());
+            replacement.StartInfo.EnvironmentVariables.Add("PATH", PathOp.PathGet());
             replacement.StartInfo.UseShellExecute = false;
             replacement.StartInfo.RedirectStandardOutput = false;
             replacement.Start();
@@ -2266,7 +2116,7 @@ namespace BerryBrew {
         }
 
         public void Unconfig() {
-            PathRemoveBerrybrew();
+            PathOp.PathRemoveBerrybrew(binPath);
             Message.Print("unconfig");
         }
 
@@ -2299,8 +2149,8 @@ namespace BerryBrew {
                 Exit((int)ErrorCodes.PERL_NOT_INSTALLED);
             }
 
-            string sysPath = PathGet();
-            string usrPath = PathGetUsr();
+            string sysPath = PathOp.PathGet();
+            string usrPath = PathOp.PathGetUsr();
 
             foreach (StrawberryPerl perl in useWith) {
                 if (newWindow) {

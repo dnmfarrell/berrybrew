@@ -16,6 +16,7 @@ echo "compiling API dll..."
 
 call mcs^
     src\berrybrew.cs^
+    src\pathoperations.cs^
     src\perlinstance.cs^
     src\messaging.cs^
     -lib:staging^
