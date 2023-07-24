@@ -12,10 +12,10 @@ The code for the `berrybrew-ui.exe` is in `src/berrybrew-ui.cs`.
 
 |Class|File|Namespace|Description
 |---|---|---|---|
-[Berrybrew](#class-berrybrew) | src/**berrybrew.cs** | BerryBrew | Core API
-[Message](#class-message) | src/**messaging.cs** | BerryBrew.Messaging | Content for all output
-[StrawberryPerl](#struct-strawberryperl) | src/**perlinstance.cs** | BerryBrew.PerlInstance | Perl instance container
-[PathOp](#class-PathOp) | src/**pathoperations.cs** | BerryBrew.PathOperations | Environment path management
+[Berrybrew](#class-berrybrew) | src/**berrybrew.cs** | **BerryBrew** | Core API
+[Message](#class-message) | src/**messaging.cs** | BerryBrew.**Messaging** | Content for all output
+[StrawberryPerl](#struct-strawberryperl) | src/**perlinstance.cs** | BerryBrew.**PerlInstance** | Perl instance container
+[PathOp](#class-PathOp) | src/**pathoperations.cs** | BerryBrew.**PathOperations** | Environment path management
 
 ### Exit Status
 
