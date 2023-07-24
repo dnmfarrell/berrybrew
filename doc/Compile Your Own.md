@@ -5,32 +5,15 @@
     git clone https://github.com/stevieb9/berrybrew
     cd berrybrew
   
-### Compile the Strawberry Perl Instance library
-
-    mcs^
-        src\perlinstance.cs^
-        -lib:bin^
-        -t:library^
-        -out:bin\bbperlinstance.dll^
-        -r:bbapi.dll^
-
-### Compile the Messaging library
-
-    mcs^
-        src\messaging.cs^
-        -lib:bin^
-        -t:library^
-        -out:bin\bbmessaging.dll^
-
 ### Compile the API library
 
     mcs^
         src\berrybrew.cs^
+        src\messaging.cs^
+        src\perlinstance.cs^
         -lib:bin^
         -t:library^
         -out:bin\bbapi.dll^
-        -r:bbperlinstance.dll^
-        -r:bbmessaging.dll^
         -r:Newtonsoft.Json.dll^
         -r:ICSharpCode.SharpZipLib.dll^ 
 
@@ -41,8 +24,6 @@
         -lib:bin^
         -out:bin/berrybrew.exe^
         -r:bbapi.dll^
-        -r:bbperlinstance.dll^
-        -r:bbmessaging.dll^
         -win32icon:inc/berrybrew.ico^
 
 ### Compile the UI
@@ -53,7 +34,6 @@
         -t:winexe^
         -out:bin/berrybrew-ui.exe^
         -r:bbapi.dll^
-        -r:bbmessaging^
         -r:System.Drawing^
         -r:System.Windows.Forms^
         -r:Microsoft.Visualbasic.dll^

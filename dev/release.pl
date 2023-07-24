@@ -152,22 +152,13 @@ sub check_readme {
     }        
 }
 sub compile {
-    print "\ncompiling berrybrew Messaging dll...\n";
-
-    my $msg_build = "" .
-        "mcs " .
-        "src/messaging.cs " .
-        "-lib:staging " .
-        "-t:library " .
-        "-out:bin/bbmessaging.dll";
-   
-    system $msg_build;
-    
     print "\ncompiling the berrybrew core API dll...\n";
 
     my $api_build = "" .
         "mcs " .
         "src/berrybrew.cs " .
+        "src/messaging.cs " .
+        "src/perlinstance.cs " .
         "-lib:bin " .
         "-t:library " .
         "-out:bin/bbapi.dll " .

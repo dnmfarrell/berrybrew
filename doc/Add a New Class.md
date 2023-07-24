@@ -27,17 +27,10 @@ the namespace.
 Create the new **src/imaging.cs** file with the overarching namespace. See
 **src/messaging.cs** as an example of the layout.
 
-### Update the 'Create a Release' doc
-
-Add a 'compiles' entry under the "Execute the `perl dev\releases.pl`" section. Use
-the **$msg_build** as a guide. The output filename must be **bbNAMESPACE.dll**. In
-this case, **bin/bbimaging.dll**.
-
 ### Update the 'Compile Your Own' doc
 
-Using the "Compile the Messaging library" as a roadmap, add a new compile section
-for the new library, and add a reference (ie. `-r:bbimaging.dll`) entry in each of
-the libraries/binaries that will need to use it (usually only API).
+Add a reference to the new source file in the "Compile the API library"
+section, eg. `src\imaging.cs^`.
 
 ### Update the `build_staging.pl` script
 
@@ -52,14 +45,16 @@ have a method table that link to the individual methods listed in that table.
 
 ### Update the release build script
 
-Add a **"-r:bbimaging.dll" .** line to each build section that will require the
-new class. Many will only be needed in the **$bb_api** build, but some classes
-may be required directly in the `berrybrew` binary or UI as well.
+Pretty much the same as [Update the 'build_staging.pl'](#update-the-build_stagingpl-script)
+section above.
 
 ### Add the include where needed
 
-Add a **using BerryBrew.Imaging;** directive to **src/berrybrew.cs**, and any other
-CS file that may need it.
+Add a **using BerryBrew.Imaging;** directive to **src/bbapi.cs** file.
+
+In some cases, if the `berrybrew` binary or the UI use the new classes
+directly, you'll need to add a `using` statement to **src/berrybrew.cs** or
+**src/berrybrew-ui.cs** files respectively.
 
 ### Test
 

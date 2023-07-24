@@ -2,17 +2,19 @@
 
 Core API source code is located in the `src/berrybrew.cs` file. It is
 standalone namespace/class code, and contains no entry points. This library
-loads all other libraries under the Berrybrew umbrella.
+compiles in all other API source files. See below for classes compiled in, and
+the source file and namespace for each.
 
 The code for the `berrybrew.exe` binary itself resides in `src/bbconsole.cs` and
 contains the `Main()` entry point.
 
 The code for the `berrybrew-ui.exe` is in `src/berrybrew-ui.cs`.
 
-|Class|File|Library|Namespace|
-|---|---|---|---|
-[Berrybrew](#class-berrybrew) | src/**berrybrew.cs** | bin/bbapi.dll | BerryBrew
-[Message](#class-message) | src/**messaging.cs** | bin/bbmessaging.dll | BerryBrew.Messaging
+|Class|File|Namespace|
+|---|---|---|
+[Berrybrew](#class-berrybrew) | src/**berrybrew.cs** | BerryBrew
+[Message](#class-message) | src/**messaging.cs** | BerryBrew.Messaging
+[StrawberryPerl](#struct-strawberryperl) | src/**perlinstance.cs** | BerryBrew.PerlInstance
 
 ### Exit Status
 
@@ -890,6 +892,8 @@ Returns the version of the current `berrybrew` binary/library.
 
 Manages the importing, collection and printing of various `berrybrew` output.
 
+It's source file is`src/messaging.cs` and its namespace is `BerryBrew.Messaging`.
+
 #### Message.Add
 
     public void Add(dynamic json)
@@ -939,7 +943,15 @@ and terminates the application.
     
          argument:   label
          value:      Name of a message label
- 
+
 Prints the relevant message to `STDERR` as opposed to `STDOUT`.
+
+## Struct StrawberryPerl
+
+This struct represents all information and facets of an individual Strawberry
+Perl instance.
+
+Its source file is `src/perlinstance.cs` and its namespace is
+`BerryBrew.PerlInstance`.
 
 &copy; 2016-2021 by Steve Bertrand
