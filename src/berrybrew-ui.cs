@@ -677,7 +677,7 @@ public class BBUI : System.Windows.Forms.Form {
         string runMode = bb.Options("run_mode");
 
         if (runMode == "prod" || runMode == null) {
-            this.Text = "Berrybrew UI v" + bb.Version();
+            this.Text = "BB UI v" + bb.Version();
         }
         else if (runMode == "staging") {
             this.Text = "BB-DEV UI v" + bb.Version();
