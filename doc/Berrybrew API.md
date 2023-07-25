@@ -16,6 +16,7 @@ The code for the `berrybrew-ui.exe` is in `src/berrybrew-ui.cs`.
 [Message](#class-message) | src/**messaging.cs** | BerryBrew.**Messaging** | Content for all output
 [StrawberryPerl](#struct-strawberryperl) | src/**perlinstance.cs** | BerryBrew.**PerlInstance** | Perl instance container
 [PathOp](#class-PathOp) | src/**pathoperations.cs** | BerryBrew.**PathOperations** | Environment path management
+[PerlOp](#class-PerlOp) | src/**perloperations.cs** | BerryBrew.**PerlOperations** | Operations to manage Perl instances 
 
 ### Exit Status
 
@@ -66,18 +67,6 @@ The `Berrybrew` class is the base of the system.
 [Options](#options) | **public** | Display or set a single option, or show them all
 [OptionsUpdate](#optionsupdate)| **public** | Update registry configuration with new directives
 [Off](#off) | **public** | Completely disables `berrybrew`
-[PerlArchivePath](#perlarchivepath)| private | Returns the path and filename of the zip file
-[PerlFindOrphans](#perlfindorphans)| private | Locates non-registered directories in Perl root
-[PerlGenerateObjects](#perlgenerateobjects)| private | Generates the `StrawberryPerl` class objects
-[PerlInUse](#perlinuse)| **public** | Returns the object that represents Perl currently in use
-[PerlIsInstalled](#perlisinstalled)| private | Checks if a specific Perl is installed
-[PerlsInstalled](#perlsinstalled)| **public** | Fetches the list of Perls installed
-[PerlRemove](#perlremove)| **public** | Uninstalls a specific instance of Perl
-[PerlRegisterCustomInstall](#perlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
-[PerlRegisterVirtualInstall](#perlregistervirtualinstall)| **public** | Make `berrybrew` aware of external Perls
-[PerlResolveVersion](#PerlResolveVersion)| private | Resolves the name of a Perl to its StrawberryPerl object
-[PerlUpdateAvailableList](#PerlUpdateAvailableList)| **public** | Automatically fetches new Strawberry Perls available
-[PerlUpdateAvailableListOrphans](#PerlUpdateAvailableListOrphans)| **public** | Registers any orphaned Perls after using `Fetch()`
 [ProcessCreate](#processcreate)| private | Creates and returns a Windows cmd process
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
 [SwitchQuick](#switchquick) | private | Called by `Switch()`, sets up the new environment
@@ -522,142 +511,6 @@ Disabled all `berrybrew` managed Perls, by removing them from `PATH`
 environment variables. This will return you to a system Strawberry or
 ActiveState system installed Perl.
 
-#### PerlArchivePath
-
-    private static string PerlArchivePath(StrawberryPerl perl)
-
-        argument:   perl
-        value:      Instance of the StrawberryPerl class
-
-        return:     The full path plus filename of the Perl install
-
-Creates the directory that will house a new Perl installation.
-
-#### PerlFindOrphans
-
-    private List<string> PerlFindOrphans()
-
-        returns:    List of the names of orphaned Perl installs found
-
-Gathers a list of directory names in the Perl installation directory, that
-don't have any association or registration with `berrybrew`.
-
-#### PerlGenerateObjects
-
-    private void PerlGenerateObjects(bool importIntoObject=false)
-
-        argument:   importIntoObject
-        default:    false
-        purpose:    Insert the Perl objects into the Berrybrew object
-
-Collects up both the default and custom available Perls from the available
-JSON configuration files, and turns the information into `StrawberryPerl`
-objects.
-
-Set `importIntoObject` to `true` to have the list of objects imported into the
-`Berrybrew` object, at `this.Perls`.
-
-#### PerlInUse
-
-    public StrawberryPerl PerlInUse()
-
-        return:     Instance of the StrawberryPerl class
-
-Locates which instance of Perl is currently in use, and returns the
-`StrawberryPerl` object that represents it.
-
-#### PerlIsInstalled
-
-    private static bool PerlIsInstalled(StrawberryPerl perl)
-
-        argument:   perl
-        value:      Instance of the StrawberryPerl class
-
-        return:     true if the passed in perl is installed, false if not
-
-Checks to see whether a specific Perl instance is installed. Returns `true`
-if it is, and `false` if not.
-
-#### PerlsInstalled
-
-    public List<StrawberryPerl> PerlsInstalled()
-    
-        return: A list of the Strawberry Perl objects currently installed
-    
-Fetches the list of currently installed Perl instances, and returns a list of objects.
-    
-#### PerlRemove
-
-    public void PerlRemove(string versionToRemove)
-
-        argument:   versionToRemove
-        value:      Name of an installed Perl to uninstall
-
-Removes the Perl instance corresponding to the name sent in.
-
-#### PerlRegisterCustomInstall
-
-    public void PerlRegisterCustomInstall(
-        string perlName,
-        StrawberryPerl perlBase = new StrawberryPerl()
-    )
-
-        argument:   perlName
-        value:      The name you want to use for this new install, which will
-                    appear in "berrybrew available"
-
-        argument:   perlBase
-        value:      Instance of the StrawberryPerl class
-        default:    A non-populated instance
-
-Registers custom Perl instances with `berrybrew`, so they appear in
-`berrybrew available` and aren't considered orphans.
-
-If a populated instance is sent in as `perlBase`, we'll use its configuration
-information (version, path info, download info etc) in the new custom one. Be
-sure if you do this that the base and the new custom instances are the same
-version.
-
-#### PerlRegisterVirtualInstall
-
-    public void PerlRegisterVirtualInstall(string perlName)
-
-        argument:   perlName
-        value:      The name you want to use for this new install, which will
-                    appear in "berrybrew available"
-
-
-Creates a virtual berrybrew instance wrapped around an existing Perl installation.
-
-This can be ActiveState, Strawberry or any other "system" Perl.
-        
-#### PerlResolveVersion
-
-    private StrawberryPerl PerlResolveVersion(string name)
-
-        argument:   name
-        value:      Name of a Perl as seen in 'berrybrew available'
-
-        return:     The corresponding StrawberryPerl instance object
-
-Resolves the name of a Perl that's available (per `berrybrew available`), and returns
-the corresponding object.
-
-#### PerlUpdateAvailableList
-
-    public void PerlUpdateAvailableList()
-
-Fetches the JSON list of Strawberry Perl instances available from
-[Strawberry's releases.json](https://strawberryperl.com/releases.json), and
-updates the internal `perls.json` available list with the updated data.
-
-#### PerlUpdateAvailableListOrphans
-
-    public void PerlUpdateAvailableListOrphans()
-
-Automatically register any orphaned Perls after using the `Fetch()` method. This
-should only be called after a call to `PerlUpdateAvailableList()`.
-
 #### ProcessCreate
 
     private static System.Diagnostics.Process ProcessCreate(string cmd, bool hidden=true)
@@ -962,5 +815,161 @@ message to the system to advise of the change.
 We use this manual method as opposed to C# methods, because we change the
 registry value from a `REG_SZ` type to `REG_EXPAND_SZ` type so that we can
 preserve and insert variable-based `PATH` entries.
+
+## Class PerlOp
+
+Manages all operations necessary to maintain the Strawberry Perl instances.
+
+|Method name|Available|Description|
+|---|---|---|
+[PerlArchivePath](#perlarchivepath)| private | Returns the path and filename of the zip file
+[PerlFindOrphans](#perlfindorphans)| private | Locates non-registered directories in Perl root
+[PerlGenerateObjects](#perlgenerateobjects)| private | Generates the `StrawberryPerl` class objects
+[PerlInUse](#perlinuse)| **public** | Returns the object that represents Perl currently in use
+[PerlIsInstalled](#perlisinstalled)| private | Checks if a specific Perl is installed
+[PerlsInstalled](#perlsinstalled)| **public** | Fetches the list of Perls installed
+[PerlRemove](#perlremove)| **public** | Uninstalls a specific instance of Perl
+[PerlRegisterCustomInstall](#perlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
+[PerlRegisterVirtualInstall](#perlregistervirtualinstall)| **public** | Make `berrybrew` aware of external Perls
+[PerlResolveVersion](#PerlResolveVersion)| private | Resolves the name of a Perl to its StrawberryPerl object
+[PerlUpdateAvailableList](#PerlUpdateAvailableList)| **public** | Automatically fetches new Strawberry Perls available
+[PerlUpdateAvailableListOrphans](#PerlUpdateAvailableListOrphans)| **public** | Registers any orphaned Perls after using `Fetch()`
+
+
+#### PerlArchivePath
+
+    private static string PerlArchivePath(StrawberryPerl perl)
+
+        argument:   perl
+        value:      Instance of the StrawberryPerl class
+
+        return:     The full path plus filename of the Perl install
+
+Creates the directory that will house a new Perl installation.
+
+#### PerlFindOrphans
+
+    private List<string> PerlFindOrphans()
+
+        returns:    List of the names of orphaned Perl installs found
+
+Gathers a list of directory names in the Perl installation directory, that
+don't have any association or registration with `berrybrew`.
+
+#### PerlGenerateObjects
+
+    private void PerlGenerateObjects(bool importIntoObject=false)
+
+        argument:   importIntoObject
+        default:    false
+        purpose:    Insert the Perl objects into the Berrybrew object
+
+Collects up both the default and custom available Perls from the available
+JSON configuration files, and turns the information into `StrawberryPerl`
+objects.
+
+Set `importIntoObject` to `true` to have the list of objects imported into the
+`Berrybrew` object, at `this.Perls`.
+
+#### PerlInUse
+
+    public StrawberryPerl PerlInUse()
+
+        return:     Instance of the StrawberryPerl class
+
+Locates which instance of Perl is currently in use, and returns the
+`StrawberryPerl` object that represents it.
+
+#### PerlIsInstalled
+
+    private static bool PerlIsInstalled(StrawberryPerl perl)
+
+        argument:   perl
+        value:      Instance of the StrawberryPerl class
+
+        return:     true if the passed in perl is installed, false if not
+
+Checks to see whether a specific Perl instance is installed. Returns `true`
+if it is, and `false` if not.
+
+#### PerlsInstalled
+
+    public List<StrawberryPerl> PerlsInstalled()
+    
+        return: A list of the Strawberry Perl objects currently installed
+
+Fetches the list of currently installed Perl instances, and returns a list of objects.
+
+#### PerlRemove
+
+    public void PerlRemove(string versionToRemove)
+
+        argument:   versionToRemove
+        value:      Name of an installed Perl to uninstall
+
+Removes the Perl instance corresponding to the name sent in.
+
+#### PerlRegisterCustomInstall
+
+    public void PerlRegisterCustomInstall(
+        string perlName,
+        StrawberryPerl perlBase = new StrawberryPerl()
+    )
+
+        argument:   perlName
+        value:      The name you want to use for this new install, which will
+                    appear in "berrybrew available"
+
+        argument:   perlBase
+        value:      Instance of the StrawberryPerl class
+        default:    A non-populated instance
+
+Registers custom Perl instances with `berrybrew`, so they appear in
+`berrybrew available` and aren't considered orphans.
+
+If a populated instance is sent in as `perlBase`, we'll use its configuration
+information (version, path info, download info etc) in the new custom one. Be
+sure if you do this that the base and the new custom instances are the same
+version.
+
+#### PerlRegisterVirtualInstall
+
+    public void PerlRegisterVirtualInstall(string perlName)
+
+        argument:   perlName
+        value:      The name you want to use for this new install, which will
+                    appear in "berrybrew available"
+
+
+Creates a virtual berrybrew instance wrapped around an existing Perl installation.
+
+This can be ActiveState, Strawberry or any other "system" Perl.
+
+#### PerlResolveVersion
+
+    private StrawberryPerl PerlResolveVersion(string name)
+
+        argument:   name
+        value:      Name of a Perl as seen in 'berrybrew available'
+
+        return:     The corresponding StrawberryPerl instance object
+
+Resolves the name of a Perl that's available (per `berrybrew available`), and returns
+the corresponding object.
+
+#### PerlUpdateAvailableList
+
+    public void PerlUpdateAvailableList()
+
+Fetches the JSON list of Strawberry Perl instances available from
+[Strawberry's releases.json](https://strawberryperl.com/releases.json), and
+updates the internal `perls.json` available list with the updated data.
+
+#### PerlUpdateAvailableListOrphans
+
+    public void PerlUpdateAvailableListOrphans()
+
+Automatically register any orphaned Perls after using the `Fetch()` method. This
+should only be called after a call to `PerlUpdateAvailableList()`.
 
 &copy; 2016-2021 by Steve Bertrand
