@@ -46,9 +46,10 @@ Example, add `src\imaging.cs^`.
 
 Where necessary
 
-- `src\build_staging_api.bat`
-- `src\build_staging_bb.bat`
-- `src\build_staging_ui.bat`
+- `dev\build_staging_api.bat`
+- `dev\build_staging_bb.bat`
+- `dev\build_staging_ui.bat`
+- `dev\build_testing.bat`
 
 Pretty much the same as [Update the 'build_staging.pl'](#update-the-build_stagingpl-script)
 section above.

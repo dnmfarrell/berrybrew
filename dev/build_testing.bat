@@ -12,11 +12,15 @@ call perl -i.bak -ne "s/\"run_mode\"\s+:\s+\"prod\"/\"run_mode\"\t\t  : \"testin
 
 echo "compiling dll..."
 call mcs^
+    src\berrybrew.cs^
+    src\pathoperations.cs^
+    src\perlinstance.cs^
+    src\perloperations.cs^
+    src\messaging.cs^
     -lib:bin^
     -t:library^
     -r:Newtonsoft.Json.dll,ICSharpCode.SharpZipLib.dll^
     -out:testing\bbapi.dll^
-    src\berrybrew.cs
 
 echo "compiling binary..."
 call mcs^
