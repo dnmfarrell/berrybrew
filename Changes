@@ -33,7 +33,9 @@ Revision history for berrybrew
       build directory from the repo (fixes #322)
     - Add StrawberryPerl struct instantiation parameters and property lists to
       the API doc (closes #325)
-
+    - Staging build script now updates the recommended perl instance to the most
+      recent available version
+      
 1.38    2023-07-21
     - Remove the perltricks.com link from David Farrell acknowledgement
       (Fixes #313)

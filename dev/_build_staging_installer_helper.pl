@@ -22,6 +22,16 @@ sub update_installer_script {
 
     my $bb_ver = _berrybrew_version();
 
+    open my $pfh, '<', 'data/perls.json' or die $!;
+    my $most_recent_perl_ver;
+    while (<$pfh>){
+        if (/"name": "(5\.\d+\.\d+_64)"/){
+            $most_recent_perl_ver = $1;
+            last;
+        }
+    }
+    close $pfh;
+    
     open my $fh, '<', INSTALLER_SCRIPT or die $!;
     my @contents = <$fh>;
     close $fh or die $!;
@@ -30,6 +40,9 @@ sub update_installer_script {
         if (/(PRODUCT_VERSION ".*")$/) {
             s/$1/PRODUCT_VERSION "$bb_ver"/;
         }
+        if (/.*(5\.\d+\.\d+_64).*/){
+            s/$1/$most_recent_perl_ver/;
+        }       
     }
 
     open my $wfh, '>',  INSTALLER_SCRIPT or die $!;
