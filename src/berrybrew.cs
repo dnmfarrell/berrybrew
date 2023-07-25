@@ -637,113 +637,6 @@ namespace BerryBrew {
             }
         }
 
-        public void Exit(int exitCode) {
-            if (Debug) {
-                Console.WriteLine("\nDEBUG: Exit code: {0}", exitCode);
-            }
-
-            if (Trace) {
-                Console.Error.WriteLine("\nStack Trace:");
-
-                StackTrace trace = new StackTrace();
-                StackFrame[] frames = trace.GetFrames();
-
-                foreach (StackFrame frame in frames) {
-                    MethodBase info = frame.GetMethod();
-                    Console.Error.WriteLine("\t{0}.{1}", info.ReflectedType.FullName, info.Name);
-                }
-
-                string exitCodeName = Enum.GetName(typeof(Berrybrew.ErrorCodes), exitCode);
-
-                if (exitCodeName == null) {
-                    exitCodeName = "EXTERNAL_PROCESS_ERROR";
-                }
-
-                Console.Error.WriteLine("\nExit code:\n\t{0} - {1}", exitCode, exitCodeName);
-            }
-
-            if (Status) {
-                string exitCodeName = Enum.GetName(typeof(Berrybrew.ErrorCodes), exitCode);
-
-                if (exitCodeName == null) {
-                    exitCodeName = "EXTERNAL_PROCESS_ERROR";
-                }
-
-                Console.Error.WriteLine("\nExit code:\n\t{0} - {1}", exitCode, exitCodeName);
-            }
-
-            Environment.Exit(exitCode);
-        }
-
-        public void ExportModules() {
-            // Check if we're 'use'-ing a temporary instance. We don't allow
-            // module exports within one.
-
-            string usingTempInstance = Environment.GetEnvironmentVariable("BERRYBREW_TEMP_USE");
-
-            if (usingTempInstance == "true") {
-                Console.WriteLine("\nExporting modules is not allowed from a temp ('use') perl instance\n\n");
-                Exit((int)ErrorCodes.PERL_TEMP_INSTANCE_NOT_ALLOWED);
-            }
-
-            StrawberryPerl perl = PerlOp.PerlInUse();
-
-            if (string.IsNullOrEmpty(perl.Name)) {
-                Console.Error.WriteLine("\nno Perl is in use. Run 'berrybrew switch' to enable one before exporting a module list\n");
-                Exit((int)ErrorCodes.PERL_NONE_IN_USE);
-            }
-
-            if (perl.Name == "5.10.1_32") {
-                Console.Error.WriteLine("\nmodules command requires a Perl version greater than 5.10");
-                Exit((int)ErrorCodes.PERL_MIN_VER_GREATER_510);
-            }
-
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo {WindowStyle = ProcessWindowStyle.Hidden};
-
-            string moduleDir = rootPath + "modules\\";
-
-            if (! Directory.Exists(moduleDir)) {
-                Directory.CreateDirectory(moduleDir);
-            }
-
-            string moduleFile = moduleDir + perl.Name;
-
-            startInfo.FileName = "cmd.exe";
-            startInfo.Arguments =
-                "/c " +
-                "perl -MExtUtils::Installed -E \"say $_ for ExtUtils::Installed->new->modules\"" +
-                " > " +
-                moduleFile;
-
-            process.StartInfo = startInfo;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
-            process.StartInfo.UseShellExecute = false;
-            process.Start();
-
-            process.OutputDataReceived += (proc, line)=>{
-                if(line.Data != null) {
-                    Console.Out.WriteLine(line.Data);
-                }
-            };
-            process.ErrorDataReceived += (proc, line)=>{
-                if(line.Data != null) {
-                    Console.Error.WriteLine(line.Data);
-                }
-            };
-
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-            process.WaitForExit();
-
-            if (process.ExitCode != 0) {
-                Exit(process.ExitCode);
-            }
-
-            Console.WriteLine("\nsuccessfully wrote out {0} module list file", moduleFile);
-        }
-
         private void Exec(StrawberryPerl perl, IEnumerable<string> parameters, string sysPath, bool singleMode) {
             if (! singleMode) {
                 Console.WriteLine("perl-" + perl.Name + "\n==============");
@@ -864,6 +757,113 @@ namespace BerryBrew {
             }
 
             Exit(0);
+        }
+
+        public void Exit(int exitCode) {
+            if (Debug) {
+                Console.WriteLine("\nDEBUG: Exit code: {0}", exitCode);
+            }
+
+            if (Trace) {
+                Console.Error.WriteLine("\nStack Trace:");
+
+                StackTrace trace = new StackTrace();
+                StackFrame[] frames = trace.GetFrames();
+
+                foreach (StackFrame frame in frames) {
+                    MethodBase info = frame.GetMethod();
+                    Console.Error.WriteLine("\t{0}.{1}", info.ReflectedType.FullName, info.Name);
+                }
+
+                string exitCodeName = Enum.GetName(typeof(Berrybrew.ErrorCodes), exitCode);
+
+                if (exitCodeName == null) {
+                    exitCodeName = "EXTERNAL_PROCESS_ERROR";
+                }
+
+                Console.Error.WriteLine("\nExit code:\n\t{0} - {1}", exitCode, exitCodeName);
+            }
+
+            if (Status) {
+                string exitCodeName = Enum.GetName(typeof(Berrybrew.ErrorCodes), exitCode);
+
+                if (exitCodeName == null) {
+                    exitCodeName = "EXTERNAL_PROCESS_ERROR";
+                }
+
+                Console.Error.WriteLine("\nExit code:\n\t{0} - {1}", exitCode, exitCodeName);
+            }
+
+            Environment.Exit(exitCode);
+        }
+
+        public void ExportModules() {
+            // Check if we're 'use'-ing a temporary instance. We don't allow
+            // module exports within one.
+
+            string usingTempInstance = Environment.GetEnvironmentVariable("BERRYBREW_TEMP_USE");
+
+            if (usingTempInstance == "true") {
+                Console.WriteLine("\nExporting modules is not allowed from a temp ('use') perl instance\n\n");
+                Exit((int)ErrorCodes.PERL_TEMP_INSTANCE_NOT_ALLOWED);
+            }
+
+            StrawberryPerl perl = PerlOp.PerlInUse();
+
+            if (string.IsNullOrEmpty(perl.Name)) {
+                Console.Error.WriteLine("\nno Perl is in use. Run 'berrybrew switch' to enable one before exporting a module list\n");
+                Exit((int)ErrorCodes.PERL_NONE_IN_USE);
+            }
+
+            if (perl.Name == "5.10.1_32") {
+                Console.Error.WriteLine("\nmodules command requires a Perl version greater than 5.10");
+                Exit((int)ErrorCodes.PERL_MIN_VER_GREATER_510);
+            }
+
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo {WindowStyle = ProcessWindowStyle.Hidden};
+
+            string moduleDir = rootPath + "modules\\";
+
+            if (! Directory.Exists(moduleDir)) {
+                Directory.CreateDirectory(moduleDir);
+            }
+
+            string moduleFile = moduleDir + perl.Name;
+
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments =
+                "/c " +
+                "perl -MExtUtils::Installed -E \"say $_ for ExtUtils::Installed->new->modules\"" +
+                " > " +
+                moduleFile;
+
+            process.StartInfo = startInfo;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.Start();
+
+            process.OutputDataReceived += (proc, line)=>{
+                if(line.Data != null) {
+                    Console.Out.WriteLine(line.Data);
+                }
+            };
+            process.ErrorDataReceived += (proc, line)=>{
+                if(line.Data != null) {
+                    Console.Error.WriteLine(line.Data);
+                }
+            };
+
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.WaitForExit();
+
+            if (process.ExitCode != 0) {
+                Exit(process.ExitCode);
+            }
+
+            Console.WriteLine("\nsuccessfully wrote out {0} module list file", moduleFile);
         }
 
         private void Extract(StrawberryPerl perl, string archivePath) {
