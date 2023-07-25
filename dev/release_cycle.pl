@@ -38,8 +38,6 @@ sub checkout_master_branch {
     else {
         die "Couldn't switch to master branch";
     }
-
-    exit;
 }
 sub commit_version_branch {
     my ($bb_ver) = @_;
