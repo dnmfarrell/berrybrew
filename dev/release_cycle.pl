@@ -31,11 +31,13 @@ sub checkout_master_branch {
         system('git checkout master');
     };
 
-    if ($output !~ /Switched to branch 'master'/ && $output !~ /On branch master/) {
+    if ($output =~ /Switched to branch 'master'/ || $output =~ /On branch master/) {
+        print "Checked out master branch\n";
+    }
+    else {
         die "Couldn't switch to master branch";
     }
 
-    print "Checked out master branch\n";
 }
 sub commit_version_branch {
     my ($bb_ver) = @_;
