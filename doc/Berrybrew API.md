@@ -35,49 +35,49 @@ be that of the failed process (even if all other processes succeed).
 
 The `Berrybrew` class is the base of the system.
 
-|Method name|Available|Description|
-|---|---|---|
+|Method name| Available  |Description|
+|---|------------|---|
 [Available](#available)| **public** | Displays all available Perls
 [AvailableList](#availablelist)| **public** | Returns a list of available Perl names
-[BaseConfig](#baseconfig)| private | Initializes the registry-based configuration
+[BaseConfig](#baseconfig)| private    | Initializes the registry-based configuration
 [BitSuffixCheck](#bitsuffixcheck)| **public** | Adds the `_64` bit suffix if required to a Perl name
-[CheckName](#checkname)| internal | Validates the name of a custom Perl install
-[CheckRootDir](#checkrootdir)| private | Creates the Perl install directory if required
+[CheckName](#checkname)| **public** | Validates the name of a custom Perl install
+[CheckRootDir](#checkrootdir)| private    | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
-[CleanDev](#cleandev) | private | Remove the developer's `build` and `test` directories
-[CleanModules](#cleanmodules) | private | Removes the directory where we store exported module lists
-[CleanOrphan](#cleanorphan)| private | Removes all orphaned Perls
-[CleanTemp](#cleantemp)| private | Removes temporary files
+[CleanDev](#cleandev) | private    | Remove the developer's `build` and `test` directories
+[CleanModules](#cleanmodules) | private    | Removes the directory where we store exported module lists
+[CleanOrphan](#cleanorphan)| private    | Removes all orphaned Perls
+[CleanTemp](#cleantemp)| private    | Removes temporary files
 [Clone](#clone)| **public** | Copies an installed Perl to a new name
 [Config](#config)| **public** | Puts `berrybrew.exe` in `PATH`
 [Download](#download)| **public** | Downloads one or all available versions of portable Strawberry Perls
-[Exec](#exec)| private | Runs commands on all installed Perls
+[Exec](#exec)| private    | Runs commands on all installed Perls
 [ExecCompile](#execcompile)| **public** | Staging for `Exec()`
 [Exit](#exit)| **public** | Custom wrapper for `Environment.Exit()`
 [ExportModules](#exportmodules)| **public** | Export an installed module list from current Perl
-[Extract](#extract)| private | Extracts Perl installation zip archives
-[Fetch](#fetch)| private | Downloads the Perl installation files
+[Extract](#extract)| private    | Extracts Perl installation zip archives
+[Fetch](#fetch)| private    | Downloads the Perl installation files
 [FileAssoc](#fileassoc)| **public** | Manage .pl file associations
-[FileRemove](#fileremove)| private | Deletes a file
-[FileSystemResetAttributes](#filesystemresetattributes)| private | Defaults filesystem attrs
-[Info](#info)| **public** | Displays information about specific installation elements
+[FileRemove](#fileremove)| private    | Deletes a file
+[FileSystemResetAttributes](#filesystemresetattributes)| **public** | Defaults filesystem attrs
 [ImportModules](#importmodules)| **public** | Import modules into a Perl from a previously exported list
-[ImportModulesExec](#importmodulesexec)| private | Helper/executive method for `ImportModules()`
+[ImportModulesExec](#importmodulesexec)| private    | Helper/executive method for `ImportModules()`
+[Info](#info)| **public** | Displays information about specific installation elements
 [Install](#install)| **public** | Installs new instances of Perl
-[JsonParse](#jsonparse)| private | Reads JSON config files
-[JsonWrite](#jsonwrite)| private | Writes out JSON configuration
+[JsonParse](#jsonparse)| **public** | Reads JSON config files
+[JsonWrite](#jsonwrite)| **public** | Writes out JSON configuration
 [List](#list) | **public** | Lists currently installed Perl versions
+[Off](#off) | **public** | Completely disables `berrybrew`
 [Options](#options) | **public** | Display or set a single option, or show them all
 [OptionsUpdate](#optionsupdate)| **public** | Update registry configuration with new directives
-[Off](#off) | **public** | Completely disables `berrybrew`
-[ProcessCreate](#processcreate)| private | Creates and returns a Windows cmd process
+[OrphanedPerls](#orphanedperls)| **public** | Displays the list of orphaned perls 
+[ProcessCreate](#processcreate)| **public** | Creates and returns a Windows cmd process
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
-[SwitchQuick](#switchquick) | private | Called by `Switch()`, sets up the new environment
+[SwitchQuick](#switchquick) | **public** | Called by `Switch()`, sets up the new environment
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
-[Upgrade](#upgrade)| **public** | Performs a safe `berrybrew` upgrade
 [UseCompile](#usecompile)| **public** | Staging for `UseInNewWindow()` and `UseInSameWindow()`
-[UseInNewWindow](#useinnewwindow)| private | Spawns new window(s) with the selected version(s) of perl at the head of the PATH
-[UseInSameWindow](#useinsamewindow)| private | Runs a new command-interpreter with the selected version of perl at the head of the PATH (with multiple versions run serially)
+[UseInNewWindow](#useinnewwindow)| private    | Spawns new window(s) with the selected version(s) of perl at the head of the PATH
+[UseInSameWindow](#useinsamewindow)| private    | Runs a new command-interpreter with the selected version of perl at the head of the PATH (with multiple versions run serially)
 [Version](#version)| **public** | Return the version of the current `berrybrew`
 
 ## Message Class
@@ -97,33 +97,33 @@ that is displayed to the user.
 
 Manages all activity and functionality related to the environment paths.
 
-|Method name|Available|Description|
-|---|---|---|
-[PathAddBerryBrew](#pathoppathaddberrybrew)| private | Adds `berrybrew` to `PATH`
-[PathAddPerl](#pathoppathaddperl)| private | Adds a Perl to `PATH`
-[PathGet](#pathoppathget)| private | Retrieves the Machine `PATH`
-[PathGetUsr](#pathoppathgetusr)| private | Get the currently logged in user's `PATH` environment variable
-[PathRemoveBerrybrew](#pathoppathremoveberrybrew)| private | Removes berrybrew from `PATH`
-[PathRemovePerl](#pathoppathremoveperl)| private | Removes specified Perl from `PATH`
-[PathScan](#pathoppathscan)| private | Checks `PATH` for a specific binary file
-[PathSet](#pathopathset)| private | Writes all `PATH` changes to the registry
+|Method name| Available  |Description|
+|---|------------|---|
+[PathAddBerryBrew](#pathoppathaddberrybrew)| internal   | Adds `berrybrew` to `PATH`
+[PathAddPerl](#pathoppathaddperl)| internal   | Adds a Perl to `PATH`
+[PathGet](#pathoppathget)| **public** | Retrieves the Machine `PATH`
+[PathGetUsr](#pathoppathgetusr)| internal   | Get the currently logged in user's `PATH` environment variable
+[PathRemoveBerrybrew](#pathoppathremoveberrybrew)| **public** | Removes berrybrew from `PATH`
+[PathRemovePerl](#pathoppathremoveperl)| **public** | Removes specified Perl from `PATH`
+[PathScan](#pathoppathscan)| internal   | Checks `PATH` for a specific binary file
+[PathSet](#pathopathset)| internal   | Writes all `PATH` changes to the registry
 
 ## PerlOp Class
 
 Manages all operations necessary to maintain the Strawberry Perl instances.
 
-|Method name|Available|Description|
-|---|---|---|
-[PerlArchivePath](#perlopperlarchivepath)| private | Returns the path and filename of the zip file
-[PerlFindOrphans](#perlopperlfindorphans)| private | Locates non-registered directories in Perl root
-[PerlGenerateObjects](#perlopperlgenerateobjects)| private | Generates the `StrawberryPerl` class objects
+|Method name| Available  |Description|
+|---|------------|---|
+[PerlArchivePath](#perlopperlarchivepath)| internal   | Returns the path and filename of the zip file
+[PerlFindOrphans](#perlopperlfindorphans)| internal   | Locates non-registered directories in Perl root
+[PerlGenerateObjects](#perlopperlgenerateobjects)| internal   | Generates the `StrawberryPerl` class objects
 [PerlInUse](#perlopperlinuse)| **public** | Returns the object that represents Perl currently in use
-[PerlIsInstalled](#perlopperlisinstalled)| private | Checks if a specific Perl is installed
+[PerlIsInstalled](#perlopperlisinstalled)| internal   | Checks if a specific Perl is installed
 [PerlsInstalled](#perlopperlsinstalled)| **public** | Fetches the list of Perls installed
-[PerlRemove](#perlopperlremove)| **public** | Uninstalls a specific instance of Perl
 [PerlRegisterCustomInstall](#perlopperlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
 [PerlRegisterVirtualInstall](#perlopperlregistervirtualinstall)| **public** | Make `berrybrew` aware of external Perls
-[PerlResolveVersion](#perlopperlresolveVersion)| private | Resolves the name of a Perl to its StrawberryPerl object
+[PerlRemove](#perlopperlremove)| **public** | Uninstalls a specific instance of Perl
+[PerlResolveVersion](#perlopperlresolveVersion)| internal   | Resolves the name of a Perl to its StrawberryPerl object
 [PerlUpdateAvailableList](#perlopperlupdateavailablelist)| **public** | Automatically fetches new Strawberry Perls available
 [PerlUpdateAvailableListOrphans](#perlopperlupdateavailablelistorphans)| **public** | Registers any orphaned Perls after using `Fetch()`
 
@@ -504,6 +504,14 @@ new `data`.
     
 Displays a list of the versions of Perl that are currently installed.
 
+#### Off
+
+    public void Off()
+
+Disabled all `berrybrew` managed Perls, by removing them from `PATH`
+environment variables. This will return you to a system Strawberry or
+ActiveState system installed Perl.
+
 #### Options
 
     public string Options(string option=null, string value=null, bool quiet=false)
@@ -547,13 +555,12 @@ upgrades.
 If the `force` argument is sent in as `true`, we will reload all of the 
 configuration file values into the registry.
 
-#### Off
+#### OrphanedPerls
 
-    public void Off()
+    public void OrphanedPerls()
 
-Disabled all `berrybrew` managed Perls, by removing them from `PATH`
-environment variables. This will return you to a system Strawberry or
-ActiveState system installed Perl.
+Prints to `STDOUT` the list of Perl instances that aren't registered with
+`berrybrew`.
 
 #### ProcessCreate
 
