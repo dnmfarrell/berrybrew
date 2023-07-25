@@ -102,7 +102,7 @@ namespace BerryBrew {
 		public PathOp PathOp = null;
 		public PerlOp PerlOp = null;
 
-		// Strawberry Perl instance container
+		// Strawberry Perl instance initializers
         
 		public readonly OrderedDictionary _perls = new OrderedDictionary();
 
@@ -194,10 +194,15 @@ namespace BerryBrew {
                 Message.Add(entry);
             }
 
-            // perls
+			// perl instances
 
-            const bool installPerlsIntoSelf = true;
-            PerlOp.PerlGenerateObjects(installPerlsIntoSelf);
+			List<StrawberryPerl> perlObjects = PerlOp.PerlGenerateObjects();
+            
+			foreach (StrawberryPerl perl in perlObjects) {
+                if (! _perls.Contains(perl.Name)) {
+                    _perls.Add(perl.Name, perl);
+                }
+            }
         }
 
         ~Berrybrew(){

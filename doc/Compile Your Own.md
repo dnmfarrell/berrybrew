@@ -12,6 +12,7 @@
         src\messaging.cs^
         src\pathoperations.cs^
         src\perlinstance.cs^
+        src\perloperations.cs^
         -lib:bin^
         -t:library^
         -out:bin\bbapi.dll^
@@ -31,6 +32,7 @@
 
     mcs^
         src\berrybrew-ui.cs^
+        src\perloperations.cs^
         -lib:bin^
         -t:winexe^
         -out:bin/berrybrew-ui.exe^

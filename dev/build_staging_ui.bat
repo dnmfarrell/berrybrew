@@ -15,7 +15,6 @@ echo "compiling UI..."
 call csc^
     src\berrybrew-ui.cs^
     src\perloperations.cs^
-    src\berrybrew-ui.cs^
     -lib:staging^
     -r:bbapi.dll^
     -r:System.Drawing.dll^

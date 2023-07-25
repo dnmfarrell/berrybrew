@@ -186,6 +186,7 @@ sub compile {
     my $ui_build = "" .
         "mcs " .
         "src/berrybrew-ui.cs " .
+        "src\perloperations.cs " .
         "-lib:bin " .
         "-t:winexe " .
         "-out:bin/berrybrew-ui.exe " .
