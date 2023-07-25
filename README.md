@@ -44,7 +44,7 @@ documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 544854003a4ba903e3954c47d176c35a0ab3cf8f`
+[berrybrewInstaller.exe](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 3dcc064bd64f838d80a1b6abf31fce70b32d8b70`
 
 ##### Git clone
 
@@ -54,7 +54,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 74c651ed1905e70e216ddbb56b6c4fc9fbded852`
+[berrybrew.zip](download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 2c57d66db9867e9a39b4ee4b813a5b3b125ecf6d`
 
 After extraction:
 
@@ -222,18 +222,21 @@ line:
 - [Configuration](doc/Configuration.md)
  Guide to various configuration files and options
 
+- [Add a New Class](doc/Add%20a%20New%20Class.md) 
+ Explains the process of creating and adding a new class
+ 
 - [Compile Your Own Installation](doc/Compile%20Your%20Own.md)
  Guide to compiling `berrybrew` from source
 
 - [Create a Development Build](doc/Create%20a%20Development%20Build.md)
  Guide to creating a development build for testing new functionality
 
+- [Create and Publish a Release](doc/Create%20a%20Release.md)
+  Guide to creating a release, publishing it as a production install, and
+  setting up the next release branch
+
 - [Unit Testing](doc/Unit%20Testing.md)
  Documentation for unit testing `berrybrew`
- 
-- [Create and Publish a Release](doc/Create%20a%20Release.md)
- Guide to creating a release, publishing it as a production install, and
- setting up the next release branch
 
 - [Update releases.json](doc/Update%20Releases%20JSON.md)
  For the time being, Strawberry Perl is using a Github hosted `releases.json`
@@ -297,4 +300,4 @@ Unix based systems.
 
 ## Version
 
-1.38 
+1.39 

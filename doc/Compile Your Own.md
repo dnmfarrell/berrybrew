@@ -4,35 +4,75 @@
 
     git clone https://github.com/stevieb9/berrybrew
     cd berrybrew
-    
+  
 ### Compile the API library
 
-    mcs \
-        -lib:bin \
-        -t:library \
-        -r:Newtonsoft.Json.dll,ICSharpCode.SharpZipLib.dll \ 
-        -out:bin/bbapi.dll \
-        src/berrybrew.cs
+    mcs^
+        src\berrybrew.cs^
+        src\messaging.cs^
+        src\pathoperations.cs^
+        src\perlinstance.cs^
+        src\perloperations.cs^
+        -lib:bin^
+        -t:library^
+        -out:bin\bbapi.dll^
+        -r:Newtonsoft.Json.dll^
+        -r:ICSharpCode.SharpZipLib.dll^ 
 
 ### Compile the berrybrew.exe binary
 
-    mcs \
-        src/bbconsole.cs
-        -lib:bin \
-        -r:bbapi.dll \
-        -out:bin/berrybrew.exe \
-        -win32icon:inc/berrybrew.ico
+    mcs ^
+        src/bbconsole.cs^
+        -lib:bin^
+        -out:bin/berrybrew.exe^
+        -r:bbapi.dll^
+        -win32icon:inc/berrybrew.ico^
 
 ### Compile the UI
 
-    mcs \
-        -lib:build \
-        -r:bbapi.dll \
-        -r:System.Drawing \
-        -r:System.Windows.Forms \
-        -r:Microsoft.Visualbasic.dll \
-        -win32icon:inc/berrybrew.ico \
-        -win32manifest:berrybrew.manifest \
-        -t:winexe \
-        -out:bin/berrybrew-ui.exe \
-        src\berrybrew-ui.cs
+    mcs^
+        **src\berrybrew-ui.cs^
+        src\perloperations.cs^
+        -lib:bin^
+        -t:winexe^
+        -out:bin/berrybrew-ui.exe^
+        -r:bbapi.dll^
+        -r:System.Drawing^
+        -r:System.Windows.Forms^
+        -r:Microsoft.Visualbasic.dll^
+        -win32icon:inc/berrybrew.ico^
+        -win32manifest:berrybrew.manifest^**
+
+### Copy/Paste Entire Process
+
+    mcs^
+        src\berrybrew.cs^
+        src\messaging.cs^
+        src\pathoperations.cs^
+        src\perlinstance.cs^
+        src\perloperations.cs^
+        -lib:bin^
+        -t:library^
+        -out:bin\bbapi.dll^
+        -r:Newtonsoft.Json.dll^
+        -r:ICSharpCode.SharpZipLib.dll^
+
+    mcs ^
+        src/bbconsole.cs^
+        -lib:bin^
+        -out:bin/berrybrew.exe^
+        -r:bbapi.dll^
+        -win32icon:inc/berrybrew.ico^
+
+    mcs^
+        **src\berrybrew-ui.cs^
+        src\perloperations.cs^
+        -lib:bin^
+        -t:winexe^
+        -out:bin/berrybrew-ui.exe^
+        -r:bbapi.dll^
+        -r:System.Drawing^
+        -r:System.Windows.Forms^
+        -r:Microsoft.Visualbasic.dll^
+        -win32icon:inc/berrybrew.ico^
+        -win32manifest:berrybrew.manifest^

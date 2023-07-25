@@ -113,12 +113,13 @@ directory.
 ##### clean options
 
     help        Displays the subcommand help screen
+    all         Runs all of the above "clean" processes
+    build       Deletes the developer's staging build directory in the repo
+    dev         Deletes all developer data (testing and staging directories)             
     temp        Deletes all Perl installation zip files
+    module      Deletes the exported module list directory                
     orphan      Deletes any directories in the Perl install directory that
                 berrybrew hasn't registered
-    module      Deletes the exported module list directory                
-    dev         Deletes all developer data (test and build directories)                
-    all         Runs all of the above "clean" processes
 
 #### clone
 

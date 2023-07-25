@@ -1,5 +1,41 @@
 Revision history for berrybrew
 
+1.39    2023-07-25
+- Code cleanup, minor reorganization for more efficient short-circuits
+- Rename "See Also" in the README to "Other Documentation"
+- Release script (dev/release.pl) now updates Copyright year in
+`CONTRIBUTING.md`
+- Completely renamed the various environments. 'build' is now 'staging', and
+'test' is now 'testing'. Refactored/renamed all scripts, registry and
+config elements, all references in documentation, test files etc. (Closes
+#319)
+- Create build_staging_installer.bat which wraps the original Perl script.
+This is just for consistency of all the other staging build scripts being
+batch files
+- Rename `dev/post_release.pl` to `dev/release_post.pl`
+- Add new `dev/release_cycle.pl` script, automates the preparation of the
+next version's development branch (closes #266)
+- Moved `Message` class to its own `messaging.cs` source file with the
+namespace `BerryBrew.Messaging` (work on #184)
+- Moved `StrawberryPerl` struct to its own `perlinstance.cs` source file
+with the namespace `BerryBrew.PerlInstance` (work on #184)     
+- Removed the deprecated `berrybrew upgrade` command along with its
+corresponding `Upgrade()` method in the API
+- Moved all Path functionality to new `src/pathoperations.cs` file with
+namespace `BerryBrew.PathOperations` and class `PathOp`
+- s/PerlarchivePath/PerlArchivePath/ in method name and call (fixes #327)
+- Moved all Perl functionality to new `src/perloperations.cs` file with
+namespace `BerryBrew.PerlOperations` and class `PerlOp` (work on #184)
+- Updated entire API doc with relevant parameter and permissions for each
+class method after splitting libraries (work on #184) (closes #326)
+- Added "Testing the UI" section in Unit Testing doc (closes #328)
+- Added `berrybrew clean build` with `CleanBuild()` to clean the staging
+build directory from the repo (fixes #322)
+- Add StrawberryPerl struct instantiation parameters and property lists to
+the API doc (closes #325)
+- Staging build script now updates the recommended perl instance to the most
+recent available version
+      
 1.38    2023-07-21
 - Remove the perltricks.com link from David Farrell acknowledgement
 (Fixes #313)
@@ -9,7 +45,7 @@ Perl version (Fixes #316)
 - Fix issue where `berrybrew use` was exporting wrong module list. We now
 don't allow exporting modules in a temp instance (by using
 BERRYBREW_TEMP_INSTANCE env var) (Fixes #312)
-- dev\release.pl release script now updates Copyright year in license file
+- dev\release.pl release script now updates Copyright year in LICENSE file
 (closes #314)
 
 1.37    2023-07-20

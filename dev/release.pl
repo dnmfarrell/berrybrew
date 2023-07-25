@@ -67,7 +67,7 @@ sub backup_configs {
     }
 }
 sub check_contributing {
-    open my $fh, '<', 'CONTRIBUTINGmd' or die "Can't open CONTRIBUTING.md: $!";
+    open my $fh, '<', 'CONTRIBUTING.md' or die "Can't open CONTRIBUTING.md: $!";
 
     my ($current_year) = (localtime)[5];
     $current_year += 1900;
@@ -152,15 +152,20 @@ sub check_readme {
     }        
 }
 sub compile {
-    print "\ncompiling the berrybrew API...\n";
+    print "\ncompiling the berrybrew core API dll...\n";
 
     my $api_build = "" .
         "mcs " .
         "src/berrybrew.cs " .
+        "src/messaging.cs " .
+        "src/pathoperations.cs " .
+        "src/perlinstance.cs " .
+        "src/perloperations.cs " .
         "-lib:bin " .
         "-t:library " .
-        "-r:Newtonsoft.Json.dll,ICSharpCode.SharpZipLib.dll " .
-        "-out:bin/bbapi.dll";
+        "-out:bin/bbapi.dll " .
+        "-r:Newtonsoft.Json.dll " .
+        "-r:ICSharpCode.SharpZipLib.dll";
 
     system $api_build;
 
@@ -170,8 +175,8 @@ sub compile {
         "mcs " .
         "src/bbconsole.cs " .
         "-lib:bin  " .
-        "-r:bbapi.dll  " .
         "-out:bin/berrybrew.exe " .
+        "-r:bbapi.dll  " .
         "-win32icon:inc/berrybrew.ico";
 
     system $bin_build;
@@ -181,15 +186,17 @@ sub compile {
     my $ui_build = "" .
         "mcs " .
         "src/berrybrew-ui.cs " .
+        "src/perloperations.cs " .
         "-lib:bin " .
+        "-t:winexe " .
+        "-out:bin/berrybrew-ui.exe " .
         "-r:bbapi.dll " .
         "-r:Microsoft.VisualBasic.dll " .
+        "-r:Newtonsoft.Json.dll " .
         "-r:System.Drawing.dll " .
         "-r:System.Windows.Forms.dll " .
         "-win32icon:inc/berrybrew.ico " .
-        "-t:winexe " .
-        "-win32manifest:berrybrew.manifest " .
-        "-out:bin/berrybrew-ui.exe ";        
+        "-win32manifest:berrybrew.manifest";
 
     system $ui_build;        
     
