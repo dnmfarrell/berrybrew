@@ -31,7 +31,7 @@ sub checkout_master_branch {
         system('git checkout master');
     };
 
-    if ($output !~ /Switched to branch 'master'/) {
+    if ($output !~ /Switched to branch 'master'/ && $output !~ /On branch master/) {
         die "Couldn't switch to master branch";
     }
 
