@@ -35,7 +35,10 @@ build directory from the repo (fixes #322)
 the API doc (closes #325)
 - Staging build script now updates the recommended perl instance to the most
 recent available version
-      
+- Finished separating out various chunks of functionality from the main
+source file and spread it across logical files to contain like
+functionality (closes #184)
+            
 1.38    2023-07-21
 - Remove the perltricks.com link from David Farrell acknowledgement
 (Fixes #313)
