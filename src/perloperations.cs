@@ -22,7 +22,7 @@ namespace BerryBrew.PerlOperations {
             bb = berrybrew;
 			PathOp = new PathOp(bb);
         }
-        
+
         internal static string PerlArchivePath(StrawberryPerl perl) {
             string path;
 
@@ -76,12 +76,12 @@ namespace BerryBrew.PerlOperations {
                 if (dir == bb.archivePath) {
                     continue;
                 }
-                
+
 				// valid perl instance directory
 				if (perlInstallations.Contains(dir)) {
                     continue;
                 }
-              
+
 				// testing directory
                 if (Regex.Match(dir, @"\\testing$").Success) {
                     continue;

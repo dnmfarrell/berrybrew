@@ -96,15 +96,15 @@ namespace BerryBrew {
         public bool Trace   { set; get; }
         public bool Status  { set; get; }
 
-		// related class objects
+        // related class objects
 
         public readonly Message Message = new Message();
-		public PathOp PathOp = null;
-		public PerlOp PerlOp = null;
+        public PathOp PathOp = null;
+        public PerlOp PerlOp = null;
 
-		// Strawberry Perl instance initializers
-        
-		public readonly OrderedDictionary _perls = new OrderedDictionary();
+        // Strawberry Perl instance initializers
+
+        public readonly OrderedDictionary _perls = new OrderedDictionary();
 
         private string registrySubKey;
 
@@ -123,16 +123,16 @@ namespace BerryBrew {
 
         public Berrybrew() {
 
-			// related object instantiations
+            // related object instantiations
 
-			PathOp = new PathOp(this);
-			PerlOp = new PerlOp(this);
+            PathOp = new PathOp(this);
+            PerlOp = new PerlOp(this);
 
             // Initialize configuration
 
-            installPath 	= Regex.Replace(binPath, @"bin", "");
-            configPath 		= installPath + @"/data/";
-            registrySubKey 	= @"SOFTWARE\berrybrew";
+            installPath     = Regex.Replace(binPath, @"bin", "");
+            configPath      = installPath + @"/data/";
+            registrySubKey  = @"SOFTWARE\berrybrew";
 
             validOptions = new List<string>{
                 "debug",
@@ -194,11 +194,11 @@ namespace BerryBrew {
                 Message.Add(entry);
             }
 
-			// perl instances
+            // perl instances
 
-			List<StrawberryPerl> perlObjects = PerlOp.PerlGenerateObjects();
-            
-			foreach (StrawberryPerl perl in perlObjects) {
+            List<StrawberryPerl> perlObjects = PerlOp.PerlGenerateObjects();
+
+            foreach (StrawberryPerl perl in perlObjects) {
                 if (! _perls.Contains(perl.Name)) {
                     _perls.Add(perl.Name, perl);
                 }
@@ -378,7 +378,7 @@ namespace BerryBrew {
                     CleanDev();
                     break;
 
-				case "build":
+                case "build":
                     cleansed = CleanBuild();
                     Console.WriteLine(
                         cleansed
@@ -424,15 +424,15 @@ namespace BerryBrew {
             }
         }
 
-		private bool CleanBuild() {
-			string runMode = Options("run_mode", null, true);
+        private bool CleanBuild() {
+            string runMode = Options("run_mode", null, true);
 
-			if (runMode == "staging") {
+            if (runMode == "staging") {
                 Console.Error.WriteLine("\nCan't remove staging build dir while in staging run_mode. Use 'bin\\berrybrew clean dev' instead");
-				Exit(-1);
-			}
+                Exit(-1);
+            }
 
-			string stagingBuildDir = installPath;
+            string stagingBuildDir = installPath;
 
             stagingBuildDir += @"staging";
 
@@ -460,8 +460,8 @@ namespace BerryBrew {
         }
 
         private bool CleanDev() {
-			string stagingDir = rootPath;
-			string testingDir = rootPath;
+            string stagingDir = rootPath;
+            string testingDir = rootPath;
 
             if (Testing) {
                 stagingDir = stagingDir.Replace("\\staging", "");
@@ -473,7 +473,7 @@ namespace BerryBrew {
             stagingDir += @"staging";
             testingDir = string.Format(@"{0}testing", testingDir);
 
-			Console.WriteLine("{0}", stagingDir);
+            Console.WriteLine("{0}", stagingDir);
 
             if (Debug) {
                 Console.WriteLine("DEBUG: staging dir: {0}", stagingDir);
