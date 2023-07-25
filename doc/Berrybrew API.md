@@ -15,11 +15,11 @@ link in the respective class' list will direct you to that method's definition.
 
 | Class |File|Namespace|Description
 |---|---|---|---|
- [Berrybrew](#berrybrew-class)            | src/**berrybrew.cs** | **BerryBrew** | Core API
- [Message](#message-class)                | src/**messaging.cs** | BerryBrew.**Messaging** | Content for all output
- [PathOp](#pathop-class)                  | src/**pathoperations.cs** | BerryBrew.**PathOperations** | Environment path management
- [PerlOp](#perlop-class)                  | src/**perloperations.cs** | BerryBrew.**PerlOperations** | Operations to manage Perl instances 
- [StrawberryPerl](#struct-strawberryperl) | src/**perlinstance.cs** | BerryBrew.**PerlInstance** | Perl instance container
+[Berrybrew](#berrybrew-class)            | src/**berrybrew.cs** | **BerryBrew** | Core API
+[Message](#message-class)                | src/**messaging.cs** | BerryBrew.**Messaging** | Content for all output
+[PathOp](#pathop-class)                  | src/**pathoperations.cs** | BerryBrew.**PathOperations** | Environment path management
+[PerlOp](#perlop-class)                  | src/**perloperations.cs** | BerryBrew.**PerlOperations** | Operations to manage Perl instances 
+[StrawberryPerl](#struct-strawberryperl) | src/**perlinstance.cs** | BerryBrew.**PerlInstance** | Perl instance container
 
 ### Exit Status
 
@@ -114,18 +114,18 @@ Manages all operations necessary to maintain the Strawberry Perl instances.
 
 |Method name|Available|Description|
 |---|---|---|
-[PerlArchivePath](#perlarchivepath)| private | Returns the path and filename of the zip file
-[PerlFindOrphans](#perlfindorphans)| private | Locates non-registered directories in Perl root
-[PerlGenerateObjects](#perlgenerateobjects)| private | Generates the `StrawberryPerl` class objects
-[PerlInUse](#perlinuse)| **public** | Returns the object that represents Perl currently in use
-[PerlIsInstalled](#perlisinstalled)| private | Checks if a specific Perl is installed
-[PerlsInstalled](#perlsinstalled)| **public** | Fetches the list of Perls installed
-[PerlRemove](#perlremove)| **public** | Uninstalls a specific instance of Perl
-[PerlRegisterCustomInstall](#perlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
-[PerlRegisterVirtualInstall](#perlregistervirtualinstall)| **public** | Make `berrybrew` aware of external Perls
-[PerlResolveVersion](#PerlResolveVersion)| private | Resolves the name of a Perl to its StrawberryPerl object
-[PerlUpdateAvailableList](#PerlUpdateAvailableList)| **public** | Automatically fetches new Strawberry Perls available
-[PerlUpdateAvailableListOrphans](#PerlUpdateAvailableListOrphans)| **public** | Registers any orphaned Perls after using `Fetch()`
+[PerlArchivePath](#perlopperlarchivepath)| private | Returns the path and filename of the zip file
+[PerlFindOrphans](#perlopperlfindorphans)| private | Locates non-registered directories in Perl root
+[PerlGenerateObjects](#perlopperlgenerateobjects)| private | Generates the `StrawberryPerl` class objects
+[PerlInUse](#perlopperlinuse)| **public** | Returns the object that represents Perl currently in use
+[PerlIsInstalled](#perlopperlisinstalled)| private | Checks if a specific Perl is installed
+[PerlsInstalled](#perlopperlsinstalled)| **public** | Fetches the list of Perls installed
+[PerlRemove](#perlopperlremove)| **public** | Uninstalls a specific instance of Perl
+[PerlRegisterCustomInstall](#perlopperlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
+[PerlRegisterVirtualInstall](#perlopperlregistervirtualinstall)| **public** | Make `berrybrew` aware of external Perls
+[PerlResolveVersion](#perlopperlresolveVersion)| private | Resolves the name of a Perl to its StrawberryPerl object
+[PerlUpdateAvailableList](#perlopperlupdateavailablelist)| **public** | Automatically fetches new Strawberry Perls available
+[PerlUpdateAvailableListOrphans](#perlopperlupdateavailablelistorphans)| **public** | Registers any orphaned Perls after using `Fetch()`
 
 ## Struct StrawberryPerl
 
