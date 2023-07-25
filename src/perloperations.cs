@@ -112,9 +112,9 @@ namespace BerryBrew.PerlOperations {
         internal List<StrawberryPerl> PerlGenerateObjects() {
             List<StrawberryPerl> perlObjects = new List<StrawberryPerl>();
 
-            var perls			= bb.JsonParse("perls");
-            var customPerls 	= bb.JsonParse("perls_custom");
-            var virtualPerls	= bb.JsonParse("perls_virtual");
+            var perls           = bb.JsonParse("perls");
+            var customPerls     = bb.JsonParse("perls_custom");
+            var virtualPerls    = bb.JsonParse("perls_virtual");
 
             foreach (var perl in perls) {
                 perlObjects.Add(

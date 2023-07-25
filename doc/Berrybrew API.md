@@ -135,6 +135,40 @@ Perl instance.
 Its source file is `src/perlinstance.cs` and its namespace is
 `BerryBrew.PerlInstance`.
 
+| Property | Available  | Type | Description |
+|----------|------------|------------------|---|
+**Name** | public readonly | string | The Perl instance's name 
+**File** | public readonly | string | Filename portion of the zip file
+**Url** | public readonly | string | Download URL for this Perl instance
+**Version** | public readonly | string | Version of the instance (eg. 5.10.1_32)
+**Sha1Checksum** | public readonly | string | The SHA1 checksum of the zip archive file
+**Newest** | public readonly | bool | Is this the most recent point release of the major release?
+**Custom** | public readonly | bool | Is this instance a custom install?
+**Virtual** | public readonly | bool | Is this instance a virtual instance?
+**archivePath** | public readonly | string | Temp directory where we'll extract the instance zip file
+**installPath** | public readonly | string | Directory where the instance will be run out of
+**CPath** | public readonly | string | Instance auxillary/additional library/include path
+**PerlPath** | public readonly | string | Full path to the instances perl.exe binary
+**PerlSitePath** | public readonly | string | Primary instance library/include path
+**Paths** | public readonly | List<string> | A list of the above mentioned paths
+
+### StrawberryPerl Struct Instantiation Parameters
+
+| Parameter | Mapped Property | Type | Required | Default |
+|-----------|-----------------|------|----------|---------|
+**bb** | N/A | Berrybrew object | true | N/A 
+**name** | Name | Converted JSON object | true | N/A
+**file** | File | Converted JSON object | true | N/A
+**url** | Url | Converted JSON object | true | N/A
+**version** | Version | Converted JSON object | true | N/A
+**csum** | Sha1Checksum | Converted JSON object | true | N/A
+**newest** | Newest | bool | false | false
+**custom** | Custom | bool | false | false
+**virtual_install** | Virtual | bool | false | false
+**perl_path** | PerlPath | string | false | ""
+**lib_path** | PerlSitePath | string | false | ""
+**aux_path** | CPath | string | false | ""
+
 ## Berrybrew Class Methods
 
 #### Available
