@@ -34,6 +34,8 @@ necessary
     - Updates the MSI installer script with berrybrew and perl version info
     - Creates the MSI installer program
     - Perform SHA checksum tasks on the new zip archive and MSI installer
+    - Update the copyright year in the LICENSE file
+    - Update the copyright year in the CONTRIBUTING.md file
     - Update the `README.md` file with the zip and installer's new SHA sum
     - Update the `README.md` file with the new version from the API's
     `Version()` method

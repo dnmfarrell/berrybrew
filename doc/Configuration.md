@@ -19,7 +19,7 @@ Most options are also configurable through the UI.
 [download_url](#download_url)|The URL for the Strawberry release JSON file|
 [custom_exec](#custom_exec)|Include custom (cloned) instances under `berrybrew exec`|
 [windows_homedir](#windows_homedir)|Default home directory for `File::HomeDir`|
-[run_mode](#run_mode)|Used to identify prod, build or test|
+[run_mode](#run_mode)|Used to identify prod, staging or testing environment|
 [shell](#shell)|Shell to run when 'use'ing a Perl|
 [file_assoc](#file_assoc)|The current .pl file association handler|
 [file_assoc_old](#file_assoc_old)|The previous .pl file association handler|
@@ -100,8 +100,7 @@ Values: "true", "false"
 ##### run_mode
 
 This option is used by the system to idenfity whether it's running in `prod`,
-`build (aka dev)` or `test` mode. Currently, it's used by the UI so the user
-knows which environment they're running in.
+`staging` or `testing` mode. 
 
 It should not be modified by the end user.
 

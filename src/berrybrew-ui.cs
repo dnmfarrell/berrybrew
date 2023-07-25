@@ -674,10 +674,10 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.Name = "BBUI";
 
-        string runMode = bb.Options("run_mode");
+        string runMode = bb.Options("run_mode", null, true);
 
         if (runMode == "prod" || runMode == null) {
-            this.Text = "Berrybrew UI v" + bb.Version();
+            this.Text = "BB UI v" + bb.Version();
         }
         else if (runMode == "staging") {
             this.Text = "BB-DEV UI v" + bb.Version();
