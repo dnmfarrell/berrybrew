@@ -67,7 +67,7 @@ sub backup_configs {
     }
 }
 sub check_contributing {
-    open my $fh, '<', 'CONTRIBUTINGmd' or die "Can't open CONTRIBUTING.md: $!";
+    open my $fh, '<', 'CONTRIBUTING.md' or die "Can't open CONTRIBUTING.md: $!";
 
     my ($current_year) = (localtime)[5];
     $current_year += 1900;
@@ -160,6 +160,7 @@ sub compile {
         "src/messaging.cs " .
         "src/pathoperations.cs " .
         "src/perlinstance.cs " .
+        "src/perloperations.cs " .
         "-lib:bin " .
         "-t:library " .
         "-out:bin/bbapi.dll " .
@@ -185,12 +186,13 @@ sub compile {
     my $ui_build = "" .
         "mcs " .
         "src/berrybrew-ui.cs " .
-        "src\perloperations.cs " .
+        "src/perloperations.cs " .
         "-lib:bin " .
         "-t:winexe " .
         "-out:bin/berrybrew-ui.exe " .
         "-r:bbapi.dll " .
         "-r:Microsoft.VisualBasic.dll " .
+        "-r:Newtonsoft.Json.dll " .
         "-r:System.Drawing.dll " .
         "-r:System.Windows.Forms.dll " .
         "-win32icon:inc/berrybrew.ico " .
