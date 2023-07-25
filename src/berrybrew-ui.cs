@@ -674,7 +674,7 @@ public class BBUI : System.Windows.Forms.Form {
 
         this.Name = "BBUI";
 
-        string runMode = bb.Options("run_mode");
+        string runMode = bb.Options("run_mode", null, true);
 
         if (runMode == "prod" || runMode == null) {
             this.Text = "BB UI v" + bb.Version();
