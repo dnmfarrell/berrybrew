@@ -88,10 +88,10 @@ that is displayed to the user.
 |Method name|Available|Description|
 |---|---|---|
 [Add](#messageadd)| **public** | Adds a new message to the collection
+[Error](#messageerror)| **public** | Same as `Print()`, but writes to `STDERR` instead of `STDOUT`
 [Get](#messageget)| **public** | Fetches the content of a specific message
 [Print](#messageprint)| **public** | Prints the content of a specific message
 [Say](#messagesay)| **public** | Same as `Print()`, but terminates
-[Error](#messageerror)| **public** | Same as `Print()`, but writes to `STDERR` instead of `STDOUT`
 
 ## PathOp Class
 
@@ -186,7 +186,7 @@ command line when desiring a 64-bit version of Perl.
 
 #### CheckName
 
-    private static bool CheckName(string perlName)
+    public static bool CheckName(string perlName)
 
         argument:   perlName
         value:      Name of an available Perl
@@ -301,7 +301,7 @@ command to execute.
 
 #### ExecCompile
 
-    public void ExecCompile(string parameters)
+    public void ExecCompile(List<String> parameters)
 
         argument:   parameters
         value:      Full command string that Exec() hands off, including
@@ -343,13 +343,13 @@ file will be the version name of the Perl you're exporting from (eg.
     
 #### Extract
 
-    private void Extract(StrawberryPerl perl, string tempDir)
+    private void Extract(StrawberryPerl perl, string archiveDir)
 
         argument:   perl
         value:      A single instance of the StrawberryPerl class
 
-        argument:   tempDir
-        value:      The full path to the temporary Perl installation staging directory
+        argument:   archiveDir
+        value:      The full path to the temporary Perl extraction directory
         typical:    this.archivePath
 
 Extracts a Perl instance zip archive into the Perl installation directory.
@@ -403,7 +403,7 @@ and a stringified `IO` exception on failure.
 
 #### FileSystemResetAttributes
 
-    private static void FileSystemResetAttributes(string dir)
+    public static void FileSystemResetAttributes(string dir)
 
         argument:   dir
         value:      Name of a directory that exists in the filesystem
@@ -412,15 +412,6 @@ Recursively resets all files and directories within the directory being
 operated on back to default. This method was written specifically to ensure
 that no files were readonly, which prevented us from removing Perl
 installations.
-
-#### Info
-
-    public void Info(string want)
-
-        argument:   want
-        value:      One of "archive_path", "bin_path", "root_path" or "install_path"
-
-Writes to the console a string containing the required information.
 
 #### ImportModules
 
@@ -443,8 +434,17 @@ and installs all of the listed modules into the currently in-use Perl.
         value:      The full path including the file name listed in the 'file' parameter
         
 This method is called by `ImportModules()`, and simply performs the routines
-that install all of the listed modules within the exported file.
-        
+that install all the listed modules within the exported file.
+
+#### Info
+
+    public void Info(string want)
+
+        argument:   want
+        value:      One of "archive_path", "bin_path", "root_path" or "install_path"
+
+Writes to the console a string containing the required information.
+
 #### Install
 
     public void Install(string version)
@@ -457,7 +457,7 @@ Installs and registers a new instance of Perl.
 
 #### JsonParse
 
-    private dynamic JsonParse(string type, bool raw=false)
+    public dynamic JsonParse(string type, bool raw=false)
 
         argument:   type
         value:      The name of the JSON file, with the '.json' extension removed
@@ -474,7 +474,7 @@ is set to `false` (default), we send the data back de-serialized. If `raw` is
 
 #### JsonWrite
 
-    private void JsonWrite(
+    public void JsonWrite(
         string type,
         List<Dictionary<string, object>> data,
         bool fullList=false
@@ -564,7 +564,7 @@ Prints to `STDOUT` the list of Perl instances that aren't registered with
 
 #### ProcessCreate
 
-    private static System.Diagnostics.Process ProcessCreate(string cmd, bool hidden=true)
+    public System.Diagnostics.Process ProcessCreate(string cmd, bool hidden=true)
 
         argument:   cmd
         value:      String containing the command and arguments to execute
@@ -608,7 +608,7 @@ correctly when switching quickly.
 
 #### SwitchQuick
 
-    private void SwitchProcess()
+    public void SwitchProcess()
     
 Called by [Switch](#switch), sets up the new environment so we don't need to
 close the current `cmd` window and open a new one for environment variables
@@ -619,17 +619,6 @@ to be refreshed.
     public void Unconfig()
 
 Removes Berrybrew from PATH.
-
-#### Upgrade
-
-    public void Upgrade()
-
-Creates a `backup_timestamp` backup directory in the repository root directory,
-copies the live configuration files from `data` directory, performs a
-`git pull`. All configuration files less the `perls_custom.json` file are
-overwritten with any new changes. It is up to the user to manually merge in any
-custom changes to the other configuration files from the backups into the new
-files in `data/`.
 
 #### UseCompile
 
@@ -710,6 +699,15 @@ It's source file is`src/messaging.cs` and its namespace is `BerryBrew.Messaging`
 
 Adds a message to the structure.
 
+#### Message.Error
+
+    public void Error(string label)
+    
+         argument:   label
+         value:      Name of a message label
+
+Prints the relevant message to `STDERR` as opposed to `STDOUT`.
+
 #### Message.Get
 
     public string Get(string label)
@@ -741,20 +739,11 @@ Returns the message content that corresponds with a specific message label.
 Same thing as `Message.Print`, but after printing, calls `Environment.Exit(0)`
 and terminates the application.
 
-#### Message.Error
-
-    public void Error(string label)
-    
-         argument:   label
-         value:      Name of a message label
-
-Prints the relevant message to `STDERR` as opposed to `STDOUT`.
-
 ## PathOp Class Methods
 
 #### PathOp.PathAddBerryBrew
 
-    private void PathAddBerryBrew(string binPath)
+    internal void PathAddBerryBrew(string binPath)
 
         argument:   binPath
         value:      Full path to the directory the berrybrew.exe binary resides in
@@ -764,7 +753,7 @@ line without having to specify the full path to the executable.
 
 #### PathOp.PathAddPerl
 
-    private void PathAddPerl(StrawberryPerl perl)
+    internal void PathAddPerl(StrawberryPerl perl)
 
         argument:   perl
         value:      Single instance of the StrawberryPerl class
@@ -774,7 +763,7 @@ housed in the `perl` object will be used on the system.
 
 #### PathOp.PathGet
 
-    private static string PathGet()
+    public static string PathGet()
 
         return:     String containing the machine's PATH data
 
@@ -786,9 +775,9 @@ Does not expand any variable-based `PATH` entries on extraction.
 
 #### PathOp.PathGetUsr
 
-    private static string PathGetUsr()
+    internal static string PathGetUsr()
     
-    return: String containing the currently logged in user's PATH environment variable
+        return: String containing the currently logged in user's PATH environment variable
 
 Fetches and returns a string containing the currently logged in user's `PATH`
 environment variable.
@@ -797,13 +786,13 @@ Does not expand any variable-based `PATH` entries on extraction.
 
 #### PathOp.PathRemoveBerrybrew
 
-    private void PathRemoveBerrybrew()
+    public void PathRemoveBerrybrew()
 
 Removes berrybrew binary directory from `PATH`.
 
 #### PathOp.PathRemovePerl
 
-    private void PathRemovePerl(bool process=true)
+    public void PathRemovePerl(bool process=true)
 
         argument:   process
         value:      bool
@@ -816,7 +805,7 @@ If `process` is set to `true` (default), we'll execute the removal via
 
 #### PathOp.PathScan
 
-    private static bool PathScan(string binPath, string target)
+    internal static bool PathScan(string binPath, string target)
 
         argument:   binPath
         value:      string that contains the path to check against 
@@ -831,7 +820,7 @@ searching for the binary name. Returns `true` on success, `false` otherwise.
 
 #### PathOp.PathSet
 
-    private void PathSet(List<string> paths)
+    internal void PathSet(List<string> paths)
 
         argument:   paths
         value:      List of strings, each string contains a PATH entry
@@ -849,7 +838,7 @@ preserve and insert variable-based `PATH` entries.
 
 #### PerlOp.PerlArchivePath
 
-    private static string PerlArchivePath(StrawberryPerl perl)
+    internal static string PerlArchivePath(StrawberryPerl perl)
 
         argument:   perl
         value:      Instance of the StrawberryPerl class
@@ -860,7 +849,7 @@ Creates the directory that will house a new Perl installation.
 
 #### PerlOp.PerlFindOrphans
 
-    private List<string> PerlFindOrphans()
+    internal List<string> PerlFindOrphans()
 
         returns:    List of the names of orphaned Perl installs found
 
@@ -869,11 +858,13 @@ don't have any association or registration with `berrybrew`.
 
 #### PerlOp.PerlGenerateObjects
 
-    private void PerlGenerateObjects(bool importIntoObject=false)
+    internal List<StrawberryPerl> PerlGenerateObjects(bool importIntoObject=false)
 
         argument:   importIntoObject
         default:    false
         purpose:    Insert the Perl objects into the Berrybrew object
+
+        returns:    List of StrawberryPerl instance objects.
 
 Collects up both the default and custom available Perls from the available
 JSON configuration files, and turns the information into `StrawberryPerl`
@@ -893,7 +884,7 @@ Locates which instance of Perl is currently in use, and returns the
 
 #### PerlOp.PerlIsInstalled
 
-    private static bool PerlIsInstalled(StrawberryPerl perl)
+    internal static bool PerlIsInstalled(StrawberryPerl perl)
 
         argument:   perl
         value:      Instance of the StrawberryPerl class
@@ -910,13 +901,6 @@ if it is, and `false` if not.
         return: A list of the Strawberry Perl objects currently installed
 
 Fetches the list of currently installed Perl instances, and returns a list of objects.
-
-#### PerlOp.PerlRemove
-
-    public void PerlRemove(string versionToRemove)
-
-        argument:   versionToRemove
-        value:      Name of an installed Perl to uninstall
 
 Removes the Perl instance corresponding to the name sent in.
 
@@ -956,9 +940,16 @@ Creates a virtual berrybrew instance wrapped around an existing Perl installatio
 
 This can be ActiveState, Strawberry or any other "system" Perl.
 
+#### PerlOp.PerlRemove
+
+    public void PerlRemove(string versionToRemove)
+
+        argument:   versionToRemove
+        value:      Name of an installed Perl to uninstall
+
 #### PerlOp.PerlResolveVersion
 
-    private StrawberryPerl PerlResolveVersion(string name)
+    internal StrawberryPerl PerlResolveVersion(string name)
 
         argument:   name
         value:      Name of a Perl as seen in 'berrybrew available'

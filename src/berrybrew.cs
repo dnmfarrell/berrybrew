@@ -415,45 +415,6 @@ namespace BerryBrew {
             }
         }
 
-        private bool CleanModules() {
-            string moduleDir = rootPath + "modules\\";
-
-            if (! Directory.Exists(moduleDir)) {
-                return true;
-            }
-
-            string[] moduleListFiles = Directory.GetFiles(moduleDir);
-
-            try {
-                FilesystemResetAttributes(moduleDir);
-
-                foreach (string file in moduleListFiles) {
-                    if (! Regex.Match(file, @"\d\.\d+\.\d+_\d+").Success) {
-                        continue;
-                    }
-                    FileRemove(file);
-                }
-            }
-            catch (Exception err) {
-                Console.Error.WriteLine("\nUnable to clean up the module list directory");
-                if (Debug) {
-                    Console.Error.WriteLine("DEBUG: {0}", err);
-                }
-                Exit((int)ErrorCodes.FILE_DELETE_FAILED);
-            }
-
-            moduleListFiles = Directory.GetFiles(moduleDir);
-            bool cleaned = true;
-
-            foreach (string file in moduleListFiles) {
-                if ( Regex.Match(file, @"\d\.\d+\.\d+_\d+").Success) {
-                    cleaned = false;
-                }
-            }
-
-            return cleaned;
-        }
-
         private bool CleanDev() {
 
             string stagingDir = rootPath;
@@ -508,6 +469,45 @@ namespace BerryBrew {
             }
 
             return true;
+        }
+
+        private bool CleanModules() {
+            string moduleDir = rootPath + "modules\\";
+
+            if (! Directory.Exists(moduleDir)) {
+                return true;
+            }
+
+            string[] moduleListFiles = Directory.GetFiles(moduleDir);
+
+            try {
+                FilesystemResetAttributes(moduleDir);
+
+                foreach (string file in moduleListFiles) {
+                    if (! Regex.Match(file, @"\d\.\d+\.\d+_\d+").Success) {
+                        continue;
+                    }
+                    FileRemove(file);
+                }
+            }
+            catch (Exception err) {
+                Console.Error.WriteLine("\nUnable to clean up the module list directory");
+                if (Debug) {
+                    Console.Error.WriteLine("DEBUG: {0}", err);
+                }
+                Exit((int)ErrorCodes.FILE_DELETE_FAILED);
+            }
+
+            moduleListFiles = Directory.GetFiles(moduleDir);
+            bool cleaned = true;
+
+            foreach (string file in moduleListFiles) {
+                if ( Regex.Match(file, @"\d\.\d+\.\d+_\d+").Success) {
+                    cleaned = false;
+                }
+            }
+
+            return cleaned;
         }
 
         private bool CleanOrphan() {

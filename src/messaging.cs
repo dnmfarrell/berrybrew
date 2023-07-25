@@ -7,10 +7,6 @@ namespace BerryBrew.Messaging {
 
         private readonly OrderedDictionary _msgMap = new OrderedDictionary();
 
-        public string Get(string label) {
-            return _msgMap[label].ToString();
-        }
-
         public void Add(dynamic json) {
             string content = null;
 
@@ -19,6 +15,15 @@ namespace BerryBrew.Messaging {
             }
 
             _msgMap.Add(json.label.ToString(), content);
+        }
+
+        public void Error(string label) {
+            string msg = Get(label);
+            Console.Error.WriteLine(msg);
+        }
+
+        public string Get(string label) {
+            return _msgMap[label].ToString();
         }
 
         public void Print(string label) {
@@ -30,11 +35,6 @@ namespace BerryBrew.Messaging {
             string msg = Get(label);
             Console.WriteLine(msg);
             Environment.Exit(0);
-        }
-
-        public void Error(string label) {
-            string msg = Get(label);
-            Console.Error.WriteLine(msg);
         }
     }
 }
