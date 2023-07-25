@@ -24,9 +24,11 @@ Revision history for berrybrew
     - Moved all Path functionality to new `src/pathoperations.cs` file with
       namespace `BerryBrew.PathOperations` and class `PathOp`
     - s/PerlarchivePath/PerlArchivePath/ in method name and call (fixes #327)
-     - Moved all Perl functionality to new `src/perloperations.cs` file with
-       namespace `BerryBrew.PerlOperations` and class `PerlOp` (work on #184)
-       
+    - Moved all Perl functionality to new `src/perloperations.cs` file with
+      namespace `BerryBrew.PerlOperations` and class `PerlOp` (work on #184)
+    - Updated entire API doc with relevant parameter and permissions for each
+      class method after splitting libraries (work on #184) (closes #326)
+
 1.38    2023-07-21
     - Remove the perltricks.com link from David Farrell acknowledgement
       (Fixes #313)
