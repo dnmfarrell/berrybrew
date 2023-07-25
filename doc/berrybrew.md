@@ -113,7 +113,7 @@ directory.
 ##### clean options
 
     help        Displays the subcommand help screen
-    all         Runs all of the above "clean" processes
+    all         Runs all clean operations
     build       Deletes the developer's staging build directory in the repo
     dev         Deletes all developer data (testing and staging directories)             
     temp        Deletes all Perl installation zip files
