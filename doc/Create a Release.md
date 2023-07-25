@@ -1,5 +1,8 @@
 # Sections
 
+The first two sections deal with publishing a release, then staging things up
+for the next development cycle. Follow each section, in order very carefully.
+
 - [Create and Publish a New Release](#create-and-publish-a-new-release)
 - [Prepare a Branch for Next Release](#prepare-a-branch-for-the-next-release-cycle)
 - [Updating the Next Release](#updates-for-the-next-release)
@@ -22,7 +25,8 @@ necessary
 
 - Execute the `perl dev\release.pl` script, which:
 
-    - Compile the `berrybrew.exe` binary and `bbapi.dll` API library
+    - Compile the `bbapi.dll` API library
+    - Compile the `berrybrew.exe` binary
     - Compile the `berrybrew-ui.exe` UI binary
     - Collect the JSON configuration files from the `dev\data` directory
     - Build the bundled zip archive, and places it into the `download/`
@@ -37,7 +41,7 @@ necessary
     - Creates a Markdown version of the Changes file
     
 - If you had any custom configuration files in place before running the
-`dev\release.pl` script, run `perl dev\post_release.pl` to put them back to
+`dev\release.pl` script, run `perl dev\release_post.pl` to put them back to
 their proper location
 
 - On a clean platform, run the self-extracting installer from the `download/`
@@ -77,26 +81,17 @@ into the master branch
     
 ## Prepare a Branch for the Next Release Cycle
 
-- Check out the updated `master` branch: `git checkout master`
+Execute `perl dev/release_cycle.pl`, which will:
 
-- Ensure it's up-to-date: `git pull`
+  - Check out the `master` branch
+  - `git pull` to ensure it's up-to-date
+  - Locally create a new branch named vX.XX (where X.XX is the bumped version
+  number)
+  - Updates the version in the `Version()` method in `src\berrybrew.cs` file
+  - Updates the `Changes` file with a new version section
+  - Commits the changes
+  - Pushes the new branch
 
-- Locally, create a new branch: `git checkout -b vx.xx`
-
-- Update the `Version()` method in `src\berrybrew.cs` file with the new version
-
-- Add the following to the `Changes` file:
-
-    - `x.xx UNREL`
-   
-- Commit the changes:
-
-    - `git commit -a -m "bumped to ver x.xx`    
-
-- Push the new branch to Github: 
-
-    - `git push -u origin vx.xx` 
-    
 ## Updates for the Next Release
 
 - Check out the version branch: `git checkout vx.xx`    

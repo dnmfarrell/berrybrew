@@ -10,9 +10,9 @@ use Win32::TieRegistry;
 
 BB::check_test_platform();
 
-$ENV{BERRYBREW_ENV} = "test";
+$ENV{BERRYBREW_ENV} = "testing";
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
 
 my @installed = BB::get_installed();
 
@@ -26,8 +26,8 @@ like $o, qr/berrybrew perl disabled/, "off ok";
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
 my $path = $Registry->{$path_key};
 
-unlike $path, qr/^C:\\berrybrew\\test/, "PATH set ok for 'off'";
-unlike $path, qr/^C:\\berrybrew\\build/, "PATH set ok for 'off'";
+unlike $path, qr/^C:\\berrybrew\\testing/, "PATH set ok for 'off'";
+unlike $path, qr/^C:\\berrybrew\\staging/, "PATH set ok for 'off'";
 
 for (@installed){
     note "\nRemoving $_...\n";

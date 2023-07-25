@@ -12,11 +12,11 @@ use Test::More;
 
 BB::check_test_platform();
 
-$ENV{BERRYBREW_ENV} = "test";
+$ENV{BERRYBREW_ENV} = "testing";
 
 my $c = $ENV{BBTEST_REPO}
-    ? "$ENV{BBTEST_REPO}/test/berrybrew"
-    : 'c:/repos/berrybrew/test/berrybrew';
+    ? "$ENV{BBTEST_REPO}/testing/berrybrew"
+    : 'c:/repos/berrybrew/testing/berrybrew';
 
 my @installed = BB::get_installed();
 my @avail = BB::get_avail();
@@ -115,7 +115,7 @@ like
     is $xerr, '', "$name: STDERR should be empty";
 
     my $re
-     = qr/where perl\s*(\S*berrybrew.test.myclone.perl.bin.perl\.exe)\s*$/ims;
+     = qr/where perl\s*(\S*berrybrew.testing.myclone.perl.bin.perl\.exe)\s*$/ims;
 
     like $xout, $re, $name.': found myclone berrybrew perl';
     foreach ( $xout =~ m/$re/gims ) {
@@ -157,7 +157,7 @@ like
     is $xerr, '', "$name: STDERR should be empty";
 
     my $re
-      = qr/where perl\s*(\S*berrybrew.test.$cloned.perl.bin.perl\.exe)\s*$/ims;
+      = qr/where perl\s*(\S*berrybrew.testing.$cloned.perl.bin.perl\.exe)\s*$/ims;
 
     like $xout, $re, $name.": found berrybrew perl $cloned";
     foreach ( $xout =~ m/$re/gims ) {
@@ -165,7 +165,7 @@ like
     }
 
     $re
-      = qr/where perl\s*(\S*berrybrew.test.myclone.perl.bin.perl\.exe)\s*$/ims;
+      = qr/where perl\s*(\S*berrybrew.testing.myclone.perl.bin.perl\.exe)\s*$/ims;
 
     like $xout, $re, $name.': found berrybrew perl myclone';
     foreach ( $xout =~ m/$re/gims ) {

@@ -12,10 +12,10 @@ use Win32::TieRegistry;
 
 BB::check_test_platform();
 
-$ENV{BERRYBREW_ENV} = "test";
+$ENV{BERRYBREW_ENV} = "testing";
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
-my $customfile = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/data/perls_custom.json" : 'c:/repos/berrybrew/test/data/perls_custom.json';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
+my $customfile = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/data/perls_custom.json" : 'c:/repos/berrybrew/testing/data/perls_custom.json';
 
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
 my $path;
@@ -60,7 +60,7 @@ for my $base (<$fh>){
 
     like $o, qr/Switched to Perl version $ver/, "switch to custom install ok";
     $path = $Registry->{$path_key};
-    like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";
+    like $path, qr/C:\\berrybrew\\testing\\$ver/, "PATH set ok for $ver";
 }
 
 {
@@ -68,7 +68,7 @@ for my $base (<$fh>){
     like $o, qr/berrybrew perl disabled/, "off ok";
 
     my $path = $Registry->{$path_key};
-    unlike $path, qr/^C:\\berrybrew\\test/, "PATH set ok for 'off'";
+    unlike $path, qr/^C:\\berrybrew\\testing/, "PATH set ok for 'off'";
 }
 
 { # clone unknown

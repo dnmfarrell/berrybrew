@@ -6,7 +6,7 @@
 - [Full Build (With Installer)](#development-installer-build)
 - [Binary Only](#berrybrew-binary-only)
 - [API Only](#api-only)
-- [UI Only](#ui-only)
+- [User Interface](#user-interface)
 
 During development, it's handy to be able to ensure the code builds and works
 correctly without overwriting the currently-installed production installation.
@@ -16,7 +16,7 @@ to running the [unit test](Unit%20Testing.md) suite.
 
 #### Development environment build:
 
-- Run the `dev\build.bat` script, which compiles the binary, library and UI and
+- Run the `dev\build_staging.bat` script, which compiles the binary, library and UI and
 places the new build within a newly-created `build` directory within your
 repository directory
 
@@ -31,30 +31,32 @@ updated directives to be pushed up into the registry
 
 #### Development installer build 
 
-- Run `perl dev\build_installer.pl`. This will run the complete `dev\build.bat` script
-  mentioned above, and then create an installer with a minimized installation, and
-  place it into the repo's `build/` directory. The installer will install into
-  the `%PROGRAM_FILES%/berrybrew/build` directory. We use the 
-  `dev\create_build_installer.nsi` NSIS installer script.
+- Run `dev\build_staging_installer.bat`. This will run the complete
+`dev\build_staging.bat` script mentioned above, and then create an installer
+with a minimized installation, and place it into the repo's `staging` directory. 
+ 
+The installer will install into the `%PROGRAM_FILES%/berrybrew/staging`
+directory. We use the `dev\create_staging_installer.nsi` NSIS installer script
+to configure the actual installation binary.
 
-**NOTE**: When running under the development build, Perl installations and
-`berrybrew`'s temporary directory are stored within a newly created `build`
+**NOTE**: When running under the development/staging build, Perl installations
+and `berrybrew`'s temporary directory are stored within a newly created `staging`
 directory underneath of `berrybrew`'s default directory (defaults to
 `C:\berrybrew`)
 
 #### berrybrew binary only
 
-- Run the `dev\build_bb.bat` script
+- Run the `dev\build_staging_bb.bat` script
 
 #### API only
 
-- Run the `dev\build_api.bat` script
+- Run the `dev\build_staging_api.bat` script
 
-#### UI only
+#### User Interface
 
-- Run the `dev\build_ui.bat` script, which compiles the UI binary. If not done
-  previously, you need to run `dev\build.bat` to build the API library first.
+- Run the `dev\build_staging_ui.bat` script, which runs `dev\build_staging.bat`
+compiling the API and the `berrybrew` binary, followed by the UI binary itself.
 
-- Run the `build\berrybrew-ui.exe` to start the UI. Note that when using the
-  dev build script for the UI directly, the UI will run out of the command line
-  window as opposed to a GUI app so that you can see the debugging output
+- Run the `staging\berrybrew-ui.exe` to start the UI. Note that the staging UI
+build will execute out of a command line window, so that you can see the debugging
+output.

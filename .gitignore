@@ -12,7 +12,9 @@ backup_*
 *.runsettings
 *.testsettings
 build/
+staging/
 test/
+testing/
 bin/Debug
 bin/Release
 main.txt

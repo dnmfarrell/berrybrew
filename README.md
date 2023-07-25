@@ -17,7 +17,8 @@ Use the **bb** command as a short hand name for **berrybrew**.
 There is extensive documentation available for the [berrybrew](doc/berrybrew.md)
 application, as well as the [Berrybrew API](doc/Berrybrew%20API.md).
 
-See [SEE ALSO](#see-also) for the  full list of documentation.
+See [Other Documentation](#other-documentation) for the  full list of
+documentation.
 
 ## Table of Contents
 
@@ -30,12 +31,12 @@ See [SEE ALSO](#see-also) for the  full list of documentation.
 - [Configure Perl Instance Directory](#configure-root-directory)
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
-- [Documentation](#see-also)
+- [Documentation](#other-documentation)
+- [Hidden Commands](#hidden-commands)
 - [Developed Using](#developed-using)
 - [Caveats](#caveats)
 - [License](#license)
 - [Version](#version)
-- [Hidden Features](#hidden-commands)
 
 ## Install
 
@@ -43,7 +44,7 @@ See [SEE ALSO](#see-also) for the  full list of documentation.
 
 The easiest and most straight forward method.
 
-[berrybrewInstaller.exe](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 544854003a4ba903e3954c47d176c35a0ab3cf8f`
+[berrybrewInstaller.exe](download/berrybrewInstaller.exe?raw=true "berrybrew MSI installer") `SHA1: 1098144cc1b867c7b2d876c98958de77f9019583`
 
 ##### Git clone
 
@@ -53,7 +54,7 @@ The easiest and most straight forward method.
 
 ##### Pre-built zip archive
 
-[berrybrew.zip](download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: 74c651ed1905e70e216ddbb56b6c4fc9fbded852`
+[berrybrew.zip](download/berrybrew.zip?raw=true "berrybrew zip archive") `SHA1: af0c7531fbeb6d6da5b8d38f8a7ea5cf5748d80c`
 
 After extraction:
 
@@ -210,7 +211,7 @@ line:
 
     berrybrew debug <command> [options] 
 
-## SEE ALSO
+## Other Documentation 
 
 - [berrybrew](doc/berrybrew.md)
  Full documentation for the application
@@ -221,24 +222,35 @@ line:
 - [Configuration](doc/Configuration.md)
  Guide to various configuration files and options
 
+- [Add a New Class](doc/Add%20a%20New%20Class.md) 
+ Explains the process of creating and adding a new class
+ 
 - [Compile Your Own Installation](doc/Compile%20Your%20Own.md)
  Guide to compiling `berrybrew` from source
 
 - [Create a Development Build](doc/Create%20a%20Development%20Build.md)
  Guide to creating a development build for testing new functionality
 
+- [Create and Publish a Release](doc/Create%20a%20Release.md)
+  Guide to creating a release, publishing it as a production install, and
+  setting up the next release branch
+
 - [Unit Testing](doc/Unit%20Testing.md)
  Documentation for unit testing `berrybrew`
- 
-- [Create and Publish a Release](doc/Create%20a%20Release.md)
- Guide to creating a release, publishing it as a production install, and
- setting up the next release branch
 
 - [Update releases.json](doc/Update%20Releases%20JSON.md)
  For the time being, Strawberry Perl is using a Github hosted `releases.json`
  file. This is the quasi process I've been using to keep it maintained so
  `berrybrew` is able to use the most recent versions until the Strawberry
  website is back under administrative control.
+
+## Hidden Commands
+
+Please see the [hidden commands](doc/berrybrew.md#hidden-commands)
+in the [berrybrew](doc/berrybrew.md)
+document.
+
+You can also get a list of them by running the hidden `berrybrew hidden` command.
 
 ## CAVEATS
 
@@ -268,19 +280,7 @@ operate correctly. This is due to the way Windows forces the System
 
 ## License
 
-2 Clause FreeBSD - see LICENSE
-
-## Version
-
-   1.38 
-
-## Hidden Commands
-
-Please see the [hidden commands](doc/berrybrew.md#hidden-commands)
-in the [berrybrew](doc/berrybrew.md)
-document.
-
-You can also get a list of them by running the hidden `berrybrew hidden` command.
+2 Clause FreeBSD - see [LICENSE](/LICENSE).
 
 ## Original Author
 
@@ -297,3 +297,7 @@ Windows
 
 - [Perlbrew](http://perlbrew.pl) - the original Perl version manager for
 Unix based systems.
+
+## Version
+
+1.39 

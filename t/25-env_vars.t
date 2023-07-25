@@ -10,9 +10,9 @@ use Win32::TieRegistry;
 
 BB::check_test_platform();
 
-$ENV{BERRYBREW_ENV} = "test";
+$ENV{BERRYBREW_ENV} = "testing";
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
 
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
 
@@ -20,7 +20,7 @@ my $o = `$c off`;
 like $o, qr/berrybrew perl disabled/, "off ok";
 
 my $path = $Registry->{$path_key};
-unlike $path, qr/^C:\\berrybrew\\test/, "PATH set ok for 'off'";
+unlike $path, qr/^C:\\berrybrew\\testing/, "PATH set ok for 'off'";
 
 my @installed = BB::get_installed();
 my @avail = BB::get_avail();
@@ -40,7 +40,7 @@ while(@installed < 2) {
     like $o, qr/Switched to Perl version $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
-    like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";
+    like $path, qr/C:\\berrybrew\\testing\\$ver/, "PATH set ok for $ver";
 }
 
 {
@@ -48,7 +48,7 @@ while(@installed < 2) {
     like $o, qr/berrybrew perl disabled/, "off ok";
 
     my $path = $Registry->{$path_key};
-    unlike $path, qr/^C:\\berrybrew\\test/, "PATH set ok for 'off'";
+    unlike $path, qr/^C:\\berrybrew\\testing/, "PATH set ok for 'off'";
 }
 
 {
@@ -58,7 +58,7 @@ while(@installed < 2) {
     like $o, qr/Switched to Perl version $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
-    like $path, qr/C:\\berrybrew\\test\\$ver/, "PATH set ok for $ver";
+    like $path, qr/C:\\berrybrew\\testing\\$ver/, "PATH set ok for $ver";
 }
 
 {
@@ -66,7 +66,7 @@ while(@installed < 2) {
     like $o, qr/berrybrew perl disabled/, "off ok";
 
     my $path = $Registry->{$path_key};
-    unlike $path, qr/^C:\\berrybrew\\test/, "PATH set ok for 'off'";
+    unlike $path, qr/^C:\\berrybrew\\testing/, "PATH set ok for 'off'";
 }
 
 done_testing();

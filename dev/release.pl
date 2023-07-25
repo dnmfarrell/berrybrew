@@ -1,6 +1,8 @@
 use warnings;
 use strict;
 
+# This script prepares a complete release of berrybrew
+
 use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
 use Digest::SHA qw(sha1);
 use Dist::Mgr qw(changes_date);
@@ -10,7 +12,7 @@ use JSON::PP;
 use Test::More;
 
 use constant {
-    INSTALLER_SCRIPT => 'dev/create_installer.nsi',
+    INSTALLER_SCRIPT => 'dev/create_prod_installer.nsi',
     EXE_FILE         => 'download/berrybrewInstaller.exe',
     ZIP_FILE         => 'download/berrybrew.zip',
 };
@@ -21,9 +23,9 @@ if (! grep { -x "$_/makensis.exe" } split /;/, $ENV{PATH}){
     die "makensis.exe not found, check your PATH. Can't build installer...";
 }
 
-my $data_dir = 'data';
-my $bak_dir = 'bak';
-my $defaults_dir = 'dev/data';
+my $data_dir        = 'data';
+my $bak_dir         = 'bak';
+my $defaults_dir    = 'dev/data';
 
 backup_configs();
 compile();
@@ -32,11 +34,13 @@ changes_date();
 create_changes();
 create_zip();
 update_installer_script();
-create_installer();
+create_prod_installer();
 update_readme();
 check_readme();
 update_license();
 check_license();
+update_contributing();
+check_contributing();
 finish();
 
 done_testing();
@@ -61,6 +65,29 @@ sub backup_configs {
         copy $_, $data_dir or die $!;
         print "copied $_ to $data_dir\n";
     }
+}
+sub check_contributing {
+    open my $fh, '<', 'CONTRIBUTING.md' or die "Can't open CONTRIBUTING.md: $!";
+
+    my ($current_year) = (localtime)[5];
+    $current_year += 1900;
+
+    my $year_found = 0;
+
+    while (<$fh>) {
+        if (/^.*2016-(\d{4}) by Steve Bertrand/) {
+            my $copyright_year = $1;
+            is
+                $copyright_year,
+                $current_year,
+                "CONTRIBUTING.md copyright year updated ok";
+
+            $year_found = 1;
+            last;
+        }
+    }
+
+    is $year_found, 1, "Found and changed the copyright year in CONTRIBUTING.md ok";
 }
 sub check_license {
     open my $fh, '<', 'LICENSE' or die "Can't open LICENSE: $!";
@@ -125,15 +152,20 @@ sub check_readme {
     }        
 }
 sub compile {
-    print "\ncompiling the berrybrew API...\n";
+    print "\ncompiling the berrybrew core API dll...\n";
 
     my $api_build = "" .
         "mcs " .
         "src/berrybrew.cs " .
+        "src/messaging.cs " .
+        "src/pathoperations.cs " .
+        "src/perlinstance.cs " .
+        "src/perloperations.cs " .
         "-lib:bin " .
         "-t:library " .
-        "-r:Newtonsoft.Json.dll,ICSharpCode.SharpZipLib.dll " .
-        "-out:bin/bbapi.dll";
+        "-out:bin/bbapi.dll " .
+        "-r:Newtonsoft.Json.dll " .
+        "-r:ICSharpCode.SharpZipLib.dll";
 
     system $api_build;
 
@@ -143,8 +175,8 @@ sub compile {
         "mcs " .
         "src/bbconsole.cs " .
         "-lib:bin  " .
-        "-r:bbapi.dll  " .
         "-out:bin/berrybrew.exe " .
+        "-r:bbapi.dll  " .
         "-win32icon:inc/berrybrew.ico";
 
     system $bin_build;
@@ -154,15 +186,17 @@ sub compile {
     my $ui_build = "" .
         "mcs " .
         "src/berrybrew-ui.cs " .
+        "src/perloperations.cs " .
         "-lib:bin " .
+        "-t:winexe " .
+        "-out:bin/berrybrew-ui.exe " .
         "-r:bbapi.dll " .
         "-r:Microsoft.VisualBasic.dll " .
+        "-r:Newtonsoft.Json.dll " .
         "-r:System.Drawing.dll " .
         "-r:System.Windows.Forms.dll " .
         "-win32icon:inc/berrybrew.ico " .
-        "-t:winexe " .
-        "-win32manifest:berrybrew.manifest " .
-        "-out:bin/berrybrew-ui.exe ";        
+        "-win32manifest:berrybrew.manifest";
 
     system $ui_build;        
     
@@ -201,7 +235,7 @@ sub create_changes {
         print $changes_md_wfh $_;
     }
 }
-sub create_installer {
+sub create_prod_installer {
     system("makensis", INSTALLER_SCRIPT);
 }
 sub finish {
@@ -251,6 +285,36 @@ sub update_installer_script {
     }
 
     close $wfh;
+}
+sub update_contributing {
+    print "\nupdating CONTRIBUTING.md with new Copyright year...\n";
+
+    open my $fh, '<', 'CONTRIBUTING.md' or die $!;
+    my @contents = <$fh>;
+    close $fh or die $!;
+
+    my ($current_year) = (localtime)[5];
+    $current_year += 1900;
+
+    my $changed = 0;
+
+    for (@contents) {
+        if (/^.*2016-(\d{4}) by Steve Bertrand/) {
+            my $copyright_year = $1;
+            if ($copyright_year != $current_year) {
+                $changed = 1;
+                s/$copyright_year/$current_year/;
+            }
+        }
+    }
+
+    if ($changed) {
+        open my $wfh, '>', 'CONTRIBUTING.md' or die $!;
+
+        for (@contents) {
+            print $wfh $_;
+        }
+    }
 }
 sub update_readme {
     print "\nupdating README with new SHA1 sums and version...\n";

@@ -8,10 +8,10 @@ use Test::More;
 
 #BB::check_test_platform();
 
-$ENV{BERRYBREW_ENV} = "test";
+$ENV{BERRYBREW_ENV} = "testing";
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew" : 'c:/repos/berrybrew/test/berrybrew';
-my $refresh = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/test/berrybrew-refresh.bat" : 'c:/repos/berrybrew/test/berrybrew-refresh.bat';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
+my $refresh = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew-refresh.bat" : 'c:/repos/berrybrew/testing/berrybrew-refresh.bat';
 
 like `$c assoc`, qr/Perl file association handling/, "'assoc' works as an alias for 'associate' command";
 

@@ -7,6 +7,7 @@
 - [What's Happening](#whats-happening)
 - [Running Individual Tests](#running-individual-tests)
 - [Build Test Environment Without Running Tests](#build-a-test-environment-without-running-tests)
+- [Testing the UI](#testing-the-ui)
 - [Environment Variables](#environment-variables)
 
 Unit tests are written in Perl.
@@ -34,8 +35,8 @@ tests need to update the `PATH` environment variable.
 
 ## Running the tests
 
-**NOTE**: We create and use a `HKLM\Software\berrybrew-test` registry key to store
-our configuration options when running unit tests.
+**NOTE**: We create and use a `HKLM\Software\berrybrew-testing` registry key to
+store our configuration options when running unit tests.
 
 **IMPORTANT**: It is highly recommended to close all command line windows and open a
 new one before starting the testing, as changes to the `PATH` environment
@@ -47,16 +48,16 @@ Clean the test and development environment
  
 Create a development build
 
-- run `dev\build.bat`
+- run `dev\build_staging.bat`
  
 Clean up the Perls available lists
 
-- run `build\berrybrew fetch`
-- if it's changed, copy `build\data\perls.json` to `dev\data\perls.json`
-- run `build\berrybrew available > t/data/available.txt`
+- run `staging\berrybrew fetch`
+- if it's changed, copy `staging\data\perls.json` to `dev\data\perls.json`
+- run `staging\berrybrew available > t/data/available.txt`
 - review `t/data/custom_available.txt`. All of the Perls listed above the
 `[installed]` ones need to be replaced with the updated versions from
-`build\berrybrew available`. Simply remove them all, and paste in the new list,
+`staging\berrybrew available`. Simply remove them all, and paste in the new list,
 leaving the existing `[installed]` ones in place
 
 Execute one of the following batch calls to run all tests
@@ -72,7 +73,7 @@ Execute one of the following batch calls to run all tests
 
 **NOTE**: If you get a `berrybrew is already in your path`, run:
 
-    build\bb off
+    staging\bb off
     test\bb off
     bb off
 
@@ -80,20 +81,23 @@ Execute one of the following batch calls to run all tests
 
 - `t\test.bat` builds berrybrew and calls `perl t\run_tests.pl` using your system Strawberry Perl's perl
 
-    - It ensures that the `c:\berrybrew\test` directory hierarchy exists.  This directory is used for holding the test installs of at least two different strawberry perls, plus the clones and templates.  It is safe to delete the whole `c:\berrybrew\test` hierarchy after testing is complete. We remove this directory and recreate it at the beginning of each test run
-    - Removes the `test\data\perls_custom.json` file if it exists at the commencement of the run
-    - It changes the `test\data\config.json` file to reference `c:\berrybrew\test` instead of `c:\berrybrew`
+    - It ensures that the `c:\berrybrew\test` directory hierarchy exists.  This directory is used for holding the test instances of at least two different strawberry perls, plus the clones and templates.  It is safe to delete the whole `c:\berrybrew\testing` hierarchy after testing is complete. We remove this directory and recreate it at the beginning of each test run
+    - Removes the `testing\data\perls_custom.json` file if it exists at the commencement of the run
+    - It changes the `testing\data\config.json` file to reference `c:\berrybrew\testing` instead of `c:\berrybrew`
     - It calls `t\setup_test_env.bat` to set the BBTEST_PERLROOT and BBTEST_REPO environment variables.  As described above, BBTEST_PERLROOT is used for generating a valid path that includes your already-installed system perl.  BBTEST_REPO defaults to the current directory when runing the test suite (which, per above, should be the root of the `berrybrew` repository)
     - If there are any command-line options given to `t\test.bat`, it will pass them on to `t\run_tests.pl`
-    - Builds the software, and locates it into a newly-created `c:\repos\berrybrew\test` directory
+    - Builds the software, and locates it into a newly-created `c:\repos\berrybrew\testing` directory
     
 - `t\run_tests.pl` prepends `%PATH%` with the Strawberry Perl's paths, and then it executes `prove t\*.t`
     - the `--stopfirstfail` (aka `--sff`) will cause it to `prove $_` individually for each test in `t\*.t`, and stop after the first test file that has a failing test.
 
 ### Running Individual Tests
 
-After running `t\test.bat` (or `dev\build_tests.bat` which allows you to build
-the test platform without first running tests) (to ensure `berrybrew is built`, and the test environment is initialized), you can go back and re-run individual tests (for example, for digging into specific failing tests without spending the time of the whole test suite).
+After running `t\test.bat` (or `dev\build_testing.bat` which allows you to build
+the test platform without first running tests) (to ensure `berrybrew is built`,
+and the test environment is initialized), you can go back and re-run individual
+tests (for example, for digging into specific failing tests without spending the
+time of the whole test suite).
 
 - You may run without test harness: it's more verbose while running (`Test::More::note()` messages in the .t file _will_ print), but doesn't give the end-of-file summary:
 
@@ -139,10 +143,18 @@ the test platform without first running tests) (to ensure `berrybrew is built`, 
 This can be handy for certain cleanup routines (for example, if test
 cleanup fails and the test env gets removed).
 
-    dev\build_tests.bat
+    dev\build_testing.bat
     
-The test binary now resides at `test\berrybrew.exe`.
-           
+The test binary now resides at `testing\berrybrew.exe`.
+
+## Testing the UI
+
+Run the `dev\build_staging.bat` script, then execute `staging\berrybrew-ui.exe`.
+
+The UI will be executed from a CLI window. Play around with all the features
+in the UI to ensure they work properly. If there are any errors or issues, they
+will be displayed in the CLI.
+
 ## Environment Variables
 
 As the software becomes more complex and dynamic, sometimes we have to
