@@ -12,6 +12,7 @@ Images | BerryBrew.Imaging | src/imaging.cs
   - [Create new CS file](#create-new-cs-file)
   - [Add the includes](#add-the-include-where-needed)
   - [Update the build_staging.pl script](#update-the-build_stagingpl-script)
+  - [Update the other build scripts](#update-the-other-build-scripts)
   - [Update release build script](#update-the-release-build-script)
   - [Update 'Compile Your Own' doc](#update-the-compile-your-own-doc)
   - [Update Berrybrew API doc](#update-the-berrybrew-api-doc)
@@ -40,6 +41,17 @@ Add a reference to the new source file in the relevant builds (API and if
 needed binary and UI).
 
 Example, add `src\imaging.cs^`.
+
+### Update the other build scripts
+
+Where necessary
+
+- `src\build_staging_api.bat`
+- `src\build_staging_bb.bat`
+- `src\build_staging_ui.bat`
+
+Pretty much the same as [Update the 'build_staging.pl'](#update-the-build_stagingpl-script)
+section above.
 
 ### Update the release build script
 

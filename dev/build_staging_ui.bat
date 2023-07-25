@@ -13,6 +13,9 @@ call perl -i.bak -ne "s/\"run_mode\"\s+:\s+\"prod\"/\"run_mode\"\t\t  : \"stagin
 echo "compiling UI..."
 
 call csc^
+    src\berrybrew-ui.cs^
+    src\perloperations.cs^
+    src\berrybrew-ui.cs^
     -lib:staging^
     -r:bbapi.dll^
     -r:System.Drawing.dll^
@@ -21,4 +24,3 @@ call csc^
     -win32icon:inc/berrybrew.ico^
     -win32manifest:berrybrew.manifest^
     -out:staging/berrybrew-ui.exe^
-    src\berrybrew-ui.cs
