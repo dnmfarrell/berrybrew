@@ -163,7 +163,6 @@ sub compile {
         "-lib:bin " .
         "-t:library " .
         "-out:bin/bbapi.dll " .
-        "-r:bbmessaging.dll " .
         "-r:Newtonsoft.Json.dll " .
         "-r:ICSharpCode.SharpZipLib.dll";
 

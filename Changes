@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.39 UNREL
+1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"
     - Release script (dev/release.pl) now updates Copyright year in
