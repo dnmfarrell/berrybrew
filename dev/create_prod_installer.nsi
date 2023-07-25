@@ -50,6 +50,12 @@ ShowUnInstDetails show
 
 Section "-MainSection" SEC_MAIN
   SetOverwrite try
+
+  SetOutPath "$INSTDIR"
+  File "..\Changes"
+  File "..\Changes.md"
+  File "..\CONTRIBUTING.md"
+  File "..\LICENSE"
   SetOutPath "$INSTDIR\bin"
   File "..\bin\berrybrew-refresh.bat"
   File "..\bin\bbapi.dll"
@@ -58,11 +64,6 @@ Section "-MainSection" SEC_MAIN
   File "..\bin\berrybrew-ui.exe"
   File "..\bin\ICSharpCode.SharpZipLib.dll"
   File "..\bin\Newtonsoft.Json.dll"
-
-  SetOutPath "$INSTDIR"
-  File "..\Changes"
-  File "..\Changes.md"
-  File "..\CONTRIBUTING.md"
   SetOutPath "$INSTDIR\data"
   File "..\data\config.json"
   File "..\data\messages.json"
@@ -77,8 +78,6 @@ Section "-MainSection" SEC_MAIN
   File "..\doc\Unit Testing.md"
   SetOutPath "$INSTDIR\inc"
   File "..\inc\berrybrew.ico"
-  SetOutPath "$INSTDIR"
-  File "..\LICENSE"
   SetOutPath "$INSTDIR\src"
   File "..\src\bbconsole.cs"
   File "..\src\berrybrew.cs"

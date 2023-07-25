@@ -4,6 +4,7 @@ use strict;
 # This script prepares a complete release of berrybrew
 
 use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
+use Data::Dumper;
 use Digest::SHA qw(sha1);
 use Dist::Mgr qw(changes_date);
 use File::Copy;
@@ -17,15 +18,24 @@ use constant {
     ZIP_FILE         => 'download/berrybrew.zip',
 };
 
-# run checks
+# Arg to bypass makensis check
 
-if (! grep { -x "$_/makensis.exe" } split /;/, $ENV{PATH}){
+my $testing = $ARGV[0];
+
+# $un checks
+
+if (! $testing && ! grep { -x "$_/makensis.exe" } split /;/, $ENV{PATH}){
     die "makensis.exe not found, check your PATH. Can't build installer...";
 }
 
 my $data_dir        = 'data';
 my $bak_dir         = 'bak';
 my $defaults_dir    = 'dev/data';
+
+check_installer_manifest();
+
+done_testing();
+exit;
 
 backup_configs();
 compile();
@@ -88,6 +98,44 @@ sub check_contributing {
     }
 
     is $year_found, 1, "Found and changed the copyright year in CONTRIBUTING.md ok";
+}
+sub check_installer_manifest {
+
+    open my $fh_manifest, '<', 'MANIFEST' or die $!;
+    open my $fh_manifest_skip, '<', 'MANIFEST.SKIP' or die $!;
+
+    chomp(my @skip = <$fh_manifest_skip>);
+
+    my %file_map;
+
+    while (my $dir = <$fh_manifest>) {
+        chomp $dir;
+        my @files = File::Find::Rule->file
+                                    ->in($dir);
+
+        for (@files) {
+            $file_map{$_} = 1;
+        }
+    }
+
+    print Dumper \%file_map;
+
+
+
+    exit;
+    open my $fh, '<', INSTALLER_SCRIPT or die "Can't open installer script: $!";
+
+    my @files;
+
+    while (my $line = <$fh>) {
+        if ($line =~ /\s+File\s+"\.\.\\(.*)"/) {
+            my $file = $1;
+            push @files, $file;
+            next;
+        }
+    }
+
+    print Dumper \@files;
 }
 sub check_license {
     open my $fh, '<', 'LICENSE' or die "Can't open LICENSE: $!";
