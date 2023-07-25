@@ -28,6 +28,7 @@ Revision history for berrybrew
       namespace `BerryBrew.PerlOperations` and class `PerlOp` (work on #184)
     - Updated entire API doc with relevant parameter and permissions for each
       class method after splitting libraries (work on #184) (closes #326)
+    - Added "Testing the UI" section in Unit Testing doc (closes #328)
 
 1.38    2023-07-21
     - Remove the perltricks.com link from David Farrell acknowledgement

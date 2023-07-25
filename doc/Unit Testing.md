@@ -7,6 +7,7 @@
 - [What's Happening](#whats-happening)
 - [Running Individual Tests](#running-individual-tests)
 - [Build Test Environment Without Running Tests](#build-a-test-environment-without-running-tests)
+- [Testing the UI](#testing-the-ui)
 - [Environment Variables](#environment-variables)
 
 Unit tests are written in Perl.
@@ -145,7 +146,15 @@ cleanup fails and the test env gets removed).
     dev\build_testing.bat
     
 The test binary now resides at `testing\berrybrew.exe`.
-           
+
+## Testing the UI
+
+Run the `dev\build_staging.bat` script, then execute `staging\berrybrew-ui.exe`.
+
+The UI will be executed from a CLI window. Play around with all the features
+in the UI to ensure they work properly. If there are any errors or issues, they
+will be displayed in the CLI.
+
 ## Environment Variables
 
 As the software becomes more complex and dynamic, sometimes we have to
