@@ -378,6 +378,15 @@ namespace BerryBrew {
                     CleanDev();
                     break;
 
+				case "build":
+                    cleansed = CleanBuild();
+                    Console.WriteLine(
+                        cleansed
+                        ? "\nremoved the staging build directory"
+                        : "\nan error has occured removing staging build directory"
+                    );
+                    break;
+
                 case "dev":
                     cleansed = CleanDev();
                     Console.WriteLine(
@@ -396,6 +405,13 @@ namespace BerryBrew {
                     );
                     break;
 
+                case "orphan":
+                    cleansed = CleanOrphan();
+                    if (! cleansed) {
+                        Console.WriteLine("\nno orphaned perls to remove");
+                    }
+                    break;
+
                 case "temp":
                     cleansed = CleanTemp();
                     if (cleansed) {
@@ -405,20 +421,47 @@ namespace BerryBrew {
                         Console.WriteLine("\nno archived perl installation files to remove");
                     }
                     break;
-
-                case "orphan":
-                    cleansed = CleanOrphan();
-                    if (! cleansed) {
-                        Console.WriteLine("\nno orphaned perls to remove");
-                    }
-                    break;
             }
         }
 
-        private bool CleanDev() {
+		private bool CleanBuild() {
+			string runMode = Options("run_mode", null, true);
 
-            string stagingDir = rootPath;
-            string testingDir = rootPath;
+			if (runMode == "staging") {
+                Console.Error.WriteLine("\nCan't remove staging build dir while in staging run_mode. Use 'bin\\berrybrew clean dev' instead");
+				Exit(-1);
+			}
+
+			string stagingBuildDir = installPath;
+
+            stagingBuildDir += @"staging";
+
+            if (Debug) {
+                Console.WriteLine("DEBUG: staging dir: {0}", stagingBuildDir);
+            }
+            try {
+                if (Directory.Exists(stagingBuildDir)){
+                    FilesystemResetAttributes(stagingBuildDir);
+                    Directory.Delete(stagingBuildDir, true);
+                }
+            }
+            catch (Exception err) {
+                Console.Error.WriteLine("\nUnable to remove the staging build directory '{0}'", stagingBuildDir);
+                if (Debug) {
+                    Console.Error.WriteLine("DEBUG: {0}", err);
+                }
+            }
+
+            if (Directory.Exists(stagingBuildDir)) {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool CleanDev() {
+			string stagingDir = rootPath;
+			string testingDir = rootPath;
 
             if (Testing) {
                 stagingDir = stagingDir.Replace("\\staging", "");
@@ -429,6 +472,8 @@ namespace BerryBrew {
 
             stagingDir += @"staging";
             testingDir = string.Format(@"{0}testing", testingDir);
+
+			Console.WriteLine("{0}", stagingDir);
 
             if (Debug) {
                 Console.WriteLine("DEBUG: staging dir: {0}", stagingDir);

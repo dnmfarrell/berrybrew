@@ -29,6 +29,8 @@ Revision history for berrybrew
     - Updated entire API doc with relevant parameter and permissions for each
       class method after splitting libraries (work on #184) (closes #326)
     - Added "Testing the UI" section in Unit Testing doc (closes #328)
+    - Added `berrybrew clean build` with `CleanBuild()` to clean the staging
+      build directory from the repo (fixes #322)
     - Add StrawberryPerl struct instantiation parameters and property lists to
       the API doc (closes #325)
 

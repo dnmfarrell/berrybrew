@@ -44,7 +44,8 @@ The `Berrybrew` class is the base of the system.
 [CheckName](#checkname)| **public** | Validates the name of a custom Perl install
 [CheckRootDir](#checkrootdir)| private    | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
-[CleanDev](#cleandev) | private    | Remove the developer's `build` and `test` directories
+[CleanBuild](#cleanbuild) | private    | Remove the developer's `staging` build directory 
+[CleanDev](#cleandev) | private    | Remove the developer's `staging` and `testing` **data** directories
 [CleanModules](#cleanmodules) | private    | Removes the directory where we store exported module lists
 [CleanOrphan](#cleanorphan)| private    | Removes all orphaned Perls
 [CleanTemp](#cleantemp)| private    | Removes temporary files
@@ -247,12 +248,20 @@ installation zip files from the temporary directory. With "orphan", we'll
 delete all directories found in the Perl installation root directory that
 `berrybrew` has not registered as valid Perl installs.
 
+#### CleanBuild
+
+    private bool CleanBuild()
+
+Removes the developer's `staging` build directory located in the repository.
+
+Returns `true` if the directory was removed successfully or `false` otherwise.
+
 #### CleanDev
 
     private bool CleanDev()
     
-Removes both the `build` and `test` directories. This method should only
-be used by developers of `berrybrew`.
+Removes both the `staging` and `testing` **data** directories. This method
+should only be used by developers of `berrybrew`.
 
 Returns `true` if both directories are non-existent after the routine
 has been run, or `false` otherwise.
