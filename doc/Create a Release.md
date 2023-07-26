@@ -31,6 +31,7 @@ necessary
     - Collect the JSON configuration files from the `dev\data` directory
     - Build the bundled zip archive, and places it into the `download/`
     directory
+    - Verifies the manifest of files installed/uninstalled are correct
     - Updates the MSI installer script with berrybrew and perl version info
     - Creates the MSI installer program
     - Perform SHA checksum tasks on the new zip archive and MSI installer
