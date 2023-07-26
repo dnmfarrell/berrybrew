@@ -556,23 +556,5 @@ namespace BerryBrew.PerlOperations {
                 PerlRegisterCustomInstall(orphan);
             }
         }
-
-        public void PerlZipInstance(string command, string instanceName) {
-            List<StrawberryPerl> installedPerls = PerlsInstalled();
-
-            bool instanceFound = false;
-            
-            foreach (StrawberryPerl perl in installedPerls) {
-                if (perl.Name == instanceName) {
-                    instanceFound = true;
-                }
-            }
-
-            Console.WriteLine("{0}", instanceFound);
-        }
-
-        public void PerlZipList() {
-            Console.WriteLine("PerlZipList()");
-        }
     }
 }

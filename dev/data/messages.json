@@ -57,10 +57,10 @@
     ]
   },
   {
-    "label": "archive_arguments_required",
+    "label": "snapshot_arguments_required",
 
     "content": [
-      "\narchive command requires arguments..."
+      "\nsnapshot command requires arguments..."
     ]
   },
   {
@@ -288,15 +288,15 @@
     ]
   },
   {
-    "label": "subcmd.archive",
+    "label": "subcmd.snapshot",
 
     "content": [
       "",
-      "   berrybrew 'archive' subcommands:",
+      "   berrybrew 'snapshot' subcommands:",
       "",
-      "   list    Displays a list of existing instance archives",
-      "   export  Zips a Perl instance and puts it into the archive directory",
-      "   import  Unzips a Perl instance from archive and registers and installs it",
+      "   list    Displays a list of existing instance snapshots",
+      "   export  Zips a Perl instance and puts it into the snapshot directory",
+      "   import  Unzips a Perl instance from snapshots and registers and installs it",
       "",
       "   NOTE: Both 'export' and 'import' subcommands also require the name of ",
       "   a perl instance sent in"

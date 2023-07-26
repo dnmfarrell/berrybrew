@@ -112,6 +112,7 @@ namespace BerryBrew {
         public string installPath;
         public string rootPath;
         private string configPath;
+        private string snapshotPath;
         public string downloadURL;
         private bool windowsHomedir;
 
@@ -301,6 +302,7 @@ namespace BerryBrew {
 
             rootPath = (string) registry.GetValue("root_dir", "");
             rootPath += @"\";
+            snapshotPath    = rootPath + @"snapshots\";
 
             archivePath = (string) registry.GetValue("temp_dir", "");
 
@@ -910,6 +912,45 @@ namespace BerryBrew {
             Console.WriteLine("\nsuccessfully wrote out {0} module list file", moduleFile);
         }
 
+        public void Snapshot(string operation, string instanceName) {
+            if (! Directory.Exists(snapshotPath)) {
+                try {
+                    Directory.CreateDirectory(snapshotPath);
+                }
+                catch (Exception err) {
+                    Console.Error.WriteLine("\nCouldn't create snapshot dir {0}. Please create it manually and run your command again", snapshotPath);
+                    if (Debug) {
+                        Console.Error.WriteLine("DEBUG: {0}", err);
+                    }
+                    Exit((int)ErrorCodes.DIRECTORY_CREATE_FAILED);
+                }
+            }
+
+            List<StrawberryPerl> installedPerls = PerlOp.PerlsInstalled();
+ 
+            bool instanceFound = false;
+             
+            foreach (StrawberryPerl perl in installedPerls) {
+                if (perl.Name == instanceName) {
+                    instanceFound = true;
+                }
+            }
+
+            if (operation == "export") {
+                SnapshotCompress(PerlOp.PerlResolveVersion(instanceName), "test_snapshot");
+            }
+        }
+        public void SnapshotCompress(StrawberryPerl perl, string snapshotName) {
+            string zipFile = snapshotPath + snapshotName + @".zip";
+            
+            FastZip _FastZip = new FastZip();
+            _FastZip.CreateZip(zipFile, perl.installPath, true, "");
+        }
+
+        public void SnapshotList() {
+            Console.WriteLine("SnapshotList()");
+        }
+        
         private void Extract(StrawberryPerl perl, string archivePath) {
             ZipFile zf = null;
 
