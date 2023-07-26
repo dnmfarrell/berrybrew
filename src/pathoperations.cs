@@ -1,10 +1,8 @@
-﻿using BerryBrew;
-using BerryBrew.PerlInstance;
+﻿using BerryBrew.PerlInstance;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
 using System.Security;
 

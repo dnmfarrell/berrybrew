@@ -1,16 +1,12 @@
-﻿using BerryBrew;
-using BerryBrew.Messaging;
-using BerryBrew.PerlInstance;
+﻿using BerryBrew.PerlInstance;
 using BerryBrew.PathOperations;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-//using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
-//using System.Security;
 using System.Text.RegularExpressions;
 
 namespace BerryBrew.PerlOperations {

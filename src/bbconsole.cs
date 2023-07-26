@@ -2,10 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using BerryBrew;
-using BerryBrew.Messaging;
-using BerryBrew.PerlOperations;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace berrybrew {
     internal class Bbconsole {

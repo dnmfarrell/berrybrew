@@ -20,6 +20,7 @@ call csc^
     -r:System.Drawing.dll^
     -r:System.Windows.Forms.dll^
     -r:Microsoft.VisualBasic.dll^
+    -r:Newtonsoft.Json.dll^
     -win32icon:inc/berrybrew.ico^
     -win32manifest:berrybrew.manifest^
     -out:staging/berrybrew-ui.exe^
