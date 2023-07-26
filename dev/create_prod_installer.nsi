@@ -50,6 +50,12 @@ ShowUnInstDetails show
 
 Section "-MainSection" SEC_MAIN
   SetOverwrite try
+
+  SetOutPath "$INSTDIR"
+  File "..\Changes"
+  File "..\Changes.md"
+  File "..\LICENSE"
+  File "..\README.md"
   SetOutPath "$INSTDIR\bin"
   File "..\bin\berrybrew-refresh.bat"
   File "..\bin\bbapi.dll"
@@ -58,30 +64,22 @@ Section "-MainSection" SEC_MAIN
   File "..\bin\berrybrew-ui.exe"
   File "..\bin\ICSharpCode.SharpZipLib.dll"
   File "..\bin\Newtonsoft.Json.dll"
-
-  SetOutPath "$INSTDIR"
-  File "..\Changes"
-  File "..\Changes.md"
-  File "..\CONTRIBUTING.md"
   SetOutPath "$INSTDIR\data"
   File "..\data\config.json"
   File "..\data\messages.json"
   File "..\data\perls.json"
   SetOutPath "$INSTDIR\doc"
-  File "..\doc\Berrybrew API.md"
   File "..\doc\berrybrew.md"
-  File "..\doc\Compile Your Own.md"
   File "..\doc\Configuration.md"
-  File "..\doc\Create a Development Build.md"
-  File "..\doc\Create a Release.md"
-  File "..\doc\Unit Testing.md"
   SetOutPath "$INSTDIR\inc"
   File "..\inc\berrybrew.ico"
-  SetOutPath "$INSTDIR"
-  File "..\LICENSE"
   SetOutPath "$INSTDIR\src"
   File "..\src\bbconsole.cs"
   File "..\src\berrybrew.cs"
+  File "..\src\messaging.cs"
+  File "..\src\pathoperations.cs"
+  File "..\src\perlinstance.cs"
+  File "..\src\perloperations.cs"
   File "..\src\berrybrew-ui.cs"
 SectionEnd
 
