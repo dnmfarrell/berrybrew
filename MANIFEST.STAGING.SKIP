@@ -12,6 +12,7 @@ doc/Unit Testing.md
 doc/Compile Your Own.md
 doc/Berrybrew API.md
 download/
+lib/
 testing/
 t/
 src/

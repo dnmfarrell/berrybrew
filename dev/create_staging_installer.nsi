@@ -277,6 +277,8 @@ Section Uninstall
   Delete "$INSTDIR\data\perls.json"
   Delete "$INSTDIR\data\messages.json"
   Delete "$INSTDIR\data\config.json"
+  Delete "$INSTDIR\data\perls_custom.json"
+  Delete "$INSTDIR\data\perls_virtual.json"
   Delete "$INSTDIR\doc\berrybrew.md"
   Delete "$INSTDIR\doc\Configuration.md"
   Delete "$INSTDIR\berrybrew-refresh.bat"
