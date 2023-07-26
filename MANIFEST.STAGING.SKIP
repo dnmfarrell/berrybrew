@@ -1,7 +1,9 @@
-\.git\/
-\.idea\/
-bin\/
-dev\/
+.git/
+.idea/
+bak/
+bin/
+data/
+dev/
 doc/Update Releases JSON.md
 doc/Add a New Class.md
 doc/Create a Development Build.md
@@ -9,12 +11,18 @@ doc/Create a Release.md
 doc/Unit Testing.md
 doc/Compile Your Own.md
 doc/Berrybrew API.md
-download\/
-testing\/
-t\/
-\.gitattributes
-\.gitignore
+download/
+testing/
+t/
+src/
+staging/data/perls_custom.json
+staging/data/perls_virtual.json
+.bak
+.gitattributes
+.gitignore
 berrybrew.manifest
 CONTRIBUTING.md
 MANIFEST
 MANIFEST.SKIP
+MANIFEST.STAGING
+MANIFEST.STAGING.SKIP

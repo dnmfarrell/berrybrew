@@ -50,12 +50,20 @@ ShowUnInstDetails show
 
 Section "-MainSection" SEC_MAIN
   SetOverwrite try
+
+  SetOutPath "$INSTDIR"
+  File "..\Changes.md"
+  File "..\Changes"
+  File "..\README.md"
+  File "..\LICENSE"
+  
   SetOutPath "$INSTDIR\bin"
   File "..\staging\berrybrew-refresh.bat"
   File "..\staging\bbapi.dll"
   File "..\staging\berrybrew.exe"
   File "..\staging\bb.exe"
   File "..\staging\berrybrew-ui.exe"
+  File "..\staging\berrybrewInstaller.exe"
   File "..\staging\ICSharpCode.SharpZipLib.dll"
   File "..\staging\Newtonsoft.Json.dll"
 
@@ -63,6 +71,11 @@ Section "-MainSection" SEC_MAIN
   File "..\staging\data\config.json"
   File "..\staging\data\messages.json"
   File "..\staging\data\perls.json"
+
+  SetOutPath "$INSTDIR\doc"  
+  File "..\doc\berrybrew.md"
+  File "..\doc\Configuration.md"
+  
   SetOutPath "$INSTDIR\inc"
   File "..\inc\berrybrew.ico"
 SectionEnd
