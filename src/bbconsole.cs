@@ -46,6 +46,30 @@ namespace berrybrew {
 
             switch (args[0]){
 
+                case "archive":
+                    if (args.Length < 2) {
+                        bb.Message.Print("archive_arguments_required");
+                        bb.Message.Print("subcmd.archive"); 
+                        bb.Exit(0);                       
+                    } 
+                    if (args[1] == "-h" || args[1] == "help") {
+                        bb.Message.Print("subcmd.archive");
+                        bb.Exit(0);
+                    }
+                    if (args[1] == "list") {
+                        bb.PerlOp.PerlZipList();
+                        bb.Exit(0);
+                    }
+                    if (args.Length < 3) {
+                        bb.Message.Print("archive_arguments_required");
+                        bb.Message.Print("subcmd.archive");
+                        bb.Exit(0);
+                    }  
+
+                    bb.PerlOp.PerlZipInstance(args[1], args[2]);
+                    bb.Exit(0);
+                    break;                   
+                
                 case "assoc":
                     if (args.Length > 1) {
                         if(args[1] == "-h" || args[1] == "help") {

@@ -57,6 +57,13 @@
     ]
   },
   {
+    "label": "archive_arguments_required",
+
+    "content": [
+      "\narchive command requires arguments..."
+    ]
+  },
+  {
     "label": "install_ver_required",
 
     "content": [
@@ -280,6 +287,21 @@
       "   temp   Removes all downloaded Perl installation files"
     ]
   },
+  {
+    "label": "subcmd.archive",
+
+    "content": [
+      "",
+      "   berrybrew 'archive' subcommands:",
+      "",
+      "   list    Displays a list of existing instance archives",
+      "   export  Zips a Perl instance and puts it into the archive directory",
+      "   import  Unzips a Perl instance from archive and registers and installs it",
+      "",
+      "   NOTE: Both 'export' and 'import' subcommands also require the name of ",
+      "   a perl instance sent in"
+    ]
+  }, 
   {
     "label": "info_option_required",
 
