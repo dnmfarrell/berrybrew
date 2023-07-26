@@ -22,6 +22,8 @@ sub check_installer_manifest {
         die "check_installer_manifest() requires the installer script sent in";
     }
 
+    print "Validating the installer MANIFEST...\n";
+    
     my $env = $installer_script =~ /staging/
         ? 'staging'
         : 'prod';
@@ -164,6 +166,10 @@ sub check_installer_manifest {
     # Compare install files to uninstall files
 
     for my $installer_file (keys %installer_files) {
+        if ($env eq 'staging' && $installer_file =~ /(?:\.exe|\.dll|\.bat)$/) {
+            $installer_file = "bin/$installer_file";
+        }
+        
         if (! exists $uninstall_files{$installer_file}) {
             $halt = 1;
             print "'$installer_file' is in INSTALLER but isn't in UNINSTALL.\n";

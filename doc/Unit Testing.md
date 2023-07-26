@@ -8,6 +8,7 @@
 - [Running Individual Tests](#running-individual-tests)
 - [Build Test Environment Without Running Tests](#build-a-test-environment-without-running-tests)
 - [Testing the UI](#testing-the-ui)
+- [Testing the Installer](#testing-the-installer)
 - [Environment Variables](#environment-variables)
 
 Unit tests are written in Perl.
@@ -154,6 +155,20 @@ Run the `dev\build_staging.bat` script, then execute `staging\berrybrew-ui.exe`.
 The UI will be executed from a CLI window. Play around with all the features
 in the UI to ensure they work properly. If there are any errors or issues, they
 will be displayed in the CLI.
+
+## Testing the Installer
+
+Run the `dev\build_staging_installer.bat` script. This will compile the
+various components, then perform a check to ensure all files that are
+supposed to be included in the installer are actually there, and files
+that shouldn't be, aren't. Likewise, it'll ensure all files we install
+will be slated for deletion on uninstall.
+
+After building the installer, install it by executing the
+`staging\berrybrewInstaller.exe`. Make sure everything goes properly,
+then, using `Add/Remove Programs`, remove the software, then check to
+ensure that the `C:\Program Files (x86)\berrybrew\staging` directory
+no longer exist.
 
 ## Environment Variables
 

@@ -36,8 +36,6 @@ my $data_dir        = 'data';
 my $bak_dir         = 'bak';
 my $defaults_dir    = 'dev/data';
 
-done_testing();
-
 BuildHelper::check_installer_manifest(INSTALLER_SCRIPT);
 backup_configs();
 compile();

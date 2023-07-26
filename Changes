@@ -7,7 +7,8 @@ Revision history for berrybrew
       the installer we don't want (closes #258)
     - Installer manifest check now also ensures that files installed are also
       listed as files to delete upon uninstall (closes #333)
-      
+    - Added "Testing the Installer" to Unit Test doc (closes #331)
+    
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"
