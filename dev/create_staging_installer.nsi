@@ -59,6 +59,7 @@ Section "-MainSection" SEC_MAIN
   
   SetOutPath "$INSTDIR\bin"
   File "..\staging\berrybrew-refresh.bat"
+  File "..\staging\berrybrew-refresh.bat"
   File "..\staging\bbapi.dll"
   File "..\staging\berrybrew.exe"
   File "..\staging\bb.exe"
@@ -115,7 +116,9 @@ Section -Post
 SectionEnd
 
 Function perlRootPathSelection
+
    ; check if the root path for Perls is already set
+   
    ClearErrors
    ReadRegStr $0 HKLM "${APP_REGKEY}" "root_dir"
    ${If} ${Errors}
@@ -274,17 +277,23 @@ Section Uninstall
   Delete "$INSTDIR\data\perls.json"
   Delete "$INSTDIR\data\messages.json"
   Delete "$INSTDIR\data\config.json"
-  Delete "$INSTDIR\bin\berrybrew-refresh.bat"
-  Delete "$INSTDIR\bin\Newtonsoft.Json.dll"
-  Delete "$INSTDIR\bin\ICSharpCode.SharpZipLib.dll"
-  Delete "$INSTDIR\bin\berrybrew.exe"
-  Delete "$INSTDIR\bin\bb.exe"
-  Delete "$INSTDIR\bin\berrybrew-ui.exe"
-  Delete "$INSTDIR\bin\bbapi.dll"
-  Delete "$INSTDIR\bin\uninst.exe"
-  Delete "$INSTDIR\bin\berrybrew.lnk"
-  Delete "$INSTDIR\bin\berrybrew.url"
-  Delete "$INSTDIR\bin\berrybrew"
+  Delete "$INSTDIR\doc\berrybrew.md"
+  Delete "$INSTDIR\doc\Configuration.md"
+  Delete "$INSTDIR\berrybrew-refresh.bat"
+  Delete "$INSTDIR\Newtonsoft.Json.dll"
+  Delete "$INSTDIR\ICSharpCode.SharpZipLib.dll"
+  Delete "$INSTDIR\bb.exe"
+  Delete "$INSTDIR\bbapi.dll"
+  Delete "$INSTDIR\berrybrew.exe"
+  Delete "$INSTDIR\berrybrewInstaller.exe"
+  Delete "$INSTDIR\berrybrew-ui.exe"
+  Delete "$INSTDIR\uninst.exe"
+  Delete "$INSTDIR\berrybrew.lnk"
+  Delete "$INSTDIR\berrybrew.url"
+  Delete "$INSTDIR\Changes.md"
+  Delete "$INSTDIR\Changes"
+  Delete "$INSTDIR\LICENSE"
+  Delete "$INSTDIR\README.md"
 
   Delete "$SMPROGRAMS\berrybrew\Uninstall.lnk"
   Delete "$SMPROGRAMS\berrybrew\Website.lnk"

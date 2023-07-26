@@ -1,6 +1,7 @@
 use warnings;
 use strict;
 
+use Data::Dumper;
 use File::Find::Rule;
 
 use constant {
@@ -12,6 +13,9 @@ my ($testing) = @ARGV;
 if (! $testing && ! grep { -x "$_/makensis.exe" } split /;/, $ENV{PATH}){
     die "makensis.exe not found, check your PATH. Can't build installer...";
 }
+
+check_installer_manifest();
+exit;
 
 build();
 update_installer_script();
@@ -82,25 +86,26 @@ sub check_installer_manifest {
     my @files = File::Find::Rule->file
         ->in('.');
 
-    for (@files) {
+    for my $repo_file (@files) {
         my $include_file = 1;
-
+        
         for my $skip_dir (keys %{ $skip{dirs} }) {
-            if ($_ =~ /^$skip_dir/) {
+            if ($repo_file =~ /^$skip_dir/) {
                 $include_file = 0;
                 next;
             }
         }
 
         for my $skip_file (keys %{ $skip{files} }) {
-            if ($_ =~ /$skip_file$/) {
+            if ($repo_file =~ /$skip_file$/) {
                 $include_file = 0;
                 next;
             }
         }
 
         if ($include_file) {
-            $filtered_files{$_} = $_;
+            $repo_file =~ s|staging/||;
+            $filtered_files{$repo_file} = 1;
         }
     }
 
@@ -111,16 +116,16 @@ sub check_installer_manifest {
         $manifest_files{$_} = 1;
     }
 
-    # Compare directory structure to manifest
+    # Compare repo to manifest
 
-    for my $dir_file (keys %filtered_files) {
-        if (! exists $manifest_files{$dir_file}) {
+    for my $repo_file (keys %filtered_files) {
+        if (! exists $manifest_files{$repo_file}) {
             $halt = 1;
-            print "'$dir_file' is in REPO but isn't in the MANIFEST.\n";
+            print "'$repo_file' is in REPO but isn't in the MANIFEST.\n";
         }
     }
 
-    # Compare manifest to directory structure
+    # Compare manifest to repo 
 
     for my $manifest_file (keys %manifest_files) {
         if (! exists $filtered_files{$manifest_file}) {
@@ -131,18 +136,37 @@ sub check_installer_manifest {
 
     open my $fh, '<', INSTALLER_SCRIPT or die "Can't open installer script: $!";
 
+    my $instdir;
     my %installer_files;
-
+    my %uninstall_files;
+    
     while (my $line = <$fh>) {
+        chomp $line;
+        
+        if ($line =~ /^InstallDir\s+"\$PROGRAMFILES\\(.*)"/) {
+            $instdir = $1;
+            $instdir =~ s|\\+|/|g;
+            $instdir = "C:/Program Files (x86)/$instdir";
+        }
+    
         if ($line =~ /\s+File\s+"\.\.\\(.*)"/) {
             my $file = $1;
             $file =~ s|\\+|/|g;
+            $file =~ s|staging/||;
             $installer_files{$file} = 1;
+            next;
+        }
+        if ($line =~ /\s+Delete\s+"\$INSTDIR\\(.*)"/) {
+            my $file = $1;
+            next if $file =~ /\.url$/;
+            $file =~ s|\\+|/|g;
+            $file = "$file";
+            $uninstall_files{$file} = 1;
             next;
         }
     }
 
-    # Compare installer script to manifest
+   # Compare installer script to manifest
 
     for my $installer_file (keys %installer_files) {
         if (! exists $manifest_files{$installer_file}) {
@@ -157,6 +181,15 @@ sub check_installer_manifest {
         if (! exists $installer_files{$manifest_file}) {
             $halt = 1;
             print "'$manifest_file' is in MANIFEST but isn't in the INSTALLER.\n";
+        }
+    }
+
+    # Compare install files to uninstall files
+
+    for my $installer_file (keys %installer_files) {
+        if (! exists $uninstall_files{$installer_file}) {
+            $halt = 1;
+            print "'$installer_file' is in INSTALLER but isn't in UNINSTALL.\n";
         }
     }
 
