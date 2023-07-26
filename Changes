@@ -5,7 +5,9 @@ Revision history for berrybrew
       the repo directory structure, and the MANIFEST to the installer script.
       This ensures that we aren't missing (or trying to include extra) files in
       the installer we don't want (closes #258)
-
+    - Installer manifest check now also ensures that files installed are also
+      listed as files to delete upon uninstall (closes #333)
+      
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"
