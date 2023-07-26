@@ -118,3 +118,5 @@ new version branch
 - Run all unit tests
 
 - Repeat this Release Cycle
+
+&copy; 2016-2023 by Steve Bertrand

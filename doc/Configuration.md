@@ -176,3 +176,5 @@ Example of the file's contents:
             "csum" : "6c750c56a4eccf3b5f77af56e4cee572c360a1c2"
         }
     ]
+
+&copy; 2016-2023 by Steve Bertrand

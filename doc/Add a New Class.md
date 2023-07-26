@@ -83,3 +83,5 @@ updated) into a CLI, and ensure that everything is built properly.
 
 Run `bin\bb available` and any other relevant commands to ensure things work
 properly.
+
+&copy; 2016-2023 by Steve Bertrand

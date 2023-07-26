@@ -447,4 +447,4 @@ Usage: `berrybrew status <command> [options]`.
 
 If `debug` is also used, the `status` command must follow it.
 
-&copy; 2016-2021 by Steve Bertrand
+&copy; 2016-2023 by Steve Bertrand

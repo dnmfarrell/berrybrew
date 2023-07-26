@@ -76,3 +76,5 @@
         -r:Microsoft.Visualbasic.dll^
         -win32icon:inc/berrybrew.ico^
         -win32manifest:berrybrew.manifest^
+
+&copy; 2016-2023 by Steve Bertrand

@@ -60,3 +60,5 @@ compiling the API and the `berrybrew` binary, followed by the UI binary itself.
 - Run the `staging\berrybrew-ui.exe` to start the UI. Note that the staging UI
 build will execute out of a command line window, so that you can see the debugging
 output.
+
+&copy; 2016-2023 by Steve Bertrand

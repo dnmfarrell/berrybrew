@@ -1017,4 +1017,4 @@ updates the internal `perls.json` available list with the updated data.
 Automatically register any orphaned Perls after using the `Fetch()` method. This
 should only be called after a call to `PerlUpdateAvailableList()`.
 
-&copy; 2016-2021 by Steve Bertrand
+&copy; 2016-2023 by Steve Bertrand

@@ -9,7 +9,9 @@ Revision history for berrybrew
       listed as files to delete upon uninstall (closes #333)
     - Added "Testing the Installer" to Unit Test doc (closes #331)
     - Removed all CS library includes that aren't required (closes #329) 
-    
+    - Release script now updates the copyright year in all files in `doc/`
+      (closes #324)
+      
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"

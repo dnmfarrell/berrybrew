@@ -191,3 +191,5 @@ any references to it, or `SwitchProcess()` in the code or tests.
 This flag is to inform the `Switch()` method that we're in testing, so
 it won't run the `SwitchProcess()` call. That call removes the parent
 process, so everything breaks if this flag isn't set.        
+
+&copy; 2016-2023 by Steve Bertrand

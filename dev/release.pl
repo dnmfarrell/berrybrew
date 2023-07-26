@@ -51,6 +51,7 @@ update_license();
 check_license();
 update_contributing();
 check_contributing();
+update_docs();
 finish();
 
 done_testing();
@@ -325,6 +326,43 @@ sub update_contributing {
             print $wfh $_;
         }
     }
+}
+sub update_docs {
+    print "\nlooking for docs that need copyright updated...\n";
+    
+    my @docs  = File::Find::Rule->file
+                                ->name('*.md')
+                                ->in('doc/');
+   
+    for my $doc (@docs) {
+        open my $fh, '<', $doc or die $!;
+        my @contents = <$fh>;
+        close $fh or die $!;
+
+        my ($current_year) = (localtime)[5];
+        $current_year += 1900;
+
+        my $changed = 0;
+
+        for (@contents) {
+            if (/^\&copy; 2016-(\d{4}) by/) {
+                my $license_year = $1;
+                if ($license_year != $current_year) {
+                    $changed = 1;
+                    s/$license_year/$current_year/;
+                }
+            }
+        }
+
+        if ($changed) {
+            print "\nupdating $doc with new Copyright year...\n";
+            open my $wfh, '>', $doc or die $!;
+
+            for (@contents) {
+                print $wfh $_;
+            }
+        }
+    } 
 }
 sub update_readme {
     print "\nupdating README with new SHA1 sums and version...\n";
