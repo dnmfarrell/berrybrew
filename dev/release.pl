@@ -32,11 +32,9 @@ my $data_dir        = 'data';
 my $bak_dir         = 'bak';
 my $defaults_dir    = 'dev/data';
 
-check_installer_manifest();
-
 done_testing();
-exit;
 
+check_installer_manifest();
 backup_configs();
 compile();
 update_perls_available();
@@ -100,42 +98,111 @@ sub check_contributing {
     is $year_found, 1, "Found and changed the copyright year in CONTRIBUTING.md ok";
 }
 sub check_installer_manifest {
-
     open my $fh_manifest, '<', 'MANIFEST' or die $!;
     open my $fh_manifest_skip, '<', 'MANIFEST.SKIP' or die $!;
 
-    chomp(my @skip = <$fh_manifest_skip>);
+    my $halt = 0;
 
-    my %file_map;
+    my %skip;
 
-    while (my $dir = <$fh_manifest>) {
-        chomp $dir;
-        my @files = File::Find::Rule->file
-                                    ->in($dir);
+    while (my $entry = <$fh_manifest_skip>) {
+        chomp $entry;
 
-        for (@files) {
-            $file_map{$_} = 1;
+        if ($entry =~ m|/$|) {
+            $skip{dirs}->{$entry} = 1;
+        }
+        else {
+            $skip{files}->{$entry} = 1;
         }
     }
 
-    print Dumper \%file_map;
+    my %filtered_files;;
 
+    my @files = File::Find::Rule->file
+        ->in('.');
 
+    for (@files) {
+        my $include_file = 1;
 
-    exit;
+        for my $skip_dir (keys %{ $skip{dirs} }) {
+            if ($_ =~ /^$skip_dir/) {
+                $include_file = 0;
+                next;
+            }
+        }
+
+        for my $skip_file (keys %{ $skip{files} }) {
+            if ($_ =~ /$skip_file$/) {
+                $include_file = 0;
+                next;
+            }
+        }
+
+        if ($include_file) {
+            $filtered_files{$_} = $_;
+        }
+    }
+
+    my %manifest_files;
+
+    while (<$fh_manifest>) {
+        chomp;
+        $manifest_files{$_} = 1;
+    }
+
+    # Compare directory structure to manifest
+
+    for my $dir_file (keys %filtered_files) {
+        if (! exists $manifest_files{$dir_file}) {
+            $halt = 1;
+            print "'$dir_file' is in REPO but isn't in the MANIFEST.\n";
+        }
+    }
+
+    # Compare manifest to directory structure
+
+    for my $manifest_file (keys %manifest_files) {
+        if (! exists $filtered_files{$manifest_file}) {
+            $halt = 1;
+            print "'$manifest_file' is in the MANIFEST but isn't in the REPO.\n";
+        }
+    }
+
     open my $fh, '<', INSTALLER_SCRIPT or die "Can't open installer script: $!";
 
-    my @files;
+    my %installer_files;
 
     while (my $line = <$fh>) {
         if ($line =~ /\s+File\s+"\.\.\\(.*)"/) {
             my $file = $1;
-            push @files, $file;
+            $file =~ s|\\+|/|g;
+            $installer_files{$file} = 1;
             next;
         }
     }
 
-    print Dumper \@files;
+    # Compare installer script to manifest
+
+    for my $installer_file (keys %installer_files) {
+        if (! exists $manifest_files{$installer_file}) {
+            $halt = 1;
+            print "'$installer_file' is in INSTALLER but isn't in the MANIFEST.\n";
+        }
+    }
+
+    # Compare manifest to installer script
+
+    for my $manifest_file (keys %manifest_files) {
+        if (! exists $installer_files{$manifest_file}) {
+            $halt = 1;
+            print "'$manifest_file' is in MANIFEST but isn't in the INSTALLER.\n";
+        }
+    }
+
+    if ($halt) {
+        print "\nFix the above file discrepancies and run the script again...\n\n";
+        exit;
+    }
 }
 sub check_license {
     open my $fh, '<', 'LICENSE' or die "Can't open LICENSE: $!";
