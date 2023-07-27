@@ -1605,7 +1605,7 @@ namespace BerryBrew {
 
             if (instanceName == null) {
                 // Remove the timestamp 
-                instanceName = Regex.Replace(snapshotName, @"\d{14}", "");
+                instanceName = Regex.Replace(snapshotName, @".\d{14}", "");
             }
             
             List<StrawberryPerl> installedPerls = PerlOp.PerlsInstalled();

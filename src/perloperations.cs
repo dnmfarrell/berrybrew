@@ -101,7 +101,7 @@ namespace BerryBrew.PerlOperations {
                 }
 
                 // snapshot directory
-                if (Regex.Match(dir, @"snapshot$").Success) {
+                if (Regex.Match(dir, @"snapshots$").Success) {
                     continue;
                 }
                 
