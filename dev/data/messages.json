@@ -295,12 +295,21 @@
       "",
       "   berrybrew 'snapshot' subcommands:",
       "",
-      "   list    Displays a list of existing instance snapshots",
-      "   export  Zips a Perl instance and puts it into the snapshot directory",
-      "   import  Unzips a Perl instance from snapshots and registers and installs it",
+      "   list    Lists all existing snapshots",
+      "   export  <instance name> [snapshot name]       Snapshots a Perl instance to a zip archive",
+      "   import  <snapshot name> [new instance name]   Imports a previously saved snapshot archive",
       "",
-      "   NOTE: Both 'export' and 'import' subcommands also require the name of ",
-      "   a perl instance sent in"
+      "   export Options",
+      "",
+      "     instance name:  Mandatory. The name of the existing instance to snapshot",
+      "     snapshot name:  Optional.  Snapshot name.",
+      "                     If not supplied it will be 'instance name.yyyyMMDDmmss'",
+      "",
+      "   import Options",
+      "",
+      "     snapshot name:      Mandatory. The name of the snapshot to import",
+      "     new instance name:  Optional.  This will be the name of the imported instance", 
+      "                         If not supplied, will be the same as snapshot name (less timestamp)"
     ]
   }, 
   {
