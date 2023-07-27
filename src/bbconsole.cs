@@ -65,9 +65,16 @@ namespace berrybrew {
                         bb.Message.Print("subcmd.archive");
                         bb.Exit(0);
                     }
-
-                    bb.Snapshot(args[1], args[2]);
-                    bb.Exit(0);
+                    if (args.Length == 3) {
+                        // command + instance
+                        bb.Snapshot(args[1], args[2]);
+                        bb.Exit(0);
+                    }
+                    if (args.Length == 4) {
+                        // command + instance + zipfile
+                        bb.Snapshot(args[1], args[2], args[3]);
+                        bb.Exit(0);
+                    }                   
                     break;                   
                 
                 case "assoc":

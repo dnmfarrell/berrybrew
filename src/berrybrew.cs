@@ -912,7 +912,8 @@ namespace BerryBrew {
             Console.WriteLine("\nsuccessfully wrote out {0} module list file", moduleFile);
         }
 
-        public void Snapshot(string operation, string instanceName) {
+        public void Snapshot(string operation, string instanceName, string snapshotFile = null) {
+            Console.WriteLine("{0}", snapshotFile);
             if (! Directory.Exists(snapshotPath)) {
                 try {
                     Directory.CreateDirectory(snapshotPath);
@@ -937,18 +938,38 @@ namespace BerryBrew {
             }
 
             if (operation == "export") {
-                SnapshotCompress(PerlOp.PerlResolveVersion(instanceName), "test_snapshot");
+                SnapshotCompress(PerlOp.PerlResolveVersion(instanceName), snapshotFile);
             }
         }
-        public void SnapshotCompress(StrawberryPerl perl, string snapshotName) {
-            string zipFile = snapshotPath + snapshotName + @".zip";
+        public void SnapshotCompress(StrawberryPerl perl, string snapshotName = null) {
+            string snapshotFile = "";
+            
+            if (snapshotName == null) {
+                string timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss"); 
+                snapshotFile = perl.Name + @"." + timeStamp;
+            }
+            else {
+                snapshotFile = snapshotName;
+            }
+
+            if (! Regex.Match(snapshotFile, @".zip$").Success) {
+                snapshotFile = snapshotFile + @".zip";
+            }
+
+            snapshotFile = snapshotPath + snapshotFile;
+
+            Console.WriteLine(
+                "Creating snapshot of perl '{0}' to file '{1}'",
+                perl.Name,
+                snapshotFile
+            );
             
             FastZip _FastZip = new FastZip();
-            _FastZip.CreateZip(zipFile, perl.installPath, true, "");
+            _FastZip.CreateZip(snapshotFile, perl.installPath, true, "");
         }
 
         public void SnapshotList() {
-            Console.WriteLine("SnapshotList()");
+            Console.WriteLine("SnapshotList(): {0}");
         }
         
         private void Extract(StrawberryPerl perl, string archivePath) {
