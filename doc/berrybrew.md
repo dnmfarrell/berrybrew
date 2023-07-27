@@ -18,6 +18,7 @@
 - [off](#off)
 - [register](#register)
 - [remove](#remove)
+- [snapshot](#snapshot)
 - [switch](#switch)
 - [unconfig](#unconfig)
 - [use](#use)
@@ -231,11 +232,9 @@ Usage:  `berrybrew off`
 
 Disables all `berrybrew` Perl installations. If you have a Strawberry or
 ActiveState system Perl installed, it'll be used until you `berrybrew switch`
-back to a `berrybrew` controlled Perl.
+back to a `berrybrew` controlled Perl. 
 
-#### register
-
-Usage:  `berrybrew register <directory>`
+#### register Usage:  `berrybrew register <directory>` 
 
 Registers a custom installation within the Perl instance directory that was
 placed there outside of `berrybrew`.
@@ -249,6 +248,30 @@ the `berrybrew` umbrella.
 Usage:  `berrybrew remove <version>`
 
 Removes a single version of Perl, as seen in `berrybrew available`.
+
+#### snapshot
+
+Usage:  `berrybrew snapshot <command> <option> [option]`
+
+Allows you to create zip archives of existing Perl instances. These archives
+are stored in the `rootPath\snapshot` directory, where `rootPath` by default
+is `C:\berrybrew`
+
+Commands:
+
+    list    Lists all existing snapshots
+    export  <instance name> [snapshot name]       Snapshots a Perl instance to a zip archive
+    import  <snapshot name> [new instance name]   Imports a previously saved snapshot zip archive
+
+###### export Options
+
+    instance name:  Mandatory. The name of the existing instance to snapshot
+    snapshot name:  Optional.  Snapshot name. If not supplied it will be "instance name.yyyyMMDDmmss"
+
+###### import Options
+
+    snapshot name:      Mandatory. The name of the snapshot to import (get with `berrybrew snapshot list`)
+    new instance name:  Optional.  This will be the name of the imported instance. If not supplied, will be the same as `snapshot name` (with any timestamp removed) 
 
 #### switch
 

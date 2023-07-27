@@ -170,6 +170,7 @@
       "    off            Disable berrybrew perls (use 'switch' to re-enable)",
       "    register       Manually register a custom installation directory",
       "    remove         Uninstall a Strawberry Perl",
+      "    snapshot *     Export and import snapshots of Perl instances", 
       "    switch *       Switch to use a different Strawberry Perl",
       "    unconfig       Remove berrybrew from PATH",
       "    use *          Use a specific Strawberry Perl version temporarily",
