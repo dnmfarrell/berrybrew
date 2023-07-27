@@ -956,18 +956,18 @@ Removes the Perl instance corresponding to the name sent in.
 
         argument:   perlName
         value:      The name you want to use for this new install, which will
-                    appear in "berrybrew available"
+                    appear in "berrybrew list" and "berrybrew available"
 
         argument:   perlBase
         value:      Instance of the StrawberryPerl class
         default:    A non-populated instance
 
 Registers custom Perl instances with `berrybrew`, so they appear in
-`berrybrew available` and aren't considered orphans.
+`berrybrew list` and `berrybrew available` and aren't considered orphans.
 
 If a populated instance is sent in as `perlBase`, we'll use its configuration
-information (version, path info, download info etc) in the new custom one. Be
-sure if you do this that the base and the new custom instances are the same
+information (version, path info, download info etc) in the new custom one. If
+you do this, be sure that the base and the new custom instances are the same
 version.
 
 #### PerlOp.PerlRegisterVirtualInstall
