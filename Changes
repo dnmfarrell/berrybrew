@@ -11,7 +11,9 @@ Revision history for berrybrew
     - Removed all CS library includes that aren't required (closes #329) 
     - Release script now updates the copyright year in all files in `doc/`
       (closes #324)
-      
+    - Added snapshot framework (snapshot command, Snapshot(), SnapshotCompress(),
+      SnapshotList() (work on #185)
+    -             
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"

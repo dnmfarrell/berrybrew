@@ -969,7 +969,22 @@ namespace BerryBrew {
         }
 
         public void SnapshotList() {
-            Console.WriteLine("SnapshotList(): {0}");
+            string[] files = Directory.GetFiles(snapshotPath);
+
+            if (files.Length == 0) {
+                Console.WriteLine("no snapshots have been saved...");
+            }
+            else {
+                Console.WriteLine(
+                    "snapshot directory {0} has the following snapshots...\n",
+                    snapshotPath
+                );
+
+                foreach (string file in files) {
+                    string fileName = Path.GetFileName(file);
+                    Console.WriteLine("\t{0}", fileName);
+                }
+            }
         }
         
         private void Extract(StrawberryPerl perl, string archivePath) {
