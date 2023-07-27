@@ -73,6 +73,10 @@ The `Berrybrew` class is the base of the system.
 [OptionsUpdate](#optionsupdate)| **public** | Update registry configuration with new directives
 [OrphanedPerls](#orphanedperls)| **public** | Displays the list of orphaned perls 
 [ProcessCreate](#processcreate)| **public** | Creates and returns a Windows cmd process
+[SnapshotCompress](#snapshotcompress) | Zips and saves an archive of a Perl instance
+[SnapshotExtract](#snapshotextract) | Unzips, installs and registered a previously saved snapshot
+[SnapshotInit](#snapshotinit)| private | Checks for the snapshot storage directory, creates if necessary
+[SnapshotList](#snapshotlist) | Lists all previously saved snapshots
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
 [SwitchQuick](#switchquick) | **public** | Called by `Switch()`, sets up the new environment
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
@@ -628,6 +632,45 @@ Prints to `STDOUT` the list of Perl instances that aren't registered with
         return:     A System.Diagnostics.Process object
 
 Builds and returns a process ready to be modified or have `Start()` called on it.
+
+#### SnapshotCompress
+
+    public void SnapshotCompress(string instanceName, string snapshotName = null)
+
+        argument:   instanceName
+        value:      String containing the perl instance name to archive
+
+        argument:   snapshotName
+        value:      String containing an optional, desired name for the snapshot
+        default:    The name of the Perl instance, with an appended timestamp
+
+Creates a zip archive file (snapshot) of an existing Perl instance. Saves it to
+`snapshotPath`.
+
+#### SnapshotExtract
+
+    public void SnapshotExtract(string snapshotName, string instanceName = null)
+
+        argument:   snapshotName
+        value:      The name of the snapshot to install (use `berrybrew snapshot list`)
+
+        argument:   instanceName
+        value:      The name you want to assign to the Perl instance
+        default:    The name of the snapshot
+
+Unzips, installs and registers a previously archived snapshot.
+
+#### SnapshotInit
+
+    private void SnapshotInit()
+
+Checks that the `snapshotPath` directory exists, and creates it if not.
+
+#### SnapshotList()
+
+    public void SnapshotList()
+
+Displays the names of all previously saved snapshots.
 
 #### Switch
 
