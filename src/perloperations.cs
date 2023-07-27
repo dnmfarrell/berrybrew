@@ -96,12 +96,12 @@ namespace BerryBrew.PerlOperations {
                 }
 
                 // cpanm storage directory
-                if (Regex.Match(dir, @".cpanm").Success) {
+                if (Regex.Match(dir, @".cpanm$").Success) {
                     continue;
                 }
 
                 // snapshot directory
-                if (Regex.Match(dir, @"snapshot").Success) {
+                if (Regex.Match(dir, @"snapshot$").Success) {
                     continue;
                 }
                 
