@@ -1090,6 +1090,7 @@ namespace BerryBrew {
 
                 foreach (string file in files) {
                     string fileName = Path.GetFileName(file);
+                    fileName = Regex.Replace(fileName, @".zip", "");
                     Console.WriteLine("\t{0}", fileName);
                 }
             }
