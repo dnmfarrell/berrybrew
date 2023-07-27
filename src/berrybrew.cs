@@ -302,7 +302,8 @@ namespace BerryBrew {
 
             rootPath = (string) registry.GetValue("root_dir", "");
             rootPath += @"\";
-            snapshotPath    = rootPath + @"snapshots\";
+            
+            snapshotPath = rootPath + @"snapshots\";
 
             archivePath = (string) registry.GetValue("temp_dir", "");
 
@@ -1255,7 +1256,7 @@ namespace BerryBrew {
         }
 
         public void Info(string want) {
-            List <string> options = new List<string>(){"install_path", "bin_path", "root_path", "archive_path"};
+            List <string> options = new List<string>(){"install_path", "bin_path", "root_path", "archive_path", "snapshot_path"};
 
             if (! options.Contains(want)) {
                 Console.Error.WriteLine("\n'{0}' is not a valid option. Valid options are:\n", want);
@@ -1277,6 +1278,9 @@ namespace BerryBrew {
                     break;
                 case "archive_path":
                     Console.WriteLine("\n\t{0}", archivePath);
+                    break;
+                case "snapshot_path":
+                    Console.WriteLine("\n\t{0}", snapshotPath);
                     break;
                 default:
                     Console.Error.WriteLine("\nCould not fetch details for '{0}'", want);
