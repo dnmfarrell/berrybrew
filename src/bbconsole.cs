@@ -65,15 +65,30 @@ namespace berrybrew {
                         bb.Message.Print("subcmd.archive");
                         bb.Exit(0);
                     }
-                    if (args.Length == 3) {
-                        // command + instance
-                        bb.Snapshot(args[1], args[2]);
-                        bb.Exit(0);
+
+                    if (args[1] == "export") {
+                        if (args.Length == 3) {
+                            // instance
+                            bb.SnapshotCompress(args[2]);
+                            bb.Exit(0);
+                        }
+                        if (args.Length == 4) {
+                            // instance + zipfile
+                            bb.SnapshotCompress(args[2], args[3]);
+                            bb.Exit(0);
+                        }                                          
                     }
-                    if (args.Length == 4) {
-                        // command + instance + zipfile
-                        bb.Snapshot(args[1], args[2], args[3]);
-                        bb.Exit(0);
+                    if (args[1] == "import") {
+                        if (args.Length == 3) {
+                            // snapshot_name
+                            bb.SnapshotExtract(args[2]);
+                            bb.Exit(0);
+                        }
+                        if (args.Length == 4) {
+                            // snapshot_name + new_instance_name
+                            bb.SnapshotExtract(args[2], args[3]);
+                            bb.Exit(0);
+                        }                                          
                     }                   
                     break;                   
                 

@@ -64,6 +64,7 @@ sub error_codes {
         BERRYBREW_UPGRADE_FAILED        => 30,
         DIRECTORY_CREATE_FAILED         => 40,
         DIRECTORY_LIST_FAILED           => 45,
+        DIRECTORY_ALREADY_EXIST         => 47, 
         DIRECTORY_NOT_EXIST             => 50,
         FILE_DELETE_FAILED              => 55,
         FILE_DOWNLOAD_FAILED            => 60,

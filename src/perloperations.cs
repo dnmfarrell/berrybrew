@@ -73,6 +73,8 @@ namespace BerryBrew.PerlOperations {
                     continue;
                 }
 
+                // Skip valid known extracurrirular directories
+                
 				// valid perl instance directory
 				if (perlInstallations.Contains(dir)) {
                     continue;
@@ -98,6 +100,11 @@ namespace BerryBrew.PerlOperations {
                     continue;
                 }
 
+                // snapshot directory
+                if (Regex.Match(dir, @"snapshot").Success) {
+                    continue;
+                }
+                
                 string dirBaseName = dir.Remove(0, bb.rootPath.Length);
                 orphans.Add(dirBaseName);
             }

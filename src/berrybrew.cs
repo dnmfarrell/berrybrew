@@ -55,6 +55,7 @@ namespace BerryBrew {
             BERRYBREW_UPGRADE_FAILED        = 30,
             DIRECTORY_CREATE_FAILED         = 40,
             DIRECTORY_LIST_FAILED           = 45,
+            DIRECTORY_ALREADY_EXIST         = 47,
             DIRECTORY_NOT_EXIST             = 50,
             FILE_DELETE_FAILED              = 55,
             FILE_DOWNLOAD_FAILED            = 60,
@@ -913,36 +914,45 @@ namespace BerryBrew {
             Console.WriteLine("\nsuccessfully wrote out {0} module list file", moduleFile);
         }
 
-        public void Snapshot(string operation, string instanceName, string snapshotFile = null) {
-            Console.WriteLine("{0}", snapshotFile);
-            if (! Directory.Exists(snapshotPath)) {
+        private void SnapshotInit() {
+            if (!Directory.Exists(snapshotPath)) {
                 try {
                     Directory.CreateDirectory(snapshotPath);
                 }
                 catch (Exception err) {
-                    Console.Error.WriteLine("\nCouldn't create snapshot dir {0}. Please create it manually and run your command again", snapshotPath);
+                    Console.Error.WriteLine(
+                        "\nCouldn't create snapshot dir {0}. Please create it manually and run your command again",
+                        snapshotPath
+                    );
+                    
                     if (Debug) {
                         Console.Error.WriteLine("DEBUG: {0}", err);
                     }
-                    Exit((int)ErrorCodes.DIRECTORY_CREATE_FAILED);
+
+                    Exit((int) ErrorCodes.DIRECTORY_CREATE_FAILED);
                 }
             }
+        }
 
+        public void SnapshotCompress(string instanceName, string snapshotName = null) {
+            SnapshotInit();
             List<StrawberryPerl> installedPerls = PerlOp.PerlsInstalled();
  
             bool instanceFound = false;
-             
-            foreach (StrawberryPerl perl in installedPerls) {
-                if (perl.Name == instanceName) {
+
+            foreach (StrawberryPerl installedPerl in installedPerls) {
+                if (installedPerl.Name == instanceName) {
                     instanceFound = true;
                 }
             }
 
-            if (operation == "export") {
-                SnapshotCompress(PerlOp.PerlResolveVersion(instanceName), snapshotFile);
+            if (! instanceFound) {
+                Console.Error.WriteLine("\nPerl instance {0} not found", instanceName);
+                Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);           
             }
-        }
-        public void SnapshotCompress(StrawberryPerl perl, string snapshotName = null) {
+
+            StrawberryPerl perl = PerlOp.PerlResolveVersion(instanceName);
+            
             string snapshotFile = "";
             
             if (snapshotName == null) {
@@ -969,7 +979,104 @@ namespace BerryBrew {
             _FastZip.CreateZip(snapshotFile, perl.installPath, true, "");
         }
 
+        public void SnapshotExtract(string snapshotName, string instanceName = null) {
+            SnapshotInit();
+
+            if (instanceName == null) {
+                // Remove the timestamp 
+                instanceName = Regex.Replace(snapshotName, @"\d{14}", "");
+            }
+            
+            List<StrawberryPerl> installedPerls = PerlOp.PerlsInstalled();
+ 
+            foreach (StrawberryPerl installedPerl in installedPerls) {
+                if (installedPerl.Name == instanceName) {
+                    Console.Error.WriteLine(
+                        "\nPerl instance name '{0}' already installed...",
+                        instanceName 
+                    );
+                    Exit((int) ErrorCodes.PERL_ALREADY_INSTALLED);                   
+                }
+            }
+            
+            ZipFile zf = null;
+
+            try {
+                string snapshotFile = snapshotPath + snapshotName + @".zip";
+
+                if (! File.Exists(snapshotFile)) {
+                    Console.Error.WriteLine(
+                        "\nSnapshot file {0} can't be found is the {1} name correct?",
+                        snapshotFile,
+                        snapshotName
+                    );
+                    Exit((int) ErrorCodes.FILE_NOT_FOUND_ERROR);
+                }
+                
+                string instanceInstallDir = rootPath + instanceName;
+
+                if (Directory.Exists(instanceInstallDir)) {
+                    Console.Error.WriteLine(
+                        "\nDirectory {0} already exists. Can't extract snapshot {1} to perl instance name '{2}'\n",
+                        instanceInstallDir,
+                        snapshotFile,
+                        instanceName
+                    );
+                    Exit((int) ErrorCodes.DIRECTORY_ALREADY_EXIST);                       
+                }
+
+                Console.WriteLine("Extracting snapshot '{0}' from file {1} to {2}\n",
+                    snapshotName,
+                    snapshotFile,
+                    instanceInstallDir
+                );
+
+                FileStream fs = File.OpenRead(snapshotFile);
+                zf = new ZipFile(fs);
+
+                foreach (ZipEntry zipEntry in zf) {
+                    if (!zipEntry.IsFile) {
+                        continue;
+                    }
+
+                    string entryFileName = zipEntry.Name;
+
+                    byte[] buffer = new byte[4096]; // 4K is optimum
+                    Stream zipStream = zf.GetInputStream(zipEntry);
+                    
+   
+                    string fullZipToPath = Path.Combine(instanceInstallDir, entryFileName);
+                    string directoryName = Path.GetDirectoryName(fullZipToPath);
+
+                    if (! string.IsNullOrEmpty(directoryName)) {
+                        Directory.CreateDirectory(directoryName);
+                    }
+                    else {
+                        Console.Error.WriteLine(
+                            "\nCould not get the zip archive's directory name.\n");
+                        Exit((int) ErrorCodes.ARCHIVE_PATH_NAME_NOT_FOUND);
+                    }
+
+                    using (FileStream
+                        streamWriter = File.Create(fullZipToPath)) {
+                        ICSharpCode.SharpZipLib.Core.StreamUtils.Copy(zipStream,
+                            streamWriter, buffer);
+                    }
+                }
+            }
+            finally {
+                if (zf != null){
+                    zf.IsStreamOwner = true;
+                    zf.Close();
+                }
+            }
+
+            PerlOp.PerlRegisterCustomInstall(instanceName);
+        }
+
         public void SnapshotList() {
+            SnapshotInit();
+
             string[] files = Directory.GetFiles(snapshotPath);
 
             if (files.Length == 0) {
@@ -987,7 +1094,7 @@ namespace BerryBrew {
                 }
             }
         }
-        
+
         private void Extract(StrawberryPerl perl, string archivePath) {
             ZipFile zf = null;
 
