@@ -73,6 +73,7 @@ namespace BerryBrew {
             PERL_FILE_ASSOC_FAILED          = 115,
             PERL_INVALID_ERROR              = 120,
             PERL_MIN_VER_GREATER_510        = 125,
+            PERL_NAME_COLLISION             = 127,
             PERL_NAME_INVALID               = 130,
             PERL_NONE_IN_USE                = 135,
             PERL_NONE_INSTALLED             = 140,
@@ -1607,7 +1608,17 @@ namespace BerryBrew {
                 // Remove the timestamp 
                 instanceName = Regex.Replace(snapshotName, @".\d{14}", "");
             }
+
+            List<string> perlsAvailable = AvailableList();
             
+            if (perlsAvailable.Contains(snapshotName)) {
+                Console.Error.WriteLine(
+                    "\nsnapshot name {0} can't match an existing official perl name",
+                    snapshotName
+                );
+                Exit((int) ErrorCodes.PERL_NAME_COLLISION);
+            }
+        
             List<StrawberryPerl> installedPerls = PerlOp.PerlsInstalled();
  
             foreach (StrawberryPerl installedPerl in installedPerls) {
