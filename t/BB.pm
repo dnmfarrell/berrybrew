@@ -82,6 +82,7 @@ sub error_codes {
         PERL_FILE_ASSOC_FAILED          => 115,
         PERL_INVALID_ERROR              => 120,
         PERL_MIN_VER_GREATER_510        => 125,
+        PERL_NAME_COLLISION             => 127,
         PERL_NAME_INVALID               => 130,
         PERL_NONE_IN_USE                => 135,
         PERL_NONE_INSTALLED             => 140,
