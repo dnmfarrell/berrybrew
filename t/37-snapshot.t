@@ -61,23 +61,23 @@ if ($timestamp_name_list =~ /(5\.10\.1_32\.\d{14})/) {
 
 is @installed, 0, "removed all versions of perl ok";
 
-`$c snapshot import $timestamp_snapshot`;
+`$c snapshot import $timestamp_snapshot timestamp_import`;
 @installed = BB::get_installed();
 
-is $installed[-1], '5.10.1_32', "timestamp snapshot import removes timestamp ok";
+is $installed[-1], 'timestamp_import', "timestamp snapshot import removes timestamp ok";
 
-# import timestamp duplicate
+# import timestamp duplicate (name collision)
 
 my $installed_err = BB::trap("$c snapshot import $timestamp_snapshot");
 
 is 
     $? >> 8, 
-    BB::err_code('PERL_ALREADY_INSTALLED'), 
+    BB::err_code('PERL_NAME_COLLISION'), 
     "attempt to re-install snapshot fails ok";
 
 like 
     $installed_err, 
-    qr/already installed/, 
+    qr/alternate instance name/, 
     "...and error message is ok";
 
 # import with custom instance name
@@ -87,13 +87,22 @@ like
 @installed = BB::get_installed();
 is $installed[-1], 'snap_import', "import with custom instance name ok";
 
-my $custom_list = `$c list`;
+# import duplicate (already installed) 
 
-print $custom_list;
+$installed_err = BB::trap("$c snapshot import snap_import");
+
+is
+    $? >> 8,
+    BB::err_code('PERL_ALREADY_INSTALLED'),
+    "attempt to re-install snapshot fails ok";
+
+like
+    $installed_err,
+    qr/already installed/,
+    "...and error message is ok";
 
 for (BB::get_installed()) {
-    print ">$_\n";
-    exit;
+    print "Removing: >$_<\n";
     `$c remove $_`;
 }
 

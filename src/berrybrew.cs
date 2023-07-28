@@ -1611,12 +1611,10 @@ namespace BerryBrew {
 
             List<string> perlsAvailable = AvailableList();
 
-                Console.WriteLine("**{0}", snapshotName);
-            if (perlsAvailable.Contains(snapshotName)) {
-                
-                Console.WriteLine("match");
+            if (perlsAvailable.Contains(instanceName)) {
                 Console.Error.WriteLine(
-                    "\nsnapshot name {0} can't match an existing official perl name",
+                    "\nname portion ({0}) of snapshot ({1}) can't match an existing official perl name. You must specify an alternate instance name",
+                    instanceName,
                     snapshotName
                 );
                 Exit((int) ErrorCodes.PERL_NAME_COLLISION);
