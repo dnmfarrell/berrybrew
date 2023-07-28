@@ -1610,8 +1610,11 @@ namespace BerryBrew {
             }
 
             List<string> perlsAvailable = AvailableList();
-            
+
+                Console.WriteLine("**{0}", snapshotName);
             if (perlsAvailable.Contains(snapshotName)) {
+                
+                Console.WriteLine("match");
                 Console.Error.WriteLine(
                     "\nsnapshot name {0} can't match an existing official perl name",
                     snapshotName

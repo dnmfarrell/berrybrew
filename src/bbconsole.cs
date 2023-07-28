@@ -49,23 +49,32 @@ namespace berrybrew {
                 case "snapshot":
                     if (args.Length < 2) {
                         bb.Message.Print("snapshot_arguments_required");
-                        bb.Message.Print("subcmd.snapshot"); 
-                        bb.Exit(0);                       
-                    } 
+                        bb.Message.Print("subcmd.snapshot");
+                        bb.Exit(0);
+                    }
+
                     if (args[1] == "-h" || args[1] == "help") {
                         bb.Message.Print("subcmd.snapshot");
                         bb.Exit(0);
                     }
+
                     if (args[1] == "list") {
                         bb.SnapshotList();
                         bb.Exit(0);
                     }
+
                     if (args.Length < 3) {
                         bb.Message.Print("snapshot_arguments_required");
-                        bb.Message.Print("subcmd.archive");
+                        bb.Message.Print("subcmd.snapshot");
                         bb.Exit(0);
                     }
 
+                    if (args[1] != "export" && args[1] != "import") {
+                         bb.Message.Print("snapshot_arguments_required");
+                         bb.Message.Print("subcmd.snapshot");
+                         bb.Exit(0);                        
+                    }
+                    
                     if (args[1] == "export") {
                         if (args.Length == 3) {
                             // instance

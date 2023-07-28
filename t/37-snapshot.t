@@ -92,6 +92,8 @@ my $custom_list = `$c list`;
 print $custom_list;
 
 for (BB::get_installed()) {
+    print ">$_\n";
+    exit;
     `$c remove $_`;
 }
 
