@@ -27,7 +27,7 @@ call mcs^
 echo "compiling binary..."
 
 call mcs^
-    src\bbconsole.cs
+    src\bbconsole.cs^
     -lib:staging^
     -out:staging/berrybrew.exe^
     -win32icon:inc/berrybrew.ico^
