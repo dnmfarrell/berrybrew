@@ -44,7 +44,7 @@ namespace BerryBrew.PerlOperations {
             return path + @"\" + perl.File;
         }
 
-        internal List<string> PerlFindOrphans() {
+        internal List<string> PerlOrphansFind() {
             List<StrawberryPerl> perls = PerlsInstalled();
 
             try {
@@ -583,7 +583,7 @@ namespace BerryBrew.PerlOperations {
         }
 
         public void PerlUpdateAvailableListOrphans() {
-            List<string> orphans = PerlFindOrphans();
+            List<string> orphans = PerlOrphansFind();
 
             foreach(var orphan in orphans) {
                 Console.WriteLine("Registering legacy Perl '{0}' as custom...", orphan);
