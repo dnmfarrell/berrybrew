@@ -27,7 +27,7 @@ Revision history for berrybrew
       archives of perl instances with custom file names, and re-import them
       with the same, or a custom instance name (closes #185)
     - Renamed `PerlFindOrphans()` to `PerlOrphansFind()`
-    
+    - 
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"

@@ -155,7 +155,8 @@ namespace BerryBrew.PerlOperations {
             }
 
             List<string> orphans = new List<string>();
-
+            Dictionary<string, bool> orphansIgnored = PerlOrphansIgnore();
+            
             foreach (string dir in dirs) {
                 if (dir == bb.archivePath) {
                     continue;
@@ -163,36 +164,22 @@ namespace BerryBrew.PerlOperations {
 
                 // Skip valid known extracurrirular directories
                 
-				// valid perl instance directory
+				// Valid perl instance directory
 				if (perlInstallations.Contains(dir)) {
                     continue;
                 }
 
-				// testing directory
-                if (Regex.Match(dir, @"\\testing$").Success) {
-                    continue;
+                // Ignored orphans
+                Match ignoredOrphanFound = Regex.Match(dir, @".*\\(.*)$");
+
+                if (ignoredOrphanFound.Success) {
+                    string ignoredOrphan = ignoredOrphanFound.Groups[1].Captures[0].Value;
+                    
+                    if (orphansIgnored.ContainsKey(ignoredOrphan)) { 
+                        continue;
+                    }
                 }
 
-                // dev staging directory
-                if (Regex.Match(dir, @"\\staging$").Success) {
-                    continue;
-                }
-
-                // module list directory
-                if (Regex.Match(dir, @"\\modules$").Success) {
-                    continue;
-                }
-
-                // cpanm storage directory
-                if (Regex.Match(dir, @".cpanm$").Success) {
-                    continue;
-                }
-
-                // snapshot directory
-                if (Regex.Match(dir, @"snapshots$").Success) {
-                    continue;
-                }
-                
                 string dirBaseName = dir.Remove(0, bb.rootPath.Length);
                 orphans.Add(dirBaseName);
             }
@@ -200,6 +187,24 @@ namespace BerryBrew.PerlOperations {
             return orphans;
         }
 
+        internal Dictionary<string, bool> PerlOrphansIgnore() {
+            Dictionary<string, bool> ignoreList = new Dictionary<string, bool>();
+
+            List<string> ignoreDirs = new List<string> {
+                @"testing",
+                @"staging",
+                @"modules",
+                @".cpanm",
+                @"snapshots"
+            };
+
+            foreach (string dir in ignoreDirs) {
+                ignoreList.Add(dir, true);
+            }
+            
+            return ignoreList;
+        }
+        
         public void PerlRegisterCustomInstall(string perlName, StrawberryPerl perlBase=new StrawberryPerl()) {
             perlName = bb.BitSuffixCheck(perlName);
 
