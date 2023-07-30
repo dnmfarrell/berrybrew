@@ -125,7 +125,7 @@ Manages all operations necessary to maintain the Strawberry Perl instances.
 [PerlIsInstalled](#perlopperlisinstalled)| internal   | Checks if a specific Perl is installed
 [PerlsInstalled](#perlopperlsinstalled)| **public** | Fetches the list of Perls installed
 [PerlOrphansFind](#perlopperlorphansfind)| internal   | Locates non-registered directories in Perl root
-[PerlOrphansIgnore](#perlopperlorphansignore)| internal   | Returns a list (dict) of directories that are never orphans. 
+[PerlOrphansIgnore](#perlopperlorphansignore)| **public** | Returns a list (dict) of directories that are never orphans. 
 [PerlRegisterCustomInstall](#perlopperlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
 [PerlRegisterVirtualInstall](#perlopperlregistervirtualinstall)| **public** | Make `berrybrew` aware of external Perls
 [PerlRemove](#perlopperlremove)| **public** | Uninstalls a specific instance of Perl

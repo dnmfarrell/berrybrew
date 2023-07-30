@@ -420,6 +420,18 @@ namespace berrybrew {
                     bb.Exit(0);
                     break;
 
+                case "orphans-ignored":
+                    Dictionary<string, bool> ignoredOrphans = bb.PerlOp.PerlOrphansIgnore();
+
+                    Console.WriteLine("The following perl directories are ignored when listing orphans:\n");
+                    
+                    foreach (string ignored in ignoredOrphans.Keys) {
+                        Console.WriteLine("\t{0}", ignored);
+                    }
+
+                    bb.Exit(0);
+                    break;
+
                 case "register":
                     if (args.Length == 1) {
                         bb.Message.Print("register_ver_required");

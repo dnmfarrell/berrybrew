@@ -201,6 +201,7 @@
       "    options-update         Adds any newly added config file directives to the Registry",
       "    options-update-force   Reloads the entire configuration file into the Registry",
       "    orphans                Display all orphaned Perl instances that aren't registered",
+      "    orphans-ignored        Display the list of directories we won't classify as orphaned perl instances",
       "    register-orphans       Registers all orphan Perls at once",
       "    test                   Sets test platform information when running unit tests",
       "    trace                  Displays the full stack trace and exit code on exit",

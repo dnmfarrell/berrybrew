@@ -187,15 +187,15 @@ namespace BerryBrew.PerlOperations {
             return orphans;
         }
 
-        internal Dictionary<string, bool> PerlOrphansIgnore() {
+        public Dictionary<string, bool> PerlOrphansIgnore() {
             Dictionary<string, bool> ignoreList = new Dictionary<string, bool>();
 
             List<string> ignoreDirs = new List<string> {
-                @"testing",
-                @"staging",
-                @"modules",
                 @".cpanm",
-                @"snapshots"
+                @"modules",
+                @"snapshots",
+                @"staging",
+                @"testing"
             };
 
             foreach (string dir in ignoreDirs) {
@@ -204,7 +204,7 @@ namespace BerryBrew.PerlOperations {
             
             return ignoreList;
         }
-        
+
         public void PerlRegisterCustomInstall(string perlName, StrawberryPerl perlBase=new StrawberryPerl()) {
             perlName = bb.BitSuffixCheck(perlName);
 
