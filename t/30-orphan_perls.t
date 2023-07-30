@@ -6,6 +6,7 @@ use lib $RealBin;
 use BB;
 
 use Capture::Tiny qw(:all);
+use File::Path qw(rmtree);
 use IPC::Run3;
 use Test::More;
 
@@ -60,6 +61,7 @@ like
         }            
         my $o = `$c list`;
         unlike $o, qr/$_/, "$_ is an ignored orphan and was skipped";
+        rmtree "$dir/$_" or die "Can't delete fake orphan dir '$dir/$_': $!";
     }
 }
 

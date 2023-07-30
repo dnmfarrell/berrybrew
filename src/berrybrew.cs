@@ -70,6 +70,7 @@ namespace BerryBrew {
             PERL_ARCHIVE_CHECKSUM_FAILED    = 100,
             PERL_CLONE_FAILED               = 105,
             PERL_CLONE_FAILED_IO_ERROR      = 110,
+            PERL_DIRECTORY_SPECIAL          = 112, 
             PERL_FILE_ASSOC_FAILED          = 115,
             PERL_INVALID_ERROR              = 120,
             PERL_MIN_VER_GREATER_510        = 125,

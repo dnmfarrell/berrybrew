@@ -79,6 +79,7 @@ sub error_codes {
         PERL_ARCHIVE_CHECKSUM_FAILED    => 100,
         PERL_CLONE_FAILED               => 105,
         PERL_CLONE_FAILED_IO_ERROR      => 110,
+        PERL_DIRECTORY_SPECIAL          => 112,
         PERL_FILE_ASSOC_FAILED          => 115,
         PERL_INVALID_ERROR              => 120,
         PERL_MIN_VER_GREATER_510        => 125,
@@ -106,6 +107,7 @@ sub err_code {
 
     my @valid_codes = split /\n/, `$c error-codes`;
     is scalar(keys %error_codes), scalar(@valid_codes), "error code count ok compared to valid";
+    
     return $error_codes{$name};
 }
 sub trap {

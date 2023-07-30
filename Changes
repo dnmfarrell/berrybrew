@@ -31,6 +31,8 @@ Revision history for berrybrew
       not classify as orphaned perl instances
     - Add `berrybrew orphans-ignored` hidden command. Displays the list of
       directories we won't classify as orphans (closes #334)
+    - Add tests to ensure that both BB::error_codes() and the Berrybrew API
+      `ErrCodes` enum have the same data
 
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
