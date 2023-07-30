@@ -1301,6 +1301,7 @@ namespace BerryBrew {
                             Exit((int)ErrorCodes.PERL_VERSION_ALREADY_REGISTERED);
                         }
                     }
+
                     perlList.Add(perl);
                 }
                 jsonString = JsonConvert.SerializeObject(perlList, Formatting.Indented);
