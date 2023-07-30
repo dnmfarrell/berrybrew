@@ -44,74 +44,6 @@ namespace BerryBrew.PerlOperations {
             return path + @"\" + perl.File;
         }
 
-        internal List<string> PerlOrphansFind() {
-            List<StrawberryPerl> perls = PerlsInstalled();
-
-            try {
-                Directory.GetDirectories(bb.rootPath);
-            }
-            catch (Exception err) {
-                if (bb.Debug) {
-                    Console.Error.WriteLine("DEBUG: failure getting directories of root");
-                    Console.Error.WriteLine("DEBUG: {0}", err);
-                }
-
-                bb.Exit((int) Berrybrew.ErrorCodes.DIRECTORY_LIST_FAILED);
-            }
-
-            List<string> dirs = new List<string>(Directory.GetDirectories(bb.rootPath));
-            List<string> perlInstallations = new List<string>();
-
-            foreach (StrawberryPerl perl in perls) {
-                perlInstallations.Add(perl.installPath);
-            }
-
-            List<string> orphans = new List<string>();
-
-            foreach (string dir in dirs) {
-                if (dir == bb.archivePath) {
-                    continue;
-                }
-
-                // Skip valid known extracurrirular directories
-                
-				// valid perl instance directory
-				if (perlInstallations.Contains(dir)) {
-                    continue;
-                }
-
-				// testing directory
-                if (Regex.Match(dir, @"\\testing$").Success) {
-                    continue;
-                }
-
-                // dev staging directory
-                if (Regex.Match(dir, @"\\staging$").Success) {
-                    continue;
-                }
-
-                // module list directory
-                if (Regex.Match(dir, @"\\modules$").Success) {
-                    continue;
-                }
-
-                // cpanm storage directory
-                if (Regex.Match(dir, @".cpanm$").Success) {
-                    continue;
-                }
-
-                // snapshot directory
-                if (Regex.Match(dir, @"snapshots$").Success) {
-                    continue;
-                }
-                
-                string dirBaseName = dir.Remove(0, bb.rootPath.Length);
-                orphans.Add(dirBaseName);
-            }
-
-            return orphans;
-        }
-
         internal List<StrawberryPerl> PerlGenerateObjects() {
             List<StrawberryPerl> perlObjects = new List<StrawberryPerl>();
 
@@ -198,6 +130,74 @@ namespace BerryBrew.PerlOperations {
         public List<StrawberryPerl> PerlsInstalled() {
             PerlGenerateObjects();
             return bb._perls.Values.Cast<StrawberryPerl>().Where(PerlIsInstalled).ToList();
+        }
+
+        internal List<string> PerlOrphansFind() {
+            List<StrawberryPerl> perls = PerlsInstalled();
+
+            try {
+                Directory.GetDirectories(bb.rootPath);
+            }
+            catch (Exception err) {
+                if (bb.Debug) {
+                    Console.Error.WriteLine("DEBUG: failure getting directories of root");
+                    Console.Error.WriteLine("DEBUG: {0}", err);
+                }
+
+                bb.Exit((int) Berrybrew.ErrorCodes.DIRECTORY_LIST_FAILED);
+            }
+
+            List<string> dirs = new List<string>(Directory.GetDirectories(bb.rootPath));
+            List<string> perlInstallations = new List<string>();
+
+            foreach (StrawberryPerl perl in perls) {
+                perlInstallations.Add(perl.installPath);
+            }
+
+            List<string> orphans = new List<string>();
+
+            foreach (string dir in dirs) {
+                if (dir == bb.archivePath) {
+                    continue;
+                }
+
+                // Skip valid known extracurrirular directories
+                
+				// valid perl instance directory
+				if (perlInstallations.Contains(dir)) {
+                    continue;
+                }
+
+				// testing directory
+                if (Regex.Match(dir, @"\\testing$").Success) {
+                    continue;
+                }
+
+                // dev staging directory
+                if (Regex.Match(dir, @"\\staging$").Success) {
+                    continue;
+                }
+
+                // module list directory
+                if (Regex.Match(dir, @"\\modules$").Success) {
+                    continue;
+                }
+
+                // cpanm storage directory
+                if (Regex.Match(dir, @".cpanm$").Success) {
+                    continue;
+                }
+
+                // snapshot directory
+                if (Regex.Match(dir, @"snapshots$").Success) {
+                    continue;
+                }
+                
+                string dirBaseName = dir.Remove(0, bb.rootPath.Length);
+                orphans.Add(dirBaseName);
+            }
+
+            return orphans;
         }
 
         public void PerlRegisterCustomInstall(string perlName, StrawberryPerl perlBase=new StrawberryPerl()) {
