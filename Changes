@@ -23,7 +23,10 @@ Revision history for berrybrew
       installs so the sorting of versions in `JsonWrite()` get all three version
       sections (when it didn't, it too was causing an exception to be raised).
       (fixes #335)
-    - 
+    - Completed `berrybrew snapshot` (aka `archive`). Allows a user to save zip
+      archives of perl instances with custom file names, and re-import them
+      with the same, or a custom instance name (closes #185)
+      
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"
