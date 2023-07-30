@@ -10,8 +10,6 @@ call perl -i.bak -ne "s/\"run_mode\"\s+:\s+\"prod\"/\"run_mode\"\t\t  : \"stagin
 copy bin\ICSharpCode.SharpZipLib.dll staging\
 copy bin\Newtonsoft.Json.dll staging\
 
-   
-
 echo "compiling API dll..."
 
 call mcs^
@@ -32,8 +30,8 @@ call mcs^
     src\bbconsole.cs^
     -lib:staging^
     -out:staging/berrybrew.exe^
-    -r:bbapi.dll^
-    -win32icon:inc/berrybrew.ico
+    -win32icon:inc/berrybrew.ico^
+    -r:bbapi.dll
 
 echo "compiling UI..."
 

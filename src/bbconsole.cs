@@ -1,7 +1,7 @@
+using BerryBrew;
 using System;
 using System.IO;
 using System.Linq;
-using BerryBrew;
 using System.Collections.Generic;
 
 namespace berrybrew {
@@ -46,6 +46,61 @@ namespace berrybrew {
 
             switch (args[0]){
 
+                case "snapshot":
+                    if (args.Length < 2) {
+                        bb.Message.Print("snapshot_arguments_required");
+                        bb.Message.Print("subcmd.snapshot");
+                        bb.Exit(0);
+                    }
+
+                    if (args[1] == "-h" || args[1] == "help") {
+                        bb.Message.Print("subcmd.snapshot");
+                        bb.Exit(0);
+                    }
+
+                    if (args[1] == "list") {
+                        bb.SnapshotList();
+                        bb.Exit(0);
+                    }
+
+                    if (args.Length < 3) {
+                        bb.Message.Print("snapshot_arguments_required");
+                        bb.Message.Print("subcmd.snapshot");
+                        bb.Exit(0);
+                    }
+
+                    if (args[1] != "export" && args[1] != "import") {
+                         bb.Message.Print("snapshot_arguments_required");
+                         bb.Message.Print("subcmd.snapshot");
+                         bb.Exit(0);                        
+                    }
+                    
+                    if (args[1] == "export") {
+                        if (args.Length == 3) {
+                            // instance
+                            bb.SnapshotCompress(args[2]);
+                            bb.Exit(0);
+                        }
+                        if (args.Length == 4) {
+                            // instance + zipfile
+                            bb.SnapshotCompress(args[2], args[3]);
+                            bb.Exit(0);
+                        }                                          
+                    }
+                    if (args[1] == "import") {
+                        if (args.Length == 3) {
+                            // snapshot_name
+                            bb.SnapshotExtract(args[2]);
+                            bb.Exit(0);
+                        }
+                        if (args.Length == 4) {
+                            // snapshot_name + new_instance_name
+                            bb.SnapshotExtract(args[2], args[3]);
+                            bb.Exit(0);
+                        }                                          
+                    }                   
+                    break;                   
+                
                 case "assoc":
                     if (args.Length > 1) {
                         if(args[1] == "-h" || args[1] == "help") {

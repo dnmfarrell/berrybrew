@@ -13,11 +13,11 @@ call perl -i.bak -ne "s/\"run_mode\"\s+:\s+\"prod\"/\"run_mode\"\t\t  : \"stagin
 echo "compiling berrybrew binary..."
 
 call mcs^
+    src\bbconsole.cs
     -lib:staging^
     -r:bbapi.dll^
     -win32icon:inc/berrybrew.ico^
     -out:staging/berrybrew.exe^
-    src\bbconsole.cs
 
 copy staging\berrybrew.exe staging\bb.exe
 copy bin\berrybrew-refresh.bat staging\

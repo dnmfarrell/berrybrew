@@ -57,6 +57,13 @@
     ]
   },
   {
+    "label": "snapshot_arguments_required",
+
+    "content": [
+      "\nsnapshot command requires arguments..."
+    ]
+  },
+  {
     "label": "install_ver_required",
 
     "content": [
@@ -163,6 +170,7 @@
       "    off            Disable berrybrew perls (use 'switch' to re-enable)",
       "    register       Manually register a custom installation directory",
       "    remove         Uninstall a Strawberry Perl",
+      "    snapshot *     Export and import snapshots of Perl instances", 
       "    switch *       Switch to use a different Strawberry Perl",
       "    unconfig       Remove berrybrew from PATH",
       "    use *          Use a specific Strawberry Perl version temporarily",
@@ -280,6 +288,30 @@
       "   temp   Removes all downloaded Perl installation files"
     ]
   },
+  {
+    "label": "subcmd.snapshot",
+
+    "content": [
+      "",
+      "   berrybrew 'snapshot' subcommands:",
+      "",
+      "   list    Lists all existing snapshots",
+      "   export  <instance name> [snapshot name]       Snapshots a Perl instance to a zip archive",
+      "   import  <snapshot name> [new instance name]   Imports a previously saved snapshot archive",
+      "",
+      "   export Options",
+      "",
+      "     instance name:  Mandatory. The name of the existing instance to snapshot",
+      "     snapshot name:  Optional.  Snapshot name.",
+      "                     If not supplied it will be 'instance name.yyyyMMDDmmss'",
+      "",
+      "   import Options",
+      "",
+      "     snapshot name:      Mandatory. The name of the snapshot to import",
+      "     new instance name:  Optional.  This will be the name of the imported instance", 
+      "                         If not supplied, will be the same as snapshot name (less timestamp)"
+    ]
+  }, 
   {
     "label": "info_option_required",
 

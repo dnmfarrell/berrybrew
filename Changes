@@ -11,6 +11,21 @@ Revision history for berrybrew
     - Removed all CS library includes that aren't required (closes #329) 
     - Release script now updates the copyright year in all files in `doc/`
       (closes #324)
+    - Added snapshot framework (snapshot command, Snapshot(), SnapshotCompress(),
+      SnapshotList() (work on #185)
+    - Fix major previously unknown bug where if at least two custom or virtual
+      perls were installed, removing one would cause the writing of
+      `perls_custom.json` (or `perls_virtual.json`) to fail, due to the values
+      of the Strawbery Perl object being `null`. This raised an exception. Fix
+      was to set the properties of the object to an empty string if the
+      attempted assignment was null (eg. `data["url"] 	= perlBase.Url ?? "";`).
+      We now also set the `Version` property to `0.0.0` in custom/virtual
+      installs so the sorting of versions in `JsonWrite()` get all three version
+      sections (when it didn't, it too was causing an exception to be raised).
+      (fixes #335)
+    - Completed `berrybrew snapshot` (aka `archive`). Allows a user to save zip
+      archives of perl instances with custom file names, and re-import them
+      with the same, or a custom instance name (closes #185)
       
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
