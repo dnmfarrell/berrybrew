@@ -1,6 +1,10 @@
 use warnings;
 use strict;
 
+# As a side effect, this test script also ensures that issue #335
+# doesn't regress (if two or more custom/virtual installs are present,
+# removing one will cause JsonWrite() to throw)
+
 use Data::Dumper;
 use File::Path qw(rmtree);
 use FindBin qw($RealBin);
@@ -102,7 +106,6 @@ like
     "...and error message is ok";
 
 for (BB::get_installed()) {
-    print "Removing: >$_<\n";
     `$c remove $_`;
 }
 
@@ -111,43 +114,5 @@ is BB::get_installed(), 0, "all Perls cleaned up ok";
 rmtree $snapdir or die $!;
 
 is -d $snapdir, undef, "removed snapshot dir ok";
-
-done_testing();
-exit;
-#@installed = BB::get_installed();
-
-#like
-#    { $installed[-1] }
-#    qr/unit_test\.\d{14}/,
-#    "unnamed snapshot saved with timestamp ok";
-#
-
-# import unnamed instance
-
-#`$c snapshot import unit_test`;
-
-__END__
-my @avail = BB::get_avail();
-
-my $pre_installed = BB::get_installed();
-
-my $unknown_err = BB::trap("$c install 9.10.11");
-is $? >> 8, BB::err_code('PERL_UNKNOWN_VERSION'), "if unknown version, exit ok";
-like $unknown_err, qr/unknown version/, "...and error message is ok";
-
-note "\nInstalling $avail[-1]\n";
-`$c install $avail[-1]`;
-
-my $err = BB::trap("$c install $avail[-1]");
-is $? >> 8, BB::err_code('PERL_ALREADY_INSTALLED'), "if perl is installed, exit status ok";
-like $err, qr/already installed/, "...and error message is ok";
-
-note "\nInstalling 5.16.3\n";
-`$c install 5.16.3`;
-like `$c list`, qr/5\.16\.3_64/, "install with no suffix installs 64-bit perl ok";
-
-my $post_installed = BB::get_installed();
-
-ok $post_installed > $pre_installed, "install ok";
 
 done_testing();
