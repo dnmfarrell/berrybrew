@@ -30,16 +30,36 @@ like
     qr/warn_orphans:\s+true/,
     "warn_orphans set to true ok";
 
+# actual orphans
 {
     my @perls = qw(5.99.0 5.005_32);
 
     for (@perls){
         if (! -d "$dir/$_") {
             mkdir "$dir/$_" or die $!;
-            my $o = `$c list`;
-            like $o, qr/Orphaned Perl installations/, "orphaned perl $_ caught";
-            like $o, qr/$_/, "orphaned perl $_ caught";
         }
+        my $o = `$c list`;
+        like $o, qr/Orphaned Perl installations/, "orphans were caught";
+        like $o, qr/$_/, "orphaned perl $_ caught";
+    }
+}
+
+# orphans ignored
+{
+    my @perls = (
+        'testing',
+        'staging',
+        'modules',
+        '.cpanm',
+        'snapshots',
+    );
+
+    for (@perls){
+        if (! -d "$dir/$_") {
+            mkdir "$dir/$_" or die $!;
+        }            
+        my $o = `$c list`;
+        unlike $o, qr/$_/, "$_ is an ignored orphan and was skipped";
     }
 }
 

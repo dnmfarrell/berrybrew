@@ -41,6 +41,7 @@ maintainers of this software.
 - [options-update](#options-update)
 - [options-update-force](#options-update-force)
 - [orphans](#orphans)
+- [orphans-ignored](#orphans-ignored)
 - [register-orphans](#register-orphans)
 - [test](#test)
 - [trace](#trace)
@@ -417,6 +418,11 @@ within the registry.
 
 Displays all orphaned Perl instances that haven't been registered with
 `berrybrew`.
+
+#### orphans-ignored
+
+Displays the list of directories in the Perl instance directory that we will
+not classify as orphans. These are system directories.
 
 #### register-orphans
 

@@ -26,7 +26,12 @@ Revision history for berrybrew
     - Completed `berrybrew snapshot` (aka `archive`). Allows a user to save zip
       archives of perl instances with custom file names, and re-import them
       with the same, or a custom instance name (closes #185)
-      
+    - Renamed `PerlFindOrphans()` to `PerlOrphansFind()`
+    - Add `PerlOrphansIgnore()`, returns a list (dict) of directories we shall
+      not classify as orphaned perl instances
+    - Add `berrybrew orphans-ignored` hidden command. Displays the list of
+      directories we won't classify as orphans (closes #334)
+
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"

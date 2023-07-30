@@ -120,11 +120,12 @@ Manages all operations necessary to maintain the Strawberry Perl instances.
 |Method name| Available  |Description|
 |---|------------|---|
 [PerlArchivePath](#perlopperlarchivepath)| internal   | Returns the path and filename of the zip file
-[PerlFindOrphans](#perlopperlfindorphans)| internal   | Locates non-registered directories in Perl root
 [PerlGenerateObjects](#perlopperlgenerateobjects)| internal   | Generates the `StrawberryPerl` class objects
 [PerlInUse](#perlopperlinuse)| **public** | Returns the object that represents Perl currently in use
 [PerlIsInstalled](#perlopperlisinstalled)| internal   | Checks if a specific Perl is installed
 [PerlsInstalled](#perlopperlsinstalled)| **public** | Fetches the list of Perls installed
+[PerlOrphansFind](#perlopperlorphansfind)| internal   | Locates non-registered directories in Perl root
+[PerlOrphansIgnore](#perlopperlorphansignore)| **public** | Returns a list (dict) of directories that are never orphans. 
 [PerlRegisterCustomInstall](#perlopperlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
 [PerlRegisterVirtualInstall](#perlopperlregistervirtualinstall)| **public** | Make `berrybrew` aware of external Perls
 [PerlRemove](#perlopperlremove)| **public** | Uninstalls a specific instance of Perl
@@ -933,15 +934,6 @@ preserve and insert variable-based `PATH` entries.
 
 Creates the directory that will house a new Perl installation.
 
-#### PerlOp.PerlFindOrphans
-
-    internal List<string> PerlFindOrphans()
-
-        returns:    List of the names of orphaned Perl installs found
-
-Gathers a list of directory names in the Perl installation directory, that
-don't have any association or registration with `berrybrew`.
-
 #### PerlOp.PerlGenerateObjects
 
     internal List<StrawberryPerl> PerlGenerateObjects(bool importIntoObject=false)
@@ -989,6 +981,23 @@ if it is, and `false` if not.
 Fetches the list of currently installed Perl instances, and returns a list of objects.
 
 Removes the Perl instance corresponding to the name sent in.
+
+#### PerlOp.PerlOrphansFind
+
+    internal List<string> PerlOrphansFind()
+
+        returns:    List of the names of orphaned Perl installs found
+
+Gathers a list of directory names in the Perl installation directory, that
+don't have any association or registration with `berrybrew`.
+
+#### PerlOp.PerlOrphansIgnore
+
+    internal Dictionary<string, bool> PerlOrphansIgnore()
+
+Returns a dictionary where each key is a subdirectory within the Perl `rootDir`
+that should never be classified as an orphan. The value is ignored, but all
+default to `true`.
 
 #### PerlOp.PerlRegisterCustomInstall
 

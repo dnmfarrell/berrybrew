@@ -560,7 +560,7 @@ namespace BerryBrew {
         }
 
         private bool CleanOrphan() {
-            List<string> orphans = PerlOp.PerlFindOrphans();
+            List<string> orphans = PerlOp.PerlOrphansFind();
 
             foreach (string orphan in orphans) {
                 FilesystemResetAttributes(orphan);
@@ -1530,7 +1530,7 @@ namespace BerryBrew {
         }
 
         public void OrphanedPerls() {
-            List<string> orphans = PerlOp.PerlFindOrphans();
+            List<string> orphans = PerlOp.PerlOrphansFind();
 
             if (orphans.Count > 0 && ! bypassOrphanCheck) {
                 Message.Print("perl_orphans");
