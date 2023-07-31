@@ -7,7 +7,7 @@ mkdir testing\data
 
 copy dev\data\*.json testing\data
 
-call perl -i.bak -ne "my $bs=chr(92); s/berrybrew(?!\\+testing)/berrybrew${bs}${bs}testing/; print" testing/data/config.json
+call perl -i.bak -ne "s/berrybrew/berrybrew-testing/; print" testing/data/config.json
 call perl -i.bak -ne "s/\"run_mode\"\s+:\s+\"prod\"/\"run_mode\"\t\t  : \"testing\"/; print" testing/data/config.json
 
 copy bin\ICSharpCode.SharpZipLib.dll testing\

@@ -40,9 +40,9 @@ directory. We use the `dev\create_staging_installer.nsi` NSIS installer script
 to configure the actual installation binary.
 
 **NOTE**: When running under the development/staging build, Perl installations
-and `berrybrew`'s temporary directory are stored within a newly created `staging`
-directory underneath of `berrybrew`'s default directory (defaults to
-`C:\berrybrew`)
+and `berrybrew`'s temporary directory are stored in a new root level directory,
+`C:\berrybrew-staging`. Temporary files will be in `C:\berrybrew-staging\temp`,
+and perl instances in `C:\berrybrew-staging\instance`.
 
 #### berrybrew binary only
 

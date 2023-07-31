@@ -82,7 +82,7 @@ Execute one of the following batch calls to run all tests
 
 - `t\test.bat` builds berrybrew and calls `perl t\run_tests.pl` using your system Strawberry Perl's perl
 
-    - It ensures that the `c:\berrybrew\test` directory hierarchy exists.  This directory is used for holding the test instances of at least two different strawberry perls, plus the clones and templates.  It is safe to delete the whole `c:\berrybrew\testing` hierarchy after testing is complete. We remove this directory and recreate it at the beginning of each test run
+    - It ensures that the `c:\berrybrew-testing` directory hierarchy exists.  This directory is used for holding the test instances of at least two different strawberry perls, plus the clones and templates.  It is safe to delete the whole `c:\berrybrew\testing` hierarchy after testing is complete. We remove this directory and recreate it at the beginning of each test run
     - Removes the `testing\data\perls_custom.json` file if it exists at the commencement of the run
     - It changes the `testing\data\config.json` file to reference `c:\berrybrew\testing` instead of `c:\berrybrew`
     - It calls `t\setup_test_env.bat` to set the BBTEST_PERLROOT and BBTEST_REPO environment variables.  As described above, BBTEST_PERLROOT is used for generating a valid path that includes your already-installed system perl.  BBTEST_REPO defaults to the current directory when runing the test suite (which, per above, should be the root of the `berrybrew` repository)
