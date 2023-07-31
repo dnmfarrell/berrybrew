@@ -320,10 +320,13 @@
 
     "content": [
       "\n'info' command requires an option argument to be send in. Valid options:\n",
-      "\t archive_path",
-      "\t root_path",
       "\t install_path",
-      "\t bin_path"
+      "\t config_path",
+      "\t bin_path",
+      "\t storage_path",
+      "\t instance_path",
+      "\t archive_path",
+      "\t snapshot_path"
     ]
   },
   {

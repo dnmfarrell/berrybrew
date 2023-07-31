@@ -18,8 +18,8 @@ namespace berrybrew {
             if (bb.Debug) {
                 Console.WriteLine("\nberrybrew debugging enabled...\n");
                 Console.WriteLine(
-                    "install dir: {0}\nperl root dir: {1}\ntemp dir: {2}\n",
-                    bb.installPath, bb.rootPath, bb.archivePath
+                    "install dir: {0}\nperl instance dir: {1}\ntemp dir: {2}\n",
+                    bb.installPath, bb.instancePath, bb.archivePath
                 );
             }
 

@@ -136,7 +136,7 @@ namespace BerryBrew.PerlOperations {
             List<StrawberryPerl> perls = PerlsInstalled();
 
             try {
-                Directory.GetDirectories(bb.rootPath);
+                Directory.GetDirectories(bb.instancePath);
             }
             catch (Exception err) {
                 if (bb.Debug) {
@@ -147,7 +147,7 @@ namespace BerryBrew.PerlOperations {
                 bb.Exit((int) Berrybrew.ErrorCodes.DIRECTORY_LIST_FAILED);
             }
 
-            List<string> dirs = new List<string>(Directory.GetDirectories(bb.rootPath));
+            List<string> dirs = new List<string>(Directory.GetDirectories(bb.instancePath));
             List<string> perlInstallations = new List<string>();
 
             foreach (StrawberryPerl perl in perls) {
@@ -180,7 +180,7 @@ namespace BerryBrew.PerlOperations {
                     }
                 }
 
-                string dirBaseName = dir.Remove(0, bb.rootPath.Length);
+                string dirBaseName = dir.Remove(0, bb.instancePath.Length);
                 orphans.Add(dirBaseName);
             }
 
@@ -211,12 +211,12 @@ namespace BerryBrew.PerlOperations {
         public void PerlRegisterCustomInstall(string perlName, StrawberryPerl perlBase=new StrawberryPerl()) {
             perlName = bb.BitSuffixCheck(perlName);
 
-            if (! Directory.Exists(bb.rootPath + perlName)) {
+            if (! Directory.Exists(bb.instancePath + perlName)) {
                 Console.Error.WriteLine("installation directory '" + perlName + "' does not exist");
                 bb.Exit((int) Berrybrew.ErrorCodes.DIRECTORY_NOT_EXIST);
             }
 
-            if (! File.Exists(bb.rootPath + perlName + @"\perl\bin\perl.exe")) {
+            if (! File.Exists(bb.instancePath + perlName + @"\perl\bin\perl.exe")) {
                 Console.Error.WriteLine("{0} is not a valid Perl installation", perlName);
                 bb.Exit((int) Berrybrew.ErrorCodes.PERL_INVALID_ERROR);
             }
@@ -278,10 +278,10 @@ namespace BerryBrew.PerlOperations {
                 bb.Exit((int) Berrybrew.ErrorCodes.DIRECTORY_NOT_EXIST);
             }
 
-            string instanceName = bb.rootPath + perlName;
+            string instanceName = bb.instancePath + perlName;
 
             if (! Directory.Exists(instanceName)) {
-                Directory.CreateDirectory(bb.rootPath + perlName);
+                Directory.CreateDirectory(bb.instancePath + perlName);
             }
 
             Dictionary<string, object> data = new Dictionary<string, object>();

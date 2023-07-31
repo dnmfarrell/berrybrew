@@ -141,7 +141,8 @@ namespace BerryBrew {
 
             validOptions = new List<string>{
                 "debug",
-                "root_dir",
+                "storage_dir",
+                "instance_dir",
                 "temp_dir",
                 "strawberry_url",
                 "download_url",
@@ -390,10 +391,10 @@ namespace BerryBrew {
             }
 
             try {
-                Directory.CreateDirectory(rootPath);
+                Directory.CreateDirectory(instancePath);
             }
             catch (Exception err) {
-                Console.Error.WriteLine("\nCouldn't create install dir {0}. Please create it manually and run config again", rootPath);
+                Console.Error.WriteLine("\nCouldn't create install dir {0}. Please create it manually and run config again", instancePath);
                 if (Debug) {
                     Console.Error.WriteLine("DEBUG: {0}", err);
                 }
@@ -451,7 +452,7 @@ namespace BerryBrew {
                 case "temp":
                     cleansed = CleanTemp();
                     if (cleansed) {
-                        Console.WriteLine("\nremoved all files from {0} temp dir", rootPath);
+                        Console.WriteLine("\nremoved all files from {0} temp dir", instancePath);
                     }
                     else {
                         Console.WriteLine("\nno archived perl installation files to remove");
@@ -470,8 +471,8 @@ namespace BerryBrew {
         }
 
         private bool CleanDev() {
-            string stagingDir = rootPath;
-            string testingDir = rootPath;
+            string stagingDir = instancePath;
+            string testingDir = instancePath;
 
             if (Testing) {
                 stagingDir = stagingDir.Replace("\\staging", "");
@@ -527,7 +528,7 @@ namespace BerryBrew {
         }
 
         private bool CleanModules() {
-            string moduleDir = rootPath + "modules\\";
+            string moduleDir = storagePath + "modules\\";
 
             if (! Directory.Exists(moduleDir)) {
                 return true;
@@ -570,7 +571,7 @@ namespace BerryBrew {
 
             foreach (string orphan in orphans) {
                 FilesystemResetAttributes(orphan);
-                Directory.Delete(rootPath + orphan, true);
+                Directory.Delete(instancePath + orphan, true);
                 Console.WriteLine("removed orphan {0} perl instance", orphan);
             }
 
@@ -693,7 +694,7 @@ namespace BerryBrew {
             }
 
             string sourcePerlDir = sourcePerl.installPath;
-            string destPerlDir = rootPath + destPerlName;
+            string destPerlDir = instancePath + destPerlName;
             
             DirectoryInfo src = new DirectoryInfo(sourcePerlDir);
 
@@ -977,7 +978,7 @@ namespace BerryBrew {
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo {WindowStyle = ProcessWindowStyle.Hidden};
 
-            string moduleDir = rootPath + "modules\\";
+            string moduleDir = storagePath + "modules\\";
 
             if (! Directory.Exists(moduleDir)) {
                 Directory.CreateDirectory(moduleDir);
@@ -1210,7 +1211,7 @@ namespace BerryBrew {
         }
 
         public void ImportModules(string version="") {
-            string moduleDir = rootPath + "modules\\";
+            string moduleDir = storagePath + "modules\\";
 
             if (! Directory.Exists(moduleDir)) {
                 Directory.CreateDirectory((moduleDir));
@@ -1288,7 +1289,15 @@ namespace BerryBrew {
         }
 
         public void Info(string want) {
-            List <string> options = new List<string>(){"install_path", "bin_path", "root_path", "archive_path", "snapshot_path"};
+            List <string> options = new List<string>() {
+                "install_path", 
+                "config_path",
+                "bin_path", 
+                "storage_path",
+                "instance_path",
+                "archive_path", 
+                "snapshot_path"
+            };
 
             if (! options.Contains(want)) {
                 Console.Error.WriteLine("\n'{0}' is not a valid option. Valid options are:\n", want);
@@ -1302,15 +1311,18 @@ namespace BerryBrew {
                 case "install_path":
                     Console.WriteLine("\n\t{0}", installPath);
                     break;
+                case "config_path":
+                    Console.WriteLine("\n\t{0}", configPath);
+                    break;               
                 case "bin_path":
                     Console.WriteLine("\n\t{0}", binPath);
                     break;
+                case "storage_path":
+                    Console.WriteLine("\n\t{0}", storagePath);
+                    break;                
                 case "instance_path":
                     Console.WriteLine("\n\t{0}", instancePath);
                     break;
-                case "storage_path":
-                    Console.WriteLine("\n\t{0}", storagePath);
-                    break; 
                 case "archive_path":
                     Console.WriteLine("\n\t{0}", archivePath);
                     break;
@@ -1762,8 +1774,8 @@ namespace BerryBrew {
                     );
                     Exit((int) ErrorCodes.FILE_NOT_FOUND_ERROR);
                 }
-                
-                string instanceInstallDir = rootPath + instanceName;
+
+                string instanceInstallDir = instancePath + instanceName;
 
                 if (Directory.Exists(instanceInstallDir)) {
                     Console.Error.WriteLine(

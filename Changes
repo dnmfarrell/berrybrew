@@ -57,7 +57,10 @@ Revision history for berrybrew
       exists on the file system for a given perl instance
     - `berrybrew download` will now only fetch an archive of a perl instance if
       it isn't already on disk (closes #336)
-    
+    - Renamed `root_dir` option to `instance_dir`, and added new `storage_dir`
+      option which is the top level environment data storage directory
+      (closes #351)
+      
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"
