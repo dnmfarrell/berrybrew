@@ -114,7 +114,8 @@ namespace BerryBrew {
         private string binPath = AssemblyDirectory;
         public string archivePath;
         public string installPath;
-        public string rootPath;
+        public string storagePath;
+        public string instancePath;
         private string configPath;
         private string snapshotPath;
         public string downloadURL;
@@ -175,7 +176,7 @@ namespace BerryBrew {
 
             // ensure the Perl install dir exists
 
-            CheckRootDir();
+            CheckInstanceDir();
 
             // create the custom and virtual perls config file
 
@@ -328,10 +329,13 @@ namespace BerryBrew {
 
             RegistryKey registry = Registry.LocalMachine.OpenSubKey(registrySubKey);
 
-            rootPath = (string) registry.GetValue("root_dir", "");
-            rootPath += @"\";
-            
-            snapshotPath = rootPath + @"snapshots\";
+            storagePath = (string) registry.GetValue("storage_dir", "");
+            storagePath += @"\";
+
+            instancePath = (string) registry.GetValue("instance_dir", "");
+            instancePath += @"\";
+
+            snapshotPath = storagePath + @"snapshots\";
 
             archivePath = (string) registry.GetValue("temp_dir", "");
 
@@ -380,8 +384,8 @@ namespace BerryBrew {
             return true;
         }
 
-        private void CheckRootDir() {
-            if (Directory.Exists(rootPath)) {
+        private void CheckInstanceDir() {
+            if (Directory.Exists(instancePath)) {
                 return;
             }
 
@@ -1301,9 +1305,12 @@ namespace BerryBrew {
                 case "bin_path":
                     Console.WriteLine("\n\t{0}", binPath);
                     break;
-                case "root_path":
-                    Console.WriteLine("\n\t{0}", rootPath);
+                case "instance_path":
+                    Console.WriteLine("\n\t{0}", instancePath);
                     break;
+                case "storage_path":
+                    Console.WriteLine("\n\t{0}", storagePath);
+                    break; 
                 case "archive_path":
                     Console.WriteLine("\n\t{0}", archivePath);
                     break;

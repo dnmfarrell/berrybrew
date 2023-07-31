@@ -43,8 +43,8 @@ The `Berrybrew` class is the base of the system.
 [AvailableList](#availablelist)| **public** | Returns a list of available Perl names
 [BaseConfig](#baseconfig)| private    | Initializes the registry-based configuration
 [BitSuffixCheck](#bitsuffixcheck)| **public** | Adds the `_64` bit suffix if required to a Perl name
+[CheckInstanceDir](#checkinstancedir)| private    | Creates the Perl install directory if required
 [CheckName](#checkname)| **public** | Validates the name of a custom Perl install
-[CheckRootDir](#checkrootdir)| private    | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
 [CleanDev](#cleandev) | private    | Remove the developer's `staging` and `testing` **data** directories
 [CleanModules](#cleanmodules) | private    | Removes the directory where we store exported module lists
@@ -248,6 +248,12 @@ Checks if the name of the Perl sent in contains a bit suffix, and if not, adds
 `_64`, and returns the updated name. This allows you to omit the suffix on the
 command line when desiring a 64-bit version of Perl.
 
+#### CheckRootDir
+
+    private void CheckInstanceDir()
+
+Checks whether the Perl root installation directory exists, and creates it if not.
+
 #### CheckName
 
     public static bool CheckName(string perlName)
@@ -258,12 +264,6 @@ command line when desiring a 64-bit version of Perl.
         return:     true on success, false on fail
 
 Checks the name of a custom Perl to ensure it fits within the guidelines.
-
-#### CheckRootDir
-
-    private void CheckRootDir()
-
-Checks whether the Perl root installation directory exists, and creates it if not.
 
 #### Clean
 
