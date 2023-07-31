@@ -20,7 +20,7 @@ if (! $testing && ! grep { -x "$_/makensis.exe" } split /;/, $ENV{PATH}){
 }
 
 build();
-BuildHelper::update_installer_script(INSTALLER_SCRIPT, 'staging');
+BuildHelper::update_installer_script(INSTALLER_SCRIPT);
 BuildHelper::check_installer_manifest(INSTALLER_SCRIPT);
 BuildHelper::create_installer(INSTALLER_SCRIPT);
 finish();

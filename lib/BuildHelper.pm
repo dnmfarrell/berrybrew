@@ -16,6 +16,7 @@ our @EXPORT_OK = qw(
 our %EXPORT_TAGS = (
     all => \@EXPORT_OK,
 );
+
 sub create_installer {
     my ($installer_script) = @_;
 
@@ -192,12 +193,16 @@ sub check_installer_manifest {
     }   
 }
 sub update_installer_script {
-    my ($installer_script, $env) = @_;
+    my ($installer_script) = @_;
   
-    if (! $installer_script || ! $env) {
-        die "update_installer_script() needs installer_script and env";
+    if (! $installer_script) {
+        die "update_installer_script() needs installer_script sent in";
     }
-  
+
+    my $env = $installer_script =~ /staging/
+        ? 'staging'
+        : 'prod';
+
     my $perls_file = $env eq 'prod'
         ? "data/perls.json"
         : "$env/data/perls.json";
