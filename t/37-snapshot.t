@@ -19,7 +19,12 @@ $ENV{BERRYBREW_ENV} = "testing";
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
 
-my $snapdir = 'C:/berrybrew/testing/snapshots';
+my $snapdir = 'C:/berrybrew-testing/snapshots';
+
+note "\nRemoving installed perls...";
+for (BB::get_installed()) {
+    `$c remove $_`;
+}
 
 note "\nInstalling 5.10.1_32\n";
 `$c install 5.10.1_32`;
