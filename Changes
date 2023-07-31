@@ -54,8 +54,10 @@ Revision history for berrybrew
     - Added `berrybrew archives` hidden command and `BB.ArchiveList()`. Returns
       the list of previously downloaded Perl instance archive/zip files
     - Added `BB.ArchiveAvailable()`; Checks whether an archive file already
-      exists on the file system for a given perl instance (closes #336)
-      
+      exists on the file system for a given perl instance
+    - `berrybrew download` will now only fetch an archive of a perl instance if
+      it isn't already on disk (closes #336)
+    
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"

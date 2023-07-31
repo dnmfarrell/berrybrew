@@ -43,7 +43,7 @@ var perlRootDirSet
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 OutFile "..\staging\berrybrewInstaller.exe"
-InstallDir "$PROGRAMFILES\berrybrew\staging"
+InstallDir "$PROGRAMFILES\berrybrew-staging\"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
