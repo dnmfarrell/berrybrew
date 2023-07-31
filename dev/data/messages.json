@@ -192,6 +192,7 @@
       "berrybrew <command> [subcommand] [option]",
       "",
       "",
+      "    archives               Prints the list of Perl instance zip files already downloaded",
       "    currentperl            Print the name of the Perl currently in use",
       "    info                   Displays directory path information about the installation",
       "    download               Download a single or all versions of perl",

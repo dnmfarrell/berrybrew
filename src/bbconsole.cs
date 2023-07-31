@@ -45,61 +45,22 @@ namespace berrybrew {
             }
 
             switch (args[0]){
+                case "archives":
+                    List<string> archiveFileNames = bb.ArchiveList();
 
-                case "snapshot":
-                    if (args.Length < 2) {
-                        bb.Message.Print("snapshot_arguments_required");
-                        bb.Message.Print("subcmd.snapshot");
-                        bb.Exit(0);
-                    }
+                    if (archiveFileNames.Count > 0) {
+                        Console.WriteLine("Downloaded Perl instance archive files:\n");
 
-                    if (args[1] == "-h" || args[1] == "help") {
-                        bb.Message.Print("subcmd.snapshot");
-                        bb.Exit(0);
-                    }
-
-                    if (args[1] == "list") {
-                        bb.SnapshotList();
-                        bb.Exit(0);
-                    }
-
-                    if (args.Length < 3) {
-                        bb.Message.Print("snapshot_arguments_required");
-                        bb.Message.Print("subcmd.snapshot");
-                        bb.Exit(0);
-                    }
-
-                    if (args[1] != "export" && args[1] != "import") {
-                         bb.Message.Print("snapshot_arguments_required");
-                         bb.Message.Print("subcmd.snapshot");
-                         bb.Exit(0);                        
-                    }
-                    
-                    if (args[1] == "export") {
-                        if (args.Length == 3) {
-                            // instance
-                            bb.SnapshotCompress(args[2]);
-                            bb.Exit(0);
+                        foreach (string zipName in archiveFileNames) {
+                            Console.WriteLine("\t{0}", zipName);
                         }
-                        if (args.Length == 4) {
-                            // instance + zipfile
-                            bb.SnapshotCompress(args[2], args[3]);
-                            bb.Exit(0);
-                        }                                          
                     }
-                    if (args[1] == "import") {
-                        if (args.Length == 3) {
-                            // snapshot_name
-                            bb.SnapshotExtract(args[2]);
-                            bb.Exit(0);
-                        }
-                        if (args.Length == 4) {
-                            // snapshot_name + new_instance_name
-                            bb.SnapshotExtract(args[2], args[3]);
-                            bb.Exit(0);
-                        }                                          
-                    }                   
-                    break;                   
+                    else {
+                        Console.WriteLine("No Perl instance archive files have been downloaded");
+                    }
+
+                    bb.Exit(0);
+                    break;
                 
                 case "assoc":
                     if (args.Length > 1) {
@@ -457,6 +418,61 @@ namespace berrybrew {
                     bb.Exit(0);
                     break;
 
+                case "snapshot":
+                    if (args.Length < 2) {
+                        bb.Message.Print("snapshot_arguments_required");
+                        bb.Message.Print("subcmd.snapshot");
+                        bb.Exit(0);
+                    }
+
+                    if (args[1] == "-h" || args[1] == "help") {
+                        bb.Message.Print("subcmd.snapshot");
+                        bb.Exit(0);
+                    }
+
+                    if (args[1] == "list") {
+                        bb.SnapshotList();
+                        bb.Exit(0);
+                    }
+
+                    if (args.Length < 3) {
+                        bb.Message.Print("snapshot_arguments_required");
+                        bb.Message.Print("subcmd.snapshot");
+                        bb.Exit(0);
+                    }
+
+                    if (args[1] != "export" && args[1] != "import") {
+                         bb.Message.Print("snapshot_arguments_required");
+                         bb.Message.Print("subcmd.snapshot");
+                         bb.Exit(0);                        
+                    }
+                    
+                    if (args[1] == "export") {
+                        if (args.Length == 3) {
+                            // instance
+                            bb.SnapshotCompress(args[2]);
+                            bb.Exit(0);
+                        }
+                        if (args.Length == 4) {
+                            // instance + zipfile
+                            bb.SnapshotCompress(args[2], args[3]);
+                            bb.Exit(0);
+                        }                                          
+                    }
+                    if (args[1] == "import") {
+                        if (args.Length == 3) {
+                            // snapshot_name
+                            bb.SnapshotExtract(args[2]);
+                            bb.Exit(0);
+                        }
+                        if (args.Length == 4) {
+                            // snapshot_name + new_instance_name
+                            bb.SnapshotExtract(args[2], args[3]);
+                            bb.Exit(0);
+                        }                                          
+                    }                   
+                    break;                   
+ 
                 case "switch":
                     if (args.Length == 1) {
                         bb.Message.Print("switch_ver_required");

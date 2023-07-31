@@ -51,7 +51,11 @@ Revision history for berrybrew
       purposes, we now return one if the `BB.Testing` flag is set (closes #345)
     - We now disallow cloning/snapshotting to any reserved special data
       directories (`PerlOp.PerlOrphansIgnore()`) (closes #341)
-
+    - Added `berrybrew archives` hidden command and `BB.ArchiveList()`. Returns
+      the list of previously downloaded Perl instance archive/zip files
+    - Added `BB.ArchiveAvailable()`; Checks whether an archive file already
+      exists on the file system for a given perl instance (closes #336)
+      
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"

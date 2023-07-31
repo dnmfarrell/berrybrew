@@ -52,6 +52,20 @@ sub get_installed {
 
     return @installed;
 }
+sub get_downloads {
+    my $list = `$c archives`;
+    my @lines = split /\n/, $list;
+
+    my @archives;
+
+    for my $line (@lines) {
+        if ($line =~ /\t(.*)$/) {
+            push @archives, $1;
+        }
+    }
+
+    return @archives;   
+}
 sub error_codes {
     my %codes = (
         GENERIC_ERROR                   => -1,
@@ -60,6 +74,7 @@ sub error_codes {
         ADMIN_FILE_ASSOC                => 10,
         ADMIN_PATH_ERROR                => 15,
         ADMIN_REGISTRY_WRITE            => 20,
+        ARCHIVE_ALREADY_EXISTS          => 24,
         ARCHIVE_PATH_NAME_NOT_FOUND     => 25,
         BERRYBREW_UPGRADE_FAILED        => 30,
         DIRECTORY_CREATE_FAILED         => 40,

@@ -51,6 +51,7 @@ namespace BerryBrew {
             ADMIN_FILE_ASSOC                = 10,
             ADMIN_PATH_ERROR                = 15,
             ADMIN_REGISTRY_WRITE            = 20,
+            ARCHIVE_ALREADY_EXISTS          = 24,
             ARCHIVE_PATH_NAME_NOT_FOUND     = 25,
             BERRYBREW_UPGRADE_FAILED        = 30,
             DIRECTORY_CREATE_FAILED         = 40,
@@ -212,6 +213,30 @@ namespace BerryBrew {
             OrphanedPerls();
         }
 
+        public bool ArchiveAvailable(StrawberryPerl perl) {
+            List<string> archiveList = ArchiveList();
+
+            if (archiveList.Contains(perl.File)) {
+                return true;
+            }
+            
+            return false;
+        }
+        
+        public List<string> ArchiveList() {
+             DirectoryInfo archiveDir = new DirectoryInfo(archivePath);
+ 
+             List<FileInfo> zipFiles = archiveDir.GetFiles().ToList();
+
+             List<string> archiveFileNames = new List<string>();
+             
+             foreach (FileInfo file in zipFiles) {
+                 archiveFileNames.Add(file.Name);
+             }
+
+             return archiveFileNames;
+        }
+        
         public void Available(bool allPerls=false) {
             Message.Print("available_header");
 
@@ -729,16 +754,36 @@ namespace BerryBrew {
 
         public void Download(string versionString) {
             List<string> available = AvailableList(false);
-
+            
             if (versionString == "all") {
                 foreach (string version in available) {
                     StrawberryPerl perl = PerlOp.PerlResolveVersion(version);
-                    Fetch(perl);
+
+                    if (! ArchiveAvailable(perl)) {
+                        Fetch(perl);
+                    }
+                    else {
+                        Console.WriteLine(
+                            "\nArchive file {0} for version {1} already exists... not downloading", 
+                            perl.File,
+                            version
+                        );                       
+                    }
                 }
             }
             else {
                 StrawberryPerl perl = PerlOp.PerlResolveVersion(versionString);
-                Fetch(perl);
+
+                if (! ArchiveAvailable(perl)) {
+                    Fetch(perl);
+                }
+                else {
+                    Console.WriteLine(
+                        "\nArchive file {0} for version {1} already exists... not downloading", 
+                        perl.File,
+                        versionString
+                    );
+                }               
             }
         }
 

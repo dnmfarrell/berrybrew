@@ -37,6 +37,8 @@ The `Berrybrew` class is the base of the system.
 
 |Method name| Available  |Description|
 |---|------------|---|
+[ArchiveAvailable](#archiveavailable)| **public** | Checks whether the archive/zip file of a given Perl instance is available
+[ArchiveList](#archivelist)| **public** | Returns a list of all Perl instance archive/zip files already downloaded
 [Available](#available)| **public** | Displays all available Perls
 [AvailableList](#availablelist)| **public** | Returns a list of available Perl names
 [BaseConfig](#baseconfig)| private    | Initializes the registry-based configuration
@@ -177,6 +179,27 @@ Its source file is `src/perlinstance.cs` and its namespace is
 **aux_path** | CPath | string | false | ""
 
 ## Berrybrew Class Methods
+
+#### ArchiveAvailable
+
+    public bool ArchiveAvailable(StrawberryPerl perl)
+
+        argument:   perl
+        value:      StrawberryPerl class object
+
+        returns:    bool
+
+Checks whether the archive/zip file for the given Perl instance is still
+available on the system.
+
+If it is, we return `true`, otherwise the return will be `false`.
+
+#### ArchiveList
+
+    public List<string> ArchiveList()
+
+Returns the list of all Perl instance archive/zip files that we have previously
+downloaded and saved in the `temp` directory.
 
 #### Available
 

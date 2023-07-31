@@ -32,6 +32,7 @@
 Here are [certain features](#hidden-command-list) that may be useful by the developers and
 maintainers of this software. 
 
+- [archives](#archives)
 - [currentperl](#currentperl)
 - [download](#download)
 - [error](#error)
@@ -350,6 +351,11 @@ Displays the current version of the `berrybrew.exe` binary and `bbapi.dll`
 library.
 
 ### Hidden Command List
+
+#### archives
+
+Prints the list of all Perl instance archives (ie. zip files) that have
+already been downloaded and that are present for use.
 
 #### currentperl
 
