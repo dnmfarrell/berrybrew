@@ -297,7 +297,7 @@ Removes all Perl installation zip files from the temporary staging directory.
 
 Returns `true` if any files were found/deleted, `false` if not.
 
-#### CleanStaging
+#### CleanTesting
 
     private bool CleanTesting()
 
