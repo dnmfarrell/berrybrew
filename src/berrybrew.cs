@@ -430,7 +430,7 @@ namespace BerryBrew {
                     break;
 
                 case "testing":
-                    cleansed = CleanBuild();
+                    cleansed = CleanTesting();
                     Console.WriteLine(
                         cleansed
                         ? "\nremoved the testing build directory"
@@ -623,7 +623,7 @@ namespace BerryBrew {
                 }
             }
             catch (Exception err) {
-                Console.Error.WriteLine("\nUnable to remove the testing build directory '{0}'", stagingBuildDir);
+                Console.Error.WriteLine("\nUnable to remove the testing build directory '{0}'", testingBuildDir);
                 if (Debug) {
                     Console.Error.WriteLine("DEBUG: {0}", err);
                 }
