@@ -16,7 +16,7 @@ $ENV{BERRYBREW_ENV} = "testing";
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
 
-my $dir = 'c:/berrybrew/testing/';
+my $dir = 'c:/berrybrew-testing/instance';
 mkdir $dir or die "Can't create dir $dir: $!" if ! -d $dir;
 
 # warn_orphans
@@ -48,18 +48,14 @@ like
 # orphans ignored
 {
     my @perls = (
-        'testing',
-        'staging',
-        'modules',
-        '.cpanm',
-        'snapshots',
+        'unit_test',
     );
 
     for (@perls){
         if (! -d "$dir/$_") {
             mkdir "$dir/$_" or die $!;
         }            
-        my $o = `$c list`;
+        my $o = `$c test list`;
         unlike $o, qr/$_/, "$_ is an ignored orphan and was skipped";
         rmtree "$dir/$_" or die "Can't delete fake orphan dir '$dir/$_': $!";
     }
@@ -121,7 +117,8 @@ like
     is -d "$dir/5.005_32", undef, "second orphan deleted";
 }
 
-{ # data/bin dirs
+# data/bin dirs
+{ 
 
     my @dirs = qw(data bin);
 

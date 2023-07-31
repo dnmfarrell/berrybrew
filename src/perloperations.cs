@@ -191,15 +191,18 @@ namespace BerryBrew.PerlOperations {
             Dictionary<string, bool> ignoreList = new Dictionary<string, bool>();
 
             List<string> ignoreDirs = new List<string> {
-                @".cpanm",
-                @"modules",
-                @"snapshots",
-                @"staging",
-                @"testing"
             };
 
+            // Since we've separated the installPath for staging and testing,
+            // and moved perl instances to an 'instance' sub dir, no ignore
+            // items are currently needed
+            
             foreach (string dir in ignoreDirs) {
                 ignoreList.Add(dir, true);
+            }
+
+            if (bb.Testing) {
+                ignoreList.Add("unit_test", true);
             }
             
             return ignoreList;
