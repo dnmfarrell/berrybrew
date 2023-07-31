@@ -613,6 +613,7 @@ namespace BerryBrew {
 
             testingBuildDir += @"testing";
 
+            Console.WriteLine("{0}", testingBuildDir);
             if (Debug) {
                 Console.WriteLine("DEBUG: testing dir: {0}", testingBuildDir);
             }

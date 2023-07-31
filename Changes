@@ -43,6 +43,7 @@ Revision history for berrybrew
       `CleanStaging()`
     - Added `clean testing` and `CleanTesting()` to wipe the dev testing build
       directory
+    - Added `dev\build_prod.bat`, production berrybrew build (closes #342)
     
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
