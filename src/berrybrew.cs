@@ -381,22 +381,15 @@ namespace BerryBrew {
                     CleanOrphan();
                     CleanModules();
                     CleanDev();
+                    CleanStaging();
+                    CleanTesting();
                     break;
-
-                case "build":
-                    cleansed = CleanBuild();
-                    Console.WriteLine(
-                        cleansed
-                        ? "\nremoved the staging build directory"
-                        : "\nan error has occured removing staging build directory"
-                    );
-                    break;
-
+                
                 case "dev":
                     cleansed = CleanDev();
                     Console.WriteLine(
                         cleansed
-                        ? "\nremoved the staging and testing directories"
+                        ? "\nremoved the staging and testing root_dir directories"
                         : "\nan error has occured removing dev directories"
                     );
                     break;
@@ -417,6 +410,15 @@ namespace BerryBrew {
                     }
                     break;
 
+                case "staging":
+                    cleansed = CleanStaging();
+                    Console.WriteLine(
+                        cleansed
+                        ? "\nremoved the staging build directory"
+                        : "\nan error has occured removing staging build directory"
+                    );
+                    break;
+
                 case "temp":
                     cleansed = CleanTemp();
                     if (cleansed) {
@@ -426,42 +428,16 @@ namespace BerryBrew {
                         Console.WriteLine("\nno archived perl installation files to remove");
                     }
                     break;
+
+                case "testing":
+                    cleansed = CleanBuild();
+                    Console.WriteLine(
+                        cleansed
+                        ? "\nremoved the testing build directory"
+                        : "\nan error has occured removing testing build directory"
+                    );
+                    break;               
             }
-        }
-
-        private bool CleanBuild() {
-            string runMode = Options("run_mode", null, true);
-
-            if (runMode == "staging") {
-                Console.Error.WriteLine("\nCan't remove staging build dir while in staging run_mode. Use 'bin\\berrybrew clean dev' instead");
-                Exit(-1);
-            }
-
-            string stagingBuildDir = installPath;
-
-            stagingBuildDir += @"staging";
-
-            if (Debug) {
-                Console.WriteLine("DEBUG: staging dir: {0}", stagingBuildDir);
-            }
-            try {
-                if (Directory.Exists(stagingBuildDir)){
-                    FilesystemResetAttributes(stagingBuildDir);
-                    Directory.Delete(stagingBuildDir, true);
-                }
-            }
-            catch (Exception err) {
-                Console.Error.WriteLine("\nUnable to remove the staging build directory '{0}'", stagingBuildDir);
-                if (Debug) {
-                    Console.Error.WriteLine("DEBUG: {0}", err);
-                }
-            }
-
-            if (Directory.Exists(stagingBuildDir)) {
-                return false;
-            }
-
-            return true;
         }
 
         private bool CleanDev() {
@@ -572,6 +548,41 @@ namespace BerryBrew {
             return orphans.Count > 0;
         }
 
+        private bool CleanStaging() {
+            string runMode = Options("run_mode", null, true);
+
+            if (runMode == "staging") {
+                Console.Error.WriteLine("\nCan't remove staging build dir while in staging run_mode. Use 'bin\\berrybrew clean staging' instead");
+                Exit(-1);
+            }
+
+            string stagingBuildDir = installPath;
+
+            stagingBuildDir += @"staging";
+
+            if (Debug) {
+                Console.WriteLine("DEBUG: staging dir: {0}", stagingBuildDir);
+            }
+            try {
+                if (Directory.Exists(stagingBuildDir)){
+                    FilesystemResetAttributes(stagingBuildDir);
+                    Directory.Delete(stagingBuildDir, true);
+                }
+            }
+            catch (Exception err) {
+                Console.Error.WriteLine("\nUnable to remove the staging build directory '{0}'", stagingBuildDir);
+                if (Debug) {
+                    Console.Error.WriteLine("DEBUG: {0}", err);
+                }
+            }
+
+            if (Directory.Exists(stagingBuildDir)) {
+                return false;
+            }
+
+            return true;
+        }
+
         private bool CleanTemp() {
             if (! Directory.Exists(archivePath)) {
                 return true;
@@ -588,6 +599,41 @@ namespace BerryBrew {
             }
 
             return zipFiles.Count > 0;
+        }
+
+        private bool CleanTesting() {
+            string runMode = Options("run_mode", null, true);
+
+            if (runMode == "testing") {
+                Console.Error.WriteLine("\nCan't remove testing build dir while in staging run_mode. Use 'bin\\berrybrew clean testing' instead");
+                Exit(-1);
+            }
+
+            string testingBuildDir = installPath;
+
+            testingBuildDir += @"testing";
+
+            if (Debug) {
+                Console.WriteLine("DEBUG: testing dir: {0}", testingBuildDir);
+            }
+            try {
+                if (Directory.Exists(testingBuildDir)){
+                    FilesystemResetAttributes(testingBuildDir);
+                    Directory.Delete(testingBuildDir, true);
+                }
+            }
+            catch (Exception err) {
+                Console.Error.WriteLine("\nUnable to remove the testing build directory '{0}'", stagingBuildDir);
+                if (Debug) {
+                    Console.Error.WriteLine("DEBUG: {0}", err);
+                }
+            }
+
+            if (Directory.Exists(testingBuildDir)) {
+                return false;
+            }
+
+            return true;
         }
 
         public void Clone(string sourcePerlName, string destPerlName) {

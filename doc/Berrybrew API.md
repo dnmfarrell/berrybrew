@@ -44,11 +44,12 @@ The `Berrybrew` class is the base of the system.
 [CheckName](#checkname)| **public** | Validates the name of a custom Perl install
 [CheckRootDir](#checkrootdir)| private    | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
-[CleanBuild](#cleanbuild) | private    | Remove the developer's `staging` build directory 
 [CleanDev](#cleandev) | private    | Remove the developer's `staging` and `testing` **data** directories
 [CleanModules](#cleanmodules) | private    | Removes the directory where we store exported module lists
 [CleanOrphan](#cleanorphan)| private    | Removes all orphaned Perls
+[CleanStaging](#cleanstaging) | private    | Remove the developer's `staging` build directory
 [CleanTemp](#cleantemp)| private    | Removes temporary files
+[CleanTesting](#cleanTesting) | private    | Remove the developer's `testing` build directory
 [Clone](#clone)| **public** | Copies an installed Perl to a new name
 [Config](#config)| **public** | Puts `berrybrew.exe` in `PATH`
 [Download](#download)| **public** | Downloads one or all available versions of portable Strawberry Perls
@@ -253,14 +254,6 @@ installation zip files from the temporary directory. With "orphan", we'll
 delete all directories found in the Perl installation root directory that
 `berrybrew` has not registered as valid Perl installs.
 
-#### CleanBuild
-
-    private bool CleanBuild()
-
-Removes the developer's `staging` build directory located in the repository.
-
-Returns `true` if the directory was removed successfully or `false` otherwise.
-
 #### CleanDev
 
     private bool CleanDev()
@@ -288,6 +281,14 @@ associated with any registered Perl instances.
 
 Returns `true` if any orphans were found/deleted, `false` if not.
 
+#### CleanStaging
+
+    private bool CleanStaging()
+
+Removes the developer's `staging` build directory located in the repository.
+
+Returns `true` if the directory was removed successfully or `false` otherwise.
+
 #### CleanTemp
 
     private bool CleanTemp()
@@ -295,6 +296,12 @@ Returns `true` if any orphans were found/deleted, `false` if not.
 Removes all Perl installation zip files from the temporary staging directory.
 
 Returns `true` if any files were found/deleted, `false` if not.
+
+#### CleanStaging
+
+    private bool CleanTesting()
+
+Removes the developer's `testing` build directory located in the repository.
 
 #### Clone
 
