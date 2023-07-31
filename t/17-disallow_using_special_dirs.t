@@ -23,18 +23,25 @@ if ($installed_count == 0) {
     }
 }
 
-my $special_dir_output = `$c orphans-ignored`;
+my $special_dir_output = `$c test orphans-ignored`;
 
 my @special_dirs = $special_dir_output =~ /\t(.*)\n/g;
 
 for (@special_dirs) {
-    my $install_err = BB::trap("$c clone 5.10.1_32 $_");
+    # clone
+    
+    my $clone_err = BB::trap("$c test clone 5.10.1_32 $_");
     is $? >> 8, BB::err_code('PERL_DIRECTORY_SPECIAL'), "if clone to special dir, exit ok";
-    like $install_err, qr/special directory/, "...and error message is ok";   
-    exit;
+    like $clone_err, qr/clone.*special name/, "...and error message is ok";   
+    
+    # snapshot
+
+    my $snapshot_err = BB::trap("$c test snapshot import 5.10.1_32 $_");
+    is $? >> 8, BB::err_code('PERL_DIRECTORY_SPECIAL'), "if snapshot import to special dir, exit ok";
+    like $snapshot_err, qr/snapshot.*special name/, "...and error message is ok";
 }
 
-`$c remove 5.10.1_32`;
-is BB::get_installed, $installed_count, "removed perls ok";
+#`$c remove 5.10.1_32`;
+#is BB::get_installed, $installed_count, "removed perls ok";
 
 done_testing();

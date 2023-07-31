@@ -643,6 +643,13 @@ namespace BerryBrew {
                 Exit(0);
             }
 
+            Dictionary<string, bool> ignoredOrphans = PerlOp.PerlOrphansIgnore();
+
+            if (ignoredOrphans.ContainsKey(destPerlName)) {
+                 Console.Error.WriteLine("\nCan't clone to requested name '{0}'. It is a special name.", destPerlName);
+                 Exit((int)ErrorCodes.PERL_DIRECTORY_SPECIAL);
+            }
+
             StrawberryPerl sourcePerl = new StrawberryPerl();
 
             try {
@@ -658,6 +665,7 @@ namespace BerryBrew {
 
             string sourcePerlDir = sourcePerl.installPath;
             string destPerlDir = rootPath + destPerlName;
+            
             DirectoryInfo src = new DirectoryInfo(sourcePerlDir);
 
             if (! src.Exists) {
@@ -1656,6 +1664,14 @@ namespace BerryBrew {
             if (instanceName == null) {
                 // Remove the timestamp 
                 instanceName = Regex.Replace(snapshotName, @".\d{14}", "");
+            }
+            else {
+                Dictionary<string, bool> ignoredOrphans = PerlOp.PerlOrphansIgnore();
+
+                if (ignoredOrphans.ContainsKey(instanceName)) {
+                     Console.Error.WriteLine("\nCan't extract snapshot archive to requested instance name '{0}'. It is a special name.", instanceName);
+                     Exit((int)ErrorCodes.PERL_DIRECTORY_SPECIAL);
+                }               
             }
 
             List<string> perlsAvailable = AvailableList();

@@ -49,7 +49,9 @@ Revision history for berrybrew
       directories than the root of `c:\berrybrew`, we removed all the previous
       `PerlOp.PerlOrphansIgnore()` entries. To this end, for unit testing
       purposes, we now return one if the `BB.Testing` flag is set (closes #345)
-    
+    - We now disallow cloning/snapshotting to any reserved special data
+      directories (`PerlOp.PerlOrphansIgnore()`) (closes #341)
+
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"
