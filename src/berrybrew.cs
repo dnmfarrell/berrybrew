@@ -419,7 +419,7 @@ namespace BerryBrew {
                     cleansed = CleanDev();
                     Console.WriteLine(
                         cleansed
-                        ? "\nremoved the staging and testing root_dir directories"
+                        ? "\nremoved the staging and testing instance_dir directories"
                         : "\nan error has occured removing dev directories"
                     );
                     break;
@@ -475,17 +475,9 @@ namespace BerryBrew {
             string testingDir = instancePath;
 
             if (Testing) {
-                stagingDir = stagingDir.Replace("\\staging", "");
-                testingDir = testingDir.Replace("\\staging", "");
-                stagingDir = stagingDir.Replace("\\testing", "");
-                testingDir = testingDir.Replace("\\testing", "");
+                stagingDir = Regex.Replace(stagingDir, "testing", "staging");
             }
-
-            stagingDir += @"staging";
-            testingDir = string.Format(@"{0}testing", testingDir);
-
-            Console.WriteLine("{0}", stagingDir);
-
+            
             if (Debug) {
                 Console.WriteLine("DEBUG: staging dir: {0}", stagingDir);
                 Console.WriteLine("DEBUG: testing dir: {0}", testingDir);

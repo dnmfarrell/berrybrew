@@ -115,7 +115,7 @@ like
     is $xerr, '', "$name: STDERR should be empty";
 
     my $re
-     = qr/where perl\s*(\S*berrybrew.testing.myclone.perl.bin.perl\.exe)\s*$/ims;
+     = qr/where perl\s*(\S*berrybrew-testing.instance.myclone.perl.bin.perl\.exe)\s*$/ims;
 
     like $xout, $re, $name.': found myclone berrybrew perl';
     foreach ( $xout =~ m/$re/gims ) {
@@ -157,7 +157,7 @@ like
     is $xerr, '', "$name: STDERR should be empty";
 
     my $re
-      = qr/where perl\s*(\S*berrybrew.testing.$cloned.perl.bin.perl\.exe)\s*$/ims;
+      = qr/where perl\s*(\S*berrybrew-testing.instance.$cloned.perl.bin.perl\.exe)\s*$/ims;
 
     like $xout, $re, $name.": found berrybrew perl $cloned";
     foreach ( $xout =~ m/$re/gims ) {
@@ -165,7 +165,7 @@ like
     }
 
     $re
-      = qr/where perl\s*(\S*berrybrew.testing.myclone.perl.bin.perl\.exe)\s*$/ims;
+      = qr/where perl\s*(\S*berrybrew-testing.instance.myclone.perl.bin.perl\.exe)\s*$/ims;
 
     like $xout, $re, $name.': found berrybrew perl myclone';
     foreach ( $xout =~ m/$re/gims ) {
