@@ -58,7 +58,7 @@ Values: "true" or "false"
 
 Directory where we'll house all of your Perl installations. 
 
-Default: `C:\berrybrew`
+Default: `C:\berrybrew\instance`
 
 Values: Any directory accessible on the system.
 

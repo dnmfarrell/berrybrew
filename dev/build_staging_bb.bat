@@ -7,7 +7,7 @@ mkdir staging\data
 
 copy dev\data\*.json staging\data
 
-call perl -i.bak -ne "s/berrybrew(?!\\staging)/berrybrew\\\\staging/; print" staging/data/config.json
+call perl -i.bak -ne "s/berrybrew/berrybrew-staging/; print" staging/data/config.json
 call perl -i.bak -ne "s/\"run_mode\"\s+:\s+\"prod\"/\"run_mode\"\t\t  : \"staging\"/; print" staging/data/config.json
 
 echo "compiling berrybrew binary..."

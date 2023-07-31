@@ -1,11 +1,6 @@
 @echo off
-mkdir staging
-mkdir staging\data
 
-copy dev\data\*.json staging\data
-
-call perl -i.bak -ne "s/berrybrew/berrybrew-staging/; print" staging/data/config.json
-call perl -i.bak -ne "s/\"run_mode\"\s+:\s+\"prod\"/\"run_mode\"\t\t  : \"staging\"/; print" staging/data/config.json
+copy dev\data\*.json bin\data
 
 copy bin\ICSharpCode.SharpZipLib.dll staging\
 copy bin\Newtonsoft.Json.dll staging\
@@ -18,9 +13,9 @@ call mcs^
     src\perlinstance.cs^
     src\perloperations.cs^
     src\messaging.cs^
-    -lib:staging^
+    -lib:bin^
     -t:library^
-    -out:staging\bbapi.dll^
+    -out:bin\bbapi.dll^
     -r:Newtonsoft.Json.dll^
     -r:ICSharpCode.SharpZipLib.dll
 
@@ -28,8 +23,8 @@ echo "compiling binary..."
 
 call mcs^
     src\bbconsole.cs^
-    -lib:staging^
-    -out:staging/berrybrew.exe^
+    -lib:bin^
+    -out:bin/berrybrew.exe^
     -win32icon:inc/berrybrew.ico^
     -r:bbapi.dll
 
@@ -38,8 +33,8 @@ echo "compiling UI..."
 call mcs^
     src\berrybrew-ui.cs^
     src\perloperations.cs^
-    -lib:staging^
-    -out:staging/berrybrew-ui.exe^
+    -lib:bin^
+    -out:bin/berrybrew-ui.exe^
     -r:bbapi.dll^
     -r:Newtonsoft.Json.dll^
     -r:System.Drawing^
@@ -48,6 +43,5 @@ call mcs^
     -win32icon:inc/berrybrew.ico^
     -win32manifest:berrybrew.manifest
 
-copy staging\berrybrew.exe staging\bb.exe
-copy bin\berrybrew-refresh.bat staging\
+copy bin\berrybrew.exe bin\bb.exe
 
