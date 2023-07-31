@@ -38,13 +38,14 @@ Revision history for berrybrew
       storage location with orphans we have to ignore (closes #344)
     - Perl instance `root_dir` (aka `rootPath`) is now an `instance` subdir of
       `c:\berrybrew`, instead of putting them in the root of that dir. Prevents
-      orphan collisions
+      orphan collisions (same for the staging and testing environments
+      (closes #344)
     - Renamed `clean build` to `clean staging`, and `CleanBuild()` to
       `CleanStaging()`
     - Added `clean testing` and `CleanTesting()` to wipe the dev testing build
       directory
     - Added `dev\build_prod.bat`, production berrybrew build (closes #342)
-    
+    -  
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"
