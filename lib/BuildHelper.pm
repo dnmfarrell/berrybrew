@@ -10,11 +10,20 @@ use Exporter qw(import);
 
 our @EXPORT_OK = qw(
     check_installer_manifest
+    update_installer_script
 );
 our %EXPORT_TAGS = (
     all => \@EXPORT_OK,
 );
+sub create_installer {
+    my ($installer_script) = @_;
 
+    if (! $installer_script) {
+        die "create_installer(): need installer script sent in";
+    }
+
+    system("makensis", $installer_script);
+}
 sub check_installer_manifest {
     my ($installer_script) = @_;
     
@@ -180,4 +189,52 @@ sub check_installer_manifest {
         print "\nFix the above file discrepancies and run the script again...\n\n";
         exit;
     }   
+}
+sub update_installer_script {
+    my ($installer_script, $env) = @_;
+  
+    if (! $installer_script || ! $env) {
+        die "update_installer_script() needs installer_script and env";
+    }
+  
+    my $perls_file = $env eq 'prod'
+        ? "data/perls.json"
+        : "$env/data/perls.json";
+    
+    print "\nupdating installer script with version information\n";
+
+    my $bb_ver = _berrybrew_version();
+
+    open my $pfh, '<', $perls_file or die $!;
+
+    my $most_recent_perl_ver;
+
+    while (<$pfh>){
+        if (/"name": "(5\.\d+\.\d+_64)"/){
+            $most_recent_perl_ver = $1;
+            last;
+        }
+    }
+    close $pfh;
+
+    open my $fh, '<', $installer_script or die $!;
+    my @contents = <$fh>;
+    close $fh or die $!;
+
+    for (@contents){
+        if (/(PRODUCT_VERSION ".*")$/) {
+            s/$1/PRODUCT_VERSION "$bb_ver"/;
+        }
+        if (/.*(5\.\d+\.\d+_64).*/){
+            s/$1/$most_recent_perl_ver/;
+        }
+    }
+
+    open my $wfh, '>',  $installer_script or die $!;
+
+    for (@contents) {
+        print $wfh $_;
+    }
+
+    close $wfh;
 }

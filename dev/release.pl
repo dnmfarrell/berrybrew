@@ -26,7 +26,7 @@ use constant {
 
 my $testing = $ARGV[0];
 
-# $un checks
+# run checks
 
 if (! $testing && ! grep { -x "$_/makensis.exe" } split /;/, $ENV{PATH}){
     die "makensis.exe not found, check your PATH. Can't build installer...";
@@ -261,42 +261,7 @@ sub update_perls_available {
         1,
         "data/perls.json copied to dev/data ok";
 }
-sub update_installer_script {
-    print "\nupdating installer script with version information\n";
 
-    my $bb_ver = _berrybrew_version();
-
-    open my $pfh, '<', 'data/perls.json' or die $!;
-    my $most_recent_perl_ver;
-    while (<$pfh>){
-        if (/"name": "(5\.\d+\.\d+_64)"/){
-            $most_recent_perl_ver = $1;
-            last;
-        }
-    }
-    close $pfh;
-
-    open my $fh, '<', INSTALLER_SCRIPT or die $!;
-    my @contents = <$fh>;
-    close $fh or die $!;
-
-    for (@contents){
-        if (/(PRODUCT_VERSION ".*")$/) {
-            s/$1/PRODUCT_VERSION "$bb_ver"/;
-        }
-        if (/.*(5\.\d+\.\d+_64).*/){
-            s/$1/$most_recent_perl_ver/;
-        }
-    }
-
-    open my $wfh, '>',  INSTALLER_SCRIPT or die $!;
-
-    for (@contents) {
-        print $wfh $_;
-    }
-
-    close $wfh;
-}
 sub update_contributing {
     print "\nupdating CONTRIBUTING.md with new Copyright year...\n";
 

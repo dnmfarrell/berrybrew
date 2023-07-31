@@ -10,7 +10,7 @@ use Data::Dumper;
 use File::Find::Rule;
 
 use constant {
-    INSTALLER_SCRIPT => 'dev/create_staging_installer.nsi',
+    INSTALLER_SCRIPT => 'dev/create_prod_installer.nsi',
 };
 
 my ($testing) = @ARGV;
@@ -20,13 +20,13 @@ if (! $testing && ! grep { -x "$_/makensis.exe" } split /;/, $ENV{PATH}){
 }
 
 build();
-BuildHelper::update_installer_script(INSTALLER_SCRIPT, 'staging');
+BuildHelper::update_installer_script(INSTALLER_SCRIPT, 'prod');
 BuildHelper::check_installer_manifest(INSTALLER_SCRIPT);
 BuildHelper::create_installer(INSTALLER_SCRIPT);
 finish();
 
 sub build {
-    system("dev\\build_staging.bat");
+    system("dev\\build_prod.bat");
 }
 sub finish {
     print "\nDone!\n";
