@@ -11,6 +11,7 @@ use Exporter qw(import);
 our @EXPORT_OK = qw(
     check_installer_manifest
     update_installer_script
+    create_installer
 );
 our %EXPORT_TAGS = (
     all => \@EXPORT_OK,

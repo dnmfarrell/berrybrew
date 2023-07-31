@@ -43,8 +43,8 @@ update_perls_available();
 changes_date();
 create_changes();
 create_zip();
-update_installer_script();
-create_prod_installer();
+BuildHelper::update_installer_script();
+BuildHelper::create_installer();
 update_readme();
 check_readme();
 update_license();
@@ -246,9 +246,6 @@ sub create_changes {
         print $changes_md_wfh $_;
     }
 }
-sub create_prod_installer {
-    system("makensis", INSTALLER_SCRIPT);
-}
 sub finish {
     print "\nDone!\n";
 }
@@ -261,7 +258,6 @@ sub update_perls_available {
         1,
         "data/perls.json copied to dev/data ok";
 }
-
 sub update_contributing {
     print "\nupdating CONTRIBUTING.md with new Copyright year...\n";
 
