@@ -3,11 +3,12 @@
 ## Sections
 
 - [Development Directory Items](#development-directory-items)
-- [Full Build (Except Installer)](#development-environment-build)
-- [Full Build (With Installer)](#development-installer-build)
-- [Binary Only](#berrybrew-binary-only)
-- [API Only](#api-only)
-- [User Interface](#user-interface)
+- [Compile Full Build (Except Installer)](#development-environment-build)
+- [Compile Full Build (With Installer)](#development-installer-build)
+- [Compile Binary Only](#berrybrew-binary-only)
+- [Compile API Only](#api-only)
+- [Compile User Interface](#user-interface)
+- [Manually Compile Your Own](Compile%20Your%20Own.md)
 - [Production Build for Testing](#production-build)
 - [Adding to and Modifying the Codebase](#adding-to-and-modifying-the-codebase)
  
