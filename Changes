@@ -60,7 +60,9 @@ Revision history for berrybrew
     - Renamed `root_dir` option to `instance_dir`, and added new `storage_dir`
       option which is the top level environment data storage directory
       (closes #351)
-      
+    - Refactor all unit test scripts to conform to the new directory structure
+      and new/renamed option directives/values
+            
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"
