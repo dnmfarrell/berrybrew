@@ -244,3 +244,26 @@ sub update_installer_script {
 
     close $wfh;
 }
+
+sub _berrybrew_version {
+    open my $fh, '<', 'src/berrybrew.cs' or die $!;
+
+    my $c = 0;
+    my $ver;
+
+    while (<$fh>) {
+
+        if (/public string Version\(\)\s+\{/) {
+            $c = 1;
+            next;
+        }
+        if ($c == 1) {
+            ($ver) = $_ =~ /(\d+\.\d+)/;
+            last;
+        }
+    }
+
+    close $fh;
+
+    return $ver;
+}
