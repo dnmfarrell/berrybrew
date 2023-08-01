@@ -1,5 +1,8 @@
 Revision history for berrybrew
 
+1.41 UNREL
+    -
+
 1.40    2023-08-01
     - Add file comparison routine in release script that compares a MANIFEST to
       the repo directory structure, and the MANIFEST to the installer script.
