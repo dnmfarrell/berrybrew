@@ -121,12 +121,14 @@ to 64-bit (ie. `_64`) if this suffix is omitted.
     config         Add berrybrew to your PATH
     exec *         Run a command for every installed Strawberry Perl
     fetch          Update the list of Strawberry Perl instances available
+    hidden         Display the list of hidden/development commands
     install        Download, extract and install a Strawberry Perl
     modules *      Export and import a module list from one Perl to install on another
     options *      Display or set a single option, or display all of them with values
     off            Disable berrybrew perls (use 'switch' to re-enable)
     register       Manually register a custom installation directory
     remove         Uninstall a Strawberry Perl
+    snapshot *     Export and import snapshots of Perl instances
     switch *       Switch to use a different Strawberry Perl
     unconfig       Remove berrybrew from PATH
     use *          Use a specific Strawberry Perl version temporarily

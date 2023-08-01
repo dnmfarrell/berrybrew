@@ -20,6 +20,9 @@ necessary
 `data\config.json` that are part of the new release, copy that file to the
 `dev\data\` directory
 
+- If new `berrybrew` commands are added, ensure they are also added to the
+  [Commands](../README.md#Commands) section in the `README.md` file
+ 
 - Ensure all unit tests pass per 
 [Unit testing](Unit%20Testing.md)
 
