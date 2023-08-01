@@ -1,4 +1,7 @@
-# Berrybrew Development 
+# Berrybrew Development, Build, Test and Release
+
+This document contains information on the entire development lifecycle of
+`berrybrew`.
 
 ## Sections
 
@@ -9,7 +12,10 @@
 - [Compile API Only](#api-only)
 - [Compile User Interface](#user-interface)
 - [Manually Compile Your Own](Compile%20Your%20Own.md)
+- [Unit Testing](Unit%20Testing.md)
 - [Production Build for Testing](#production-build)
+- [Create a Release](Create%20a%20Release.md)
+- [Updating releases.json](Update%20Releases%20JSON.md)
 - [Adding to and Modifying the Codebase](#adding-to-and-modifying-the-codebase)
  
 During development, it's handy to be able to ensure the code builds and works
@@ -89,6 +95,18 @@ compiling the API and the `berrybrew` binary, followed by the UI binary itself.
 build will execute out of a command line window, so that you can see the debugging
 output.
 
+#### Manually Compile your Own
+
+See the [Manually Compile Your Own](Compile%20Your%20Own.md) document.
+
+#### Create a Release
+
+See the [Create a Release](Create%20a%20Release.md) document.
+
+#### Unit Testing
+
+See the [Unit Testing](Unit%20Testing.md) document.
+
 #### Production Build
 
 To perform testing with the production aspects of `berrybrew` without creating
@@ -98,6 +116,19 @@ operates out of the `bin\` directory (ie. `bin\berrybrew.exe`).
 The production installer can be built using the `dev\build_prod_installer.bat`
 script. The resulting installer binary will be located in
 `download\berrybrewInstaller.exe`.
+
+#### Create a Release
+
+See the [Create a Release](Create%20a%20Release.md) document.
+
+#### Updating releases.json
+
+For the time being, Strawberry Perl is using a Github hosted `releases.json`
+file. This is the quasi process I've been using to keep it maintained so
+`berrybrew` is able to use the most recent versions until the Strawberry
+website is back under administrative control.
+
+See the [Updating releases.json](Update%20Releases%20JSON.md) document.
 
 #### Adding to and Modifying the Codebase
 

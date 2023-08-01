@@ -32,6 +32,7 @@ documentation.
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
 - [Documentation](#other-documentation)
+- [Development, Build, Test and Release](#development-build-test-and-release)
 - [Hidden Commands](#hidden-commands)
 - [Developed Using](#developed-using)
 - [Caveats](#caveats)
@@ -213,6 +214,14 @@ line:
 
     berrybrew debug <command> [options] 
 
+## Development, Build, Test and Release
+
+Contains all information relating to the development, build, test and release
+cycle of the `berrybrew` ecosystem.
+
+See the [Berrybrew Development, Build, Test and Release](doc/Berrybrew%20Development.md)
+document.
+
 ## Other Documentation 
 
 - [berrybrew](doc/berrybrew.md)
@@ -223,27 +232,6 @@ line:
 
 - [Configuration](doc/Configuration.md)
  Guide to various configuration files and options
-
-- [Berrybrew Development](doc/Berrybrew%20Development.md)
-  Guide to creating a development build for testing new functionality, and
-  provides documentation on the procedures for performing the most common
-  tasks when editing the codebase.
-
-- [Compile Your Own Installation](doc/Compile%20Your%20Own.md)
- Guide to compiling `berrybrew` from source
-
-- [Create and Publish a Release](doc/Create%20a%20Release.md)
-  Guide to creating a release, publishing it as a production install, and
-  setting up the next release branch
-
-- [Unit Testing](doc/Unit%20Testing.md)
- Documentation for unit testing `berrybrew`
-
-- [Update releases.json](doc/Update%20Releases%20JSON.md)
- For the time being, Strawberry Perl is using a Github hosted `releases.json`
- file. This is the quasi process I've been using to keep it maintained so
- `berrybrew` is able to use the most recent versions until the Strawberry
- website is back under administrative control.
 
 ## Hidden Commands
 
