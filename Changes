@@ -11,8 +11,9 @@ Revision history for berrybrew
     - Removed all CS library includes that aren't required (closes #329) 
     - Release script now updates the copyright year in all files in `doc/`
       (closes #324)
-    - Added snapshot framework (snapshot command, Snapshot(), SnapshotCompress(),
-      SnapshotList() (work on #185)
+    - Added snapshot framework (`snapshot` command, `SnapshotInfo()`,
+      `SnapshotCompress()`, `SnapshotExtract()` and `SnapshotList()`
+      (work on #185)
     - Fix major previously unknown bug where if at least two custom or virtual
       perls were installed, removing one would cause the writing of
       `perls_custom.json` (or `perls_virtual.json`) to fail, due to the values
