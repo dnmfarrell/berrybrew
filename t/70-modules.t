@@ -5,6 +5,7 @@ use FindBin qw($RealBin);
 use lib $RealBin;
 use BB;
 
+use File::Path qw(rmtree);
 use Test::More;
 use Win32::TieRegistry;
 
@@ -102,5 +103,8 @@ my $path = $Registry->{$path_key};
     unlike $path, qr/^C:\\berrybrew-testing/, "PATH set ok for 'off'";
     unlike $path, qr/^C:\\berrybrew-staging/, "PATH set ok for 'off'";
 }
+
+rmtree 'C:/berrybrew-testing/modules' or die $!;
+isnt -e 'C:/berrybrew-testing/modules', 1, "removed modules dir ok";
 
 done_testing();

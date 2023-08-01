@@ -11,11 +11,10 @@ BB::check_test_platform();
 
 $ENV{BERRYBREW_ENV} = "testing";
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
-
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
 
 my ($bbpath) = $c =~ m|(.*)/berrybrew|;
-#$bbpath =~ s|/*||g;
+$bbpath =~ s|\*||g;
 
 my %valid_opts = (
     install_path    => $bbpath,
