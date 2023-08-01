@@ -20,25 +20,25 @@ to running the [unit test](Unit%20Testing.md) suite.
 
 These are the files and tools in the `dev\` directory, and their purposes:
 
-| File                                   | Description                                                                                   |
-|----------------------------------------|-----------------------------------------------------------------------------------------------|
-| **_build_prod_installer_helper.pl**    | Builds production installer. Runs manifest checks, builds, and puts the binary into `download` |
-| **_build_staging_installer_helper.pl** | Builds staging installer. Runs manifest checks, builds and puts the binary into `staging\`     |
-| **build_prod.bat**                     | Builds the production API, binary and UI (into `bin\`). Copies `dev\data\*` to `data\` | 
-| **build_prod_installer.bat**           | Wrapper for `_build_prod_installer_helper.pl` |
-| **build_staging.pl**                   | Performs all tasks within the `build_staging_api.bat`, `build_staging_bb.bat` and `build_staging_ui.bat` scripts |
-| **build_staging_api.bat**              | Builds the staging `bbapi.dll` library file. Puts it into `staging\` |
-| **build_staging_bb.bat**               | Builds the staging `berrybrew.exe` binary, puts it into `staging\` |
-| **build_staging_installer.bat**        | Wrapper script for `build_staging_installer_helper.pl` |
-| **build_staging_ui.bat**               | Builds the `berrybrew-ui.exe` UI binary. Puts it into `staging\` |
-| **build_testing.bat**                  | Sets up and builds the entire unit testing environment. It's located in `testing\` |
-| **create_prod_installer.nsi**          | Production installer configuration script |
-| **create_staging_installer.nsi**       | Staging installer configuration script |
-| **generate_github_releases.pl**        | Script that creates the `releases.json` file until Strawberry site is back online |
-| **NSIS.zip**                           | The installer builder software. If not installed on your `berrybrew` dev platform you can install from here |
-| **release.pl**                         | Creates a Berrybrew release. See [Create a Release](Create a Release.md) |
-| **release_cycle.pl**                   | After a release, this script cycles the repository in preparation for the next version. See [Prepare for next version](Create a Release.md#prepare-a-branch-for-the-next-release-cycle) |
-| **release_post.pl**                    | After a release, restores any backed up configuration files (very rarely used) |
+| File                                   | Description                                                                                                                                                                                 |
+|----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **_build_prod_installer_helper.pl**    | Builds production installer. Runs manifest checks, builds, and puts the binary into `download`                                                                                              |
+| **_build_staging_installer_helper.pl** | Builds staging installer. Runs manifest checks, builds and puts the binary into `staging\`                                                                                                  |
+| **build_prod.bat**                     | Builds the production API, binary and UI (into `bin\`). Copies `dev\data\*` to `data\`                                                                                                      | 
+| **build_prod_installer.bat**           | Wrapper for `_build_prod_installer_helper.pl`                                                                                                                                               |
+| **build_staging.pl**                   | Performs all tasks within the `build_staging_api.bat`, `build_staging_bb.bat` and `build_staging_ui.bat` scripts                                                                            |
+| **build_staging_api.bat**              | Builds the staging `bbapi.dll` library file. Puts it into `staging\`                                                                                                                        |
+| **build_staging_bb.bat**               | Builds the staging `berrybrew.exe` binary, puts it into `staging\`                                                                                                                          |
+| **build_staging_installer.bat**        | Wrapper script for `build_staging_installer_helper.pl`                                                                                                                                      |
+| **build_staging_ui.bat**               | Builds the `berrybrew-ui.exe` UI binary. Puts it into `staging\`                                                                                                                            |
+| **build_testing.bat**                  | Sets up and builds the entire unit testing environment. It's located in `testing\`                                                                                                          |
+| **create_prod_installer.nsi**          | Production installer configuration script                                                                                                                                                   |
+| **create_staging_installer.nsi**       | Staging installer configuration script                                                                                                                                                      |
+| **generate_github_releases.pl**        | Script that creates the `releases.json` file until Strawberry site is back online                                                                                                           |
+| **NSIS.zip**                           | The installer builder software. If not installed on your `berrybrew` dev platform you can install from here                                                                                 |
+| **release.pl**                         | Creates a Berrybrew release. See [Create a Release](Create%20a%20Release.md)                                                                                                                |
+| **release_cycle.pl**                   | After a release, this script cycles the repository in preparation for the next version. See [Prepare for next version](Create%20a%20Release.md#prepare-a-branch-for-the-next-release-cycle) |
+| **release_post.pl**                    | After a release, restores any backed up configuration files (very rarely used)                                                                                                              |
 
 #### Development environment build
 
