@@ -224,14 +224,14 @@ line:
 - [Configuration](doc/Configuration.md)
  Guide to various configuration files and options
 
+- [Berrybrew Development](doc/Berrybrew%20Development.md)
+  Guide to creating a development build for testing new functionality
+
 - [Add a New Class](doc/Add%20a%20New%20Class.md) 
  Explains the process of creating and adding a new class
  
 - [Compile Your Own Installation](doc/Compile%20Your%20Own.md)
  Guide to compiling `berrybrew` from source
-
-- [Create a Development Build](doc/Create%20a%20Development%20Build.md)
- Guide to creating a development build for testing new functionality
 
 - [Create and Publish a Release](doc/Create%20a%20Release.md)
   Guide to creating a release, publishing it as a production install, and
