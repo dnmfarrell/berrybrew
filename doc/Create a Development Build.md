@@ -2,7 +2,7 @@
 
 ## Sections
 
-- [Development Directory Items](#development-directory_items)
+- [Development Directory Items](#development-directory-items)
 - [Full Build (Except Installer)](#development-environment-build)
 - [Full Build (With Installer)](#development-installer-build)
 - [Binary Only](#berrybrew-binary-only)
