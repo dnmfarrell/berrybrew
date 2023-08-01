@@ -52,6 +52,20 @@ sub get_installed {
 
     return @installed;
 }
+sub get_downloads {
+    my $list = `$c archives`;
+    my @lines = split /\n/, $list;
+
+    my @archives;
+
+    for my $line (@lines) {
+        if ($line =~ /\t(.*)$/) {
+            push @archives, $1;
+        }
+    }
+
+    return @archives;   
+}
 sub error_codes {
     my %codes = (
         GENERIC_ERROR                   => -1,
@@ -60,10 +74,12 @@ sub error_codes {
         ADMIN_FILE_ASSOC                => 10,
         ADMIN_PATH_ERROR                => 15,
         ADMIN_REGISTRY_WRITE            => 20,
+        ARCHIVE_ALREADY_EXISTS          => 24,
         ARCHIVE_PATH_NAME_NOT_FOUND     => 25,
         BERRYBREW_UPGRADE_FAILED        => 30,
         DIRECTORY_CREATE_FAILED         => 40,
         DIRECTORY_LIST_FAILED           => 45,
+        DIRECTORY_ALREADY_EXIST         => 47, 
         DIRECTORY_NOT_EXIST             => 50,
         FILE_DELETE_FAILED              => 55,
         FILE_DOWNLOAD_FAILED            => 60,
@@ -78,9 +94,11 @@ sub error_codes {
         PERL_ARCHIVE_CHECKSUM_FAILED    => 100,
         PERL_CLONE_FAILED               => 105,
         PERL_CLONE_FAILED_IO_ERROR      => 110,
+        PERL_DIRECTORY_SPECIAL          => 112,
         PERL_FILE_ASSOC_FAILED          => 115,
         PERL_INVALID_ERROR              => 120,
         PERL_MIN_VER_GREATER_510        => 125,
+        PERL_NAME_COLLISION             => 127,
         PERL_NAME_INVALID               => 130,
         PERL_NONE_IN_USE                => 135,
         PERL_NONE_INSTALLED             => 140,
@@ -104,6 +122,7 @@ sub err_code {
 
     my @valid_codes = split /\n/, `$c error-codes`;
     is scalar(keys %error_codes), scalar(@valid_codes), "error code count ok compared to valid";
+    
     return $error_codes{$name};
 }
 sub trap {

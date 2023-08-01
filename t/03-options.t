@@ -39,27 +39,52 @@ system("assoc", ".pl=PerlScript");
 
 $o = `$c options`;
 
-like $o, qr/debug:\s+false/, "debug ok";
-like $o, qr/root_dir:\s+C:\\berrybrew\\testing/, "root_dir ok";
-like $o, qr/temp_dir:\s+C:\\berrybrew\\testing\\temp/, "temp_dir ok";
-like $o, qr|download_url:\s+https://strawberryperl.com/releases.json|, "download_url ok";
-like $o, qr/windows_homedir:\s+false/, "windows_homedir ok";
-like $o, qr/custom_exec:\s+false/, "custom_exec ok";
-like $o, qr/run_mode:\s+testing/, "run_mode ok";
-like $o, qr/shell:\s+cmd/, "shell ok";
-like $o, qr/file_assoc:\s+/, "file_assoc ok";
-like $o, qr/file_assoc_old:\s+/, "file_assoc_old ok";
+my @option_list = split /\n/, $o;
 
-like `$c options debug`, qr/^\s+debug:\s+false\s+$/, "single debug ok";
-like `$c options root_dir`, qr/^\s+root_dir:\s+C:\\berrybrew\\testing\s+$/, "single root_dir ok";
-like `$c options temp_dir`, qr/^\s+temp_dir:\s+C:\\berrybrew\\testing\\temp\s+$/, "single temp_dir ok";
-like `$c options download_url`, qr|^\s+download_url:\s+https://strawberryperl.com/releases.json\s+$|, "single download_url ok";
-like `$c options windows_homedir`, qr/^\s+windows_homedir:\s+false\s+$/, "single windows_homedir ok";
-like `$c options custom_exec`, qr/^\s+custom_exec:\s+false\s+$/, "single custom_exec ok";
-like `$c options run_mode`, qr/^\s+run_mode:\s+testing\s+$/, "single run_mode ok";
-like `$c options shell`, qr/^\s+shell:\s+cmd\s+$/, "single shell ok";
-like `$c options file_assoc`, qr/^\s+file_assoc:\s+PerlScript$/, "single file_assoc ok";
-like `$c options file_assoc_old`, qr/^\s+file_assoc_old:\s+$/, "single file_assoc_old ok";
+my %options;
+
+for my $opt (@option_list) {
+    next if $opt =~ /^$/;
+    next if $opt =~ /Option configuration/;
+    $opt =~ s/^\s+//;
+    my $opt_name = (split(/:/, $opt))[0];
+    $options{$opt_name} = 1;
+}
+
+my %test_options = (
+    debug           => qr/debug:\s+false/,
+    storage_dir     => qr/storage_dir:\s+C:\\berrybrew-testing/,
+    instance_dir    => qr/instance_dir:\s+C:\\berrybrew-testing\\instance/,
+    temp_dir        => qr/temp_dir:\s+C:\\berrybrew-testing\\temp/,
+    custom_exec     => qr/custom_exec:\s+false/,
+    windows_homedir => qr/windows_homedir:\s+false/,
+    strawberry_url  => qr|strawberry_url:\s+https://strawberryperl.com|,
+    warn_orphans    => qr/warn_orphans:\s+false/,
+    download_url    => qr|download_url:\s+https://strawberryperl.com/releases.json|,
+    run_mode        => qr/run_mode:\s+testing/,
+    shell           => qr/shell:\s+cmd/,
+    file_assoc      => qr/file_assoc:\s+/,
+    file_assoc_old  => qr/file_assoc_old:\s+/,
+);
+
+is
+    keys %test_options,
+    keys %options,
+    "we're testing all the known production options ok";
+
+my $aggregate = `$c options`;
+
+for (keys %test_options) {
+    like 
+        $aggregate, 
+        qr/$test_options{$_}/, 
+        "option $_ has proper default value ok in aggregate check";
+
+    like 
+        `$c options $_`,
+        qr/$test_options{$_}/,
+        "calling option $_ individually results in proper default value ok";
+}
 
 like `$c options run_mode option_test`, qr/^\s+run_mode:\s+option_test\s+$/, "changing run_mode opt ok";
 like `$c options run_mode testing`, qr/^\s+run_mode:\s+testing\s+$/, "changing run_mode back ok";

@@ -8,7 +8,7 @@ var perlRootDir
 var perlRootDirSet
 
 !define PRODUCT_NAME "berrybrew-staging"
-!define PRODUCT_VERSION "1.39"
+!define PRODUCT_VERSION "1.40"
 !define PRODUCT_PUBLISHER "Steve Bertrand"
 !define PRODUCT_WEB_SITE "https://github.com/stevieb9/berrybrew"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\berrybrew.exe"
@@ -43,19 +43,28 @@ var perlRootDirSet
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 OutFile "..\staging\berrybrewInstaller.exe"
-InstallDir "$PROGRAMFILES\berrybrew\staging"
+InstallDir "$PROGRAMFILES\berrybrew-staging\"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
 
 Section "-MainSection" SEC_MAIN
   SetOverwrite try
+
+  SetOutPath "$INSTDIR"
+  File "..\Changes.md"
+  File "..\Changes"
+  File "..\README.md"
+  File "..\LICENSE"
+  
   SetOutPath "$INSTDIR\bin"
+  File "..\staging\berrybrew-refresh.bat"
   File "..\staging\berrybrew-refresh.bat"
   File "..\staging\bbapi.dll"
   File "..\staging\berrybrew.exe"
   File "..\staging\bb.exe"
   File "..\staging\berrybrew-ui.exe"
+  File "..\staging\berrybrewInstaller.exe"
   File "..\staging\ICSharpCode.SharpZipLib.dll"
   File "..\staging\Newtonsoft.Json.dll"
 
@@ -63,6 +72,11 @@ Section "-MainSection" SEC_MAIN
   File "..\staging\data\config.json"
   File "..\staging\data\messages.json"
   File "..\staging\data\perls.json"
+
+  SetOutPath "$INSTDIR\doc"  
+  File "..\doc\berrybrew.md"
+  File "..\doc\Configuration.md"
+  
   SetOutPath "$INSTDIR\inc"
   File "..\inc\berrybrew.ico"
 SectionEnd
@@ -102,7 +116,9 @@ Section -Post
 SectionEnd
 
 Function perlRootPathSelection
+
    ; check if the root path for Perls is already set
+   
    ClearErrors
    ReadRegStr $0 HKLM "${APP_REGKEY}" "root_dir"
    ${If} ${Errors}
@@ -261,17 +277,25 @@ Section Uninstall
   Delete "$INSTDIR\data\perls.json"
   Delete "$INSTDIR\data\messages.json"
   Delete "$INSTDIR\data\config.json"
+  Delete "$INSTDIR\data\perls_custom.json"
+  Delete "$INSTDIR\data\perls_virtual.json"
+  Delete "$INSTDIR\doc\berrybrew.md"
+  Delete "$INSTDIR\doc\Configuration.md"
   Delete "$INSTDIR\bin\berrybrew-refresh.bat"
   Delete "$INSTDIR\bin\Newtonsoft.Json.dll"
   Delete "$INSTDIR\bin\ICSharpCode.SharpZipLib.dll"
-  Delete "$INSTDIR\bin\berrybrew.exe"
   Delete "$INSTDIR\bin\bb.exe"
-  Delete "$INSTDIR\bin\berrybrew-ui.exe"
   Delete "$INSTDIR\bin\bbapi.dll"
-  Delete "$INSTDIR\bin\uninst.exe"
-  Delete "$INSTDIR\bin\berrybrew.lnk"
-  Delete "$INSTDIR\bin\berrybrew.url"
-  Delete "$INSTDIR\bin\berrybrew"
+  Delete "$INSTDIR\bin\berrybrew.exe"
+  Delete "$INSTDIR\bin\berrybrewInstaller.exe"
+  Delete "$INSTDIR\bin\berrybrew-ui.exe"
+  Delete "$INSTDIR\uninst.exe"
+  Delete "$INSTDIR\berrybrew.lnk"
+  Delete "$INSTDIR\berrybrew.url"
+  Delete "$INSTDIR\Changes.md"
+  Delete "$INSTDIR\Changes"
+  Delete "$INSTDIR\LICENSE"
+  Delete "$INSTDIR\README.md"
 
   Delete "$SMPROGRAMS\berrybrew\Uninstall.lnk"
   Delete "$SMPROGRAMS\berrybrew\Website.lnk"
@@ -281,6 +305,8 @@ Section Uninstall
 
   RMDir "$INSTDIR\bin"
   RMDir "$INSTDIR\inc"
+  RMDir "$INSTDIR\data"
+  RMDir "$INSTDIR\doc"
   RMDir "$INSTDIR"
   
   SetAutoClose true

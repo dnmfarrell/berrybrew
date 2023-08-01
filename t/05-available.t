@@ -21,7 +21,7 @@ run3 "$c available", \$in, \$list;
 
 is $? >> 8, 0, "success exit code";
 
-$list =~ s/\[installed\]\s+\*?//g;
+#$list =~ s/\[installed\]\s+\*?//g;
 
 open my $fh, '<', 't/data/available.txt' or die $!;
 my @base = <$fh>;
@@ -33,6 +33,7 @@ shift @list;
 
 for (@list){
     s/\s+//g;
+    s/\[installed\].*//;
 }
 
 for my $i (0 .. $#base){

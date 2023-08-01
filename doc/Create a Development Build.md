@@ -40,9 +40,9 @@ directory. We use the `dev\create_staging_installer.nsi` NSIS installer script
 to configure the actual installation binary.
 
 **NOTE**: When running under the development/staging build, Perl installations
-and `berrybrew`'s temporary directory are stored within a newly created `staging`
-directory underneath of `berrybrew`'s default directory (defaults to
-`C:\berrybrew`)
+and `berrybrew`'s temporary directory are stored in a new root level directory,
+`C:\berrybrew-staging`. Temporary files will be in `C:\berrybrew-staging\temp`,
+and perl instances in `C:\berrybrew-staging\instance`.
 
 #### berrybrew binary only
 
@@ -60,3 +60,5 @@ compiling the API and the `berrybrew` binary, followed by the UI binary itself.
 - Run the `staging\berrybrew-ui.exe` to start the UI. Note that the staging UI
 build will execute out of a command line window, so that you can see the debugging
 output.
+
+&copy; 2016-2023 by Steve Bertrand

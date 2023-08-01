@@ -11,16 +11,19 @@ BB::check_test_platform();
 
 $ENV{BERRYBREW_ENV} = "testing";
 
-my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
+my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
 
 my ($bbpath) = $c =~ m|(.*)/berrybrew|;
-$bbpath =~ s|/*||g;
+$bbpath =~ s|\*||g;
 
 my %valid_opts = (
-    archive_path    => 'c:/berrybrew/testing/temp',
-    bin_path        => $bbpath,
     install_path    => $bbpath,
-    root_path       => 'C:/berrybrew/testing',
+    config_path     => "$bbpath/data",
+    bin_path        => $bbpath,
+    storage_path    => "c:/berrybrew-testing",
+    instance_path   => "c:/berrybrew-testing/instance",
+    archive_path    => "c:/berrybrew-testing/temp",
+    snapshot_path   => "c:/berrybrew-testing/snapshots",
 );
 
 like `$c info`, qr/requires an option argument/, "info with no args ok";

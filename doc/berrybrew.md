@@ -18,6 +18,7 @@
 - [off](#off)
 - [register](#register)
 - [remove](#remove)
+- [snapshot](#snapshot)
 - [switch](#switch)
 - [unconfig](#unconfig)
 - [use](#use)
@@ -31,6 +32,7 @@
 Here are [certain features](#hidden-command-list) that may be useful by the developers and
 maintainers of this software. 
 
+- [archives](#archives)
 - [currentperl](#currentperl)
 - [download](#download)
 - [error](#error)
@@ -40,6 +42,7 @@ maintainers of this software.
 - [options-update](#options-update)
 - [options-update-force](#options-update-force)
 - [orphans](#orphans)
+- [orphans-ignored](#orphans-ignored)
 - [register-orphans](#register-orphans)
 - [test](#test)
 - [trace](#trace)
@@ -114,12 +117,13 @@ directory.
 
     help        Displays the subcommand help screen
     all         Runs all clean operations
-    build       Deletes the developer's staging build directory in the repo
     dev         Deletes all developer data (testing and staging directories)             
-    temp        Deletes all Perl installation zip files
     module      Deletes the exported module list directory                
     orphan      Deletes any directories in the Perl install directory that
                 berrybrew hasn't registered
+    staging     Deletes the developer's staging build directory in the repo
+    temp        Deletes all Perl installation zip files
+    testing     Deletes the developer's testing build directory in the repo
 
 #### clone
 
@@ -231,11 +235,9 @@ Usage:  `berrybrew off`
 
 Disables all `berrybrew` Perl installations. If you have a Strawberry or
 ActiveState system Perl installed, it'll be used until you `berrybrew switch`
-back to a `berrybrew` controlled Perl.
+back to a `berrybrew` controlled Perl. 
 
-#### register
-
-Usage:  `berrybrew register <directory>`
+#### register Usage:  `berrybrew register <directory>` 
 
 Registers a custom installation within the Perl instance directory that was
 placed there outside of `berrybrew`.
@@ -249,6 +251,30 @@ the `berrybrew` umbrella.
 Usage:  `berrybrew remove <version>`
 
 Removes a single version of Perl, as seen in `berrybrew available`.
+
+#### snapshot
+
+Usage:  `berrybrew snapshot <command> <option> [option]`
+
+Allows you to create zip archives of existing Perl instances. These archives
+are stored in the `rootPath\snapshot` directory, where `rootPath` by default
+is `C:\berrybrew`
+
+Commands:
+
+    list    Lists all existing snapshots
+    export  <instance name> [snapshot name]       Snapshots a Perl instance to a zip archive
+    import  <snapshot name> [new instance name]   Imports a previously saved snapshot zip archive
+
+###### export Options
+
+    instance name:  Mandatory. The name of the existing instance to snapshot
+    snapshot name:  Optional.  Snapshot name. If not supplied it will be "instance name.yyyyMMDDmmss"
+
+###### import Options
+
+    snapshot name:      Mandatory. The name of the snapshot to import (get with `berrybrew snapshot list`)
+    new instance name:  Optional.  This will be the name of the imported instance. If not supplied, will be the same as `snapshot name` (with any timestamp removed) 
 
 #### switch
 
@@ -326,6 +352,11 @@ library.
 
 ### Hidden Command List
 
+#### archives
+
+Prints the list of all Perl instance archives (ie. zip files) that have
+already been downloaded and that are present for use.
+
 #### currentperl
 
 This feature simply fetches the Perl instance that's currently in use,
@@ -395,6 +426,11 @@ within the registry.
 Displays all orphaned Perl instances that haven't been registered with
 `berrybrew`.
 
+#### orphans-ignored
+
+Displays the list of directories in the Perl instance directory that we will
+not classify as orphans. These are system directories.
+
 #### register-orphans
 
 This will register all orphaned Perl instances at once.
@@ -447,4 +483,4 @@ Usage: `berrybrew status <command> [options]`.
 
 If `debug` is also used, the `status` command must follow it.
 
-&copy; 2016-2021 by Steve Bertrand
+&copy; 2016-2023 by Steve Bertrand

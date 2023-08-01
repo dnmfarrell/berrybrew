@@ -5,6 +5,7 @@ use FindBin qw($RealBin);
 use lib $RealBin;
 use BB;
 
+use File::Path qw(rmtree);
 use Test::More;
 use Win32::TieRegistry;
 
@@ -59,7 +60,7 @@ my $path = $Registry->{$path_key};
     like $o, qr/Switched to Perl version $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
-    like $path, qr/C:\\berrybrew\\$operation_dir\\$ver/, "PATH set ok for $ver";
+    like $path, qr/C:\\berrybrew-$operation_dir\\instance\\$ver/, "PATH set ok for $ver";
 
     print "\nInstalling Mock::Sub\n";
     $o = `cpanm Mock::Sub`;
@@ -73,7 +74,7 @@ my $path = $Registry->{$path_key};
     if ($o =~ /(C:.*?)\s/) {
         my $file = $1;
         is -e $file, 1, "module list file created ok";
-        like $file, qr/^C:\\berrybrew\\testing\\modules\\5\.16\.3_64$/, "filename for module list ok";
+        like $file, qr/^C:\\berrybrew-testing\\modules\\5\.16\.3_64$/, "filename for module list ok";
 
         open my $fh, '<', $file or die "can't open the $file module list file!: $!";
         my %file_hash;
@@ -99,8 +100,11 @@ my $path = $Registry->{$path_key};
     like $o, qr/berrybrew perl disabled/, "off ok";
 
     my $path = $Registry->{$path_key};
-    unlike $path, qr/^C:\\berrybrew\\testing/, "PATH set ok for 'off'";
-    unlike $path, qr/^C:\\berrybrew\\build/, "PATH set ok for 'off'";
+    unlike $path, qr/^C:\\berrybrew-testing/, "PATH set ok for 'off'";
+    unlike $path, qr/^C:\\berrybrew-staging/, "PATH set ok for 'off'";
 }
+
+rmtree 'C:/berrybrew-testing/modules' or die $!;
+isnt -e 'C:/berrybrew-testing/modules', 1, "removed modules dir ok";
 
 done_testing();

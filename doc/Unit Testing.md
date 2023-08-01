@@ -8,6 +8,7 @@
 - [Running Individual Tests](#running-individual-tests)
 - [Build Test Environment Without Running Tests](#build-a-test-environment-without-running-tests)
 - [Testing the UI](#testing-the-ui)
+- [Testing the Installer](#testing-the-installer)
 - [Environment Variables](#environment-variables)
 
 Unit tests are written in Perl.
@@ -81,7 +82,7 @@ Execute one of the following batch calls to run all tests
 
 - `t\test.bat` builds berrybrew and calls `perl t\run_tests.pl` using your system Strawberry Perl's perl
 
-    - It ensures that the `c:\berrybrew\test` directory hierarchy exists.  This directory is used for holding the test instances of at least two different strawberry perls, plus the clones and templates.  It is safe to delete the whole `c:\berrybrew\testing` hierarchy after testing is complete. We remove this directory and recreate it at the beginning of each test run
+    - It ensures that the `c:\berrybrew-testing` directory hierarchy exists.  This directory is used for holding the test instances of at least two different strawberry perls, plus the clones and templates.  It is safe to delete the whole `c:\berrybrew\testing` hierarchy after testing is complete. We remove this directory and recreate it at the beginning of each test run
     - Removes the `testing\data\perls_custom.json` file if it exists at the commencement of the run
     - It changes the `testing\data\config.json` file to reference `c:\berrybrew\testing` instead of `c:\berrybrew`
     - It calls `t\setup_test_env.bat` to set the BBTEST_PERLROOT and BBTEST_REPO environment variables.  As described above, BBTEST_PERLROOT is used for generating a valid path that includes your already-installed system perl.  BBTEST_REPO defaults to the current directory when runing the test suite (which, per above, should be the root of the `berrybrew` repository)
@@ -155,6 +156,20 @@ The UI will be executed from a CLI window. Play around with all the features
 in the UI to ensure they work properly. If there are any errors or issues, they
 will be displayed in the CLI.
 
+## Testing the Installer
+
+Run the `dev\build_staging_installer.bat` script. This will compile the
+various components, then perform a check to ensure all files that are
+supposed to be included in the installer are actually there, and files
+that shouldn't be, aren't. Likewise, it'll ensure all files we install
+will be slated for deletion on uninstall.
+
+After building the installer, install it by executing the
+`staging\berrybrewInstaller.exe`. Make sure everything goes properly,
+then, using `Add/Remove Programs`, remove the software, then check to
+ensure that the `C:\Program Files (x86)\berrybrew\staging` directory
+no longer exist.
+
 ## Environment Variables
 
 As the software becomes more complex and dynamic, sometimes we have to
@@ -176,3 +191,5 @@ any references to it, or `SwitchProcess()` in the code or tests.
 This flag is to inform the `Switch()` method that we're in testing, so
 it won't run the `SwitchProcess()` call. That call removes the parent
 process, so everything breaks if this flag isn't set.        
+
+&copy; 2016-2023 by Steve Bertrand

@@ -19,7 +19,7 @@ $ENV{BERRYBREW_ENV} = "testing";
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
 my $customfile = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/data/perls_custom.json" : 'c:/repos/berrybrew/testing/data/perls_custom.json';
 
-my $dir = 'c:\\berrybrew\\testing';
+my $dir = 'c:\\berrybrew-testing\\instance';
 
 if (! -d $dir){
     mkdir $dir or die $!;

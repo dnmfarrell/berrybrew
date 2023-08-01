@@ -31,6 +31,18 @@ for my $line (@output) {
     $ret_codes{$code} = $err;
 }
 
+# check that all error codes in BB::error_codes() are listed in the source
+
+for my $test_errcode (keys %err_nums) {
+    is exists($ret_codes{$test_errcode}), 1, "errcode $test_errcode in test matches actual enum"
+}
+
+# check that all error codes listed in source are listed in BB::error_codes()
+
+for my $src_errcode (values %ret_codes) {
+    is exists($err_codes{$src_errcode}), 1, "errcode $src_errcode in src enum matches BB::error_codes() ok";
+}
+
 for (2, 255, -5) {
     like `$c error $_`, qr/EXTERNAL_PROCESS_ERROR/, "errcode $_ eq EXTERNAL_PROCESS_ERROR ok";
 }

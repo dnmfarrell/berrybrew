@@ -38,17 +38,17 @@ namespace BerryBrew.PerlInstance {
             {
                 if (string.IsNullOrEmpty(perl_path))
                 {
-                    perl_path = bb.rootPath + name + @"\perl\bin";
+                    perl_path = bb.instancePath + name + @"\perl\bin";
                 }
 
                 if (string.IsNullOrEmpty(lib_path))
                 {
-                    lib_path = bb.rootPath + name + @"\perl\site\bin";
+                    lib_path = bb.instancePath + name + @"\perl\site\bin";
                 }
 
                 if (string.IsNullOrEmpty(aux_path))
                 {
-                    aux_path = bb.rootPath + name + @"\c\bin";
+                    aux_path = bb.instancePath + name + @"\c\bin";
                 }
             }
 
@@ -62,7 +62,7 @@ namespace BerryBrew.PerlInstance {
             Version = version.ToString();
 
             archivePath = bb.archivePath;
-            installPath = bb.rootPath + name;
+            installPath = bb.instancePath + name;
 
             CPath = aux_path;
             PerlPath = perl_path;

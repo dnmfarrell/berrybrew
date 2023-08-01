@@ -1,16 +1,12 @@
-﻿using BerryBrew;
-using BerryBrew.Messaging;
-using BerryBrew.PerlInstance;
+﻿using BerryBrew.PerlInstance;
 using BerryBrew.PathOperations;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-//using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
-//using System.Security;
 using System.Text.RegularExpressions;
 
 namespace BerryBrew.PerlOperations {
@@ -46,67 +42,6 @@ namespace BerryBrew.PerlOperations {
             Directory.CreateDirectory(path);
 
             return path + @"\" + perl.File;
-        }
-
-        internal List<string> PerlFindOrphans() {
-            List<StrawberryPerl> perls = PerlsInstalled();
-
-            try {
-                Directory.GetDirectories(bb.rootPath);
-            }
-            catch (Exception err) {
-                if (bb.Debug) {
-                    Console.Error.WriteLine("DEBUG: failure getting directories of root");
-                    Console.Error.WriteLine("DEBUG: {0}", err);
-                }
-
-                bb.Exit((int) Berrybrew.ErrorCodes.DIRECTORY_LIST_FAILED);
-            }
-
-            List<string> dirs = new List<string>(Directory.GetDirectories(bb.rootPath));
-            List<string> perlInstallations = new List<string>();
-
-            foreach (StrawberryPerl perl in perls) {
-                perlInstallations.Add(perl.installPath);
-            }
-
-            List<string> orphans = new List<string>();
-
-            foreach (string dir in dirs) {
-                if (dir == bb.archivePath) {
-                    continue;
-                }
-
-				// valid perl instance directory
-				if (perlInstallations.Contains(dir)) {
-                    continue;
-                }
-
-				// testing directory
-                if (Regex.Match(dir, @"\\testing$").Success) {
-                    continue;
-                }
-
-                // dev staging directory
-                if (Regex.Match(dir, @"\\staging$").Success) {
-                    continue;
-                }
-
-                // module list directory
-                if (Regex.Match(dir, @"\\modules$").Success) {
-                    continue;
-                }
-
-                // cpanm storage directory
-                if (Regex.Match(dir, @".cpanm").Success) {
-                    continue;
-                }
-
-                string dirBaseName = dir.Remove(0, bb.rootPath.Length);
-                orphans.Add(dirBaseName);
-            }
-
-            return orphans;
         }
 
         internal List<StrawberryPerl> PerlGenerateObjects() {
@@ -197,15 +132,91 @@ namespace BerryBrew.PerlOperations {
             return bb._perls.Values.Cast<StrawberryPerl>().Where(PerlIsInstalled).ToList();
         }
 
+        internal List<string> PerlOrphansFind() {
+            List<StrawberryPerl> perls = PerlsInstalled();
+
+            try {
+                Directory.GetDirectories(bb.instancePath);
+            }
+            catch (Exception err) {
+                if (bb.Debug) {
+                    Console.Error.WriteLine("DEBUG: failure getting directories of root");
+                    Console.Error.WriteLine("DEBUG: {0}", err);
+                }
+
+                bb.Exit((int) Berrybrew.ErrorCodes.DIRECTORY_LIST_FAILED);
+            }
+
+            List<string> dirs = new List<string>(Directory.GetDirectories(bb.instancePath));
+            List<string> perlInstallations = new List<string>();
+
+            foreach (StrawberryPerl perl in perls) {
+                perlInstallations.Add(perl.installPath);
+            }
+
+            List<string> orphans = new List<string>();
+            Dictionary<string, bool> orphansIgnored = PerlOrphansIgnore();
+            
+            foreach (string dir in dirs) {
+                if (dir == bb.archivePath) {
+                    continue;
+                }
+
+                // Skip valid known extracurrirular directories
+                
+				// Valid perl instance directory
+				if (perlInstallations.Contains(dir)) {
+                    continue;
+                }
+
+                // Ignored orphans
+                Match ignoredOrphanFound = Regex.Match(dir, @".*\\(.*)$");
+
+                if (ignoredOrphanFound.Success) {
+                    string ignoredOrphan = ignoredOrphanFound.Groups[1].Captures[0].Value;
+                    
+                    if (orphansIgnored.ContainsKey(ignoredOrphan)) { 
+                        continue;
+                    }
+                }
+
+                string dirBaseName = dir.Remove(0, bb.instancePath.Length);
+                orphans.Add(dirBaseName);
+            }
+
+            return orphans;
+        }
+
+        public Dictionary<string, bool> PerlOrphansIgnore() {
+            Dictionary<string, bool> ignoreList = new Dictionary<string, bool>();
+
+            List<string> ignoreDirs = new List<string> {
+            };
+
+            // Since we've separated the installPath for staging and testing,
+            // and moved perl instances to an 'instance' sub dir, no ignore
+            // items are currently needed
+            
+            foreach (string dir in ignoreDirs) {
+                ignoreList.Add(dir, true);
+            }
+
+            if (bb.Testing) {
+                ignoreList.Add("unit_test", true);
+            }
+            
+            return ignoreList;
+        }
+
         public void PerlRegisterCustomInstall(string perlName, StrawberryPerl perlBase=new StrawberryPerl()) {
             perlName = bb.BitSuffixCheck(perlName);
 
-            if (! Directory.Exists(bb.rootPath + perlName)) {
+            if (! Directory.Exists(bb.instancePath + perlName)) {
                 Console.Error.WriteLine("installation directory '" + perlName + "' does not exist");
                 bb.Exit((int) Berrybrew.ErrorCodes.DIRECTORY_NOT_EXIST);
             }
 
-            if (! File.Exists(bb.rootPath + perlName + @"\perl\bin\perl.exe")) {
+            if (! File.Exists(bb.instancePath + perlName + @"\perl\bin\perl.exe")) {
                 Console.Error.WriteLine("{0} is not a valid Perl installation", perlName);
                 bb.Exit((int) Berrybrew.ErrorCodes.PERL_INVALID_ERROR);
             }
@@ -214,10 +225,10 @@ namespace BerryBrew.PerlOperations {
 
             data["name"] 	= perlName;
             data["custom"] 	= perlBase.Custom;
-            data["file"] 	= perlBase.File;
-            data["url"] 	= perlBase.Url;
-            data["ver"] 	= perlBase.Version;
-            data["csum"] 	= perlBase.Sha1Checksum;
+            data["file"] 	= perlBase.File ?? "";
+            data["url"] 	= perlBase.Url ?? "";
+            data["ver"] 	= perlBase.Version ?? "0.0.0";
+            data["csum"] 	= perlBase.Sha1Checksum ?? "";
 
             List<Dictionary<string, object>> perlList = new List<Dictionary<string, object>> {data};
 
@@ -267,10 +278,10 @@ namespace BerryBrew.PerlOperations {
                 bb.Exit((int) Berrybrew.ErrorCodes.DIRECTORY_NOT_EXIST);
             }
 
-            string instanceName = bb.rootPath + perlName;
+            string instanceName = bb.instancePath + perlName;
 
             if (! Directory.Exists(instanceName)) {
-                Directory.CreateDirectory(bb.rootPath + perlName);
+                Directory.CreateDirectory(bb.instancePath + perlName);
             }
 
             Dictionary<string, object> data = new Dictionary<string, object>();
@@ -280,7 +291,7 @@ namespace BerryBrew.PerlOperations {
             data["virtual"] 	= true;
             data["file"] 		= "";
             data["url"] 		= "";
-            data["ver"] 		= "";
+            data["ver"] 		= "0.0.0";
             data["csum"] 		= "";
             data["perl_path"]	= perlPath;
             data["lib_path"] 	= libPath;
@@ -302,28 +313,37 @@ namespace BerryBrew.PerlOperations {
                 StrawberryPerl currentPerl = PerlInUse();
 
                 if (perl.Name == currentPerl.Name) {
-                    Console.WriteLine("Removing Perl " + perlVersionToRemove + " from PATH");
+                    Console.WriteLine("Removing Perl " + perlVersionToRemove +
+                                      " from PATH");
                     PathOp.PathRemovePerl(bb._perls);
                 }
 
                 if (Directory.Exists(perl.installPath)) {
                     try {
-                        Console.WriteLine("Removing Strawberry Perl " + perlVersionToRemove);
+                        Console.WriteLine("Removing Strawberry Perl " +
+                                          perlVersionToRemove);
                         Berrybrew.FilesystemResetAttributes(perl.installPath);
                         Directory.Delete(perl.installPath, true);
-                        Console.WriteLine("Successfully removed Strawberry Perl " + perlVersionToRemove);
+                        Console.WriteLine(
+                            "Successfully removed Strawberry Perl " +
+                            perlVersionToRemove);
                     }
-                    catch (IOException err){
-                        Console.Error.WriteLine("Unable to completely remove Strawberry Perl " + perlVersionToRemove + " some files may remain");
+                    catch (IOException err) {
+                        Console.Error.WriteLine(
+                            "Unable to completely remove Strawberry Perl " +
+                            perlVersionToRemove + " some files may remain");
 
                         if (bb.Debug) {
                             Console.Error.WriteLine("DEBUG: {0}", err);
                         }
+
                         bb.Exit((int) Berrybrew.ErrorCodes.PERL_REMOVE_FAILED);
                     }
                 }
                 else {
-                    Console.Error.WriteLine("Strawberry Perl " + perlVersionToRemove + " not found (are you sure it's installed?)");
+                    Console.Error.WriteLine("Strawberry Perl " +
+                                            perlVersionToRemove +
+                                            " not found (are you sure it's installed?)");
                     bb.Exit((int) Berrybrew.ErrorCodes.PERL_REMOVE_FAILED);
                 }
 
@@ -331,30 +351,35 @@ namespace BerryBrew.PerlOperations {
                     dynamic customPerlList = bb.JsonParse("perls_custom", true);
                     customPerlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(customPerlList);
 
-                    List<Dictionary<string, object>> updatedPerls = new List<Dictionary<string, object>>();
+                    List<Dictionary<string, object>> updatedPerls =
+                        new List<Dictionary<string, object>>();
 
                     foreach (Dictionary<string, object> perlStruct in customPerlList) {
                         if (! perlVersionToRemove.Equals(perlStruct["name"].ToString())) {
                             updatedPerls.Add(perlStruct);
                         }
                     }
+
                     bb.JsonWrite("perls_custom", updatedPerls, true);
                 }
+
                 if (perl.Virtual) {
                     dynamic virtualPerlList = bb.JsonParse("perls_virtual", true);
                     virtualPerlList = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(virtualPerlList);
 
-                    List<Dictionary<string, object>> updatedPerls = new List<Dictionary<string, object>>();
+                    List<Dictionary<string, object>> updatedPerls =
+                        new List<Dictionary<string, object>>();
 
                     foreach (Dictionary<string, object> perlStruct in virtualPerlList) {
                         if (! perlVersionToRemove.Equals(perlStruct["name"].ToString())) {
                             updatedPerls.Add(perlStruct);
                         }
                     }
+
                     bb.JsonWrite("perls_virtual", updatedPerls, true);
                 }
             }
-            catch (ArgumentException err){
+            catch (ArgumentException err) {
                 if (bb.Debug) {
                     Console.Error.WriteLine("DEBUG: {0}", err);
                 }
@@ -362,12 +387,25 @@ namespace BerryBrew.PerlOperations {
                 bb.Message.Error("perl_unknown_version");
                 bb.Exit((int) Berrybrew.ErrorCodes.PERL_UNKNOWN_VERSION);
             }
-            catch (UnauthorizedAccessException err){
+            catch (UnauthorizedAccessException err) {
                 if (bb.Debug) {
                     Console.Error.WriteLine("DEBUG: {0}", err);
                 }
-                Console.Error.WriteLine("Unable to remove Strawberry Perl " + perlVersionToRemove + " permission was denied by System");
+
+                Console.Error.WriteLine("Unable to remove Strawberry Perl " +
+                                        perlVersionToRemove +
+                                        " permission was denied by System");
                 bb.Exit((int) Berrybrew.ErrorCodes.PERL_REMOVE_FAILED);
+            }
+            catch (System.NullReferenceException err) {
+                 if (bb.Debug) {
+                     Console.Error.WriteLine("DEBUG: {0}", err);
+                 }
+ 
+                 Console.Error.WriteLine("Unable to remove Strawberry Perl " +
+                                         perlVersionToRemove +
+                                         " there was a problem writing to a custom/virtual JSON file");
+                 bb.Exit((int) Berrybrew.ErrorCodes.JSON_WRITE_FAILED);               
             }
         }
 
@@ -553,7 +591,7 @@ namespace BerryBrew.PerlOperations {
         }
 
         public void PerlUpdateAvailableListOrphans() {
-            List<string> orphans = PerlFindOrphans();
+            List<string> orphans = PerlOrphansFind();
 
             foreach(var orphan in orphans) {
                 Console.WriteLine("Registering legacy Perl '{0}' as custom...", orphan);

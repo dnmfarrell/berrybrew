@@ -3,7 +3,12 @@ use strict;
 
 # This script prepares a complete release of berrybrew
 
+use FindBin qw($RealBin);
+use lib "$RealBin/../lib";
+
 use Archive::Zip qw(:ERROR_CODES :CONSTANTS);
+use BuildHelper qw(:all);
+use Data::Dumper;
 use Digest::SHA qw(sha1);
 use Dist::Mgr qw(changes_date);
 use File::Copy;
@@ -17,9 +22,13 @@ use constant {
     ZIP_FILE         => 'download/berrybrew.zip',
 };
 
+# Arg to bypass makensis check
+
+my $testing = $ARGV[0];
+
 # run checks
 
-if (! grep { -x "$_/makensis.exe" } split /;/, $ENV{PATH}){
+if (! $testing && ! grep { -x "$_/makensis.exe" } split /;/, $ENV{PATH}){
     die "makensis.exe not found, check your PATH. Can't build installer...";
 }
 
@@ -27,20 +36,22 @@ my $data_dir        = 'data';
 my $bak_dir         = 'bak';
 my $defaults_dir    = 'dev/data';
 
+BuildHelper::check_installer_manifest(INSTALLER_SCRIPT);
 backup_configs();
 compile();
 update_perls_available();
 changes_date();
 create_changes();
 create_zip();
-update_installer_script();
-create_prod_installer();
+BuildHelper::update_installer_script(INSTALLER_SCRIPT);
+BuildHelper::create_installer(INSTALLER_SCRIPT);
 update_readme();
 check_readme();
 update_license();
 check_license();
 update_contributing();
 check_contributing();
+update_docs();
 finish();
 
 done_testing();
@@ -235,9 +246,6 @@ sub create_changes {
         print $changes_md_wfh $_;
     }
 }
-sub create_prod_installer {
-    system("makensis", INSTALLER_SCRIPT);
-}
 sub finish {
     print "\nDone!\n";
 }
@@ -249,42 +257,6 @@ sub update_perls_available {
         eval { copy 'data/perls.json', 'dev/data/perls.json' or die "can't copy perls.json: $!"; 1 },
         1,
         "data/perls.json copied to dev/data ok";
-}
-sub update_installer_script {
-    print "\nupdating installer script with version information\n";
-
-    my $bb_ver = _berrybrew_version();
-
-    open my $pfh, '<', 'data/perls.json' or die $!;
-    my $most_recent_perl_ver;
-    while (<$pfh>){
-        if (/"name": "(5\.\d+\.\d+_64)"/){
-            $most_recent_perl_ver = $1;
-            last;
-        }
-    }
-    close $pfh;
-
-    open my $fh, '<', INSTALLER_SCRIPT or die $!;
-    my @contents = <$fh>;
-    close $fh or die $!;
-
-    for (@contents){
-        if (/(PRODUCT_VERSION ".*")$/) {
-            s/$1/PRODUCT_VERSION "$bb_ver"/;
-        }
-        if (/.*(5\.\d+\.\d+_64).*/){
-            s/$1/$most_recent_perl_ver/;
-        }
-    }
-
-    open my $wfh, '>',  INSTALLER_SCRIPT or die $!;
-
-    for (@contents) {
-        print $wfh $_;
-    }
-
-    close $wfh;
 }
 sub update_contributing {
     print "\nupdating CONTRIBUTING.md with new Copyright year...\n";
@@ -315,6 +287,43 @@ sub update_contributing {
             print $wfh $_;
         }
     }
+}
+sub update_docs {
+    print "\nlooking for docs that need copyright updated...\n";
+    
+    my @docs  = File::Find::Rule->file
+                                ->name('*.md')
+                                ->in('doc/');
+   
+    for my $doc (@docs) {
+        open my $fh, '<', $doc or die $!;
+        my @contents = <$fh>;
+        close $fh or die $!;
+
+        my ($current_year) = (localtime)[5];
+        $current_year += 1900;
+
+        my $changed = 0;
+
+        for (@contents) {
+            if (/^\&copy; 2016-(\d{4}) by/) {
+                my $license_year = $1;
+                if ($license_year != $current_year) {
+                    $changed = 1;
+                    s/$license_year/$current_year/;
+                }
+            }
+        }
+
+        if ($changed) {
+            print "\nupdating $doc with new Copyright year...\n";
+            open my $wfh, '>', $doc or die $!;
+
+            for (@contents) {
+                print $wfh $_;
+            }
+        }
+    } 
 }
 sub update_readme {
     print "\nupdating README with new SHA1 sums and version...\n";

@@ -6,6 +6,7 @@ use lib $RealBin;
 use BB;
 
 use Capture::Tiny qw(:all);
+use File::Path qw(rmtree);
 use IPC::Run3;
 use Test::More;
 
@@ -15,7 +16,7 @@ $ENV{BERRYBREW_ENV} = "testing";
 
 my $c = $ENV{BBTEST_REPO} ? "$ENV{BBTEST_REPO}/testing/berrybrew" : 'c:/repos/berrybrew/testing/berrybrew';
 
-my $dir = 'c:/berrybrew/testing/';
+my $dir = 'c:/berrybrew-testing/instance';
 mkdir $dir or die "Can't create dir $dir: $!" if ! -d $dir;
 
 # warn_orphans
@@ -30,16 +31,33 @@ like
     qr/warn_orphans:\s+true/,
     "warn_orphans set to true ok";
 
+# actual orphans
 {
     my @perls = qw(5.99.0 5.005_32);
 
     for (@perls){
         if (! -d "$dir/$_") {
             mkdir "$dir/$_" or die $!;
-            my $o = `$c list`;
-            like $o, qr/Orphaned Perl installations/, "orphaned perl $_ caught";
-            like $o, qr/$_/, "orphaned perl $_ caught";
         }
+        my $o = `$c list`;
+        like $o, qr/Orphaned Perl installations/, "orphans were caught";
+        like $o, qr/$_/, "orphaned perl $_ caught";
+    }
+}
+
+# orphans ignored
+{
+    my @perls = (
+        'unit_test',
+    );
+
+    for (@perls){
+        if (! -d "$dir/$_") {
+            mkdir "$dir/$_" or die $!;
+        }            
+        my $o = `$c test list`;
+        unlike $o, qr/$_/, "$_ is an ignored orphan and was skipped";
+        rmtree "$dir/$_" or die "Can't delete fake orphan dir '$dir/$_': $!";
     }
 }
 
@@ -99,7 +117,8 @@ like
     is -d "$dir/5.005_32", undef, "second orphan deleted";
 }
 
-{ # data/bin dirs
+# data/bin dirs
+{ 
 
     my @dirs = qw(data bin);
 

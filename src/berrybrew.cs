@@ -14,7 +14,6 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
@@ -52,10 +51,12 @@ namespace BerryBrew {
             ADMIN_FILE_ASSOC                = 10,
             ADMIN_PATH_ERROR                = 15,
             ADMIN_REGISTRY_WRITE            = 20,
+            ARCHIVE_ALREADY_EXISTS          = 24,
             ARCHIVE_PATH_NAME_NOT_FOUND     = 25,
             BERRYBREW_UPGRADE_FAILED        = 30,
             DIRECTORY_CREATE_FAILED         = 40,
             DIRECTORY_LIST_FAILED           = 45,
+            DIRECTORY_ALREADY_EXIST         = 47,
             DIRECTORY_NOT_EXIST             = 50,
             FILE_DELETE_FAILED              = 55,
             FILE_DOWNLOAD_FAILED            = 60,
@@ -70,9 +71,11 @@ namespace BerryBrew {
             PERL_ARCHIVE_CHECKSUM_FAILED    = 100,
             PERL_CLONE_FAILED               = 105,
             PERL_CLONE_FAILED_IO_ERROR      = 110,
+            PERL_DIRECTORY_SPECIAL          = 112, 
             PERL_FILE_ASSOC_FAILED          = 115,
             PERL_INVALID_ERROR              = 120,
             PERL_MIN_VER_GREATER_510        = 125,
+            PERL_NAME_COLLISION             = 127,
             PERL_NAME_INVALID               = 130,
             PERL_NONE_IN_USE                = 135,
             PERL_NONE_INSTALLED             = 140,
@@ -111,8 +114,10 @@ namespace BerryBrew {
         private string binPath = AssemblyDirectory;
         public string archivePath;
         public string installPath;
-        public string rootPath;
+        public string storagePath;
+        public string instancePath;
         private string configPath;
+        private string snapshotPath;
         public string downloadURL;
         private bool windowsHomedir;
 
@@ -136,7 +141,8 @@ namespace BerryBrew {
 
             validOptions = new List<string>{
                 "debug",
-                "root_dir",
+                "storage_dir",
+                "instance_dir",
                 "temp_dir",
                 "strawberry_url",
                 "download_url",
@@ -171,7 +177,7 @@ namespace BerryBrew {
 
             // ensure the Perl install dir exists
 
-            CheckRootDir();
+            CheckInstanceDir();
 
             // create the custom and virtual perls config file
 
@@ -209,6 +215,30 @@ namespace BerryBrew {
             OrphanedPerls();
         }
 
+        public bool ArchiveAvailable(StrawberryPerl perl) {
+            List<string> archiveList = ArchiveList();
+
+            if (archiveList.Contains(perl.File)) {
+                return true;
+            }
+            
+            return false;
+        }
+        
+        public List<string> ArchiveList() {
+             DirectoryInfo archiveDir = new DirectoryInfo(archivePath);
+ 
+             List<FileInfo> zipFiles = archiveDir.GetFiles().ToList();
+
+             List<string> archiveFileNames = new List<string>();
+             
+             foreach (FileInfo file in zipFiles) {
+                 archiveFileNames.Add(file.Name);
+             }
+
+             return archiveFileNames;
+        }
+        
         public void Available(bool allPerls=false) {
             Message.Print("available_header");
 
@@ -300,8 +330,13 @@ namespace BerryBrew {
 
             RegistryKey registry = Registry.LocalMachine.OpenSubKey(registrySubKey);
 
-            rootPath = (string) registry.GetValue("root_dir", "");
-            rootPath += @"\";
+            storagePath = (string) registry.GetValue("storage_dir", "");
+            storagePath += @"\";
+
+            instancePath = (string) registry.GetValue("instance_dir", "");
+            instancePath += @"\";
+
+            snapshotPath = storagePath + @"snapshots\";
 
             archivePath = (string) registry.GetValue("temp_dir", "");
 
@@ -350,16 +385,16 @@ namespace BerryBrew {
             return true;
         }
 
-        private void CheckRootDir() {
-            if (Directory.Exists(rootPath)) {
+        private void CheckInstanceDir() {
+            if (Directory.Exists(instancePath)) {
                 return;
             }
 
             try {
-                Directory.CreateDirectory(rootPath);
+                Directory.CreateDirectory(instancePath);
             }
             catch (Exception err) {
-                Console.Error.WriteLine("\nCouldn't create install dir {0}. Please create it manually and run config again", rootPath);
+                Console.Error.WriteLine("\nCouldn't create install dir {0}. Please create it manually and run config again", instancePath);
                 if (Debug) {
                     Console.Error.WriteLine("DEBUG: {0}", err);
                 }
@@ -376,22 +411,15 @@ namespace BerryBrew {
                     CleanOrphan();
                     CleanModules();
                     CleanDev();
+                    CleanStaging();
+                    CleanTesting();
                     break;
-
-                case "build":
-                    cleansed = CleanBuild();
-                    Console.WriteLine(
-                        cleansed
-                        ? "\nremoved the staging build directory"
-                        : "\nan error has occured removing staging build directory"
-                    );
-                    break;
-
+                
                 case "dev":
                     cleansed = CleanDev();
                     Console.WriteLine(
                         cleansed
-                        ? "\nremoved the staging and testing directories"
+                        ? "\nremoved the staging and testing instance_dir directories"
                         : "\nan error has occured removing dev directories"
                     );
                     break;
@@ -412,69 +440,44 @@ namespace BerryBrew {
                     }
                     break;
 
+                case "staging":
+                    cleansed = CleanStaging();
+                    Console.WriteLine(
+                        cleansed
+                        ? "\nremoved the staging build directory"
+                        : "\nan error has occured removing staging build directory"
+                    );
+                    break;
+
                 case "temp":
                     cleansed = CleanTemp();
                     if (cleansed) {
-                        Console.WriteLine("\nremoved all files from {0} temp dir", rootPath);
+                        Console.WriteLine("\nremoved all files from {0} temp dir", instancePath);
                     }
                     else {
                         Console.WriteLine("\nno archived perl installation files to remove");
                     }
                     break;
+
+                case "testing":
+                    cleansed = CleanTesting();
+                    Console.WriteLine(
+                        cleansed
+                        ? "\nremoved the testing build directory"
+                        : "\nan error has occured removing testing build directory"
+                    );
+                    break;               
             }
-        }
-
-        private bool CleanBuild() {
-            string runMode = Options("run_mode", null, true);
-
-            if (runMode == "staging") {
-                Console.Error.WriteLine("\nCan't remove staging build dir while in staging run_mode. Use 'bin\\berrybrew clean dev' instead");
-                Exit(-1);
-            }
-
-            string stagingBuildDir = installPath;
-
-            stagingBuildDir += @"staging";
-
-            if (Debug) {
-                Console.WriteLine("DEBUG: staging dir: {0}", stagingBuildDir);
-            }
-            try {
-                if (Directory.Exists(stagingBuildDir)){
-                    FilesystemResetAttributes(stagingBuildDir);
-                    Directory.Delete(stagingBuildDir, true);
-                }
-            }
-            catch (Exception err) {
-                Console.Error.WriteLine("\nUnable to remove the staging build directory '{0}'", stagingBuildDir);
-                if (Debug) {
-                    Console.Error.WriteLine("DEBUG: {0}", err);
-                }
-            }
-
-            if (Directory.Exists(stagingBuildDir)) {
-                return false;
-            }
-
-            return true;
         }
 
         private bool CleanDev() {
-            string stagingDir = rootPath;
-            string testingDir = rootPath;
+            string stagingDir = instancePath;
+            string testingDir = instancePath;
 
             if (Testing) {
-                stagingDir = stagingDir.Replace("\\staging", "");
-                testingDir = testingDir.Replace("\\staging", "");
-                stagingDir = stagingDir.Replace("\\testing", "");
-                testingDir = testingDir.Replace("\\testing", "");
+                stagingDir = Regex.Replace(stagingDir, "testing", "staging");
             }
-
-            stagingDir += @"staging";
-            testingDir = string.Format(@"{0}testing", testingDir);
-
-            Console.WriteLine("{0}", stagingDir);
-
+            
             if (Debug) {
                 Console.WriteLine("DEBUG: staging dir: {0}", stagingDir);
                 Console.WriteLine("DEBUG: testing dir: {0}", testingDir);
@@ -517,7 +520,7 @@ namespace BerryBrew {
         }
 
         private bool CleanModules() {
-            string moduleDir = rootPath + "modules\\";
+            string moduleDir = storagePath + "modules\\";
 
             if (! Directory.Exists(moduleDir)) {
                 return true;
@@ -556,15 +559,50 @@ namespace BerryBrew {
         }
 
         private bool CleanOrphan() {
-            List<string> orphans = PerlOp.PerlFindOrphans();
+            List<string> orphans = PerlOp.PerlOrphansFind();
 
             foreach (string orphan in orphans) {
                 FilesystemResetAttributes(orphan);
-                Directory.Delete(rootPath + orphan, true);
+                Directory.Delete(instancePath + orphan, true);
                 Console.WriteLine("removed orphan {0} perl instance", orphan);
             }
 
             return orphans.Count > 0;
+        }
+
+        private bool CleanStaging() {
+            string runMode = Options("run_mode", null, true);
+
+            if (runMode == "staging") {
+                Console.Error.WriteLine("\nCan't remove staging build dir while in staging run_mode. Use 'bin\\berrybrew clean staging' instead");
+                Exit(-1);
+            }
+
+            string stagingBuildDir = installPath;
+
+            stagingBuildDir += @"staging";
+
+            if (Debug) {
+                Console.WriteLine("DEBUG: staging dir: {0}", stagingBuildDir);
+            }
+            try {
+                if (Directory.Exists(stagingBuildDir)){
+                    FilesystemResetAttributes(stagingBuildDir);
+                    Directory.Delete(stagingBuildDir, true);
+                }
+            }
+            catch (Exception err) {
+                Console.Error.WriteLine("\nUnable to remove the staging build directory '{0}'", stagingBuildDir);
+                if (Debug) {
+                    Console.Error.WriteLine("DEBUG: {0}", err);
+                }
+            }
+
+            if (Directory.Exists(stagingBuildDir)) {
+                return false;
+            }
+
+            return true;
         }
 
         private bool CleanTemp() {
@@ -585,10 +623,53 @@ namespace BerryBrew {
             return zipFiles.Count > 0;
         }
 
+        private bool CleanTesting() {
+            string runMode = Options("run_mode", null, true);
+
+            if (runMode == "testing") {
+                Console.Error.WriteLine("\nCan't remove testing build dir while in staging run_mode. Use 'bin\\berrybrew clean testing' instead");
+                Exit(-1);
+            }
+
+            string testingBuildDir = installPath;
+
+            testingBuildDir += @"testing";
+
+            Console.WriteLine("{0}", testingBuildDir);
+            if (Debug) {
+                Console.WriteLine("DEBUG: testing dir: {0}", testingBuildDir);
+            }
+            try {
+                if (Directory.Exists(testingBuildDir)){
+                    FilesystemResetAttributes(testingBuildDir);
+                    Directory.Delete(testingBuildDir, true);
+                }
+            }
+            catch (Exception err) {
+                Console.Error.WriteLine("\nUnable to remove the testing build directory '{0}'", testingBuildDir);
+                if (Debug) {
+                    Console.Error.WriteLine("DEBUG: {0}", err);
+                }
+            }
+
+            if (Directory.Exists(testingBuildDir)) {
+                return false;
+            }
+
+            return true;
+        }
+
         public void Clone(string sourcePerlName, string destPerlName) {
 
             if (! CheckName(destPerlName)) {
                 Exit(0);
+            }
+
+            Dictionary<string, bool> ignoredOrphans = PerlOp.PerlOrphansIgnore();
+
+            if (ignoredOrphans.ContainsKey(destPerlName)) {
+                 Console.Error.WriteLine("\nCan't clone to requested name '{0}'. It is a special name.", destPerlName);
+                 Exit((int)ErrorCodes.PERL_DIRECTORY_SPECIAL);
             }
 
             StrawberryPerl sourcePerl = new StrawberryPerl();
@@ -605,7 +686,8 @@ namespace BerryBrew {
             }
 
             string sourcePerlDir = sourcePerl.installPath;
-            string destPerlDir = rootPath + destPerlName;
+            string destPerlDir = instancePath + destPerlName;
+            
             DirectoryInfo src = new DirectoryInfo(sourcePerlDir);
 
             if (! src.Exists) {
@@ -669,16 +751,36 @@ namespace BerryBrew {
 
         public void Download(string versionString) {
             List<string> available = AvailableList(false);
-
+            
             if (versionString == "all") {
                 foreach (string version in available) {
                     StrawberryPerl perl = PerlOp.PerlResolveVersion(version);
-                    Fetch(perl);
+
+                    if (! ArchiveAvailable(perl)) {
+                        Fetch(perl);
+                    }
+                    else {
+                        Console.WriteLine(
+                            "\nArchive file {0} for version {1} already exists... not downloading", 
+                            perl.File,
+                            version
+                        );                       
+                    }
                 }
             }
             else {
                 StrawberryPerl perl = PerlOp.PerlResolveVersion(versionString);
-                Fetch(perl);
+
+                if (! ArchiveAvailable(perl)) {
+                    Fetch(perl);
+                }
+                else {
+                    Console.WriteLine(
+                        "\nArchive file {0} for version {1} already exists... not downloading", 
+                        perl.File,
+                        versionString
+                    );
+                }               
             }
         }
 
@@ -868,7 +970,7 @@ namespace BerryBrew {
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo {WindowStyle = ProcessWindowStyle.Hidden};
 
-            string moduleDir = rootPath + "modules\\";
+            string moduleDir = storagePath + "modules\\";
 
             if (! Directory.Exists(moduleDir)) {
                 Directory.CreateDirectory(moduleDir);
@@ -1101,7 +1203,7 @@ namespace BerryBrew {
         }
 
         public void ImportModules(string version="") {
-            string moduleDir = rootPath + "modules\\";
+            string moduleDir = storagePath + "modules\\";
 
             if (! Directory.Exists(moduleDir)) {
                 Directory.CreateDirectory((moduleDir));
@@ -1179,7 +1281,15 @@ namespace BerryBrew {
         }
 
         public void Info(string want) {
-            List <string> options = new List<string>(){"install_path", "bin_path", "root_path", "archive_path"};
+            List <string> options = new List<string>() {
+                "install_path", 
+                "config_path",
+                "bin_path", 
+                "storage_path",
+                "instance_path",
+                "archive_path", 
+                "snapshot_path"
+            };
 
             if (! options.Contains(want)) {
                 Console.Error.WriteLine("\n'{0}' is not a valid option. Valid options are:\n", want);
@@ -1193,14 +1303,23 @@ namespace BerryBrew {
                 case "install_path":
                     Console.WriteLine("\n\t{0}", installPath);
                     break;
+                case "config_path":
+                    Console.WriteLine("\n\t{0}", configPath);
+                    break;               
                 case "bin_path":
                     Console.WriteLine("\n\t{0}", binPath);
                     break;
-                case "root_path":
-                    Console.WriteLine("\n\t{0}", rootPath);
+                case "storage_path":
+                    Console.WriteLine("\n\t{0}", storagePath);
+                    break;                
+                case "instance_path":
+                    Console.WriteLine("\n\t{0}", instancePath);
                     break;
                 case "archive_path":
                     Console.WriteLine("\n\t{0}", archivePath);
+                    break;
+                case "snapshot_path":
+                    Console.WriteLine("\n\t{0}", snapshotPath);
                     break;
                 default:
                     Console.Error.WriteLine("\nCould not fetch details for '{0}'", want);
@@ -1294,6 +1413,7 @@ namespace BerryBrew {
                             Exit((int)ErrorCodes.PERL_VERSION_ALREADY_REGISTERED);
                         }
                     }
+
                     perlList.Add(perl);
                 }
                 jsonString = JsonConvert.SerializeObject(perlList, Formatting.Indented);
@@ -1522,7 +1642,7 @@ namespace BerryBrew {
         }
 
         public void OrphanedPerls() {
-            List<string> orphans = PerlOp.PerlFindOrphans();
+            List<string> orphans = PerlOp.PerlOrphansFind();
 
             if (orphans.Count > 0 && ! bypassOrphanCheck) {
                 Message.Print("perl_orphans");
@@ -1547,6 +1667,207 @@ namespace BerryBrew {
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.UseShellExecute = false;
             return process;
+        }
+        
+        public void SnapshotCompress(string instanceName, string snapshotName = null) {
+            SnapshotInit();
+            List<StrawberryPerl> installedPerls = PerlOp.PerlsInstalled();
+ 
+            bool instanceFound = false;
+
+            foreach (StrawberryPerl installedPerl in installedPerls) {
+                if (installedPerl.Name == instanceName) {
+                    instanceFound = true;
+                }
+            }
+
+            if (! instanceFound) {
+                Console.Error.WriteLine("\nPerl instance {0} not found", instanceName);
+                Exit((int)ErrorCodes.PERL_UNKNOWN_VERSION);           
+            }
+
+            StrawberryPerl perl = PerlOp.PerlResolveVersion(instanceName);
+            
+            string snapshotFile = "";
+            
+            if (snapshotName == null) {
+                string timeStamp = DateTime.Now.ToString("yyyyMMddHHmmss"); 
+                snapshotFile = perl.Name + @"." + timeStamp;
+            }
+            else {
+                snapshotFile = snapshotName;
+            }
+
+            if (! Regex.Match(snapshotFile, @".zip$").Success) {
+                snapshotFile = snapshotFile + @".zip";
+            }
+
+            snapshotFile = snapshotPath + snapshotFile;
+
+            Console.WriteLine(
+                "Creating snapshot of perl '{0}' to file '{1}'",
+                perl.Name,
+                snapshotFile
+            );
+            
+            FastZip _FastZip = new FastZip();
+            _FastZip.CreateZip(snapshotFile, perl.installPath, true, "");
+        }
+
+        public void SnapshotExtract(string snapshotName, string instanceName = null) {
+            SnapshotInit();
+
+            if (instanceName == null) {
+                // Remove the timestamp 
+                instanceName = Regex.Replace(snapshotName, @".\d{14}", "");
+            }
+            else {
+                Dictionary<string, bool> ignoredOrphans = PerlOp.PerlOrphansIgnore();
+
+                if (ignoredOrphans.ContainsKey(instanceName)) {
+                     Console.Error.WriteLine("\nCan't extract snapshot archive to requested instance name '{0}'. It is a special name.", instanceName);
+                     Exit((int)ErrorCodes.PERL_DIRECTORY_SPECIAL);
+                }               
+            }
+
+            List<string> perlsAvailable = AvailableList();
+
+            if (perlsAvailable.Contains(instanceName)) {
+                Console.Error.WriteLine(
+                    "\nname portion ({0}) of snapshot ({1}) can't match an existing official perl name. You must specify an alternate instance name",
+                    instanceName,
+                    snapshotName
+                );
+                Exit((int) ErrorCodes.PERL_NAME_COLLISION);
+            }
+        
+            List<StrawberryPerl> installedPerls = PerlOp.PerlsInstalled();
+ 
+            foreach (StrawberryPerl installedPerl in installedPerls) {
+                if (installedPerl.Name == instanceName) {
+                    Console.Error.WriteLine(
+                        "\nPerl instance name '{0}' already installed...",
+                        instanceName 
+                    );
+                    Exit((int) ErrorCodes.PERL_ALREADY_INSTALLED);                   
+                }
+            }
+            
+            ZipFile zf = null;
+
+            try {
+                string snapshotFile = snapshotPath + snapshotName + @".zip";
+
+                if (! File.Exists(snapshotFile)) {
+                    Console.Error.WriteLine(
+                        "\nSnapshot file {0} can't be found is the {1} name correct?",
+                        snapshotFile,
+                        snapshotName
+                    );
+                    Exit((int) ErrorCodes.FILE_NOT_FOUND_ERROR);
+                }
+
+                string instanceInstallDir = instancePath + instanceName;
+
+                if (Directory.Exists(instanceInstallDir)) {
+                    Console.Error.WriteLine(
+                        "\nDirectory {0} already exists. Can't extract snapshot {1} to perl instance name '{2}'\n",
+                        instanceInstallDir,
+                        snapshotFile,
+                        instanceName
+                    );
+                    Exit((int) ErrorCodes.DIRECTORY_ALREADY_EXIST);                       
+                }
+
+                Console.WriteLine("Extracting snapshot '{0}' from file {1} to {2}\n",
+                    snapshotName,
+                    snapshotFile,
+                    instanceInstallDir
+                );
+
+                FileStream fs = File.OpenRead(snapshotFile);
+                zf = new ZipFile(fs);
+
+                foreach (ZipEntry zipEntry in zf) {
+                    if (!zipEntry.IsFile) {
+                        continue;
+                    }
+
+                    string entryFileName = zipEntry.Name;
+
+                    byte[] buffer = new byte[4096]; // 4K is optimum
+                    Stream zipStream = zf.GetInputStream(zipEntry);
+                    
+   
+                    string fullZipToPath = Path.Combine(instanceInstallDir, entryFileName);
+                    string directoryName = Path.GetDirectoryName(fullZipToPath);
+
+                    if (! string.IsNullOrEmpty(directoryName)) {
+                        Directory.CreateDirectory(directoryName);
+                    }
+                    else {
+                        Console.Error.WriteLine(
+                            "\nCould not get the zip archive's directory name.\n");
+                        Exit((int) ErrorCodes.ARCHIVE_PATH_NAME_NOT_FOUND);
+                    }
+
+                    using (FileStream
+                        streamWriter = File.Create(fullZipToPath)) {
+                        ICSharpCode.SharpZipLib.Core.StreamUtils.Copy(zipStream,
+                            streamWriter, buffer);
+                    }
+                }
+            }
+            finally {
+                if (zf != null){
+                    zf.IsStreamOwner = true;
+                    zf.Close();
+                }
+            }
+
+            PerlOp.PerlRegisterCustomInstall(instanceName);
+        }
+
+        private void SnapshotInit() {
+            if (!Directory.Exists(snapshotPath)) {
+                try {
+                    Directory.CreateDirectory(snapshotPath);
+                }
+                catch (Exception err) {
+                    Console.Error.WriteLine(
+                        "\nCouldn't create snapshot dir {0}. Please create it manually and run your command again",
+                        snapshotPath
+                    );
+                    
+                    if (Debug) {
+                        Console.Error.WriteLine("DEBUG: {0}", err);
+                    }
+
+                    Exit((int) ErrorCodes.DIRECTORY_CREATE_FAILED);
+                }
+            }
+        }
+
+        public void SnapshotList() {
+            SnapshotInit();
+
+            string[] files = Directory.GetFiles(snapshotPath);
+
+            if (files.Length == 0) {
+                Console.WriteLine("no snapshots have been saved...");
+            }
+            else {
+                Console.WriteLine(
+                    "snapshot directory {0} has the following snapshots...\n",
+                    snapshotPath
+                );
+
+                foreach (string file in files) {
+                    string fileName = Path.GetFileName(file);
+                    fileName = Regex.Replace(fileName, @".zip", "");
+                    Console.WriteLine("\t{0}", fileName);
+                }
+            }
         }
 
         public void Switch(string switchToVersion, bool switchQuick=false) {
@@ -1761,7 +2082,7 @@ namespace BerryBrew {
         }
 
         public string Version() {
-            return @"1.39";
+            return @"1.40";
         }
     }
 }

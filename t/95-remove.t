@@ -26,8 +26,8 @@ like $o, qr/berrybrew perl disabled/, "off ok";
 my $path_key = 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment\Path';
 my $path = $Registry->{$path_key};
 
-unlike $path, qr/^C:\\berrybrew\\testing/, "PATH set ok for 'off'";
-unlike $path, qr/^C:\\berrybrew\\staging/, "PATH set ok for 'off'";
+unlike $path, qr/^C:\\berrybrew-testing/, "PATH set ok for 'off'";
+unlike $path, qr/^C:\\berrybrew-staging/, "PATH set ok for 'off'";
 
 for (@installed){
     note "\nRemoving $_...\n";
@@ -37,6 +37,7 @@ for (@installed){
 
 @installed = BB::get_installed();
 
-is @installed, 0, "all perls removed";
+is scalar @installed, 0, "all perls removed";
+
 
 done_testing();

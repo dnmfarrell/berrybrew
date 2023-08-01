@@ -13,7 +13,8 @@ Most options are also configurable through the UI.
 |Directive|Description|
 |---|--|   
 |[debug](#debug)|Enable/disable debugging|
-[root_dir](#root_dir)|Location of the Perl installations|
+[storage_dir](#storage_dir)|Top level directory for Perl instance management|
+[instance_dir](#instance_dir)|Location of the Perl installations|
 [temp_dir](#temp_dir)|Location of `berrybrew` temporary files|
 [strawberry_url](#strawberry_url)|The Strawberry Perl website|
 [download_url](#download_url)|The URL for the Strawberry release JSON file|
@@ -54,11 +55,18 @@ Default: `false`
 
 Values: "true" or "false"
 
+##### storage_dir
+
+Top level directory for the `berrybrew` environments Perl instance management
+data.
+
+Default: `C:\berrybrew`
+
 ##### root_dir
 
 Directory where we'll house all of your Perl installations. 
 
-Default: `C:\berrybrew`
+Default: `C:\berrybrew\instance`
 
 Values: Any directory accessible on the system.
 
@@ -176,3 +184,5 @@ Example of the file's contents:
             "csum" : "6c750c56a4eccf3b5f77af56e4cee572c360a1c2"
         }
     ]
+
+&copy; 2016-2023 by Steve Bertrand

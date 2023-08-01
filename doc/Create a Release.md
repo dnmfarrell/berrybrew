@@ -31,6 +31,7 @@ necessary
     - Collect the JSON configuration files from the `dev\data` directory
     - Build the bundled zip archive, and places it into the `download/`
     directory
+    - Verifies the manifest of files installed/uninstalled are correct
     - Updates the MSI installer script with berrybrew and perl version info
     - Creates the MSI installer program
     - Perform SHA checksum tasks on the new zip archive and MSI installer
@@ -41,7 +42,12 @@ necessary
     `Version()` method
     - Sets the date in the Changes file for the release version      
     - Creates a Markdown version of the Changes file
-    
+
+- **Test the installer**: Run the installer by executing the `bin\berrybrewInstaller.exe`
+binary. Ensure `berrybrew` works correctly. Then, uninstall it via Add/Remove
+programs. Ensure the `C:\Program Files (x86)\berrybrew` directory no longer
+exists
+ 
 - If you had any custom configuration files in place before running the
 `dev\release.pl` script, run `perl dev\release_post.pl` to put them back to
 their proper location
@@ -112,3 +118,5 @@ new version branch
 - Run all unit tests
 
 - Repeat this Release Cycle
+
+&copy; 2016-2023 by Steve Bertrand

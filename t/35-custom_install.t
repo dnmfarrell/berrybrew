@@ -60,7 +60,7 @@ for my $base (<$fh>){
 
     like $o, qr/Switched to Perl version $ver/, "switch to custom install ok";
     $path = $Registry->{$path_key};
-    like $path, qr/C:\\berrybrew\\testing\\$ver/, "PATH set ok for $ver";
+    like $path, qr/C:\\berrybrew-testing\\instance\\$ver/, "PATH set ok for $ver";
 }
 
 {
@@ -68,7 +68,7 @@ for my $base (<$fh>){
     like $o, qr/berrybrew perl disabled/, "off ok";
 
     my $path = $Registry->{$path_key};
-    unlike $path, qr/^C:\\berrybrew\\testing/, "PATH set ok for 'off'";
+    unlike $path, qr/^C:\\berrybrew-testing\\instance/, "PATH set ok for 'off'";
 }
 
 { # clone unknown

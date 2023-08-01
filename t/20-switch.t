@@ -27,47 +27,71 @@ $err = BB::trap("$c switch xx");
 is $? >> 8, BB::err_code('PERL_UNKNOWN_VERSION'), "exit status ok for unknown perl ver";
 like $err, qr/Unknown version of Perl/, "...and STDERR is sane";
 
-my @installed = BB::get_installed();
-my @avail = BB::get_avail();
-
-while(@installed < 2) {
-    note "\nInstalling $avail[-1] because only " .scalar(@installed). " test perl".(@installed==1?' was':'s were')." installed\n";
-    `$c install $avail[-1]`;
-
-    @installed = BB::get_installed();
-    @avail = BB::get_avail();
-}
-
 {
-    my $ver = $installed[-1];
+    my $ver = '5.8.9_32';
+    
+    if (! installed($ver)) {
+        note "# installing $ver";
+        `$c install $ver`;
+    }
 
     $o = `$c switch $ver`;
     like $o, qr/Switched to Perl version $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
-    like $path, qr/C:\\berrybrew\\testing\\$ver/, "PATH set ok for $ver";
+    like $path, qr/C:\\berrybrew-testing\\instance\\$ver/, "PATH set ok for $ver";
+
+    `$c remove $ver`;
+    
+    is installed($ver), 0, "$ver removed ok";
 }
 
 {
-    my $ver = $installed[-2];
-
+    my $ver = '5.10.1_32';
+    
+    if (! installed($ver)) {
+        note "# installing $ver";
+        `$c install $ver`;
+    }
+    
     $o = `$c switch $ver`;
     like $o, qr/Switched to Perl version $ver/, "switch to good $ver ok";
 
     $path = $Registry->{$path_key};
-    like $path, qr/C:\\berrybrew\\testing\\$ver/, "PATH set ok for $ver";
+    like $path, qr/C:\\berrybrew-testing\\instance\\$ver/, "PATH set ok for $ver";
+
+    `$c remove $ver`;
+    is installed($ver), 0, "$ver removed ok";
 }
 
 {
-    $o = `$c switch 5.16.3`;
+    my $ver = '5.16.3';
+    
+    if (! installed($ver)) {
+        note "# installing $ver";
+        `$c install $ver`;
+    }
+    
+    $o = `$c switch $ver`;
     like $o, qr/Switched to Perl version 5\.16\.3_64/, "switch to 5.16.3_64 without suffix ok";
 
     $path = $Registry->{$path_key};
-    like $path, qr/C:\\berrybrew\\testing\\5\.16\.3_64/, "PATH set ok for 5.16.3_64";
+    like $path, qr/C:\\berrybrew-testing\\instance\\5\.16\.3_64/, "PATH set ok for 5.16.3_64";
 
-    $o = `$c remove 5.16.3`;
+    $o = `$c remove $ver`;
     like $o, qr/Successfully removed.*5\.16\.3_64/, "removed 5.16.3_64 without suffix ok";
 
+    is installed($ver), 0, "$ver removed ok";
 }
 
 done_testing();
+
+sub installed {
+    my ($ver) = @_;
+    
+    my %installed = map { $_ => 1 } BB::get_installed();
+    
+    return exists $installed{$ver}
+        ? 1
+        : 0;
+}

@@ -1,5 +1,73 @@
 Revision history for berrybrew
 
+1.40    2023-08-01
+    - Add file comparison routine in release script that compares a MANIFEST to
+      the repo directory structure, and the MANIFEST to the installer script.
+      This ensures that we aren't missing (or trying to include extra) files in
+      the installer we don't want (closes #258)
+    - Installer manifest check now also ensures that files installed are also
+      listed as files to delete upon uninstall (closes #333)
+    - Added "Testing the Installer" to Unit Test doc (closes #331)
+    - Removed all CS library includes that aren't required (closes #329) 
+    - Release script now updates the copyright year in all files in `doc/`
+      (closes #324)
+    - Added snapshot framework (`snapshot` command, `SnapshotInfo()`,
+      `SnapshotCompress()`, `SnapshotExtract()` and `SnapshotList()`
+      (work on #185)
+    - Fix major previously unknown bug where if at least two custom or virtual
+      perls were installed, removing one would cause the writing of
+      `perls_custom.json` (or `perls_virtual.json`) to fail, due to the values
+      of the Strawbery Perl object being `null`. This raised an exception. Fix
+      was to set the properties of the object to an empty string if the
+      attempted assignment was null (eg. `data["url"] 	= perlBase.Url ?? "";`).
+      We now also set the `Version` property to `0.0.0` in custom/virtual
+      installs so the sorting of versions in `JsonWrite()` get all three version
+      sections (when it didn't, it too was causing an exception to be raised).
+      (fixes #335)
+    - Completed `berrybrew snapshot` (aka `archive`). Allows a user to save zip
+      archives of perl instances with custom file names, and re-import them
+      with the same, or a custom instance name (closes #185)
+    - Renamed `PerlFindOrphans()` to `PerlOrphansFind()`
+    - Add `PerlOrphansIgnore()`, returns a list (dict) of directories we shall
+      not classify as orphaned perl instances
+    - Add `berrybrew orphans-ignored` hidden command. Displays the list of
+      directories we won't classify as orphans (closes #334)
+    - Add tests to ensure that both BB::error_codes() and the Berrybrew API
+      `ErrCodes` enum have the same data
+    - `staging` environment now uses `c:\berrybrew-staging` and `testing` uses
+      `c:\berrybrew-testing`. This is to prevent polluting the production
+      storage location with orphans we have to ignore (closes #344)
+    - Perl instance `root_dir` (aka `rootPath`) is now an `instance` subdir of
+      `c:\berrybrew`, instead of putting them in the root of that dir. Prevents
+      orphan collisions (same for the staging and testing environments
+      (closes #344)
+    - Renamed `clean build` to `clean staging`, and `CleanBuild()` to
+      `CleanStaging()`
+    - Added `clean testing` and `CleanTesting()` to wipe the dev testing build
+      directory
+    - Added `dev\build_prod.bat`, production berrybrew build (closes #342)
+    - Because we now house berrybrew instance perl instances in separate
+      directories than the root of `c:\berrybrew`, we removed all the previous
+      `PerlOp.PerlOrphansIgnore()` entries. To this end, for unit testing
+      purposes, we now return one if the `BB.Testing` flag is set (closes #345)
+    - We now disallow cloning/snapshotting to any reserved special data
+      directories (`PerlOp.PerlOrphansIgnore()`) (closes #341)
+    - Added `berrybrew archives` hidden command and `BB.ArchiveList()`. Returns
+      the list of previously downloaded Perl instance archive/zip files
+    - Added `BB.ArchiveAvailable()`; Checks whether an archive file already
+      exists on the file system for a given perl instance
+    - `berrybrew download` will now only fetch an archive of a perl instance if
+      it isn't already on disk (closes #336)
+    - Renamed `root_dir` option to `instance_dir`, and added new `storage_dir`
+      option which is the top level environment data storage directory
+      (closes #351)
+    - Refactor all unit test scripts to conform to the new directory structure
+      and new/renamed option directives/values
+    - Small tweaks and changes to ensure UI and installer behave properly after
+      the major changes in this version (closes #352)
+    - Fix missing `$installer_script` parameter when building the installer in
+      `release.pl`
+
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"

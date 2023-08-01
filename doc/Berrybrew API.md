@@ -37,18 +37,21 @@ The `Berrybrew` class is the base of the system.
 
 |Method name| Available  |Description|
 |---|------------|---|
+[ArchiveAvailable](#archiveavailable)| **public** | Checks whether the archive/zip file of a given Perl instance is available
+[ArchiveList](#archivelist)| **public** | Returns a list of all Perl instance archive/zip files already downloaded
 [Available](#available)| **public** | Displays all available Perls
 [AvailableList](#availablelist)| **public** | Returns a list of available Perl names
 [BaseConfig](#baseconfig)| private    | Initializes the registry-based configuration
 [BitSuffixCheck](#bitsuffixcheck)| **public** | Adds the `_64` bit suffix if required to a Perl name
+[CheckInstanceDir](#checkinstancedir)| private    | Creates the Perl install directory if required
 [CheckName](#checkname)| **public** | Validates the name of a custom Perl install
-[CheckRootDir](#checkrootdir)| private    | Creates the Perl install directory if required
 [Clean](#clean) | **public** | Stages removal of temp files and orphaned Perls
-[CleanBuild](#cleanbuild) | private    | Remove the developer's `staging` build directory 
 [CleanDev](#cleandev) | private    | Remove the developer's `staging` and `testing` **data** directories
 [CleanModules](#cleanmodules) | private    | Removes the directory where we store exported module lists
 [CleanOrphan](#cleanorphan)| private    | Removes all orphaned Perls
+[CleanStaging](#cleanstaging) | private    | Remove the developer's `staging` build directory
 [CleanTemp](#cleantemp)| private    | Removes temporary files
+[CleanTesting](#cleanTesting) | private    | Remove the developer's `testing` build directory
 [Clone](#clone)| **public** | Copies an installed Perl to a new name
 [Config](#config)| **public** | Puts `berrybrew.exe` in `PATH`
 [Download](#download)| **public** | Downloads one or all available versions of portable Strawberry Perls
@@ -73,6 +76,10 @@ The `Berrybrew` class is the base of the system.
 [OptionsUpdate](#optionsupdate)| **public** | Update registry configuration with new directives
 [OrphanedPerls](#orphanedperls)| **public** | Displays the list of orphaned perls 
 [ProcessCreate](#processcreate)| **public** | Creates and returns a Windows cmd process
+[SnapshotCompress](#snapshotcompress) | Zips and saves an archive of a Perl instance
+[SnapshotExtract](#snapshotextract) | Unzips, installs and registered a previously saved snapshot
+[SnapshotInit](#snapshotinit)| private | Checks for the snapshot storage directory, creates if necessary
+[SnapshotList](#snapshotlist) | Lists all previously saved snapshots
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
 [SwitchQuick](#switchquick) | **public** | Called by `Switch()`, sets up the new environment
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
@@ -116,11 +123,12 @@ Manages all operations necessary to maintain the Strawberry Perl instances.
 |Method name| Available  |Description|
 |---|------------|---|
 [PerlArchivePath](#perlopperlarchivepath)| internal   | Returns the path and filename of the zip file
-[PerlFindOrphans](#perlopperlfindorphans)| internal   | Locates non-registered directories in Perl root
 [PerlGenerateObjects](#perlopperlgenerateobjects)| internal   | Generates the `StrawberryPerl` class objects
 [PerlInUse](#perlopperlinuse)| **public** | Returns the object that represents Perl currently in use
 [PerlIsInstalled](#perlopperlisinstalled)| internal   | Checks if a specific Perl is installed
 [PerlsInstalled](#perlopperlsinstalled)| **public** | Fetches the list of Perls installed
+[PerlOrphansFind](#perlopperlorphansfind)| internal   | Locates non-registered directories in Perl root
+[PerlOrphansIgnore](#perlopperlorphansignore)| **public** | Returns a list (dict) of directories that are never orphans. 
 [PerlRegisterCustomInstall](#perlopperlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
 [PerlRegisterVirtualInstall](#perlopperlregistervirtualinstall)| **public** | Make `berrybrew` aware of external Perls
 [PerlRemove](#perlopperlremove)| **public** | Uninstalls a specific instance of Perl
@@ -172,6 +180,27 @@ Its source file is `src/perlinstance.cs` and its namespace is
 
 ## Berrybrew Class Methods
 
+#### ArchiveAvailable
+
+    public bool ArchiveAvailable(StrawberryPerl perl)
+
+        argument:   perl
+        value:      StrawberryPerl class object
+
+        returns:    bool
+
+Checks whether the archive/zip file for the given Perl instance is still
+available on the system.
+
+If it is, we return `true`, otherwise the return will be `false`.
+
+#### ArchiveList
+
+    public List<string> ArchiveList()
+
+Returns the list of all Perl instance archive/zip files that we have previously
+downloaded and saved in the `temp` directory.
+
 #### Available
 
     public void Available(allPerls=false)
@@ -219,6 +248,12 @@ Checks if the name of the Perl sent in contains a bit suffix, and if not, adds
 `_64`, and returns the updated name. This allows you to omit the suffix on the
 command line when desiring a 64-bit version of Perl.
 
+#### CheckInstanceDir
+
+    private void CheckInstanceDir()
+
+Checks whether the Perl root installation directory exists, and creates it if not.
+
 #### CheckName
 
     public static bool CheckName(string perlName)
@@ -229,12 +264,6 @@ command line when desiring a 64-bit version of Perl.
         return:     true on success, false on fail
 
 Checks the name of a custom Perl to ensure it fits within the guidelines.
-
-#### CheckRootDir
-
-    private void CheckRootDir()
-
-Checks whether the Perl root installation directory exists, and creates it if not.
 
 #### Clean
 
@@ -247,14 +276,6 @@ By default, `subcmd` is set to "temp", which we delete all downloaded Perl
 installation zip files from the temporary directory. With "orphan", we'll
 delete all directories found in the Perl installation root directory that
 `berrybrew` has not registered as valid Perl installs.
-
-#### CleanBuild
-
-    private bool CleanBuild()
-
-Removes the developer's `staging` build directory located in the repository.
-
-Returns `true` if the directory was removed successfully or `false` otherwise.
 
 #### CleanDev
 
@@ -283,6 +304,14 @@ associated with any registered Perl instances.
 
 Returns `true` if any orphans were found/deleted, `false` if not.
 
+#### CleanStaging
+
+    private bool CleanStaging()
+
+Removes the developer's `staging` build directory located in the repository.
+
+Returns `true` if the directory was removed successfully or `false` otherwise.
+
 #### CleanTemp
 
     private bool CleanTemp()
@@ -290,6 +319,12 @@ Returns `true` if any orphans were found/deleted, `false` if not.
 Removes all Perl installation zip files from the temporary staging directory.
 
 Returns `true` if any files were found/deleted, `false` if not.
+
+#### CleanTesting
+
+    private bool CleanTesting()
+
+Removes the developer's `testing` build directory located in the repository.
 
 #### Clone
 
@@ -629,6 +664,45 @@ Prints to `STDOUT` the list of Perl instances that aren't registered with
 
 Builds and returns a process ready to be modified or have `Start()` called on it.
 
+#### SnapshotCompress
+
+    public void SnapshotCompress(string instanceName, string snapshotName = null)
+
+        argument:   instanceName
+        value:      String containing the perl instance name to archive
+
+        argument:   snapshotName
+        value:      String containing an optional, desired name for the snapshot
+        default:    The name of the Perl instance, with an appended timestamp
+
+Creates a zip archive file (snapshot) of an existing Perl instance. Saves it to
+`snapshotPath`.
+
+#### SnapshotExtract
+
+    public void SnapshotExtract(string snapshotName, string instanceName = null)
+
+        argument:   snapshotName
+        value:      The name of the snapshot to install (use `berrybrew snapshot list`)
+
+        argument:   instanceName
+        value:      The name you want to assign to the Perl instance
+        default:    The name of the snapshot
+
+Unzips, installs and registers a previously archived snapshot.
+
+#### SnapshotInit
+
+    private void SnapshotInit()
+
+Checks that the `snapshotPath` directory exists, and creates it if not.
+
+#### SnapshotList()
+
+    public void SnapshotList()
+
+Displays the names of all previously saved snapshots.
+
 #### Switch
 
     public void Switch(string perlVersion, bool switchQuick=false)
@@ -890,15 +964,6 @@ preserve and insert variable-based `PATH` entries.
 
 Creates the directory that will house a new Perl installation.
 
-#### PerlOp.PerlFindOrphans
-
-    internal List<string> PerlFindOrphans()
-
-        returns:    List of the names of orphaned Perl installs found
-
-Gathers a list of directory names in the Perl installation directory, that
-don't have any association or registration with `berrybrew`.
-
 #### PerlOp.PerlGenerateObjects
 
     internal List<StrawberryPerl> PerlGenerateObjects(bool importIntoObject=false)
@@ -947,6 +1012,23 @@ Fetches the list of currently installed Perl instances, and returns a list of ob
 
 Removes the Perl instance corresponding to the name sent in.
 
+#### PerlOp.PerlOrphansFind
+
+    internal List<string> PerlOrphansFind()
+
+        returns:    List of the names of orphaned Perl installs found
+
+Gathers a list of directory names in the Perl installation directory, that
+don't have any association or registration with `berrybrew`.
+
+#### PerlOp.PerlOrphansIgnore
+
+    internal Dictionary<string, bool> PerlOrphansIgnore()
+
+Returns a dictionary where each key is a subdirectory within the Perl `rootDir`
+that should never be classified as an orphan. The value is ignored, but all
+default to `true`.
+
 #### PerlOp.PerlRegisterCustomInstall
 
     public void PerlRegisterCustomInstall(
@@ -956,18 +1038,18 @@ Removes the Perl instance corresponding to the name sent in.
 
         argument:   perlName
         value:      The name you want to use for this new install, which will
-                    appear in "berrybrew available"
+                    appear in "berrybrew list" and "berrybrew available"
 
         argument:   perlBase
         value:      Instance of the StrawberryPerl class
         default:    A non-populated instance
 
 Registers custom Perl instances with `berrybrew`, so they appear in
-`berrybrew available` and aren't considered orphans.
+`berrybrew list` and `berrybrew available` and aren't considered orphans.
 
 If a populated instance is sent in as `perlBase`, we'll use its configuration
-information (version, path info, download info etc) in the new custom one. Be
-sure if you do this that the base and the new custom instances are the same
+information (version, path info, download info etc) in the new custom one. If
+you do this, be sure that the base and the new custom instances are the same
 version.
 
 #### PerlOp.PerlRegisterVirtualInstall
@@ -1017,4 +1099,4 @@ updates the internal `perls.json` available list with the updated data.
 Automatically register any orphaned Perls after using the `Fetch()` method. This
 should only be called after a call to `PerlUpdateAvailableList()`.
 
-&copy; 2016-2021 by Steve Bertrand
+&copy; 2016-2023 by Steve Bertrand
