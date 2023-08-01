@@ -65,6 +65,8 @@ Revision history for berrybrew
       and new/renamed option directives/values
     - Small tweaks and changes to ensure UI and installer behave properly after
       the major changes in this version (closes #352)
+    - Fix missing `$installer_script` parameter when building the installer in
+      `release.pl`
 
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
