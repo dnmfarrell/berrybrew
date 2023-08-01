@@ -109,12 +109,12 @@ steps and procedures to complete the tasks.
 |-------------------------------------------------------------------|----------------------------|
 | [Add a new class (API)](Add%20a%20New%20Class.md)                 | Add a new class to the API | 
 | [Add a new command (binary)](Add%20a%20New%20Binary%20Command.md) | Add a new command to `berrybrew.exe` |
-| [Add a new API method](Add%20a%20New%20API%20Method.md) | Add a method to an API related source file |
-| [Modify an API method](Modify%20an%20API%20Method.md) | Modify an existing API method |
+| [Add a new API method](Add%20a%20New%20API%20Method.md)           | Add a method to an API related source file |
+| [Modify an API method](Modify%20an%20API%20Method.md)             | Modify an existing API method |
 | [Modify a binary command](Modify%20a%Binary%20Command.md)         | Modify an existing binary command (add/change subcmd, options etc) |
-| [Add a new config option](Add%20a%20New%20Config%20Option.md) | Add a new configuration option |
-| [Modify a config option](Modify%20a%20Config%20Option.md) | Modify an existing configuration option |
-| [Add an error code](Add%20an%20error%20code.md) | Add a new error code |
+| [Add a new config option](Add%20a%20New%20Config%20Option.md)     | Add a new configuration option |
+| [Modify a config option](Modify%20a%20Config%20Option.md)         | Modify an existing configuration option |
+| [Add an exit code](Add%20an%20error%20code.md)                    | Add a new error code |
 | [Add a new message section](Add%20a%20new%20message%20section.md) | Add a new `Message` class section |
 
 &copy; 2016-2023 by Steve Bertrand
