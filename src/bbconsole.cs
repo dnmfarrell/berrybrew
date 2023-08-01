@@ -77,7 +77,6 @@ namespace berrybrew {
                     bb.Exit(0);
                     break;
 
-
                 case "associate":
                     if (args.Length > 1) {
                         if(args[1] == "-h" || args[1] == "help") {
