@@ -9,6 +9,7 @@
 - [API Only](#api-only)
 - [User Interface](#user-interface)
 - [Production Build for Testing](#production-build)
+- [Adding to and Modifying the Codebase](#adding-to-and-modifying-the-codebase)
  
 During development, it's handy to be able to ensure the code builds and works
 correctly without overwriting the currently-installed production installation.
@@ -96,5 +97,23 @@ operates out of the `bin\` directory (ie. `bin\berrybrew.exe`).
 The production installer can be built using the `dev\build_prod_installer.bat`
 script. The resulting installer binary will be located in
 `download\berrybrewInstaller.exe`.
+
+#### Adding to and Modifying the Codebase
+
+This section lists the main typical changes that occur when developing
+`berrybrew`, each links to its own dedicated documentation that outlines the
+steps and procedures to complete the tasks.
+
+| Task                                                              | Description                |
+|-------------------------------------------------------------------|----------------------------|
+| [Add a new class (API)](Add%20a%20New%20Class.md)                 | Add a new class to the API | 
+| [Add a new command (binary)](Add%20a%20New%20Binary%20Command.md) | Add a new command to `berrybrew.exe` |
+| [Add a new API method](Add%20a%20New%20API%20Method.md) | Add a method to an API related source file |
+| [Modify an API method](Modify%20an%20API%20Method.md) | Modify an existing API method |
+| [Modify a binary command](Modify%20a%Binary%20Command.md)         | Modify an existing binary command (add/change subcmd, options etc) |
+| [Add a new config option](Add%20a%20New%20Config%20Option.md) | Add a new configuration option |
+| [Modify a config option](Modify%20a%20Config%20Option.md) | Modify an existing configuration option |
+| [Add an error code](Add%20an%20error%20code.md) | Add a new error code |
+| [Add a new message section](Add%20a%20new%20message%20section.md) | Add a new `Message` class section |
 
 &copy; 2016-2023 by Steve Bertrand

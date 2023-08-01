@@ -225,11 +225,10 @@ line:
  Guide to various configuration files and options
 
 - [Berrybrew Development](doc/Berrybrew%20Development.md)
-  Guide to creating a development build for testing new functionality
+  Guide to creating a development build for testing new functionality, and
+  provides documentation on the procedures for performing the most common
+  tasks when editing the codebase.
 
-- [Add a New Class](doc/Add%20a%20New%20Class.md) 
- Explains the process of creating and adding a new class
- 
 - [Compile Your Own Installation](doc/Compile%20Your%20Own.md)
  Guide to compiling `berrybrew` from source
 
