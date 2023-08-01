@@ -19,9 +19,18 @@ if (! $testing && ! grep { -x "$_/makensis.exe" } split /;/, $ENV{PATH}){
     die "makensis.exe not found, check your PATH. Can't build installer...";
 }
 
+# Catch 22... we need to have the installer binary available
+# before we can create one. We'll create a dummy
+
+if (! -e 'staging/berrybrewInstaller.exe') {
+    open my $fh, '>', 'staging/berrybrewInstaller.exe' or die $!;
+    print $fh 'init';
+    close $fh;
+}
+
 build();
-BuildHelper::update_installer_script(INSTALLER_SCRIPT);
 BuildHelper::check_installer_manifest(INSTALLER_SCRIPT);
+BuildHelper::update_installer_script(INSTALLER_SCRIPT);
 BuildHelper::create_installer(INSTALLER_SCRIPT);
 finish();
 

@@ -1,6 +1,6 @@
 @echo off
 
-copy dev\data\*.json bin\data
+copy dev\data\*.json data
 
 copy bin\ICSharpCode.SharpZipLib.dll staging\
 copy bin\Newtonsoft.Json.dll staging\
@@ -34,12 +34,13 @@ call mcs^
     src\berrybrew-ui.cs^
     src\perloperations.cs^
     -lib:bin^
+    -t:winexe^
     -out:bin/berrybrew-ui.exe^
     -r:bbapi.dll^
+    -r:Microsoft.VisualBasic.dll^
     -r:Newtonsoft.Json.dll^
     -r:System.Drawing^
     -r:System.Windows.Forms^
-    -r:Microsoft.VisualBasic.dll^
     -win32icon:inc/berrybrew.ico^
     -win32manifest:berrybrew.manifest
 

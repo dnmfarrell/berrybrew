@@ -63,7 +63,9 @@ Revision history for berrybrew
       (closes #351)
     - Refactor all unit test scripts to conform to the new directory structure
       and new/renamed option directives/values
-            
+    - Small tweaks and changes to ensure UI and installer behave properly after
+      the major changes in this version (closes #352)
+
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
     - Rename "See Also" in the README to "Other Documentation"
