@@ -2,11 +2,11 @@
 
 Bug/issue reporting and feature requests via Github are very welcomed!
 
-- [What contributors should do](#what-contributors-should-do-at-a-minimum)
-- [What contributors shouldn't do](#what-contributors-shouldnt-do)
+- [What code contributors should do](#what-code-contributors-should-do-at-a-minimum)
+- [What code contributors shouldn't do](#what-code-contributors-shouldnt-do)
 - [What the maintainers do](#what-we-do-as-the-authorsmaintainers)
  
-### What contributors should do at a minimum:
+### What code contributors should do at a minimum:
 
 - Read through the [berrybrew development](doc/Berrybrew%20development.md)
 documentation
@@ -30,7 +30,7 @@ Then:
 (**not master**)
 - Wait for review
 
-### What contributors shouldn't do:
+### What code contributors shouldn't do:
 
 - Work on `master` or the current vX.XX branch directly
 - Update any version information
