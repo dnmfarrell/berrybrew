@@ -59,19 +59,19 @@ until they are used.
         \berrybrew
             - instance  # Extracted Strawberry Perl instances
             - modules   # Exported modules ('modules' command)
-            - snapshot  # Exported snapshots ('snapshot' command)
+            - snapshots # Exported snapshots ('snapshot' command)
             - temp      # Downloaded Strawberry Perl zip archives
 
         \berrybrew-staging # Development berrybrew instance
             - instance
             - modules
-            - snapshot
+            - snapshots
             - temp
 
         \berrybrew-testing # Unit testing berrybrew instance
             - instance
             - modules
-            - snapshot
+            - snapshots
             - temp
 
 ### Development environment build
