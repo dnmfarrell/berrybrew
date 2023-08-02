@@ -31,8 +31,8 @@ documentation.
 - [Configure Perl Instance Directory](#configure-root-directory)
 - [Requirements](#requirements)
 - [Troubleshooting](#troubleshooting)
-- [Documentation](#other-documentation)
 - [Development, Build, Test and Release](#development-build-test-and-release)
+- [Documentation](#other-documentation)
 - [Hidden Commands](#hidden-commands)
 - [Developed Using](#developed-using)
 - [Caveats](#caveats)
@@ -219,7 +219,7 @@ line:
 Contains all information relating to the development, build, test and release
 cycle of the `berrybrew` ecosystem.
 
-See the [Berrybrew Development, Build, Test and Release](doc/Berrybrew%20Development.md)
+See the [Berrybrew Development, Build, Test and Release](doc/Berrybrew%20development.md)
 document.
 
 ## Other Documentation 

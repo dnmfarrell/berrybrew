@@ -11,11 +11,11 @@ This document contains information on the entire development lifecycle of
 - [Compile Binary Only](#berrybrew-binary-only)
 - [Compile API Only](#api-only)
 - [Compile User Interface](#user-interface)
-- [Manually Compile Your Own](Compile%20Your%20Own.md)
-- [Unit Testing](Unit%20Testing.md)
+- [Manually Compile Your Own](#manually-compile-your-own)
+- [Unit Testing](#unit-testing)
 - [Production Build for Testing](#production-build)
-- [Create a Release](Create%20a%20Release.md)
-- [Updating releases.json](Update%20Releases%20JSON.md)
+- [Create a Release](#create-a-release)
+- [Updating releases.json](#updating-releasesjson)
 - [Adding to and Modifying the Codebase](#adding-to-and-modifying-the-codebase)
  
 During development, it's handy to be able to ensure the code builds and works
@@ -97,15 +97,15 @@ output.
 
 #### Manually Compile your Own
 
-See the [Manually Compile Your Own](Compile%20Your%20Own.md) document.
+See the [Manually Compile Your Own](Compile%20your%20own.md) document.
 
 #### Create a Release
 
-See the [Create a Release](Create%20a%20Release.md) document.
+See the [Create a Release](Create%20a%20release.md) document.
 
 #### Unit Testing
 
-See the [Unit Testing](Unit%20Testing.md) document.
+See the [Unit Testing](Unit%20testing.md) document.
 
 #### Production Build
 
@@ -119,7 +119,7 @@ script. The resulting installer binary will be located in
 
 #### Create a Release
 
-See the [Create a Release](Create%20a%20Release.md) document.
+See the [Create a Release](Create%20a%20release.md) document.
 
 #### Updating releases.json
 
@@ -128,7 +128,7 @@ file. This is the quasi process I've been using to keep it maintained so
 `berrybrew` is able to use the most recent versions until the Strawberry
 website is back under administrative control.
 
-See the [Updating releases.json](Update%20Releases%20JSON.md) document.
+See the [Updating releases.json](Update%20releases%20JSON.md) document.
 
 #### Adding to and Modifying the Codebase
 
@@ -138,13 +138,12 @@ steps and procedures to complete the tasks.
 
 | Task                                                                          | Description                |
 |-------------------------------------------------------------------------------|----------------------------|
-| [Add a new class (API)](Add%20a%20New%20Class.md)                             | Add a new class to the API | 
-| [Add a new command (binary)](Add%20a%20New%20Binary%20Command.md)             | Add a new command to `berrybrew.exe` |
-| [Add a new API method](Add%20a%20New%20API%20Method.md)                       | Add a method to an API related source file |
-| [Modify an API method](Modify%20an%20API%20Method.md)                         | Modify an existing API method |
-| [Modify a binary command](Modify%20a%Binary%20Command.md)                     | Modify an existing binary command (add/change subcmd, options etc) |
-| [Add a new config option](Add%20a%20New%20Config%20Option.md)                 | Add a new configuration option |
-| [Modify a config option](Modify%20a%20Config%20Option.md)                     | Modify an existing configuration option |
+| [Add a new class (API)](Add%20a%20new%20class.md)                             | Add a new class to the API | 
+| [Add a new command (binary)](Add%20a%20new%20binary%20command.md)             | Add a new command to `berrybrew.exe` |
+| [Add a new API method](Add%20a%20new%20API%20method.md)                       | Add a method to an API related source file |
+| [Modify an API method](Modify%20an%20API%20method.md)                         | Modify an existing API method |
+| [Modify a binary command](Modify%20a%binary%20command.md)                     | Modify an existing binary command (add/change subcmd, options etc) |
+| [Changing config directives](Configuration%20entry.md)                        | Add a new configuration option |
 | [Add an exit code](Add%20an%20error%20code.md)                                | Add a new error code |
 | [Add a new display text section](Add%20a%20new%20display%20text%20section.md) | Add a new `Message` class section |
 
