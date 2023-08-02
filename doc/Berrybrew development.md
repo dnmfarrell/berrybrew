@@ -5,6 +5,7 @@ This document contains information on the entire development lifecycle of
 
 ## Sections
 
+- [Contributing](#contributing)
 - [Development Directory Items](#development-directory-items)
 - [Berrybrew Data Directory Layout](#berrybrew-data-directory-layout)
 - [Compile Full Build (Except Installer)](#development-environment-build)
@@ -19,12 +20,11 @@ This document contains information on the entire development lifecycle of
 - [Updating releases.json](#updating-releasesjson)
 - [Managing installer file integrity](#managing-installer-file-integrity)
 - [Adding to and Modifying the Codebase](#adding-to-and-modifying-the-codebase)
- 
-During development, it's handy to be able to ensure the code builds and works
-correctly without overwriting the currently-installed production installation.
 
-This is a must for testing out new features to ensure they work correctly prior
-to running the [unit test](Unit%20testing.md) suite.
+### Contributing
+
+I appreciate any and all contributions. Although not strictly enforced, having
+a read of the [Contributing](../CONTRIBUTING.md) document would be appreciated.
 
 ### Development directory items
 
@@ -75,6 +75,12 @@ until they are used.
             - temp
 
 ### Development environment build
+
+During development, it's handy to be able to ensure the code builds and works
+correctly without overwriting the currently-installed production installation.
+
+This is a must for testing out new features to ensure they work correctly prior
+to running the [unit test](Unit%20testing.md) suite.
 
 - Run the `dev\build_staging.bat` script, which compiles the binary, library and UI and
 places the new build within a newly-created `build` directory within your
