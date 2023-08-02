@@ -385,11 +385,11 @@ namespace berrybrew {
                     break;
 
                 case "orphans-ignored":
-                    Dictionary<string, bool> ignoredOrphans = bb.PerlOp.PerlOrphansIgnore();
+                    Dictionary<string, bool> orphansIgnored = bb.SpecialInstanceDirectories();
 
                     Console.WriteLine("The following perl directories are ignored when listing orphans:\n");
-                    
-                    foreach (string ignored in ignoredOrphans.Keys) {
+
+                    foreach (string ignored in orphansIgnored.Keys) {
                         Console.WriteLine("\t{0}", ignored);
                     }
 
@@ -475,7 +475,19 @@ namespace berrybrew {
                         }                                          
                     }                   
                     break;                   
- 
+
+                case "special-instance-dirs":
+                    Dictionary<string, bool> specialInstanceDirectories = bb.SpecialInstanceDirectories();
+
+                    Console.WriteLine("The directories in the instance directory that are special:\n");
+
+                    foreach (string special in specialInstanceDirectories.Keys) {
+                        Console.WriteLine("\t{0}", special);
+                    }
+
+                    bb.Exit(0);
+                    break;
+
                 case "switch":
                     if (args.Length == 1) {
                         bb.Message.Print("switch_ver_required");

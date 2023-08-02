@@ -435,6 +435,11 @@ not classify as orphans. These are system directories.
 
 This will register all orphaned Perl instances at once.
 
+#### special-instance-dirs
+
+Displays the list of special directories we won't touch within the
+`instance_dir` (perl instance directory).
+
 #### test
 
 This feature should only be used by developers of berrybrew.

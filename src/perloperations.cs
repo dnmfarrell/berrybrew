@@ -154,15 +154,15 @@ namespace BerryBrew.PerlOperations {
             }
 
             List<string> orphans = new List<string>();
-            Dictionary<string, bool> orphansIgnored = PerlOrphansIgnore();
-            
+            Dictionary<string, bool> orphansIgnored = bb.SpecialInstanceDirectories();
+
             foreach (string dir in dirs) {
                 if (dir == bb.archivePath) {
                     continue;
                 }
 
                 // Skip valid known extracurrirular directories
-                
+
 				// Valid perl instance directory
 				if (perlInstallations.Contains(dir)) {
                     continue;
@@ -173,7 +173,7 @@ namespace BerryBrew.PerlOperations {
 
                 if (ignoredOrphanFound.Success) {
                     string ignoredOrphan = ignoredOrphanFound.Groups[1].Captures[0].Value;
-                    
+
                     if (orphansIgnored.ContainsKey(ignoredOrphan)) { 
                         continue;
                     }
@@ -185,25 +185,7 @@ namespace BerryBrew.PerlOperations {
 
             return orphans;
         }
-
-        public Dictionary<string, bool> PerlOrphansIgnore() {
-            Dictionary<string, bool> ignoreList = new Dictionary<string, bool>();
-
-            List<string> ignoreDirs = new List<string> {
-                // none currently needed
-            };
-
-            foreach (string dir in ignoreDirs) {
-                ignoreList.Add(dir, true);
-            }
-
-            if (bb.Testing) {
-                ignoreList.Add("unit_test", true);
-            }
-
-            return ignoreList;
-        }
-
+        
         public void PerlRegisterCustomInstall(string perlName, StrawberryPerl perlBase=new StrawberryPerl()) {
             perlName = bb.BitSuffixCheck(perlName);
 

@@ -23,7 +23,7 @@ if ($installed_count == 0) {
     }
 }
 
-my $special_dir_output = `$c test orphans-ignored`;
+my $special_dir_output = `$c test special-instance-dirs`;
 
 my @special_dirs = $special_dir_output =~ /\t(.*)\n/g;
 

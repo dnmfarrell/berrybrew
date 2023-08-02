@@ -669,9 +669,9 @@ namespace BerryBrew {
                 Exit(0);
             }
 
-            Dictionary<string, bool> ignoredOrphans = PerlOp.PerlOrphansIgnore();
+            Dictionary<string, bool> specialInstanceDirectories = SpecialInstanceDirectories();
 
-            if (ignoredOrphans.ContainsKey(destPerlName)) {
+            if (specialInstanceDirectories.ContainsKey(destPerlName)) {
                  Console.Error.WriteLine("\nCan't clone to requested name '{0}'. It is a special name.", destPerlName);
                  Exit((int)ErrorCodes.PERL_DIRECTORY_SPECIAL);
             }
@@ -1759,9 +1759,9 @@ namespace BerryBrew {
                 instanceName = Regex.Replace(snapshotName, @".\d{14}", "");
             }
             else {
-                Dictionary<string, bool> ignoredOrphans = PerlOp.PerlOrphansIgnore();
+                Dictionary<string, bool> specialInstanceDirectories = SpecialInstanceDirectories();
 
-                if (ignoredOrphans.ContainsKey(instanceName)) {
+                if (specialInstanceDirectories.ContainsKey(instanceName)) {
                     Console.Error.WriteLine(
                         "\nCan't extract snapshot archive to requested instance name '{0}'. It is a special name.",
                         instanceName
@@ -1907,6 +1907,24 @@ namespace BerryBrew {
                     Console.WriteLine("\t{0}", fileName);
                 }
             }
+        }
+
+        public Dictionary<string, bool> SpecialInstanceDirectories() {
+            Dictionary<string, bool> specialDirs = new Dictionary<string, bool>();
+ 
+            List<string> specialDirList = new List<string> {
+                // None currently needed
+            };
+ 
+            foreach (string dir in specialDirList) {
+                specialDirs.Add(dir, true);
+            }
+ 
+            if (Testing) {
+                specialDirs.Add("unit_test", true);
+            }
+ 
+            return specialDirs;
         }
 
         public void Switch(string switchToVersion, bool switchQuick=false) {
