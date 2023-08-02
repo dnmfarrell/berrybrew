@@ -12,6 +12,9 @@ missed during the installer build process.
 - [Add files to be installed to manifest](#add-the-files-to-be-installed-to-manifest)
 - [Add files to be deleted to installer script](#add-the-files-to-be-deleted-to-installer-script)
 - [Add files to be ignored to manifest skip](#add-the-files-to-be-ignored-to-manifest-skip)
+
+File integrity checking procedure and solution table. 
+ 
 - [File integrity checking procedure](#file-integrity-checking-procedure)
 - [File integrity checking solution table](#file-integrity-checking-solution-table) 
  
