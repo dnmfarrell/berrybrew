@@ -4,13 +4,20 @@ bak/
 bin/
 data/
 dev/
-doc/Update Releases JSON.md
-doc/Add a New Class.md
-doc/Berrybrew Development.md
-doc/Create a Release.md
-doc/Unit Testing.md
-doc/Compile Your Own.md
+doc/Add a new API method.md
+doc/Add a new class.md
+doc/Add a new binary command.md
+doc/Add a new display text section.md
+doc/Add an exit code.md
 doc/Berrybrew API.md
+doc/Berrybrew development.md
+doc/Compile your own.md
+doc/Configuration entry.md
+doc/Create a release.md
+doc/Modify an API method.md
+doc/Modify a binary command.md
+doc/Unit testing.md
+doc/Update releases JSON.md
 download/
 lib/
 testing/
