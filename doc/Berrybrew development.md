@@ -6,6 +6,7 @@ This document contains information on the entire development lifecycle of
 ## Sections
 
 - [Development Directory Items](#development-directory-items)
+- [Berrybrew Data Directory Layout](#berrybrew-data-directory-layout)
 - [Compile Full Build (Except Installer)](#development-environment-build)
 - [Compile Full Build (With Installer)](#development-installer-build)
 - [Compile Binary Only](#berrybrew-binary-only)
@@ -47,6 +48,30 @@ These are the files and tools in the `dev\` directory, and their purposes:
 | **release.pl**                         | Creates a Berrybrew release. See [Create a Release](Create%20a%20Release.md)                                                                                                                |
 | **release_cycle.pl**                   | After a release, this script cycles the repository in preparation for the next version. See [Prepare for next version](Create%20a%20Release.md#prepare-a-branch-for-the-next-release-cycle) |
 | **release_post.pl**                    | After a release, restores any backed up configuration files (very rarely used)                                                                                                              |
+
+#### Berrybrew data directory layout
+
+The default data directory layout is as follows. Not all entries may be created
+until they are used.
+
+    C:\
+        \berrybrew
+            - instance  # Extracted Strawberry Perl instances
+            - modules   # Exported modules ('modules' command)
+            - snapshot  # Exported snapshots ('snapshot' command)
+            - temp      # Downloaded Strawberry Perl zip archives
+
+        \berrybrew-staging # Development berrybrew instance
+            - instance
+            - modules
+            - snapshot
+            - temp
+
+        \berrybrew-testing # Unit testing berrybrew instance
+            - instance
+            - modules
+            - snapshot
+            - temp
 
 #### Development environment build
 
