@@ -32,7 +32,7 @@ File location:
 Directive list:
 
 | Directive                            | Description                                                |
-|--------------------------------------|------------------------------------------------------------|   
+| --- | --- |
 | [debug](#debug)                      | Enable/disable debugging                                   |
 | [storage_dir](#storage_dir)          | Top level directory for Perl instance management           |
 | [instance_dir](#instance_dir)        | Location of the Perl installations                         |
