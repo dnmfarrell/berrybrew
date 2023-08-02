@@ -25,7 +25,7 @@ correctly without overwriting the currently-installed production installation.
 This is a must for testing out new features to ensure they work correctly prior
 to running the [unit test](Unit%20Testing.md) suite.
 
-#### Development directory items
+### Development directory items
 
 These are the files and tools in the `dev\` directory, and their purposes:
 
@@ -49,7 +49,7 @@ These are the files and tools in the `dev\` directory, and their purposes:
 | **release_cycle.pl**                   | After a release, this script cycles the repository in preparation for the next version. See [Prepare for next version](Create%20a%20Release.md#prepare-a-branch-for-the-next-release-cycle) |
 | **release_post.pl**                    | After a release, restores any backed up configuration files (very rarely used)                                                                                                              |
 
-#### Berrybrew data directory layout
+### Berrybrew data directory layout
 
 The default data directory layout is as follows. Not all entries may be created
 until they are used.
@@ -73,7 +73,7 @@ until they are used.
             - snapshot
             - temp
 
-#### Development environment build
+### Development environment build
 
 - Run the `dev\build_staging.bat` script, which compiles the binary, library and UI and
 places the new build within a newly-created `build` directory within your
@@ -88,7 +88,7 @@ Use the new development build:
 - If modifying the config file, do a `berrybrew options-update-force` for the
 updated directives to be pushed up into the registry
 
-#### Development installer build 
+### Development installer build 
 
 - Run `dev\build_staging_installer.bat`. This will run the complete
 `dev\build_staging.bat` script mentioned above, and then create an installer
@@ -103,15 +103,15 @@ and `berrybrew`'s temporary directory are stored in a new root level directory,
 `C:\berrybrew-staging`. Temporary files will be in `C:\berrybrew-staging\temp`,
 and perl instances in `C:\berrybrew-staging\instance`.
 
-#### berrybrew binary only
+### berrybrew binary only
 
 - Run the `dev\build_staging_bb.bat` script
 
-#### API only
+### API only
 
 - Run the `dev\build_staging_api.bat` script
 
-#### User Interface
+### User Interface
 
 - Run the `dev\build_staging_ui.bat` script, which runs `dev\build_staging.bat`
 compiling the API and the `berrybrew` binary, followed by the UI binary itself.
@@ -120,19 +120,19 @@ compiling the API and the `berrybrew` binary, followed by the UI binary itself.
 build will execute out of a command line window, so that you can see the debugging
 output.
 
-#### Manually Compile your Own
+### Manually Compile your Own
 
 See the [Manually Compile Your Own](Compile%20your%20own.md) document.
 
-#### Create a Release
+### Create a Release
 
 See the [Create a Release](Create%20a%20release.md) document.
 
-#### Unit Testing
+### Unit Testing
 
 See the [Unit Testing](Unit%20testing.md) document.
 
-#### Production Build
+### Production Build
 
 To perform testing with the production aspects of `berrybrew` without creating
 a full blown release, run the `dev\build_prod.bat` script. The production build
@@ -142,11 +142,11 @@ The production installer can be built using the `dev\build_prod_installer.bat`
 script. The resulting installer binary will be located in
 `download\berrybrewInstaller.exe`.
 
-#### Create a Release
+### Create a Release
 
 See the [Create a Release](Create%20a%20release.md) document.
 
-#### Updating releases.json
+### Updating releases.json
 
 For the time being, Strawberry Perl is using a Github hosted `releases.json`
 file. This is the quasi process I've been using to keep it maintained so
@@ -155,7 +155,7 @@ website is back under administrative control.
 
 See the [Updating releases.json](Update%20releases%20JSON.md) document.
 
-#### Adding to and Modifying the Codebase
+### Adding to and Modifying the Codebase
 
 This section lists the main typical changes that occur when developing
 `berrybrew`, each links to its own dedicated documentation that outlines the
