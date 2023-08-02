@@ -10,9 +10,9 @@ Most options are also configurable through the UI.
 
 Config sections:
 
-### [Global config](#global-config)
-### [Messages config](#messages-config)
-### [Perl config](#perl-config)
+- [Global config](#global-config)
+- [Messages config](#messages-config)
+- [Perl config](#perl-config)
 
 #### Global Config
 
