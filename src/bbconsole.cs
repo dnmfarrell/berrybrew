@@ -389,8 +389,13 @@ namespace berrybrew {
 
                     Console.WriteLine("The following perl directories are ignored when listing orphans:\n");
 
-                    foreach (string ignored in orphansIgnored.Keys) {
-                        Console.WriteLine("\t{0}", ignored);
+                    if (orphansIgnored.Keys.Count == 0) {
+                        Console.WriteLine("berrybrew doesn't currently classify any directories as ignored orphans");
+                    }
+                    else {
+                        foreach (string ignored in orphansIgnored.Keys) {
+                            Console.WriteLine("\t{0}", ignored);
+                        }
                     }
 
                     bb.Exit(0);
@@ -479,10 +484,13 @@ namespace berrybrew {
                 case "special-instance-dirs":
                     Dictionary<string, bool> specialInstanceDirectories = bb.SpecialInstanceDirectories();
 
-                    Console.WriteLine("The directories in the instance directory that are special:\n");
-
-                    foreach (string special in specialInstanceDirectories.Keys) {
-                        Console.WriteLine("\t{0}", special);
+                    if (specialInstanceDirectories.Keys.Count == 0) {
+                        Console.WriteLine("berrybrew doesn't currently use any special directories...");
+                    }
+                    else {
+                        foreach (string special in specialInstanceDirectories.Keys) {
+                            Console.WriteLine("\t{0}", special);
+                        }
                     }
 
                     bb.Exit(0);
