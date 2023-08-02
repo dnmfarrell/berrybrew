@@ -39,15 +39,15 @@ These are the files and tools in the `dev\` directory, and their purposes:
 | **build_staging.pl**                   | Performs all tasks within the `build_staging_api.bat`, `build_staging_bb.bat` and `build_staging_ui.bat` scripts                                                                            |
 | **build_staging_api.bat**              | Builds the staging `bbapi.dll` library file. Puts it into `staging\`                                                                                                                        |
 | **build_staging_bb.bat**               | Builds the staging `berrybrew.exe` binary, puts it into `staging\`                                                                                                                          |
-| **build_staging_installer.bat**        | Wrapper script for `build_staging_installer_helper.pl`                                                                                                                                      |
+| **build_staging_installer.bat**        | Wrapper script for `_build_staging_installer_helper.pl`                                                                                                                                     |
 | **build_staging_ui.bat**               | Builds the `berrybrew-ui.exe` UI binary. Puts it into `staging\`                                                                                                                            |
 | **build_testing.bat**                  | Sets up and builds the entire unit testing environment. It's located in `testing\`                                                                                                          |
 | **create_prod_installer.nsi**          | Production installer configuration script                                                                                                                                                   |
 | **create_staging_installer.nsi**       | Staging installer configuration script                                                                                                                                                      |
 | **generate_github_releases.pl**        | Script that creates the `releases.json` file until Strawberry site is back online                                                                                                           |
 | **NSIS.zip**                           | The installer builder software. If not installed on your `berrybrew` dev platform you can install from here                                                                                 |
-| **release.pl**                         | Creates a Berrybrew release. See [Create a Release](Create%20a%20Release.md)                                                                                                                |
-| **release_cycle.pl**                   | After a release, this script cycles the repository in preparation for the next version. See [Prepare for next version](Create%20a%20Release.md#prepare-a-branch-for-the-next-release-cycle) |
+| **release.pl**                         | Creates a Berrybrew release. See [Create a Release](Create%20a%20release.md)                                                                                                                |
+| **release_cycle.pl**                   | After a release, this script cycles the repository in preparation for the next version. See [Prepare for next version](Create%20a%20release.md#prepare-a-branch-for-the-next-release-cycle) |
 | **release_post.pl**                    | After a release, restores any backed up configuration files (very rarely used)                                                                                                              |
 
 ### Berrybrew data directory layout
@@ -156,7 +156,7 @@ website is back under administrative control.
 
 See the [Updating releases.json](Update%20releases%20JSON.md) document.
 
-### Managing Installer Manifest
+### Managing Installer File Integrity
 
 See [Managing installer file integrity](Managing%20installer%20file%20integrity.md) document.
 
