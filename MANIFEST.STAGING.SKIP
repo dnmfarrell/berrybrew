@@ -6,7 +6,7 @@ data/
 dev/
 doc/Update Releases JSON.md
 doc/Add a New Class.md
-doc/Create a Development Build.md
+doc/Berrybrew Development.md
 doc/Create a Release.md
 doc/Unit Testing.md
 doc/Compile Your Own.md

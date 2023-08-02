@@ -60,7 +60,7 @@ debugging information.
 
 #### associate
 
-    berrybrew associate [option]
+    berrybrew associate [command]
 
 View, set or revert `.pl` file association on the system.
 

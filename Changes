@@ -70,6 +70,8 @@ Revision history for berrybrew
       the major changes in this version (closes #352)
     - Fix missing `$installer_script` parameter when building the installer in
       `release.pl`
+    - Added a slew of new developer documentation on directory layouts,
+      modifying config, performing common development tasks etc (closes #355)
 
 1.39    2023-07-25
     - Code cleanup, minor reorganization for more efficient short-circuits
