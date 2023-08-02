@@ -31,7 +31,7 @@ Then:
 
 ### What contributors shouldn't do:
 
-- Work on `master` directly
+- Work on `master` or the current vX.XX branch directly
 - Update any version information
 - Change any license information (I inherited this project)
 - Change any copyrights (without written authorization)
