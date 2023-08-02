@@ -142,7 +142,9 @@ namespace berrybrew {
                     string cwd = Directory.GetCurrentDirectory();
 
                     if (String.Equals(cwd, @"c:\berrybrew", StringComparison.OrdinalIgnoreCase)) {
-                        Console.Error.WriteLine("\nAt this time, berrybrew can not be installed in C:\\berrybrew. Please move the directory and try again\n");
+                        Console.Error.WriteLine(
+                            "\nAt this time, berrybrew can not be installed in C:\\berrybrew. Please move the directory and try again\n"
+                        );
                         bb.Exit(-1);
                     }
 
@@ -175,9 +177,11 @@ namespace berrybrew {
                     }
 
                     string errorName = Enum.GetName(typeof(Berrybrew.ErrorCodes), Int32.Parse(args[1]));
+
                     if (errorName == null) {
                         errorName = "EXTERNAL_PROCESS_ERROR";
                     }
+
                     Console.WriteLine("\nError Code {0}: {1}\n", args[1], errorName);
                     bb.Exit(0);
                     break;
