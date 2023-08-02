@@ -17,6 +17,7 @@ This document contains information on the entire development lifecycle of
 - [Production Build for Testing](#production-build)
 - [Create a Release](#create-a-release)
 - [Updating releases.json](#updating-releasesjson)
+- [Managing installer file integrity](#managing-installer-file-integrity)
 - [Adding to and Modifying the Codebase](#adding-to-and-modifying-the-codebase)
  
 During development, it's handy to be able to ensure the code builds and works
@@ -154,6 +155,10 @@ file. This is the quasi process I've been using to keep it maintained so
 website is back under administrative control.
 
 See the [Updating releases.json](Update%20releases%20JSON.md) document.
+
+### Managing Installer Manifest
+
+See [Managing installer file integrity](Managing%20installer%20file%20integrity.md) document.
 
 ### Adding to and Modifying the Codebase
 
