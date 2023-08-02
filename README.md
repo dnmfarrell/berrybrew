@@ -64,7 +64,7 @@ After extraction:
 
 #### Compile your own
     
-You can also [Compile your own](doc/Compile%20Your%20Own.md)
+You can also [Compile your own](doc/Compile%20your%20own.md)
 installation.
 
 ## Uninstall
