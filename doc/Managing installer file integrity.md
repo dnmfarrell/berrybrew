@@ -5,6 +5,12 @@ We take great care in managing the files that get installed with the installer.
 This ensures that everything we install is eventually removed upon uninstall,
 which allows us to remove everything cleanly.
 
+To build the installer outside of running the release script which also performs
+the file integrity checking, for staging, run `dev\build_staging_installer.bat`
+and for production, `dev\build_prod_installer.bat`. The installers will be
+located in `staging\berrybrewInstaller.exe` and `bin\berrybrewInstaller.exe`
+respectively.
+
 Failure to follow all steps will result in an error describing what you've
 missed during the installer build process.
 
