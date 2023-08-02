@@ -4,6 +4,8 @@ Bug/issue reporting and feature requests via Github are very welcomed!
 
 What contributors should do at a minimum:
 
+- Read through the [berrybrew development](doc/Berrybrew%20development.md)
+documentation
 - Fork the repository
 - Change to the current vX.XX branch, and create a new branch appropriately named for the changes you're making
 - Make the changes
@@ -25,6 +27,8 @@ Then:
 
 What we do as the authors/maintainers:
 
+- Use the [berrybrew development](doc/Berrybrew%20development.md) documentation
+as a reference
 - Create a new branch off of the current vX.XX branch, appropriately named for the changes we're making
 - Make the changes
 - Build the new `dll`, `exe`  and `ui` using the `dev\build_staging.bat` script
