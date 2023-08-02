@@ -53,7 +53,7 @@ the changes we're making
 - Ensure that any functionality/API/runtime changes have explicit unit tests
 written
 - Ensure that all existing unit tests pass, per
-[Unit Testing](doc/Unit%20Testing.md)
+[Unit Testing](doc/Unit%20testing.md)
 - PR (Pull Request) the branch to the most recent vX.XX branch that exists
 
 &copy; 2016-2023 by Steve Bertrand
