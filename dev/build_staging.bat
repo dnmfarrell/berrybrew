@@ -50,4 +50,3 @@ call mcs^
 
 copy staging\berrybrew.exe staging\bb.exe
 copy bin\berrybrew-refresh.bat staging\
-

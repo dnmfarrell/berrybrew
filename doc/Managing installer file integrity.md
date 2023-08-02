@@ -5,6 +5,12 @@ We take great care in managing the files that get installed with the installer.
 This ensures that everything we install is eventually removed upon uninstall,
 which allows us to remove everything cleanly.
 
+To build the installer outside of running the release script which also performs
+the file integrity checking, for staging, run `dev\build_staging_installer.bat`
+and for production, `dev\build_prod_installer.bat`. The installers will be
+located in `staging\berrybrewInstaller.exe` and `bin\berrybrewInstaller.exe`
+respectively.
+
 Failure to follow all steps will result in an error describing what you've
 missed during the installer build process.
 
@@ -12,6 +18,9 @@ missed during the installer build process.
 - [Add files to be installed to manifest](#add-the-files-to-be-installed-to-manifest)
 - [Add files to be deleted to installer script](#add-the-files-to-be-deleted-to-installer-script)
 - [Add files to be ignored to manifest skip](#add-the-files-to-be-ignored-to-manifest-skip)
+
+File integrity checking procedure and solution table. 
+ 
 - [File integrity checking procedure](#file-integrity-checking-procedure)
 - [File integrity checking solution table](#file-integrity-checking-solution-table) 
  

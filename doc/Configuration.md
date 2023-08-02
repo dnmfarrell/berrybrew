@@ -1,7 +1,5 @@
 ## berrybrew Configuration
 
-### [Global config](#global-config)
-
 The Global Configuration file, `data\config.json` is no longer used for runtime
 operation. It's used for initial configuration at install time only. Any changes
 to the configuration file after installation will have no effect on **berrybrew**.
@@ -10,27 +8,13 @@ For changing configuration options after install, see [**berrybrew options**](be
 
 Most options are also configurable through the UI.
 
-|Directive|Description|
-|---|--|   
-|[debug](#debug)|Enable/disable debugging|
-[storage_dir](#storage_dir)|Top level directory for Perl instance management|
-[instance_dir](#instance_dir)|Location of the Perl installations|
-[temp_dir](#temp_dir)|Location of `berrybrew` temporary files|
-[strawberry_url](#strawberry_url)|The Strawberry Perl website|
-[download_url](#download_url)|The URL for the Strawberry release JSON file|
-[custom_exec](#custom_exec)|Include custom (cloned) instances under `berrybrew exec`|
-[windows_homedir](#windows_homedir)|Default home directory for `File::HomeDir`|
-[run_mode](#run_mode)|Used to identify prod, staging or testing environment|
-[shell](#shell)|Shell to run when 'use'ing a Perl|
-[file_assoc](#file_assoc)|The current .pl file association handler|
-[file_assoc_old](#file_assoc_old)|The previous .pl file association handler|
-[warn_orphans](#warn_orphans)|Warn if non-Perl directories are found|
+Config sections:
 
-### [Messages config](#messages-config)
+- [Global config](#global-config)
+- [Messages config](#messages-config)
+- [Perl config](#perl-config)
 
-### [Perls available config](#perl-config)
-
-#### Global Config
+### Global Config
 
 Handles application wide configuration. 
 
@@ -45,9 +29,27 @@ File location:
 
     data\config.json
 
+Directive list:
+
+| Directive                            | Description                                                |
+| --- | --- |
+| [debug](#debug)                      | Enable/disable debugging                                   |
+| [storage_dir](#storage_dir)          | Top level directory for Perl instance management           |
+| [instance_dir](#instance_dir)        | Location of the Perl installations                         |
+| [temp_dir](#temp_dir)                | Location of the Strawberry Perl instance zip archive files |
+| [strawberry_url](#strawberry_url)    | The Strawberry Perl website                                |
+| [download_url](#download_url)        | The URL for the Strawberry release JSON file               |
+| [custom_exec](#custom_exec)          | Include custom (cloned) instances under `berrybrew exec`   |
+| [windows_homedir](#windows_homedir)  | Default home directory for `File::HomeDir`                 |
+| [run_mode](#run_mode)                | Used to identify prod, staging or testing environment      |
+| [shell](#shell)                      | Shell to run when 'use'ing a Perl                          |
+| [file_assoc](#file_assoc)            | The current .pl file association handler                   |
+| [file_assoc_old](#file_assoc_old)    | The previous .pl file association handler                  |
+| [warn_orphans](#warn_orphans)        | Warn if non-Perl directories are found                     |
+
 Available options:
 
-##### debug
+#### debug
 
 Enables debugging output.
 
@@ -55,14 +57,14 @@ Default: `false`
 
 Values: "true" or "false"
 
-##### storage_dir
+#### storage_dir
 
 Top level directory for the `berrybrew` environments Perl instance management
 data.
 
 Default: `C:\berrybrew`
 
-##### root_dir
+#### instance_dir
 
 Directory where we'll house all of your Perl installations. 
 
@@ -70,7 +72,7 @@ Default: `C:\berrybrew\instance`
 
 Values: Any directory accessible on the system.
 
-##### temp_dir
+#### temp_dir
 
 Directory where we store the Perl installation zip files.
 
@@ -78,13 +80,13 @@ Default: `C:\berrybrew\temp`
 
 Values: Any directory accessible on the system.
 
-##### download_url
+#### download_url
 
 Link to the Strawberry Perl instance release JSON file.
 
 Default: `http://strawberryperl.com/releases.json`
 
-##### custom_exec
+#### custom_exec
 
 Include custom (cloned) instances when using `berrybrew exec`.
 
@@ -92,7 +94,7 @@ Default: `false`
 
 Values:  "true", "false"
 
-##### windows_homedir
+#### windows_homedir
 
 When using `File::HomeDir` with Portable Strawberry Perl instances,
 the default home directory location is different than a full-blown
@@ -105,34 +107,34 @@ Default: `false`
 
 Values: "true", "false"
 
-##### run_mode
+#### run_mode
 
 This option is used by the system to idenfity whether it's running in `prod`,
 `staging` or `testing` mode. 
 
 It should not be modified by the end user.
 
-##### shell
+#### shell
 
 The shell to deploy when `berrybrew use` is executed. Valid options are `cmd`
 and `powershell`.
 
-##### file_assoc
+#### file_assoc
 
 This is a dynamic option used internally, and should never be modified by the
 end user.
 
-##### file_assoc_old
+#### file_assoc_old
 
 This is a dynamic option used internally, and should never be modified by the
 end user.
 
-##### warn_orphans
+#### warn_orphans
 
 Disabled by default, enabling this option will warn if there are any directories
 within the Perl installation directory that aren't registered with `berrybrew`.
 
-#### Messages Config
+### Messages Config
 
 Maps `STDOUT` message labels to their corresponding content. This configuration file is used by the `Message` class.
 
@@ -158,7 +160,7 @@ The format of the file is as follows:
         }
     }
 
-#### Perl Config
+### Perl Config
 
 Contains information on all Perls we have available.
 
