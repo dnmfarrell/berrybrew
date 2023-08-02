@@ -2,7 +2,11 @@
 
 Bug/issue reporting and feature requests via Github are very welcomed!
 
-What contributors should do at a minimum:
+- [What contributors should do](#what-contributors-should-do-at-a-minimum)
+- [What contributors shouldn't do](#what-contributors-shouldnt-do)
+- [What the maintainers do](#what-we-do-as-the-authorsmaintainers)
+ 
+### What contributors should do at a minimum:
 
 - Read through the [berrybrew development](doc/Berrybrew%20development.md)
 documentation
@@ -25,7 +29,16 @@ Then:
 (**not master**)
 - Wait for review
 
-What we do as the authors/maintainers:
+### What contributors shouldn't do:
+
+- Work on `master` directly
+- Update any version information
+- Change any license information (I inherited this project)
+- Change any copyrights (without written authorization)
+- Update the `Changes` file
+- Commit locally required changes to the `.gitignore` file
+
+### What we do as the authors/maintainers:
 
 - Use the [berrybrew development](doc/Berrybrew%20development.md) documentation
 as a reference
@@ -38,14 +51,5 @@ as a reference
 - Ensure that any functionality/API/runtime changes have explicit unit tests written
 - Ensure that all existing unit tests pass, per [Unit Testing](doc/Unit%20Testing.md)
 - PR (Pull Request) the branch to the most recent vX.XX branch that exists
-
-What contributors shouldn't do:
-
-- Work on `master` directly
-- Update any version information
-- Change any license information (I inherited this project)
-- Change any copyrights (without written authorization)
-- Update the `Changes` file
-- Commit locally required changes to the `.gitignore` file
 
 &copy; 2016-2023 by Steve Bertrand
