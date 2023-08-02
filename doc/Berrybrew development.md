@@ -24,7 +24,7 @@ During development, it's handy to be able to ensure the code builds and works
 correctly without overwriting the currently-installed production installation.
 
 This is a must for testing out new features to ensure they work correctly prior
-to running the [unit test](Unit%20Testing.md) suite.
+to running the [unit test](Unit%20testing.md) suite.
 
 ### Development directory items
 
