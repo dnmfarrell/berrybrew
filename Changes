@@ -5,7 +5,6 @@ Revision history for berrybrew
       and added `special-instance-dirs` hidden command (closes #353)
     - `special-instance-dirs` and `orphans-ignored` now explain that no special
       dirs are currently listed in the system if none are actually listed
-    -
 
 1.40    2023-08-01
     - Add file comparison routine in release script that compares a MANIFEST to
