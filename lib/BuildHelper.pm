@@ -1,5 +1,4 @@
 ﻿package BuildHelper;
-asdf;
 use warnings;
 use strict;
 
