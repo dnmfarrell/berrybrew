@@ -80,6 +80,7 @@ The `Berrybrew` class is the base of the system.
 [SnapshotExtract](#snapshotextract) | Unzips, installs and registered a previously saved snapshot
 [SnapshotInit](#snapshotinit)| private | Checks for the snapshot storage directory, creates if necessary
 [SnapshotList](#snapshotlist) | Lists all previously saved snapshots
+[SpecialInstanceDirectories](#specialinstancedirectories) | Returns a list of special directory names within the instance dir
 [Switch](#switch)| **public** | Change to a specific version of Perl (persistent)
 [SwitchQuick](#switchquick) | **public** | Called by `Switch()`, sets up the new environment
 [Unconfig](#unconfig)| **public** | Removes berrybrew bin dir from `PATH`
@@ -128,7 +129,6 @@ Manages all operations necessary to maintain the Strawberry Perl instances.
 [PerlIsInstalled](#perlopperlisinstalled)| internal   | Checks if a specific Perl is installed
 [PerlsInstalled](#perlopperlsinstalled)| **public** | Fetches the list of Perls installed
 [PerlOrphansFind](#perlopperlorphansfind)| internal   | Locates non-registered directories in Perl root
-[PerlOrphansIgnore](#perlopperlorphansignore)| **public** | Returns a list (dict) of directories that are never orphans. 
 [PerlRegisterCustomInstall](#perlopperlregistercustominstall)| **public** | Make `berrybrew` aware of custom instances
 [PerlRegisterVirtualInstall](#perlopperlregistervirtualinstall)| **public** | Make `berrybrew` aware of external Perls
 [PerlRemove](#perlopperlremove)| **public** | Uninstalls a specific instance of Perl
@@ -703,6 +703,15 @@ Checks that the `snapshotPath` directory exists, and creates it if not.
 
 Displays the names of all previously saved snapshots.
 
+#### SpecialInstanceDirectories
+
+    public Dictionary<string, bool> SpecialDataDirectories()
+
+        returns:  Dictionary<string, bool>; Key is the dir name, bool is always true
+
+Returns a list of directories within the Perl instance directory (`instance_dir`) that
+should never be written to, deleted or seen as orphaned perls.
+
 #### Switch
 
     public void Switch(string perlVersion, bool switchQuick=false)
@@ -1020,14 +1029,6 @@ Removes the Perl instance corresponding to the name sent in.
 
 Gathers a list of directory names in the Perl installation directory, that
 don't have any association or registration with `berrybrew`.
-
-#### PerlOp.PerlOrphansIgnore
-
-    internal Dictionary<string, bool> PerlOrphansIgnore()
-
-Returns a dictionary where each key is a subdirectory within the Perl `rootDir`
-that should never be classified as an orphan. The value is ignored, but all
-default to `true`.
 
 #### PerlOp.PerlRegisterCustomInstall
 

@@ -14,6 +14,7 @@ doc/Berrybrew development.md
 doc/Compile your own.md
 doc/Configuration entry.md
 doc/Create a release.md
+doc/Managing installer file integrity.md
 doc/Modify an API method.md
 doc/Modify a binary command.md
 doc/Unit testing.md

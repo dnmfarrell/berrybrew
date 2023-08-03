@@ -62,6 +62,11 @@ Then add your command and descriptions to the
             5.26.2_64
             5.10.1_32
 
+###### Add the command to README.md
+
+Add your command to the [Commands](../README.md#commands) section of the 
+`README.md` file:
+
 ### Command with an option
 
 For this section, we'll use `berrybrew install` command.
@@ -138,6 +143,11 @@ this case, the option is mandatory, so we surround it with `<>`.
 
     Installs a single Perl version as seen in `berrybrew available`, and makes it
     available for use.
+
+###### Add the command to README.md
+
+Add your command to the [Commands](../README.md#commands) section of the
+`README.md` file:
 
 ### Command with a subcommand
 
@@ -220,6 +230,11 @@ this case, the subcommand/option is optional, so we surround it with `[]`.
         berrybrew associate [command]
 
     View, set or revert `.pl` file association on the system.
+
+###### Add the command to README.md
+
+Add your command to the [Commands](../README.md#commands) section of the
+`README.md` file:
 
 ### Command with subcommands and options
 
@@ -380,6 +395,11 @@ second option is optional:
         list    Lists all existing snapshots
         export  <instance name> [snapshot name]       Snapshots a Perl instance to a zip archive
         import  <snapshot name> [new instance name]   Imports a previously saved snapshot zip archive
+
+###### Add the command to README.md
+
+Add your command to the [Commands](../README.md#commands) section of the
+`README.md` file:
 
 ### Hidden command
 

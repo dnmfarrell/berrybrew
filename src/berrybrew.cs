@@ -224,7 +224,7 @@ namespace BerryBrew {
             
             return false;
         }
-        
+
         public List<string> ArchiveList() {
              DirectoryInfo archiveDir = new DirectoryInfo(archivePath);
  
@@ -238,7 +238,7 @@ namespace BerryBrew {
 
              return archiveFileNames;
         }
-        
+
         public void Available(bool allPerls=false) {
             Message.Print("available_header");
 
@@ -574,7 +574,9 @@ namespace BerryBrew {
             string runMode = Options("run_mode", null, true);
 
             if (runMode == "staging") {
-                Console.Error.WriteLine("\nCan't remove staging build dir while in staging run_mode. Use 'bin\\berrybrew clean staging' instead");
+                Console.Error.WriteLine(
+                    "\nCan't remove staging build dir while in staging run_mode. Use 'bin\\berrybrew clean staging' instead"
+                );
                 Exit(-1);
             }
 
@@ -627,7 +629,9 @@ namespace BerryBrew {
             string runMode = Options("run_mode", null, true);
 
             if (runMode == "testing") {
-                Console.Error.WriteLine("\nCan't remove testing build dir while in staging run_mode. Use 'bin\\berrybrew clean testing' instead");
+                Console.Error.WriteLine(
+                    "\nCan't remove testing build dir while in staging run_mode. Use 'bin\\berrybrew clean testing' instead"
+                );
                 Exit(-1);
             }
 
@@ -665,9 +669,9 @@ namespace BerryBrew {
                 Exit(0);
             }
 
-            Dictionary<string, bool> ignoredOrphans = PerlOp.PerlOrphansIgnore();
+            Dictionary<string, bool> specialInstanceDirectories = SpecialInstanceDirectories();
 
-            if (ignoredOrphans.ContainsKey(destPerlName)) {
+            if (specialInstanceDirectories.ContainsKey(destPerlName)) {
                  Console.Error.WriteLine("\nCan't clone to requested name '{0}'. It is a special name.", destPerlName);
                  Exit((int)ErrorCodes.PERL_DIRECTORY_SPECIAL);
             }
@@ -839,7 +843,11 @@ namespace BerryBrew {
             }
             else if (process.ExitCode != 0) {
                 if (Debug) {
-                    Console.Error.WriteLine("DEBUG: Non-zero exit code: Perl {0} returned with exit code {1}\n", perl.Name, process.ExitCode);
+                    Console.Error.WriteLine(
+                        "DEBUG: Non-zero exit code: Perl {0} returned with exit code {1}\n", 
+                        perl.Name, 
+                        process.ExitCode
+                    );
                 }
                 Environment.ExitCode = process.ExitCode;
             }
@@ -958,7 +966,9 @@ namespace BerryBrew {
             StrawberryPerl perl = PerlOp.PerlInUse();
 
             if (string.IsNullOrEmpty(perl.Name)) {
-                Console.Error.WriteLine("\nno Perl is in use. Run 'berrybrew switch' to enable one before exporting a module list\n");
+                Console.Error.WriteLine(
+                    "\nno Perl is in use. Run 'berrybrew switch' to enable one before exporting a module list\n"
+                );
                 Exit((int)ErrorCodes.PERL_NONE_IN_USE);
             }
 
@@ -1063,8 +1073,13 @@ namespace BerryBrew {
                     Console.WriteLine("Downloading " + perl.Url + " to " + archivePath);
                     webClient.DownloadFile(perl.Url, archivePath);
                 }
-                catch (WebException) {
-                    Console.Error.WriteLine("\nUnable to download file. Check your Internet connection and/or the download site\n");
+                catch (WebException err) {
+                    Console.Error.WriteLine(
+                        "\nUnable to download file. Check your Internet connection and/or the download site\n"
+                    );
+                    if (Debug) {
+                        Console.Error.WriteLine("DEBUG: {0}", err);
+                    }                   
                     Exit((int)ErrorCodes.FILE_DOWNLOAD_FAILED);
                 }
             }
@@ -1127,14 +1142,19 @@ namespace BerryBrew {
                     }
 
                     if (plHandlerNameOld == @"berrybrewPerl") {
-                        RegistryKey plHandlerKeyOld = Registry.ClassesRoot.CreateSubKey(plHandlerNameOld + @"\shell\open\command");
+                        RegistryKey plHandlerKeyOld = Registry.ClassesRoot.CreateSubKey(
+                            plHandlerNameOld + @"\shell\open\command"
+                        );
                         plHandlerKeyOld.SetValue("", perl.PerlPath + "\\perl.exe \"%1\" %*");
                         return;
                     }
 
                     Options("file_assoc_old", plHandlerNameOld, true);
                     string plHandlerName = @"berrybrewPerl";
-                    RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(plHandlerName + @"\shell\open\command");
+
+                    RegistryKey plHandlerKey = Registry.ClassesRoot.CreateSubKey(
+                        plHandlerName + @"\shell\open\command"
+                    );
                     plHandlerKey.SetValue("", perl.PerlPath + "\\perl.exe \"%1\" %*");
 
                     plExtKey.SetValue("", plHandlerName);
@@ -1213,7 +1233,9 @@ namespace BerryBrew {
                 string[] moduleListFiles = Directory.GetFiles(moduleDir);
 
                 if (moduleListFiles.Length == 0) {
-                    Console.Error.WriteLine("\nno module lists to import from. Run 'berrybrew modules export', then re-run the import command...\n");
+                    Console.Error.WriteLine(
+                        "\nno module lists to import from. Run 'berrybrew modules export', then re-run the import command...\n"
+                    );
                     Exit((int)ErrorCodes.MODULE_IMPORT_FILE_UNAVAIL);
                 }
 
@@ -1237,7 +1259,11 @@ namespace BerryBrew {
         private void ImportModulesExec(string file, string path) {
             if (file == PerlOp.PerlInUse().Name) {
                 Console.Error.WriteLine("\nCan't import modules exported from the same perl version\n");
-                Console.Error.WriteLine("You're trying to use an export from version {0} and you're on {1}\n", file, arg1: PerlOp.PerlInUse().Name);
+                Console.Error.WriteLine(
+                    "You're trying to use an export from version {0} and you're on {1}\n", 
+                    file,
+                    PerlOp.PerlInUse().Name
+                );
                 Exit((int)ErrorCodes.MODULE_IMPORT_SAME_VERSION_ERROR);
             }
 
@@ -1335,7 +1361,10 @@ namespace BerryBrew {
                 perl = PerlOp.PerlResolveVersion(version);
             }
             catch (System.ArgumentException err) {
-                Console.Error.WriteLine("\n'{0}' is an unknown version of Perl. Can't install.", version);
+                Console.Error.WriteLine(
+                    "\n'{0}' is an unknown version of Perl. Can't install.", 
+                    version
+                );
                 if (Debug) {
                     Console.Error.WriteLine("\nDEBUG{0}", err);
                 }
@@ -1343,7 +1372,10 @@ namespace BerryBrew {
             }
 
             if (PerlOp.PerlIsInstalled(perl)) {
-                Console.Error.WriteLine("Perl version {0} is already installed.", perl.Name);
+                Console.Error.WriteLine(
+                    "Perl version {0} is already installed.", 
+                    perl.Name
+                );
                 Exit((int)ErrorCodes.PERL_ALREADY_INSTALLED);
             }
 
@@ -1380,10 +1412,15 @@ namespace BerryBrew {
                         return json;
                     }
                     catch (JsonReaderException error){
-                        Console.Error.WriteLine("\n{0} file is malformed. See berrybrew_error.txt in this directory for details.", jsonFile);
+                        Console.Error.WriteLine(
+                            "\n{0} file is malformed. See berrybrew_error.txt in this directory for details.", 
+                            jsonFile
+                        );
+
                         using (StreamWriter file = new StreamWriter(@"berrybrew_error.txt", true)) {
                             file.WriteLine(error);
                         }
+
                         Exit((int)ErrorCodes.JSON_FILE_MALFORMED_ERROR);
                     }
                 }
@@ -1528,18 +1565,18 @@ namespace BerryBrew {
             try {
                 registry = Registry.LocalMachine.OpenSubKey(registrySubKey, true);
             }
-            catch (NullReferenceException e) {
+            catch (NullReferenceException err) {
                 if (Debug) {
-                    Console.Error.WriteLine("\nberrybrew registry section doesn't exist:\n {0}", e);
+                    Console.Error.WriteLine("\nberrybrew registry section doesn't exist:\n {0}", err);
                 }
             }
             catch (System.Security.SecurityException) {
                 try {
                     registry = Registry.LocalMachine.OpenSubKey(registrySubKey);
                 }
-                catch (NullReferenceException e) {
+                catch (NullReferenceException err) {
                     if (Debug) {
-                        Console.Error.WriteLine("\nberrybrew registry section doesn't exist:\n {0}", e);
+                        Console.Error.WriteLine("\nberrybrew registry section doesn't exist:\n {0}", err);
                     }
                 }
             }
@@ -1722,12 +1759,15 @@ namespace BerryBrew {
                 instanceName = Regex.Replace(snapshotName, @".\d{14}", "");
             }
             else {
-                Dictionary<string, bool> ignoredOrphans = PerlOp.PerlOrphansIgnore();
+                Dictionary<string, bool> specialInstanceDirectories = SpecialInstanceDirectories();
 
-                if (ignoredOrphans.ContainsKey(instanceName)) {
-                     Console.Error.WriteLine("\nCan't extract snapshot archive to requested instance name '{0}'. It is a special name.", instanceName);
-                     Exit((int)ErrorCodes.PERL_DIRECTORY_SPECIAL);
-                }               
+                if (specialInstanceDirectories.ContainsKey(instanceName)) {
+                    Console.Error.WriteLine(
+                        "\nCan't extract snapshot archive to requested instance name '{0}'. It is a special name.",
+                        instanceName
+                    ); 
+                    Exit((int)ErrorCodes.PERL_DIRECTORY_SPECIAL);
+                }
             }
 
             List<string> perlsAvailable = AvailableList();
@@ -1797,7 +1837,6 @@ namespace BerryBrew {
 
                     byte[] buffer = new byte[4096]; // 4K is optimum
                     Stream zipStream = zf.GetInputStream(zipEntry);
-                    
    
                     string fullZipToPath = Path.Combine(instanceInstallDir, entryFileName);
                     string directoryName = Path.GetDirectoryName(fullZipToPath);
@@ -1868,6 +1907,24 @@ namespace BerryBrew {
                     Console.WriteLine("\t{0}", fileName);
                 }
             }
+        }
+
+        public Dictionary<string, bool> SpecialInstanceDirectories() {
+            Dictionary<string, bool> specialDirs = new Dictionary<string, bool>();
+ 
+            List<string> specialDirList = new List<string> {
+                // None currently needed
+            };
+ 
+            foreach (string dir in specialDirList) {
+                specialDirs.Add(dir, true);
+            }
+ 
+            if (Testing) {
+                specialDirs.Add("unit_test", true);
+            }
+ 
+            return specialDirs;
         }
 
         public void Switch(string switchToVersion, bool switchQuick=false) {
@@ -2082,7 +2139,7 @@ namespace BerryBrew {
         }
 
         public string Version() {
-            return @"1.40";
+            return @"1.41";
         }
     }
 }

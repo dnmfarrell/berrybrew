@@ -142,7 +142,9 @@ namespace berrybrew {
                     string cwd = Directory.GetCurrentDirectory();
 
                     if (String.Equals(cwd, @"c:\berrybrew", StringComparison.OrdinalIgnoreCase)) {
-                        Console.Error.WriteLine("\nAt this time, berrybrew can not be installed in C:\\berrybrew. Please move the directory and try again\n");
+                        Console.Error.WriteLine(
+                            "\nAt this time, berrybrew can not be installed in C:\\berrybrew. Please move the directory and try again\n"
+                        );
                         bb.Exit(-1);
                     }
 
@@ -175,9 +177,11 @@ namespace berrybrew {
                     }
 
                     string errorName = Enum.GetName(typeof(Berrybrew.ErrorCodes), Int32.Parse(args[1]));
+
                     if (errorName == null) {
                         errorName = "EXTERNAL_PROCESS_ERROR";
                     }
+
                     Console.WriteLine("\nError Code {0}: {1}\n", args[1], errorName);
                     bb.Exit(0);
                     break;
@@ -381,12 +385,17 @@ namespace berrybrew {
                     break;
 
                 case "orphans-ignored":
-                    Dictionary<string, bool> ignoredOrphans = bb.PerlOp.PerlOrphansIgnore();
+                    Dictionary<string, bool> orphansIgnored = bb.SpecialInstanceDirectories();
 
                     Console.WriteLine("The following perl directories are ignored when listing orphans:\n");
-                    
-                    foreach (string ignored in ignoredOrphans.Keys) {
-                        Console.WriteLine("\t{0}", ignored);
+
+                    if (orphansIgnored.Keys.Count == 0) {
+                        Console.WriteLine("berrybrew doesn't currently classify any directories as ignored orphans");
+                    }
+                    else {
+                        foreach (string ignored in orphansIgnored.Keys) {
+                            Console.WriteLine("\t{0}", ignored);
+                        }
                     }
 
                     bb.Exit(0);
@@ -471,7 +480,22 @@ namespace berrybrew {
                         }                                          
                     }                   
                     break;                   
- 
+
+                case "special-instance-dirs":
+                    Dictionary<string, bool> specialInstanceDirectories = bb.SpecialInstanceDirectories();
+
+                    if (specialInstanceDirectories.Keys.Count == 0) {
+                        Console.WriteLine("berrybrew doesn't currently use any special directories...");
+                    }
+                    else {
+                        foreach (string special in specialInstanceDirectories.Keys) {
+                            Console.WriteLine("\t{0}", special);
+                        }
+                    }
+
+                    bb.Exit(0);
+                    break;
+
                 case "switch":
                     if (args.Length == 1) {
                         bb.Message.Print("switch_ver_required");

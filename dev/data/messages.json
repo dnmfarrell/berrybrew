@@ -204,6 +204,7 @@
       "    orphans                Display all orphaned Perl instances that aren't registered",
       "    orphans-ignored        Display the list of directories we won't classify as orphaned perl instances",
       "    register-orphans       Registers all orphan Perls at once",
+      "    special-instance-dirs  Display the list of special directories in the instance dir we won't touch",
       "    test                   Sets test platform information when running unit tests",
       "    trace                  Displays the full stack trace and exit code on exit",
       "    status                 Displays the exit code and its reference name on exit",
