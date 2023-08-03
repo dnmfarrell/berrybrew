@@ -1,5 +1,11 @@
 Revision history for berrybrew
 
+1.41    2023-08-03
+- Renamed `PerlOp.PerlOrphansIgnore()` to `Berrybrew.SpecialInstanceDirectories()`
+and added `special-instance-dirs` hidden command (closes #353)
+- `special-instance-dirs` and `orphans-ignored` now explain that no special
+dirs are currently listed in the system if none are actually listed
+
 1.40    2023-08-01
 - Add file comparison routine in release script that compares a MANIFEST to
 the repo directory structure, and the MANIFEST to the installer script.
@@ -11,7 +17,7 @@ listed as files to delete upon uninstall (closes #333)
 - Removed all CS library includes that aren't required (closes #329) 
 - Release script now updates the copyright year in all files in `doc/`
 (closes #324)
-- Added snapshot framework (`snapshot` command, `SnapshotInfo()`,
+- Added snapshot framework (`snapshot` command, `SnapshotInit()`,
 `SnapshotCompress()`, `SnapshotExtract()` and `SnapshotList()`
 (work on #185)
 - Fix major previously unknown bug where if at least two custom or virtual
@@ -65,6 +71,10 @@ option which is the top level environment data storage directory
 and new/renamed option directives/values
 - Small tweaks and changes to ensure UI and installer behave properly after
 the major changes in this version (closes #352)
+- Fix missing `$installer_script` parameter when building the installer in
+`release.pl`
+- Added a slew of new developer documentation on directory layouts,
+modifying config, performing common development tasks etc (closes #355)
 
 1.39    2023-07-25
 - Code cleanup, minor reorganization for more efficient short-circuits

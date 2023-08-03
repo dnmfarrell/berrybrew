@@ -1,6 +1,6 @@
 Revision history for berrybrew
 
-1.41 UNREL
+1.41    2023-08-03
     - Renamed `PerlOp.PerlOrphansIgnore()` to `Berrybrew.SpecialInstanceDirectories()`
       and added `special-instance-dirs` hidden command (closes #353)
     - `special-instance-dirs` and `orphans-ignored` now explain that no special
